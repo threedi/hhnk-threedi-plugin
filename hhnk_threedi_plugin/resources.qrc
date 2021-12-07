@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/plugins/hhnk_toolbox" >
+        <file>hhnk_logo.jpg</file>
+    </qresource>
+    <qresource prefix="/plugins/hhnk_toolbox">
+        <file>help_icon.png</file>
+    </qresource>
+</RCC>
