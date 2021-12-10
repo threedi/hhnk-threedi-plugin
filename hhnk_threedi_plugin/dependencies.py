@@ -33,8 +33,7 @@ DEPENDENCIES = [Dependency("Jupyter", "jupyter", "--upgrade --no-cache-dir --use
                 Dependency("threedi_scenario_downloader", "threedi_scenario_downloader", "==0.15", False, "external-dependecies", False, True),
                 Dependency("threedi_api_client", "threedi_api_client", "==3.0.29", False, "external-dependecies", False, True),
                 Dependency("xlrd", "xlrd", "==1.1.0", False, "external-dependecies", False, True),
-                Dependency("tqdm", "tqdm", "==4.40.2", False, "external-dependecies", False),
-                
+                Dependency("tqdm", "tqdm", "==4.40.2", False, "external-dependecies", False, True),
                 # test pypi
                 Dependency("hhnk_threedi_tools", "hhnk_threedi_tools", "==0.5", True, "external-dependecies", True, False),
                 Dependency("hhnk_research_tools", "hhnk_research_tools", "==0.4", True, "external-dependecies", True, False)
