@@ -145,6 +145,9 @@ def _install_dependency(dependency: Dependency):
     if dependency.no_dependecies:
         command  = command + ["--no-deps"]
         
+    if dependency.testpypi:
+        command  = command + ["-i","https://test.pypi.org/simple/"]
+        
     command = command + [dependency.package + dependency.constraint]
 
     process = subprocess.Popen(
