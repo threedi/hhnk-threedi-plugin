@@ -40,7 +40,6 @@ from ...qgis_interaction.klimaatsommen_pdfs import create_pdfs, load_print_layou
 from ...dependencies import DEPENDENCY_DIR, THREEDI_DIR
 
 
-
 from hhnk_threedi_tools import (
     open_server,
     copy_notebooks,
@@ -152,7 +151,7 @@ class KlimaatSommenWidget(QWidget):
             {
                 "polder_folder": self.polder_folder,
                 "lizard_api_key": self.lizard_api_key_textbox.text(),
-                "syspaths":[str(DEPENDENCY_DIR), str(THREEDI_DIR)],
+                "syspaths": [str(DEPENDENCY_DIR), str(THREEDI_DIR)],
             },
         )
 
@@ -177,7 +176,7 @@ class KlimaatSommenWidget(QWidget):
         self.fenv = self.caller.fenv
         load_klimaatsommen_layers(self.fenv, self.select_revision_box.currentText())
         load_print_layout()
-        
+
     def verify_submit_create_pdfs(self):
         """
         Checks if all input is legal, if so, creates test environment (variable container) and
@@ -188,12 +187,12 @@ class KlimaatSommenWidget(QWidget):
             SUBJECT,
             "De pdf's zullen aangemaakt worden met de huidige QGIS extent!",
         )
-        
+
         load_print_layout()
         create_pdfs(self.caller.fenv, self.select_revision_box.currentText())
 
     def populate_combobox(self):
-        revisions = self.caller.fenv.threedi_results.climate_results.revisions        
+        revisions = self.caller.fenv.threedi_results.climate_results.revisions
 
         self.select_revision_box.clear()
         self.select_revision_box.addItem("")
@@ -210,4 +209,3 @@ class KlimaatSommenWidget(QWidget):
             return False
         else:
             return True
-

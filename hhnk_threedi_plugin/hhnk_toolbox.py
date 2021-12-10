@@ -292,8 +292,8 @@ class HHNK_toolbox:
         path = self.dockwidget.polder_selector.filePath()
         if not os.path.exists(os.path.join(path, "01_Source_data")):
             QMessageBox.warning(None, "Loading polder", "Incorrect folder!")
-            return 
-            
+            return
+
         print("Found polder folder", path)
         self.reset_ui(polder=path)
         if path is not None and os.path.exists(path):

@@ -51,7 +51,7 @@ STRUCTURE = {
             "inundatiediepte_T0010",
             "inundatiediepte_T0100",
             "inundatiediepte_T1000",
-        ]
+        ],
     }
 }
 
@@ -185,7 +185,6 @@ def load_klimaatsommen_layers(
                     layers.append(layer)
 
             project.add_layers(layers, group_name, reverse=False)
-
 
     # now do all the themes
     for theme_name, theme_layers in themes.items():

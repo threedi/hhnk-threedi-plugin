@@ -18,7 +18,7 @@ from qgis.core import (
     QgsLayerTreeGroup,
     QgsMapThemeCollection,
     QgsPrintLayout,
-    QgsReadWriteContext
+    QgsReadWriteContext,
 )
 from qgis.PyQt.QtXml import QDomDocument
 
@@ -43,7 +43,7 @@ class Layer:
         self,
         source_path: str,
         layer_name: str,
-        type: str=None,
+        type: str = None,
         style_path=None,
         subject="HTT",
     ):
@@ -62,16 +62,15 @@ class Layer:
         """
         if type == None:
             type = self.get_type(source_path)
-        
+
         if type == "vector":
             self.layer = QgsVectorLayer(source_path, layer_name, "ogr")
         elif type == "raster":
             self.layer = QgsRasterLayer(source_path, layer_name)
         elif type == "wms":
             self.layer = QgsRasterLayer(source_path, layer_name, "wms")
-        elif type  == "arcgisfeatureserver":
+        elif type == "arcgisfeatureserver":
             self.layer = QgsVectorLayer(source_path, layer_name, "arcgisfeatureserver")
-            
 
         self.subject = subject
 
@@ -124,6 +123,7 @@ class Layer:
         if ".tif" in file_name:
             return "raster"
 
+
 class Project:
     """
     Object used as interface to a qgis project
@@ -144,8 +144,8 @@ class Project:
 
     Note that all group names should be unique.
     It is best to add all groups and subgroups first, before adding the layers.
-    
-    
+
+
     """
 
     def __init__(self, structure={}, subject="HTT"):
@@ -173,7 +173,7 @@ class Project:
                 for sub in subs:
                     subgroups.append((sub, group))
         return subgroups
-    
+
     @property
     def theme_structure(self):
         structure = {}
@@ -181,7 +181,7 @@ class Project:
             layers = self.get_theme_layers(theme)
             structure[theme] = layers
         return structure
-    
+
     @property
     def group_list(self):
         return [i for i in self if isinstance(i, QgsLayerTreeGroup)]
@@ -200,7 +200,7 @@ class Project:
     @property
     def theme_names(self):
         return self.instance.mapThemeCollection().mapThemes()
-    
+
     @property
     def mapcanvas_extent(self):
         return iface.mapCanvas().extent()
@@ -214,18 +214,18 @@ class Project:
             return None
         else:
             return layer[0]
-    
+
     def get_theme(self, theme_name):
-        return self.mapthemecollection.mapThemeState(theme_name)        
-    
+        return self.mapthemecollection.mapThemeState(theme_name)
+
     def get_theme_layers(self, theme_name):
         theme = self.get_theme(theme_name)
-        
+
         names = []
         for record in theme.layerRecords():
             names.append(record.layer().name())
         return names
-    
+
     def get_layout(self, layout_name):
         return self.layoutmanager.layoutByName(layout_name)
 
@@ -248,7 +248,7 @@ class Project:
 
     def add_group(self, group_name):
         """creates a group and appends the group to the root in the right order
-            return an existing group if already exists
+        return an existing group if already exists
         """
         group = self.get_group(group_name)
         if group is not None:
@@ -257,17 +257,17 @@ class Project:
         group = self.root.insertGroup(self.group_index(group_name), group_name)
         group.setExpanded(False)
         return group
-    
+
     def add_subgroup(self, group_name, parent_group_name):
-        """ adds a group under a group"""
+        """adds a group under a group"""
         parent_group = self.get_group(parent_group_name)
         if parent_group is None:
             parent_group = self.add_group(parent_group_name)
-        
+
         group = self.get_group(group_name)
         if group is not None:
             return group
-        
+
         group = parent_group.addGroup(group_name)
         group.setExpanded(False)
         return group
@@ -289,13 +289,13 @@ class Project:
 
         theme.setLayerRecords(records)
         collection.insert(theme_name, theme)
-        
+
     def add_print_layout_template(self, template_path, name):
         layout = self.get_layout(name)
         if layout is not None:
             self.send_message(f"Layout {name} already exists, replacing!")
-        
-        layout = QgsPrintLayout(self.instance)        
+
+        layout = QgsPrintLayout(self.instance)
         with open(template_path) as f:
             template_content = f.read()
         doc = QDomDocument()
@@ -303,19 +303,17 @@ class Project:
 
         # adding to existing items
         items, ok = layout.loadFromTemplate(doc, QgsReadWriteContext(), True)
-        print("items", items ,"ok",ok )
+        print("items", items, "ok", ok)
         layout.setName(name)
         self.instance.layoutManager().addLayout(layout)
-        
 
     def generate_groups(self):
-        """ generates all groups and subgroups based on self.structure"""
+        """generates all groups and subgroups based on self.structure"""
         for group in self.group_structure:
             self.add_group(group)
-        
+
         for subgroup in self.subgroup_structure:
             self.add_subgroup(*subgroup)
-            
 
     def group_index(self, group_name):
         """locates the nearest index based on the layer above
@@ -368,30 +366,81 @@ STRUCTURE = {
     # Group                 # Subgroup                    # Layer names
     "Datachecker output": {
         "Kunstwerken niet in model": [
-            ("datachecker_output.gdb|layername=channel_loose", "Watergang: channel loose"),
-            ("datachecker_output.gdb|layername=channel_nowayout", "Watergang: channel nowayout"),
-            ("datachecker_output.gdb|layername=culvert|subset='isusable' = '0'", "Duikers niet in model"),
-            ("datachecker_output.gdb|layername=weirs|subset='isusable' = '0'","Stuwen niet in model"),
-            ("datachecker_output.gdb|layername=bridge|subset='isusable' = '0'", "Bruggen niet in model"),
-            ("datachecker_output.gdb|layername=fixed_dam|subset='isusable' = '0'", "Vaste dammen niet in model"),
-            ("datachecker_output.gdb|layername=pumpstation|subset='isusable' = '0'", "Gemaal niet in model"),
+            (
+                "datachecker_output.gdb|layername=channel_loose",
+                "Watergang: channel loose",
+            ),
+            (
+                "datachecker_output.gdb|layername=channel_nowayout",
+                "Watergang: channel nowayout",
+            ),
+            (
+                "datachecker_output.gdb|layername=culvert|subset='isusable' = '0'",
+                "Duikers niet in model",
+            ),
+            (
+                "datachecker_output.gdb|layername=weirs|subset='isusable' = '0'",
+                "Stuwen niet in model",
+            ),
+            (
+                "datachecker_output.gdb|layername=bridge|subset='isusable' = '0'",
+                "Bruggen niet in model",
+            ),
+            (
+                "datachecker_output.gdb|layername=fixed_dam|subset='isusable' = '0'",
+                "Vaste dammen niet in model",
+            ),
+            (
+                "datachecker_output.gdb|layername=pumpstation|subset='isusable' = '0'",
+                "Gemaal niet in model",
+            ),
             ("datachecker_output.gdb|layername=kruising_zonder_kunstwerk", "KZK"),
-            ("datachecker_output.gdb|layername=crosssection|subset='isusable' = '0'", "Gemeten niet in model"),
+            (
+                "datachecker_output.gdb|layername=crosssection|subset='isusable' = '0'",
+                "Gemeten niet in model",
+            ),
         ],
         "Kunstwerken met aannames": [
-            ("datachecker_output.gdb|layername=culvert|subset='aanname' LIKE ('%width,width%')", "Duiker aanname: doorstroomafmeting"),
-            ("datachecker_output.gdb|layername=culvert|subset='aanname' LIKE ('%bed_level_up%')", "Duiker aanname: bob"),
+            (
+                "datachecker_output.gdb|layername=culvert|subset='aanname' LIKE ('%width,width%')",
+                "Duiker aanname: doorstroomafmeting",
+            ),
+            (
+                "datachecker_output.gdb|layername=culvert|subset='aanname' LIKE ('%bed_level_up%')",
+                "Duiker aanname: bob",
+            ),
             ("datachecker_output.gdb|layername=levee", "Levee: 30 cm boven max peil"),
-            ("datachecker_output.gdb|layername=weirs|subset='aanname' LIKE ('%crest_width%')", "Stuw aanname: breedte"),
-            ("datachecker_output.gdb|layername=fixeddrainagelevelarea|subset='streefpeil_bwn2' = -10", "Peilgebied aanname: streefpeil"),
+            (
+                "datachecker_output.gdb|layername=weirs|subset='aanname' LIKE ('%crest_width%')",
+                "Stuw aanname: breedte",
+            ),
+            (
+                "datachecker_output.gdb|layername=fixeddrainagelevelarea|subset='streefpeil_bwn2' = -10",
+                "Peilgebied aanname: streefpeil",
+            ),
         ],
         "Kunstwerken": [
             ("datachecker_output.gdb|layername=channel", "datachecker_output channel"),
-            ("datachecker_output.gdb|layername=weirs|subset='isusable' = '1'", "Stuwen wel in model"),
-            ("datachecker_output.gdb|layername=culvert|subset='isusable' = '1'", "Duikers wel in model"),
-            ("datachecker_output.gdb|layername=bridge|subset='isusable' = '1'", "Bruggen wel in model"),
-            ("datachecker_output.gdb|layername=fixed_dam|subset='isusable' = '1'", "Vaste dammen wel in model"),
-            ("datachecker_output.gdb|layername=pumpstation|subset='isusable' = '1'","Gemaal wel in model"),
+            (
+                "datachecker_output.gdb|layername=weirs|subset='isusable' = '1'",
+                "Stuwen wel in model",
+            ),
+            (
+                "datachecker_output.gdb|layername=culvert|subset='isusable' = '1'",
+                "Duikers wel in model",
+            ),
+            (
+                "datachecker_output.gdb|layername=bridge|subset='isusable' = '1'",
+                "Bruggen wel in model",
+            ),
+            (
+                "datachecker_output.gdb|layername=fixed_dam|subset='isusable' = '1'",
+                "Vaste dammen wel in model",
+            ),
+            (
+                "datachecker_output.gdb|layername=pumpstation|subset='isusable' = '1'",
+                "Gemaal wel in model",
+            ),
         ],
     },
 }

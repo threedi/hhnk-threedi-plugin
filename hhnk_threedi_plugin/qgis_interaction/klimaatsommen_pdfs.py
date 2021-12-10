@@ -10,12 +10,14 @@ from .project import Project
 from .styling import path as PATH
 
 from qgis.core import QgsLayoutExporter, QgsRenderContext, QgsLayoutSize, QgsUnitTypes
+
 LAYOUT_PATH = f"{PATH}/print_layouts/wsa_kaarten.qpt"
 
 
 def load_print_layout():
     project = Project(subject="Layout klimaatsommen")
     project.add_print_layout_template(LAYOUT_PATH, "wsa_kaarten")
+
 
 def create_pdfs(folder, revisie):
 
@@ -145,12 +147,15 @@ def create_pdfs(folder, revisie):
             theme=row["theme"],
             output_file=row["pdf_path"],
         )
-            
+
         if result == 0:
             project.send_message(f"pdf aangemaakt: {row['pdf_name']}", level=0)
         else:
-            project.send_message(f"pdf niet gelukt: {row['pdf_name']}, {result}",level=1)
-            
+            project.send_message(
+                f"pdf niet gelukt: {row['pdf_name']}, {result}", level=1
+            )
+
+
 def create_pdf_from_composer(
     layoutmanager,
     project,
@@ -162,9 +167,7 @@ def create_pdf_from_composer(
     theme,
     output_file,
 ):
-    layout_item = layoutmanager.layoutByName(
-        composer_name
-    )  # test is the layout name
+    layout_item = layoutmanager.layoutByName(composer_name)  # test is the layout name
 
     # -------------------------------------------------------------------------------------
     # Change layout settings
@@ -195,7 +198,7 @@ def create_pdf_from_composer(
         QgsRenderContext.TextFormatAlwaysText
     )  # If not changed the labels will be ugly in the pdf
 
-    #image_settings = QgsLayoutExporter.ImageExportSettings()
+    # image_settings = QgsLayoutExporter.ImageExportSettings()
 
     export = QgsLayoutExporter(layout_item)
     result = export.exportToPdf(output_file, pdf_settings)

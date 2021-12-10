@@ -97,7 +97,7 @@ class zeroDOneDWidget(QWidget):
         # ----------------------------------------------------------
         # Signals
         # ----------------------------------------------------------
-        #self.setup_main_paths_signals()
+        # self.setup_main_paths_signals()
         # If the results directory changes, populate the combobox (to choose a revision)
         # self.results_dir_selector.fileSelected.connect(self.populate_revisions_combobox)
         # self.select_revision_box.aboutToShowPopup.connect(
@@ -185,9 +185,9 @@ class zeroDOneDWidget(QWidget):
         combobox from this list
         """
         revisions = self.caller.fenv.threedi_results.zero_d_one_d.revisions
-        if len(revisions) == 0:    
+        if len(revisions) == 0:
             self.select_revision_box.setEnabled(False)
-            return 
+            return
         self.select_revision_box.clear()
         self.select_revision_box.addItem("")
         for revision in revisions:

@@ -122,21 +122,20 @@ class bankLevelsWidget(QWidget):
         if not current_rev_text:
             current_rev_text = "Geen revisie geselecteerd"
         self.result_selected_show.setText(current_rev_text)
-        
+
     def populate_revisions_combobox(self):
         """
         Accumulates a list of valid 3di results (directories) and populates the revision selection
         combobox from this list
         """
         revisions = self.caller.fenv.threedi_results.one_d_two_d.revisions
-        if len(revisions) == 0:    
+        if len(revisions) == 0:
             self.select_revision_box.setEnabled(False)
-            return 
+            return
         self.select_revision_box.clear()
         self.select_revision_box.addItem("")
         for revision in revisions:
             self.select_revision_box.addItem(revision)
-        
 
     def create_test_environment(self):
         """Collect all needed variables to run tests"""

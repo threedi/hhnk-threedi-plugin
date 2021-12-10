@@ -10,30 +10,47 @@ WATERLOPEN_LEGGER_2020 = "crs='EPSG:28992' filter='' url='https://kaarten.hhnk.n
 
 from ..project import Layer, Project
 from hhnk_threedi_tools import Folders
+
 SUBJECT = "achtergrond"
 STRUCTURE = {
-    SUBJECT: ["Landgebruik (v1801c)", "Luchtfoto actueel (PDOK)", "Legger Waterlopen 2020"]
-    }
+    SUBJECT: [
+        "Landgebruik (v1801c)",
+        "Luchtfoto actueel (PDOK)",
+        "Legger Waterlopen 2020",
+    ]
+}
+
 
 def load_achtergrond_layers(
-    folder: Folders, landgebruik:bool, luchtfoto:bool, waterlopen_2020:bool, 
+    folder: Folders,
+    landgebruik: bool,
+    luchtfoto: bool,
+    waterlopen_2020: bool,
 ):
-    
-        project=Project(STRUCTURE, SUBJECT) 
-        if landgebruik or luchtfoto or waterlopen_2020:
-            project.add_group("achtergrond")
-        
-        if waterlopen_2020:
-            layer = Layer(WATERLOPEN_LEGGER_2020, "Legger Waterlopen 2020" , "arcgisfeatureserver", subject=SUBJECT)
-            project.add_layer(layer, "achtergrond")
-            
-        if landgebruik:
-            # landgebruik lizard
-            layer = Layer(LIZARD_LANDGEBRUIk, "Landgebruik (v1801c)", "wms", subject=SUBJECT)
-            project.add_layer(layer, "achtergrond")
-            
-        if luchtfoto:
-            # landgebruik pdok
-            layer = Layer(PDOK_LUCHTFOTO, "Luchtfoto actueel (PDOK)", "wms", subject=SUBJECT)
-            project.add_layer(layer, "achtergrond")
-            
+
+    project = Project(STRUCTURE, SUBJECT)
+    if landgebruik or luchtfoto or waterlopen_2020:
+        project.add_group("achtergrond")
+
+    if waterlopen_2020:
+        layer = Layer(
+            WATERLOPEN_LEGGER_2020,
+            "Legger Waterlopen 2020",
+            "arcgisfeatureserver",
+            subject=SUBJECT,
+        )
+        project.add_layer(layer, "achtergrond")
+
+    if landgebruik:
+        # landgebruik lizard
+        layer = Layer(
+            LIZARD_LANDGEBRUIk, "Landgebruik (v1801c)", "wms", subject=SUBJECT
+        )
+        project.add_layer(layer, "achtergrond")
+
+    if luchtfoto:
+        # landgebruik pdok
+        layer = Layer(
+            PDOK_LUCHTFOTO, "Luchtfoto actueel (PDOK)", "wms", subject=SUBJECT
+        )
+        project.add_layer(layer, "achtergrond")

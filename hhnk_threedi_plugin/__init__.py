@@ -34,4 +34,5 @@ def classFactory(iface):  # pylint: disable=invalid-name
     #
     ensure_dependencies()
     from .hhnk_toolbox import HHNK_toolbox
+
     return HHNK_toolbox(iface)

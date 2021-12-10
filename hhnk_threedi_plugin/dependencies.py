@@ -5,6 +5,9 @@ Created on Fri Dec  3 16:19:30 2021
 @author: chris.kerklaan
 Only works with modeller interface 3.16
 
+#TODO:
+    1. Check versioning of packages
+
 """
 
 
@@ -25,34 +28,62 @@ CREATE_NEW_PROCESS_GROUP = 0x00000200
 DETACHED_PROCESS = 0x00000008
 
 # list of depencies
-Dependency = namedtuple("Dependency", ["name", "package", "constraint", "no_dependecies", "folder", "testpypi", "detached"])
-DEPENDENCIES = [Dependency("Jupyter", "jupyter", "--upgrade --no-cache-dir --user", False, "qgis", False, True),
-                Dependency("Rtree", "rtree", "==0.9.7", False,"external-dependecies", False, True),
-                Dependency("APScheduler", "apscheduler", "==3.8.1", False, "external-dependecies", False, True),
-                Dependency("ipyfilechooser", "ipyfilechooser", "==0.6.0", False, "external-dependecies", False, True),                
-                Dependency("threedi_scenario_downloader", "threedi_scenario_downloader", "==0.15", False, "external-dependecies", False, True),
-                Dependency("threedi_api_client", "threedi_api_client", "==3.0.29", False, "external-dependecies", False, True),
-                Dependency("xlrd", "xlrd", "==1.1.0", False, "external-dependecies", False, True),
-                Dependency("tqdm", "tqdm", "==4.40.2", False, "external-dependecies", False, True),
-                # test pypi
-                Dependency("hhnk_threedi_tools", "hhnk_threedi_tools", "==0.5", True, "external-dependecies", True, False),
-                Dependency("hhnk_research_tools", "hhnk_research_tools", "==0.4", True, "external-dependecies", True, False)
-                
-                ]
+""" folder can be set to "external-dependecies" to insstall in th plugin folder, it is loaded incorrectly 
+the first time you update the plugin
+"""
+Dependency = namedtuple(
+    "Dependency",
+    ["name", "package", "constraint", "no_dependecies", "folder", "testpypi"],
+)
+DEPENDENCIES = [
+    Dependency(
+        "Jupyter", "jupyter", "--upgrade --no-cache-dir --user", False, "qgis", False
+    ),
+    Dependency("Rtree", "rtree", "==0.9.7", False, "qgis", False),
+    Dependency("APScheduler", "apscheduler", "==3.8.1", False, "qgis", False),
+    Dependency("ipyfilechooser", "ipyfilechooser", "==0.6.0", False, "qgis", False),
+    Dependency(
+        "threedi_scenario_downloader",
+        "threedi_scenario_downloader",
+        "==0.15",
+        False,
+        "qgis",
+        False,
+    ),
+    Dependency(
+        "threedi_api_client", "threedi_api_client", "==3.0.29", False, "qgis", False
+    ),
+    Dependency("xlrd", "xlrd", "==1.1.0", False, "qgis", False),
+    Dependency("tqdm", "tqdm", "==4.40.2", False, "qgis", False),
+    # test pypi
+    Dependency("hhnk_threedi_tools", "hhnk_threedi_tools", "==0.5", True, "qgis", True),
+    Dependency(
+        "hhnk_research_tools", "hhnk_research_tools", "==0.4", True, "qgis", True
+    ),
+]
 
 logger = logging.getLogger(__name__)
 
 
 def ensure_dependencies(path=DEPENDENCY_DIR, dependencies=DEPENDENCIES):
     """ensures dependencies by looking adding sys paths en looking into pip"""
-    sys.path.insert(0, str(_dependencies_target_dir())) # threedi
+    sys.path.insert(0, str(_dependencies_target_dir()))  # threedi
     sys.path.insert(0, DEPENDENCY_DIR)
 
+    print("`\nCheck if install is needed:\n")
     for dependency in dependencies:
-        if not _available(dependency):   
+        if not _available(dependency):
             _install_dependency(dependency)
 
-    
+    print("\nCurrent paths:\n")
+    for path in sys.path:
+        print(path)
+
+    print("\nCheck if installed correctly:\n")
+    for dependency in dependencies:
+        _available(dependency)
+
+
 def _dependencies_target_dir(our_dir=OUR_DIR):
     """Return python dir inside our profile
 
@@ -74,18 +105,20 @@ def _dependencies_target_dir(our_dir=OUR_DIR):
     print("We've asked qgis for our python directory: %s" % python_dir)
     return python_dir
 
-def _available(dependency:Dependency):
+
+def _available(dependency: Dependency):
     posssible_import = True
     try:
         importlib.import_module(dependency.package)
     except ImportError:
         posssible_import = False
-        
+
     if posssible_import:
-        print(f"{dependency.name} exists!")
+        print(f"{dependency.name} available!")
     else:
         print(f"{dependency.name} does not exists!")
     return posssible_import
+
 
 def _get_python_interpreter():
     """Return the path to the python3 interpreter.
@@ -131,44 +164,33 @@ def _install_dependency(dependency: Dependency):
     """install pip in the main directory of qgis"""
     system, python_interpreter = _get_python_interpreter()
 
-    command = [
-        python_interpreter,
-        "-m",
-        "pip",
-        "install"
-        ]
-    
+    command = [python_interpreter, "-m", "pip", "install"]
+
     if dependency.folder == "external-dependecies":
         command = command + ["--target", str(DEPENDENCY_DIR)]
-    
+
     if dependency.no_dependecies:
-        command  = command + ["--no-deps"]
-        
+        command = command + ["--no-deps"]
+
     if dependency.testpypi:
-        command  = command + ["-i","https://test.pypi.org/simple/"]
-        
+        command = command + ["-i", "https://test.pypi.org/simple/"]
+
     command = command + [dependency.package + dependency.constraint]
 
-    if dependency.detached:
-        process = subprocess.Popen(
-            command,
-            shell=True,
-            universal_newlines=True,
-            stdin=None,
-            stdout=None,
-            stderr=None,
-            close_fds=True,
-            creationflags=DETACHED_PROCESS | CREATE_NEW_PROCESS_GROUP,
-        )
-    else:
-        process = subprocess.Popen(command)
-        process.communicate()
-        
-    print(f"Started processing with pid: {process.pid} and command {command}")
+    process = subprocess.Popen(command)
+    process.communicate()
+    exit_code = process.wait()
+    if exit_code:
+        raise RuntimeError("Installing %s failed" % dependency.name)
+
+    if dependency.package in sys.modules:
+        print("Unloading old %s module" % dependency.package)
+        del sys.modules[dependency.package]
+
     return process.pid
+
 
 THREEDI_DIR = _dependencies_target_dir()
 
 if __name__ == "__main__":
     ensure_dependencies()
-    
