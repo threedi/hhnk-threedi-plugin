@@ -246,7 +246,7 @@ class Project:
         else:
             self.root.addLayer(layer.source)
 
-    def add_group(self, group_name):
+    def add_group(self, group_name, index=None):
         """creates a group and appends the group to the root in the right order
         return an existing group if already exists
         """
@@ -254,7 +254,10 @@ class Project:
         if group is not None:
             return group
 
-        group = self.root.insertGroup(self.group_index(group_name), group_name)
+        if index is None:
+            index = self.group_index(group_name)
+
+        group = self.root.insertGroup(index, group_name)
         group.setExpanded(False)
         return group
 

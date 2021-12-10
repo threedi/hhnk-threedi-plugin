@@ -8,6 +8,7 @@ from PyQt5.QtWidgets import (
     QSizePolicy,
     QSpacerItem,
     QPushButton,
+    QMessageBox,
 )
 from PyQt5.QtCore import Qt, pyqtSignal
 from qgis.utils import Qgis, iface
@@ -65,6 +66,7 @@ class newProjectDialog(QDialog):
         # Signals
         # ----------------------------------------------------------
         self.create_project_btn.clicked.connect(self.verify_submit)
+        self.full_path = ""
 
     def verify_submit(self):
         base_path = self.folder_selector.filePath()
@@ -96,6 +98,10 @@ class newProjectDialog(QDialog):
                             Folders(full_path, create=True)
                             self.project_folder_path.emit(full_path)
                             self.accept()
+                            QMessageBox.information(
+                                None, "Create project", "Your folders are created!"
+                            )
+                            self.full_path = full_path
                         except Exception:
                             iface.messageBar().pushMessage(
                                 invalid_character_in_filename, Qgis.Critical

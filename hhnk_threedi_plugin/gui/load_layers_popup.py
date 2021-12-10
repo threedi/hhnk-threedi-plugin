@@ -48,16 +48,19 @@ def setup_ui(load_layers_popup):
     load_layers_popup.zero_d_one_d_selector_label = QLabel(
         "Selecteer 0d1d test revisie:"
     )
-    load_layers_popup.zero_d_one_d_selector = QComboBox()
+    load_layers_popup.zero_d_one_d_selector = revisionsComboBox()
     load_layers_popup.one_d_two_d_selector_label = QLabel(
         "Selecteer 1d2d test revisie:"
     )
-    load_layers_popup.one_d_two_d_selector = QComboBox()
+    load_layers_popup.one_d_two_d_selector = revisionsComboBox()
 
     load_layers_popup.klimaatsommen_selector_label = QLabel(
         "Selecteer klimaatsom revisie:"
     )
     load_layers_popup.klimaatsommen_selector = revisionsComboBox()
+
+    load_layers_popup.sqlite_test_selector = QCheckBox("Sqlite testen")
+    load_layers_popup.sqlite_test_selector.setChecked(True)
 
     load_layers_popup.test_protocol_v21_selector = QCheckBox("Layout test protocol v21")
     load_layers_popup.test_protocol_v21_selector.setChecked(True)
@@ -106,6 +109,9 @@ def setup_ui(load_layers_popup):
     main_layout.addWidget(load_layers_popup.klimaatsommen_selector)
     main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
 
+    main_layout.addWidget(load_layers_popup.sqlite_test_selector)
+    main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
+
     main_layout.addWidget(load_layers_popup.test_protocol_v21_selector)
     main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
 
@@ -151,6 +157,12 @@ class loadLayersDialog(QDialog):
         self.klimaatsommen_selector.aboutToShowPopup.connect(
             self.populate_klimaatsommen_combobox
         )
+        self.one_d_two_d_selector.aboutToShowPopup.connect(
+            self.populate_one_d_two_combobox
+        )
+        self.zero_d_one_d_selector.aboutToShowPopup.connect(
+            self.populate_zero_d_one_d_combobox
+        )
         # ----------------------------------------------------------
         # Signals
         # ----------------------------------------------------------
@@ -161,29 +173,9 @@ class loadLayersDialog(QDialog):
         # Verify on accept
         # self.buttons.accepted.connect(self.verify_submit)
 
-    def populate_revisions_combobox(self, selector, path):
-        """
-        Accumulates a list of valid 3di results (directories) and populates the revision selection
-        combobox from this list
-        """
-        selector.clear()
-        if path:
-            if os.path.exists(path) and not os.listdir(path) == 0:
-                directories = get_top_level_directories(path)
-                if directories:
-                    for output_folder in directories:
-                        selector.addItem(Path(output_folder).stem)
-                    selector.setEnabled(True)
-                    selector.setCurrentIndex(
-                        len(directories) - 1
-                    )  # TODO len directories should be replaced by something.
-                    return
-        selector.setEnabled(False)
-
     def populate_one_d_two_combobox(self):
         revisions = self.caller.fenv.output.one_d_two_d.revisions
         if len(revisions) == 0:
-            self.one_d_two_d_selector.setEnabled(False)
             return
 
         self.one_d_two_d_selector.clear()
@@ -193,8 +185,8 @@ class loadLayersDialog(QDialog):
 
     def populate_zero_d_one_d_combobox(self):
         revisions = self.caller.fenv.output.zero_d_one_d.revisions
+
         if len(revisions) == 0:
-            self.zero_d_one_d_selector.setEnabled(False)
             return
 
         self.zero_d_one_d_selector.clear()
@@ -205,7 +197,6 @@ class loadLayersDialog(QDialog):
     def populate_klimaatsommen_combobox(self):
         revisions = self.caller.fenv.threedi_results.climate_results.revisions
         if len(revisions) == 0:
-            self.klimaatsommen_selector.setEnabled(False)
             return
 
         self.klimaatsommen_selector.clear()
@@ -224,18 +215,7 @@ class loadLayersDialog(QDialog):
             self.zero_d_one_d_output_path = paths["0d1d_output"]
             self.one_d_two_d_output_path = paths["1d2d_output"]
 
-            self.populate_one_d_two_combobox()
-            self.populate_zero_d_one_d_combobox()
-
-            # self.populate_revisions_combobox(
-            #     selector=self.zero_d_one_d_selector, path=self.zero_d_one_d_output_path
-            # )
-            # self.populate_revisions_combobox(
-            #     selector=self.one_d_two_d_selector, path=self.one_d_two_d_output_path
-            # )
-
     def load_layers(self):
-        # self.set_current_paths() #TODO hoort dit hier?
 
         # Resolve paths to layers
         self.sqlite_dict = build_output_files_dict(
@@ -266,21 +246,22 @@ class loadLayersDialog(QDialog):
             one_d_revision=get_revision(self.one_d_two_d_selector.currentText()),
         )
 
-        self.sqlite_layers = get_layers_list(
-            test_type=1,
-            plugin_dir=self.caller.plugin_dir,
-            output_dict=self.sqlite_dict,
-            group_structure=layer_groups_structure,
-            chosen_tests=None,
-        )
+        if self.sqlite_test_selector.isChecked() == True:
+            self.sqlite_layers = get_layers_list(
+                test_type=1,
+                plugin_dir=self.caller.plugin_dir,
+                output_dict=self.sqlite_dict,
+                group_structure=layer_groups_structure,
+                chosen_tests=None,
+            )
 
-        # TODO fix layers dict to list
-        self.sqlite_layers = [self.sqlite_layers[x] for x in self.sqlite_layers]
+            # TODO fix layers dict to list
+            self.sqlite_layers = [self.sqlite_layers[x] for x in self.sqlite_layers]
 
-        remove_layers(self.sqlite_layers)  # Remove layers from project
-        add_layers(
-            layers_list=self.sqlite_layers, group_structure=layer_groups_structure
-        )
+            remove_layers(self.sqlite_layers)  # Remove layers from project
+            add_layers(
+                layers_list=self.sqlite_layers, group_structure=layer_groups_structure
+            )
 
         # 0d1d results
         if self.zero_d_one_d_dict:

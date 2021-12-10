@@ -30,7 +30,7 @@ def load_achtergrond_layers(
 
     project = Project(STRUCTURE, SUBJECT)
     if landgebruik or luchtfoto or waterlopen_2020:
-        project.add_group("achtergrond")
+        project.add_group("achtergrond", index=-1)
 
     if waterlopen_2020:
         layer = Layer(

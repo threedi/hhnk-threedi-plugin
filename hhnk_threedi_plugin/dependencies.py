@@ -13,6 +13,7 @@ Only works with modeller interface 3.16
 
 import sys
 import pathlib
+import shutil
 
 OUR_DIR = pathlib.Path(__file__).parent
 DEPENDENCY_DIR = str(OUR_DIR / "external-dependencies")
@@ -56,7 +57,9 @@ DEPENDENCIES = [
     Dependency("xlrd", "xlrd", "==1.1.0", False, "qgis", False),
     Dependency("tqdm", "tqdm", "==4.40.2", False, "qgis", False),
     # test pypi
-    Dependency("hhnk_threedi_tools", "hhnk_threedi_tools", "==0.5", True, "qgis", True),
+    Dependency(
+        "hhnk_threedi_tools", "hhnk_threedi_tools", "==0.5.2", True, "qgis", True
+    ),
     Dependency(
         "hhnk_research_tools", "hhnk_research_tools", "==0.4", True, "qgis", True
     ),
@@ -82,6 +85,8 @@ def ensure_dependencies(path=DEPENDENCY_DIR, dependencies=DEPENDENCIES):
     print("\nCheck if installed correctly:\n")
     for dependency in dependencies:
         _available(dependency)
+
+    _replace_patched_threedigrid()
 
 
 def _dependencies_target_dir(our_dir=OUR_DIR):
@@ -118,6 +123,22 @@ def _available(dependency: Dependency):
     else:
         print(f"{dependency.name} does not exists!")
     return posssible_import
+
+
+def _replace_patched_threedigrid(path=OUR_DIR):
+    """threedigrid is patched in the toolbox it does not work with the current scripting"""
+    try:
+        plugin_dir = OUR_DIR.parent
+        threedi_patch = str(
+            plugin_dir / "ThreeDiToolbox" / "utils" / "patched_threedigrid.py"
+        )
+        our_patch = str(OUR_DIR / "utils" / "patched_threedigrid.py")
+        print(our_patch, threedi_patch)
+        shutil.copy(our_patch, threedi_patch)
+    except Exception:
+        print("Failed to replace the threedigrid_patch with our own")
+    else:
+        print("Successfully replaced the threedigrid_patch with our own")
 
 
 def _get_python_interpreter():

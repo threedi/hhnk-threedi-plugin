@@ -294,7 +294,7 @@ class HHNK_toolbox:
             QMessageBox.warning(None, "Loading polder", "Incorrect folder!")
             return
 
-        print("Found polder folder", path)
+        print("Found folder", path)
         self.reset_ui(polder=path)
         if path is not None and os.path.exists(path):
             folder = Folders(path)
@@ -463,7 +463,7 @@ class HHNK_toolbox:
         dialog = newProjectDialog()
         dialog.project_folder_path.connect(Folders)
         dialog.exec()
-        QMessageBox.information(None, "Create project", "Your folders are created!")
+        self.dockwidget.polder_selector.setFilePath(dialog.full_path)
 
     def open_documentatie_link(self):
         webbrowser.open(DOCS_LINK, new=2)
