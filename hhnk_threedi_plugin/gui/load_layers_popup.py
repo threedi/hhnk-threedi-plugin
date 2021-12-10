@@ -31,7 +31,7 @@ from ..qgis_interaction.layers_management.removing_layers import remove_layers
 from .general_objects import revisionsComboBox
 from ..qgis_interaction.configs.test_protocol_v21 import load_test_protocol_v21_layers
 from ..qgis_interaction.configs.klimaatsommen import load_klimaatsommen_layers
-
+from ..qgis_interaction.configs.achtergrond import load_achtergrond_layers
 
 
 # hhnk-threedi-tests
@@ -43,9 +43,9 @@ def setup_ui(load_layers_popup):
     load_layers_popup.setMinimumWidth(400)
     # Creates items to be in widget
     load_layers_popup.bar = QgsMessageBar()
-    load_layers_popup.zero_d_one_d_selector_label = QLabel("Selecteer 0d1d revisie:")
+    load_layers_popup.zero_d_one_d_selector_label = QLabel("Selecteer 0d1d test revisie:")
     load_layers_popup.zero_d_one_d_selector = QComboBox()
-    load_layers_popup.one_d_two_d_selector_label = QLabel("Selecteer 1d2d revisie:")
+    load_layers_popup.one_d_two_d_selector_label = QLabel("Selecteer 1d2d test revisie:")
     load_layers_popup.one_d_two_d_selector = QComboBox()
     
     load_layers_popup.klimaatsommen_selector_label = QLabel("Selecteer klimaatsom revisie:")
@@ -53,6 +53,15 @@ def setup_ui(load_layers_popup):
     
     load_layers_popup.test_protocol_v21_selector = QCheckBox("Layout test protocol v21")
     load_layers_popup.test_protocol_v21_selector.setChecked(True)
+    
+    load_layers_popup.achtergrond_landgebruik_selector = QCheckBox("Lizard landgebruik")
+    load_layers_popup.achtergrond_landgebruik_selector.setChecked(True)
+    
+    load_layers_popup.achtergrond_luchtfoto_selector = QCheckBox("PDOK luchtfoto actueel")
+    load_layers_popup.achtergrond_luchtfoto_selector.setChecked(True)
+    
+    load_layers_popup.achtergrond_waterlopen_2020_selector = QCheckBox("HHNK waterlopen 2020 (legger)")
+    load_layers_popup.achtergrond_waterlopen_2020_selector.setChecked(True)
 
 
     load_layers_popup.buttons = QDialogButtonBox(
@@ -89,6 +98,15 @@ def setup_ui(load_layers_popup):
 
 
     main_layout.addWidget(load_layers_popup.test_protocol_v21_selector)
+    main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
+
+    main_layout.addWidget(load_layers_popup.achtergrond_landgebruik_selector)
+    main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
+    
+    main_layout.addWidget(load_layers_popup.achtergrond_luchtfoto_selector)
+    main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
+        
+    main_layout.addWidget(load_layers_popup.achtergrond_waterlopen_2020_selector)
     main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
 
     main_layout.addWidget(load_layers_popup.buttons)
@@ -151,16 +169,36 @@ class loadLayersDialog(QDialog):
                     return
         selector.setEnabled(False)
         
+    def populate_one_d_two_combobox(self):
+        revisions = self.caller.fenv.output.one_d_two_d.revisions
+        if len(revisions) == 0:    
+            self.one_d_two_d_selector.setEnabled(False)
+            return 
+        
+        self.one_d_two_d_selector.clear()      
+        self.one_d_two_d_selector.addItem("")
+        for revision in revisions:
+            self.one_d_two_d_selector.addItem(revision)
+                
+
+    def populate_zero_d_one_d_combobox(self):
+        revisions = self.caller.fenv.output.zero_d_one_d.revisions
+        if len(revisions) == 0:    
+            self.zero_d_one_d_selector.setEnabled(False)
+            return 
+        
+        self.zero_d_one_d_selector.clear()      
+        self.zero_d_one_d_selector.addItem("")
+        for revision in revisions:
+            self.zero_d_one_d_selector.addItem(revision)
+            
     def populate_klimaatsommen_combobox(self):
         revisions = self.caller.fenv.threedi_results.climate_results.revisions
-        if len(revisions) == 0:
-            QMessageBox.warning(
-                None, "Klimaatsommen", "Geen revisies gevonden in batch results"
-            )
-            return
-
-        self.klimaatsommen_selector.clear()
+        if len(revisions) == 0:    
+            self.klimaatsommen_selector.setEnabled(False)
+            return 
         
+        self.klimaatsommen_selector.clear()      
         self.klimaatsommen_selector.addItem("")
         for revision in revisions:
             self.klimaatsommen_selector.addItem(revision)
@@ -172,24 +210,20 @@ class loadLayersDialog(QDialog):
         """
         paths = self.caller.current_source_paths
 
-        # from hhnk_threedi_tools.folder_structure_and_paths import build_base_paths_dict as p
-        # from hhnk_toolbox_dockwidget import HHNK_toolboxDockWidget
-
-        # paths=p.build_base_paths_dict(r"G:\\02_Werkplaatsen\\06_HYD\\Projecten\\HKC16015 Wateropgave 2.0\\07.Poldermodellen_nieuwe_stijl\\model_test1")
-        # self.dockwidget = HHNK_toolboxDockWidget()
-        # paths = p.build_base_paths_dict(self.dockwidget.polder_selector.filePath())
-        print(paths)
         if paths is not None:
             self.sqlite_output_path = paths["sqlite_tests_output"]
             self.zero_d_one_d_output_path = paths["0d1d_output"]
             self.one_d_two_d_output_path = paths["1d2d_output"]
+            
+            self.populate_one_d_two_combobox()
+            self.populate_zero_d_one_d_combobox()
 
-            self.populate_revisions_combobox(
-                selector=self.zero_d_one_d_selector, path=self.zero_d_one_d_output_path
-            )
-            self.populate_revisions_combobox(
-                selector=self.one_d_two_d_selector, path=self.one_d_two_d_output_path
-            )
+            # self.populate_revisions_combobox(
+            #     selector=self.zero_d_one_d_selector, path=self.zero_d_one_d_output_path
+            # )
+            # self.populate_revisions_combobox(
+            #     selector=self.one_d_two_d_selector, path=self.one_d_two_d_output_path
+            # )
 
     def load_layers(self):
         # self.set_current_paths() #TODO hoort dit hier?
@@ -293,6 +327,16 @@ class loadLayersDialog(QDialog):
         # test protocol v21
         if self.test_protocol_v21_selector.isChecked() == True:
             load_test_protocol_v21_layers(self.caller.fenv)
+            
+        # achtergrond
+        load_achtergrond_layers(
+            self.caller.fenv,
+            landgebruik= self.achtergrond_landgebruik_selector.isChecked(),
+            luchtfoto= self.achtergrond_luchtfoto_selector.isChecked(),
+            waterlopen_2020 =self.achtergrond_waterlopen_2020_selector.isChecked()
+            )
+        
+            
             
             
         self.accept()

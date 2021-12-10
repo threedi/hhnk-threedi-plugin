@@ -112,29 +112,31 @@ class bankLevelsWidget(QWidget):
         self.setup_main_paths_signals()
         self.start_bank_levels_btn.clicked.connect(self.verify_submit)
         self.select_revision_box.currentIndexChanged.connect(self.set_revision_text)
-        self.select_revision_box.aboutToShowPopup.connect(
-            lambda: self.populate_revision_box(self.results_dir_selector.filePath())
-        )
-        self.results_dir_selector.fileSelected.connect(self.populate_revision_box)
+        # self.select_revision_box.aboutToShowPopup.connect(
+        #     lambda: self.populate_revision_box(self.results_dir_selector.filePath())
+        # )
+        # self.results_dir_selector.fileSelected.connect(self.populate_revision_box)
 
     def set_revision_text(self):
         current_rev_text = self.select_revision_box.currentText()
         if not current_rev_text:
             current_rev_text = "Geen revisie geselecteerd"
         self.result_selected_show.setText(current_rev_text)
-
-    def populate_revision_box(self, path):
+        
+    def populate_revisions_combobox(self):
         """
         Accumulates a list of valid 3di results (directories) and populates the revision selection
         combobox from this list
         """
-        print("populate revision box")
+        revisions = self.caller.fenv.threedi_results.one_d_two_d.revisions
+        if len(revisions) == 0:    
+            self.select_revision_box.setEnabled(False)
+            return 
         self.select_revision_box.clear()
-        if os.path.exists(path) and not os.listdir(path) == 0:
-            directories = get_top_level_directories(path, is_valid_results_folder)
-            if directories:
-                for revision in directories:
-                    self.select_revision_box.addItem(Path(revision).stem)
+        self.select_revision_box.addItem("")
+        for revision in revisions:
+            self.select_revision_box.addItem(revision)
+        
 
     def create_test_environment(self):
         """Collect all needed variables to run tests"""
@@ -208,4 +210,5 @@ class bankLevelsWidget(QWidget):
             self.model_selector.setFilePath(paths["model"])
             self.datachecker_selector.setFilePath(paths["datachecker"])
             self.output_selector.setFilePath(paths["bank_levels_output"])
-            self.results_dir_selector.setFilePath(paths["0d1d_results_dir"])
+            self.results_dir_selector.setFilePath(paths["1d2d_results_dir"])
+            self.populate_revisions_combobox()

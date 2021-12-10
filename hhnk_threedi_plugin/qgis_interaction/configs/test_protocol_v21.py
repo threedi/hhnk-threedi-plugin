@@ -20,10 +20,8 @@ LINKS = {
     Toevoegen van testlagen aan views
 
 """
-import os
-from ..project import Layer, Project, send_message
+from ..project import Layer, Project
 from ..styling import path as PATH
-from ..styling.wms import LIZARD_LUCHTFOTO, PDOK_LUCHTFOTO
 from hhnk_threedi_tools import Folders
 
 QML_PATH = f"{PATH}/test_protocol_v21"

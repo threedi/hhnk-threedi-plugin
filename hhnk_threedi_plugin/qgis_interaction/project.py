@@ -17,7 +17,10 @@ from qgis.core import (
     QgsRasterLayer,
     QgsLayerTreeGroup,
     QgsMapThemeCollection,
+    QgsPrintLayout,
+    QgsReadWriteContext
 )
+from qgis.PyQt.QtXml import QDomDocument
 
 # # project structure
 TEST_STRUCTURE = {
@@ -66,6 +69,9 @@ class Layer:
             self.layer = QgsRasterLayer(source_path, layer_name)
         elif type == "wms":
             self.layer = QgsRasterLayer(source_path, layer_name, "wms")
+        elif type  == "arcgisfeatureserver":
+            self.layer = QgsVectorLayer(source_path, layer_name, "arcgisfeatureserver")
+            
 
         self.subject = subject
 
@@ -146,6 +152,7 @@ class Project:
         self.instance = QgsProject.instance()
         self.root = self.instance.layerTreeRoot()
         self.mapthemecollection = self.instance.mapThemeCollection()
+        self.layoutmanager = self.instance.layoutManager()
         self.structure = structure
         self.subject = subject
 
@@ -193,6 +200,10 @@ class Project:
     @property
     def theme_names(self):
         return self.instance.mapThemeCollection().mapThemes()
+    
+    @property
+    def mapcanvas_extent(self):
+        return iface.mapCanvas().extent()
 
     def get_group(self, group_name):
         return self.root.findGroup(group_name)
@@ -214,6 +225,9 @@ class Project:
         for record in theme.layerRecords():
             names.append(record.layer().name())
         return names
+    
+    def get_layout(self, layout_name):
+        return self.layoutmanager.layoutByName(layout_name)
 
     def add_layers(self, layers, group_name=None, reverse=False):
         if reverse:
@@ -276,6 +290,23 @@ class Project:
         theme.setLayerRecords(records)
         collection.insert(theme_name, theme)
         
+    def add_print_layout_template(self, template_path, name):
+        layout = self.get_layout(name)
+        if layout is not None:
+            self.send_message(f"Layout {name} already exists, replacing!")
+        
+        layout = QgsPrintLayout(self.instance)        
+        with open(template_path) as f:
+            template_content = f.read()
+        doc = QDomDocument()
+        doc.setContent(template_content)
+
+        # adding to existing items
+        items, ok = layout.loadFromTemplate(doc, QgsReadWriteContext(), True)
+        print("items", items ,"ok",ok )
+        layout.setName(name)
+        self.instance.layoutManager().addLayout(layout)
+        
 
     def generate_groups(self):
         """ generates all groups and subgroups based on self.structure"""
@@ -325,7 +356,7 @@ class Project:
         )
 
 
-def send_message(message, subject, level=1, duration=5):
+def send_message(message, subject, level=1, duration=3):
     print(subject, message)
     iface.messageBar().pushMessage(subject, message, level=level, duration=duration)
 

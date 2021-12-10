@@ -22,7 +22,7 @@
  ***************************************************************************/
  This script initializes the plugin, making it known to QGIS.
 """
-from .dependencies import _ensure_dependencies
+from .dependencies import ensure_dependencies
 
 # noinspection PyPep8Naming
 def classFactory(iface):  # pylint: disable=invalid-name
@@ -32,6 +32,6 @@ def classFactory(iface):  # pylint: disable=invalid-name
     :type iface: QgsInterface
     """
     #
-    _ensure_dependencies()
+    ensure_dependencies()
     from .hhnk_toolbox import HHNK_toolbox
     return HHNK_toolbox(iface)

@@ -11,7 +11,6 @@ and essentially forms the configuration for klimaatsommen (qgis3_export_pdfs)
 import os
 from ..project import Layer, Project, send_message
 from ..styling import path as PATH
-from ..styling.wms import LIZARD_LUCHTFOTO, PDOK_LUCHTFOTO
 from hhnk_threedi_tools import Folders
 
 QML_PATH = f"{PATH}/klimaatsommen"
@@ -52,8 +51,7 @@ STRUCTURE = {
             "inundatiediepte_T0010",
             "inundatiediepte_T0100",
             "inundatiediepte_T1000",
-        ],
-        "achtergrond": ["polder_polygon", "polder_polygon_wit"],
+        ]
     }
 }
 
@@ -188,13 +186,6 @@ def load_klimaatsommen_layers(
 
             project.add_layers(layers, group_name, reverse=False)
 
-    # landgebruik lizard
-    layer = Layer(LIZARD_LUCHTFOTO, "Landgebruik (v1801c)", "wms", subject=SUBJECT)
-    project.add_layer(layer, "achtergrond")
-
-    # landgebruik pdok
-    layer = Layer(PDOK_LUCHTFOTO, "Luchtfoto actueel (PDOK)", "wms", subject=SUBJECT)
-    project.add_layer(layer, "achtergrond")
 
     # now do all the themes
     for theme_name, theme_layers in themes.items():
