@@ -25,19 +25,19 @@ CREATE_NEW_PROCESS_GROUP = 0x00000200
 DETACHED_PROCESS = 0x00000008
 
 # list of depencies
-Dependency = namedtuple("Dependency", ["name", "package", "constraint", "no_dependecies", "folder", "testpypi"])
-DEPENDENCIES = [Dependency("Jupyter", "jupyter", "--upgrade --no-cache-dir --user", False, "qgis", False),
-                Dependency("Rtree", "rtree", "==0.9.7", False,"external-dependecies", False),
-                Dependency("APScheduler", "apscheduler", "==3.8.1", False, "external-dependecies", False),
-                Dependency("ipyfilechooser", "ipyfilechooser", "==0.6.0", False, "external-dependecies", False),                
-                Dependency("threedi_scenario_downloader", "threedi_scenario_downloader", "==0.15", False, "external-dependecies", False),
-                Dependency("threedi_api_client", "threedi_api_client", "==3.0.29", False, "external-dependecies", False),
-                Dependency("xlrd", "xlrd", "==1.1.0", False, "external-dependecies", False),
+Dependency = namedtuple("Dependency", ["name", "package", "constraint", "no_dependecies", "folder", "testpypi", "detached"])
+DEPENDENCIES = [Dependency("Jupyter", "jupyter", "--upgrade --no-cache-dir --user", False, "qgis", False, True),
+                Dependency("Rtree", "rtree", "==0.9.7", False,"external-dependecies", False, True),
+                Dependency("APScheduler", "apscheduler", "==3.8.1", False, "external-dependecies", False, True),
+                Dependency("ipyfilechooser", "ipyfilechooser", "==0.6.0", False, "external-dependecies", False, True),                
+                Dependency("threedi_scenario_downloader", "threedi_scenario_downloader", "==0.15", False, "external-dependecies", False, True),
+                Dependency("threedi_api_client", "threedi_api_client", "==3.0.29", False, "external-dependecies", False, True),
+                Dependency("xlrd", "xlrd", "==1.1.0", False, "external-dependecies", False, True),
                 Dependency("tqdm", "tqdm", "==4.40.2", False, "external-dependecies", False),
                 
                 # test pypi
-                Dependency("hhnk_threedi_tools", "hhnk_threedi_tools", "==0.5", True, "external-dependecies", True),
-                Dependency("hhnk_research_tools", "hhnk_research_tools", "==0.4", True, "external-dependecies", True)
+                Dependency("hhnk_threedi_tools", "hhnk_threedi_tools", "==0.5", True, "external-dependecies", True, False),
+                Dependency("hhnk_research_tools", "hhnk_research_tools", "==0.4", True, "external-dependecies", True, False)
                 
                 ]
 
@@ -150,16 +150,21 @@ def _install_dependency(dependency: Dependency):
         
     command = command + [dependency.package + dependency.constraint]
 
-    process = subprocess.Popen(
-        command,
-        shell=True,
-        universal_newlines=True,
-        stdin=None,
-        stdout=None,
-        stderr=None,
-        close_fds=True,
-        creationflags=DETACHED_PROCESS | CREATE_NEW_PROCESS_GROUP,
-    )
+    if dependency.detached:
+        process = subprocess.Popen(
+            command,
+            shell=True,
+            universal_newlines=True,
+            stdin=None,
+            stdout=None,
+            stderr=None,
+            close_fds=True,
+            creationflags=DETACHED_PROCESS | CREATE_NEW_PROCESS_GROUP,
+        )
+    else:
+        process = subprocess.Popen(command)
+        process.communicate()
+        
     print(f"Started processing with pid: {process.pid} and command {command}")
     return process.pid
 
