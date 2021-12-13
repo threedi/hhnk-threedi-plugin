@@ -8,15 +8,21 @@ Only works with modeller interface 3.16
 #TODO:
     1. Check versioning of packages
 
+Currently only jupyter is installed per user, due to the exectuable, others are installed in the osgeo directory, none in the external-dependecies folder.
+
+
 """
 
 
 import sys
+import site
 import pathlib
 import shutil
 
 OUR_DIR = pathlib.Path(__file__).parent
-DEPENDENCY_DIR = str(OUR_DIR / "external-dependencies")
+DEPENDENCY_DIR = OUR_DIR / "external-dependencies"
+DEPENDENCY_DIR.mkdir(parents=True, exist_ok=True)
+DEPENDENCY_DIR = str(DEPENDENCY_DIR)
 
 import os
 import importlib
@@ -38,8 +44,8 @@ Dependency = namedtuple(
 )
 DEPENDENCIES = [
     Dependency(
-        "Jupyter", "jupyter", "--upgrade --no-cache-dir --user", False, "qgis", False
-    ),
+        "Jupyter", "jupyter", "==1.0.0", False, "user", False
+    ),  # upgrades get add layer
     Dependency("Rtree", "rtree", "==0.9.7", False, "qgis", False),
     Dependency("APScheduler", "apscheduler", "==3.8.1", False, "qgis", False),
     Dependency("ipyfilechooser", "ipyfilechooser", "==0.6.0", False, "qgis", False),
@@ -58,7 +64,7 @@ DEPENDENCIES = [
     Dependency("tqdm", "tqdm", "==4.40.2", False, "qgis", False),
     # test pypi
     Dependency(
-        "hhnk_threedi_tools", "hhnk_threedi_tools", "==0.5.2", True, "qgis", True
+        "hhnk_threedi_tools", "hhnk_threedi_tools", "==0.5.10", True, "qgis", True
     ),
     Dependency(
         "hhnk_research_tools", "hhnk_research_tools", "==0.4", True, "qgis", True
@@ -73,7 +79,7 @@ def ensure_dependencies(path=DEPENDENCY_DIR, dependencies=DEPENDENCIES):
     sys.path.insert(0, str(_dependencies_target_dir()))  # threedi
     sys.path.insert(0, DEPENDENCY_DIR)
 
-    print("`\nCheck if install is needed:\n")
+    print("`\nCheck if install is needed for HHNK-THREED-PLUGIN:\n")
     for dependency in dependencies:
         if not _available(dependency):
             _install_dependency(dependency)
@@ -111,18 +117,49 @@ def _dependencies_target_dir(our_dir=OUR_DIR):
     return python_dir
 
 
-def _available(dependency: Dependency):
-    posssible_import = True
+def _can_import(package_name):
     try:
-        importlib.import_module(dependency.package)
+        importlib.import_module(package_name)
     except ImportError:
-        posssible_import = False
+        return False
+    else:
+        return True
 
-    if posssible_import:
+
+def _available(dependency: Dependency):
+
+    if dependency.name == "Jupyter":
+        possible_import = notebook_available("user")
+    else:
+        possible_import = _can_import(dependency.package)
+
+    if possible_import:
         print(f"{dependency.name} available!")
     else:
         print(f"{dependency.name} does not exists!")
-    return posssible_import
+    return possible_import
+
+
+def notebook_available(location="osgeo"):
+    """jupyters notebook is checked by looking at the executable
+    instead of checking if it can be called in the cmd.
+    In the cmd you'll open it immediately, instead of checking if it exists
+    """
+    if location == "osgeo":
+        path = shutil.which("jupyter-notebook")
+        notebook_exists = path is not None
+
+        if notebook_exists and _can_import("jupyter"):
+            return True
+        else:
+            return False
+    elif location == "user":
+        path = site.getusersitepackages().replace("site-packages", "Scripts")
+        print("Looking for jupyter at", path + "/jupyter-notebook.exe")
+        if os.path.exists(path + "/jupyter-notebook.exe"):
+            return True
+        else:
+            return False
 
 
 def _replace_patched_threedigrid(path=OUR_DIR):
@@ -196,13 +233,19 @@ def _install_dependency(dependency: Dependency):
     if dependency.testpypi:
         command = command + ["-i", "https://test.pypi.org/simple/"]
 
-    command = command + [dependency.package + dependency.constraint]
+    if dependency.folder == "user":
+        command = command + ["--user"]
 
+    if dependency.name == "Jupyter":
+        command = command + ["--upgrade", "--force-reinstall", "--no-cache-dir"]
+
+    command = command + [dependency.package + dependency.constraint]
+    print(command)
     process = subprocess.Popen(command)
-    process.communicate()
+    output, error = process.communicate()
     exit_code = process.wait()
     if exit_code:
-        raise RuntimeError("Installing %s failed" % dependency.name)
+        print(f"Installing {dependency.name} failed with: {error} {output}")
 
     if dependency.package in sys.modules:
         print("Unloading old %s module" % dependency.package)

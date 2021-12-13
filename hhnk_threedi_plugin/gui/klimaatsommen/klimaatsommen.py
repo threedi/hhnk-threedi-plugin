@@ -46,6 +46,7 @@ from hhnk_threedi_tools import (
     write_notebook_json,
     copy_projects,
 )
+from hhnk_threedi_tools.utils.notebooks.run import create_command_bat_file
 
 
 SUBJECT = "Klimaatsommen"
@@ -145,7 +146,9 @@ class KlimaatSommenWidget(QWidget):
 
         self.polder_folder = self.caller.polder_folder
         self.polder_notebooks = self.polder_folder + "/Notebooks"
+        server_bat_file = self.polder_notebooks + "/start_server.bat"
         copy_notebooks(self.polder_notebooks)
+        create_command_bat_file(server_bat_file, "user")
         write_notebook_json(
             self.polder_notebooks,
             {
@@ -165,7 +168,7 @@ class KlimaatSommenWidget(QWidget):
             return
 
         self.generate_notebook_folder()
-        open_server(self.polder_notebooks)
+        open_server(directory=self.polder_notebooks, location="user", use="run")
 
     def verify_submit_laad_layout(self):
         """
