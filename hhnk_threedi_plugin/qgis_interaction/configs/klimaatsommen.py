@@ -15,7 +15,7 @@ from hhnk_threedi_tools import Folders
 
 QML_PATH = f"{PATH}/klimaatsommen"
 STRUCTURE = {
-    "klimaatsommen": {
+    "Klimaatsommen": {
         # Group : [ layer1, layer2, layer3]
         "Resultaat klimaatsommen": ["ruimtekaart", "peilgebieden", "geen_schade"],
         "schadekaarten": [

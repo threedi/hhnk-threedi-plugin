@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 from re import S
+from qgis.core import QgsVectorLayer
 from PyQt5.QtWidgets import (
     QDialog,
     QFileDialog,
@@ -31,9 +32,10 @@ from ..qgis_interaction.layers_management.removing_layers import remove_layers
 # new
 
 from .general_objects import revisionsComboBox
-from ..qgis_interaction.configs.test_protocol_v21 import load_test_protocol_v21_layers
+from ..qgis_interaction.configs.test_protocol_v21 import load_test_protocol_v21_layers, THEMES
 from ..qgis_interaction.configs.klimaatsommen import load_klimaatsommen_layers
 from ..qgis_interaction.configs.achtergrond import load_achtergrond_layers
+from ..qgis_interaction.project import Project
 
 
 # hhnk-threedi-tests
@@ -77,6 +79,11 @@ def setup_ui(load_layers_popup):
         "HHNK waterlopen 2020 (legger)"
     )
     load_layers_popup.achtergrond_waterlopen_2020_selector.setChecked(True)
+
+    load_layers_popup.themes_selector = QCheckBox(
+        "Themas (gebruikt met andere lagen)"
+        )
+    load_layers_popup.themes_selector.setChecked(True)
 
     load_layers_popup.buttons = QDialogButtonBox(
         QDialogButtonBox.Ok | QDialogButtonBox.Cancel
@@ -122,6 +129,9 @@ def setup_ui(load_layers_popup):
     main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
 
     main_layout.addWidget(load_layers_popup.achtergrond_waterlopen_2020_selector)
+    main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
+
+    main_layout.addWidget(load_layers_popup.themes_selector)
     main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
 
     main_layout.addWidget(load_layers_popup.buttons)
@@ -172,6 +182,8 @@ class loadLayersDialog(QDialog):
         self.buttons.rejected.connect(self.close)
         # Verify on accept
         # self.buttons.accepted.connect(self.verify_submit)
+        
+        
 
     def populate_one_d_two_combobox(self):
         revisions = self.caller.fenv.output.one_d_two_d.revisions
@@ -216,7 +228,11 @@ class loadLayersDialog(QDialog):
             self.one_d_two_d_output_path = paths["1d2d_output"]
 
     def load_layers(self):
-
+        
+        # set map canvas
+        project = Project()
+        project.zoom_to_layer(QgsVectorLayer(self.caller.fenv.source_data.polder_polygon.path, "polder", "ogr"))
+        
         # Resolve paths to layers
         self.sqlite_dict = build_output_files_dict(
             test_type=1, base_folder=self.sqlite_output_path, revision_dir_name=None
@@ -327,5 +343,11 @@ class loadLayersDialog(QDialog):
             luchtfoto=self.achtergrond_luchtfoto_selector.isChecked(),
             waterlopen_2020=self.achtergrond_waterlopen_2020_selector.isChecked(),
         )
+        
+        
+        if self.themes_selector.isChecked() == True:
+            project = Project()
+            for theme_name, theme_layers in THEMES.items():
+                project.add_theme(theme_name, theme_layers)
 
         self.accept()

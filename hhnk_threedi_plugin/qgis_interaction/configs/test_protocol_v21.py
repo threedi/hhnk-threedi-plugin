@@ -236,6 +236,7 @@ THEMES = {
         "polder_polygon",
     ],
     "0d1d Kaart2: Uitzakken initieel peil": [
+        "waterstand_begin_regen_vs_begin_som"
         "Waterlopen",
         "PeilafwijkingGebied (damo)",
         "PeilgebiedPraktijk (damo)",
@@ -243,6 +244,7 @@ THEMES = {
         "polder_polygon",
     ],
     "0d1d Kaart3: Streefpeilhandhaving": [
+        "waterstand_einde_regen_vs_begin_regen",
         "Waterlopen",
         "PeilafwijkingGebied (damo)",
         "PeilgebiedPraktijk (damo)",
@@ -250,6 +252,23 @@ THEMES = {
         "polder_polygon",
     ],
     "0d1d Kaart4: Verhang en opstuwing": [
+        #"waterstand_einde_regen_vs_1_dag_eerder",
+        "Waterlopen",
+        "PeilafwijkingGebied (damo)",
+        "PeilgebiedPraktijk (damo)",
+        "Peilgebieden (datacheck)",
+        "polder_polygon",
+    ],
+    "0d1d Kaart 5: Stabiele waterstandsverhoging einde regen": [
+        "waterstand_einde_regen_vs_1_dag_eerder",
+        "Waterlopen",
+        "PeilafwijkingGebied (damo)",
+        "PeilgebiedPraktijk (damo)",
+        "Peilgebieden (datacheck)",
+        "polder_polygon",
+    ],
+    "0d1d Kaart 6: Herstel streefpeil": [
+        "waterstand_einde_som_vs_start_som",
         "Waterlopen",
         "PeilafwijkingGebied (damo)",
         "PeilgebiedPraktijk (damo)",

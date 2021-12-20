@@ -11,7 +11,7 @@ WATERLOPEN_LEGGER_2020 = "crs='EPSG:28992' filter='' url='https://kaarten.hhnk.n
 from ..project import Layer, Project
 from hhnk_threedi_tools import Folders
 
-SUBJECT = "achtergrond"
+SUBJECT = "Achtergrond"
 STRUCTURE = {
     SUBJECT: [
         "Landgebruik (v1801c)",
@@ -30,7 +30,7 @@ def load_achtergrond_layers(
 
     project = Project(STRUCTURE, SUBJECT)
     if landgebruik or luchtfoto or waterlopen_2020:
-        project.add_group("achtergrond", index=-1)
+        project.add_group("Achtergrond", index=-1)
 
     if waterlopen_2020:
         layer = Layer(
@@ -39,18 +39,18 @@ def load_achtergrond_layers(
             "arcgisfeatureserver",
             subject=SUBJECT,
         )
-        project.add_layer(layer, "achtergrond")
+        project.add_layer(layer, "Achtergrond")
 
     if landgebruik:
         # landgebruik lizard
         layer = Layer(
             LIZARD_LANDGEBRUIk, "Landgebruik (v1801c)", "wms", subject=SUBJECT
         )
-        project.add_layer(layer, "achtergrond")
+        project.add_layer(layer, "Achtergrond")
 
     if luchtfoto:
         # landgebruik pdok
         layer = Layer(
             PDOK_LUCHTFOTO, "Luchtfoto actueel (PDOK)", "wms", subject=SUBJECT
         )
-        project.add_layer(layer, "achtergrond")
+        project.add_layer(layer, "Achtergrond")

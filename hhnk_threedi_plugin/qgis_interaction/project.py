@@ -355,6 +355,18 @@ class Project:
         iface.messageBar().pushMessage(
             self.subject, message, level=level, duration=duration
         )
+        
+    def zoom_to_layer(self, vlayer):
+        if not vlayer.isValid():
+            print("Layer unvalid not setting extent")
+            return
+            
+        canvas = iface.mapCanvas()
+        extent = vlayer.extent()
+        print("Setting extent to", extent)
+        print("Canvas", canvas)
+        canvas.setExtent(extent)
+        canvas.setExtent(extent)
 
 
 def send_message(message, subject, level=1, duration=3):

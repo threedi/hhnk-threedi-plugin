@@ -37,49 +37,21 @@ import pandas as pd
 
 from ...qgis_interaction.configs.klimaatsommen import load_klimaatsommen_layers
 from ...qgis_interaction.klimaatsommen_pdfs import create_pdfs, load_print_layout
-from ...dependencies import DEPENDENCY_DIR, THREEDI_DIR
-
-
-from hhnk_threedi_tools import (
-    open_server,
-    copy_notebooks,
-    write_notebook_json,
-    copy_projects,
-)
-from hhnk_threedi_tools.utils.notebooks.run import create_command_bat_file
-
 
 SUBJECT = "Klimaatsommen"
 
 
 def setupUi(klimaatsommen_widget):
 
-    klimaatsommen_widget.server_btn = QPushButton("Open Jupyter notebook server")
     klimaatsommen_widget.laad_layout_btn = QPushButton("Laad layout")
     klimaatsommen_widget.create_pdfs_btn = QPushButton("Maak pdfs")
-    klimaatsommen_widget.lizard_api_key_label = QLabel("Lizard API Key:")
     klimaatsommen_widget.select_revision_label = QLabel("Selecteer revisie:")
     klimaatsommen_widget.select_revision_box = revisionsComboBox()
-
-    klimaatsommen_widget.help_text = QPlainTextEdit(klimaatsommen_widget)
-    text = """ Help: Probeer eerst de notebook te openen via 'Start Jupyter notebook server', lukt dit niet, open de notebooks dan los in je geselecteerde polder folder.
-               
-    """
-    klimaatsommen_widget.help_text.insertPlainText(text)
-
-    klimaatsommen_widget.lizard_api_key_textbox = QLineEdit(klimaatsommen_widget)
 
     # Main layout
     main_layout = QVBoxLayout()
     main_layout.setAlignment(Qt.AlignTop)
     main_layout.setContentsMargins(25, 25, 25, 25)
-
-    main_layout.addWidget(klimaatsommen_widget.lizard_api_key_label)
-    main_layout.addWidget(klimaatsommen_widget.lizard_api_key_textbox)
-    main_layout.addSpacerItem(QSpacerItem(25, 5, QSizePolicy.Expanding))
-
-    main_layout.addWidget(klimaatsommen_widget.server_btn)
-    main_layout.addWidget(klimaatsommen_widget.help_text)
     main_layout.addSpacerItem(QSpacerItem(25, 5, QSizePolicy.Expanding))
 
     main_layout.addWidget(klimaatsommen_widget.select_revision_label)
@@ -90,15 +62,6 @@ def setupUi(klimaatsommen_widget):
     main_layout.addWidget(klimaatsommen_widget.create_pdfs_btn)
     main_layout.addSpacerItem(QSpacerItem(25, 5, QSizePolicy.Expanding))
 
-    # main_layout.addWidget(klimaatsommen_widget.result_selected_show_label)
-    # main_layout.addWidget(klimaatsommen_widget.result_selected_show)
-    # main_layout.addSpacerItem(QSpacerItem(25, 5, QSizePolicy.Expanding))
-    # main_layout.addWidget(klimaatsommen_widget.dem_selector)
-    # main_layout.addSpacerItem(QSpacerItem(25, 5, QSizePolicy.Expanding))
-    # main_layout.addWidget(klimaatsommen_widget.model_selector)
-    # main_layout.addSpacerItem(QSpacerItem(25, 5, QSizePolicy.Expanding))
-    # main_layout.addWidget(klimaatsommen_widget.output_selector)
-    # main_layout.addSpacerItem(QSpacerItem(25, 5, QSizePolicy.Expanding))
     klimaatsommen_widget.setLayout(main_layout)
 
 
@@ -136,39 +99,9 @@ class KlimaatSommenWidget(QWidget):
         # self.select_revision_box.currentIndexChanged.connect(self.set_revision_text)
 
         # set up the signals
-        self.server_btn.clicked.connect(self.verify_submit_start_server)
         self.laad_layout_btn.clicked.connect(self.verify_submit_laad_layout)
         self.create_pdfs_btn.clicked.connect(self.verify_submit_create_pdfs)
         self.select_revision_box.aboutToShowPopup.connect(self.populate_combobox)
-
-    def generate_notebook_folder(self):
-        """retrieves the polder folder and loads the"""
-
-        self.polder_folder = self.caller.polder_folder
-        self.polder_notebooks = self.polder_folder + "/Notebooks"
-        server_bat_file = self.polder_notebooks + "/start_server.bat"
-        copy_notebooks(self.polder_notebooks)
-        create_command_bat_file(server_bat_file, "user")
-        write_notebook_json(
-            self.polder_notebooks,
-            {
-                "polder_folder": self.polder_folder,
-                "lizard_api_key": self.lizard_api_key_textbox.text(),
-                "syspaths": [str(DEPENDENCY_DIR), str(THREEDI_DIR)],
-            },
-        )
-
-    def verify_submit_start_server(self):
-        """
-        Checks if all input is legal, if so, creates test environment (variable container) and
-        emits start tests signal to controller
-        """
-        # should make a verify
-        if not self.generate_notebook_valid():
-            return
-
-        self.generate_notebook_folder()
-        open_server(directory=self.polder_notebooks, location="user", use="run")
 
     def verify_submit_laad_layout(self):
         """
@@ -202,13 +135,3 @@ class KlimaatSommenWidget(QWidget):
         for revision in revisions:
             self.select_revision_box.addItem(revision)
 
-    def generate_notebook_valid(self):
-        if self.lizard_api_key_textbox.text() == "":
-            QMessageBox.warning(
-                None,
-                SUBJECT,
-                "Vul de lizard api key in, deze is niet ingevuld! Heb je deze niet? Ga naar: https://hhnk.lizard.net/management/#/personal_api_keys",
-            )
-            return False
-        else:
-            return True

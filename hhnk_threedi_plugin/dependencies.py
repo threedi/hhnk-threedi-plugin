@@ -43,9 +43,7 @@ Dependency = namedtuple(
     ["name", "package", "constraint", "no_dependecies", "folder", "testpypi"],
 )
 DEPENDENCIES = [
-    Dependency(
-        "Jupyter", "jupyter", "==1.0.0", False, "user", False
-    ),  # upgrades get add layer
+    Dependency("Jupyter", "jupyter", "==1.0.0", False, "user", False), # upgrades get add layer
     Dependency("Rtree", "rtree", "==0.9.7", False, "qgis", False),
     Dependency("APScheduler", "apscheduler", "==3.8.1", False, "qgis", False),
     Dependency("ipyfilechooser", "ipyfilechooser", "==0.6.0", False, "qgis", False),
@@ -64,7 +62,7 @@ DEPENDENCIES = [
     Dependency("tqdm", "tqdm", "==4.40.2", False, "qgis", False),
     # test pypi
     Dependency(
-        "hhnk_threedi_tools", "hhnk_threedi_tools", "==0.5.10", True, "qgis", True
+        "hhnk_threedi_tools", "hhnk_threedi_tools", "==0.5.12", True, "qgis", True
     ),
     Dependency(
         "hhnk_research_tools", "hhnk_research_tools", "==0.4", True, "qgis", True
@@ -116,7 +114,6 @@ def _dependencies_target_dir(our_dir=OUR_DIR):
     print("We've asked qgis for our python directory: %s" % python_dir)
     return python_dir
 
-
 def _can_import(package_name):
     try:
         importlib.import_module(package_name)
@@ -124,12 +121,11 @@ def _can_import(package_name):
         return False
     else:
         return True
-
-
+        
 def _available(dependency: Dependency):
 
     if dependency.name == "Jupyter":
-        possible_import = notebook_available("user")
+        possible_import = notebook_available('user')
     else:
         possible_import = _can_import(dependency.package)
 
@@ -138,29 +134,28 @@ def _available(dependency: Dependency):
     else:
         print(f"{dependency.name} does not exists!")
     return possible_import
-
-
+    
 def notebook_available(location="osgeo"):
-    """jupyters notebook is checked by looking at the executable
-    instead of checking if it can be called in the cmd.
-    In the cmd you'll open it immediately, instead of checking if it exists
+    """ jupyters notebook is checked by looking at the executable
+        instead of checking if it can be called in the cmd.
+        In the cmd you'll open it immediately, instead of checking if it exists
     """
-    if location == "osgeo":
+    if location =='osgeo':
         path = shutil.which("jupyter-notebook")
         notebook_exists = path is not None
-
+        
         if notebook_exists and _can_import("jupyter"):
             return True
         else:
             return False
     elif location == "user":
         path = site.getusersitepackages().replace("site-packages", "Scripts")
-        print("Looking for jupyter at", path + "/jupyter-notebook.exe")
-        if os.path.exists(path + "/jupyter-notebook.exe"):
+        print("Looking for jupyter at",path +"/jupyter-notebook.exe" )
+        if os.path.exists(path +"/jupyter-notebook.exe"):
             return True
         else:
             return False
-
+    
 
 def _replace_patched_threedigrid(path=OUR_DIR):
     """threedigrid is patched in the toolbox it does not work with the current scripting"""
@@ -232,13 +227,14 @@ def _install_dependency(dependency: Dependency):
 
     if dependency.testpypi:
         command = command + ["-i", "https://test.pypi.org/simple/"]
-
+        
+        
     if dependency.folder == "user":
         command = command + ["--user"]
-
+        
     if dependency.name == "Jupyter":
         command = command + ["--upgrade", "--force-reinstall", "--no-cache-dir"]
-
+       
     command = command + [dependency.package + dependency.constraint]
     print(command)
     process = subprocess.Popen(command)

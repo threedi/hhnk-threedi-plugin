@@ -222,6 +222,9 @@ class sqliteCheckDialog(QDialog):
         self.data_verification.clicked.connect(self.group_clicked)
         self.one_time_checks.clicked.connect(self.group_clicked)
         self.start_sqlite_tests_btn.clicked.connect(self.verify_submit)
+        
+        for child in self.data_verification.findChildren(QCheckBox):
+            child.setChecked(True)
 
     def group_clicked(self):
         """

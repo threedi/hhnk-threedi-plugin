@@ -18,8 +18,8 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>191</width>
-    <height>505</height>
+    <width>205</width>
+    <height>534</height>
    </size>
   </property>
   <property name="maximumSize">
@@ -178,6 +178,20 @@
      </spacer>
     </item>
     <item>
+     <widget class="QLineEdit" name="lizard_api_key_textbox">
+      <property name="text">
+       <string>Vul hier je Lizard API key in!</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="server_btn">
+      <property name="text">
+       <string>Open Jupyter Notebook Server</string>
+      </property>
+     </widget>
+    </item>
+    <item>
      <widget class="QToolBox" name="tests_toolbox">
       <property name="enabled">
        <bool>false</bool>
@@ -203,7 +217,7 @@
          <x>0</x>
          <y>0</y>
          <width>446</width>
-         <height>463</height>
+         <height>399</height>
         </rect>
        </property>
        <property name="minimumSize">

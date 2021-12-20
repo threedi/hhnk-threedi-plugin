@@ -24,7 +24,7 @@
 from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication, Qt
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction, QMessageBox
-from qgis.core import QgsApplication, Qgis, QgsProject
+from qgis.core import QgsApplication, Qgis, QgsProject, QgsVectorLayer
 from qgis.utils import showPluginHelp
 
 # Initialize Qt resources from file resources.py
@@ -45,6 +45,7 @@ from .gui.tests.zero_d_one_d.zero_d_one_d import zeroDOneDWidget
 from .gui.tests.sqlite_tests.result_widgets.main_result_widget import collapsibleTree
 from .gui.tests.bank_levels.bank_levels import bankLevelsWidget
 from .gui.klimaatsommen.klimaatsommen import KlimaatSommenWidget
+from .qgis_interaction.project import Project
 
 from .gui.new_project_dialog import newProjectDialog
 
@@ -69,6 +70,16 @@ from .functionality_controllers.test_controllers.run_hydraulic_tests import (
     run_hydraulic_tests,
 )
 from .functionality_controllers.test_controllers.run_1d2d_tests import run_1d2d_tests
+
+# hhnk-threedi-tools
+from hhnk_threedi_tools.utils.notebooks.run import create_command_bat_file
+from hhnk_threedi_tools import (
+    open_server,
+    copy_notebooks,
+    write_notebook_json,
+)
+
+from .dependencies import DEPENDENCY_DIR, THREEDI_DIR
 
 
 # docs
@@ -130,6 +141,7 @@ class HHNK_toolbox:
         self.polder_folder = None
         self.current_source_paths = None
         # Keep tracks of last chosen source paths over the entire toolbox
+        
 
     # noinspection PyMethodMayBeStatic
     def tr(self, message):
@@ -302,8 +314,11 @@ class HHNK_toolbox:
             self.polder_folder = path
             self.current_source_paths = folder.to_file_dict()
             self.initialize_current_paths()
+            
             self.dockwidget.model_state_btn.setEnabled(True)
             self.dockwidget.tests_toolbox.setEnabled(True)
+            self.dockwidget.server_btn.setEnabled(True)
+            self.dockwidget.load_layers_btn.setEnabled(True)
         else:
             self.polder_folder = None
             if self.current_source_paths is not None:
@@ -312,6 +327,8 @@ class HHNK_toolbox:
                 self.initialize_current_paths()
             self.dockwidget.model_state_btn.setEnabled(False)
             self.dockwidget.tests_toolbox.setEnabled(False)
+            self.dockwidget.server_btn.setEnabled(False)
+            self.dockwidget.load_layers_btn.setEnabled(False)
 
     def initialize_current_paths(self):
         """
@@ -470,6 +487,41 @@ class HHNK_toolbox:
 
     def open_help(self):
         os.startfile(self.help_address)
+        
+    def generate_notebook_valid(self):
+        if self.dockwidget.lizard_api_key_textbox.text() == "":
+            QMessageBox.warning(
+                None,
+                "Starting Jupyter server",
+                "Vul de lizard api key in, deze is niet ingevuld! Heb je deze niet? Ga naar: https://hhnk.lizard.net/management/#/personal_api_keys",
+            )
+            return False
+        else:
+            return True
+        
+    def generate_notebook_folder(self):
+        """retrieves the polder folder and loads the"""
+
+        self.polder_notebooks = self.polder_folder + "/Notebooks"
+        server_bat_file = self.polder_notebooks + "/start_server.bat"
+        copy_notebooks(self.polder_notebooks)
+        create_command_bat_file(server_bat_file, "user")
+        write_notebook_json(
+            self.polder_notebooks,
+            {
+                "polder_folder": self.polder_folder,
+                "lizard_api_key": self.dockwidget.lizard_api_key_textbox.text(),
+                "syspaths": [str(DEPENDENCY_DIR), str(THREEDI_DIR)],
+            },
+        )
+    def start_server(self):
+        if not self.generate_notebook_valid():
+            return
+
+        self.generate_notebook_folder()
+        open_server(directory=self.polder_notebooks, location="user", use="run")
+
+        
 
     def run(self):
         """Run method that loads and starts the plugin"""
@@ -485,6 +537,13 @@ class HHNK_toolbox:
             if self.dockwidget == None:
                 # Create the dockwidget (after translation) and keep reference
                 self.dockwidget = HHNK_toolboxDockWidget()
+                
+                # disable predefined buttons    
+                self.dockwidget.model_state_btn.setEnabled(False)
+                self.dockwidget.tests_toolbox.setEnabled(False)
+                self.dockwidget.server_btn.setEnabled(False)
+                self.dockwidget.load_layers_btn.setEnabled(False)
+                
                 self.load_layers_dialog = loadLayersDialog(
                     caller=self, parent=self.dockwidget
                 )
@@ -494,12 +553,13 @@ class HHNK_toolbox:
                 self.model_states_dialog = modelStateDialog(
                     caller=self, parent=self.dockwidget
                 )
-                self.klimaatsommen = KlimaatSommenWidget(
-                    caller=self, parent=self.dockwidget
-                )
+                
                 self.zero_d_one_d = zeroDOneDWidget(caller=self, parent=self.dockwidget)
                 self.bank_levels = bankLevelsWidget(caller=self, parent=self.dockwidget)
                 self.one_d_two_d = oneDTwoDWidget(caller=self, parent=self.dockwidget)
+                self.klimaatsommen = KlimaatSommenWidget(
+                    caller=self, parent=self.dockwidget
+                )
 
                 # If a polder folder is selected
                 self.dockwidget.polder_selector.fileChanged.connect(
@@ -514,12 +574,13 @@ class HHNK_toolbox:
                 )
                 # Add tabs to the main toolbox
 
-                self.dockwidget.tests_toolbox.addItem(
-                    self.klimaatsommen, "Klimaatsommen"
-                )
+                
                 self.dockwidget.tests_toolbox.addItem(self.zero_d_one_d, "0d1d tests")
                 self.dockwidget.tests_toolbox.addItem(self.bank_levels, "Bank levels")
                 self.dockwidget.tests_toolbox.addItem(self.one_d_two_d, "1d2d tests")
+                self.dockwidget.tests_toolbox.addItem(
+                    self.klimaatsommen, "Klimaatsommen"
+                )
                 # Connect popups to buttons that prompt them
                 self.dockwidget.load_layers_btn.clicked.connect(
                     self.load_layers_dialog.set_current_paths
@@ -546,6 +607,7 @@ class HHNK_toolbox:
                 self.dockwidget.documentatie_button.clicked.connect(
                     self.open_documentatie_link
                 )
+                self.dockwidget.server_btn.clicked.connect(self.start_server)
 
                 # Connect start buttons to appropriate function calls
                 self.model_states_dialog.start_conversion.connect(
