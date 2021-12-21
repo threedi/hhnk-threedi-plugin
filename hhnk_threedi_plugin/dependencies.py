@@ -47,6 +47,7 @@ DEPENDENCIES = [
     Dependency("Rtree", "rtree", "==0.9.7", False, "qgis", False),
     Dependency("APScheduler", "apscheduler", "==3.8.1", False, "qgis", False),
     Dependency("ipyfilechooser", "ipyfilechooser", "==0.6.0", False, "qgis", False),
+    Dependency("Scipy", "scipy", "==1.7.0", False, "qgis", False),
     Dependency(
         "threedi_scenario_downloader",
         "threedi_scenario_downloader",
@@ -62,7 +63,7 @@ DEPENDENCIES = [
     Dependency("tqdm", "tqdm", "==4.40.2", False, "qgis", False),
     # test pypi
     Dependency(
-        "hhnk_threedi_tools", "hhnk_threedi_tools", "==0.5.12", True, "qgis", True
+        "hhnk_threedi_tools", "hhnk_threedi_tools", "==0.5.13", True, "qgis", True
     ),
     Dependency(
         "hhnk_research_tools", "hhnk_research_tools", "==0.4", True, "qgis", True

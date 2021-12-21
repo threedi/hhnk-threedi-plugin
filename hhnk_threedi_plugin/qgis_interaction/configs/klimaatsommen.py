@@ -11,6 +11,7 @@ and essentially forms the configuration for klimaatsommen (qgis3_export_pdfs)
 import os
 from ..project import Layer, Project, send_message
 from ..styling import path as PATH
+import copy
 from hhnk_threedi_tools import Folders
 
 QML_PATH = f"{PATH}/klimaatsommen"
@@ -158,9 +159,10 @@ def load_klimaatsommen_layers(
     folder_files = folder.all_files
 
     # replace key
-    # structure[f"klimaatsommen {revision}"] = structure.pop("klimaatsommen:")
+    structure_copied = copy.deepcopy(structure)
+    structure_copied[f"Klimaatsommen: {revision}"] = structure_copied.pop("Klimaatsommen")
 
-    project = Project(structure, SUBJECT)
+    project = Project(structure_copied, SUBJECT)
     project.generate_groups()
     for parent_group, values in structure.items():
         for group_name, layer_list in values.items():
