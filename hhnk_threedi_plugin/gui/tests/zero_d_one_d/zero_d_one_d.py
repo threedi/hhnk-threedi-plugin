@@ -108,7 +108,9 @@ class zeroDOneDWidget(QWidget):
         # Geef geselecteerde revisie weer
         self.select_revision_box.currentIndexChanged.connect(self.set_revision_text)
         self.start_0d1d_tests_btn.clicked.connect(self.verify_submit)
-
+        self.select_revision_box.aboutToShowPopup.connect(
+            self.populate_revisions_combobox
+        )
     def create_test_environment(self):
         """
         Gathers all information needed to run the associated tests
@@ -185,9 +187,10 @@ class zeroDOneDWidget(QWidget):
         combobox from this list
         """
         revisions = self.caller.fenv.threedi_results.zero_d_one_d.revisions
-        if len(revisions) == 0:
-            self.select_revision_box.setEnabled(False)
-            return
+        print("zero_d_one_d", revisions)
+        #if len(revisions) == 0:
+        #    self.select_revision_box.setEnabled(False)
+        #    return
         self.select_revision_box.clear()
         self.select_revision_box.addItem("")
         for revision in revisions:

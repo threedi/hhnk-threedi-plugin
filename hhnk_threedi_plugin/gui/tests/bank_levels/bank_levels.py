@@ -116,7 +116,9 @@ class bankLevelsWidget(QWidget):
         #     lambda: self.populate_revision_box(self.results_dir_selector.filePath())
         # )
         # self.results_dir_selector.fileSelected.connect(self.populate_revision_box)
-
+        self.select_revision_box.aboutToShowPopup.connect(
+            self.populate_revisions_combobox
+        )
     def set_revision_text(self):
         current_rev_text = self.select_revision_box.currentText()
         if not current_rev_text:
@@ -129,9 +131,9 @@ class bankLevelsWidget(QWidget):
         combobox from this list
         """
         revisions = self.caller.fenv.threedi_results.one_d_two_d.revisions
-        if len(revisions) == 0:
-            self.select_revision_box.setEnabled(False)
-            return
+        #if len(revisions) == 0:
+        #    self.select_revision_box.setEnabled(False)
+        #    return
         self.select_revision_box.clear()
         self.select_revision_box.addItem("")
         for revision in revisions:

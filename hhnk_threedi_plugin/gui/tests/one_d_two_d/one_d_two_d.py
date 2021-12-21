@@ -120,7 +120,10 @@ class oneDTwoDWidget(QWidget):
 
         # self.select_revision_box.aboutToShowPopup.connect(self.populate_revisions_combobox)
         self.select_revision_box.currentIndexChanged.connect(self.set_revision_text)
-        self.start_1d2d_tests_btn.clicked.connect(self.verify_submit)
+        self.start_1d2d_tests_btn.clicked.connect(self.verify_submit)   
+        self.select_revision_box.aboutToShowPopup.connect(
+            self.populate_revisions_combobox
+        )
 
     def create_test_environment(self):
         """Collect all needed variables to run tests"""
@@ -221,9 +224,9 @@ class oneDTwoDWidget(QWidget):
         combobox from this list
         """
         revisions = self.caller.fenv.threedi_results.one_d_two_d.revisions
-        if len(revisions) == 0:
-            self.select_revision_box.setEnabled(False)
-            return
+        #if len(revisions) == 0:
+        #    self.select_revision_box.setEnabled(False)
+        #    return
         self.select_revision_box.clear()
         self.select_revision_box.addItem("")
         for revision in revisions:

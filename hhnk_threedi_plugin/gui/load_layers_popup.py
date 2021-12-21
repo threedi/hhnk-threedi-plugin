@@ -226,6 +226,12 @@ class loadLayersDialog(QDialog):
             self.sqlite_output_path = paths["sqlite_tests_output"]
             self.zero_d_one_d_output_path = paths["0d1d_output"]
             self.one_d_two_d_output_path = paths["1d2d_output"]
+            
+            # combobox
+            self.populate_klimaatsommen_combobox()
+            self.populate_zero_d_one_d_combobox()
+            self.populate_one_d_two_combobox()
+            
 
     def load_layers(self):
         
