@@ -121,8 +121,8 @@ class HHNK_toolbox:
         self.actions = []
         self.menu = self.tr(u"&HHNK threedi toolbox")
         # TODO: We are going to let the user set this up in a future iteration
-        self.toolbar = self.iface.addToolBar(u"HHNK_threedi_toolbox")
-        self.toolbar.setObjectName(u"HHNK_threedi_toolbox")
+        self.toolbar = self.iface.addToolBar(u"hhnk_threedi_plugin")
+        self.toolbar.setObjectName(u"hhnk_threedi_plugin")
 
         # print "** INITIALIZING HHNK_toolbox"
 
@@ -156,7 +156,7 @@ class HHNK_toolbox:
         :rtype: QString
         """
         # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
-        return QCoreApplication.translate("HHNK_threedi_toolbox", message)
+        return QCoreApplication.translate("hhnk_threedi_plugin", message)
 
     def add_action(
         self,

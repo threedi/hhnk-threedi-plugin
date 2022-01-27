@@ -39,18 +39,18 @@ def load_achtergrond_layers(
             "arcgisfeatureserver",
             subject=SUBJECT,
         )
-        project.add_layer(layer, "Achtergrond")
+        project.add_layer(layer, group_name="Achtergrond")
 
     if landgebruik:
         # landgebruik lizard
         layer = Layer(
             LIZARD_LANDGEBRUIk, "Landgebruik (v1801c)", "wms", subject=SUBJECT
         )
-        project.add_layer(layer, "Achtergrond")
+        project.add_layer(layer, group_name="Achtergrond")
 
     if luchtfoto:
         # landgebruik pdok
         layer = Layer(
             PDOK_LUCHTFOTO, "Luchtfoto actueel (PDOK)", "wms", subject=SUBJECT
         )
-        project.add_layer(layer, "Achtergrond")
+        project.add_layer(layer, group_name="Achtergrond")

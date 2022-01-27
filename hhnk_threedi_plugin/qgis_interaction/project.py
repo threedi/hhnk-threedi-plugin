@@ -1,4 +1,5 @@
-# -*- coding: utf-8 -*-
+# %%
+# # -*- coding: utf-8 -*-
 """
 Created on Tue Nov 30 09:17:26 2021
 
@@ -10,6 +11,7 @@ Created on Tue Nov 30 09:17:26 2021
     
 """
 import os
+from tokenize import group
 from qgis.utils import iface
 from qgis.core import (
     QgsProject,
@@ -20,7 +22,12 @@ from qgis.core import (
     QgsPrintLayout,
     QgsReadWriteContext,
 )
+# %%
 from qgis.PyQt.QtXml import QDomDocument
+import pandas as pd
+import logging
+
+logger=logging.getLogger(__name__)
 
 # # project structure
 TEST_STRUCTURE = {
@@ -69,6 +76,8 @@ class Layer:
             self.layer = QgsRasterLayer(source_path, layer_name)
         elif type == "wms":
             self.layer = QgsRasterLayer(source_path, layer_name, "wms")
+        elif type == "arcgismapserver":
+            self.layer = QgsRasterLayer(source_path, layer_name, "arcgismapserver")
         elif type == "arcgisfeatureserver":
             self.layer = QgsVectorLayer(source_path, layer_name, "arcgisfeatureserver")
 
@@ -82,7 +91,7 @@ class Layer:
 
         # check layer
         if not self.valid:
-            self.send_message(f"Layer {layer_name}  of {source_path} not valid")
+            self.send_message(f"Layer {layer_name} of {source_path} not valid")
 
     @property
     def name(self):
@@ -148,12 +157,13 @@ class Project:
 
     """
 
-    def __init__(self, structure={}, subject="HTT"):
+    def __init__(self, df=None, structure={}, subject="HTT"):
         self.instance = QgsProject.instance()
         self.root = self.instance.layerTreeRoot()
         self.mapthemecollection = self.instance.mapThemeCollection()
         self.layoutmanager = self.instance.layoutManager()
         self.structure = structure
+        self.df=df
         self.subject = subject
 
     def __iter__(self):
@@ -162,9 +172,9 @@ class Project:
 
     @property
     def group_structure(self):
-        return list(self.structure.keys())
+        return self.df['parent_group'].unique().tolist()
 
-    @property
+    @property #TODO deprecated
     def subgroup_structure(self):
         subgroups = []
         for group in self.group_structure:
@@ -205,10 +215,33 @@ class Project:
     def mapcanvas_extent(self):
         return iface.mapCanvas().extent()
 
+
+    @staticmethod
+    def get_layer_information_from_row(row, folder, HHNK_THREEDI_PLUGIN_DIR):
+        """retrieve all information to construct a layer from a row in the dataframe.
+        folder and HHNK_THREEDI_PLUGIN_DIR are needed for the eval functions."""
+        filetype = row.filetype
+        #Voor wms staat de volledige link die nodig is in row.wms_source.
+        if filetype in ['arcgismapserver', 'arcgisfeatureserver', 'wms']:
+            full_path = row.wms_source
+        else:
+            full_path = os.path.join(eval(row.filedir), row.filename)
+            if not pd.isna(row.filters):
+                full_path = f"{full_path}|{row.filters}"
+        layer_name = row.qgis_name
+        qml_path = os.path.join(eval(row.qmldir), row.qmlname)
+        subject = row.subject
+        group_name = row.child_group
+        if pd.isna(group_name): #Place layer in parent group is child group is not defined.
+            group_name=row.parent_group
+        return full_path, layer_name, filetype, qml_path, subject, group_name
+
+
     def get_group(self, group_name):
         return self.root.findGroup(group_name)
 
     def get_layer(self, layer_name):
+        """Return layer in whole project, or only the layer in the given group."""
         layer = self.instance.mapLayersByName(layer_name)
         if len(layer) == 0:
             return None
@@ -236,15 +269,48 @@ class Project:
         for layer in layers:
             self.add_layer(layer, group_name)
 
-    def add_layer(self, layer: Layer, group_name=None):
+    def get_layer(self, layer_name, group_name=None):
+        """Return layer in whole project, or only the layer in the given group."""
+        if group_name:
+            group = self.get_group(group_name)
+            #.layer returns QgsVectorLayer instead of QgsLayerTreeLayer
+            layer = [child.layer() for child in group.children() if child.name()==layer_name] 
+        else:
+            layer = self.instance.mapLayersByName(layer_name)
+
+        if len(layer) == 0:
+            return None
+        else:
+            return layer[0]
+
+    def add_layer(self, layer: Layer, group_name=None, visible=False):
         """Appends a layer to a group, creates a group if not exist"""
 
         self.instance.addMapLayer(layer.source, False)
         if group_name:
             group = self.add_group(group_name)
-            group.addLayer(layer.source)
+            q_layer=group.addLayer(layer.source)
         else:
-            self.root.addLayer(layer.source)
+            q_layer=self.root.addLayer(layer.source)
+
+        #Set visibility (defaults to off)
+        q_layer.setItemVisibilityChecked(visible)
+
+
+
+    def set_visibility(self, layer_name, group_name, visible):
+        """Find layer in layertree and set visibility"""
+        q_layer = self.get_layer(layer_name=layer_name, group_name=group_name)
+        if q_layer:
+            self.root.findLayer(q_layer.id()).setItemVisibilityChecked(visible)
+
+    def remove_layer(self, layer_name, group_name=None):
+        """Remove layer, from group if defined."""
+        layer = self.get_layer(layer_name=layer_name, 
+                                group_name=group_name)
+        if layer:
+            self.instance.removeMapLayer(layer.id())
+
 
     def add_group(self, group_name, index=None):
         """creates a group and appends the group to the root in the right order
@@ -263,6 +329,10 @@ class Project:
 
     def add_subgroup(self, group_name, parent_group_name):
         """adds a group under a group"""
+        if pd.isna(group_name):
+            logger.error('Tried to create subgroup but value isnan.')
+            return None
+
         parent_group = self.get_group(parent_group_name)
         if parent_group is None:
             parent_group = self.add_group(parent_group_name)
@@ -310,7 +380,18 @@ class Project:
         layout.setName(name)
         self.instance.layoutManager().addLayout(layout)
 
-    def generate_groups(self):
+    def generate_themes(self):
+        """Generate themes based on all columns in the dataframe that start with 'theme_'"""
+        theme_col_names = [i for i in self.df.keys() if i.startswith('theme_')]
+
+        for theme_col_name in theme_col_names:
+            layer_names = self.df.loc[self.df[theme_col_name]==True, 'qgis_name'].tolist()
+            theme_name = theme_col_name[6:] #remove theme_
+
+            self.add_theme(theme_name, layer_names)
+
+
+    def generate_groups(self): #TODO deprecated
         """generates all groups and subgroups based on self.structure"""
         for group in self.group_structure:
             self.add_group(group)
@@ -368,6 +449,7 @@ class Project:
         canvas.setExtent(extent)
         canvas.setExtent(extent)
 
+            
 
 def send_message(message, subject, level=1, duration=3):
     print(subject, message)
@@ -375,7 +457,7 @@ def send_message(message, subject, level=1, duration=3):
 
 
 # print("doe iets")
-
+#EXAMPLE
 STRUCTURE = {
     "Opmerkingen": [("opmerkingen.shp", "Opmerkingen")],
     # Group                 # Subgroup                    # Layer names

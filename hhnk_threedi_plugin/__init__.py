@@ -24,6 +24,10 @@
 """
 from .dependencies import ensure_dependencies
 
+
+#TODO
+#research tools installatie uit osgeo weghalen. Sys path append hier van de github repo. 
+
 # noinspection PyPep8Naming
 def classFactory(iface):  # pylint: disable=invalid-name
     """Load HHNK_toolbox class from file HHNK_toolbox.
@@ -36,3 +40,6 @@ def classFactory(iface):  # pylint: disable=invalid-name
     from .hhnk_toolbox import HHNK_toolbox
 
     return HHNK_toolbox(iface)
+
+import sys
+sys.path.append('.')

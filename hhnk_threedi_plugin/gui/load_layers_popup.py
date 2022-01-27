@@ -19,12 +19,12 @@ from PyQt5.QtCore import Qt, pyqtSignal
 from qgis.utils import QgsMessageBar
 
 from .utility_functions import get_revision
-from ..qgis_interaction.layers_management.layers.get_layers_list import get_layers_list
-from ..qgis_interaction.layers_management.adding_layers import (
+from hhnk_threedi_plugin.qgis_interaction.layers_management.layers.get_layers_list import get_layers_list
+from hhnk_threedi_plugin.qgis_interaction.layers_management.adding_layers import (
     add_layers,
     find_tif_layers_and_append,
 )
-from ..qgis_interaction.layers_management.groups.layer_groups_structure import (
+from hhnk_threedi_plugin.qgis_interaction.layers_management.groups.layer_groups_structure import (
     QgisLayerStructure,
 )
 from ..qgis_interaction.layers_management.removing_layers import remove_layers
@@ -32,10 +32,10 @@ from ..qgis_interaction.layers_management.removing_layers import remove_layers
 # new
 
 from .general_objects import revisionsComboBox
-from ..qgis_interaction.configs.test_protocol_v21 import load_test_protocol_v21_layers, THEMES
-from ..qgis_interaction.configs.klimaatsommen import load_klimaatsommen_layers
-from ..qgis_interaction.configs.achtergrond import load_achtergrond_layers
-from ..qgis_interaction.project import Project
+from hhnk_threedi_plugin.qgis_interaction.configs.test_protocol_v21 import load_test_protocol_v21_layers
+from hhnk_threedi_plugin.qgis_interaction.configs.klimaatsommen import load_klimaatsommen_layers
+from hhnk_threedi_plugin.qgis_interaction.configs.achtergrond import load_achtergrond_layers
+from hhnk_threedi_plugin.qgis_interaction.project import Project
 
 
 # hhnk-threedi-tests
@@ -62,28 +62,28 @@ def setup_ui(load_layers_popup):
     load_layers_popup.klimaatsommen_selector = revisionsComboBox()
 
     load_layers_popup.sqlite_test_selector = QCheckBox("Sqlite testen")
-    load_layers_popup.sqlite_test_selector.setChecked(True)
+    load_layers_popup.sqlite_test_selector.setChecked(False)
 
     load_layers_popup.test_protocol_v21_selector = QCheckBox("Layout test protocol v21")
     load_layers_popup.test_protocol_v21_selector.setChecked(True)
 
     load_layers_popup.achtergrond_landgebruik_selector = QCheckBox("Lizard landgebruik")
-    load_layers_popup.achtergrond_landgebruik_selector.setChecked(True)
+    load_layers_popup.achtergrond_landgebruik_selector.setChecked(False)
 
     load_layers_popup.achtergrond_luchtfoto_selector = QCheckBox(
         "PDOK luchtfoto actueel"
     )
-    load_layers_popup.achtergrond_luchtfoto_selector.setChecked(True)
+    load_layers_popup.achtergrond_luchtfoto_selector.setChecked(False)
 
     load_layers_popup.achtergrond_waterlopen_2020_selector = QCheckBox(
         "HHNK waterlopen 2020 (legger)"
     )
-    load_layers_popup.achtergrond_waterlopen_2020_selector.setChecked(True)
+    load_layers_popup.achtergrond_waterlopen_2020_selector.setChecked(False)
 
     load_layers_popup.themes_selector = QCheckBox(
         "Themas (gebruikt met andere lagen)"
         )
-    load_layers_popup.themes_selector.setChecked(True)
+    load_layers_popup.themes_selector.setChecked(False)
 
     load_layers_popup.buttons = QDialogButtonBox(
         QDialogButtonBox.Ok | QDialogButtonBox.Cancel
@@ -353,7 +353,8 @@ class loadLayersDialog(QDialog):
         
         if self.themes_selector.isChecked() == True:
             project = Project()
-            for theme_name, theme_layers in THEMES.items():
-                project.add_theme(theme_name, theme_layers)
+            print('Themes knop werkt nu niet.')
+            # for theme_name, theme_layers in THEMES.items():
+            #     project.add_theme(theme_name, theme_layers)
 
         self.accept()
