@@ -50,7 +50,7 @@ from .qgis_interaction.project import Project
 from .gui.new_project_dialog import newProjectDialog
 
 # Functions
-from hhnk_threedi_tools import Folders
+from hhnk_threedi_tools.core.folders import Folders
 from hhnk_threedi_tools.core.checks.model_state import detect_model_states
 
 # Variables

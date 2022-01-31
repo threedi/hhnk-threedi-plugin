@@ -12,7 +12,7 @@ import os
 from ..project import Layer, Project, send_message
 from ..styling import path as PATH
 import copy
-from hhnk_threedi_tools import Folders
+from hhnk_threedi_tools.core.folders import Folders
 
 QML_PATH = f"{PATH}/klimaatsommen"
 STRUCTURE = {

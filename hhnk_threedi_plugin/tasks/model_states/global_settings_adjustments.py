@@ -15,7 +15,7 @@ description = "aanpassingen aan global settings bepalen"
 
 from hhnk_threedi_tools.variables.database_variables import id_col, control_group_col
 from hhnk_threedi_tools.variables.model_state import global_settings_new_col_name
-from hhnk_threedi_tools import Folders
+from hhnk_threedi_tools.core.folders import Folders
 
 
 class globalSettingTask(QgsTask):

@@ -35,7 +35,9 @@ from ...qgis_interaction.layers_management.groups.layer_groups_structure import 
 import pandas as pd
 
 
-from ...qgis_interaction.configs.klimaatsommen import load_klimaatsommen_layers
+# from ...qgis_interaction.configs.klimaatsommen import load_klimaatsommen_layers
+from hhnk_threedi_plugin.qgis_interaction import load_layers_interaction
+
 from ...qgis_interaction.klimaatsommen_pdfs import create_pdfs, load_print_layout
 
 SUBJECT = "Klimaatsommen"
@@ -110,7 +112,8 @@ class KlimaatSommenWidget(QWidget):
         """
 
         self.fenv = self.caller.fenv
-        load_klimaatsommen_layers(self.fenv, self.select_revision_box.currentText())
+        load_layers_interaction.load_layers_klimaatsommen(folder=self.fenv, 
+                                        revision=self.select_revision_box.currentText())
         load_print_layout()
 
     def verify_submit_create_pdfs(self):

@@ -14,7 +14,7 @@ from ...gui.sql_preview.model_changes_preview import modelChangesPreview
 
 
 # new
-from hhnk_threedi_tools import Folders
+from hhnk_threedi_tools.core.folders import Folders
 from hhnk_threedi_tools.variables.database_variables import width_col
 from hhnk_threedi_tools.variables.model_state import weirs_new_width_col
 from hhnk_threedi_tools.variables.database_aliases import a_weir_id

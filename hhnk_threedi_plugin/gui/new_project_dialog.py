@@ -17,7 +17,7 @@ from ..error_messages.input_error_messages import (
     invalid_character_in_filename,
     folder_exists_already,
 )
-from hhnk_threedi_tools import Folders
+from hhnk_threedi_tools.core.folders import Folders
 
 
 def setupUi(new_project_dialog):

@@ -32,11 +32,8 @@ from ..qgis_interaction.layers_management.removing_layers import remove_layers
 # new
 
 from .general_objects import revisionsComboBox
-from hhnk_threedi_plugin.qgis_interaction.configs.test_protocol_v21 import load_test_protocol_v21_layers
-from hhnk_threedi_plugin.qgis_interaction.configs.klimaatsommen import load_klimaatsommen_layers
-from hhnk_threedi_plugin.qgis_interaction.configs.achtergrond import load_achtergrond_layers
 from hhnk_threedi_plugin.qgis_interaction.project import Project
-
+from hhnk_threedi_plugin.qgis_interaction import load_layers_interaction
 
 # hhnk-threedi-tests
 from hhnk_threedi_tools.qgis.paths_functions import get_top_level_directories
@@ -237,7 +234,7 @@ class loadLayersDialog(QDialog):
         
         # set map canvas
         project = Project()
-        project.zoom_to_layer(QgsVectorLayer(self.caller.fenv.source_data.polder_polygon.path, "polder", "ogr"))
+        # project.zoom_to_layer(QgsVectorLayer(self.caller.fenv.source_data.polder_polygon.path, "polder", "ogr"))
         
         # Resolve paths to layers
         self.sqlite_dict = build_output_files_dict(
@@ -334,22 +331,23 @@ class loadLayersDialog(QDialog):
             )
 
         if self.klimaatsommen_selector.currentText() != "":
-            load_klimaatsommen_layers(
-                self.caller.fenv, self.klimaatsommen_selector.currentText()
-            )
+            load_layers_interaction.load_layers_klimaatsommen(folder=self.caller.fenv, 
+                                        revision=self.klimaatsommen_selector.currentText())
 
-        # test protocol v21
+        # test protocol
         if self.test_protocol_v21_selector.isChecked() == True:
-            load_test_protocol_v21_layers(self.caller.fenv)
+            load_layers_interaction.load_layers_test_protocol(folder=self.caller.fenv)
 
         # achtergrond
-        load_achtergrond_layers(
-            self.caller.fenv,
+        load_layers_interaction.load_layers_achtergrond(folder=self.caller.fenv,
             landgebruik=self.achtergrond_landgebruik_selector.isChecked(),
             luchtfoto=self.achtergrond_luchtfoto_selector.isChecked(),
             waterlopen_2020=self.achtergrond_waterlopen_2020_selector.isChecked(),
         )
         
+
+
+        project.zoom_to_layer(layer_name=layer_name, group_name=group_name)
         
         if self.themes_selector.isChecked() == True:
             project = Project()

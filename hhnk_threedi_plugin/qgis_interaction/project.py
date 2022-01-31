@@ -217,10 +217,11 @@ class Project:
 
 
     @staticmethod
-    def get_layer_information_from_row(row, folder, HHNK_THREEDI_PLUGIN_DIR):
+    def get_layer_information_from_row(row, folder, HHNK_THREEDI_PLUGIN_DIR, revision=None):
         """retrieve all information to construct a layer from a row in the dataframe.
         folder and HHNK_THREEDI_PLUGIN_DIR are needed for the eval functions."""
         filetype = row.filetype
+
         #Voor wms staat de volledige link die nodig is in row.wms_source.
         if filetype in ['arcgismapserver', 'arcgisfeatureserver', 'wms']:
             full_path = row.wms_source
@@ -228,8 +229,14 @@ class Project:
             full_path = os.path.join(eval(row.filedir), row.filename)
             if not pd.isna(row.filters):
                 full_path = f"{full_path}|{row.filters}"
+
         layer_name = row.qgis_name
-        qml_path = os.path.join(eval(row.qmldir), row.qmlname)
+
+        if not pd.isna(row.qmldir):
+            qml_path = os.path.join(eval(row.qmldir), row.qmlname)
+        else:
+            qml_path = None
+
         subject = row.subject
         group_name = row.child_group
         if pd.isna(group_name): #Place layer in parent group is child group is not defined.
@@ -240,13 +247,6 @@ class Project:
     def get_group(self, group_name):
         return self.root.findGroup(group_name)
 
-    def get_layer(self, layer_name):
-        """Return layer in whole project, or only the layer in the given group."""
-        layer = self.instance.mapLayersByName(layer_name)
-        if len(layer) == 0:
-            return None
-        else:
-            return layer[0]
 
     def get_theme(self, theme_name):
         return self.mapthemecollection.mapThemeState(theme_name)
@@ -269,19 +269,28 @@ class Project:
         for layer in layers:
             self.add_layer(layer, group_name)
 
-    def get_layer(self, layer_name, group_name=None):
-        """Return layer in whole project, or only the layer in the given group."""
+    def get_layer(self, layer_name, group_name=None, layertreelayer=False):
+        """Return layer in whole project, or only the layer in the given group.
+        When layertreelayer == True, return that object instead of the QgsVectorLayer."""
         if group_name:
             group = self.get_group(group_name)
-            #.layer returns QgsVectorLayer instead of QgsLayerTreeLayer
-            layer = [child.layer() for child in group.children() if child.name()==layer_name] 
+            if group:
+                #.layer returns QgsVectorLayer instead of QgsLayerTreeLayer
+                layer = [child.layer() for child in group.children() if child.name()==layer_name] 
+            else: 
+                logging.error(f'group: {group_name} does not exist')
+                return None
         else:
             layer = self.instance.mapLayersByName(layer_name)
 
-        if len(layer) == 0:
+
+        if len(layer)==0:
             return None
-        else:
+        elif not layertreelayer:
             return layer[0]
+        elif layertreelayer:
+            return self.root.findLayer(layer[0].id())
+
 
     def add_layer(self, layer: Layer, group_name=None, visible=False):
         """Appends a layer to a group, creates a group if not exist"""
@@ -295,111 +304,31 @@ class Project:
 
         #Set visibility (defaults to off)
         q_layer.setItemVisibilityChecked(visible)
-
+        q_layer.setExpanded(False)
 
 
     def set_visibility(self, layer_name, group_name, visible):
         """Find layer in layertree and set visibility"""
-        q_layer = self.get_layer(layer_name=layer_name, group_name=group_name)
-        if q_layer:
-            self.root.findLayer(q_layer.id()).setItemVisibilityChecked(visible)
+        layer = self.get_layer(layer_name=layer_name, group_name=group_name, layertreelayer=True)
+        if layer:
+            layer.setItemVisibilityChecked(visible)
+
+
+    def set_expanded(self, layer_name, group_name, expanded=False):
+        """Collapse layers in the layer tree"""
+        layer = self.get_layer(layer_name=layer_name, group_name=group_name, layertreelayer=True)
+        if layer:
+            layer.setExpanded(expanded)
+
 
     def remove_layer(self, layer_name, group_name=None):
         """Remove layer, from group if defined."""
-        layer = self.get_layer(layer_name=layer_name, 
-                                group_name=group_name)
+        layer = self.get_layer(layer_name=layer_name, group_name=group_name)
         if layer:
             self.instance.removeMapLayer(layer.id())
 
 
-    def add_group(self, group_name, index=None):
-        """creates a group and appends the group to the root in the right order
-        return an existing group if already exists
-        """
-        group = self.get_group(group_name)
-        if group is not None:
-            return group
-
-        if index is None:
-            index = self.group_index(group_name)
-
-        group = self.root.insertGroup(index, group_name)
-        group.setExpanded(False)
-        return group
-
-    def add_subgroup(self, group_name, parent_group_name):
-        """adds a group under a group"""
-        if pd.isna(group_name):
-            logger.error('Tried to create subgroup but value isnan.')
-            return None
-
-        parent_group = self.get_group(parent_group_name)
-        if parent_group is None:
-            parent_group = self.add_group(parent_group_name)
-
-        group = self.get_group(group_name)
-        if group is not None:
-            return group
-
-        group = parent_group.addGroup(group_name)
-        group.setExpanded(False)
-        return group
-
-    def add_theme(self, theme_name, layer_names):
-        """theme name is the name of the theme and
-        layer names is the name of the layer which is visible
-        if layer does not exists it get skipped
-        """
-
-        collection = self.instance.mapThemeCollection()
-        theme = collection.mapThemeState(theme_name)
-
-        records = []
-        for layer_name in layer_names:
-            layer = self.get_layer(layer_name)
-            if layer:
-                records.append(QgsMapThemeCollection.MapThemeLayerRecord(layer))
-
-        theme.setLayerRecords(records)
-        collection.insert(theme_name, theme)
-
-    def add_print_layout_template(self, template_path, name):
-        layout = self.get_layout(name)
-        if layout is not None:
-            self.send_message(f"Layout {name} already exists, replacing!")
-
-        layout = QgsPrintLayout(self.instance)
-        with open(template_path) as f:
-            template_content = f.read()
-        doc = QDomDocument()
-        doc.setContent(template_content)
-
-        # adding to existing items
-        items, ok = layout.loadFromTemplate(doc, QgsReadWriteContext(), True)
-        print("items", items, "ok", ok)
-        layout.setName(name)
-        self.instance.layoutManager().addLayout(layout)
-
-    def generate_themes(self):
-        """Generate themes based on all columns in the dataframe that start with 'theme_'"""
-        theme_col_names = [i for i in self.df.keys() if i.startswith('theme_')]
-
-        for theme_col_name in theme_col_names:
-            layer_names = self.df.loc[self.df[theme_col_name]==True, 'qgis_name'].tolist()
-            theme_name = theme_col_name[6:] #remove theme_
-
-            self.add_theme(theme_name, layer_names)
-
-
-    def generate_groups(self): #TODO deprecated
-        """generates all groups and subgroups based on self.structure"""
-        for group in self.group_structure:
-            self.add_group(group)
-
-        for subgroup in self.subgroup_structure:
-            self.add_subgroup(*subgroup)
-
-    def group_index(self, group_name):
+    def _group_index(self, group_name):
         """locates the nearest index based on the layer above
         if we cannot find this, we place it on top
         """
@@ -420,6 +349,101 @@ class Project:
 
         return index
 
+
+    def add_group(self, group_name, index=None):
+        """creates a group and appends the group to the root in the right order
+        return an existing group if already exists
+        """
+        group = self.get_group(group_name)
+        if group is not None:
+            return group
+
+        if index is None:
+            index = self._group_index(group_name)
+
+        group = self.root.insertGroup(index, group_name)
+        group.setExpanded(False)
+        return group
+
+
+    def add_subgroup(self, group_name, parent_group_name):
+        """adds a group under a group"""
+        if pd.isna(group_name):
+            logger.error('Tried to create subgroup but value isnan.')
+            return None
+
+        parent_group = self.get_group(parent_group_name)
+        if parent_group is None:
+            parent_group = self.add_group(parent_group_name)
+
+        group = self.get_group(group_name)
+        if group is not None:
+            return group
+
+        group = parent_group.addGroup(group_name)
+        group.setExpanded(False)
+        return group
+
+
+    def add_theme(self, theme_name, layer_names):
+        """theme name is the name of the theme and
+        layer names is the name of the layer which is visible
+        if layer does not exists it get skipped
+        """
+
+        collection = self.instance.mapThemeCollection()
+        theme = collection.mapThemeState(theme_name)
+
+        records = []
+        for layer_name in layer_names:
+            layer = self.get_layer(layer_name)
+            if layer:
+                records.append(QgsMapThemeCollection.MapThemeLayerRecord(layer))
+
+        theme.setLayerRecords(records)
+        collection.insert(theme_name, theme)
+
+
+    def add_print_layout_template(self, template_path, name):
+        layout = self.get_layout(name)
+        if layout is not None:
+            self.send_message(f"Layout {name} already exists, replacing!")
+
+        layout = QgsPrintLayout(self.instance)
+        with open(template_path) as f:
+            template_content = f.read()
+        doc = QDomDocument()
+        doc.setContent(template_content)
+
+        # adding to existing items
+        items, ok = layout.loadFromTemplate(doc, QgsReadWriteContext(), True)
+        print("items", items, "ok", ok)
+        layout.setName(name)
+        self.instance.layoutManager().addLayout(layout)
+
+
+    def generate_themes(self):
+        """Generate themes based on all columns in the dataframe that start with 'theme_'"""
+        theme_col_names = [i for i in self.df.keys() if i.startswith('theme_')]
+
+        for theme_col_name in theme_col_names:
+            layer_names = self.df.loc[self.df[theme_col_name]==True, 'qgis_name'].tolist()
+            theme_name = theme_col_name[6:] #remove str theme_
+
+            self.add_theme(theme_name, layer_names)
+
+
+    def generate_groups(self, group_index=None):
+        """generates all groups and subgroups based on self.structure"""
+        for parent_group in self.group_structure:
+            self.add_group(group_name=parent_group, index=group_index)
+
+            df_parent = self.df.query(f"parent_group=='{parent_group}'")
+
+            for child_group in df_parent['child_group'].unique():
+                self.add_subgroup(group_name=child_group, parent_group_name=parent_group)
+
+
     def write_styling(self, path):
         for layer in self.layer_list:
             name = layer.name()
@@ -427,9 +451,11 @@ class Project:
             layer.saveNamedStyle(f"{path}/{name}.qml")
             layer.saveSldStyle(f"{path}/{name}.sld")
 
+
     def standardize(self, name):
         """names are edited spaces become _ and are : removed, lowered"""
         return name.replace(" ", "_").replace(":", "").lower()
+
 
     def send_message(self, message, level=1, duration=5):
         print(self.subject, message)
@@ -437,18 +463,34 @@ class Project:
             self.subject, message, level=level, duration=duration
         )
         
-    def zoom_to_layer(self, vlayer):
-        if not vlayer.isValid():
+    
+    def zoom_to_layer(self, layer_name, group_name):
+
+        layer = self.get_layer(layer_name=layer_name, group_name=group_name)
+        if not layer.isValid():
             print("Layer unvalid not setting extent")
             return
             
         canvas = iface.mapCanvas()
-        extent = vlayer.extent()
+        extent = layer.extent()
         print("Setting extent to", extent)
         print("Canvas", canvas)
         canvas.setExtent(extent)
         canvas.setExtent(extent)
 
+
+    def iter_parent(self, parent_group):
+        """iter over a single parent in the df. """
+        df_parent = self.df.query(f"parent_group=='{parent_group}'")
+        for index, row in df_parent.iterrows():
+            yield index, row
+
+
+    def iter_parents(self):
+        """Iter over the whole df"""
+        for parent_group in self.group_structure:
+            for index, row in self.iter_parent(parent_group):
+                yield index, row
             
 
 def send_message(message, subject, level=1, duration=3):
@@ -457,90 +499,7 @@ def send_message(message, subject, level=1, duration=3):
 
 
 # print("doe iets")
-#EXAMPLE
-STRUCTURE = {
-    "Opmerkingen": [("opmerkingen.shp", "Opmerkingen")],
-    # Group                 # Subgroup                    # Layer names
-    "Datachecker output": {
-        "Kunstwerken niet in model": [
-            (
-                "datachecker_output.gdb|layername=channel_loose",
-                "Watergang: channel loose",
-            ),
-            (
-                "datachecker_output.gdb|layername=channel_nowayout",
-                "Watergang: channel nowayout",
-            ),
-            (
-                "datachecker_output.gdb|layername=culvert|subset='isusable' = '0'",
-                "Duikers niet in model",
-            ),
-            (
-                "datachecker_output.gdb|layername=weirs|subset='isusable' = '0'",
-                "Stuwen niet in model",
-            ),
-            (
-                "datachecker_output.gdb|layername=bridge|subset='isusable' = '0'",
-                "Bruggen niet in model",
-            ),
-            (
-                "datachecker_output.gdb|layername=fixed_dam|subset='isusable' = '0'",
-                "Vaste dammen niet in model",
-            ),
-            (
-                "datachecker_output.gdb|layername=pumpstation|subset='isusable' = '0'",
-                "Gemaal niet in model",
-            ),
-            ("datachecker_output.gdb|layername=kruising_zonder_kunstwerk", "KZK"),
-            (
-                "datachecker_output.gdb|layername=crosssection|subset='isusable' = '0'",
-                "Gemeten niet in model",
-            ),
-        ],
-        "Kunstwerken met aannames": [
-            (
-                "datachecker_output.gdb|layername=culvert|subset='aanname' LIKE ('%width,width%')",
-                "Duiker aanname: doorstroomafmeting",
-            ),
-            (
-                "datachecker_output.gdb|layername=culvert|subset='aanname' LIKE ('%bed_level_up%')",
-                "Duiker aanname: bob",
-            ),
-            ("datachecker_output.gdb|layername=levee", "Levee: 30 cm boven max peil"),
-            (
-                "datachecker_output.gdb|layername=weirs|subset='aanname' LIKE ('%crest_width%')",
-                "Stuw aanname: breedte",
-            ),
-            (
-                "datachecker_output.gdb|layername=fixeddrainagelevelarea|subset='streefpeil_bwn2' = -10",
-                "Peilgebied aanname: streefpeil",
-            ),
-        ],
-        "Kunstwerken": [
-            ("datachecker_output.gdb|layername=channel", "datachecker_output channel"),
-            (
-                "datachecker_output.gdb|layername=weirs|subset='isusable' = '1'",
-                "Stuwen wel in model",
-            ),
-            (
-                "datachecker_output.gdb|layername=culvert|subset='isusable' = '1'",
-                "Duikers wel in model",
-            ),
-            (
-                "datachecker_output.gdb|layername=bridge|subset='isusable' = '1'",
-                "Bruggen wel in model",
-            ),
-            (
-                "datachecker_output.gdb|layername=fixed_dam|subset='isusable' = '1'",
-                "Vaste dammen wel in model",
-            ),
-            (
-                "datachecker_output.gdb|layername=pumpstation|subset='isusable' = '1'",
-                "Gemaal wel in model",
-            ),
-        ],
-    },
-}
+
 # project = Project(STRUCTURE)
 # project.generate_groups()
 # print(project.subgroup_structure)

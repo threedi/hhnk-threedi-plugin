@@ -62,9 +62,9 @@ DEPENDENCIES = [
     Dependency("xlrd", "xlrd", "==1.1.0", False, "qgis", False),
     Dependency("tqdm", "tqdm", "==4.40.2", False, "qgis", False),
     # test pypi
-    Dependency(
-        "hhnk_threedi_tools", "hhnk_threedi_tools", "==0.5.13", True, "qgis", True
-    ),
+    # Dependency(
+    #     "hhnk_threedi_tools", "hhnk_threedi_tools", "==0.5.13", True, "qgis", True
+    # ),
     Dependency(
         "hhnk_research_tools", "hhnk_research_tools", "==0.4", True, "qgis", True
     ),
