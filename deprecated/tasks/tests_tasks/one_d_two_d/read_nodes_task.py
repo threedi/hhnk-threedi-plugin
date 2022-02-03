@@ -4,15 +4,17 @@ from qgis.core import QgsTask, Qgis
 from qgis.utils import QgsMessageLog, iface
 from ....qgis_interaction.layers_management.adding_layers import add_layers
 
+# old
+# from hhnk_threedi_tools.tests.one_d_two_d.read_nodes_results import read_node_results
+# import hhnk_research_tools as hrt
 
-description = "0d1d tests uitvoeren"
+# new
+from hhnk_threedi_tools import OneDTwoDTest
 
-# hhnk-threedi-tests
-import hhnk_research_tools as hrt
-from hhnk_threedi_tools import ZeroDOneDTest
+description = "uitlezen waterstanden op tijdstappen en locaties uit 3di resultaten"
 
 
-class zeroDOneDTask(QgsTask):
+class readNodesTask(QgsTask):
     os_error = pyqtSignal(object, object, Exception)
 
     def __init__(self, test_env, mutex, wait_cond):
@@ -20,12 +22,7 @@ class zeroDOneDTask(QgsTask):
         self.description = description
         self.exception = None
         self.test_env = copy.copy(test_env)
-        self.layers_list = [
-            self.test_env.layers["waterlevel_start_rain_vs_start_sum_layer_vars"],
-            self.test_env.layers["waterlevel_end_rain_vs_start_rain_layer_vars"],
-            self.test_env.layers["waterlevel_end_rain_vs_end_rain_min_one_layer_vars"],
-            self.test_env.layers["waterlevel_end_sum_vs_start_sum_layer_vars"],
-        ]
+        self.layers_list = [test_env.layers["grid_nodes_2d_layer_vars"]]
         self.gdf = None
         self.os_retry = None
         self.mutex = mutex
@@ -41,19 +38,20 @@ class zeroDOneDTask(QgsTask):
         QgsMessageLog.logMessage(f"Taak gestart {self.description}", level=Qgis.Info)
         try:
             if self.os_retry is None:
-                zero_d_one_d_test = ZeroDOneDTest.from_path(self.test_env.polder_folder)
-                self.gdf = zero_d_one_d_test.run()
+                one_d_two_d_test = OneDTwoDTest.from_path(
+                    self.test_env.polder_folder,
+                    revision=self.test_env.revision_path,
+                    output_path=self.test_env.output_path,
+                    dem_path=self.test_env.dem_path,
+                )
+                self.gdf = one_d_two_d_test.run_node_stats()
 
-            # QgsMessageLog.logMessage(f"Taak gestart opslaan resultaten", level=Qgis.Info)
-            hrt.gdf_write_to_csv(
-                self.gdf,
-                path=self.test_env.output_vars["log_path"],
-                filename=self.test_env.output_vars["zero_d_one_d_filename"],
-            )
-            hrt.gdf_write_to_geopackage(
-                self.gdf,
-                path=self.test_env.output_vars["layer_path"],
-                filename=self.test_env.output_vars["zero_d_one_d_filename"],
+            QgsMessageLog.logMessage("Taak gestart opslaan resultaten", level=Qgis.Info)
+            one_d_two_d_test.write(
+                self.test_env.output_vars["grid_nodes_2d_filename"],
+                one_d_two_d_test.results["node_stats"],
+                csv_path=self.test_env.output_vars["log_path"],
+                gpkg_path=self.test_env.output_vars["layer_path"],
             )
             return True
         except OSError as e:
@@ -101,6 +99,7 @@ class zeroDOneDTask(QgsTask):
                 level=Qgis.Info,
             )
             try:
+                QgsMessageLog.logMessage("Before adding layers")
                 add_layers(self.layers_list, self.test_env.group_structure)
             except Exception as e:
                 raise e from None

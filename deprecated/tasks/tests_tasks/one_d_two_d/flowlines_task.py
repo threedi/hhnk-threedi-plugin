@@ -5,14 +5,17 @@ from qgis.utils import QgsMessageLog, iface
 from ....qgis_interaction.layers_management.adding_layers import add_layers
 
 
-description = "0d1d tests uitvoeren"
+# old
+# import hhnk_research_tools as hrt
+# from hhnk_threedi_tools.tests.one_d_two_d.get_flowline_results import create_flowlines_results
 
-# hhnk-threedi-tests
-import hhnk_research_tools as hrt
-from hhnk_threedi_tools import ZeroDOneDTest
+# new
+from hhnk_threedi_tools import OneDTwoDTest
+
+description = "flowlines levels en stroming bepalen"
 
 
-class zeroDOneDTask(QgsTask):
+class flowLinesTask(QgsTask):
     os_error = pyqtSignal(object, object, Exception)
 
     def __init__(self, test_env, mutex, wait_cond):
@@ -21,10 +24,10 @@ class zeroDOneDTask(QgsTask):
         self.exception = None
         self.test_env = copy.copy(test_env)
         self.layers_list = [
-            self.test_env.layers["waterlevel_start_rain_vs_start_sum_layer_vars"],
-            self.test_env.layers["waterlevel_end_rain_vs_start_rain_layer_vars"],
-            self.test_env.layers["waterlevel_end_rain_vs_end_rain_min_one_layer_vars"],
-            self.test_env.layers["waterlevel_end_sum_vs_start_sum_layer_vars"],
+            self.test_env.layers["flow_dry_before_layer_vars"],
+            self.test_env.layers["flow_end_peak_layer_vars"],
+            self.test_env.layers["1d2d_flow_end_peak_layer_vars"],
+            self.test_env.layers["1d2d_flow_end_peak_layer_vars"],
         ]
         self.gdf = None
         self.os_retry = None
@@ -41,19 +44,20 @@ class zeroDOneDTask(QgsTask):
         QgsMessageLog.logMessage(f"Taak gestart {self.description}", level=Qgis.Info)
         try:
             if self.os_retry is None:
-                zero_d_one_d_test = ZeroDOneDTest.from_path(self.test_env.polder_folder)
-                self.gdf = zero_d_one_d_test.run()
+                one_d_two_d_test = OneDTwoDTest.from_path(
+                    self.test_env.polder_folder,
+                    revision=self.test_env.revision_path,
+                    output_path=self.test_env.output_path,
+                    dem_path=self.test_env.dem_path,
+                )
+                self.gdf = one_d_two_d_test.run_flowline_stats()
 
-            # QgsMessageLog.logMessage(f"Taak gestart opslaan resultaten", level=Qgis.Info)
-            hrt.gdf_write_to_csv(
-                self.gdf,
-                path=self.test_env.output_vars["log_path"],
-                filename=self.test_env.output_vars["zero_d_one_d_filename"],
-            )
-            hrt.gdf_write_to_geopackage(
-                self.gdf,
-                path=self.test_env.output_vars["layer_path"],
-                filename=self.test_env.output_vars["zero_d_one_d_filename"],
+            QgsMessageLog.logMessage("Taak gestart opslaan resultaten", level=Qgis.Info)
+            one_d_two_d_test.write(
+                self.test_env.output_vars["1d2d_all_flowlines_filename"],
+                one_d_two_d_test.results["flowline_stats"],
+                csv_path=self.test_env.output_vars["log_path"],
+                gpkg_path=self.test_env.output_vars["layer_path"],
             )
             return True
         except OSError as e:
