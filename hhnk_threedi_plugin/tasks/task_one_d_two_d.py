@@ -1,8 +1,4 @@
 # %%
-
-
-
-
 if __name__ == '__main__':
     import sys
     from pathlib import Path
@@ -38,7 +34,9 @@ def task_one_d_two_d(folder, revision, dem_path):
     grid_result = folder.threedi_results.one_d_two_d[revision].grid
     output_file_flowline = folder.output.one_d_two_d[revision].stroming_1d2d_test.path
     output_file_node = folder.output.one_d_two_d[revision].grid_nodes_2d.path
-
+    
+    #Create folder
+    folder.output.one_d_two_d[revision].create()
 
     #Initialize to get information from the netcdf
     rain, detected_rain, timestep, days_dry_start, days_dry_end, timestep_df = grid_result_metadata.construct_scenario(grid_result)
@@ -50,7 +48,7 @@ def task_one_d_two_d(folder, revision, dem_path):
     flowlines_df=htt_1d2d.run_flowline_stats(threedi_result=grid_result, 
                                 timestep_df=timestep_df)
 
-    flowlines_df.to_file(output_file_flowline, driver='GPKG')
+    flowlines_df.to_file(output_file_flowline, driver='GPKG', index=False)
 
 
     #Node results
@@ -59,7 +57,7 @@ def task_one_d_two_d(folder, revision, dem_path):
 
     nodes_df=htt_1d2d.run_node_stats(grid_result=grid_result, 
                                 timestep_df=timestep_df)
-    nodes_df.to_file(output_file_node, driver='GPKG')
+    nodes_df.to_file(output_file_node, driver='GPKG', index=False)
 
 
     #Raster results

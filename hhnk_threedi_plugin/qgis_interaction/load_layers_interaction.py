@@ -80,6 +80,18 @@ def load_layers_achtergrond(folder: Folders,
     load_layers(folder=folder, df=df, revision=None, subject=SUBJECT, group_index=-1)
 
 
+def load_layers_0d1dtest(folder: Folders, revision):
+    SUBJECT = "Test 0d1d"
+
+    structure_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'testprotocol.csv')
+    df = pd.read_csv(structure_path, sep=';') #Read csv from file with configuration for the available layers.
+    df['parent_group'].replace('05. Hydraulische Toets en 0d1d tests', f'05. Hydraulische Toets en 0d1d tests [{revision}]', inplace=True) #Add revision to parentgroup
+
+
+    df = df.query(f"subject=='test_0d1d'")
+    load_layers(folder=folder, df=df, revision=revision, subject=SUBJECT)
+
+
 def load_layers_1d2dtest(folder: Folders, revision):
     SUBJECT = "Test 1d2d"
 

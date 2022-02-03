@@ -12,14 +12,14 @@ from PyQt5.QtWidgets import (
 from ...general_objects import revisionsComboBox
 from qgis.core import Qgis
 from PyQt5.QtCore import Qt, pyqtSignal
-from ...utility.file_widget import fileWidget
-from .verify_zero_d_one_d_ui import verify_input
-from ....gui.path_verification_functions import is_valid_results_folder
-from ....qgis_interaction.layers_management.layers.get_layers_list import (
+from hhnk_threedi_plugin.gui.utility.file_widget import fileWidget
+from hhnk_threedi_plugin.gui.tests.zero_d_one_d.verify_zero_d_one_d_ui import verify_input
+from hhnk_threedi_plugin.gui.path_verification_functions import is_valid_results_folder
+from hhnk_threedi_plugin.qgis_interaction.layers_management.layers.get_layers_list import (
     get_layers_list,
 )
-from ...utility_functions import get_revision
-from ....qgis_interaction.layers_management.groups.layer_groups_structure import (
+from hhnk_threedi_plugin.gui.utility_functions import get_revision
+from hhnk_threedi_plugin.qgis_interaction.layers_management.groups.layer_groups_structure import (
     QgisLayerStructure,
 )
 
@@ -27,7 +27,7 @@ from ....qgis_interaction.layers_management.groups.layer_groups_structure import
 from hhnk_threedi_tools.qgis.get_working_paths import get_working_paths
 from hhnk_threedi_tools.qgis.environment import testEnvironment
 from hhnk_threedi_tools.qgis.paths_functions import get_top_level_directories
-
+from hhnk_threedi_plugin.tasks import task_zero_d_one_d
 
 def setupUi(zero_d_one_d_widget):
     # Create button to start tests
@@ -150,8 +150,9 @@ class zeroDOneDWidget(QWidget):
         if not res:
             self.caller.iface.messageBar().pushMessage(message, Qgis.Critical)
         else:
-            test_environment = self.create_test_environment()
-            self.start_0d1d_tests.emit(test_environment)
+            # test_environment = self.create_test_environment()
+            # self.start_0d1d_tests.emit(test_environment)
+            self.zero_d_one_d_test_execution()
 
     def set_revision_text(self):
         current_rev_text = self.select_revision_box.currentText()
@@ -195,3 +196,13 @@ class zeroDOneDWidget(QWidget):
         self.select_revision_box.addItem("")
         for revision in revisions:
             self.select_revision_box.addItem(revision)
+
+
+    def zero_d_one_d_test_execution(self):
+        try:
+            task_zero_d_one_d.task_zero_d_one_d(folder = self.caller.fenv, 
+                                                revision = self.select_revision_box.currentText())
+            
+        except Exception as e:
+            self.caller.iface.messageBar().pushMessage(str(e), Qgis.Critical)
+            pass

@@ -242,14 +242,14 @@ class loadLayersDialog(QDialog):
             test_type=1, base_folder=self.sqlite_output_path, revision_dir_name=None
         )
 
-        if self.zero_d_one_d_selector.currentText() != "":
-            self.zero_d_one_d_dict = build_output_files_dict(
-                test_type=2,
-                base_folder=self.zero_d_one_d_output_path,
-                revision_dir_name=self.zero_d_one_d_selector.currentText(),
-            )
-        else:
-            self.zero_d_one_d_dict = False
+        # if self.zero_d_one_d_selector.currentText() != "":
+        #     self.zero_d_one_d_dict = build_output_files_dict(
+        #         test_type=2,
+        #         base_folder=self.zero_d_one_d_output_path,
+        #         revision_dir_name=self.zero_d_one_d_selector.currentText(),
+        #     )
+        # else:
+        #     self.zero_d_one_d_dict = False
 
         # if self.one_d_two_d_selector.currentText() != "":
         #     self.one_d_two_d_dict = build_output_files_dict(
@@ -284,25 +284,25 @@ class loadLayersDialog(QDialog):
             )
 
         # 0d1d results
-        if self.zero_d_one_d_dict:
-            self.zero_d_one_d_layers = get_layers_list(
-                test_type=2,
-                plugin_dir=self.caller.plugin_dir,
-                output_dict=self.zero_d_one_d_dict,
-                group_structure=layer_groups_structure,
-                chosen_tests=None,
-            )
+        # if self.zero_d_one_d_dict:
+        #     self.zero_d_one_d_layers = get_layers_list(
+        #         test_type=2,
+        #         plugin_dir=self.caller.plugin_dir,
+        #         output_dict=self.zero_d_one_d_dict,
+        #         group_structure=layer_groups_structure,
+        #         chosen_tests=None,
+        #     )
 
-            # TODO fix layers dict to list
-            self.zero_d_one_d_layers = [
-                self.zero_d_one_d_layers[x] for x in self.zero_d_one_d_layers
-            ]
+        #     # TODO fix layers dict to list
+        #     self.zero_d_one_d_layers = [
+        #         self.zero_d_one_d_layers[x] for x in self.zero_d_one_d_layers
+        #     ]
 
-            remove_layers(self.zero_d_one_d_layers)  # Remove layers from project
-            add_layers(
-                layers_list=self.zero_d_one_d_layers,
-                group_structure=layer_groups_structure,
-            )
+        #     remove_layers(self.zero_d_one_d_layers)  # Remove layers from project
+        #     add_layers(
+        #         layers_list=self.zero_d_one_d_layers,
+        #         group_structure=layer_groups_structure,
+        #     )
 
         # 1d2d results
         # if self.one_d_two_d_dict:
@@ -346,6 +346,10 @@ class loadLayersDialog(QDialog):
                 luchtfoto=self.achtergrond_luchtfoto_selector.isChecked(),
                 waterlopen_2020=self.achtergrond_waterlopen_2020_selector.isChecked(),
             )
+
+        if self.zero_d_one_d_selector.currentText() != "":
+            load_layers_interaction.load_layers_0d1dtest(folder=self.caller.fenv, 
+                                        revision=self.zero_d_one_d_selector.currentText())
 
         if self.one_d_two_d_selector.currentText() != "":
             load_layers_interaction.load_layers_1d2dtest(folder=self.caller.fenv, 

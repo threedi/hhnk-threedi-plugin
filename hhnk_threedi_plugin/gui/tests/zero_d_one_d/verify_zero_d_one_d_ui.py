@@ -1,4 +1,4 @@
-from ....error_messages.input_error_messages import no_output_folder, no_result_selected
+from hhnk_threedi_plugin.error_messages.input_error_messages import no_output_folder, no_result_selected
 
 
 def verify_input(output_path, revision_selected):

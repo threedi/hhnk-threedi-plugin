@@ -43,9 +43,9 @@ except:
 # GUI
 from .gui.load_layers_popup import loadLayersDialog
 from .gui.tests.sqlite_tests.sqlite_check_popup import sqliteCheckDialog
-from .gui.tests.one_d_two_d.one_d_two_d import oneDTwoDWidget
+from hhnk_threedi_plugin.gui.tests.zero_d_one_d.zero_d_one_d import zeroDOneDWidget
+from hhnk_threedi_plugin.gui.tests.one_d_two_d import oneDTwoDWidget
 from .gui.model_states.model_states import modelStateDialog
-from .gui.tests.zero_d_one_d.zero_d_one_d import zeroDOneDWidget
 from .gui.tests.sqlite_tests.result_widgets.main_result_widget import collapsibleTree
 from .gui.tests.bank_levels.bank_levels import bankLevelsWidget
 from .gui.klimaatsommen.klimaatsommen import KlimaatSommenWidget
@@ -70,10 +70,10 @@ from .functionality_controllers.model_states_conversion import (
 from .functionality_controllers.test_controllers.run_bank_levels_test import (
     run_bank_levels_test,
 )
-from .functionality_controllers.test_controllers.run_hydraulic_tests import (
-    run_hydraulic_tests,
-)
-from .functionality_controllers.test_controllers.run_1d2d_tests import run_1d2d_tests
+# from .functionality_controllers.test_controllers.run_hydraulic_tests import (
+#     run_hydraulic_tests,
+# )
+# from .functionality_controllers.test_controllers.run_1d2d_tests import run_1d2d_tests
 
 # hhnk-threedi-tools
 from hhnk_threedi_tools.utils.notebooks.run import create_command_bat_file
@@ -447,13 +447,13 @@ class HHNK_toolbox:
             self.iface.messageBar().pushMessage(str(e), Qgis.Critical)
             pass
 
-    def zero_d_one_d_tests_execution(self, test_env):
-        try:
-            test_env.polder_folder = self.polder_folder
-            run_hydraulic_tests(test_env=test_env)
-        except Exception as e:
-            self.iface.messageBar().pushMessage(str(e), Qgis.Critical)
-            pass
+    # def zero_d_one_d_tests_execution(self, test_env):
+    #     try:
+    #         test_env.polder_folder = self.polder_folder
+    #         run_hydraulic_tests(test_env=test_env)
+    #     except Exception as e:
+    #         self.iface.messageBar().pushMessage(str(e), Qgis.Critical)
+    #         pass
 
     def bank_levels_execution(self, test_env):
         try:
@@ -557,8 +557,6 @@ class HHNK_toolbox:
                 self.one_d_two_d = oneDTwoDWidget(caller=self, parent=self.dockwidget)
                 self.klimaatsommen = KlimaatSommenWidget(caller=self, parent=self.dockwidget)
 
-
-
                 # If a polder folder is selected
                 self.dockwidget.polder_selector.fileChanged.connect(self.polder_folder_changed)
                 # Controls widgets showing results
@@ -585,7 +583,7 @@ class HHNK_toolbox:
                 # Connect start buttons to appropriate function calls
                 self.model_states_dialog.start_conversion.connect(self.model_states_execution)
                 self.sqlite_tests_dialog.start_sqlite_tests.connect(self.sqlite_tests_execution)
-                self.zero_d_one_d.start_0d1d_tests.connect(self.zero_d_one_d_tests_execution)
+                # self.zero_d_one_d.start_0d1d_tests.connect(self.zero_d_one_d_tests_execution)
                 self.bank_levels.start_bank_levels_tests.connect(self.bank_levels_execution)
                 # self.one_d_two_d.start_1d2d_tests.connect(self.one_d_two_d.one_d_two_d_tests_execution)
 

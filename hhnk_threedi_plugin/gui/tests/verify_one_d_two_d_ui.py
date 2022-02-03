@@ -1,9 +1,9 @@
-from ....error_messages.input_error_messages import (
+from hhnk_threedi_plugin.error_messages.input_error_messages import (
     no_output_folder,
     no_result_selected,
     invalid_model_path,
 )
-from ....gui.path_verification_functions import is_valid_raster, is_valid_model_path
+from hhnk_threedi_plugin.gui.path_verification_functions import is_valid_raster, is_valid_model_path
 
 
 def verify_input(revision_selected, dem_path, model_path, output_path):

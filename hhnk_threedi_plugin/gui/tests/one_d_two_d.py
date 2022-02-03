@@ -9,18 +9,18 @@ from PyQt5.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
-from ...general_objects import revisionsComboBox
+from hhnk_threedi_plugin.gui.general_objects import revisionsComboBox
 from PyQt5.QtCore import Qt, pyqtSignal
 from qgis.PyQt.QtWidgets import QMessageBox
 from qgis.core import Qgis
-from ...utility.file_widget import fileWidget
-from ....gui.path_verification_functions import is_valid_results_folder
-from ....qgis_interaction.layers_management.layers.get_layers_list import (
+from hhnk_threedi_plugin.gui.utility.file_widget import fileWidget
+from hhnk_threedi_plugin.gui.path_verification_functions import is_valid_results_folder
+from hhnk_threedi_plugin.qgis_interaction.layers_management.layers.get_layers_list import (
     get_layers_list,
 )
-from .verify_one_d_two_d_ui import verify_input
-from ...utility_functions import get_revision
-from ....qgis_interaction.layers_management.groups.layer_groups_structure import (
+from hhnk_threedi_plugin.gui.tests.verify_one_d_two_d_ui import verify_input
+from hhnk_threedi_plugin.gui.utility_functions import get_revision
+from hhnk_threedi_plugin.qgis_interaction.layers_management.groups.layer_groups_structure import (
     QgisLayerStructure,
 )
 
@@ -30,7 +30,7 @@ from ....qgis_interaction.layers_management.groups.layer_groups_structure import
 from hhnk_threedi_tools.qgis.get_working_paths import get_working_paths
 from hhnk_threedi_tools.qgis.paths_functions import get_top_level_directories
 from hhnk_threedi_tools.qgis.environment import testEnvironment
-from hhnk_threedi_plugin.tasks import task_one_d_two_d_new
+from hhnk_threedi_plugin.tasks import task_one_d_two_d
 
 def setupUi(one_d_two_d_widget):
     # Create button to start tests
@@ -236,11 +236,8 @@ class oneDTwoDWidget(QWidget):
 
     def one_d_two_d_tests_execution(self):
         try:
-            folder = self.caller.fenv
-            revision='BWN bwn_test #5 1d2d_test'
-
-            task_one_d_two_d_new.task_one_d_two_d(folder=folder, 
-                                                    revision=revision,
+            task_one_d_two_d.task_one_d_two_d(folder = self.caller.fenv, 
+                                                    revision = self.select_revision_box.currentText(),
                                                     dem_path = self.dem_selector.filePath())
             
         except Exception as e:

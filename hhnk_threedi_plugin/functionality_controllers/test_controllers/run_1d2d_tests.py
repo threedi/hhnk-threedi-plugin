@@ -1,11 +1,13 @@
+#TODO deprecated
+
 from qgis.core import QgsApplication
 from PyQt5.QtCore import QMutex, QWaitCondition
-from ...qgis_interaction.layers_management.removing_layers import remove_layers
-from ...tasks.load_3di_results_tasks import load3diResultsTask
-from ...tasks.tests_tasks.one_d_two_d.read_nodes_task import readNodesTask
-from ...tasks.tests_tasks.one_d_two_d.flowlines_task import flowLinesTask
-from ...tasks.tests_tasks.one_d_two_d.waterlevels_task import waterlevelsTask
-from ...tasks.utility_functions.handle_os_errors import check_os_error
+from hhnk_threedi_plugin.qgis_interaction.layers_management.removing_layers import remove_layers
+from hhnk_threedi_plugin.tasks.load_3di_results_tasks import load3diResultsTask
+# from hhnk_threedi_plugin.tasks.tests_tasks.one_d_two_d.read_nodes_task import readNodesTask
+# from hhnk_threedi_plugin.tasks.tests_tasks.one_d_two_d.flowlines_task import flowLinesTask
+# from hhnk_threedi_plugin.tasks.tests_tasks.one_d_two_d.waterlevels_task import waterlevelsTask
+from hhnk_threedi_plugin.tasks.utility_functions.handle_os_errors import check_os_error
 
 
 def run_tests(task_manager, flowlines_task, read_nodes_task, waterlevel_task):
