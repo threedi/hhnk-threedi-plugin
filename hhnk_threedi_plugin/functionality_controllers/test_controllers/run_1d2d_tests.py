@@ -21,7 +21,15 @@ def run_tests(task_manager, flowlines_task, read_nodes_task, waterlevel_task):
     except Exception as e:
         raise e from None
 
+    # def one_d_two_d_tests_execution(self, test_env):
+    #     try:
+    #         test_env.polder_folder = self.polder_folder
+    #         run_1d2d_tests(test_env=test_env)
+    #     except Exception as e:
+    #         self.iface.messageBar().pushMessage(str(e), Qgis.Critical)
+    #         pass
 
+    
 def run_1d2d_tests(test_env):
     """
     Fuctions runs all tests that are part of 1d2d tests:

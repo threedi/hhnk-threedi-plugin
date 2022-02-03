@@ -22,7 +22,7 @@ import pandas as pd
 import os
 
 
-def load_layers(folder: Folders, df, revision, subject, group_index=None):
+def load_layers(folder: Folders, df, revision, subject, group_index=-1):
     """creates groups, loads layers in project and adds themes based on input df.
     """
     project = Project(df=df, subject=subject)
@@ -32,16 +32,17 @@ def load_layers(folder: Folders, df, revision, subject, group_index=None):
     for index, row in project.iter_parents():
         #Evaluate row
         full_path, layer_name, filetype, qml_path, subject, \
-            group_name = project.get_layer_information_from_row(row=row, 
+            group_lst = project.get_layer_information_from_row(row=row, 
                                     folder=folder, 
                                     HHNK_THREEDI_PLUGIN_DIR=HHNK_THREEDI_PLUGIN_DIR, 
                                     revision=revision)
 
         #Dont add when layer already present.
-        if not project.get_layer(layer_name=layer_name, group_name=group_name):
+        if not project.get_layer(layer_name=layer_name, group_lst=group_lst):
             #Tranlate to qgis layer instance and add to project.
             layer = Layer(full_path, layer_name, filetype, qml_path, subject)
-            project.add_layer(layer, group_name)
+            print(layer, group_lst)
+            project.add_layer(layer=layer, group_lst=group_lst)
 
     project.generate_themes()
 
@@ -78,3 +79,14 @@ def load_layers_achtergrond(folder: Folders,
     df = df.query(f"subject=='achtergrond'")
     load_layers(folder=folder, df=df, revision=None, subject=SUBJECT, group_index=-1)
 
+
+def load_layers_1d2dtest(folder: Folders, revision):
+    SUBJECT = "Test 1d2d"
+
+    structure_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'testprotocol.csv')
+    df = pd.read_csv(structure_path, sep=';') #Read csv from file with configuration for the available layers.
+    df['parent_group'].replace('07. Testprotocol 1d2d tests', f'07. Testprotocol 1d2d tests [{revision}]', inplace=True) #Add revision to parentgroup
+
+
+    df = df.query(f"subject=='test_1d2d'")
+    load_layers(folder=folder, df=df, revision=revision, subject=SUBJECT)

@@ -33,10 +33,12 @@ import hhnk_threedi_plugin.local_settings as local_settings
 if local_settings.DEBUG:
     sys.path.insert(0, local_settings.hhnk_threedi_tools_path)
 
-    #reload threeditools folders so changes to this module are taken into account when reloading the plugin.
-    import importlib, hhnk_threedi_tools
-    hhnk_threedi_tools=importlib.reload(hhnk_threedi_tools)
-    importlib.reload(hhnk_threedi_tools.core.folders)
+    #eload hhnk_threedi_tools and all modules within when reloading the plugin in QGIS.
+    #Does not work with importlib.reload.
+    import hhnk_threedi_tools
+    for m in [i for i in sys.modules.keys() if i.startswith('hhnk_threedi_tools')]:
+        del(sys.modules[m])
+    import hhnk_threedi_tools
 
 
 # noinspection PyPep8Naming

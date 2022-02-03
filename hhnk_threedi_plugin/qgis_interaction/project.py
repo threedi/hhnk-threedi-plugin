@@ -26,6 +26,8 @@ from qgis.core import (
 from qgis.PyQt.QtXml import QDomDocument
 import pandas as pd
 import logging
+import itertools
+
 
 logger=logging.getLogger(__name__)
 
@@ -53,6 +55,7 @@ class Layer:
         type: str = None,
         style_path=None,
         subject="HTT",
+        group_lst = [],
     ):
         """
         Parameters
@@ -82,6 +85,7 @@ class Layer:
             self.layer = QgsVectorLayer(source_path, layer_name, "arcgisfeatureserver")
 
         self.subject = subject
+        self.group_lst = group_lst
 
         if style_path is not None:
             self.style = style_path
@@ -172,17 +176,21 @@ class Project:
 
     @property
     def group_structure(self):
-        return self.df['parent_group'].unique().tolist()
+        try:
+            group_structure_lst = self.df[['parent_group','child_group']].stack().groupby(level=0).apply(list).tolist()
+            return list(k for k,_ in itertools.groupby(group_structure_lst))
+        except:
+            return []
 
-    @property #TODO deprecated
-    def subgroup_structure(self):
-        subgroups = []
-        for group in self.group_structure:
-            if type(self.structure[group]) is dict:
-                subs = list(self.structure[group].keys())
-                for sub in subs:
-                    subgroups.append((sub, group))
-        return subgroups
+    # @property #TODO deprecated
+    # def subgroup_structure(self):
+    #     subgroups = []
+    #     for group in self.group_structure:
+    #         if type(self.structure[group]) is dict:
+    #             subs = list(self.structure[group].keys())
+    #             for sub in subs:
+    #                 subgroups.append((sub, group))
+    #     return subgroups
 
     @property
     def theme_structure(self):
@@ -220,15 +228,20 @@ class Project:
     def get_layer_information_from_row(row, folder, HHNK_THREEDI_PLUGIN_DIR, revision=None):
         """retrieve all information to construct a layer from a row in the dataframe.
         folder and HHNK_THREEDI_PLUGIN_DIR are needed for the eval functions."""
+
         filetype = row.filetype
 
         #Voor wms staat de volledige link die nodig is in row.wms_source.
         if filetype in ['arcgismapserver', 'arcgisfeatureserver', 'wms']:
             full_path = row.wms_source
         else:
-            full_path = os.path.join(eval(row.filedir), row.filename)
-            if not pd.isna(row.filters):
-                full_path = f"{full_path}|{row.filters}"
+            try:
+                full_path = os.path.join(eval(row.filedir), row.filename)
+                if not pd.isna(row.filters):
+                    full_path = f"{full_path}|{row.filters}"
+            except:
+                logger.warning(f'Could not evaluate {row.filedir}')
+                full_path=None
 
         layer_name = row.qgis_name
 
@@ -238,14 +251,23 @@ class Project:
             qml_path = None
 
         subject = row.subject
-        group_name = row.child_group
-        if pd.isna(group_name): #Place layer in parent group is child group is not defined.
-            group_name=row.parent_group
-        return full_path, layer_name, filetype, qml_path, subject, group_name
+
+        group_lst=[]
+        for group in [row.parent_group, row.child_group]:
+            if not pd.isna(group):
+                group_lst.append(group)
+        return full_path, layer_name, filetype, qml_path, subject, group_lst
 
 
-    def get_group(self, group_name):
-        return self.root.findGroup(group_name)
+    def get_group(self, group_lst):
+        """find group recursively"""
+        group = self.root
+        for group_name in group_lst:
+            group = group.findGroup(group_name)
+            if group is None:
+                logging.warning(f'{group_name} not found')
+                return None
+        return group
 
 
     def get_theme(self, theme_name):
@@ -262,23 +284,29 @@ class Project:
     def get_layout(self, layout_name):
         return self.layoutmanager.layoutByName(layout_name)
 
-    def add_layers(self, layers, group_name=None, reverse=False):
+
+    def add_layers(self, layers, group_lst=None, reverse=False):
         if reverse:
             layers.reversed()
 
         for layer in layers:
-            self.add_layer(layer, group_name)
+            self.add_layer(layer, group_lst)
 
-    def get_layer(self, layer_name, group_name=None, layertreelayer=False):
+
+    def get_layer(self, layer_name, group_lst=[], layertreelayer=False):
         """Return layer in whole project, or only the layer in the given group.
-        When layertreelayer == True, return that object instead of the QgsVectorLayer."""
-        if group_name:
-            group = self.get_group(group_name)
+        When group_lst is empty it will search for the layer in the whole project.
+        It is currently not possible to search for layers only in the root. 
+        When layertreelayer == True, return that object instead of the QgsVectorLayer.
+        This object is needed when toggeling visibility in the layer tree"""
+        group=None
+        if group_lst:
+            group = self.get_group(group_lst)
             if group:
                 #.layer returns QgsVectorLayer instead of QgsLayerTreeLayer
                 layer = [child.layer() for child in group.children() if child.name()==layer_name] 
             else: 
-                logging.error(f'group: {group_name} does not exist')
+                logging.error(f'group: {group_lst} does not exist')
                 return None
         else:
             layer = self.instance.mapLayersByName(layer_name)
@@ -289,15 +317,18 @@ class Project:
         elif not layertreelayer:
             return layer[0]
         elif layertreelayer:
-            return self.root.findLayer(layer[0].id())
+            if group:
+                return group.findLayer(layer[0].id())
+            else:
+                return self.root.findLayer(layer[0].id())
 
 
-    def add_layer(self, layer: Layer, group_name=None, visible=False):
+    def add_layer(self, layer: Layer, group_lst=None, visible=False):
         """Appends a layer to a group, creates a group if not exist"""
 
         self.instance.addMapLayer(layer.source, False)
-        if group_name:
-            group = self.add_group(group_name)
+        if group_lst:
+            group = self.add_group(group_lst)
             q_layer=group.addLayer(layer.source)
         else:
             q_layer=self.root.addLayer(layer.source)
@@ -307,28 +338,28 @@ class Project:
         q_layer.setExpanded(False)
 
 
-    def set_visibility(self, layer_name, group_name, visible):
+    def set_visibility(self, layer_name, group_lst, visible):
         """Find layer in layertree and set visibility"""
-        layer = self.get_layer(layer_name=layer_name, group_name=group_name, layertreelayer=True)
+        layer = self.get_layer(layer_name=layer_name, group_lst=group_lst, layertreelayer=True)
         if layer:
             layer.setItemVisibilityChecked(visible)
 
 
-    def set_expanded(self, layer_name, group_name, expanded=False):
+    def set_expanded(self, layer_name, group_lst, expanded=False):
         """Collapse layers in the layer tree"""
-        layer = self.get_layer(layer_name=layer_name, group_name=group_name, layertreelayer=True)
+        layer = self.get_layer(layer_name=layer_name, group_lst=group_lst, layertreelayer=True)
         if layer:
             layer.setExpanded(expanded)
 
 
-    def remove_layer(self, layer_name, group_name=None):
+    def remove_layer(self, layer_name, group_lst=None):
         """Remove layer, from group if defined."""
-        layer = self.get_layer(layer_name=layer_name, group_name=group_name)
+        layer = self.get_layer(layer_name=layer_name, group_lst=group_lst)
         if layer:
             self.instance.removeMapLayer(layer.id())
 
 
-    def _group_index(self, group_name):
+    def _group_index(self, group_name): #TODO deprecated? fix group_structure?
         """locates the nearest index based on the layer above
         if we cannot find this, we place it on top
         """
@@ -350,39 +381,57 @@ class Project:
         return index
 
 
-    def add_group(self, group_name, index=None):
+    def add_group(self, group_lst: list, index=-1) -> QgsLayerTreeGroup:
         """creates a group and appends the group to the root in the right order
         return an existing group if already exists
         """
-        group = self.get_group(group_name)
+        group = self.get_group(group_lst)
         if group is not None:
             return group
 
-        if index is None:
-            index = self._group_index(group_name)
+        # if index is None: #FIXME Disabled this for now until _group_index works again
+        #     index = self._group_index(group_lst[0])
 
-        group = self.root.insertGroup(index, group_name)
-        group.setExpanded(False)
+        parent_found=0 #If no parent the whole group_lst should be created
+        for i in range(len(group_lst),0,-1):
+            # print(group_lst[:i])
+            group = self.get_group(group_lst[:i])
+            if group:
+                # print(f'group {group.name()} found')
+                parent_found=1 #group exists, now lets makee the children that didnt exist.
+                break
+
+        #Continue loop where broken to start building the groups
+        if group is None:
+            group = self.root
+
+        for j in range(i-1+parent_found, len(group_lst)): #some magic with index required to create the correct group.
+            group = group.insertGroup(index, group_lst[j])
+            group.setExpanded(False)
+            # print(f'create {group_lst[j]}')
         return group
 
 
-    def add_subgroup(self, group_name, parent_group_name):
-        """adds a group under a group"""
-        if pd.isna(group_name):
-            logger.error('Tried to create subgroup but value isnan.')
-            return None
 
-        parent_group = self.get_group(parent_group_name)
-        if parent_group is None:
-            parent_group = self.add_group(parent_group_name)
+# %%
 
-        group = self.get_group(group_name)
-        if group is not None:
-            return group
+    # def add_subgroup(self, group_name, parent_group_name):
+    #     """adds a group under a group"""
+    #     if pd.isna(group_name):
+    #         logger.error('Tried to create subgroup but value isnan.')
+    #         return None
 
-        group = parent_group.addGroup(group_name)
-        group.setExpanded(False)
-        return group
+    #     parent_group = self.get_group(parent_group_name)
+    #     if parent_group is None:
+    #         parent_group = self.add_group(parent_group_name)
+
+    #     group = self.get_group(group_name)
+    #     if group is not None:
+    #         return group
+
+    #     group = parent_group.addGroup(group_name)
+    #     group.setExpanded(False)
+    #     return group
 
 
     def add_theme(self, theme_name, layer_names):
@@ -433,15 +482,15 @@ class Project:
             self.add_theme(theme_name, layer_names)
 
 
-    def generate_groups(self, group_index=None):
+    def generate_groups(self, group_index=-1):
         """generates all groups and subgroups based on self.structure"""
-        for parent_group in self.group_structure:
-            self.add_group(group_name=parent_group, index=group_index)
+        for group_lst in self.group_structure:
+            self.add_group(group_lst=group_lst, index=group_index)
 
-            df_parent = self.df.query(f"parent_group=='{parent_group}'")
+            # df_parent = self.df.query(f"parent_group=='{parent_group}'") #TODO deprecrated
 
-            for child_group in df_parent['child_group'].unique():
-                self.add_subgroup(group_name=child_group, parent_group_name=parent_group)
+            # for child_group in df_parent['child_group'].unique():
+            #     self.add_subgroup(group_name=child_group, parent_group_name=parent_group)
 
 
     def write_styling(self, path):
@@ -464,9 +513,9 @@ class Project:
         )
         
     
-    def zoom_to_layer(self, layer_name, group_name):
+    def zoom_to_layer(self, layer_name, group_lst):
 
-        layer = self.get_layer(layer_name=layer_name, group_name=group_name)
+        layer = self.get_layer(layer_name=layer_name, group_lst=group_lst)
         if not layer.isValid():
             print("Layer unvalid not setting extent")
             return
@@ -488,8 +537,8 @@ class Project:
 
     def iter_parents(self):
         """Iter over the whole df"""
-        for parent_group in self.group_structure:
-            for index, row in self.iter_parent(parent_group):
+        for group_lst in self.group_structure:
+            for index, row in self.iter_parent(group_lst[0]):
                 yield index, row
             
 

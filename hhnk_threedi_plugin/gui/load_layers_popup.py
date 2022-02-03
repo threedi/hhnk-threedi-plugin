@@ -234,6 +234,7 @@ class loadLayersDialog(QDialog):
         
         # set map canvas
         project = Project()
+
         # project.zoom_to_layer(QgsVectorLayer(self.caller.fenv.source_data.polder_polygon.path, "polder", "ogr"))
         
         # Resolve paths to layers
@@ -250,14 +251,14 @@ class loadLayersDialog(QDialog):
         else:
             self.zero_d_one_d_dict = False
 
-        if self.one_d_two_d_selector.currentText() != "":
-            self.one_d_two_d_dict = build_output_files_dict(
-                test_type=4,
-                base_folder=self.one_d_two_d_output_path,
-                revision_dir_name=self.one_d_two_d_selector.currentText(),
-            )
-        else:
-            self.one_d_two_d_dict = False
+        # if self.one_d_two_d_selector.currentText() != "":
+        #     self.one_d_two_d_dict = build_output_files_dict(
+        #         test_type=4,
+        #         base_folder=self.one_d_two_d_output_path,
+        #         revision_dir_name=self.one_d_two_d_selector.currentText(),
+        #     )
+        # else:
+        #     self.one_d_two_d_dict = False
 
         # Create layer list
         layer_groups_structure = QgisLayerStructure(
@@ -304,31 +305,31 @@ class loadLayersDialog(QDialog):
             )
 
         # 1d2d results
-        if self.one_d_two_d_dict:
-            self.one_d_two_d_layers = get_layers_list(
-                test_type=4,
-                plugin_dir=self.caller.plugin_dir,
-                output_dict=self.one_d_two_d_dict,
-                group_structure=layer_groups_structure,
-                chosen_tests=None,
-            )
+        # if self.one_d_two_d_dict:
+        #     self.one_d_two_d_layers = get_layers_list(
+        #         test_type=4,
+        #         plugin_dir=self.caller.plugin_dir,
+        #         output_dict=self.one_d_two_d_dict,
+        #         group_structure=layer_groups_structure,
+        #         chosen_tests=None,
+        #     )
 
-            # TODO fix layers dict to list
-            self.one_d_two_d_layers = [
-                self.one_d_two_d_layers[x] for x in self.one_d_two_d_layers
-            ]
+        #     # TODO fix layers dict to list
+        #     self.one_d_two_d_layers = [
+        #         self.one_d_two_d_layers[x] for x in self.one_d_two_d_layers
+        #     ]
 
-            # Add tif layers created by regular expression
-            self.one_d_two_d_layers = find_tif_layers_and_append(
-                input_folder=self.one_d_two_d_dict["layer_path"],
-                layers_list=self.one_d_two_d_layers,
-            )
+        #     # Add tif layers created by regular expression
+        #     self.one_d_two_d_layers = find_tif_layers_and_append(
+        #         input_folder=self.one_d_two_d_dict["layer_path"],
+        #         layers_list=self.one_d_two_d_layers,
+        #     )
 
-            remove_layers(self.one_d_two_d_layers)  # Remove layers from project
-            add_layers(
-                layers_list=self.one_d_two_d_layers,
-                group_structure=layer_groups_structure,
-            )
+        #     remove_layers(self.one_d_two_d_layers)  # Remove layers from project
+        #     add_layers(
+        #         layers_list=self.one_d_two_d_layers,
+        #         group_structure=layer_groups_structure,
+        #     )
 
         if self.klimaatsommen_selector.currentText() != "":
             load_layers_interaction.load_layers_klimaatsommen(folder=self.caller.fenv, 
@@ -339,19 +340,26 @@ class loadLayersDialog(QDialog):
             load_layers_interaction.load_layers_test_protocol(folder=self.caller.fenv)
 
         # achtergrond
-        load_layers_interaction.load_layers_achtergrond(folder=self.caller.fenv,
-            landgebruik=self.achtergrond_landgebruik_selector.isChecked(),
-            luchtfoto=self.achtergrond_luchtfoto_selector.isChecked(),
-            waterlopen_2020=self.achtergrond_waterlopen_2020_selector.isChecked(),
-        )
-        
+        if self.achtergrond_landgebruik_selector.isChecked() == True: #Todo naam butten veranderen en andere achtergrond buttons weg.
+            load_layers_interaction.load_layers_achtergrond(folder=self.caller.fenv,
+                landgebruik=self.achtergrond_landgebruik_selector.isChecked(),
+                luchtfoto=self.achtergrond_luchtfoto_selector.isChecked(),
+                waterlopen_2020=self.achtergrond_waterlopen_2020_selector.isChecked(),
+            )
 
+        if self.one_d_two_d_selector.currentText() != "":
+            load_layers_interaction.load_layers_1d2dtest(folder=self.caller.fenv, 
+                                        revision=self.one_d_two_d_selector.currentText())
 
-        project.zoom_to_layer(layer_name=layer_name, group_name=group_name)
+        # project.zoom_to_layer(layer_name='polder_polygon', group_name='Peilgebieden')
         
         if self.themes_selector.isChecked() == True:
             project = Project()
             print('Themes knop werkt nu niet.')
+
+
+            folder = self.caller.fenv
+
             # for theme_name, theme_layers in THEMES.items():
             #     project.add_theme(theme_name, theme_layers)
 

@@ -11,6 +11,7 @@ from PyQt5.QtWidgets import (
 )
 from ...general_objects import revisionsComboBox
 from PyQt5.QtCore import Qt, pyqtSignal
+from qgis.PyQt.QtWidgets import QMessageBox
 from qgis.core import Qgis
 from ...utility.file_widget import fileWidget
 from ....gui.path_verification_functions import is_valid_results_folder
@@ -29,7 +30,7 @@ from ....qgis_interaction.layers_management.groups.layer_groups_structure import
 from hhnk_threedi_tools.qgis.get_working_paths import get_working_paths
 from hhnk_threedi_tools.qgis.paths_functions import get_top_level_directories
 from hhnk_threedi_tools.qgis.environment import testEnvironment
-
+from hhnk_threedi_plugin.tasks import task_one_d_two_d_new
 
 def setupUi(one_d_two_d_widget):
     # Create button to start tests
@@ -121,9 +122,8 @@ class oneDTwoDWidget(QWidget):
         # self.select_revision_box.aboutToShowPopup.connect(self.populate_revisions_combobox)
         self.select_revision_box.currentIndexChanged.connect(self.set_revision_text)
         self.start_1d2d_tests_btn.clicked.connect(self.verify_submit)   
-        self.select_revision_box.aboutToShowPopup.connect(
-            self.populate_revisions_combobox
-        )
+        self.select_revision_box.aboutToShowPopup.connect(self.populate_revisions_combobox)
+
 
     def create_test_environment(self):
         """Collect all needed variables to run tests"""
@@ -134,9 +134,7 @@ class oneDTwoDWidget(QWidget):
             threedi_results_path=self.results_dir_selector.filePath(),
             threedi_revision_name=self.select_revision_box.currentText(),
         )
-        layer_groups_structure = QgisLayerStructure(
-            one_d_revision=get_revision(self.select_revision_box.currentText())
-        )
+        layer_groups_structure = QgisLayerStructure(one_d_revision=get_revision(self.select_revision_box.currentText()))
 
         layers = get_layers_list(
             test_type=4,
@@ -179,8 +177,10 @@ class oneDTwoDWidget(QWidget):
         if not res:
             self.caller.iface.messageBar().pushMessage(message, Qgis.Critical)
         else:
-            test_environment = self.create_test_environment()
-            self.start_1d2d_tests.emit(test_environment)
+            # test_environment = self.create_test_environment()
+            # self.start_1d2d_tests.emit(test_environment)
+            # QMessageBox.information(None, "1d2d toetsing", "1d2d toets gestart")
+            self.one_d_two_d_tests_execution()
 
     def set_revision_text(self):
         current_rev_text = self.select_revision_box.currentText()
@@ -231,3 +231,18 @@ class oneDTwoDWidget(QWidget):
         self.select_revision_box.addItem("")
         for revision in revisions:
             self.select_revision_box.addItem(revision)
+
+
+
+    def one_d_two_d_tests_execution(self):
+        try:
+            folder = self.caller.fenv
+            revision='BWN bwn_test #5 1d2d_test'
+
+            task_one_d_two_d_new.task_one_d_two_d(folder=folder, 
+                                                    revision=revision,
+                                                    dem_path = self.dem_selector.filePath())
+            
+        except Exception as e:
+            self.caller.iface.messageBar().pushMessage(str(e), Qgis.Critical)
+            pass

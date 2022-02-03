@@ -1,29 +1,24 @@
 # %%
+f
+# %%
 
 import sys
 from pathlib import Path
 import os
 sys.path.append(str(Path(os.getcwd()).parent.parent))
-
-
-# %%
-from hhnk_threedi_tools.core.folders import Folders
-
-import qgis
-# import hhnk_threedi_plugin.hhnk_toolbox
-
-
-
-
-
-# %%
+import hhnk_threedi_plugin.local_settings as local_settings
+if local_settings.DEBUG:
+    sys.path.insert(0, local_settings.hhnk_threedi_tools_path)
+    import importlib, hhnk_threedi_tools
+    hhnk_threedi_tools=importlib.reload(hhnk_threedi_tools)
+    importlib.reload(hhnk_threedi_tools.core.folders)
 
 from hhnk_threedi_tools.core.folders import Folders
 class TestFolder():
     def __init__(self, path):
         self.fenv = Folders(path)
 
-
+# qgis.utils.plugins['hhnk_threedi_plugin'].fenv.output
 path = r'C:\Users\wvangerwen\Downloads\model_test_v2'
 folder = Folders(path)
 caller2 = TestFolder(path)
@@ -37,7 +32,7 @@ class Test():
 
 self = Test()
 
-
+folder.output.one_d_two_d['BWN_bwn_test_#5_1d2d_test']
 
 # %%
 # self.caller.fenv.source_data.polder_polygon.path
