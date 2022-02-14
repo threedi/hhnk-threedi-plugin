@@ -1,10 +1,10 @@
 from qgis.core import QgsApplication
 from PyQt5.QtCore import QMutex, QWaitCondition
-from ...qgis_interaction.layers_management.removing_layers import remove_layers
-from ...tasks.load_3di_results_tasks import load3diResultsTask
-from ...tasks.tests_tasks.zero_d_one_d.zero_d_one_d_task import zeroDOneDTask
-from ...tasks.tests_tasks.zero_d_one_d.hydraulic_tests_task import hydraulicTestsTask
-from ...tasks.utility_functions.handle_os_errors import check_os_error
+from hhnk_threedi_plugin.qgis_interaction.layers_management.removing_layers import remove_layers
+from hhnk_threedi_plugin.tasks.load_3di_results_tasks import load3diResultsTask
+from hhnk_threedi_plugin.tasks.tests_tasks.zero_d_one_d.zero_d_one_d_task import zeroDOneDTask
+from hhnk_threedi_plugin.tasks.tests_tasks.zero_d_one_d.hydraulic_tests_task import hydraulicTestsTask
+from hhnk_threedi_plugin.tasks.utility_functions.handle_os_errors import check_os_error
 
 
 def add_next_tasks(zero_d_task, hydraulic_tests_task, task_manager):

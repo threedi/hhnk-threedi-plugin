@@ -40,7 +40,7 @@ def task_zero_d_one_d(folder, revision):
 
     #Create folder
     folder.output.zero_d_one_d[revision].create()
-    
+
     #Initialize to get information from the netcdf
     # rain, detected_rain, timestep, days_dry_start, days_dry_end, timestep_df = grid_result_metadata.construct_scenario(grid_result)
 

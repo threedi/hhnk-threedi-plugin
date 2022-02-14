@@ -43,7 +43,7 @@ except:
 # GUI
 from .gui.load_layers_popup import loadLayersDialog
 from .gui.tests.sqlite_tests.sqlite_check_popup import sqliteCheckDialog
-from hhnk_threedi_plugin.gui.tests.zero_d_one_d.zero_d_one_d import zeroDOneDWidget
+from hhnk_threedi_plugin.gui.tests.zero_d_one_d import zeroDOneDWidget
 from hhnk_threedi_plugin.gui.tests.one_d_two_d import oneDTwoDWidget
 from .gui.model_states.model_states import modelStateDialog
 from .gui.tests.sqlite_tests.result_widgets.main_result_widget import collapsibleTree
@@ -447,7 +447,7 @@ class HHNK_toolbox:
             self.iface.messageBar().pushMessage(str(e), Qgis.Critical)
             pass
 
-    # def zero_d_one_d_tests_execution(self, test_env):
+    # def zero_d_one_d_tests_execution(self, test_env): #TODO remove          
     #     try:
     #         test_env.polder_folder = self.polder_folder
     #         run_hydraulic_tests(test_env=test_env)
