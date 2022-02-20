@@ -16,7 +16,8 @@ from PyQt5.QtWidgets import (
     QMessageBox,
 )
 from PyQt5.QtCore import Qt, pyqtSignal
-from qgis.utils import QgsMessageBar
+from qgis.core import QgsTask, Qgis
+from qgis.utils import QgsMessageBar, QgsMessageLog, iface
 
 from .utility_functions import get_revision
 from hhnk_threedi_plugin.qgis_interaction.layers_management.layers.get_layers_list import get_layers_list
@@ -231,6 +232,9 @@ class loadLayersDialog(QDialog):
             
 
     def load_layers(self):
+
+        iface.messageBar().pushMessage(f"Inladen van lagen gestart", level=Qgis.Info)
+
         
         # set map canvas
         project = Project()
@@ -266,80 +270,37 @@ class loadLayersDialog(QDialog):
             one_d_revision=get_revision(self.one_d_two_d_selector.currentText()),
         )
 
+        # if self.sqlite_test_selector.isChecked() == True:
+        #     self.sqlite_layers = get_layers_list(
+        #         test_type=1,
+        #         plugin_dir=self.caller.plugin_dir,
+        #         output_dict=self.sqlite_dict,
+        #         group_structure=layer_groups_structure,
+        #         chosen_tests=None,
+        #     )
+
+        #     # TODO fix layers dict to list
+        #     self.sqlite_layers = [self.sqlite_layers[x] for x in self.sqlite_layers]
+
+        #     remove_layers(self.sqlite_layers)  # Remove layers from project
+        #     add_layers(
+        #         layers_list=self.sqlite_layers, group_structure=layer_groups_structure
+        #     )
+
+        # Sqlite test
         if self.sqlite_test_selector.isChecked() == True:
-            self.sqlite_layers = get_layers_list(
-                test_type=1,
-                plugin_dir=self.caller.plugin_dir,
-                output_dict=self.sqlite_dict,
-                group_structure=layer_groups_structure,
-                chosen_tests=None,
-            )
+            load_layers_interaction.load_layers_test_sqlite(folder=self.caller.fenv)
 
-            # TODO fix layers dict to list
-            self.sqlite_layers = [self.sqlite_layers[x] for x in self.sqlite_layers]
-
-            remove_layers(self.sqlite_layers)  # Remove layers from project
-            add_layers(
-                layers_list=self.sqlite_layers, group_structure=layer_groups_structure
-            )
-
-        # 0d1d results
-        # if self.zero_d_one_d_dict:
-        #     self.zero_d_one_d_layers = get_layers_list(
-        #         test_type=2,
-        #         plugin_dir=self.caller.plugin_dir,
-        #         output_dict=self.zero_d_one_d_dict,
-        #         group_structure=layer_groups_structure,
-        #         chosen_tests=None,
-        #     )
-
-        #     # TODO fix layers dict to list
-        #     self.zero_d_one_d_layers = [
-        #         self.zero_d_one_d_layers[x] for x in self.zero_d_one_d_layers
-        #     ]
-
-        #     remove_layers(self.zero_d_one_d_layers)  # Remove layers from project
-        #     add_layers(
-        #         layers_list=self.zero_d_one_d_layers,
-        #         group_structure=layer_groups_structure,
-        #     )
-
-        # 1d2d results
-        # if self.one_d_two_d_dict:
-        #     self.one_d_two_d_layers = get_layers_list(
-        #         test_type=4,
-        #         plugin_dir=self.caller.plugin_dir,
-        #         output_dict=self.one_d_two_d_dict,
-        #         group_structure=layer_groups_structure,
-        #         chosen_tests=None,
-        #     )
-
-        #     # TODO fix layers dict to list
-        #     self.one_d_two_d_layers = [
-        #         self.one_d_two_d_layers[x] for x in self.one_d_two_d_layers
-        #     ]
-
-        #     # Add tif layers created by regular expression
-        #     self.one_d_two_d_layers = find_tif_layers_and_append(
-        #         input_folder=self.one_d_two_d_dict["layer_path"],
-        #         layers_list=self.one_d_two_d_layers,
-        #     )
-
-        #     remove_layers(self.one_d_two_d_layers)  # Remove layers from project
-        #     add_layers(
-        #         layers_list=self.one_d_two_d_layers,
-        #         group_structure=layer_groups_structure,
-        #     )
-
+        # Klimaatsommen
         if self.klimaatsommen_selector.currentText() != "":
             load_layers_interaction.load_layers_klimaatsommen(folder=self.caller.fenv, 
                                         revision=self.klimaatsommen_selector.currentText())
 
-        # test protocol
+        # Test protocol
         if self.test_protocol_v21_selector.isChecked() == True:
             load_layers_interaction.load_layers_test_protocol(folder=self.caller.fenv)
 
-        # achtergrond
+        # Achtergrond
         if self.achtergrond_landgebruik_selector.isChecked() == True: #Todo naam butten veranderen en andere achtergrond buttons weg.
             load_layers_interaction.load_layers_achtergrond(folder=self.caller.fenv,
                 landgebruik=self.achtergrond_landgebruik_selector.isChecked(),

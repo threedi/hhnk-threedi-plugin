@@ -42,11 +42,11 @@ except:
 # Import the code for the plugin content
 # GUI
 from .gui.load_layers_popup import loadLayersDialog
-from .gui.tests.sqlite_tests.sqlite_check_popup import sqliteCheckDialog
+from hhnk_threedi_plugin.gui.tests.sqlite_check_popup import sqliteCheckDialog
 from hhnk_threedi_plugin.gui.tests.zero_d_one_d import zeroDOneDWidget
 from hhnk_threedi_plugin.gui.tests.one_d_two_d import oneDTwoDWidget
-from .gui.model_states.model_states import modelStateDialog
-from .gui.tests.sqlite_tests.result_widgets.main_result_widget import collapsibleTree
+from hhnk_threedi_plugin.gui.model_states.model_states import modelStateDialog
+from hhnk_threedi_plugin.gui.tests.sqlite_test_widgets.main_result_widget import collapsibleTree
 from .gui.tests.bank_levels.bank_levels import bankLevelsWidget
 from .gui.klimaatsommen.klimaatsommen import KlimaatSommenWidget
 from .qgis_interaction.project import Project
@@ -61,15 +61,18 @@ from hhnk_threedi_tools.core.checks.model_state import detect_model_states
 from hhnk_threedi_tools.variables.model_state import invalid_path
 
 # Test controllers
-from .functionality_controllers.test_controllers.run_sqlite_tests import (
-    run_sqlite_tests,
-)
+# from .functionality_controllers.test_controllers.run_sqlite_tests import (
+#     run_sqlite_tests,
+# )
 from .functionality_controllers.model_states_conversion import (
     run_model_states_conversion,
 )
 from .functionality_controllers.test_controllers.run_bank_levels_test import (
     run_bank_levels_test,
 )
+from hhnk_threedi_plugin.tasks.task_sqlite_tests_main import task_sqlite_tests_main
+
+
 # from .functionality_controllers.test_controllers.run_hydraulic_tests import (
 #     run_hydraulic_tests,
 # )
@@ -437,12 +440,12 @@ class HHNK_toolbox:
             self.iface.messageBar().pushMessage(str(e), Qgis.Critical)
             pass
 
-    def sqlite_tests_execution(self, test_env):
+    def sqlite_tests_execution(self, selected_tests):
         try:
-            test_env.polder_folder = self.polder_folder
-            run_sqlite_tests(
-                results_widget=self.sqlite_results_widget, test_env=test_env
-            )
+            # test_env.polder_folder = self.polder_folder
+            # run_sqlite_tests(results_widget=self.sqlite_results_widget, test_env=test_env)
+            task_sqlite_tests_main(parent_widget=self.sqlite_results_widget, folder=self.fenv, selected_tests=selected_tests)
+
         except Exception as e:
             self.iface.messageBar().pushMessage(str(e), Qgis.Critical)
             pass

@@ -1,5 +1,5 @@
 # %%
-f
+
 # %%
 
 import sys
@@ -56,8 +56,31 @@ layer = Layer(
         )
 # %%
 
+def f_a(x):
+    print(x)
+
+def f_b(x):
+    print('b')
+
+class Test():
+    def __init__(self, func):
+        self.i = True
+        self.func = func
 
 
+        self.func('hi')
+
+
+try:
+    print('start')
+    printr('errror')
+    print('a')
+except Exception as e:
+    raise
+finally:
+    print('THE END')
+
+# %%
 
 from hhnk_threedi_plugin.qgis_interaction.project import Layer, Project
 project = Project(subject='Test')
@@ -108,3 +131,8 @@ one_d_two_d_layers = [
 #     layers_list=self.one_d_two_d_layers,
 #     group_structure=layer_groups_structure,
 # )
+
+# %% Plugin data bekijken
+from qgis import utils
+mypluginInstance = utils.plugins['hhnk_threedi_plugin']
+print( mypluginInstance.fenv )

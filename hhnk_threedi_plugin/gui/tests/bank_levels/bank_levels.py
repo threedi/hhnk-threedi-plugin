@@ -14,11 +14,11 @@ from pathlib import Path
 from qgis.core import Qgis
 from ...utility.file_widget import fileWidget
 from .verify_bank_levels_input import verify_input
-from ....qgis_interaction.layers_management.layers.get_layers_list import (
+from hhnk_threedi_plugin.qgis_interaction.layers_management.layers.get_layers_list import (
     get_layers_list,
 )
 from ....gui.path_verification_functions import is_valid_results_folder
-from ....qgis_interaction.layers_management.groups.layer_groups_structure import (
+from hhnk_threedi_plugin.qgis_interaction.layers_management.groups.layer_groups_structure import (
     QgisLayerStructure,
 )
 

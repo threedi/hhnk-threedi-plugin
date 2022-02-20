@@ -2,59 +2,50 @@ import copy
 from PyQt5.QtCore import pyqtSignal
 from qgis.core import QgsTask, Qgis
 from qgis.utils import QgsMessageLog, iface
+from PyQt5.QtCore import QMutex, QWaitCondition
 from hhnk_threedi_plugin.qgis_interaction.layers_management.adding_layers import add_layers
+from hhnk_threedi_plugin.gui.tests.sqlite_test_widgets.isolated_channels_result import (
+    create_isolated_channels_result_widget,
+)
 
-
-description = "0d1d tests uitvoeren"
+description = "geïsoleerde watergangen bepalen"
 
 # hhnk-threedi-tests
 import hhnk_research_tools as hrt
-from hhnk_threedi_tools import ZeroDOneDTest
+from hhnk_threedi_tools import SqliteTest
 
 
-class zeroDOneDTask(QgsTask):
+class BaseSqliteTask(QgsTask):
+    """Base class for sqlite tasks. Requires the run_custom function to be defined"""
+
+    result_widget_created = pyqtSignal(str, object)
     os_error = pyqtSignal(object, object, Exception)
 
-    def __init__(self, test_env, mutex, wait_cond):
+    def __init__(self, folder, mutex=QMutex(), wait_cond=QWaitCondition(), description=None, create_result_widget=None):
         super().__init__(description, QgsTask.CanCancel)
         self.description = description
         self.exception = None
-        self.test_env = copy.copy(test_env)
-        self.layers_list = [
-            self.test_env.layers["waterlevel_start_rain_vs_start_sum_layer_vars"],
-            self.test_env.layers["waterlevel_end_rain_vs_start_rain_layer_vars"],
-            self.test_env.layers["waterlevel_end_rain_vs_end_rain_min_one_layer_vars"],
-            self.test_env.layers["waterlevel_end_sum_vs_start_sum_layer_vars"],
-        ]
-        self.gdf = None
+        self.result_text = None
         self.os_retry = None
+        self.folder = folder
         self.mutex = mutex
         self.wait_cond = wait_cond
-
-    def set_threedi_result(self, result):
-        self.test_env.threedi_vars = copy.copy(result)
+        self.layer_source = None
+        self.create_result_widget = create_result_widget #Function to create the result widget
 
     def set_result(self, res):
         self.os_retry = res
 
-    def run(self):
-        QgsMessageLog.logMessage(f"Taak gestart {self.description}", level=Qgis.Info)
-        try:
-            if self.os_retry is None:
-                zero_d_one_d_test = ZeroDOneDTest.from_path(self.test_env.polder_folder)
-                self.gdf = zero_d_one_d_test.run()
 
-            # QgsMessageLog.logMessage(f"Taak gestart opslaan resultaten", level=Qgis.Info)
-            hrt.gdf_write_to_csv(
-                self.gdf,
-                path=self.test_env.output_vars["log_path"],
-                filename=self.test_env.output_vars["zero_d_one_d_filename"],
-            )
-            hrt.gdf_write_to_geopackage(
-                self.gdf,
-                path=self.test_env.output_vars["layer_path"],
-                filename=self.test_env.output_vars["zero_d_one_d_filename"],
-            )
+    def run_custom(self): 
+        """This function is unique for every test and actually starts a calculation."""
+        pass
+
+
+    def run(self):
+        QgsMessageLog.logMessage(f"Taak {self.description} gestart", level=Qgis.Info)
+        try:
+            self.run_custom()
             return True
         except OSError as e:
             self.os_retry = None
@@ -78,10 +69,16 @@ class zeroDOneDTask(QgsTask):
         If the task completed succesfully, we create the output files, add layers to
         QGIS (if needed) and create the output widget to add to the toolbox
         """
+        print('YAY finished')
+        QgsMessageLog.logMessage(
+                     f"Taak {self.description} en opslag resultaten succesvol uitgevoerd1",
+                    level=Qgis.Info,
+                )
         if not result:
             if self.exception is None:
                 iface.messageBar().pushMessage(
-                    f"Taak {self.description} onderbroken", level=Qgis.Warning
+                    f"Taak {self.description} onderbroken", 
+                    level=Qgis.Warning
                 )
             else:
                 iface.messageBar().pushMessage(
@@ -89,18 +86,24 @@ class zeroDOneDTask(QgsTask):
                     level=Qgis.Critical,
                 )
                 QgsMessageLog.logMessage(
-                    '"{name}" Exception: {exception}'.format(
-                        name=self.description, exception=self.exception
-                    ),
+                    '"{name}" Exception: {exception}'.format(name=self.description, exception=self.exception),
                     level=Qgis.Critical,
                 )
                 raise self.exception
         else:
+            # On succesful run
             iface.messageBar().pushMessage(
                 f"Taak {self.description} en opslag resultaten succesvol uitgevoerd",
                 level=Qgis.Info,
             )
+            QgsMessageLog.logMessage(
+                     f"Taak {self.description} en opslag resultaten succesvol uitgevoerd2",
+                    level=Qgis.Info,
+                )
             try:
-                add_layers(self.layers_list, self.test_env.group_structure)
+                # if not self.gdf.empty:
+                    # add_layers(self.layers_list, self.test_env.group_structure)
+                title, widget = self.create_result_widget(self.result_text, self.layer_source)
+                self.result_widget_created.emit(title, widget)
             except Exception as e:
                 raise e from None

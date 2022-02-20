@@ -1,8 +1,8 @@
 import copy
 from qgis.core import QgsTask, Qgis
 from qgis.utils import QgsMessageLog, iface
-from ....qgis_interaction.layers_management.adding_layers import add_layers
-from ....qgis_interaction.layers_management.layers.layer_variable import layerVariables
+from hhnk_threedi_plugin.qgis_interaction.layers_management.adding_layers import add_layers
+from hhnk_threedi_plugin.qgis_interaction.layers_management.layers.layer_variable import layerVariables
 
 # old
 # from hhnk_threedi_tools.folder_structure_and_paths.paths_functions import create_tif_path

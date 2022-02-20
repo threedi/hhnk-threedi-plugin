@@ -22,7 +22,7 @@ import pandas as pd
 import os
 
 
-def load_layers(folder: Folders, df, revision, subject, group_index=-1):
+def load_layers(folder: Folders, df, revision=None, subject=None, group_index=-1, remove_layer=False):
     """creates groups, loads layers in project and adds themes based on input df.
     """
     project = Project(df=df, subject=subject)
@@ -36,6 +36,9 @@ def load_layers(folder: Folders, df, revision, subject, group_index=-1):
                                     folder=folder, 
                                     HHNK_THREEDI_PLUGIN_DIR=HHNK_THREEDI_PLUGIN_DIR, 
                                     revision=revision)
+
+        if remove_layer:
+            project.remove_layer(layer_name=layer_name, group_lst=group_lst)
 
         #Dont add when layer already present.
         if not project.get_layer(layer_name=layer_name, group_lst=group_lst):
@@ -100,3 +103,14 @@ def load_layers_1d2dtest(folder: Folders, revision):
 
     df = df.query(f"subject=='test_1d2d'")
     load_layers(folder=folder, df=df, revision=revision, subject=SUBJECT)
+
+
+def load_layers_test_sqlite(folder: Folders, remove_layer=False):
+    SUBJECT = "Test sqlite"
+
+    structure_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'testprotocol.csv')
+    df = pd.read_csv(structure_path, sep=';') #Read csv from file with configuration for the available layers.
+
+    df = df.query(f"subject=='test_sqlite'")
+    load_layers(folder=folder, df=df, subject=SUBJECT, remove_layer=remove_layer)
+

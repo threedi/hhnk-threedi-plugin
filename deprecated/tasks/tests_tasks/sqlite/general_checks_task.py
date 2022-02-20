@@ -2,16 +2,20 @@ import copy
 from PyQt5.QtCore import pyqtSignal
 from qgis.core import QgsTask, Qgis
 from qgis.utils import QgsMessageLog, iface
-from hhnk_threedi_plugin.qgis_interaction.layers_management.adding_layers import add_layers
+import hhnk_research_tools as hrt
+from hhnk_threedi_plugin.gui.tests.sqlite_test_widgets.general_checks_result import (
+    create_general_checks_result_widget,
+)
+
+
+description = "algemene model checks"
 
 # hhnk-threedi-tests
-from hhnk_threedi_tools import ZeroDOneDTest
-import hhnk_research_tools as hrt
-
-description = "hydraulische tests uitvoeren"
+from hhnk_threedi_tools import SqliteTest
 
 
-class hydraulicTestsTask(QgsTask):
+class generalChecksTask(QgsTask):
+    result_widget_created = pyqtSignal(str, object)
     os_error = pyqtSignal(object, object, Exception)
 
     def __init__(self, test_env, mutex, wait_cond):
@@ -19,26 +23,11 @@ class hydraulicTestsTask(QgsTask):
         self.description = description
         self.exception = None
         self.test_env = copy.copy(test_env)
-        self.layers_list = [
-            self.test_env.layers["hidden_channels_layer_vars"],
-            self.test_env.layers["hidden_structs_layer_vars"],
-            self.test_env.layers["debit_primary_channels_layer_vars"],
-            self.test_env.layers["debit_secondary_channels_layer_vars"],
-            self.test_env.layers["debit_primary_structs_layer_vars"],
-            self.test_env.layers["debit_secondary_structs_layer_vars"],
-            self.test_env.layers["slope_impoundment_channels_primary_layer_vars"],
-            self.test_env.layers["slope_impoundment_channels_secondary_layer_vars"],
-            self.test_env.layers["slope_impoundment_structs_primary_layer_vars"],
-            self.test_env.layers["slope_impoundment_structs_secondary_layer_vars"],
-        ]
-        self.channels_gdf = None
-        self.structs_gdf = None
+        self.csv_path = None
+        self.gdf = None
         self.os_retry = None
         self.mutex = mutex
         self.wait_cond = wait_cond
-
-    def set_threedi_result(self, result):
-        self.test_env.threedi_vars = copy.copy(result)
 
     def set_result(self, res):
         self.os_retry = res
@@ -47,31 +36,19 @@ class hydraulicTestsTask(QgsTask):
         QgsMessageLog.logMessage(f"Taak gestart {self.description}", level=Qgis.Info)
         try:
             if self.os_retry is None:
-                zero_d_one_d = ZeroDOneDTest.from_path(self.test_env.polder_folder)
-                self.channels_gdf, self.structs_gdf = zero_d_one_d.run_hydraulic()
+                sqlite_test = SqliteTest.from_path(
+                    self.test_env.polder_folder, **self.test_env.file_dict
+                )
+                self.gdf = sqlite_test.run_model_checks()
 
             QgsMessageLog.logMessage(
                 f"Taak gestart opslaan resultaten", level=Qgis.Info
             )
-            hrt.gdf_write_to_csv(
-                self.channels_gdf,
+            self.csv_path = hrt.gdf_write_to_csv(
+                self.gdf,
                 path=self.test_env.output_vars["log_path"],
-                filename=self.test_env.output_vars["hyd_test_channels_filename"],
-            )
-            hrt.gdf_write_to_csv(
-                self.structs_gdf,
-                path=self.test_env.output_vars["log_path"],
-                filename=self.test_env.output_vars["hyd_test_structs_filename"],
-            )
-            hrt.gdf_write_to_geopackage(
-                self.channels_gdf,
-                path=self.test_env.output_vars["layer_path"],
-                filename=self.test_env.output_vars["hyd_test_channels_filename"],
-            )
-            hrt.gdf_write_to_geopackage(
-                self.structs_gdf,
-                path=self.test_env.output_vars["layer_path"],
-                filename=self.test_env.output_vars["hyd_test_structs_filename"],
+                filename=self.test_env.output_vars["general_checks_filename"],
+                index=True,
             )
             return True
         except OSError as e:
@@ -119,6 +96,9 @@ class hydraulicTestsTask(QgsTask):
                 level=Qgis.Info,
             )
             try:
-                add_layers(self.layers_list, self.test_env.group_structure)
+                title, widget = create_general_checks_result_widget(
+                    csv_path=self.csv_path
+                )
+                self.result_widget_created.emit(title, widget)
             except Exception as e:
                 raise e from None

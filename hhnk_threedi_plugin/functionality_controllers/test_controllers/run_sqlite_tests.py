@@ -1,24 +1,18 @@
 from qgis.core import QgsApplication
 from PyQt5.QtCore import QMutex, QWaitCondition
-from ...qgis_interaction.layers_management.removing_layers import remove_layers
-from ...tasks.tests_tasks.sqlite_tests.profiles_used_task import profilesUsedTask
-from ...tasks.tests_tasks.sqlite_tests.isolated_channels_task import (
-    isolatedChannelsTask,
-)
-from ...tasks.tests_tasks.sqlite_tests.controlled_structs_task import (
-    controlledStructsTask,
-)
-from ...tasks.tests_tasks.sqlite_tests.impervious_surface_task import impSurfaceTask
-from ...tasks.tests_tasks.sqlite_tests.weir_height_task import weirHeightTask
-from ...tasks.tests_tasks.sqlite_tests.geometries_task import geometriesTask
-from ...tasks.tests_tasks.sqlite_tests.structs_channel_task import structsChannelsTask
-from ...tasks.tests_tasks.sqlite_tests.general_checks_task import generalChecksTask
-from ...tasks.tests_tasks.sqlite_tests.dem_max_val_task import demMaxValTask
-from ...tasks.tests_tasks.sqlite_tests.dewatering_task import dewateringTask
-from ...tasks.tests_tasks.sqlite_tests.watersurface_area_task import (
-    watersurfaceAreaTask,
-)
-from ...tasks.utility_functions.handle_os_errors import check_os_error
+from hhnk_threedi_plugin.qgis_interaction.layers_management.removing_layers import remove_layers
+from hhnk_threedi_plugin.tasks.sqlite_test_tasks.profiles_used_task import profilesUsedTask
+from hhnk_threedi_plugin.tasks.sqlite_test_tasks.isolated_channels_task import isolatedChannelsTask
+from hhnk_threedi_plugin.tasks.sqlite_test_tasks.controlled_structs_task import controlledStructsTask
+from hhnk_threedi_plugin.tasks.sqlite_test_tasks.impervious_surface_task import impSurfaceTask
+from hhnk_threedi_plugin.tasks.sqlite_test_tasks.weir_height_task import weirHeightTask
+from hhnk_threedi_plugin.tasks.sqlite_test_tasks.geometries_task import geometriesTask
+from hhnk_threedi_plugin.tasks.sqlite_test_tasks.structs_channel_task import structsChannelsTask
+from hhnk_threedi_plugin.tasks.sqlite_test_tasks.general_checks_task import generalChecksTask
+from hhnk_threedi_plugin.tasks.sqlite_test_tasks.dem_max_val_task import demMaxValTask
+from hhnk_threedi_plugin.tasks.sqlite_test_tasks.dewatering_task import dewateringTask
+from hhnk_threedi_plugin.tasks.sqlite_test_tasks.watersurface_area_task import watersurfaceAreaTask
+from hhnk_threedi_plugin.tasks.utility_functions.handle_os_errors import check_os_error
 
 
 def run_sqlite_tests(results_widget, test_env):

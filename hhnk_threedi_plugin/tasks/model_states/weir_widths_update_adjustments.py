@@ -2,7 +2,7 @@ import copy
 from PyQt5.QtCore import pyqtSignal
 from qgis.core import QgsTask, Qgis
 from qgis.utils import QgsMessageLog, iface
-from ...gui.sql_preview.model_changes_preview import modelChangesPreview
+from hhnk_threedi_plugin.gui.sql_preview.model_changes_preview import modelChangesPreview
 
 # old
 

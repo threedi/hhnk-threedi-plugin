@@ -245,7 +245,7 @@ class Project:
 
         layer_name = row.qgis_name
 
-        if not pd.isna(row.qmldir):
+        if not pd.isna(row.qmldir) and not pd.isna(row.qmlname):
             qml_path = os.path.join(eval(row.qmldir), row.qmlname)
         else:
             qml_path = None

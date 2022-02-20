@@ -111,33 +111,33 @@ class zeroDOneDWidget(QWidget):
         self.select_revision_box.aboutToShowPopup.connect(
             self.populate_revisions_combobox
         )
-    def create_test_environment(self):
-        """
-        Gathers all information needed to run the associated tests
-        """
-        src_paths, output_dict = get_working_paths(
-            test_type=2,
-            active_paths=self.caller.current_source_paths,
-            base_folder_output=self.output_selector.filePath(),
-            threedi_results_path=self.results_dir_selector.filePath(),
-            threedi_revision_name=self.select_revision_box.currentText(),
-        )
-        layer_groups_structure = QgisLayerStructure(
-            zero_d_revision=get_revision(self.select_revision_box.currentText())
-        )
-        layers = get_layers_list(
-            test_type=2,
-            plugin_dir=self.caller.plugin_dir,
-            output_dict=output_dict,
-            group_structure=layer_groups_structure,
-        )  # TODO
-        test_environment = testEnvironment(
-            source_paths_dict=src_paths,
-            output_vars_dict=output_dict,
-            layers=layers,
-            group_structure=layer_groups_structure,
-        )
-        return test_environment
+    # def create_test_environment(self):
+    #     """
+    #     Gathers all information needed to run the associated tests
+    #     """
+    #     src_paths, output_dict = get_working_paths(
+    #         test_type=2,
+    #         active_paths=self.caller.current_source_paths,
+    #         base_folder_output=self.output_selector.filePath(),
+    #         threedi_results_path=self.results_dir_selector.filePath(),
+    #         threedi_revision_name=self.select_revision_box.currentText(),
+    #     )
+    #     layer_groups_structure = QgisLayerStructure(
+    #         zero_d_revision=get_revision(self.select_revision_box.currentText())
+    #     )
+    #     layers = get_layers_list(
+    #         test_type=2,
+    #         plugin_dir=self.caller.plugin_dir,
+    #         output_dict=output_dict,
+    #         group_structure=layer_groups_structure,
+    #     )  # TODO
+    #     test_environment = testEnvironment(
+    #         source_paths_dict=src_paths,
+    #         output_vars_dict=output_dict,
+    #         layers=layers,
+    #         group_structure=layer_groups_structure,
+    #     )
+    #     return test_environment
 
     def verify_submit(self):
         """

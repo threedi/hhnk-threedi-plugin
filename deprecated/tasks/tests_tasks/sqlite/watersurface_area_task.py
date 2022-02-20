@@ -3,15 +3,18 @@ from PyQt5.QtCore import pyqtSignal
 from qgis.core import QgsTask, Qgis
 from qgis.utils import QgsMessageLog, iface
 from hhnk_threedi_plugin.qgis_interaction.layers_management.adding_layers import add_layers
+from hhnk_threedi_plugin.gui.tests.sqlite_test_widgets.watersurface_area_result import (
+    create_watersurface_area_result_widget,
+)
 
-# hhnk-threedi-tests
-from hhnk_threedi_tools import ZeroDOneDTest
+description = "oppervlaktewater bepalen"
+
 import hhnk_research_tools as hrt
+from hhnk_threedi_tools import SqliteTest
 
-description = "hydraulische tests uitvoeren"
 
-
-class hydraulicTestsTask(QgsTask):
+class watersurfaceAreaTask(QgsTask):
+    result_widget_created = pyqtSignal(str, object)
     os_error = pyqtSignal(object, object, Exception)
 
     def __init__(self, test_env, mutex, wait_cond):
@@ -19,26 +22,13 @@ class hydraulicTestsTask(QgsTask):
         self.description = description
         self.exception = None
         self.test_env = copy.copy(test_env)
-        self.layers_list = [
-            self.test_env.layers["hidden_channels_layer_vars"],
-            self.test_env.layers["hidden_structs_layer_vars"],
-            self.test_env.layers["debit_primary_channels_layer_vars"],
-            self.test_env.layers["debit_secondary_channels_layer_vars"],
-            self.test_env.layers["debit_primary_structs_layer_vars"],
-            self.test_env.layers["debit_secondary_structs_layer_vars"],
-            self.test_env.layers["slope_impoundment_channels_primary_layer_vars"],
-            self.test_env.layers["slope_impoundment_channels_secondary_layer_vars"],
-            self.test_env.layers["slope_impoundment_structs_primary_layer_vars"],
-            self.test_env.layers["slope_impoundment_structs_secondary_layer_vars"],
-        ]
-        self.channels_gdf = None
-        self.structs_gdf = None
+        self.layers_list = [test_env.layers["watersurface_area_layer_vars"]]
+        self.layer_source = None
+        self.result_text = None
+        self.gdf = None
         self.os_retry = None
         self.mutex = mutex
         self.wait_cond = wait_cond
-
-    def set_threedi_result(self, result):
-        self.test_env.threedi_vars = copy.copy(result)
 
     def set_result(self, res):
         self.os_retry = res
@@ -47,31 +37,23 @@ class hydraulicTestsTask(QgsTask):
         QgsMessageLog.logMessage(f"Taak gestart {self.description}", level=Qgis.Info)
         try:
             if self.os_retry is None:
-                zero_d_one_d = ZeroDOneDTest.from_path(self.test_env.polder_folder)
-                self.channels_gdf, self.structs_gdf = zero_d_one_d.run_hydraulic()
+                sqlite_test = SqliteTest.from_path(
+                    self.test_env.polder_folder, **self.test_env.file_dict
+                )
+                self.gdf, self.result_text = sqlite_test.run_watersurface_area()
 
             QgsMessageLog.logMessage(
                 f"Taak gestart opslaan resultaten", level=Qgis.Info
             )
             hrt.gdf_write_to_csv(
-                self.channels_gdf,
+                self.gdf,
                 path=self.test_env.output_vars["log_path"],
-                filename=self.test_env.output_vars["hyd_test_channels_filename"],
+                filename=self.test_env.output_vars["water_surface_filename"],
             )
-            hrt.gdf_write_to_csv(
-                self.structs_gdf,
-                path=self.test_env.output_vars["log_path"],
-                filename=self.test_env.output_vars["hyd_test_structs_filename"],
-            )
-            hrt.gdf_write_to_geopackage(
-                self.channels_gdf,
+            self.layer_source = hrt.gdf_write_to_geopackage(
+                self.gdf,
                 path=self.test_env.output_vars["layer_path"],
-                filename=self.test_env.output_vars["hyd_test_channels_filename"],
-            )
-            hrt.gdf_write_to_geopackage(
-                self.structs_gdf,
-                path=self.test_env.output_vars["layer_path"],
-                filename=self.test_env.output_vars["hyd_test_structs_filename"],
+                filename=self.test_env.output_vars["water_surface_filename"],
             )
             return True
         except OSError as e:
@@ -114,11 +96,16 @@ class hydraulicTestsTask(QgsTask):
                 )
                 raise self.exception
         else:
+            # On succesful run
             iface.messageBar().pushMessage(
                 f"Taak {self.description} en opslag resultaten succesvol uitgevoerd",
                 level=Qgis.Info,
             )
             try:
                 add_layers(self.layers_list, self.test_env.group_structure)
+                title, widget = create_watersurface_area_result_widget(
+                    self.result_text, self.layer_source
+                )
+                self.result_widget_created.emit(title, widget)
             except Exception as e:
                 raise e from None
