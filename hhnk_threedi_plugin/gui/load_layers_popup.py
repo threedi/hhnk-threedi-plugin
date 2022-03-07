@@ -65,27 +65,22 @@ def setup_ui(load_layers_popup):
     load_layers_popup.test_protocol_v21_selector = QCheckBox("Layout test protocol v21")
     load_layers_popup.test_protocol_v21_selector.setChecked(True)
 
-    load_layers_popup.achtergrond_landgebruik_selector = QCheckBox("Lizard landgebruik")
-    load_layers_popup.achtergrond_landgebruik_selector.setChecked(False)
+    # load_layers_popup.achtergrond_landgebruik_selector = QCheckBox("Lizard landgebruik")
+    # load_layers_popup.achtergrond_landgebruik_selector.setChecked(False)
 
-    load_layers_popup.achtergrond_luchtfoto_selector = QCheckBox(
-        "PDOK luchtfoto actueel"
-    )
-    load_layers_popup.achtergrond_luchtfoto_selector.setChecked(False)
+    # load_layers_popup.achtergrond_luchtfoto_selector = QCheckBox("PDOK luchtfoto actueel")
+    # load_layers_popup.achtergrond_luchtfoto_selector.setChecked(False)
 
-    load_layers_popup.achtergrond_waterlopen_2020_selector = QCheckBox(
-        "HHNK waterlopen 2020 (legger)"
-    )
-    load_layers_popup.achtergrond_waterlopen_2020_selector.setChecked(False)
+    # load_layers_popup.achtergrond_waterlopen_2020_selector = QCheckBox("HHNK waterlopen 2020 (legger)")
+    # load_layers_popup.achtergrond_waterlopen_2020_selector.setChecked(False)
 
-    load_layers_popup.themes_selector = QCheckBox(
-        "Themas (gebruikt met andere lagen)"
-        )
+    load_layers_popup.themes_selector = QCheckBox("Themas (gebruikt met andere lagen)")
     load_layers_popup.themes_selector.setChecked(False)
 
-    load_layers_popup.buttons = QDialogButtonBox(
-        QDialogButtonBox.Ok | QDialogButtonBox.Cancel
-    )
+    load_layers_popup.achtergrond_selector = QCheckBox("Achtergrondkaarten")
+    load_layers_popup.achtergrond_selector.setChecked(False)
+
+    load_layers_popup.buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
 
     # Creates layout
     message_bar_layout = QVBoxLayout()
@@ -120,16 +115,20 @@ def setup_ui(load_layers_popup):
     main_layout.addWidget(load_layers_popup.test_protocol_v21_selector)
     main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
 
-    main_layout.addWidget(load_layers_popup.achtergrond_landgebruik_selector)
-    main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
+    # main_layout.addWidget(load_layers_popup.achtergrond_landgebruik_selector)
+    # main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
 
-    main_layout.addWidget(load_layers_popup.achtergrond_luchtfoto_selector)
-    main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
+    # main_layout.addWidget(load_layers_popup.achtergrond_luchtfoto_selector)
+    # main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
 
-    main_layout.addWidget(load_layers_popup.achtergrond_waterlopen_2020_selector)
-    main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
+    # main_layout.addWidget(load_layers_popup.achtergrond_waterlopen_2020_selector)
+    # main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
 
     main_layout.addWidget(load_layers_popup.themes_selector)
+    main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
+    load_layers_popup.themes_selector.setEnabled(False)
+
+    main_layout.addWidget(load_layers_popup.achtergrond_selector)
     main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
 
     main_layout.addWidget(load_layers_popup.buttons)
@@ -162,15 +161,9 @@ class loadLayersDialog(QDialog):
 
         # load
 
-        self.klimaatsommen_selector.aboutToShowPopup.connect(
-            self.populate_klimaatsommen_combobox
-        )
-        self.one_d_two_d_selector.aboutToShowPopup.connect(
-            self.populate_one_d_two_combobox
-        )
-        self.zero_d_one_d_selector.aboutToShowPopup.connect(
-            self.populate_zero_d_one_d_combobox
-        )
+        self.klimaatsommen_selector.aboutToShowPopup.connect(self.populate_klimaatsommen_combobox)
+        self.one_d_two_d_selector.aboutToShowPopup.connect(self.populate_one_d_two_combobox)
+        self.zero_d_one_d_selector.aboutToShowPopup.connect(self.populate_zero_d_one_d_combobox)
         # ----------------------------------------------------------
         # Signals
         # ----------------------------------------------------------
@@ -184,6 +177,7 @@ class loadLayersDialog(QDialog):
         
 
     def populate_one_d_two_combobox(self):
+        """Add available revisions to dropdown"""
         revisions = self.caller.fenv.output.one_d_two_d.revisions
         if len(revisions) == 0:
             return
@@ -194,6 +188,7 @@ class loadLayersDialog(QDialog):
             self.one_d_two_d_selector.addItem(revision)
 
     def populate_zero_d_one_d_combobox(self):
+        """Add available revisions to dropdown"""
         revisions = self.caller.fenv.output.zero_d_one_d.revisions
 
         if len(revisions) == 0:
@@ -205,6 +200,7 @@ class loadLayersDialog(QDialog):
             self.zero_d_one_d_selector.addItem(revision)
 
     def populate_klimaatsommen_combobox(self):
+        """Add available revisions to dropdown"""
         revisions = self.caller.fenv.threedi_results.climate_results.revisions
         if len(revisions) == 0:
             return
@@ -242,9 +238,9 @@ class loadLayersDialog(QDialog):
         # project.zoom_to_layer(QgsVectorLayer(self.caller.fenv.source_data.polder_polygon.path, "polder", "ogr"))
         
         # Resolve paths to layers
-        self.sqlite_dict = build_output_files_dict(
-            test_type=1, base_folder=self.sqlite_output_path, revision_dir_name=None
-        )
+        # self.sqlite_dict = build_output_files_dict(
+        #     test_type=1, base_folder=self.sqlite_output_path, revision_dir_name=None
+        # )
 
         # if self.zero_d_one_d_selector.currentText() != "":
         #     self.zero_d_one_d_dict = build_output_files_dict(
@@ -265,10 +261,10 @@ class loadLayersDialog(QDialog):
         #     self.one_d_two_d_dict = False
 
         # Create layer list
-        layer_groups_structure = QgisLayerStructure(
-            zero_d_revision=get_revision(self.zero_d_one_d_selector.currentText()),
-            one_d_revision=get_revision(self.one_d_two_d_selector.currentText()),
-        )
+        # layer_groups_structure = QgisLayerStructure(
+        #     zero_d_revision=get_revision(self.zero_d_one_d_selector.currentText()),
+        #     one_d_revision=get_revision(self.one_d_two_d_selector.currentText()),
+        # )
 
         # if self.sqlite_test_selector.isChecked() == True:
         #     self.sqlite_layers = get_layers_list(
@@ -301,12 +297,8 @@ class loadLayersDialog(QDialog):
             load_layers_interaction.load_layers_test_protocol(folder=self.caller.fenv)
 
         # Achtergrond
-        if self.achtergrond_landgebruik_selector.isChecked() == True: #Todo naam butten veranderen en andere achtergrond buttons weg.
-            load_layers_interaction.load_layers_achtergrond(folder=self.caller.fenv,
-                landgebruik=self.achtergrond_landgebruik_selector.isChecked(),
-                luchtfoto=self.achtergrond_luchtfoto_selector.isChecked(),
-                waterlopen_2020=self.achtergrond_waterlopen_2020_selector.isChecked(),
-            )
+        if self.achtergrond_selector.isChecked() == True: #Todo naam butten veranderen en andere achtergrond buttons weg.
+            load_layers_interaction.load_layers_achtergrond(folder=self.caller.fenv)
 
         if self.zero_d_one_d_selector.currentText() != "":
             load_layers_interaction.load_layers_0d1dtest(folder=self.caller.fenv, 

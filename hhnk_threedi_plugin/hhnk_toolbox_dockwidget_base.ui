@@ -51,13 +51,13 @@
     </size>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
+    <!-- <item>
      <widget class="QPushButton" name="documentatie_button">
       <property name="text">
        <string>Documentatie</string>
       </property>
      </widget>
-    </item>
+    </item> -->
     <item>
      <widget class="QLabel" name="select_polder_label">
       <property name="text">
@@ -143,7 +143,7 @@
        <string>Huidige modelstaat:</string>
       </property>
      </widget>
-    </item>
+    </item> -->
     <item>
      <widget class="QLabel" name="model_state_show">
       <property name="text">

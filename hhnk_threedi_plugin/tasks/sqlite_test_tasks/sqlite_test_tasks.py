@@ -51,7 +51,6 @@ class profilesUsedTask(BaseSqliteTask):
         if self.os_retry is None:
             self.gdf = self.sqlite_test.run_used_profiles()
 
-        
         self.gdf.to_file(self.layer_source, index=False, driver='GPKG')
 
     

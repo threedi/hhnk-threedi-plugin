@@ -26,9 +26,6 @@ class Ui_HHNK_toolboxDockWidget(object):
         self.dockWidgetContents.setObjectName("dockWidgetContents")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.dockWidgetContents)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.documentatie_button = QtWidgets.QPushButton(self.dockWidgetContents)
-        self.documentatie_button.setObjectName("documentatie_button")
-        self.verticalLayout.addWidget(self.documentatie_button)
         self.select_polder_label = QtWidgets.QLabel(self.dockWidgetContents)
         self.select_polder_label.setObjectName("select_polder_label")
         self.verticalLayout.addWidget(self.select_polder_label)
@@ -107,7 +104,6 @@ class Ui_HHNK_toolboxDockWidget(object):
     def retranslateUi(self, HHNK_toolboxDockWidget):
         _translate = QtCore.QCoreApplication.translate
         HHNK_toolboxDockWidget.setWindowTitle(_translate("HHNK_toolboxDockWidget", "HHNK Toolbox"))
-        self.documentatie_button.setText(_translate("HHNK_toolboxDockWidget", "Documentatie"))
         self.select_polder_label.setText(_translate("HHNK_toolboxDockWidget", "Selecteer een polder"))
         self.polder_selector.setDialogTitle(_translate("HHNK_toolboxDockWidget", "Selecteer polder map"))
         self.create_new_project_btn.setText(_translate("HHNK_toolboxDockWidget", "Nieuw project aanmaken"))

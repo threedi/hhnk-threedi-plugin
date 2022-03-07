@@ -51,44 +51,52 @@ def setupUi(sqlite_dialog):
     sqlite_dialog.output_selector = fileWidget(
         file_dialog_title="Selecteer map om output in aan te maken",
         file_mode=QFileDialog.Directory,    )
+    sqlite_dialog.output_selector.setEnabled(False)
 
     sqlite_dialog.model_selector_label = QLabel("Selecteer model:")
     sqlite_dialog.model_selector = fileWidget(
         file_dialog_title="Selecteer een model (.sqlite)",
         file_mode=QFileDialog.ExistingFile,
         name_filter="*.sqlite",    )
+    sqlite_dialog.model_selector.setEnabled(False)
 
     sqlite_dialog.dem_label = QLabel("Selecteer DEM raster")
     sqlite_dialog.dem_selector = fileWidget(
         file_dialog_title="Selecteer DEM raster (.tif)",
         file_mode=QFileDialog.ExistingFile,
         name_filter="*.tif",    )
+    sqlite_dialog.dem_selector.setEnabled(False)
 
     sqlite_dialog.datachecker_label = QLabel("Selecteer datachecker output:")
     sqlite_dialog.datachecker_selector = fileWidget(
         file_dialog_title="Selecteer datachecker output (.gdb)",
         file_mode=QFileDialog.Directory,    )
+    sqlite_dialog.datachecker_selector.setEnabled(False)
 
     sqlite_dialog.channels_from_label = QLabel("Watergangen van profielen:")
     sqlite_dialog.channel_from_profiles_selector = fileWidget(
         file_dialog_title="Selecteer channels from profile " "shapefile (.shp)",
         file_mode=QFileDialog.ExistingFile,
         name_filter="*.shp",    )
+    sqlite_dialog.channel_from_profiles_selector.setEnabled(False)
 
     sqlite_dialog.hdb_label = QLabel("HDB:")
     sqlite_dialog.hdb_selector = fileWidget(
         file_dialog_title="Selecteer hydrologen database (.gdb)",
         file_mode=QFileDialog.Directory,    )
+    sqlite_dialog.hdb_selector.setEnabled(False)
 
     sqlite_dialog.damo_label = QLabel("DAMO:")
     sqlite_dialog.damo_selector = fileWidget(
         file_dialog_title="Selecteer DAMO database (.gdb)",
         file_mode=QFileDialog.Directory,    )
+    sqlite_dialog.damo_selector.setEnabled(False)
 
     sqlite_dialog.polder_shape_label = QLabel("Polder shapefile:")
     sqlite_dialog.polder_shape_selector = fileWidget(
         file_dialog_title="Selecteer polder shapefile (.shp)",
         file_mode=QFileDialog.ExistingFile,    )
+    sqlite_dialog.polder_shape_selector.setEnabled(False)
 
     # Create all checkboxes group
     sqlite_dialog.all_tests = QGroupBox("Selecteer tests")

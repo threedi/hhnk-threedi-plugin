@@ -70,10 +70,7 @@ def load_layers_test_protocol(folder: Folders):
     load_layers(folder=folder, df=df, revision=None, subject=SUBJECT)
 
 
-def load_layers_achtergrond(folder: Folders,
-                            landgebruik: bool,
-                            luchtfoto: bool,
-                            waterlopen_2020: bool,):
+def load_layers_achtergrond(folder: Folders):
     SUBJECT = "Achtergrond"
 
     structure_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'testprotocol.csv')

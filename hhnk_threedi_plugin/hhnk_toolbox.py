@@ -253,7 +253,7 @@ class HHNK_toolbox:
             text="Help",
             callback=self.open_help,
             parent=self.iface.mainWindow(),
-            add_to_toolbar=False,
+            add_to_toolbar=True,
         )
 
     # --------------------------------------------------------------------------
@@ -322,7 +322,7 @@ class HHNK_toolbox:
             self.current_source_paths = folder.to_file_dict()
             self.initialize_current_paths()
             
-            self.dockwidget.model_state_btn.setEnabled(True)
+            self.dockwidget.model_state_btn.setEnabled(False) #FIXME tijdelijk uitgezet totdat oplossing voor klondike release er is.
             self.dockwidget.tests_toolbox.setEnabled(True)
             self.dockwidget.server_btn.setEnabled(True)
             self.dockwidget.load_layers_btn.setEnabled(True)
@@ -580,7 +580,7 @@ class HHNK_toolbox:
                 self.dockwidget.model_state_btn.clicked.connect(self.model_states_dialog.show)
                 self.dockwidget.create_new_project_btn.clicked.connect(self.new_project_folder_execute)
 
-                self.dockwidget.documentatie_button.clicked.connect(self.open_documentatie_link)
+                # self.dockwidget.documentatie_button.clicked.connect(self.open_documentatie_link)
                 self.dockwidget.server_btn.clicked.connect(self.start_server)
 
                 # Connect start buttons to appropriate function calls

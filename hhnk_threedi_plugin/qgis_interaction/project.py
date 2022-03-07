@@ -359,7 +359,7 @@ class Project:
             self.instance.removeMapLayer(layer.id())
 
 
-    def _group_index(self, group_name): #TODO deprecated? fix group_structure?
+    def _group_index(self, group_name) -> int: #TODO deprecated? fix group_structure?
         """locates the nearest index based on the layer above
         if we cannot find this, we place it on top
         """
