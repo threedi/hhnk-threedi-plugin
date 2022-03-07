@@ -84,6 +84,7 @@ from hhnk_threedi_tools import (
     open_server,
     copy_notebooks,
     write_notebook_json,
+    add_notebook_paths,
 )
 
 from .dependencies import DEPENDENCY_DIR, THREEDI_DIR
@@ -93,7 +94,7 @@ from .dependencies import DEPENDENCY_DIR, THREEDI_DIR
 import webbrowser
 
 DOCS_LINK = "https://hhnk-toolbox-user-docs.readthedocs.io/nl/latest/"
-
+OUR_DIR = os.path.dirname(os.path.abspath(__file__))
 
 class HHNK_toolbox:
     """QGIS Plugin Implementation."""
@@ -496,19 +497,31 @@ class HHNK_toolbox:
         os.startfile(self.help_address)
         
     def generate_notebook_valid(self):
-        if self.dockwidget.lizard_api_key_textbox.text() == "":
-            QMessageBox.warning(
-                None,
-                "Starting Jupyter server",
-                "Vul de lizard api key in, deze is niet ingevuld! Heb je deze niet? Ga naar: https://hhnk.lizard.net/management/#/personal_api_keys",
-            )
-            return False
-        else:
-            return True
         
-    def generate_notebook_folder(self):
+        file = OUR_DIR + '/api_key/api_key.txt'
+        if self.dockwidget.lizard_api_key_textbox.text() == "Vul hier je Lizard API key in!":
+            if os.path.exists(file):
+                with open(file, "r") as f:
+                    api_key = f.readline()
+                
+                if api_key != '':
+                    return api_key
+                
+            QMessageBox.warning(
+                    None,
+                    "Starting Jupyter server",
+                    "Vul de lizard api key in, deze is niet ingevuld! Heb je deze niet? Ga naar: https://hhnk.lizard.net/management/#/personal_api_keys",
+                    )
+            return None
+        else:
+            # copy to api directory
+            with open(file, "w") as f:
+                f.write(self.dockwidget.lizard_api_key_textbox.text())
+                
+            return self.dockwidget.lizard_api_key_textbox.text()
+        
+    def generate_notebook_folder(self, api_key):
         """retrieves the polder folder and loads the"""
-
         self.polder_notebooks = self.polder_folder + "/Notebooks"
         server_bat_file = self.polder_notebooks + "/start_server.bat"
         copy_notebooks(self.polder_notebooks)
@@ -517,15 +530,17 @@ class HHNK_toolbox:
             self.polder_notebooks,
             {
                 "polder_folder": self.polder_folder,
-                "lizard_api_key": self.dockwidget.lizard_api_key_textbox.text(),
-                "syspaths": [str(DEPENDENCY_DIR), str(THREEDI_DIR)],
-            },
+                "lizard_api_key": api_key,            },
         )
+        add_notebook_paths([str(DEPENDENCY_DIR), str(THREEDI_DIR)])
+        
     def start_server(self):
-        if not self.generate_notebook_valid():
+        api_key = self.generate_notebook_valid()
+        if not api_key:
             return
+        
 
-        self.generate_notebook_folder()
+        self.generate_notebook_folder(api_key)
         open_server(directory=self.polder_notebooks, location="user", use="run")
 
         
