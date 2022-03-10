@@ -58,7 +58,7 @@ DEPENDENCIES = [
         False,
     ),
     Dependency(
-        "threedi_api_client", "threedi_api_client", "==3.0.29", False, "qgis", False
+        "threedi_api_client", "threedi_api_client", ">=3.0.29", False, "qgis", False
     ),
     Dependency("xlrd", "xlrd", "==1.1.0", False, "qgis", False),
     Dependency("tqdm", "tqdm", "==4.40.2", False, "qgis", False),
