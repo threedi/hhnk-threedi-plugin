@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'c:\Users\wvangerwen\github\hhnk-threedi-plugin\hhnk_threedi_plugin\hhnk_toolbox_dockwidget_base.ui'
+# Form implementation generated from reading ui file 'c:\Users\wvangerwen\github\hhnk-threedi-plugin\hhnk_threedi_plugin\zip_build\hhnk_threedi_plugin\hhnk_toolbox_dockwidget_base.ui'
 #
 # Created by: PyQt5 UI code generator 5.11.3
 #

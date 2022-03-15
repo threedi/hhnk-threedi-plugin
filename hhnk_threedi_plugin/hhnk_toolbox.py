@@ -47,11 +47,13 @@ from hhnk_threedi_plugin.gui.tests.zero_d_one_d import zeroDOneDWidget
 from hhnk_threedi_plugin.gui.tests.one_d_two_d import oneDTwoDWidget
 from hhnk_threedi_plugin.gui.model_states.model_states import modelStateDialog
 from hhnk_threedi_plugin.gui.tests.sqlite_test_widgets.main_result_widget import collapsibleTree
-from .gui.tests.bank_levels.bank_levels import bankLevelsWidget
-from .gui.klimaatsommen.klimaatsommen import KlimaatSommenWidget
-from .qgis_interaction.project import Project
+from hhnk_threedi_plugin.gui.tests.bank_levels.bank_levels import bankLevelsWidget
+from hhnk_threedi_plugin.gui.klimaatsommen.klimaatsommen import KlimaatSommenWidget
+from hhnk_threedi_plugin.qgis_interaction.project import Project
 
-from .gui.new_project_dialog import newProjectDialog
+from hhnk_threedi_plugin.gui.new_project_dialog import newProjectDialog
+from hhnk_threedi_plugin.qgis_interaction.open_notebook import NotebookWidget
+
 
 # Functions
 from hhnk_threedi_tools.core.folders import Folders
@@ -80,12 +82,7 @@ from hhnk_threedi_plugin.tasks.task_sqlite_tests_main import task_sqlite_tests_m
 
 # hhnk-threedi-tools
 from hhnk_threedi_tools.utils.notebooks.run import create_command_bat_file
-from hhnk_threedi_tools import (
-    open_server,
-    copy_notebooks,
-    write_notebook_json,
-    add_notebook_paths,
-)
+
 
 from .dependencies import DEPENDENCY_DIR, THREEDI_DIR
 
@@ -94,7 +91,6 @@ from .dependencies import DEPENDENCY_DIR, THREEDI_DIR
 import webbrowser
 
 DOCS_LINK = "https://hhnk-toolbox-user-docs.readthedocs.io/nl/latest/"
-OUR_DIR = os.path.dirname(os.path.abspath(__file__))
 
 class HHNK_toolbox:
     """QGIS Plugin Implementation."""
@@ -496,52 +492,77 @@ class HHNK_toolbox:
     def open_help(self):
         os.startfile(self.help_address)
         
-    def generate_notebook_valid(self):
+    # def _check_api_key_valid(self, api_key):
+    #     """Lizard API keys are 41 characters and have a dot in the name"""
+    #     if len(api_key) == 41 and "." in api_key:
+    #         return True
+    #     else:
+    #         return False
+
+    # def generate_notebook_valid(self):
         
-        file = OUR_DIR + '/api_key/api_key.txt'
-        if self.dockwidget.lizard_api_key_textbox.text() == "Vul hier je Lizard API key in!":
-            if os.path.exists(file):
-                with open(file, "r") as f:
-                    api_key = f.readline()
+    #     file = os.path.join(OUR_DIR, 'api_key', 'api_key.txt')
+
+    #     api_key = self.dockwidget.lizard_api_key_textbox.text()
+    #     if api_key == "Vul hier je Lizard API key in!":
+    #         if os.path.exists(file):
+    #             with open(file, "r") as f:
+    #                 api_key = f.readline()
                 
-                if api_key != '':
-                    return api_key
+    #             if api_key != '':
+    #                 return api_key
                 
-            QMessageBox.warning(
-                    None,
-                    "Starting Jupyter server",
-                    "Vul de lizard api key in, deze is niet ingevuld! Heb je deze niet? Ga naar: https://hhnk.lizard.net/management/#/personal_api_keys",
-                    )
-            return None
-        else:
-            # copy to api directory
-            with open(file, "w") as f:
-                f.write(self.dockwidget.lizard_api_key_textbox.text())
-                
-            return self.dockwidget.lizard_api_key_textbox.text()
+    #         QMessageBox.warning(
+    #                 None,
+    #                 "Starting Jupyter server",
+    #                 "Vul de lizard api key in, deze is niet ingevuld! Heb je deze niet? Ga naar: \nhttps://hhnk.lizard.net/management/#/personal_api_keys",
+    #                 )
+    #         return None
+    #     else:
+    #         if self._check_api_key_valid(api_key):
+    #             # copy to api directory
+    #             output_file = Path(file)
+
+    #             if output_file.parents[2].exists(): #Does plugin dir exist.
+    #                 if not output_file.parent.exists(): #Does api_key dir exist
+    #                     os.mkdir(output_file.parent)
+    #                 with open(file, "w") as f:
+    #                     f.write(api_key)
+    #             else:
+    #                 print(f"{output_file.parents[2]} niet gevonden")
+    #                 # logger.warning(f"{output_file.parents[2]} niet gevonden") # TODO hebben we een logger?
+    #             return api_key
+
+    #         else:
+    #             QMessageBox.warning(
+    #                 None,
+    #                 "Starting Jupyter server",
+    #                 "Er is geen correcte API key ingevuld. Heb je deze niet? Ga naar: \nhttps://hhnk.lizard.net/management/#/personal_api_keys",
+    #                 )
+    #             return None
         
-    def generate_notebook_folder(self, api_key):
-        """retrieves the polder folder and loads the"""
-        self.polder_notebooks = self.polder_folder + "/Notebooks"
-        server_bat_file = self.polder_notebooks + "/start_server.bat"
-        copy_notebooks(self.polder_notebooks)
-        create_command_bat_file(server_bat_file, "user")
-        write_notebook_json(
-            self.polder_notebooks,
-            {
-                "polder_folder": self.polder_folder,
-                "lizard_api_key": api_key,            },
-        )
-        add_notebook_paths([str(DEPENDENCY_DIR), str(THREEDI_DIR)])
+    # def generate_notebook_folder(self, api_key):
+    #     """retrieves the polder folder and loads the"""
+    #     self.polder_notebooks = os.path.join(self.polder_folder, "Notebooks")
+    #     server_bat_file = os.path.join(self.polder_notebooks, "start_server.bat")
+    #     copy_notebooks(self.polder_notebooks)
+    #     create_command_bat_file(server_bat_file, "user")
+    #     write_notebook_json(
+    #         self.polder_notebooks,
+    #         {
+    #             "polder_folder": self.polder_folder,
+    #             "lizard_api_key": api_key,            },
+    #     )
+    #     add_notebook_paths([str(DEPENDENCY_DIR), str(THREEDI_DIR)])
         
-    def start_server(self):
-        api_key = self.generate_notebook_valid()
-        if not api_key:
-            return
+    # def start_server(self):
+    #     api_key = self.generate_notebook_valid()
+    #     if not api_key:
+    #         return
         
 
-        self.generate_notebook_folder(api_key)
-        open_server(directory=self.polder_notebooks, location="user", use="run")
+    #     self.generate_notebook_folder(api_key)
+    #     open_server(directory=self.polder_notebooks, location="user", use="run")
 
         
 
@@ -574,6 +595,7 @@ class HHNK_toolbox:
                 self.bank_levels = bankLevelsWidget(caller=self, parent=self.dockwidget)
                 self.one_d_two_d = oneDTwoDWidget(caller=self, parent=self.dockwidget)
                 self.klimaatsommen = KlimaatSommenWidget(caller=self, parent=self.dockwidget)
+                self.notebook_widget = NotebookWidget(caller=self, parent=self.dockwidget)
 
                 # If a polder folder is selected
                 self.dockwidget.polder_selector.fileChanged.connect(self.polder_folder_changed)
@@ -596,7 +618,7 @@ class HHNK_toolbox:
                 self.dockwidget.create_new_project_btn.clicked.connect(self.new_project_folder_execute)
 
                 # self.dockwidget.documentatie_button.clicked.connect(self.open_documentatie_link)
-                self.dockwidget.server_btn.clicked.connect(self.start_server)
+                self.dockwidget.server_btn.clicked.connect(self.notebook_widget.start_server)
 
                 # Connect start buttons to appropriate function calls
                 self.model_states_dialog.start_conversion.connect(self.model_states_execution)
