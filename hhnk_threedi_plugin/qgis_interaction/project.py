@@ -161,12 +161,12 @@ class Project:
 
     """
 
-    def __init__(self, df=None, structure={}, subject="HTT"):
+    def __init__(self, df=None, subject="HTT"):
         self.instance = QgsProject.instance()
         self.root = self.instance.layerTreeRoot()
         self.mapthemecollection = self.instance.mapThemeCollection()
         self.layoutmanager = self.instance.layoutManager()
-        self.structure = structure
+        # self.structure = structure
         self.df=df
         self.subject = subject
 
@@ -174,23 +174,18 @@ class Project:
         for i in self.root.children():
             yield i
 
-    @property
-    def group_structure(self):
-        try:
-            group_structure_lst = self.df[['parent_group','child_group']].stack().groupby(level=0).apply(list).tolist()
-            return list(k for k,_ in itertools.groupby(group_structure_lst))
-        except:
-            return []
 
-    # @property #TODO deprecated
-    # def subgroup_structure(self):
-    #     subgroups = []
-    #     for group in self.group_structure:
-    #         if type(self.structure[group]) is dict:
-    #             subs = list(self.structure[group].keys())
-    #             for sub in subs:
-    #                 subgroups.append((sub, group))
-    #     return subgroups
+
+    def get_group_lsts_from_df(self, filter=None) -> list:
+        """List of group lists in dataframe"""
+        # group_structure_lst = self.df[['parent_group','child_group']].stack().groupby(level=0).apply(list).tolist()
+        # return list(k for k,_ in itertools.groupby(group_structure_lst))
+        group_lsts = self.df['group_lst'].apply(eval)
+        if filter is None:
+            return group_lsts.to_list()
+        else:
+            return group_lsts[filter].to_list()
+
 
     @property
     def theme_structure(self):
@@ -252,10 +247,7 @@ class Project:
 
         subject = row.subject
 
-        group_lst=[]
-        for group in [row.parent_group, row.child_group]:
-            if not pd.isna(group):
-                group_lst.append(group)
+        group_lst=eval(row.group_lst)
         return full_path, layer_name, filetype, qml_path, subject, group_lst
 
 
@@ -434,7 +426,7 @@ class Project:
     #     return group
 
 
-    def add_theme(self, theme_name, layer_names):
+    def add_theme(self, theme_name, layer_names, group_lsts):
         """theme name is the name of the theme and
         layer names is the name of the layer which is visible
         if layer does not exists it get skipped
@@ -444,8 +436,8 @@ class Project:
         theme = collection.mapThemeState(theme_name)
 
         records = []
-        for layer_name in layer_names:
-            layer = self.get_layer(layer_name)
+        for layer_name, group_lst in zip(layer_names, group_lsts):
+            layer = self.get_layer(layer_name=layer_name, group_lst=group_lst)
             if layer:
                 records.append(QgsMapThemeCollection.MapThemeLayerRecord(layer))
 
@@ -477,31 +469,27 @@ class Project:
 
         for theme_col_name in theme_col_names:
             layer_names = self.df.loc[self.df[theme_col_name]==True, 'qgis_name'].tolist()
+            group_lsts = self.get_group_lsts_from_df(filter=self.df[theme_col_name]==True)
             theme_name = theme_col_name[6:] #remove str theme_
 
-            self.add_theme(theme_name, layer_names)
+            self.add_theme(theme_name, layer_names, group_lsts=group_lsts)
 
 
     def generate_groups(self, group_index=-1):
         """generates all groups and subgroups based on self.structure"""
-        for group_lst in self.group_structure:
+        for group_lst in self.get_group_lsts_from_df():
             self.add_group(group_lst=group_lst, index=group_index)
-
-            # df_parent = self.df.query(f"parent_group=='{parent_group}'") #TODO deprecrated
-
-            # for child_group in df_parent['child_group'].unique():
-            #     self.add_subgroup(group_name=child_group, parent_group_name=parent_group)
 
 
     def write_styling(self, path):
         for layer in self.layer_list:
             name = layer.name()
-            name = self.standardize(name)
+            name = self.standardize_name(name)
             layer.saveNamedStyle(f"{path}/{name}.qml")
             layer.saveSldStyle(f"{path}/{name}.sld")
 
 
-    def standardize(self, name):
+    def standardize_name(self, name):
         """names are edited spaces become _ and are : removed, lowered"""
         return name.replace(" ", "_").replace(":", "").lower()
 
@@ -528,23 +516,23 @@ class Project:
         canvas.setExtent(extent)
 
 
-    def iter_parent(self, parent_group):
-        """iter over a single parent in the df. """
-        df_parent = self.df.query(f"parent_group=='{parent_group}'")
-        for index, row in df_parent.iterrows():
-            yield index, row
+    # def iter_parent(self, parent_group):
+    #     """iter over a single parent in the df. """
+    #     df_parent = self.df.query(f"parent_group=='{parent_group}'")
+    #     for index, row in df_parent.iterrows():
+    #         yield index, row
 
 
-    def iter_parents(self):
-        """Iter over the whole df"""
-        for group_lst in self.group_structure:
-            for index, row in self.iter_parent(group_lst[0]):
-                yield index, row
+    # def iterrows(self):
+    #     """Iter over the whole df"""
+    #     for group_lst in self.get_group_lsts:
+    #         for index, row in self.iter_parent(group_lst[0]):
+    #             yield index, row
             
 
-def send_message(message, subject, level=1, duration=3):
-    print(subject, message)
-    iface.messageBar().pushMessage(subject, message, level=level, duration=duration)
+# def send_message(message, subject, level=1, duration=3):
+#     print(subject, message)
+#     iface.messageBar().pushMessage(subject, message, level=level, duration=duration)
 
 
 # print("doe iets")

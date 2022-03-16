@@ -415,7 +415,7 @@ class HHNK_toolbox:
     # --------------------------------------------------------------------------
     # Start tests and conversions
     # --------------------------------------------------------------------------
-
+    
     def model_states_execution(self, test_env):
         try:
             if (
@@ -596,7 +596,7 @@ class HHNK_toolbox:
                 self.one_d_two_d = oneDTwoDWidget(caller=self, parent=self.dockwidget)
                 self.klimaatsommen = KlimaatSommenWidget(caller=self, parent=self.dockwidget)
                 self.notebook_widget = NotebookWidget(caller=self, parent=self.dockwidget)
-
+                
                 # If a polder folder is selected
                 self.dockwidget.polder_selector.fileChanged.connect(self.polder_folder_changed)
                 # Controls widgets showing results

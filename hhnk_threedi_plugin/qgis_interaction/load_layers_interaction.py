@@ -29,7 +29,7 @@ def load_layers(folder: Folders, df, revision=None, subject=None, group_index=-1
 
     project.generate_groups(group_index=group_index)
 
-    for index, row in project.iter_parents():
+    for index, row in project.df.iterrows():
         #Evaluate row
         full_path, layer_name, filetype, qml_path, subject, \
             group_lst = project.get_layer_information_from_row(row=row, 
@@ -110,4 +110,11 @@ def load_layers_test_sqlite(folder: Folders, remove_layer=False):
 
     df = df.query(f"subject=='test_sqlite'")
     load_layers(folder=folder, df=df, subject=SUBJECT, remove_layer=remove_layer)
+
+
+
+
+
+
+
 
