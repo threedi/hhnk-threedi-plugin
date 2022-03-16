@@ -66,18 +66,6 @@ def setup_ui(load_layers_popup):
     load_layers_popup.test_protocol_selector = QCheckBox("Basis layout")
     load_layers_popup.test_protocol_selector.setChecked(True)
 
-    # load_layers_popup.achtergrond_landgebruik_selector = QCheckBox("Lizard landgebruik")
-    # load_layers_popup.achtergrond_landgebruik_selector.setChecked(False)
-
-    # load_layers_popup.achtergrond_luchtfoto_selector = QCheckBox("PDOK luchtfoto actueel")
-    # load_layers_popup.achtergrond_luchtfoto_selector.setChecked(False)
-
-    # load_layers_popup.achtergrond_waterlopen_2020_selector = QCheckBox("HHNK waterlopen 2020 (legger)")
-    # load_layers_popup.achtergrond_waterlopen_2020_selector.setChecked(False)
-
-    load_layers_popup.themes_selector = QCheckBox("Themas (gebruikt met andere lagen)")
-    load_layers_popup.themes_selector.setChecked(False)
-
     load_layers_popup.achtergrond_selector = QCheckBox("Achtergrondkaarten")
     load_layers_popup.achtergrond_selector.setChecked(False)
 
@@ -115,19 +103,6 @@ def setup_ui(load_layers_popup):
 
     main_layout.addWidget(load_layers_popup.test_protocol_selector)
     main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
-
-    # main_layout.addWidget(load_layers_popup.achtergrond_landgebruik_selector)
-    # main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
-
-    # main_layout.addWidget(load_layers_popup.achtergrond_luchtfoto_selector)
-    # main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
-
-    # main_layout.addWidget(load_layers_popup.achtergrond_waterlopen_2020_selector)
-    # main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
-
-    main_layout.addWidget(load_layers_popup.themes_selector)
-    main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
-    load_layers_popup.themes_selector.setEnabled(False)
 
     main_layout.addWidget(load_layers_popup.achtergrond_selector)
     main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
@@ -272,8 +247,7 @@ class loadLayersDialog(QDialog):
                                                 subjects=subjects)
 
 
-
-        # Klimaatsommen
+        # Klimaatsommen #TODO staat nu in aparate csv. Zo houden voor de themes? Of juist samen nemen?
         if self.klimaatsommen_selector.currentText() != "":
             df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'klimaatsommen.csv')
             revisions = {'klimaatsommen':self.klimaatsommen_selector.currentText()}
@@ -283,19 +257,7 @@ class loadLayersDialog(QDialog):
                                                 revisions=revisions, 
                                                 subjects=subjects)
 
-
-        # project.zoom_to_layer(layer_name='polder_polygon', group_name='Peilgebieden')
-        
-        if self.themes_selector.isChecked() == True:
-            project = Project()
-            print('Themes knop werkt nu niet.')
-
-
-            folder = self.caller.fenv
-
-            # for theme_name, theme_layers in THEMES.items():
-            #     project.add_theme(theme_name, theme_layers)
-
+        #TODO moet dit een keuze worden? 
         project.zoom_to_layer(layer_name='polder_polygon')
 
 

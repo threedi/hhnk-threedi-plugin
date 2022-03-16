@@ -14,7 +14,7 @@ class NotebookWidget():
 
         self.caller = caller
         self.parent= parent
-        self.api_file = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'api_key', 'api_key.txt')
+        self.api_file = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'api_key.txt')
 
         self.load_api_key()
 
