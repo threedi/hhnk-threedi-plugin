@@ -22,10 +22,10 @@ import pandas as pd
 import os
 
 
-def load_layers(folder: Folders, df, revision=None, subject=None, group_index=-1, remove_layer=False):
+def load_layers(folder: Folders, df_path, revisions=None, subjects=None, group_index=-1, remove_layer=False):
     """creates groups, loads layers in project and adds themes based on input df.
     """
-    project = Project(df=df, subject=subject)
+    project = Project(df_path=df_path, subjects=subjects, revisions=revisions)
 
     project.generate_groups(group_index=group_index)
 
@@ -34,8 +34,7 @@ def load_layers(folder: Folders, df, revision=None, subject=None, group_index=-1
         full_path, layer_name, filetype, qml_path, subject, \
             group_lst = project.get_layer_information_from_row(row=row, 
                                     folder=folder, 
-                                    HHNK_THREEDI_PLUGIN_DIR=HHNK_THREEDI_PLUGIN_DIR, 
-                                    revision=revision)
+                                    HHNK_THREEDI_PLUGIN_DIR=HHNK_THREEDI_PLUGIN_DIR)
 
         if remove_layer:
             project.remove_layer(layer_name=layer_name, group_lst=group_lst)
@@ -50,67 +49,69 @@ def load_layers(folder: Folders, df, revision=None, subject=None, group_index=-1
     project.generate_themes()
 
 
-def load_layers_klimaatsommen(folder: Folders, revision):
-    SUBJECT = "Klimaatsommen"
+# def load_layers_klimaatsommen(folder: Folders, revision):
+#     SUBJECT = "Klimaatsommen"
 
-    structure_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'klimaatsommen.csv')
-    df = pd.read_csv(structure_path, sep=';') #Read csv from file with configuration for the available layers.
-    df['parent_group'].replace('Klimaatsommen', f'Klimaatsommen [{revision}]', inplace=True) #Add revision to parentgroup
+#     df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'klimaatsommen.csv')
+#     # df = pd.read_csv(df_path, sep=';') #Read csv from file with configuration for the available layers.
+#     # df['parent_group'].replace('Klimaatsommen', f'Klimaatsommen [{revision}]', inplace=True) #Add revision to parentgroup
 
-    load_layers(folder=folder, df=df, revision=revision, subject=SUBJECT)
-
-
-def load_layers_test_protocol(folder: Folders):
-    SUBJECT = "test_protocol_v21"
-
-    structure_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'testprotocol.csv')
-    df = pd.read_csv(structure_path, sep=';') #Read csv from file with configuration for the available layers.
-
-    df = df.query(f"subject=='test_protocol'")
-    load_layers(folder=folder, df=df, revision=None, subject=SUBJECT)
+#     load_layers(folder=folder, df_path=df_path, revision=revision, subjects=['klimaatsommen'])
 
 
-def load_layers_achtergrond(folder: Folders):
-    SUBJECT = "Achtergrond"
+# def load_layers_test_protocol(folder: Folders):
+#     SUBJECT = "test_protocol_v21"
 
-    structure_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'testprotocol.csv')
-    df = pd.read_csv(structure_path, sep=';') #Read csv from file with configuration for the available layers.
+#     df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'testprotocol.csv')
+    
 
-    df = df.query(f"subject=='achtergrond'")
-    load_layers(folder=folder, df=df, revision=None, subject=SUBJECT, group_index=-1)
+#     subjects=['test_protocol']
+#     # df = pd.read_csv(df_path, sep=';') #Read csv from file with configuration for the available layers.
 
-
-def load_layers_0d1dtest(folder: Folders, revision):
-    SUBJECT = "Test 0d1d"
-
-    structure_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'testprotocol.csv')
-    df = pd.read_csv(structure_path, sep=';') #Read csv from file with configuration for the available layers.
-    df['parent_group'].replace('05. Hydraulische Toets en 0d1d tests', f'05. Hydraulische Toets en 0d1d tests [{revision}]', inplace=True) #Add revision to parentgroup
-
-    df = df.query(f"subject=='test_0d1d'")
-    load_layers(folder=folder, df=df, revision=revision, subject=SUBJECT)
+#     # df = df.query(f"subject=='test_protocol'")
+#     load_layers(folder=folder, df_path=df_path, revision=None, subjects=subjects)
 
 
-def load_layers_1d2dtest(folder: Folders, revision):
-    SUBJECT = "Test 1d2d"
+# def load_layers_achtergrond(folder: Folders):
+#     SUBJECT = "Achtergrond"
 
-    structure_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'testprotocol.csv')
-    df = pd.read_csv(structure_path, sep=';') #Read csv from file with configuration for the available layers.
-    df['parent_group'].replace('07. Testprotocol 1d2d tests', f'07. Testprotocol 1d2d tests [{revision}]', inplace=True) #Add revision to parentgroup
+#     df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'testprotocol.csv')
+#     df = pd.read_csv(df_path, sep=';') #Read csv from file with configuration for the available layers.
 
-    df = df.query(f"subject=='test_1d2d'")
-    load_layers(folder=folder, df=df, revision=revision, subject=SUBJECT)
+#     df = df.query(f"subject=='achtergrond'")
+#     load_layers(folder=folder, df_path=df_path, revision=None, subject=SUBJECT, group_index=-1)
 
 
-def load_layers_test_sqlite(folder: Folders, remove_layer=False):
-    SUBJECT = "Test sqlite"
+# def load_layers_0d1dtest(folder: Folders, revision):
+#     SUBJECT = "Test 0d1d"
 
-    structure_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'testprotocol.csv')
-    df = pd.read_csv(structure_path, sep=';') #Read csv from file with configuration for the available layers.
+#     df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'testprotocol.csv')
+#     df = pd.read_csv(df_path, sep=';') #Read csv from file with configuration for the available layers.
+#     df['parent_group'].replace('05. Hydraulische Toets en 0d1d tests', f'05. Hydraulische Toets en 0d1d tests [{revision}]', inplace=True) #Add revision to parentgroup
 
-    df = df.query(f"subject=='test_sqlite'")
-    load_layers(folder=folder, df=df, subject=SUBJECT, remove_layer=remove_layer)
+#     df = df.query(f"subject=='test_0d1d'")
+#     load_layers(folder=folder, df_path=df_path, revision=revision, subject=SUBJECT)
 
+
+# def load_layers_1d2dtest(folder: Folders, revision):
+#     SUBJECT = "Test 1d2d"
+
+#     df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'testprotocol.csv')
+#     df = pd.read_csv(df_path, sep=';') #Read csv from file with configuration for the available layers.
+#     df['parent_group'].replace('07. Testprotocol 1d2d tests', f'07. Testprotocol 1d2d tests [{revision}]', inplace=True) #Add revision to parentgroup
+
+#     df = df.query(f"subject=='test_1d2d'")
+#     load_layers(folder=folder, df_path=df_path, revision=revision, subject=SUBJECT)
+
+
+# def load_layers_test_sqlite(folder: Folders, remove_layer=False):
+#     SUBJECT = "Test sqlite"
+
+#     df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'testprotocol.csv')
+#     df = pd.read_csv(df_path, sep=';') #Read csv from file with configuration for the available layers.
+
+#     df = df.query(f"subject=='test_sqlite'")
+#     load_layers(folder=folder, df_path=df_path, subject=SUBJECT, remove_layer=remove_layer)
 
 
 

@@ -21,14 +21,14 @@ from qgis.utils import QgsMessageBar, QgsMessageLog, iface
 
 from .utility_functions import get_revision
 from hhnk_threedi_plugin.qgis_interaction.layers_management.layers.get_layers_list import get_layers_list
-from hhnk_threedi_plugin.qgis_interaction.layers_management.adding_layers import (
-    add_layers,
-    find_tif_layers_and_append,
-)
+# from hhnk_threedi_plugin.qgis_interaction.layers_management.adding_layers import (
+#     add_layers,
+#     find_tif_layers_and_append,
+# )
 from hhnk_threedi_plugin.qgis_interaction.layers_management.groups.layer_groups_structure import (
     QgisLayerStructure,
 )
-from ..qgis_interaction.layers_management.removing_layers import remove_layers
+# from hhnk_threedi_plugin.qgis_interaction.layers_management.removing_layers import remove_layers
 
 # new
 
@@ -39,6 +39,7 @@ from hhnk_threedi_plugin.qgis_interaction import load_layers_interaction
 # hhnk-threedi-tests
 from hhnk_threedi_tools.qgis.paths_functions import get_top_level_directories
 from hhnk_threedi_tools.qgis.build_output_files_dict import build_output_files_dict
+from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
 
 
 def setup_ui(load_layers_popup):
@@ -62,8 +63,8 @@ def setup_ui(load_layers_popup):
     load_layers_popup.sqlite_test_selector = QCheckBox("Sqlite testen")
     load_layers_popup.sqlite_test_selector.setChecked(False)
 
-    load_layers_popup.test_protocol_v21_selector = QCheckBox("Layout test protocol v21")
-    load_layers_popup.test_protocol_v21_selector.setChecked(True)
+    load_layers_popup.test_protocol_selector = QCheckBox("Basis layout")
+    load_layers_popup.test_protocol_selector.setChecked(True)
 
     # load_layers_popup.achtergrond_landgebruik_selector = QCheckBox("Lizard landgebruik")
     # load_layers_popup.achtergrond_landgebruik_selector.setChecked(False)
@@ -112,7 +113,7 @@ def setup_ui(load_layers_popup):
     main_layout.addWidget(load_layers_popup.sqlite_test_selector)
     main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
 
-    main_layout.addWidget(load_layers_popup.test_protocol_v21_selector)
+    main_layout.addWidget(load_layers_popup.test_protocol_selector)
     main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
 
     # main_layout.addWidget(load_layers_popup.achtergrond_landgebruik_selector)
@@ -230,83 +231,58 @@ class loadLayersDialog(QDialog):
     def load_layers(self):
 
         iface.messageBar().pushMessage(f"Inladen van lagen gestart", level=Qgis.Info)
-
         
         # set map canvas
         project = Project()
 
-        # project.zoom_to_layer(QgsVectorLayer(self.caller.fenv.source_data.polder_polygon.path, "polder", "ogr"))
-        
-        # Resolve paths to layers
-        # self.sqlite_dict = build_output_files_dict(
-        #     test_type=1, base_folder=self.sqlite_output_path, revision_dir_name=None
-        # )
-
-        # if self.zero_d_one_d_selector.currentText() != "":
-        #     self.zero_d_one_d_dict = build_output_files_dict(
-        #         test_type=2,
-        #         base_folder=self.zero_d_one_d_output_path,
-        #         revision_dir_name=self.zero_d_one_d_selector.currentText(),
-        #     )
-        # else:
-        #     self.zero_d_one_d_dict = False
-
-        # if self.one_d_two_d_selector.currentText() != "":
-        #     self.one_d_two_d_dict = build_output_files_dict(
-        #         test_type=4,
-        #         base_folder=self.one_d_two_d_output_path,
-        #         revision_dir_name=self.one_d_two_d_selector.currentText(),
-        #     )
-        # else:
-        #     self.one_d_two_d_dict = False
-
-        # Create layer list
-        # layer_groups_structure = QgisLayerStructure(
-        #     zero_d_revision=get_revision(self.zero_d_one_d_selector.currentText()),
-        #     one_d_revision=get_revision(self.one_d_two_d_selector.currentText()),
-        # )
-
-        # if self.sqlite_test_selector.isChecked() == True:
-        #     self.sqlite_layers = get_layers_list(
-        #         test_type=1,
-        #         plugin_dir=self.caller.plugin_dir,
-        #         output_dict=self.sqlite_dict,
-        #         group_structure=layer_groups_structure,
-        #         chosen_tests=None,
-        #     )
-
-        #     # TODO fix layers dict to list
-        #     self.sqlite_layers = [self.sqlite_layers[x] for x in self.sqlite_layers]
-
-        #     remove_layers(self.sqlite_layers)  # Remove layers from project
-        #     add_layers(
-        #         layers_list=self.sqlite_layers, group_structure=layer_groups_structure
-        #     )
+        df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'testprotocol.csv')
+        subjects=[]
+        revisions={'0d1d_test':'',
+                    '1d2d_test':'',
+                    'klimaatsommen':''}
 
         # Sqlite test
         if self.sqlite_test_selector.isChecked() == True:
-            load_layers_interaction.load_layers_test_sqlite(folder=self.caller.fenv)
-
-        # Klimaatsommen
-        if self.klimaatsommen_selector.currentText() != "":
-            load_layers_interaction.load_layers_klimaatsommen(folder=self.caller.fenv, 
-                                        revision=self.klimaatsommen_selector.currentText())
+            subjects.append('test_sqlite')
 
         # Test protocol
-        if self.test_protocol_v21_selector.isChecked() == True:
-            load_layers_interaction.load_layers_test_protocol(folder=self.caller.fenv)
+        if self.test_protocol_selector.isChecked() == True:
+            subjects.append('test_protocol')
 
         # Achtergrond
         if self.achtergrond_selector.isChecked() == True: #Todo naam butten veranderen en andere achtergrond buttons weg.
-            load_layers_interaction.load_layers_achtergrond(folder=self.caller.fenv)
+            subjects.append('achtergrond')
 
+        # 0d1d test
         if self.zero_d_one_d_selector.currentText() != "":
-            load_layers_interaction.load_layers_0d1dtest(folder=self.caller.fenv, 
-                                        revision=self.zero_d_one_d_selector.currentText())
+            subjects.append('test_0d1d')
+            revisions['0d1d_test'] = self.zero_d_one_d_selector.currentText()
 
+        # 1d2d test
         if self.one_d_two_d_selector.currentText() != "":
-            load_layers_interaction.load_layers_1d2dtest(folder=self.caller.fenv, 
-                                        revision=self.one_d_two_d_selector.currentText())
+            subjects.append('test_1d2d')
+            revisions['1d2d_test'] = self.one_d_two_d_selector.currentText()
+
+
+        #Laad geselecteerde lagen.
+        if subjects != []:
+            load_layers_interaction.load_layers(folder=self.caller.fenv, 
+                                                df_path=df_path, 
+                                                revisions=revisions, 
+                                                subjects=subjects)
+
+
+
+        # Klimaatsommen
+        if self.klimaatsommen_selector.currentText() != "":
+            df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'klimaatsommen.csv')
+            revisions = {'klimaatsommen':self.klimaatsommen_selector.currentText()}
+            subjects=['klimaatsommen']
+            load_layers_interaction.load_layers(folder=self.caller.fenv, 
+                                                df_path=df_path, 
+                                                revisions=revisions, 
+                                                subjects=subjects)
+
 
         # project.zoom_to_layer(layer_name='polder_polygon', group_name='Peilgebieden')
         
@@ -320,4 +296,8 @@ class loadLayersDialog(QDialog):
             # for theme_name, theme_layers in THEMES.items():
             #     project.add_theme(theme_name, theme_layers)
 
+        project.zoom_to_layer(layer_name='polder_polygon')
+
+
         self.accept()
+

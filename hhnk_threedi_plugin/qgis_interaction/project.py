@@ -161,26 +161,38 @@ class Project:
 
     """
 
-    def __init__(self, df=None, subject="HTT"):
+    def __init__(self, df_path=None, subjects=None, revisions={'0d1d_test':'','1d2d_test':'','klimaatsommen':''}):
         self.instance = QgsProject.instance()
         self.root = self.instance.layerTreeRoot()
         self.mapthemecollection = self.instance.mapThemeCollection()
         self.layoutmanager = self.instance.layoutManager()
-        # self.structure = structure
-        self.df=df
-        self.subject = subject
+        self.df_path = df_path
+        self.subjects = subjects
+        self.revisions=revisions
+        
+
+        if df_path is not None:
+            self.df_full = pd.read_csv(self.df_path, sep=';') #Read csv from file with configuration for the available layers.
+            self.df = self.df_full[self.df_full['subject'].isin(self.subjects)] #Filter on selected subjects.
+        
 
     def __iter__(self):
         for i in self.root.children():
             yield i
 
 
-
-    def get_group_lsts_from_df(self, filter=None) -> list:
-        """List of group lists in dataframe"""
+    def get_group_lsts_from_df(self, df, filter=None) -> list:
+        """List of group lists in dataframe. df is an input because for generating themes self.df_full is used."""
         # group_structure_lst = self.df[['parent_group','child_group']].stack().groupby(level=0).apply(list).tolist()
         # return list(k for k,_ in itertools.groupby(group_structure_lst))
-        group_lsts = self.df['group_lst'].apply(eval)
+        
+        def local_eval(row):
+            """apply(eval) doesnt work, it doesnt recognise revisions unless specified in same function"""
+            revisions = self.revisions #required for eval
+
+            return eval(row)
+
+        group_lsts = df['group_lst'].apply(local_eval) 
         if filter is None:
             return group_lsts.to_list()
         else:
@@ -219,10 +231,11 @@ class Project:
         return iface.mapCanvas().extent()
 
 
-    @staticmethod
-    def get_layer_information_from_row(row, folder, HHNK_THREEDI_PLUGIN_DIR, revision=None):
+    # @staticmethod
+    def get_layer_information_from_row(self, row, folder, HHNK_THREEDI_PLUGIN_DIR):
         """retrieve all information to construct a layer from a row in the dataframe.
-        folder and HHNK_THREEDI_PLUGIN_DIR are needed for the eval functions."""
+        folder, HHNK_THREEDI_PLUGIN_DIR and revisiosn are needed for the eval functions.
+        """
 
         filetype = row.filetype
 
@@ -247,6 +260,7 @@ class Project:
 
         subject = row.subject
 
+        revisions = self.revisions #required for eval, has the keys: 0d1d_test, 1d2d_test and klimaatsommen
         group_lst=eval(row.group_lst)
         return full_path, layer_name, filetype, qml_path, subject, group_lst
 
@@ -399,6 +413,7 @@ class Project:
 
         for j in range(i-1+parent_found, len(group_lst)): #some magic with index required to create the correct group.
             group = group.insertGroup(index, group_lst[j])
+            group.setItemVisibilityChecked(False)
             group.setExpanded(False)
             # print(f'create {group_lst[j]}')
         return group
@@ -465,11 +480,11 @@ class Project:
 
     def generate_themes(self):
         """Generate themes based on all columns in the dataframe that start with 'theme_'"""
-        theme_col_names = [i for i in self.df.keys() if i.startswith('theme_')]
+        theme_col_names = [i for i in self.df_full.keys() if i.startswith('theme_')]
 
         for theme_col_name in theme_col_names:
-            layer_names = self.df.loc[self.df[theme_col_name]==True, 'qgis_name'].tolist()
-            group_lsts = self.get_group_lsts_from_df(filter=self.df[theme_col_name]==True)
+            layer_names = self.df_full.loc[self.df_full[theme_col_name]==True, 'qgis_name'].tolist()
+            group_lsts = self.get_group_lsts_from_df(df=self.df_full, filter=self.df_full[theme_col_name]==True)
             theme_name = theme_col_name[6:] #remove str theme_
 
             self.add_theme(theme_name, layer_names, group_lsts=group_lsts)
@@ -477,7 +492,7 @@ class Project:
 
     def generate_groups(self, group_index=-1):
         """generates all groups and subgroups based on self.structure"""
-        for group_lst in self.get_group_lsts_from_df():
+        for group_lst in self.get_group_lsts_from_df(df=self.df):
             self.add_group(group_lst=group_lst, index=group_index)
 
 
@@ -501,10 +516,10 @@ class Project:
         )
         
     
-    def zoom_to_layer(self, layer_name, group_lst):
+    def zoom_to_layer(self, layer_name, group_lst=[]):
 
         layer = self.get_layer(layer_name=layer_name, group_lst=group_lst)
-        if not layer.isValid():
+        if layer is None:
             print("Layer unvalid not setting extent")
             return
             
