@@ -33,6 +33,7 @@ from ...qgis_interaction.layers_management.groups.layer_groups_structure import 
     QgisLayerStructure,
 )
 import pandas as pd
+from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
 
 
 # from ...qgis_interaction.configs.klimaatsommen import load_klimaatsommen_layers
@@ -112,8 +113,16 @@ class KlimaatSommenWidget(QWidget):
         """
 
         self.fenv = self.caller.fenv
-        load_layers_interaction.load_layers_klimaatsommen(folder=self.fenv, 
-                                        revision=self.select_revision_box.currentText())
+
+        df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'klimaatsommen.csv')
+        revisions = {'klimaatsommen':self.select_revision_box.currentText()}
+        subjects=['klimaatsommen']
+        load_layers_interaction.load_layers(folder=self.caller.fenv, 
+                                            df_path=df_path, 
+                                            revisions=revisions, 
+                                            subjects=subjects,
+                                            remove_layer=True)
+
         load_print_layout()
 
     def verify_submit_create_pdfs(self):
@@ -124,10 +133,10 @@ class KlimaatSommenWidget(QWidget):
         QMessageBox.warning(
             None,
             SUBJECT,
-            "De pdf's zullen aangemaakt worden met de huidige QGIS extent!",
+            "De pdf's zullen aangemaakt worden met de huidige QGIS extents!",
         )
 
-        load_print_layout()
+        # load_print_layout()
         create_pdfs(self.caller.fenv, self.select_revision_box.currentText())
 
     def populate_combobox(self):

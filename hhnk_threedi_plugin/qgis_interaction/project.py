@@ -173,7 +173,10 @@ class Project:
 
         if df_path is not None:
             self.df_full = pd.read_csv(self.df_path, sep=';') #Read csv from file with configuration for the available layers.
-            self.df = self.df_full[self.df_full['subject'].isin(self.subjects)] #Filter on selected subjects.
+            if subjects is not None:
+                self.df = self.df_full[self.df_full['subject'].isin(self.subjects)] #Filter on selected subjects.
+            else: 
+                self.df = self.df_full
         
 
     def __iter__(self):
@@ -238,6 +241,7 @@ class Project:
         """
 
         filetype = row.filetype
+        revisions = self.revisions #required for eval in row.filedir and row.group_lst, has the keys: 0d1d_test, 1d2d_test and klimaatsommen
 
         #Voor wms staat de volledige link die nodig is in row.wms_source.
         if filetype in ['arcgismapserver', 'arcgisfeatureserver', 'wms']:
@@ -247,9 +251,12 @@ class Project:
                 full_path = os.path.join(eval(row.filedir), row.filename)
                 if not pd.isna(row.filters):
                     full_path = f"{full_path}|{row.filters}"
-            except:
+
+            except Exception as e:
+                print(f'Could not evaluate {row.filedir}')
                 logger.warning(f'Could not evaluate {row.filedir}')
                 full_path=None
+
 
         layer_name = row.qgis_name
 
@@ -260,8 +267,8 @@ class Project:
 
         subject = row.subject
 
-        revisions = self.revisions #required for eval, has the keys: 0d1d_test, 1d2d_test and klimaatsommen
         group_lst=eval(row.group_lst)
+
         return full_path, layer_name, filetype, qml_path, subject, group_lst
 
 
@@ -510,7 +517,8 @@ class Project:
 
 
     def send_message(self, message, level=1, duration=5):
-        print(self.subject, message)
+        self.subject="" #FIXME self.subject was replaced by self.subjects
+        # print(self.subject, message)
         iface.messageBar().pushMessage(
             self.subject, message, level=level, duration=duration
         )

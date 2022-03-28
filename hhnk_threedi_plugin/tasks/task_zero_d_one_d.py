@@ -19,6 +19,8 @@ import hhnk_research_tools as hrt
 import hhnk_threedi_tools.core.checks.zero_d_one_d as htt_0d1d
 import hhnk_threedi_tools.core.checks.grid_result_metadata as grid_result_metadata
 from hhnk_threedi_plugin.qgis_interaction import load_layers_interaction
+from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
+import os
 
 from qgis.core import Qgis
 from qgis.utils import QgsMessageLog
@@ -58,8 +60,15 @@ def task_zero_d_one_d(folder, revision):
     gdf_node.to_file(output_file_node, driver='GPKG', index=False)
 
     #Add layers to project
-    load_layers_interaction.load_layers_0d1dtest(folder=folder, 
-                                        revision=revision)
+    df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'testprotocol.csv')
+    revisions={'0d1d_test':revision,
+                '1d2d_test':'',
+                'klimaatsommen':''}
+
+    load_layers_interaction.load_layers(folder=folder, 
+                                df_path=df_path, 
+                                revisions=revisions, 
+                                subjects=['test_0d1d'])
 
 
 # %%

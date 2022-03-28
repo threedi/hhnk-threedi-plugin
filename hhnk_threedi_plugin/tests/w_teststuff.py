@@ -34,6 +34,17 @@ self = Test()
 
 folder.output.one_d_two_d['BWN_bwn_test_#5_1d2d_test']
 
+
+# %% check of ids doorkomen
+import hhnk_research_tools as hrt
+from hhnk_threedi_tools.utils.queries_general_checks import ModelCheck
+queries_lst = [item for item in vars(ModelCheck()).values()]
+for query in queries_lst:
+    df = hrt.execute_sql_selection(query=query, database_path=folder.model.database_path)
+    if not df.empty:
+        print(df)
+        break
+
 # %%
 # self.caller.fenv.source_data.polder_polygon.path
 

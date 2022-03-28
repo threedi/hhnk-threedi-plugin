@@ -7,23 +7,22 @@ Created on Tue Dec  7 11:08:36 2021
 import os
 import pandas as pd
 from .project import Project
-from .styling import path as PATH
+from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
 
 from qgis.core import QgsLayoutExporter, QgsRenderContext, QgsLayoutSize, QgsUnitTypes
 
-LAYOUT_PATH = f"{PATH}/print_layouts/wsa_kaarten.qpt"
-
+LAYOUT_PATH = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'styling', 'print_layouts', 'wsa_kaarten.qpt')
 
 def load_print_layout():
-    project = Project(subject="Layout klimaatsommen")
-    project.add_print_layout_template(LAYOUT_PATH, "wsa_kaarten")
+    project = Project() #subject="Layout klimaatsommen")
+    project.add_print_layout_template(LAYOUT_PATH, "wsa_kaarten1")
 
 
 def create_pdfs(folder, revisie):
 
-    project = Project(subject="Mapcomposer klimaatsommen")
+    project = Project() #subject="Mapcomposer klimaatsommen")
     polder = folder.name
-    output_path = folder.output.climate[revisie].layers.path
+    output_path = folder.output.climate[revisie].path
 
     subtitle = "Maatregel model {} (rev{})".format(polder, revisie)
 
@@ -33,21 +32,21 @@ def create_pdfs(folder, revisie):
     dic[0] = {
         "composer_name": "wsa_kaarten",
         "pdf_name": "{}_rev{}_cw_schade_totaal.pdf".format(polder, revisie),
-        "theme": "schade_totaal",
+        "theme": "klimaatsommen_schade_totaal",
         "title": "Schade",
         "legenda": "legenda_schade",
     }
     dic[1] = {
         "composer_name": "wsa_kaarten",
         "pdf_name": "{}_rev{}_cw_schade_plas.pdf".format(polder, revisie),
-        "theme": "schade_plas",
+        "theme": "klimaatsommen_schade_plas",
         "title": "Schade plasvorming",
         "legenda": "legenda_schade",
     }
     dic[2] = {
         "composer_name": "wsa_kaarten",
         "pdf_name": "{}_rev{}_cw_schade_overlast.pdf".format(polder, revisie),
-        "theme": "schade_overlast",
+        "theme": "klimaatsommen_schade_overlast",
         "title": "Schade watersysteem",
         "legenda": "legenda_schade",
     }
@@ -56,21 +55,21 @@ def create_pdfs(folder, revisie):
     dic[3] = {
         "composer_name": "wsa_kaarten",
         "pdf_name": "{}_rev{}_cw_schade_totaal_corr.pdf".format(polder, revisie),
-        "theme": "schade_totaal_corr",
+        "theme": "klimaatsommen_schade_totaal_corr",
         "title": "Schade",
         "legenda": "legenda_schade",
     }
     dic[4] = {
         "composer_name": "wsa_kaarten",
         "pdf_name": "{}_rev{}_cw_schade_plas_corr.pdf".format(polder, revisie),
-        "theme": "schade_plas_corr",
+        "theme": "klimaatsommen_schade_plas_corr",
         "title": "Schade plasvorming",
         "legenda": "legenda_schade",
     }
     dic[5] = {
         "composer_name": "wsa_kaarten",
         "pdf_name": "{}_rev{}_cw_schade_overlast_corr.pdf".format(polder, revisie),
-        "theme": "schade_overlast_corr",
+        "theme": "klimaatsommen_schade_overlast_corr",
         "title": "Schade watersysteem",
         "legenda": "legenda_schade",
     }
@@ -79,21 +78,21 @@ def create_pdfs(folder, revisie):
     dic[6] = {
         "composer_name": "wsa_kaarten",
         "pdf_name": "{}_rev{}_inundatie_totaal.pdf".format(polder, revisie),
-        "theme": "inundatie_totaal",
+        "theme": "klimaatsommen_inundatie_totaal",
         "title": "Inundatie",
         "legenda": "legenda_inundatie",
     }
     dic[7] = {
         "composer_name": "wsa_kaarten",
         "pdf_name": "{}_rev{}_inundatie_plas.pdf".format(polder, revisie),
-        "theme": "inundatie_plas",
+        "theme": "klimaatsommen_inundatie_plas",
         "title": "Inundatie plasvorming",
         "legenda": "legenda_inundatie",
     }
     dic[8] = {
         "composer_name": "wsa_kaarten",
         "pdf_name": "{}_rev{}_inundatie_overlast.pdf".format(polder, revisie),
-        "theme": "inundatie_overlast",
+        "theme": "klimaatsommen_inundatie_overlast",
         "title": "Inundatie watersysteem",
         "legenda": "legenda_inundatie",
     }
@@ -102,7 +101,7 @@ def create_pdfs(folder, revisie):
     dic[9] = {
         "composer_name": "wsa_kaarten",
         "pdf_name": "{}_rev{}_ruimtekaart.pdf".format(polder, revisie),
-        "theme": "ruimtekaart",
+        "theme": "klimaatsommen_ruimtekaart",
         "title": "Ruimtekaart",
         "legenda": "legenda_ruimtekaart",
     }
@@ -111,7 +110,7 @@ def create_pdfs(folder, revisie):
     dic[10] = {
         "composer_name": "wsa_kaarten",
         "pdf_name": "{}_rev{}_landgebruik.pdf".format(polder, revisie),
-        "theme": "landgebruik",
+        "theme": "klimaatsommen_landgebruik",
         "title": "Landgebruik",
         "legenda": "legenda_landgebruik",
     }
@@ -189,7 +188,7 @@ def create_pdf_from_composer(
     map.setFollowVisibilityPresetName(theme)
 
     # Poging om extent goed te zetten, maar handmatig is beter.
-    map.setExtent(project.mapcanvas_extent)
+    # map.setExtent(project.mapcanvas_extent)
     # -------------------------------------------------------------------------------------
     # Export
     # -------------------------------------------------------------------------------------

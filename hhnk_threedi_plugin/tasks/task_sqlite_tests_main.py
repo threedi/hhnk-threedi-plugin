@@ -33,6 +33,10 @@ from hhnk_threedi_plugin.tasks.sqlite_test_tasks.sqlite_test_tasks import (
     watersurfaceAreaTask,
     )
 
+
+from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
+import os
+
 def task_sqlite_tests_main(parent_widget, folder, selected_tests):        
     """
     Fuctions runs all tests that are part of model (sqlite) tests:
@@ -87,7 +91,17 @@ def task_sqlite_tests_main(parent_widget, folder, selected_tests):
                 f"All sqlite tasks finished - loading results into project", level=Qgis.Info
             )
 
-        load_layers_interaction.load_layers_test_sqlite(folder=folder, remove_layer=True)
+
+        df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'testprotocol.csv')
+        revisions={'0d1d_test':'',
+                    '1d2d_test':'',
+                    'klimaatsommen':''}
+
+        load_layers_interaction.load_layers(folder=folder, 
+                                    df_path=df_path, 
+                                    revisions=revisions, 
+                                    subjects=['test_sqlite'],
+                                    remove_layer=True)
         QgsApplication.taskManager().allTasksFinished.disconnect()
 
     task_manager_connect = task_manager.allTasksFinished.connect(print_done)

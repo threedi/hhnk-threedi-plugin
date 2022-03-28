@@ -319,7 +319,7 @@ class HHNK_toolbox:
             self.current_source_paths = folder.to_file_dict()
             self.initialize_current_paths()
             
-            self.dockwidget.model_state_btn.setEnabled(False) #FIXME tijdelijk uitgezet totdat oplossing voor klondike release er is.
+            self.dockwidget.model_state_btn.setEnabled(True) #FIXME tijdelijk uitgezet totdat oplossing voor klondike release er is.
             self.dockwidget.tests_toolbox.setEnabled(True)
             self.dockwidget.server_btn.setEnabled(True)
             self.dockwidget.load_layers_btn.setEnabled(True)
