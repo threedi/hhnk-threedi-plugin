@@ -64,11 +64,11 @@ DEPENDENCIES = [
     Dependency("tqdm", "tqdm", "==4.40.2", False, "qgis", False),
     # test pypi
     Dependency(
-        "hhnk_threedi_tools", "hhnk_threedi_tools", "==0.5.16", True, "qgis", True
+        "hhnk_threedi_tools", "hhnk_threedi_tools", "==0.5.17", True, "qgis", True
     ),
-    Dependency(
-        "hhnk_research_tools", "hhnk_research_tools", "==0.4", True, "qgis", True
-    ),
+    #Dependency(
+    #    "hhnk_research_tools", "hhnk_research_tools", "==0.4", True, "qgis", True
+    #),
 ]
 
 logger = logging.getLogger(__name__)

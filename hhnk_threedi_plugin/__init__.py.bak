@@ -26,8 +26,8 @@ from .dependencies import ensure_dependencies
 
 
 #TODO
-import sys
-sys.path.append('.')
+#import sys
+#sys.path.append('.')
 #research tools installatie uit osgeo weghalen. Sys path append hier van de github repo. 
 #import hhnk_threedi_plugin.local_settings as local_settings
 #if local_settings.DEBUG:
