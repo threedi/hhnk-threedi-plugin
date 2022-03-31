@@ -103,21 +103,22 @@ def gdf_write_to_geopackage(gdf, path=None, filename=None, filepath=None, driver
     ext = file_types_dict[GPKG]
     if filepath is None:
         filepath = os.path.join(path, filename + ext)
+    
+    #try:
+    if os.path.exists(filepath):
+        os.remove(filepath)
+    ensure_file_path(filepath)
+    if filename is None:
         
-    try:
-        if os.path.exists(filepath):
-            os.remove(filepath)
-        if not gdf.empty:
-            ensure_file_path(filepath)
-            if filename is None:
-                gdf.to_file(filepath, driver=driver, index=index)
-            else:
-                gdf.to_file(filepath, layer=filename, driver=driver, index=index)
+        print('Writing geopackage to', filepath)
+        gdf.to_file(filepath, driver=driver, index=index)
+    else:
+        gdf.to_file(filepath, layer=filename, driver=driver, index=index)
 
-            return filepath
-        return None
-    except Exception as e:
-        raise e from None
+        return filepath
+    return None
+    # except Exception as e:
+    #     raise e from None
 
 
 def gdf_write_to_csv(gdf, path=None, filename=None, filepath=None, mode="w", cols=None, index=False):

@@ -247,15 +247,17 @@ class Project:
         if filetype in ['arcgismapserver', 'arcgisfeatureserver', 'wms']:
             full_path = row.wms_source
         else:
-            try:
-                full_path = os.path.join(eval(row.filedir), row.filename)
-                if not pd.isna(row.filters):
-                    full_path = f"{full_path}|{row.filters}"
+            # try:
+            filedir = self.filedir_with_revision(row.filedir)
+            print(filedir)
+            full_path = os.path.join(eval(str(filedir)), row.filename)
+            if not pd.isna(row.filters):
+                full_path = f"{full_path}|{row.filters}"
 
-            except Exception as e:
-                print(f'Could not evaluate {row.filedir}')
-                logger.warning(f'Could not evaluate {row.filedir}')
-                full_path=None
+            # except Exception as e:
+            #     print(f'Could not evaluate {row.filedir}')
+            #     logger.warning(f'Could not evaluate {row.filedir}')
+            #     full_path=None
 
 
         layer_name = row.qgis_name
@@ -538,7 +540,13 @@ class Project:
         canvas.setExtent(extent)
         canvas.setExtent(extent)
 
-
+    def filedir_with_revision(self, filedir):
+        if "one_d_two_d" in filedir:
+            return filedir.replace("revision", f"'{self.revisions['1d2d_test']}'")
+        elif "zero_d_one_d" in filedir:
+            return filedir.replace("revision", f"'{self.revisions['0d1d_test']}'")
+        else:
+            return filedir
     # def iter_parent(self, parent_group):
     #     """iter over a single parent in the df. """
     #     df_parent = self.df.query(f"parent_group=='{parent_group}'")

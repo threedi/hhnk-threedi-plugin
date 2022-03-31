@@ -84,7 +84,7 @@ from hhnk_threedi_plugin.tasks.task_sqlite_tests_main import task_sqlite_tests_m
 from hhnk_threedi_tools.utils.notebooks.run import create_command_bat_file
 
 
-from .dependencies import DEPENDENCY_DIR, THREEDI_DIR
+#from .dependencies import DEPENDENCY_DIR, THREEDI_DIR
 
 
 # docs
@@ -565,8 +565,8 @@ class HHNK_toolbox:
             self.dockwidget.show()
 
 
-            #For debug set project_path in local_settings.
-            try:
-                self.dockwidget.polder_selector.setFilePath(local_settings.project_path)
-            except:
-                pass
+            # #For debug set project_path in local_settings.
+            # try:
+            #     self.dockwidget.polder_selector.setFilePath(local_settings.project_path)
+            # except:
+            #     pass

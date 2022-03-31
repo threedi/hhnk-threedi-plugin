@@ -134,12 +134,14 @@ class structsChannelsTask(BaseSqliteTask):
         super().__init__(folder)
         self.description="bepalen kunstwerken met referentie level onder bodem niveau"
         self.layer_source = self.folder.output.sqlite_tests.bodemhoogte_kunstwerken.path
+        print(self.layer_source)
 
     def run_custom(self):
         if self.os_retry is None:
             self.gdf = self.sqlite_test.run_struct_channel_bed_level()
 
-        hrt.gdf_write_to_geopackage(self.gdf, filepath=self.layer_source)
+        print(self.gdf)
+        hrt.gdf_write_to_geopackage(self.gdf, filepath=str(self.layer_source))
         return True
 
     def finished_custom(self):

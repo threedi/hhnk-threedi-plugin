@@ -240,6 +240,7 @@ class loadLayersDialog(QDialog):
 
 
         #Laad geselecteerde lagen.
+        print(revisions)
         if subjects != []:
             load_layers_interaction.load_layers(folder=self.caller.fenv, 
                                                 df_path=df_path, 
