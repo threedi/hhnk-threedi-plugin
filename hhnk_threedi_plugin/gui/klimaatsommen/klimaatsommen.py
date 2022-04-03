@@ -133,7 +133,14 @@ class KlimaatSommenWidget(QWidget):
         QMessageBox.warning(
             None,
             SUBJECT,
-            "De pdf's zullen aangemaakt worden met de huidige QGIS extents!",
+            """
+                Let op:
+                - De pdf's worden aangemaakt met het huidige extent!
+                - Laadt de achtergrond laag in.
+                - Laadt de revisie laag in.
+                - Extents verschillen per monitor. Werkt het niet? Pas 
+                de extent aan in de layout manager. (project -> layouts -> wsa_kaarten)
+            """
         )
 
         # load_print_layout()

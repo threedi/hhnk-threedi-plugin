@@ -94,7 +94,7 @@ class NotebookWidget():
                 "polder_folder": self.caller.polder_folder,
                 "lizard_api_key": api_key,            },
         )
-        htt.add_notebook_paths([str(DEPENDENCY_DIR), str(THREEDI_DIR)])
+        htt.add_notebook_paths([str(THREEDI_DIR),str(DEPENDENCY_DIR)])
         
     def start_server(self):
         api_key = self.generate_notebook_valid()

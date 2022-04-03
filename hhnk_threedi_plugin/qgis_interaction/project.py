@@ -249,8 +249,8 @@ class Project:
         else:
             # try:
             filedir = self.filedir_with_revision(row.filedir)
-            print(filedir)
             full_path = os.path.join(eval(str(filedir)), row.filename)
+            print(full_path)
             if not pd.isna(row.filters):
                 full_path = f"{full_path}|{row.filters}"
 
@@ -266,6 +266,7 @@ class Project:
             qml_path = os.path.join(eval(row.qmldir), row.qmlname)
         else:
             qml_path = None
+        print("qml_path", qml_path)
 
         subject = row.subject
 
@@ -461,7 +462,9 @@ class Project:
 
         records = []
         for layer_name, group_lst in zip(layer_names, group_lsts):
+            print(layer_name, group_lst)
             layer = self.get_layer(layer_name=layer_name, group_lst=group_lst)
+            print(layer)
             if layer:
                 records.append(QgsMapThemeCollection.MapThemeLayerRecord(layer))
 
@@ -487,7 +490,7 @@ class Project:
         self.instance.layoutManager().addLayout(layout)
 
 
-    def generate_themes(self):
+    def generate_themes(self, revision=None):
         """Generate themes based on all columns in the dataframe that start with 'theme_'"""
         theme_col_names = [i for i in self.df_full.keys() if i.startswith('theme_')]
 
@@ -496,6 +499,17 @@ class Project:
             group_lsts = self.get_group_lsts_from_df(df=self.df_full, filter=self.df_full[theme_col_name]==True)
             theme_name = theme_col_name[6:] #remove str theme_
 
+            #TODO - Super ugly quick fix for adding the background and adding revisions
+            
+            # don't forget the background
+            layer_names.extend(["Luchtfoto actueel (PDOK)"])
+            group_lsts.extend([["Achtergrond"]])
+            
+            for i in range(0, len(group_lsts)):
+                group_lsts[i][0] = group_lsts[i][0].replace("Klimaatsommen []", f"Klimaatsommen [{self.revisions['klimaatsommen']}]")
+            
+            # and dont for
+            print(theme_name, layer_names, group_lsts)
             self.add_theme(theme_name, layer_names, group_lsts=group_lsts)
 
 
@@ -561,45 +575,5 @@ class Project:
     #             yield index, row
             
 
-# def send_message(message, subject, level=1, duration=3):
-#     print(subject, message)
-#     iface.messageBar().pushMessage(subject, message, level=level, duration=duration)
-
-
-# print("doe iets")
-
-# project = Project(STRUCTURE)
-# project.generate_groups()
-# print(project.subgroup_structure)
-
-# import os
-# os.chdir(r"C:\Users\chris.kerklaan\Documents\test2")
-# layer1 = Layer("geometry1.shp", "g1", "geometry1.qml" , "vector")
-# layer2 = Layer("geometry2.shp", "g2", "geometry2.qml" , "vector")
-# layer3 = Layer("geometry3.shp", "g3", "geometry2.qml" , "vector")
-
-# project=  Project()
-# for group, layer_list in NEW_STRUCTURE.items():
-#     for layer_name in layer_list:
-#         if layer_name == "g1":
-#             layer = layer1
-#         elif layer_name == "g2":
-#             layer = layer2
-#         elif layer_name == "g3":
-#             layer = layer3
-#         print(layer_name)
-
-#         project.add_layer(layer, group)
-
-# project.add_layer(layer2, "yolo")
-# project.add_layer(layer3, "test")
-
-# project.add_layer(layer3, "eerste")
-
-# project.add_layer(layer3, "derde")
-
-# project.add_layer(layer3, "vierde")
-
-# project.add_theme("gones", ["g1"])
-
-# project.write_styling(r"C:\Users\chris.kerklaan\AppData\Roaming\QGIS\QGIS3\profiles\default\python\plugins\hhnk_threedi_plugin\qgis_layer_styles\klimaatsommen")
+project = Project(df_path=r"C:\Users\chris.kerklaan\AppData\Roaming\QGIS\QGIS3\profiles\default\python\plugins\hhnk_threedi_plugin\qgis_interaction\layer_structure/klimaatsommen.csv")
+project.generate_themes()

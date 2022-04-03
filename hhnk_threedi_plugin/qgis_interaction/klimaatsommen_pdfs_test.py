@@ -1,17 +1,24 @@
 # -*- coding: utf-8 -*-
 """
+Created on Fri Apr  1 10:49:39 2022
+
+@author: chris.kerklaan
+"""
+
+# -*- coding: utf-8 -*-
+"""
 Created on Tue Dec  7 11:08:36 2021
 
 @author: chris.kerklaan
 """
 import os
 import pandas as pd
-from .project import Project
+from hhnk_threedi_plugin.qgis_interaction.project import Project
 from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
 
 from qgis.core import QgsLayoutExporter, QgsRenderContext, QgsLayoutSize, QgsUnitTypes
 
-LAYOUT_PATH = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'styling', 'print_layouts', 'wsa_kaarten_landscape.qpt')
+LAYOUT_PATH = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'styling', 'print_layouts', 'wsa_kaarten.qpt')
 
 def load_print_layout():
     project = Project() #subject="Layout klimaatsommen")
@@ -51,7 +58,7 @@ def create_pdfs(folder, revisie):
         "legenda": "legenda_schade",
     }
 
-    #Gecorrigeerde schadekaarten
+    # #Gecorrigeerde schadekaarten
     dic[3] = {
         "composer_name": "wsa_kaarten1",
         "pdf_name": "{}_rev{}_cw_schade_totaal_corr.pdf".format(polder, revisie),
@@ -97,7 +104,7 @@ def create_pdfs(folder, revisie):
         "legenda": "legenda_inundatie",
     }
 
-    # # Ruimtekaart
+    # Ruimtekaart
     dic[9] = {
         "composer_name": "wsa_kaarten1",
         "pdf_name": "{}_rev{}_ruimtekaart.pdf".format(polder, revisie),
@@ -107,13 +114,13 @@ def create_pdfs(folder, revisie):
     }
 
     # Landgebruik
-    # dic[10] = {
-    #     "composer_name": "wsa_kaarten1",
-    #     "pdf_name": "{}_rev{}_landgebruik.pdf".format(polder, revisie),
-    #     "theme": "klimaatsommen_landgebruik",
-    #     "title": "Landgebruik",
-    #     "legenda": "legenda_landgebruik",
-    # }
+    dic[10] = {
+        "composer_name": "wsa_kaarten1",
+        "pdf_name": "{}_rev{}_landgebruik.pdf".format(polder, revisie),
+        "theme": "klimaatsommen_landgebruik",
+        "title": "Landgebruik",
+        "legenda": "legenda_landgebruik",
+    }
 
     # Set dict in dataframe that will be looped.
     df = pd.DataFrame(
@@ -188,8 +195,7 @@ def create_pdf_from_composer(
     map.setFollowVisibilityPresetName(theme)
 
     # Poging om extent goed te zetten, maar handmatig is beter.
-    map.setExtent(project.mapcanvas_extent)
-    
+    # map.setExtent(project.mapcanvas_extent)
     # -------------------------------------------------------------------------------------
     # Export
     # -------------------------------------------------------------------------------------
@@ -203,3 +209,9 @@ def create_pdf_from_composer(
     export = QgsLayoutExporter(layout_item)
     result = export.exportToPdf(output_file, pdf_settings)
     return result
+
+
+from hhnk_threedi_tools import Folders
+folder = Folders(r"C:\Users\chris.kerklaan\Documents\Github\hhnk-threedi-tools\test_polder")
+revisie = "hoekje_volledig"
+create_pdfs(folder, revisie)

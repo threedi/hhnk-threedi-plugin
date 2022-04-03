@@ -25,6 +25,7 @@ DEPENDENCY_DIR.mkdir(parents=True, exist_ok=True)
 DEPENDENCY_DIR = str(DEPENDENCY_DIR)
 
 import os
+import pkg_resources
 import importlib
 import logging
 import subprocess
@@ -40,15 +41,15 @@ the first time you update the plugin
 """
 Dependency = namedtuple(
     "Dependency",
-    ["name", "package", "constraint", "no_dependecies", "folder", "testpypi"],
+    ["name", "package", "constraint", "no_dependecies", "folder", "testpypi", "enforce_version"],
 )
 DEPENDENCIES = [
-    Dependency("Jupyter", "jupyter", "==1.0.0", False, "user", False), # upgrades get add layer
-    Dependency("Rtree", "rtree", "==0.9.7", False, "qgis", False),
-    Dependency("APScheduler", "apscheduler", "==3.8.1", False, "qgis", False),
-    Dependency("ipyfilechooser", "ipyfilechooser", "==0.6.0", False, "qgis", False),
-    Dependency("Scipy", "scipy", "==1.7.0", False, "qgis", False),
-    Dependency("Descartes", "descartes", "==1.1.0", False, "qgis", False),
+    Dependency("Scipy", "scipy", "==1.7.0", False, "external-dependencies", False, True),
+    Dependency("Jupyter", "jupyter", "==1.0.0", False, "user", False, False), # upgrades get add layer
+    Dependency("Rtree", "rtree", "==0.9.7", False, "qgis", False, False),
+    Dependency("APScheduler", "apscheduler", "==3.8.1", False, "qgis", False, False),
+    Dependency("ipyfilechooser", "ipyfilechooser", "==0.6.0", False, "qgis", False, False),
+    Dependency("Descartes", "descartes", "==1.1.0", False, "qgis", False, False),
     Dependency(
         "threedi_scenario_downloader",
         "threedi_scenario_downloader",
@@ -56,15 +57,16 @@ DEPENDENCIES = [
         False,
         "qgis",
         False,
+        False
     ),
     Dependency(
-        "threedi_api_client", "threedi_api_client", ">=3.0.29", False, "qgis", False
+        "threedi_api_client", "threedi_api_client", ">=3.0.29", False, "qgis", False, False
     ),
-    Dependency("xlrd", "xlrd", "==1.1.0", False, "qgis", False),
-    Dependency("tqdm", "tqdm", "==4.40.2", False, "qgis", False),
+    Dependency("xlrd", "xlrd", "==1.1.0", False, "qgis", False, False),
+    Dependency("tqdm", "tqdm", "==4.40.2", False, "qgis", False, False),
     # test pypi
     Dependency(
-        "hhnk_threedi_tools", "hhnk_threedi_tools", "==0.5.17", True, "qgis", True
+        "hhnk_threedi_tools", "hhnk_threedi_tools", "==0.5.21", True, "qgis", True, True
     ),
     #Dependency(
     #    "hhnk_research_tools", "hhnk_research_tools", "==0.4", True, "qgis", True
@@ -76,8 +78,9 @@ logger = logging.getLogger(__name__)
 
 def ensure_dependencies(path=DEPENDENCY_DIR, dependencies=DEPENDENCIES):
     """ensures dependencies by looking adding sys paths en looking into pip"""
-    sys.path.insert(0, str(_dependencies_target_dir()))  # threedi
-    sys.path.insert(0, DEPENDENCY_DIR)
+    if DEPENDENCY_DIR not in sys.path:
+        sys.path.insert(0, str(_dependencies_target_dir()))  # threedi
+        sys.path.insert(0, DEPENDENCY_DIR)
 
     print("`\nCheck if install is needed for HHNK-THREED-PLUGIN:\n")
     for dependency in dependencies:
@@ -94,6 +97,13 @@ def ensure_dependencies(path=DEPENDENCY_DIR, dependencies=DEPENDENCIES):
 
     _replace_patched_threedigrid()
 
+    # # special treatment for scipy
+    
+    for dependecy in dependencies:
+        if dependecy.enforce_version:
+            if not _correct_version(dependecy):
+                _install_dependency(dependecy)
+    
 
 def _dependencies_target_dir(our_dir=OUR_DIR):
     """Return python dir inside our profile
@@ -119,7 +129,7 @@ def _dependencies_target_dir(our_dir=OUR_DIR):
 def _can_import(package_name):
     try:
         importlib.import_module(package_name)
-    except ImportError:
+    except (ImportError, ModuleNotFoundError):
         return False
     else:
         return True
@@ -127,7 +137,7 @@ def _can_import(package_name):
 def _available(dependency: Dependency):
 
     if dependency.name == "Jupyter":
-        possible_import = notebook_available('user')
+        possible_import = _notebook_available('user')
     else:
         possible_import = _can_import(dependency.package)
 
@@ -135,9 +145,38 @@ def _available(dependency: Dependency):
         print(f"{dependency.name} available!")
     else:
         print(f"{dependency.name} does not exists!")
+        
     return possible_import
+
+def _correct_version(dependency: Dependency):
+    """ 
+    returns False if dependency is not available or has not correct version.
+    returns True if correct version or if not enforcing dependency.
+    """
+    correct = False
+    if _available(dependency):
+        
+        # path is not yet added to pkg_resources, so manually
+        if dependency.folder == "external-dependencies":    
+            for i in pkg_resources.find_distributions(DEPENDENCY_DIR):
+                if i.project_name == dependency.package:
+                    version = i.version
+        else:   
+            version = pkg_resources.get_distribution(dependency.package).version
+        
+        
+        correct = version in dependency.constraint    
+        if correct:
+            print(f"{dependency.name} has correct version!")
+        else:
+            print(f"{dependency.name} has incorrect version: {version}")
     
-def notebook_available(location="osgeo"):
+    if not dependency.enforce_version:
+        return True
+    else:
+        return correct
+
+def _notebook_available(location="osgeo"):
     """ jupyters notebook is checked by looking at the executable
         instead of checking if it can be called in the cmd.
         In the cmd you'll open it immediately, instead of checking if it exists
@@ -221,7 +260,7 @@ def _install_dependency(dependency: Dependency):
 
     command = [python_interpreter, "-m", "pip", "install"]
 
-    if dependency.folder == "external-dependecies":
+    if dependency.folder == "external-dependencies":
         command = command + ["--target", str(DEPENDENCY_DIR)]
 
     if dependency.no_dependecies:
@@ -235,8 +274,8 @@ def _install_dependency(dependency: Dependency):
         command = command + ["--user"]
         
     if dependency.name == "Jupyter":
-        command = command + ["--upgrade", "--force-reinstall", "--no-cache-dir"]
-       
+        command = command + ["--upgrade"] + ["--force-reinstall",  "--no-cache-dir"]
+    
     command = command + [dependency.package + dependency.constraint]
     print(command)
     process = subprocess.Popen(command)
@@ -245,9 +284,9 @@ def _install_dependency(dependency: Dependency):
     if exit_code:
         print(f"Installing {dependency.name} failed with: {error} {output}")
 
-    if dependency.package in sys.modules:
-        print("Unloading old %s module" % dependency.package)
-        del sys.modules[dependency.package]
+    #if dependency.package in sys.modules:
+    #    print("Unloading old %s module" % dependency.package)
+    #    del sys.modules[dependency.package]
 
     return process.pid
 
