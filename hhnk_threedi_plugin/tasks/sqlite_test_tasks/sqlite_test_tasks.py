@@ -17,6 +17,7 @@ from hhnk_threedi_plugin.gui.tests.sqlite_test_widgets.isolated_channels_result 
 from hhnk_threedi_plugin.gui.tests.sqlite_test_widgets.dem_max_val_result import create_dem_max_val_result_widget
 from hhnk_threedi_plugin.gui.tests.sqlite_test_widgets.watersurface_area_result import create_watersurface_area_result_widget
 
+
 import hhnk_research_tools as hrt
 import geopandas as gpd
 
@@ -134,13 +135,13 @@ class structsChannelsTask(BaseSqliteTask):
         super().__init__(folder)
         self.description="bepalen kunstwerken met referentie level onder bodem niveau"
         self.layer_source = self.folder.output.sqlite_tests.bodemhoogte_kunstwerken.path
-        print(self.layer_source)
+        # print(self.layer_source)
 
     def run_custom(self):
         if self.os_retry is None:
             self.gdf = self.sqlite_test.run_struct_channel_bed_level()
 
-        print(self.gdf)
+        # print(self.gdf)
         hrt.gdf_write_to_geopackage(self.gdf, filepath=str(self.layer_source))
         return True
 
@@ -246,3 +247,25 @@ class watersurfaceAreaTask(BaseSqliteTask):
                 # add_layers(self.layers_list, self.test_env.group_structure) #TODO
         title, widget = create_watersurface_area_result_widget(self.result_text, self.layer_source)
         return title, widget
+
+
+class gridTask(BaseSqliteTask):
+    def __init__(self, folder):
+        super().__init__(folder, mutex=None, wait_cond=None)
+        self.description="grid genereren"
+
+    def run(self):
+        QgsMessageLog.logMessage(f"Taak gestart {self.description}", level=Qgis.Info)
+        try:
+            self.sqlite_test.create_grid_from_sqlite(sqlite_path=self.folder.model.sqlite_paths[0], 
+                                                        dem_path=self.folder.model.rasters.dem.path, 
+                                                        output_folder=self.folder.output.sqlite_tests.path)
+            return True
+        except Exception as e:
+            self.exception = e
+            return False
+
+    def finished_custom(self):
+        """Add layer so it is seen by the widget"""
+        # add_layers(self.layers_list, self.test_env.group_structure) #TODO
+        return None, None #No widget created.

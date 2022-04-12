@@ -9,6 +9,7 @@ class generalChecksWidget(QWidget):
     def __init__(self, csv_path):
         super(generalChecksWidget, self).__init__()
         self.table = CsvAsTable(csv_path=csv_path)
+        self.table.setGeometry(100,100,900,900)
         self.btn = QPushButton("Bekijk fouten in model")
         self.btn.clicked.connect(self.table.show)
         layout = QVBoxLayout()

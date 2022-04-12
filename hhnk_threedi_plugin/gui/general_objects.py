@@ -58,6 +58,8 @@ class CsvAsTable(QDialog):
         self.layoutVertical = QVBoxLayout(self)
         self.layoutVertical.addWidget(self.table)
         self.populate_table()
+        
+        self.table.resizeColumnToContents(0) #resize col1 so it shows all
 
     def populate_table(self):
         with open(file=self.csv, mode="r") as fileInput:
