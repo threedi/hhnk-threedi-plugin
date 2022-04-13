@@ -1,3 +1,4 @@
+# %%
 # -*- coding: utf-8 -*-
 """
 Created on Fri Dec  3 16:19:30 2021
@@ -156,14 +157,15 @@ def _correct_version(dependency: Dependency):
     correct = False
     if _available(dependency):
         
+        version = None
         # path is not yet added to pkg_resources, so manually
-        if dependency.folder == "external-dependencies":    
+        if dependency.folder == "external-dependencies":  
             for i in pkg_resources.find_distributions(DEPENDENCY_DIR):
                 if i.project_name == dependency.package:
-                    version = i.version
-        else:   
+                    version = i.version 
+            
+        if version is None:
             version = pkg_resources.get_distribution(dependency.package).version
-        
         
         correct = version in dependency.constraint    
         if correct:
@@ -295,3 +297,5 @@ THREEDI_DIR = _dependencies_target_dir()
 
 if __name__ == "__main__":
     ensure_dependencies()
+
+# %%
