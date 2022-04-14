@@ -50,4 +50,60 @@ def load_layers(folder: Folders, df_path, revisions=None, subjects=None, group_i
 
 
 
+def load_sqlite(filepath=r"C:\Users\wvangerwen\Downloads\model_test_v2\02_Model\bwn_test.sqlite"):
+    """use the 3Di NenS plugin to load the sqlite into the project."""
+
+    from ThreeDiToolbox.tool_result_selection.result_selection_view import ThreeDiResultSelectionWidget, add_spatialite_connection
+    from ThreeDiToolbox.tool_result_selection.models import TimeseriesDatasourceModel
+    from ThreeDiToolbox.tool_result_selection.result_selection import ThreeDiResultSelection
+    import qgis
+    from qgis.PyQt.QtCore import QSettings
+
+    def select_model_spatialite_file_custom(dialog, filepath):
+        """custom function to open 3Di toolbox and load spatialite into project.
+        threeditoolbox.result_selection_tool.dialog.select_model_spatialite_file() in the file
+        from ThreeDiToolbox.tool_result_selection.result_selection_view import ThreeDiResultSelectionWidget"""
+        self = dialog
+
+        settings = QSettings("3di", "qgisplugin")
+
+        try:
+            init_path = settings.value("last_used_spatialite_path", type=str)
+        except TypeError:
+            # logger.debug("Last used datasource path is no string, setting it to our home dir.")
+            init_path = os.path.expanduser("~")
+
+        #Disabled the popup and return for custom input.
+        #filepath, __ = QFileDialog.getOpenFileName(
+        #    self, "Open 3Di model spatialite file", init_path, "Spatialite (*.sqlite)"
+        #)
+        # if filepath == "":
+        #     return False
+
+        self.ts_datasources.spatialite_filepath = filepath
+        index_nr = self.modelSpatialiteComboBox.findText(filepath)
+        if index_nr < 0:
+            self.modelSpatialiteComboBox.addItem(filepath)
+            index_nr = self.modelSpatialiteComboBox.findText(filepath)
+
+        self.modelSpatialiteComboBox.setCurrentIndex(index_nr)
+
+        add_spatialite_connection(filepath, self.iface)
+        settings.setValue("last_used_spatialite_path", os.path.dirname(filepath))
+
+
+    #Main function
+    threeditoolbox = qgis.utils.plugins['ThreeDiToolbox']
+
+    threeditoolbox.result_selection_tool.run() #open result selection window of ThreediToolbox
+
+    #Loading empty filepath and normal after that ensures to reload te sqlite.
+    select_model_spatialite_file_custom(dialog=threeditoolbox.result_selection_tool.dialog, 
+                                        filepath='')
+    select_model_spatialite_file_custom(dialog=threeditoolbox.result_selection_tool.dialog, 
+                                        filepath=filepath)
+
+    threeditoolbox.result_selection_tool.dialog.close() #close the window when loading is done.
+
+
 

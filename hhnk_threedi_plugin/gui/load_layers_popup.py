@@ -60,6 +60,9 @@ def setup_ui(load_layers_popup):
     )
     load_layers_popup.klimaatsommen_selector = revisionsComboBox()
 
+    load_layers_popup.sqlite_selector = QCheckBox("Sqlite (3Di plugin)")
+    load_layers_popup.sqlite_selector.setChecked(True)
+    
     load_layers_popup.sqlite_test_selector = QCheckBox("Sqlite testen")
     load_layers_popup.sqlite_test_selector.setChecked(False)
 
@@ -67,7 +70,7 @@ def setup_ui(load_layers_popup):
     load_layers_popup.test_protocol_selector.setChecked(True)
 
     load_layers_popup.achtergrond_selector = QCheckBox("Achtergrondkaarten")
-    load_layers_popup.achtergrond_selector.setChecked(False)
+    load_layers_popup.achtergrond_selector.setChecked(True)
 
     load_layers_popup.buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
 
@@ -96,6 +99,9 @@ def setup_ui(load_layers_popup):
     main_layout.addWidget(load_layers_popup.klimaatsommen_selector_label)
     main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
     main_layout.addWidget(load_layers_popup.klimaatsommen_selector)
+    main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
+
+    main_layout.addWidget(load_layers_popup.sqlite_selector)
     main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
 
     main_layout.addWidget(load_layers_popup.sqlite_test_selector)
@@ -215,6 +221,10 @@ class loadLayersDialog(QDialog):
         revisions={'0d1d_test':'',
                     '1d2d_test':'',
                     'klimaatsommen':''}
+
+        if self.sqlite_selector.isChecked() == True:
+             load_layers_interaction.load_sqlite(filepath=self.caller.fenv.model.sqlite_paths[0])
+
 
         # Sqlite test
         if self.sqlite_test_selector.isChecked() == True:
