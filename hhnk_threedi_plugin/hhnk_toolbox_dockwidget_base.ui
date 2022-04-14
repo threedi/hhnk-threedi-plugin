@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>468</width>
-    <height>848</height>
+    <width>489</width>
+    <height>683</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -51,235 +51,226 @@
     </size>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
-    <!-- <item>
-     <widget class="QPushButton" name="documentatie_button">
-      <property name="text">
-       <string>Documentatie</string>
-      </property>
-     </widget>
-    </item> -->
     <item>
-     <widget class="QLabel" name="select_polder_label">
-      <property name="text">
-       <string>Selecteer een polder</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QgsFileWidget" name="polder_selector">
-      <property name="dialogTitle">
-       <string>Selecteer polder map</string>
-      </property>
-      <property name="storageMode">
-       <enum>QgsFileWidget::GetDirectory</enum>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <spacer name="verticalSpacer">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Fixed</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>10</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item>
-     <widget class="QPushButton" name="create_new_project_btn">
-      <property name="text">
-       <string>Nieuw project aanmaken</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <spacer name="verticalSpacer_3">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Fixed</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>10</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item>
-     <widget class="QPushButton" name="load_layers_btn">
-      <property name="text">
-       <string>Laad lagen</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <spacer name="verticalSpacer_4">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Fixed</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>10</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item>
-     <widget class="QLabel" name="model_state_label">
-      <property name="text">
-       <string>Huidige modelstaat:</string>
-      </property>
-     </widget>
-    </item> -->
-    <item>
-     <widget class="QLabel" name="model_state_show">
-      <property name="text">
-       <string>Onbekend</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="model_state_btn">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>Modelstaat aanpassen</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <spacer name="verticalSpacer_2">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Fixed</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>10</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item>
-     <widget class="QLineEdit" name="lizard_api_key_textbox">
-      <property name="text">
-       <string>Vul hier je Lizard API key in!</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="server_btn">
-      <property name="text">
-       <string>Open Jupyter Notebook Server</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QToolBox" name="tests_toolbox">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>16777215</height>
-       </size>
-      </property>
+     <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
        <number>0</number>
       </property>
-      <widget class="QWidget" name="sqlite_tests">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>446</width>
-         <height>399</height>
-        </rect>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>125</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>16777215</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <attribute name="label">
-        <string>Sqlite tests</string>
+      <widget class="QWidget" name="tab_1">
+       <attribute name="title">
+        <string>Tab 1</string>
        </attribute>
-       <layout class="QGridLayout" name="gridLayout">
-        <item row="0" column="0" alignment="Qt::AlignTop">
-         <widget class="QFrame" name="sqlite_checks_frame">
-          <property name="frameShape">
-           <enum>QFrame::NoFrame</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Plain</enum>
-          </property>
-          <property name="lineWidth">
-           <number>0</number>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_2">
-           <property name="spacing">
-            <number>6</number>
-           </property>
-           <property name="leftMargin">
-            <number>0</number>
-           </property>
-           <property name="topMargin">
-            <number>0</number>
-           </property>
-           <property name="rightMargin">
-            <number>0</number>
-           </property>
-           <property name="bottomMargin">
-            <number>0</number>
-           </property>
-           <item>
-            <widget class="QPushButton" name="start_sqlite_check">
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>23</height>
-              </size>
+       <widget class="QPushButton" name="server_btn">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>360</y>
+          <width>411</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Open Jupyter Notebook Server</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="model_state_show">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>190</y>
+          <width>790</width>
+          <height>13</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Onbekend</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="model_state_label">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>170</y>
+          <width>790</width>
+          <height>13</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Huidige modelstaat:</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="create_new_project_btn">
+        <property name="geometry">
+         <rect>
+          <x>-10</x>
+          <y>80</y>
+          <width>541</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Nieuw project aanmaken</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="model_state_btn">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>260</y>
+          <width>378</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Modelstaat aanpassen</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lizard_api_key_textbox">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>320</y>
+          <width>378</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Vul hier je Lizard API key in!</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="select_polder_label">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>20</y>
+          <width>378</width>
+          <height>13</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Selecteer een polder</string>
+        </property>
+       </widget>
+       <widget class="QgsFileWidget" name="polder_selector" native="true">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>40</y>
+          <width>378</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="dialogTitle" stdset="0">
+         <string>Selecteer polder map</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="load_layers_btn_2">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>120</y>
+          <width>378</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Laad lagen</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab_2">
+       <attribute name="title">
+        <string>Tab 2</string>
+       </attribute>
+       <widget class="QToolBox" name="tests_toolbox">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>20</y>
+          <width>441</width>
+          <height>371</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <widget class="QWidget" name="sqlite_tests">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>441</width>
+           <height>344</height>
+          </rect>
+         </property>
+         <attribute name="label">
+          <string/>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout">
+          <item row="0" column="0" alignment="Qt::AlignTop">
+           <widget class="QFrame" name="sqlite_checks_frame">
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Plain</enum>
+            </property>
+            <property name="lineWidth">
+             <number>0</number>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_2">
+             <property name="spacing">
+              <number>6</number>
              </property>
-             <property name="text">
-              <string>Sqlite tests</string>
+             <property name="leftMargin">
+              <number>0</number>
              </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-       </layout>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+            </layout>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QPushButton" name="start_sqlite_check">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>23</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Sqlite tests</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
       </widget>
      </widget>
     </item>

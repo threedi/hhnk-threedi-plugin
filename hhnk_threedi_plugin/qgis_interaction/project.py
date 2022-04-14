@@ -575,5 +575,5 @@ class Project:
     #             yield index, row
             
 
-project = Project(df_path=r"C:\Users\chris.kerklaan\AppData\Roaming\QGIS\QGIS3\profiles\default\python\plugins\hhnk_threedi_plugin\qgis_interaction\layer_structure/klimaatsommen.csv")
-project.generate_themes()
+# project = Project(df_path=r"C:\Users\chris.kerklaan\AppData\Roaming\QGIS\QGIS3\profiles\default\python\plugins\hhnk_threedi_plugin\qgis_interaction\layer_structure/klimaatsommen.csv")
+# project.generate_themes()

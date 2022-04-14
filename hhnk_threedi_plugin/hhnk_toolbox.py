@@ -28,10 +28,10 @@ from qgis.core import QgsApplication, Qgis, QgsProject, QgsVectorLayer
 from qgis.utils import showPluginHelp
 
 # Initialize Qt resources from file resources.py
-from .resources import *
+from hhnk_threedi_plugin.resources import *
 
 # Import the code for the DockWidget
-from .hhnk_toolbox_dockwidget import HHNK_toolboxDockWidget
+from hhnk_threedi_plugin.hhnk_toolbox_dockwidget import HHNK_toolboxDockWidget
 import os.path
 
 try: 
@@ -566,7 +566,7 @@ class HHNK_toolbox:
 
 
             # #For debug set project_path in local_settings.
-            # try:
-            #     self.dockwidget.polder_selector.setFilePath(local_settings.project_path)
-            # except:
-            #     pass
+            try:
+                self.dockwidget.polder_selector.setFilePath(local_settings.project_path)
+            except:
+                pass
