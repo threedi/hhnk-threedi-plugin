@@ -188,3 +188,53 @@ print( p.fenv )
 
 
 C:\Users\wvangerwen\AppData\Roaming\QGIS\QGIS3\profiles\default\python
+
+# %%
+
+from ThreeDiToolbox.tool_result_selection.result_selection_view import ThreeDiResultSelectionWidget, add_spatialite_connection
+from ThreeDiToolbox.tool_result_selection.models import TimeseriesDatasourceModel
+from ThreeDiToolbox.tool_result_selection.result_selection import ThreeDiResultSelection
+
+
+filepath=r"C:\Users\wvangerwen\Downloads\model_test_v2\02_Model\bwn_test.sqlite"
+
+threeditoolbox = qgis.utils.plugins['ThreeDiToolbox']
+
+threeditoolbox.result_selection_tool.run()
+#threeditoolbox.result_selection_tool.dialog.select_model_spatialite_file()
+
+
+self = threeditoolbox.result_selection_tool.dialog
+
+settings = QSettings("3di", "qgisplugin")
+
+try:
+    init_path = settings.value("last_used_spatialite_path", type=str)
+except TypeError:
+    logger.debug(
+        "Last used datasource path is no string, setting it to our home dir."
+    )
+    init_path = os.path.expanduser("~")
+
+#filepath, __ = QFileDialog.getOpenFileName(
+#    self, "Open 3Di model spatialite file", init_path, "Spatialite (*.sqlite)"
+#)
+
+filepath=r"C:\Users\wvangerwen\Downloads\model_test_v2\02_Model\bwn_test.sqlite"
+
+
+self.ts_datasources.spatialite_filepath = filepath
+index_nr = self.modelSpatialiteComboBox.findText(filepath)
+if index_nr < 0:
+    self.modelSpatialiteComboBox.addItem(filepath)
+    index_nr = self.modelSpatialiteComboBox.findText(filepath)
+
+self.modelSpatialiteComboBox.setCurrentIndex(index_nr)
+
+add_spatialite_connection(filepath, self.iface)
+settings.setValue("last_used_spatialite_path", os.path.dirname(filepath))
+
+
+
+#threeditoolbox.result_selection_tool.dialog.close()
+
