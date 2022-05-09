@@ -2,4 +2,4 @@ DEBUG=True
 
 hhnk_threedi_tools_path = r'E:\github\wvangerwen\hhnk-threedi-tools'
 
-project_path = r'C:\Users\wvangerwen\Downloads\model_test_v2'
+project_path = r'E:\02.modellen\model_test_v2'

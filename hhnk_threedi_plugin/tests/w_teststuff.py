@@ -238,3 +238,24 @@ settings.setValue("last_used_spatialite_path", os.path.dirname(filepath))
 
 #threeditoolbox.result_selection_tool.dialog.close()
 
+# %%
+
+
+from hhnk_threedi_tools.core.checks.bank_levels import BankLevelTest
+
+
+self = BankLevelTest(folder)
+
+self.import_data()
+
+self.line_intersections()
+self.flowlines_1d2d()
+
+# manholes
+self.divergent_waterlevel_nodes()
+self.manhole_information()
+self.manholes_to_add_to_model()
+
+self.cross_loc_new_filtered, self.cross_loc_new = self.new_cross_loc_bank_levels(
+            self.line_intersects, self.imports["channels"], self.imports["cross_loc"]
+        )
