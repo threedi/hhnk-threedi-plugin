@@ -29,7 +29,7 @@ class TestFolder():
         self.fenv = Folders(path)
 
 # qgis.utils.plugins['hhnk_threedi_plugin'].fenv.output
-path = r'C:\Users\wvangerwen\Downloads\model_test_v2'
+path = r'E:\02.modellen\model_test_v2'
 folder = Folders(path)
 caller2 = TestFolder(path)
 
@@ -240,14 +240,61 @@ settings.setValue("last_used_spatialite_path", os.path.dirname(filepath))
 
 # %%
 
+import sys
+from pathlib import Path
+import os
+sys.path.append(str(Path(os.getcwd()).parent.parent))
+import hhnk_threedi_plugin.local_settings as local_settings
+if local_settings.DEBUG:
+    sys.path.insert(0, local_settings.hhnk_threedi_tools_path)
+    import importlib, hhnk_threedi_tools
+    hhnk_threedi_tools=importlib.reload(hhnk_threedi_tools)
+    importlib.reload(hhnk_threedi_tools.core.folders)
+
+from hhnk_threedi_tools.core.folders import Folders
 
 from hhnk_threedi_tools.core.checks.bank_levels import BankLevelTest
+import hhnk_threedi_tools.core.checks.bank_levels as bank_levels
 
+
+path = r'E:\02.modellen\model_test_v2'
+folder = Folders(path)
 
 self = BankLevelTest(folder)
 
-self.import_data()
+# self.import_data()
 
+# %%
+import hhnk_research_tools as hrt
+model_path=None
+datachecker_path=None
+
+self.model_path = model_path
+if model_path == None:
+    self.model_path = self.fenv.model.schema_base.database.path
+
+self.datachecker_path = datachecker_path
+if self.datachecker_path == None:
+    self.datachecker_path = self.fenv.source_data.datachecker.path
+
+
+self.grid = hrt.threedi.grid.Grid(sqlite_path=self.fenv.model.schema_base.sqlite_paths[0],
+                dem_path = self.fenv.model.schema_base.rasters.dem.path              
+                )
+
+
+self.fixeddrainage_layer = self.fenv.source_data.datachecker_fixed_drainage
+
+self.imports = bank_levels.import_information(
+    model_path=self.model_path,
+    datachecker_path=self.datachecker_path,
+    fixeddrainage_layer=self.fixeddrainage_layer,
+    grid=self.grid,
+)
+
+#TODO grid.read_1d2d_lines werkt niet als alles op isolated staat.
+
+# %%
 self.line_intersections()
 self.flowlines_1d2d()
 
@@ -256,6 +303,69 @@ self.divergent_waterlevel_nodes()
 self.manhole_information()
 self.manholes_to_add_to_model()
 
-self.cross_loc_new_filtered, self.cross_loc_new = self.new_cross_loc_bank_levels(
+self.cross_loc_new_filtered, self.cross_loc_new = bank_levels.new_cross_loc_bank_levels(
             self.line_intersects, self.imports["channels"], self.imports["cross_loc"]
         )
+# %%
+a, b = new_cross_loc_bank_levels(self.line_intersects, self.imports["channels"], self.imports["cross_loc"])
+
+# %%
+import geopandas as gpd
+import numpy as np
+from hhnk_threedi_tools.utils.queries import (
+    manholes_query,
+    channels_query,
+    cross_section_location_query,
+    conn_nodes_query,
+)
+
+from hhnk_threedi_tools.variables.database_aliases import (
+    a_man_id,
+    a_conn_node_id,
+    df_geo_col,
+    a_man_conn_id,
+    a_cross_loc_id,
+)
+from hhnk_threedi_tools.variables.bank_levels import (
+    one_d_node_id_col,
+    node_id_col,
+    node_type_col,
+    connection_val,
+    storage_area_col,
+    levee_id_col,
+    type_col,
+    one_d_two_d_crosses_levee_val,
+    drain_level_col,
+    already_manhole_col,
+    unknown_val,
+    node_in_wrong_fixed_area,
+    added_calc_val,
+    node_geometry_col,
+    one_d_two_d_crosses_fixed,
+    levee_height_val,
+    ref_plus_10_val,
+    init_plus_10_val,
+)
+
+from hhnk_threedi_tools.variables.database_variables import (
+    display_name_col,
+    code_col,
+    conn_node_id_col,
+    shape_col,
+    width_col,
+    manhole_indicator_col,
+    calculation_type_col,
+    bottom_lvl_col,
+    surface_lvl_col,
+    zoom_cat_col,
+    initial_waterlevel_col,
+    reference_level_col,
+)
+
+# def new_cross_loc_bank_levels(intersect_1d2d_all, channel_line_geo, cross_loc):
+#     try:
+        # %%
+        # intersect_1d2d_all = self.line_intersects
+        # intersect_1d2d_all = intersect_1d2d_all[0:0]
+        # channel_line_geo = self.imports["channels"]
+        # cross_loc = self.imports["cross_loc"]

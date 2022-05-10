@@ -27,7 +27,7 @@ if __name__ == '__main__':
     path = r'C:\Users\wvangerwen\Downloads\model_test_v2'
     folder = htt.folders(path)
     revision='BWN bwn_test #5 1d2d_test'
-    dem_path = folder.model.rasters.dem.path
+    dem_path = folder.model.schema_base.rasters.dem.path
     
 # %%
 

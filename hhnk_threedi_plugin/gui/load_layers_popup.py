@@ -223,7 +223,7 @@ class loadLayersDialog(QDialog):
                     'klimaatsommen':''}
 
         if self.sqlite_selector.isChecked() == True:
-             load_layers_interaction.load_sqlite(filepath=self.caller.fenv.model.sqlite_paths[0])
+             load_layers_interaction.load_sqlite(filepath=self.caller.fenv.model.schema_base.sqlite_paths[0])
 
 
         # Sqlite test
