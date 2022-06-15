@@ -109,6 +109,9 @@
           <property name="dialogTitle">
            <string>Selecteer polder map</string>
           </property>
+          <property name="storageMode">
+           <enum>QgsFileWidget::GetDirectory</enum>
+          </property>
          </widget>
         </item>
         <item>
@@ -309,7 +312,7 @@
              <x>0</x>
              <y>0</y>
              <width>257</width>
-             <height>257</height>
+             <height>412</height>
             </rect>
            </property>
            <attribute name="label">

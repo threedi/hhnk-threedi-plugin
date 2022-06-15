@@ -44,6 +44,9 @@ INFILTRATION_COLS = ["infiltration_rate",
 RASTER_FILES =  ['dem_file', 'frict_coef_file', 'infiltration_rate_file', 'max_infiltration_capacity_file']
 # %%
 
+
+
+# %%
 overwrite=True
 
 for index, row in settings_df.iterrows():
@@ -68,6 +71,10 @@ for index, row in settings_df.iterrows():
         dst = os.path.join(schema_new.path, schema_base.database.pl.name)
         shutil.copyfile(src=src, dst=dst) 
 
+        raster_path =  os.path.join(schema_new.path, 'rasters')
+        if not os.path.exists(raster_path):
+            os.mkdir(raster_path)
+
         #Copy rasters that are defined in the settings file
         for raster_file in RASTER_FILES:
             if not pd.isnull(row[raster_file]):
@@ -86,17 +93,14 @@ for index, row in settings_df.iterrows():
     table_names=['v2_global_settings','v2_simple_infiltration']
     for table_name in table_names:
         print(f"\tUpdate {table_name}")
+
         #Set the id in the v2_simple_iniltration to the id defined in global settings.
         if table_name=='v2_simple_infiltration':
             row['id'] = row['simple_infiltration_settings_id']
-
-
-        
         
         #Clear the table
         hrt.execute_sql_changes(query=f"""DELETE FROM {table_name}""",
-                    database=database_path_new)
-        
+                    database=database_path_new) 
         
         # Create new value and column pairs. The new values are used from the settings.xlsx file.
         if not pd.isnull(row['id']):
@@ -194,10 +198,11 @@ tags = ["modeltest_1d2dtest_hoekje"]
 sqlite_path = schema_new.database.path
 schematisation_name = "modeltest_1d2d_test_hoekje"
 organisation_uuid="48dac75bef8a42ebbb52e8f89bbdb9f2"
+
 upload.upload_and_process(schematisation_name=schematisation_name,
     sqlite_path=sqlite_path,
     raster_paths=raster_names,
     schematisation_create_tags=tags,
-    commit_message='testmodel')
+    commit_message='Test rev3')
 
 # %%

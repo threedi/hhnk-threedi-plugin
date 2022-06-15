@@ -122,7 +122,7 @@ class Test():
 
 try:
     print('start')
-    printr('errror')
+    print('errror')
     print('a')
 except Exception as e:
     raise
@@ -185,9 +185,6 @@ one_d_two_d_layers = [
 import qgis
 p = qgis.utils.plugins['hhnk_threedi_plugin']
 print( p.fenv )
-
-
-C:\Users\wvangerwen\AppData\Roaming\QGIS\QGIS3\profiles\default\python
 
 # %%
 
@@ -257,7 +254,7 @@ from hhnk_threedi_tools.core.checks.bank_levels import BankLevelTest
 import hhnk_threedi_tools.core.checks.bank_levels as bank_levels
 
 
-path = r'E:\02.modellen\model_test_v2'
+path = r'E:\02.modellen\model_test_v3'
 folder = Folders(path)
 
 self = BankLevelTest(folder)
@@ -369,3 +366,37 @@ from hhnk_threedi_tools.variables.database_variables import (
         # intersect_1d2d_all = intersect_1d2d_all[0:0]
         # channel_line_geo = self.imports["channels"]
         # cross_loc = self.imports["cross_loc"]
+
+
+# %%
+from osgeo import gdal
+import os
+
+def build_vrt(raster_folder, vrt_name='combined_rasters', bandlist=[1], bounds=None, overwrite=False):
+    """create vrt from all rasters in a folder.
+    bounds=(xmin, ymin, xmax, ymax)
+    bandList doesnt work as expected."""
+    output_path = os.path.join(raster_folder, f'{vrt_name}.vrt')
+    
+    if os.path.exists(output_path) and not overwrite:
+        print(f'vrt already exists: {output_path}')
+        return
+
+    tifs_list = [os.path.join(raster_folder, i) for i in os.listdir(raster_folder) if i.endswith('.tif') or i.endswith('.tiff')]
+
+
+    vrt_options = gdal.BuildVRTOptions(resolution='highest',
+                                       separate=False,
+                                       resampleAlg='nearest',
+                                       addAlpha=True,
+                                       outputBounds=bounds,
+                                       bandList=bandlist,)
+    ds = gdal.BuildVRT(output_path, tifs_list, options=vrt_options)
+    ds.FlushCache()
+    if not os.path.exists(output_path):
+        print('Something went wrong, vrt not created.')
+
+
+build_vrt(raster_folder=r'\\srv57d1\geo_info\02_Werkplaatsen\06_HYD\Projecten\HKC16015 Wateropgave 2.0\06. Afgeleide gegevens\01.Input\inundatie_ref_T10_corr3')
+build_vrt(raster_folder=r'\\srv57d1\geo_info\02_Werkplaatsen\06_HYD\Projecten\HKC16015 Wateropgave 2.0\06. Afgeleide gegevens\01.Input\inundatie_ref_T100_corr3')
+build_vrt(raster_folder=r'\\srv57d1\geo_info\02_Werkplaatsen\06_HYD\Projecten\HKC16015 Wateropgave 2.0\06. Afgeleide gegevens\01.Input\inundatie_ref_T1000_corr3')

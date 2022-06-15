@@ -42,6 +42,8 @@ except:
 # Import the code for the plugin content
 # GUI
 from .gui.load_layers_popup import loadLayersDialog
+from hhnk_threedi_plugin.gui.schematisation_splitter_uploader_dialog import schematisationDialog
+
 from hhnk_threedi_plugin.gui.tests.sqlite_check_popup import sqliteCheckDialog
 from hhnk_threedi_plugin.gui.tests.zero_d_one_d import zeroDOneDWidget
 from hhnk_threedi_plugin.gui.tests.one_d_two_d import oneDTwoDWidget
@@ -324,6 +326,7 @@ class HHNK_toolbox:
             self.dockwidget.server_btn.setEnabled(True)
             self.dockwidget.load_layers_btn.setEnabled(True)
         else:
+            self.fenv=None
             self.polder_folder = None
             if self.current_source_paths is not None:
                 for key, value in self.current_source_paths.items():
@@ -517,6 +520,7 @@ class HHNK_toolbox:
                 self.load_layers_dialog = loadLayersDialog(caller=self, parent=self.dockwidget)
                 self.sqlite_tests_dialog = sqliteCheckDialog(caller=self, parent=self.dockwidget)
                 self.model_states_dialog = modelStateDialog(caller=self, parent=self.dockwidget)
+                self.schematisation_dialog = schematisationDialog(caller=self, parent=self.dockwidget)
                 
                 self.zero_d_one_d = zeroDOneDWidget(caller=self, parent=self.dockwidget)
                 self.bank_levels = bankLevelsWidget(caller=self, parent=self.dockwidget)
@@ -541,7 +545,7 @@ class HHNK_toolbox:
                 self.dockwidget.start_sqlite_check.clicked.connect(self.sqlite_tests_dialog.set_current_paths)
                 self.dockwidget.start_sqlite_check.clicked.connect(self.sqlite_tests_dialog.show)
                 self.dockwidget.model_state_btn.clicked.connect(self.model_states_dialog.set_current_paths)
-                self.dockwidget.model_state_btn.clicked.connect(self.model_states_dialog.show)
+                self.dockwidget.model_state_btn.clicked.connect(self.schematisation_dialog.show) #TODO changed for testing
                 self.dockwidget.create_new_project_btn.clicked.connect(self.new_project_folder_execute)
 
                 # self.dockwidget.documentatie_button.clicked.connect(self.open_documentatie_link)
