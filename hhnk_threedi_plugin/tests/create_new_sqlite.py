@@ -24,8 +24,8 @@ from hhnk_threedi_tools.core import folders
 path = r'E:\02.modellen\model_test_v2'
 folder = Folders(path)
 
-settings_df = pd.read_excel(folder.model.settings.path)
-settings_default_series = pd.read_excel(folder.model.settings_default.path).iloc[0] #Series, only has one row.
+settings_df = pd.read_excel(folder.model.settings.path, engine="openpyxl")
+settings_default_series = pd.read_excel(folder.model.settings_default.path, engine="openpyxl").iloc[0] #Series, only has one row.
 
 
 #Sanity check settings tables

@@ -118,7 +118,7 @@ class schematisationDialog(QDialog):
         super(schematisationDialog, self).__init__(parent)
         self.caller = caller
         # self.settings_df = pd.read_excel(self.caller.fenv.model.settings.path)
-        self.settings_df = pd.read_excel(r"E:\02.modellen\model_test_v2\02_Model\model_settings.xlsx")
+        self.settings_df = pd.read_excel(r"E:\02.modellen\model_test_v2\02_Model\model_settings.xlsx", engine="openpyxl")
 
 
         self.setStyleSheet("""

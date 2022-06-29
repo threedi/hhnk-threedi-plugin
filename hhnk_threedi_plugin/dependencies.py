@@ -45,7 +45,7 @@ Dependency = namedtuple(
     ["name", "package", "constraint", "no_dependecies", "folder", "testpypi", "enforce_version"],
 )
 DEPENDENCIES = [
-    Dependency("Scipy", "scipy", "==1.7.0", False, "external-dependencies", False, True),
+    Dependency("Scipy", "scipy", ">=1.7.0", False, "external-dependencies", False, True),
     Dependency("Jupyter", "jupyter", "==1.0.0", False, "user", False, False), # upgrades get add layer
     Dependency("Rtree", "rtree", "==0.9.7", False, "qgis", False, False),
     Dependency("APScheduler", "apscheduler", "==3.8.1", False, "qgis", False, False),
