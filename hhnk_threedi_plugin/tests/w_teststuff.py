@@ -78,7 +78,7 @@ import hhnk_research_tools as hrt
 from hhnk_threedi_tools.utils.queries_general_checks import ModelCheck
 queries_lst = [item for item in vars(ModelCheck()).values()]
 for query in queries_lst:
-    df = hrt.execute_sql_selection(query=query, database_path=folder.model.database_path)
+    df = hrt.execute_sql_selection(query=query, database_path=folder.model.schema_base.database_path)
     if not df.empty:
         print(df)
         break

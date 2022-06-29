@@ -100,7 +100,7 @@ class weirHeightTask(BaseSqliteTask):
         title, widget = create_weir_height_widget(
                             layer_source=self.layer_source,
                             gdf=self.gdf,
-                            model_path=self.folder.model.database.path,
+                            model_path=self.folder.model.schema_base.database.path,
                         )
 
         return title, widget
