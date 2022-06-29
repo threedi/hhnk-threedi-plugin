@@ -67,7 +67,7 @@ DEPENDENCIES = [
     Dependency("tqdm", "tqdm", "==4.40.2", False, "qgis", False, False),
     # test pypi
     Dependency(
-        "hhnk_threedi_tools", "hhnk_threedi_tools", "==0.5.21", True, "qgis", True, True
+        "hhnk_threedi_tools", "hhnk_threedi_tools", "==0.6", True, "qgis", True, True
     ),
     #Dependency(
     #    "hhnk_research_tools", "hhnk_research_tools", "==0.4", True, "qgis", True
