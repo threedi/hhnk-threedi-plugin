@@ -6,14 +6,16 @@ set OSGEO4W_ROOT=C:\OSGeo4W
 REM Vul hier het pad naar de visual studio code executable in
 set VSCODE="C:\Program Files\Microsoft VS Code Insiders\Code - Insiders.exe"
 
-
-call "%~dp0\o4w_env.bat"
+call "%OSGEO4W_ROOT%\bin\o4w_env.bat"
+REM call "%~dp0\o4w_env.bat"
 
 path %OSGEO4W_ROOT%\apps\qgis-ltr\bin;%PATH%
 path C:\Program Files\7-Zip;%PATH% 
 
 set QGIS_PREFIX_PATH=%OSGEO4W_ROOT:\=/%/apps/qgis-ltr
 set GDAL_FILENAME_IS_UTF8=YES
+set USE_PATH_FOR_GDAL_PYTHON=YES
+
 rem Set VSI cache to be used as buffer, see #6448
 set VSI_CACHE=TRUE
 set VSI_CACHE_SIZE=1000000
