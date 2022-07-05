@@ -41,7 +41,6 @@ TEST_STRUCTURE = {
 }
 GROUP_STRUCTURE = list(TEST_STRUCTURE.keys())
 
-
 class Layer:
     """class used for multiple qgis layer:
     QgsVectorLayer

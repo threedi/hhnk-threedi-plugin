@@ -345,8 +345,9 @@ class HHNK_toolbox:
         self.model_states_dialog.set_current_paths()
         self.sqlite_tests_dialog.set_current_paths()
         self.zero_d_one_d.set_current_paths()
-        self.bank_levels.set_current_paths()
         self.one_d_two_d.set_current_paths()
+        self.schematisation_dialog.set_current_paths()
+        
 
     def update_model_state(self):
         if self.current_source_paths is not None:
@@ -380,7 +381,6 @@ class HHNK_toolbox:
                 self.current_source_paths["datachecker"] = datachecker
                 self.model_states_dialog.datachecker_selector.setFilePath(datachecker)
                 self.sqlite_tests_dialog.datachecker_selector.setFilePath(datachecker)
-                self.bank_levels.datachecker_selector.setFilePath(datachecker)
             if damo is not None:
                 self.current_source_paths["damo"] = damo
             if hdb is not None:
@@ -450,15 +450,7 @@ class HHNK_toolbox:
             self.iface.messageBar().pushMessage(str(e), Qgis.Critical)
             pass
 
-    # def zero_d_one_d_tests_execution(self, test_env): #TODO remove          
-    #     try:
-    #         test_env.polder_folder = self.polder_folder
-    #         run_hydraulic_tests(test_env=test_env)
-    #     except Exception as e:
-    #         self.iface.messageBar().pushMessage(str(e), Qgis.Critical)
-    #         pass
-
-    def bank_levels_execution(self, test_env):
+    def bank_levels_execution(self):
         try:
             if (
                 self.bank_levels_results_widget is not None
@@ -467,21 +459,12 @@ class HHNK_toolbox:
             ):
                 self.bank_levels_results_widget.close()
 
-            test_env.polder_folder = self.polder_folder
             self.bank_levels_results_widget = run_bank_levels_test(
-                test_env=test_env, parent=self.dockwidget
+                self.fenv, parent=self.dockwidget
             )
         except Exception as e:
             self.iface.messageBar().pushMessage(str(e), Qgis.Critical)
             pass
-
-    # def one_d_two_d_tests_execution(self, test_env):#TODO remove
-    #     try:
-    #         test_env.polder_folder = self.polder_folder
-            # run_1d2d_tests(test_env=test_env)
-    #     except Exception as e:
-    #         self.iface.messageBar().pushMessage(str(e), Qgis.Critical)
-    #         pass
 
     def new_project_folder_execute(self):
         dialog = newProjectDialog()

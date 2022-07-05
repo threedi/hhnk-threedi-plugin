@@ -23,7 +23,7 @@
  This script initializes the plugin, making it known to QGIS.
 """
 from .dependencies import ensure_dependencies
-
+ensure_dependencies()
 
 #TODO
 import sys

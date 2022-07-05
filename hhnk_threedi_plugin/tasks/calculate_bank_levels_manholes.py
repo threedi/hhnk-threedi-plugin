@@ -4,16 +4,6 @@ from qgis.core import QgsTask, Qgis
 from qgis.utils import QgsMessageLog, iface
 from ..gui.sql_preview.model_changes_preview import modelChangesPreview
 from ..qgis_interaction.layers_management.adding_layers import add_layers
-
-# old
-
-# import hhnk_research_tools as hrt
-# from hhnk_threedi_tools.tests.bank_levels.recalculate_bank_levels_manholes import recalculate_bank_levels
-# from hhnk_threedi_tools.variables.database_aliases import a_cross_loc_id
-# from hhnk_threedi_tools.variables.database_variables import bank_level_col, conn_node_id_col, storage_area_col
-# from hhnk_threedi_tools.tests.bank_levels.variables.dataframe_variables import new_bank_level_col
-# from hhnk_threedi_tools.tests.bank_levels.new_manholes_prepare_model_insertion import new_storage_area_col
-
 description = "berekenen nieuwe bank levels en manholes"
 
 # new
@@ -35,11 +25,11 @@ class calculateBankLevelsManholesTask(QgsTask):
     new_manholes_widget_created = pyqtSignal(object)
     os_error = pyqtSignal(object, object, Exception)
 
-    def __init__(self, test_env, mutex, wait_cond, create_output=False):
+    def __init__(self, polder_folder, mutex, wait_cond, create_output=False):
         super().__init__(description, QgsTask.CanCancel)
         self.description = description
         self.exception = None
-        self.test_env = copy.copy(test_env)
+        self.polder_folder = polder_folder
         self.create_out = create_output
         self.new_manholes_df = None
         self.new_bank_levels_df = None
@@ -61,13 +51,8 @@ class calculateBankLevelsManholesTask(QgsTask):
         QgsMessageLog.logMessage(f"Taak gestart {self.description}", level=Qgis.Info)
         try:
             if self.os_retry is None:
-                env = self.test_env
-                self.bl_test = BankLevelTest.from_path(env.polder_folder)
-                self.bl_test.import_data(
-                    model_path=env.src_paths["model"],
-                    datachecker_path=env.src_paths["datachecker"],
-                    revision=env.revision_path,
-                )
+                self.bl_test = BankLevelTest(self.polder_folder)
+                self.bl_test.import_data()
                 self.bl_test.run()
             QgsMessageLog.logMessage("Taak gestart opslaan resultaten", level=Qgis.Info)
             if self.create_out:
@@ -92,25 +77,8 @@ class calculateBankLevelsManholesTask(QgsTask):
     def create_output(self):
         try:
             self.output_layers_list = []
-            csv_path = self.test_env.output_vars["log_path"]
-            gpkg_path = self.test_env.output_vars["layer_path"]
-            self.bl_test.write(csv_path, gpkg_path)
-            if not self.bl_test.results["all_1d2d_flowlines"].empty:
-                self.output_layers_list.append(
-                    self.test_env.layers["flow_1d2d_flowlines_layer_vars"]
-                )
-            if not self.bl_test.results["cross_loc_new"].empty:
-                self.output_layers_list.append(
-                    self.test_env.layers["flow_1d2d_cross_sections_vars"]
-                )
-            if not self.bl_test.results["new_channels"].empty:
-                self.output_layers_list.append(
-                    self.test_env.layers["flow_1d2d_channels_layer_vars"]
-                )
-            if not self.bl_test.results["new_manholes_df"].empty:
-                self.output_layers_list.append(
-                    self.test_env.layers["flow_1d2d_manholes_layer_vars"]
-                )
+            path = self.polder_folder.output.bank_levels.path
+            self.bl_test.write(path, path)
         except Exception as e:
             raise e from None
 
@@ -176,8 +144,7 @@ class calculateBankLevelsManholesTask(QgsTask):
                 f"Taak {self.description} succesvol uitgevoerd", level=Qgis.Info
             )
             try:
-                if self.create_out:
-                    add_layers(self.output_layers_list, self.test_env.group_structure)
+                #if self.create_out:
                 bank_levels_widget, new_manholes_widget = self.create_widgets()
                 self.bank_level_widget_created.emit(bank_levels_widget)
                 self.new_manholes_widget_created.emit(new_manholes_widget)

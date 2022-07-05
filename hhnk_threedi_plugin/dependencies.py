@@ -82,7 +82,7 @@ def ensure_dependencies(path=DEPENDENCY_DIR, dependencies=DEPENDENCIES):
     if DEPENDENCY_DIR not in sys.path:
         sys.path.insert(0, str(_dependencies_target_dir()))  # threedi
         sys.path.insert(0, DEPENDENCY_DIR)
-
+    
     print("`\nCheck if install is needed for HHNK-THREED-PLUGIN:\n")
     for dependency in dependencies:
         if not _available(dependency):

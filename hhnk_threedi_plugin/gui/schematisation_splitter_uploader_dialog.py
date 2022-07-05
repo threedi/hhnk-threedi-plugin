@@ -19,7 +19,6 @@ from PyQt5.QtCore import Qt, pyqtSignal
 from qgis.gui import QgsMessageBar
 
 import pandas as pd
-
 # from hhnk_threedi_plugin.gui.tests.verify_sqlite_tests_input import verify_input
 from hhnk_threedi_plugin.gui.utility.file_widget import fileWidget
 from hhnk_threedi_plugin.qgis_interaction.layers_management.layers.get_layers_list import (
@@ -31,8 +30,6 @@ from hhnk_threedi_plugin.qgis_interaction import load_layers_interaction
 
 from hhnk_threedi_tools.qgis.get_working_paths import get_working_paths
 from hhnk_threedi_tools.qgis.environment import testEnvironment
-
-
 
 def setupUi(splitter_dialog):
     splitter_dialog.setWindowTitle("Schematisation splitter and uploader")
@@ -117,18 +114,19 @@ class schematisationDialog(QDialog):
     def __init__(self, caller, parent):
         super(schematisationDialog, self).__init__(parent)
         self.caller = caller
-        # self.settings_df = pd.read_excel(self.caller.fenv.model.settings.path)
-        self.settings_df = pd.read_excel(r"E:\02.modellen\model_test_v2\02_Model\model_settings.xlsx", engine="openpyxl")
-
-
         self.setStyleSheet("""
             QCheckBox::indicator {
             width: 30px;
             height: 30px
             }"""
         )
-
+        
+    def set_current_paths(self):
+        self.settings_df = pd.read_excel(self.caller.fenv.model.settings.path)
+        
         setupUi(self)
+        
+
 
 
 # %%
