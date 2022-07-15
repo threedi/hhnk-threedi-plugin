@@ -224,6 +224,7 @@ class dewateringTask(BaseSqliteTask):
             self.exception = e
             return False
 
+
     def finished_custom(self):
         """Add layer so it is seen by the widget"""
         # add_layers(self.layers_list, self.test_env.group_structure) #TODO

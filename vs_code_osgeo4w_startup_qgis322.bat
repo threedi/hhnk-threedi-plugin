@@ -29,6 +29,8 @@ PATH %PYTHONPATH%;%PATH%
 set PYTHONPATH=%appdata%\QGIS\QGIS3\profiles\default\python
 set PYTHONPATH=%appdata%\QGIS\QGIS3\profiles\default\python\plugins\hhnk_threedi_toolbox\external-dependencies;%PYTHONPATH%
 set PYTHONPATH=%OSGEO4W_ROOT%\apps\qgis-ltr\python;%PYTHONPATH%
+set PYTHONPATH=%appdata%\QGIS\QGIS3\profiles\default\python\plugins\ThreeDiToolbox\deps;%PYTHONPATH%
+
 
 path %OSGEO4W_ROOT%\apps\qt5\bin;%PATH%
 
