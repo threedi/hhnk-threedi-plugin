@@ -94,7 +94,7 @@ class newProjectDialog(QDialog):
                         )
                     else:
                         try:
-                            # os.mkdir(full_path)
+                            os.mkdir(full_path)
                             Folders(full_path, create=True)
                             self.project_folder_path.emit(full_path)
                             self.accept()

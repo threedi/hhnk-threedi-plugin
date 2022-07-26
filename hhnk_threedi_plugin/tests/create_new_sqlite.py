@@ -45,10 +45,11 @@ RASTER_FILES =  ['dem_file', 'frict_coef_file', 'infiltration_rate_file', 'max_i
 # %%
 
 overwrite=True
+def create_schematisofns(row):
 
-for index, row in settings_df.iterrows():
-    if row['name'] != '1d2d_test':
-        continue
+    for index, row in settings_df.iterrows():
+        if row['name'] != '1d2d_test':
+            continue
 
     print(f"Create {row['name']}")
 
@@ -194,10 +195,10 @@ tags = ["modeltest_1d2dtest_hoekje"]
 sqlite_path = schema_new.database.path
 schematisation_name = "modeltest_1d2d_test_hoekje"
 organisation_uuid="48dac75bef8a42ebbb52e8f89bbdb9f2"
-upload.upload_and_process(schematisation_name=schematisation_name,
-    sqlite_path=sqlite_path,
-    raster_paths=raster_names,
-    schematisation_create_tags=tags,
-    commit_message='testmodel')
+# upload.upload_and_process(schematisation_name=schematisation_name,
+#     sqlite_path=sqlite_path,
+#     raster_paths=raster_names,
+#     schematisation_create_tags=tags,
+#     commit_message='testmodel')
 
 # %%

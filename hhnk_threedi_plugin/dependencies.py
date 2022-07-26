@@ -45,30 +45,30 @@ Dependency = namedtuple(
     ["name", "package", "constraint", "no_dependecies", "folder", "testpypi", "enforce_version"],
 )
 DEPENDENCIES = [
-    Dependency("Scipy", "scipy", "==1.7.0", False, "external-dependencies", False, True),
-    Dependency("Jupyter", "jupyter", "==1.0.0", False, "user", False, False), # upgrades get add layer
-    Dependency("Rtree", "rtree", "==0.9.7", False, "qgis", False, False),
-    Dependency("APScheduler", "apscheduler", "==3.8.1", False, "qgis", False, False),
-    Dependency("ipyfilechooser", "ipyfilechooser", "==0.6.0", False, "qgis", False, False),
-    Dependency("Descartes", "descartes", "==1.1.0", False, "qgis", False, False),
-    Dependency(
-        "threedi_scenario_downloader",
-        "threedi_scenario_downloader",
-        "==0.15",
-        False,
-        "qgis",
-        False,
-        False
-    ),
-    Dependency(
-        "threedi_api_client", "threedi_api_client", ">=3.0.29", False, "qgis", False, False
-    ),
-    Dependency("xlrd", "xlrd", "==1.1.0", False, "qgis", False, False),
-    Dependency("tqdm", "tqdm", "==4.40.2", False, "qgis", False, False),
-    # test pypi
-    Dependency(
-        "hhnk_threedi_tools", "hhnk_threedi_tools", "==0.5.21", True, "qgis", True, True
-    ),
+    # Dependency("Scipy", "scipy", "==1.7.0", False, "external-dependencies", False, True),
+    # Dependency("Jupyter", "jupyter", "==1.0.0", False, "user", False, False), # upgrades get add layer
+    # Dependency("Rtree", "rtree", "==0.9.7", False, "qgis", False, False),
+    # Dependency("APScheduler", "apscheduler", "==3.8.1", False, "qgis", False, False),
+    # Dependency("ipyfilechooser", "ipyfilechooser", "==0.6.0", False, "qgis", False, False),
+    # Dependency("Descartes", "descartes", "==1.1.0", False, "qgis", False, False),
+    # Dependency(
+    #     "threedi_scenario_downloader",
+    #     "threedi_scenario_downloader",
+    #     "==0.15",
+    #     False,
+    #     "qgis",
+    #     False,
+    #     False
+    # ),
+    # Dependency(
+    #     "threedi_api_client", "threedi_api_client", ">=3.0.29", False, "qgis", False, False
+    # ),
+    # Dependency("xlrd", "xlrd", "==1.1.0", False, "qgis", False, False),
+    # Dependency("tqdm", "tqdm", "==4.40.2", False, "qgis", False, False),
+    # # test pypi
+    # Dependency(
+    #     "hhnk_threedi_tools", "hhnk_threedi_tools", "==0.5.21", True, "qgis", True, True
+    # ),
     #Dependency(
     #    "hhnk_research_tools", "hhnk_research_tools", "==0.4", True, "qgis", True
     #),

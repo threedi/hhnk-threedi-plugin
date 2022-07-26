@@ -93,10 +93,13 @@ class Ui_HHNK_toolboxDockWidget(object):
         self.tabWidget.addTab(self.tab_2, "")
         self.verticalLayout.addWidget(self.tabWidget)
         HHNK_toolboxDockWidget.setWidget(self.dockWidgetContents)
-
         self.retranslateUi(HHNK_toolboxDockWidget)
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(HHNK_toolboxDockWidget)
+        self.tab_3 = QtWidgets.QWidget()
+        self.tab_3.setObjectName("tab_3")
+
+
 
     def retranslateUi(self, HHNK_toolboxDockWidget):
         _translate = QtCore.QCoreApplication.translate
@@ -111,4 +114,5 @@ class Ui_HHNK_toolboxDockWidget(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_1), _translate("HHNK_toolboxDockWidget", "Tab 1"))
         self.start_sqlite_check_2.setText(_translate("HHNK_toolboxDockWidget", "Sqlite tests"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("HHNK_toolboxDockWidget", "Tab 2"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("HHNK_toolboxDockWidget", "Tab 3"))
 

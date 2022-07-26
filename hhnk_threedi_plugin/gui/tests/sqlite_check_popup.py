@@ -41,62 +41,62 @@ def setupUi(sqlite_dialog):
     # Create button to start tests
     sqlite_dialog.start_sqlite_tests_btn = QPushButton("Start tests")
 
-    # Create all file widgets
-    sqlite_dialog.polder_label = QLabel("Polder:")
-    sqlite_dialog.polder_selector = fileWidget(
-        file_dialog_title="", file_mode=QFileDialog.Directory    )
-    sqlite_dialog.polder_selector.setEnabled(False)
+#     # Create all file widgets
+#     sqlite_dialog.polder_label = QLabel("Polder:")
+#     sqlite_dialog.polder_selector = fileWidget(
+#         file_dialog_title="", file_mode=QFileDialog.Directory    )
+#     sqlite_dialog.polder_selector.setEnabled(False)
 
-    sqlite_dialog.output_selector_label = QLabel("Selecteer output map:")
-    sqlite_dialog.output_selector = fileWidget(
-        file_dialog_title="Selecteer map om output in aan te maken",
-        file_mode=QFileDialog.Directory,    )
-    sqlite_dialog.output_selector.setEnabled(False)
+#     sqlite_dialog.output_selector_label = QLabel("Selecteer output map:")
+#     sqlite_dialog.output_selector = fileWidget(
+#         file_dialog_title="Selecteer map om output in aan te maken",
+#         file_mode=QFileDialog.Directory,    )
+#     sqlite_dialog.output_selector.setEnabled(False)
 
-    sqlite_dialog.model_selector_label = QLabel("Selecteer model:")
-    sqlite_dialog.model_selector = fileWidget(
-        file_dialog_title="Selecteer een model (.sqlite)",
-        file_mode=QFileDialog.ExistingFile,
-        name_filter="*.sqlite",    )
-    sqlite_dialog.model_selector.setEnabled(False)
+#     sqlite_dialog.model_selector_label = QLabel("Selecteer model:")
+#     sqlite_dialog.model_selector = fileWidget(
+#         file_dialog_title="Selecteer een model (.sqlite)",
+#         file_mode=QFileDialog.ExistingFile,
+#         name_filter="*.sqlite",    )
+#     sqlite_dialog.model_selector.setEnabled(False)
 
-    sqlite_dialog.dem_label = QLabel("Selecteer DEM raster")
-    sqlite_dialog.dem_selector = fileWidget(
-        file_dialog_title="Selecteer DEM raster (.tif)",
-        file_mode=QFileDialog.ExistingFile,
-        name_filter="*.tif",    )
-    sqlite_dialog.dem_selector.setEnabled(False)
+#     sqlite_dialog.dem_label = QLabel("Selecteer DEM raster")
+#     sqlite_dialog.dem_selector = fileWidget(
+#         file_dialog_title="Selecteer DEM raster (.tif)",
+#         file_mode=QFileDialog.ExistingFile,
+#         name_filter="*.tif",    )
+#     sqlite_dialog.dem_selector.setEnabled(False)
 
-    sqlite_dialog.datachecker_label = QLabel("Selecteer datachecker output:")
-    sqlite_dialog.datachecker_selector = fileWidget(
-        file_dialog_title="Selecteer datachecker output (.gdb)",
-        file_mode=QFileDialog.Directory,    )
-    sqlite_dialog.datachecker_selector.setEnabled(False)
+#     sqlite_dialog.datachecker_label = QLabel("Selecteer datachecker output:")
+#     sqlite_dialog.datachecker_selector = fileWidget(
+#         file_dialog_title="Selecteer datachecker output (.gdb)",
+#         file_mode=QFileDialog.Directory,    )
+#     sqlite_dialog.datachecker_selector.setEnabled(False)
 
-    sqlite_dialog.channels_from_label = QLabel("Watergangen van profielen:")
-    sqlite_dialog.channel_from_profiles_selector = fileWidget(
-        file_dialog_title="Selecteer channels from profile " "shapefile (.shp)",
-        file_mode=QFileDialog.ExistingFile,
-        name_filter="*.shp",    )
-    sqlite_dialog.channel_from_profiles_selector.setEnabled(False)
+#     sqlite_dialog.channels_from_label = QLabel("Watergangen van profielen:")
+#     sqlite_dialog.channel_from_profiles_selector = fileWidget(
+#         file_dialog_title="Selecteer channels from profile " "shapefile (.shp)",
+#         file_mode=QFileDialog.ExistingFile,
+#         name_filter="*.shp",    )
+#     sqlite_dialog.channel_from_profiles_selector.setEnabled(False)
 
-    sqlite_dialog.hdb_label = QLabel("HDB:")
-    sqlite_dialog.hdb_selector = fileWidget(
-        file_dialog_title="Selecteer hydrologen database (.gdb)",
-        file_mode=QFileDialog.Directory,    )
-    sqlite_dialog.hdb_selector.setEnabled(False)
+#     sqlite_dialog.hdb_label = QLabel("HDB:")
+#     sqlite_dialog.hdb_selector = fileWidget(
+#         file_dialog_title="Selecteer hydrologen database (.gdb)",
+#         file_mode=QFileDialog.Directory,    )
+#     sqlite_dialog.hdb_selector.setEnabled(False)
 
-    sqlite_dialog.damo_label = QLabel("DAMO:")
-    sqlite_dialog.damo_selector = fileWidget(
-        file_dialog_title="Selecteer DAMO database (.gdb)",
-        file_mode=QFileDialog.Directory,    )
-    sqlite_dialog.damo_selector.setEnabled(False)
+#     sqlite_dialog.damo_label = QLabel("DAMO:")
+#     sqlite_dialog.damo_selector = fileWidget(
+#         file_dialog_title="Selecteer DAMO database (.gdb)",
+#         file_mode=QFileDialog.Directory,    )
+#     sqlite_dialog.damo_selector.setEnabled(False)
 
-    sqlite_dialog.polder_shape_label = QLabel("Polder shapefile:")
-    sqlite_dialog.polder_shape_selector = fileWidget(
-        file_dialog_title="Selecteer polder shapefile (.shp)",
-        file_mode=QFileDialog.ExistingFile,    )
-    sqlite_dialog.polder_shape_selector.setEnabled(False)
+#     sqlite_dialog.polder_shape_label = QLabel("Polder shapefile:")
+#     sqlite_dialog.polder_shape_selector = fileWidget(
+#         file_dialog_title="Selecteer polder shapefile (.shp)",
+#         file_mode=QFileDialog.ExistingFile,    )
+#     sqlite_dialog.polder_shape_selector.setEnabled(False)
 
     # Create all checkboxes group
     sqlite_dialog.all_tests = QGroupBox("Selecteer tests")
@@ -141,28 +141,28 @@ def setupUi(sqlite_dialog):
     separator.setFrameShadow(QFrame.Sunken)
 
     # Create layout for file dialogs
-    path_selection_layout = QGridLayout()
-    path_selection_layout.setAlignment(Qt.AlignTop)
-    path_selection_layout.setHorizontalSpacing(25)
-    path_selection_layout.addWidget(separator, 0, 0, 1, 2)
-    path_selection_layout.addWidget(sqlite_dialog.polder_label, 1, 0)
-    path_selection_layout.addWidget(sqlite_dialog.polder_selector, 1, 1)
-    path_selection_layout.addWidget(sqlite_dialog.output_selector_label, 2, 0)
-    path_selection_layout.addWidget(sqlite_dialog.output_selector, 2, 1)
-    path_selection_layout.addWidget(sqlite_dialog.model_selector_label, 3, 0)
-    path_selection_layout.addWidget(sqlite_dialog.model_selector, 3, 1)
-    path_selection_layout.addWidget(sqlite_dialog.dem_label, 4, 0)
-    path_selection_layout.addWidget(sqlite_dialog.dem_selector, 4, 1)
-    path_selection_layout.addWidget(sqlite_dialog.datachecker_label, 5, 0)
-    path_selection_layout.addWidget(sqlite_dialog.datachecker_selector, 5, 1)
-    path_selection_layout.addWidget(sqlite_dialog.channels_from_label, 6, 0)
-    path_selection_layout.addWidget(sqlite_dialog.channel_from_profiles_selector, 6, 1)
-    path_selection_layout.addWidget(sqlite_dialog.hdb_label, 7, 0)
-    path_selection_layout.addWidget(sqlite_dialog.hdb_selector, 7, 1)
-    path_selection_layout.addWidget(sqlite_dialog.damo_label, 8, 0)
-    path_selection_layout.addWidget(sqlite_dialog.damo_selector, 8, 1)
-    path_selection_layout.addWidget(sqlite_dialog.polder_shape_label, 9, 0)
-    path_selection_layout.addWidget(sqlite_dialog.polder_shape_selector, 9, 1)
+                        # path_selection_layout = QGridLayout()
+                        # path_selection_layout.setAlignment(Qt.AlignTop)
+                        # path_selection_layout.setHorizontalSpacing(25)
+                        # path_selection_layout.addWidget(separator, 0, 0, 1, 2)
+                        # path_selection_layout.addWidget(sqlite_dialog.polder_label, 1, 0)
+                        # path_selection_layout.addWidget(sqlite_dialog.polder_selector, 1, 1)
+                        # path_selection_layout.addWidget(sqlite_dialog.output_selector_label, 2, 0)
+                        # path_selection_layout.addWidget(sqlite_dialog.output_selector, 2, 1)
+                        # path_selection_layout.addWidget(sqlite_dialog.model_selector_label, 3, 0)
+                        # path_selection_layout.addWidget(sqlite_dialog.model_selector, 3, 1)
+                        # path_selection_layout.addWidget(sqlite_dialog.dem_label, 4, 0)
+                        # path_selection_layout.addWidget(sqlite_dialog.dem_selector, 4, 1)
+                        # path_selection_layout.addWidget(sqlite_dialog.datachecker_label, 5, 0)
+                        # path_selection_layout.addWidget(sqlite_dialog.datachecker_selector, 5, 1)
+                        # path_selection_layout.addWidget(sqlite_dialog.channels_from_label, 6, 0)
+                        # path_selection_layout.addWidget(sqlite_dialog.channel_from_profiles_selector, 6, 1)
+                        # path_selection_layout.addWidget(sqlite_dialog.hdb_label, 7, 0)
+                        # path_selection_layout.addWidget(sqlite_dialog.hdb_selector, 7, 1)
+                        # path_selection_layout.addWidget(sqlite_dialog.damo_label, 8, 0)
+                        # path_selection_layout.addWidget(sqlite_dialog.damo_selector, 8, 1)
+                        # path_selection_layout.addWidget(sqlite_dialog.polder_shape_label, 9, 0)
+                        # path_selection_layout.addWidget(sqlite_dialog.polder_shape_selector, 9, 1)
 
     # Create checkboxes layout
     # quick checks
@@ -193,6 +193,7 @@ def setupUi(sqlite_dialog):
     checkboxes_layout.addWidget(sqlite_dialog.one_time_checks)
     sqlite_dialog.all_tests.setLayout(checkboxes_layout)
 
+
     # Main layout
     paths_selection = QLabel("Selecteer benodigde bestanden")
     main_layout = QVBoxLayout()
@@ -200,13 +201,12 @@ def setupUi(sqlite_dialog):
     main_layout.setContentsMargins(25, 25, 25, 25)
     main_layout.addWidget(sqlite_dialog.bar)
     main_layout.addWidget(paths_selection)
-    main_layout.addLayout(path_selection_layout)
+    #main_layout.addLayout(path_selection_layout)
     main_layout.addSpacerItem(QSpacerItem(10, 5, QSizePolicy.Expanding))
     main_layout.addWidget(sqlite_dialog.all_tests)
     main_layout.addSpacerItem(QSpacerItem(10, 5, QSizePolicy.Expanding))
     main_layout.addWidget(sqlite_dialog.start_sqlite_tests_btn, alignment=Qt.AlignRight)
     sqlite_dialog.setLayout(main_layout)
-
 
 class sqliteCheckDialog(QDialog):
     """
@@ -226,7 +226,7 @@ class sqliteCheckDialog(QDialog):
         super(sqliteCheckDialog, self).__init__(parent)
         setupUi(self)
         self.caller = caller
-        self.setup_main_paths_signals()
+        # self.setup_main_paths_signals()
         self.data_verification.clicked.connect(self.group_clicked)
         self.one_time_checks.clicked.connect(self.group_clicked)
         self.start_sqlite_tests_btn.clicked.connect(self.verify_submit)
@@ -324,35 +324,35 @@ class sqliteCheckDialog(QDialog):
         # self.sqlite_tests_execution()
 
 
-    def setup_main_paths_signals(self):
-        """
-        Connects changes in fields (for example the selection of a file) to the function
-        that updates (and keeps track of) the current fields for the entire plugin
-        """
-        self.datachecker_selector.fileSelected.connect(lambda path: self.caller.update_current_paths(datachecker=path))
-        self.damo_selector.fileSelected.connect(lambda path: self.caller.update_current_paths(damo=path))
-        self.hdb_selector.fileSelected.connect(lambda path: self.caller.update_current_paths(hdb=path))
-        self.polder_shape_selector.fileSelected.connect(lambda path: self.caller.update_current_paths(polder_shapefile=path))
-        self.channel_from_profiles_selector.fileSelected.connect(lambda path: self.caller.update_current_paths(channels_shapefile=path))
-        self.model_selector.fileSelected.connect(lambda path: self.caller.update_current_paths(model=path))
-        self.dem_selector.fileSelected.connect(lambda path: self.caller.update_current_paths(dem=path))
-        self.output_selector.fileSelected.connect(lambda path: self.caller.update_current_paths(sqlite_output=path))
+                # def setup_main_paths_signals(self):
+                #     """
+                #     Connects changes in fields (for example the selection of a file) to the function
+                #     that updates (and keeps track of) the current fields for the entire plugin
+                #     """
+                #     self.datachecker_selector.fileSelected.connect(lambda path: self.caller.update_current_paths(datachecker=path))
+                #     self.damo_selector.fileSelected.connect(lambda path: self.caller.update_current_paths(damo=path))
+                #     self.hdb_selector.fileSelected.connect(lambda path: self.caller.update_current_paths(hdb=path))
+                #     self.polder_shape_selector.fileSelected.connect(lambda path: self.caller.update_current_paths(polder_shapefile=path))
+                #     self.channel_from_profiles_selector.fileSelected.connect(lambda path: self.caller.update_current_paths(channels_shapefile=path))
+                #     self.model_selector.fileSelected.connect(lambda path: self.caller.update_current_paths(model=path))
+                #     self.dem_selector.fileSelected.connect(lambda path: self.caller.update_current_paths(dem=path))
+                #     self.output_selector.fileSelected.connect(lambda path: self.caller.update_current_paths(sqlite_output=path))
 
     def set_current_paths(self):
         """
         Sets current paths as known to main widget to this widget's fields
         """
         paths = self.caller.current_source_paths
-        if paths is not None:
-            self.polder_selector.setFilePath(paths["polder_folder"])
-            self.model_selector.setFilePath(paths["model"])
-            self.dem_selector.setFilePath(paths["dem"])
-            self.datachecker_selector.setFilePath(paths["datachecker"])
-            self.channel_from_profiles_selector.setFilePath(paths["channels_shapefile"])
-            self.hdb_selector.setFilePath(paths["hdb"])
-            self.damo_selector.setFilePath(paths["damo"])
-            self.polder_shape_selector.setFilePath(paths["polder_shapefile"])
-            self.output_selector.setFilePath(paths["sqlite_tests_output"])
+        # if paths is not None:
+        #     self.polder_selector.setFilePath(paths["polder_folder"])
+        #     self.model_selector.setFilePath(paths["model"])
+        #     self.dem_selector.setFilePath(paths["dem"])
+        #     self.datachecker_selector.setFilePath(paths["datachecker"])
+        #     self.channel_from_profiles_selector.setFilePath(paths["channels_shapefile"])
+        #     self.hdb_selector.setFilePath(paths["hdb"])
+        #     self.damo_selector.setFilePath(paths["damo"])
+        #     self.polder_shape_selector.setFilePath(paths["polder_shapefile"])
+        #     self.output_selector.setFilePath(paths["sqlite_tests_output"])
 
 
     # def sqlite_tests_execution(self):

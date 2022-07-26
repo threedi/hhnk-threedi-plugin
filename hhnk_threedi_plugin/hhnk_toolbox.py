@@ -26,6 +26,7 @@ from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction, QMessageBox
 from qgis.core import QgsApplication, Qgis, QgsProject, QgsVectorLayer
 from qgis.utils import showPluginHelp
+from hhnk_threedi_plugin.gui.model_states.model_splitter import modelSplitterDialog
 
 # Initialize Qt resources from file resources.py
 from hhnk_threedi_plugin.resources import *
@@ -50,9 +51,10 @@ from hhnk_threedi_plugin.gui.tests.sqlite_test_widgets.main_result_widget import
 from hhnk_threedi_plugin.gui.tests.bank_levels.bank_levels import bankLevelsWidget
 from hhnk_threedi_plugin.gui.klimaatsommen.klimaatsommen import KlimaatSommenWidget
 from hhnk_threedi_plugin.qgis_interaction.project import Project
-
 from hhnk_threedi_plugin.gui.new_project_dialog import newProjectDialog
+from hhnk_threedi_plugin.gui.input_data import inputDataDialog
 from hhnk_threedi_plugin.qgis_interaction.open_notebook import NotebookWidget
+# from hhnk_threedi_plugin.gui.log_in_btn import LogInDialog
 
 
 # Functions
@@ -144,6 +146,7 @@ class HHNK_toolbox:
         self.one_d_two_d = None
         self.polder_folder = None
         self.current_source_paths = None
+        self.log_in_btn = None
         # Keep tracks of last chosen source paths over the entire toolbox
         
 
@@ -298,7 +301,7 @@ class HHNK_toolbox:
                 and self.bank_levels_results_widget.isVisible()
             ):
                 self.bank_levels_results_widget.close()
-
+    # Select from the dockwidget the path where the polder is located. If the path is not correct or if it is empty I will not enabled the buttons 
     def polder_folder_changed(self):
         """
         If a new polder is selected, based on validity of provided path:
@@ -306,9 +309,7 @@ class HHNK_toolbox:
         enable or disable toolbox
         """
         path = self.dockwidget.polder_selector.filePath()
-        if not os.path.exists(os.path.join(path, "01_Source_data")):
-            QMessageBox.warning(None, "Loading polder", "Incorrect folderrs!")
-            return
+
 
         print("Found folder", path)
         self.reset_ui(polder=path)
@@ -322,7 +323,8 @@ class HHNK_toolbox:
             self.dockwidget.model_state_btn.setEnabled(True) #FIXME tijdelijk uitgezet totdat oplossing voor klondike release er is.
             self.dockwidget.tests_toolbox.setEnabled(True)
             self.dockwidget.server_btn.setEnabled(True)
-            self.dockwidget.load_layers_btn.setEnabled(True)
+            
+            # self.dockwidget.load_layers_btn.setEnabled(True)
         else:
             self.polder_folder = None
             if self.current_source_paths is not None:
@@ -332,18 +334,23 @@ class HHNK_toolbox:
             self.dockwidget.model_state_btn.setEnabled(False)
             self.dockwidget.tests_toolbox.setEnabled(False)
             self.dockwidget.server_btn.setEnabled(False)
-            self.dockwidget.load_layers_btn.setEnabled(False)
+            # self.dockwidget.load_layers_btn.setEnabled(True)
+
+        if not os.path.exists(os.path.join(path, "01_Source_data")):
+            QMessageBox.warning(None, "Loading polder", "Incorrect folders!")
+            return
 
     def initialize_current_paths(self):
         """
         When we create the default paths dict, set values to all widgets
         """
         self.load_layers_dialog.set_current_paths()
-        self.model_states_dialog.set_current_paths()
+        #self.model_states_dialog.set_current_paths()
         self.sqlite_tests_dialog.set_current_paths()
         self.zero_d_one_d.set_current_paths()
         self.bank_levels.set_current_paths()
         self.one_d_two_d.set_current_paths()
+        self.input_data_dialog.set_current_paths()
 
     def update_model_state(self):
         if self.current_source_paths is not None:
@@ -375,8 +382,10 @@ class HHNK_toolbox:
         if self.current_source_paths is not None:
             if datachecker is not None:
                 self.current_source_paths["datachecker"] = datachecker
-                self.model_states_dialog.datachecker_selector.setFilePath(datachecker)
-                self.sqlite_tests_dialog.datachecker_selector.setFilePath(datachecker)
+                self.input_data_dialog.datachecker_selector.setFilePath(datachecker)
+                self.input_data_dialog.datachecker_selector.setFilePath(datachecker)
+                # self.sqlite_tests_dialog.datachecker_selector.setFilePath(datachecker)
+                # self.sqlite_tests_dialog.datachecker_selector.setFilePath(datachecker)
                 self.bank_levels.datachecker_selector.setFilePath(datachecker)
             if damo is not None:
                 self.current_source_paths["damo"] = damo
@@ -390,14 +399,14 @@ class HHNK_toolbox:
                 self.reset_ui(model=model)
                 self.current_source_paths["model"] = model
                 self.update_model_state()
-                self.model_states_dialog.model_selector.setFilePath(model)
-                self.model_states_dialog.model_changed()
-                self.sqlite_tests_dialog.model_selector.setFilePath(model)
+                self.input_data_dialog.model_selector.setFilePath(model)
                 self.bank_levels.model_selector.setFilePath(model)
                 self.one_d_two_d.model_selector.setFilePath(model)
             if dem is not None:
                 self.current_source_paths["dem"] = dem
-                self.sqlite_tests_dialog.dem_selector.setFilePath(dem)
+                # self.sqlite_tests_dialog.dem_selector.setFilePath(dem)
+                self.input_data_dialog.dem_selector.setFilePath(dem)
+                # input_data_dialog
                 self.one_d_two_d.dem_selector.setFilePath(dem)
             if zero_d_results is not None:
                 self.current_source_paths["0d1d_results_dir"] = zero_d_results
@@ -485,6 +494,14 @@ class HHNK_toolbox:
         dialog.project_folder_path.connect(Folders)
         dialog.exec()
         self.dockwidget.polder_selector.setFilePath(dialog.full_path)
+      
+
+
+    # def model_splitter_execute(self):
+    #     dialog = modelSplitterDialog()
+    #     # dialog.project_folder_path.connect(Folders)
+    #     dialog.exec()
+
 
     def open_documentatie_link(self):
         webbrowser.open(DOCS_LINK, new=2)
@@ -513,11 +530,13 @@ class HHNK_toolbox:
                 self.dockwidget.tests_toolbox.setEnabled(False)
                 self.dockwidget.server_btn.setEnabled(False)
                 self.dockwidget.load_layers_btn.setEnabled(False)
-                
+                              
                 self.load_layers_dialog = loadLayersDialog(caller=self, parent=self.dockwidget)
                 self.sqlite_tests_dialog = sqliteCheckDialog(caller=self, parent=self.dockwidget)
-                self.model_states_dialog = modelStateDialog(caller=self, parent=self.dockwidget)
-                
+                self.input_data_dialog = inputDataDialog(caller=self, parent=self.dockwidget)
+                self.model_states_dialog = modelStateDialog(self, parent=self.dockwidget)
+                self.model_splitter_dialog = modelSplitterDialog(self, parent=self.dockwidget)
+
                 self.zero_d_one_d = zeroDOneDWidget(caller=self, parent=self.dockwidget)
                 self.bank_levels = bankLevelsWidget(caller=self, parent=self.dockwidget)
                 self.one_d_two_d = oneDTwoDWidget(caller=self, parent=self.dockwidget)
@@ -540,22 +559,31 @@ class HHNK_toolbox:
                 self.dockwidget.load_layers_btn.clicked.connect(self.load_layers_dialog.exec)  # exec dwingt af dat je 1 window open kan hebben.
                 self.dockwidget.start_sqlite_check.clicked.connect(self.sqlite_tests_dialog.set_current_paths)
                 self.dockwidget.start_sqlite_check.clicked.connect(self.sqlite_tests_dialog.show)
-                self.dockwidget.model_state_btn.clicked.connect(self.model_states_dialog.set_current_paths)
-                self.dockwidget.model_state_btn.clicked.connect(self.model_states_dialog.show)
-                self.dockwidget.create_new_project_btn.clicked.connect(self.new_project_folder_execute)
+                self.dockwidget.input_btn.clicked.connect(self.input_data_dialog.set_current_paths)
+                self.dockwidget.input_btn.clicked.connect(self.input_data_dialog.show)
+                # self.dockwidget.model_state_btn.clicked.connect(self.model_states_dialog.set_current_paths)
+                self.dockwidget.model_state_btn.clicked.connect(self.model_splitter_dialog.show)
+                # self.dockwidget.create_new_project_btn.clicked.connect(self.new_project_folder_execute)
+                
+                
+                
+                # self.dockwidget.input_btn.clicked.connect(self.input_data)
 
+               
+               
                 # self.dockwidget.documentatie_button.clicked.connect(self.open_documentatie_link)
                 self.dockwidget.server_btn.clicked.connect(self.notebook_widget.start_server)
 
                 # Connect start buttons to appropriate function calls
-                self.model_states_dialog.start_conversion.connect(self.model_states_execution)
+
+                # self.model_states_dialog.start_conversion.connect(self.model_states_execution)
                 self.sqlite_tests_dialog.start_sqlite_tests.connect(self.sqlite_tests_execution)
                 # self.zero_d_one_d.start_0d1d_tests.connect(self.zero_d_one_d_tests_execution)
                 self.bank_levels.start_bank_levels_tests.connect(self.bank_levels_execution)
                 # self.one_d_two_d.start_1d2d_tests.connect(self.one_d_two_d.one_d_two_d_tests_execution)
 
                 # note that for 'klimaatsommen' functions are run from the widget
-
+                # self.model_states_dialog.connect(self.get_api)
             # connect to provide cleanup on closing of dockwidget
             self.dockwidget.closingPlugin.connect(self.onClosePlugin)
 
