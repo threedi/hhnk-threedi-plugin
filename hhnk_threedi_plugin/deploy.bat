@@ -1,7 +1,6 @@
 @REM deploy plugin to appdata
 pb_tool deploy -y
 
-
 SET PLUGIN_PATH=%appdata%\QGIS\QGIS3\profiles\default\python\plugins
 copy %PLUGIN_PATH%\api_key\api_key.txt %PLUGIN_PATH%\hhnk_threedi_plugin\api_key.txt
 
