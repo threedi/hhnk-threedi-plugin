@@ -122,7 +122,7 @@ class schematisationDialog(QDialog):
         )
         
     def set_current_paths(self):
-        self.settings_df = pd.read_excel(self.caller.fenv.model.settings.path)
+        self.settings_df = pd.read_excel(self.caller.fenv.model.settings.path, engine="openpyxl")
         
         setupUi(self)
         

@@ -1,0 +1,4 @@
+pandas>=0.23.0
+shapely
+fiona
+pyproj>=2.2.0
