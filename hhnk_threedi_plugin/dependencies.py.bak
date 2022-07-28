@@ -98,7 +98,7 @@ def ensure_dependencies(requirements_path=REQUIREMENTS_PATH, flexible_dependenci
     
     if not "fiona" in os.listdir(DEPENDENCY_DIR):
     
-        sprint("\n Moving geopandas distribution to site-packages")
+        print("\n Moving geopandas distribution to site-packages")
         copy_tree(WHEEL_DIR + "/geopandas", DEPENDENCY_DIR) 
     
     print("`\nInstalling frozen and flexible dependencies...:\n")

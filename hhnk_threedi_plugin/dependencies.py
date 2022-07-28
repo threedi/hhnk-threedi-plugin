@@ -58,7 +58,7 @@ DEPENDENCY_DIR = str(DEPENDENCY_DIR)
 
 WHEEL_DIR = OUR_DIR / "wheels"
 WHEEL_DIR = str(WHEEL_DIR)
-REQUIREMENTS_PATH = f"{WHEEL_DIR}/requirements.txt"
+REQUIREMENTS_PATH = f"{WHEEL_DIR}/requirements2.txt"
 
 # list of depencies
 """ folder can be set to "external-dependencies" to insstall in th plugin folder, it is loaded incorrectly 
