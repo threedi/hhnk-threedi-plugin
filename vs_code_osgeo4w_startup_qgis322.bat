@@ -1,7 +1,8 @@
 @echo off
 
 REM Vul hier het pad naar de OSGeo4W installatie in
-set OSGEO4W_ROOT=C:\OSGeo4W
+@REM set OSGEO4W_ROOT=C:\OSGeo4W
+set OSGEO4W_ROOT=%ProgramFiles%\3DiModellerInterface 3.22
 
 REM Vul hier het pad naar de visual studio code executable in
 set VSCODE="C:\Program Files\Microsoft VS Code Insiders\Code - Insiders.exe"
@@ -10,7 +11,7 @@ call "%OSGEO4W_ROOT%\bin\o4w_env.bat"
 REM call "%~dp0\o4w_env.bat"
 
 path %OSGEO4W_ROOT%\apps\qgis-ltr\bin;%PATH%
-path C:\Program Files\7-Zip;%PATH% 
+path %ProgramFiles%\7-Zip;%PATH% 
 
 set QGIS_PREFIX_PATH=%OSGEO4W_ROOT:\=/%/apps/qgis-ltr
 set GDAL_FILENAME_IS_UTF8=YES
@@ -23,13 +24,16 @@ set QT_PLUGIN_PATH=%OSGEO4W_ROOT%\apps\qgis-ltr\qtplugins;%OSGEO4W_ROOT%\apps\qt
 
 SET PYTHONHOME=%OSGEO4W_ROOT%\apps\Python39
 SET PYTHONPATH=%PYTHONHOME%;%PYTHONHOME%\Scripts
-PATH %PYTHONPATH%;%PATH%
 
 
-set PYTHONPATH=%appdata%\QGIS\QGIS3\profiles\default\python
-set PYTHONPATH=%appdata%\QGIS\QGIS3\profiles\default\python\plugins\hhnk_threedi_toolbox\external-dependencies;%PYTHONPATH%
-set PYTHONPATH=%OSGEO4W_ROOT%\apps\qgis-ltr\python;%PYTHONPATH%
-set PYTHONPATH=%appdata%\QGIS\QGIS3\profiles\default\python\plugins\ThreeDiToolbox\deps;%PYTHONPATH%
+set PYTHONPATH=%PYTHONPATH%;%appdata%\QGIS\QGIS3\profiles\default\python
+set PYTHONPATH=%PYTHONPATH%;%appdata%\QGIS\QGIS3\profiles\default\python\plugins\hhnk_threedi_toolbox\external-dependencies
+set PYTHONPATH=%PYTHONPATH%;%OSGEO4W_ROOT%\apps\qgis-ltr\python
+set PYTHONPATH=%PYTHONPATH%;%appdata%\QGIS\QGIS3\profiles\default\python\plugins\ThreeDiToolbox\deps
+set PYTHONPATH=%PYTHONPATH%;%appdata%\Python\Python39
+set PYTHONPATH=%PYTHONPATH%;%appdata%\Python\Python39\Scripts
+
+path %PYTHONPATH%;%PATH%
 
 
 path %OSGEO4W_ROOT%\apps\qt5\bin;%PATH%
