@@ -106,6 +106,7 @@ class KlimaatSommenWidget(QWidget):
         # set up the signals
         self.laad_layout_btn.clicked.connect(self.verify_submit_laad_layout)
         self.laad_layout_btn.clicked.connect(self.verify_submit_laad_layout)
+        self.create_pdfs_btn.clicked.connect(self.verify_submit_create_pdfs)
         self.create_clean_btn.clicked.connect(self.verify_submit_create_clean)
         self.select_revision_box.aboutToShowPopup.connect(self.populate_combobox)
 
