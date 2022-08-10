@@ -12,3 +12,4 @@ docs
 hhnk_threedi_plugin\external-dependencies
 hhnk_threedi_plugin/api_key.txt
 *.bak
+local_settings.py
