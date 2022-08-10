@@ -1,7 +1,7 @@
 @REM deploy plugin to appdata
 pb_tool deploy -y
 
-SET PLUGIN_PATH=%appdata%\QGIS\QGIS3\profiles\default\python\plugins
+SET PLUGIN_PATH=%appdata%\3Di\QGIS3\profiles\default\python\plugins
 copy %PLUGIN_PATH%\api_key\api_key.txt %PLUGIN_PATH%\hhnk_threedi_plugin\api_key.txt
 
 @REM https://stackoverflow.com/questions/35988863/using-command-line-batch-to-switch-to-focus-on-app
