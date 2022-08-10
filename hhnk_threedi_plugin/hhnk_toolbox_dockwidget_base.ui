@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>305</width>
-    <height>523</height>
+    <width>507</width>
+    <height>559</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,7 +19,7 @@
   <property name="minimumSize">
    <size>
     <width>215</width>
-    <height>400</height>
+    <height>492</height>
    </size>
   </property>
   <property name="maximumSize">
@@ -252,14 +252,22 @@
         </item>
         <item>
          <widget class="QPushButton" name="server_btn">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
           <property name="text">
            <string>Open Jupyter Notebook Server</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="input_btn">
+          <property name="text">
+           <string>Input</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="documentatie_button">
+          <property name="text">
+           <string>Documentatie</string>
           </property>
          </widget>
         </item>

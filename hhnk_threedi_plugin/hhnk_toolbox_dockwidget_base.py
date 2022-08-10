@@ -54,6 +54,7 @@ class Ui_HHNK_toolboxDockWidget(object):
         self.model_state_btn.setEnabled(False)
         self.model_state_btn.setGeometry(QtCore.QRect(0, 120, 378, 23))
         self.model_state_btn.setObjectName("model_state_btn")
+       
         self.lizard_api_key_textbox = QtWidgets.QLineEdit(self.tab_1)
         self.lizard_api_key_textbox.setGeometry(QtCore.QRect(10, 180, 378, 20))
         self.lizard_api_key_textbox.setObjectName("lizard_api_key_textbox")
@@ -93,10 +94,10 @@ class Ui_HHNK_toolboxDockWidget(object):
         self.tabWidget.addTab(self.tab_2, "")
         self.verticalLayout.addWidget(self.tabWidget)
         HHNK_toolboxDockWidget.setWidget(self.dockWidgetContents)
-
         self.retranslateUi(HHNK_toolboxDockWidget)
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(HHNK_toolboxDockWidget)
+      
 
     def retranslateUi(self, HHNK_toolboxDockWidget):
         _translate = QtCore.QCoreApplication.translate
@@ -111,4 +112,8 @@ class Ui_HHNK_toolboxDockWidget(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_1), _translate("HHNK_toolboxDockWidget", "Tab 1"))
         self.start_sqlite_check_2.setText(_translate("HHNK_toolboxDockWidget", "Sqlite tests"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("HHNK_toolboxDockWidget", "Tab 2"))
-
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("HHNK_toolboxDockWidget", "Tab 3"))
+        # self.label.setText(_translate("modelSplitterDialog", "User name"))
+        # self.label_2.setText(_translate("modelSplitterDialog", "Password  "))
+        # self.login.setText(_translate("modelSplitterDialog", "Log In"))
+ 

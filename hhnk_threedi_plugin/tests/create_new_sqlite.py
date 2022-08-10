@@ -21,7 +21,7 @@ import matplotlib.pyplot as plt
 from hhnk_threedi_tools.core import folders
 
 # qgis.utils.plugins['hhnk_threedi_plugin'].fenv.output
-path = r'E:\02.modellen\model_test_v2'
+path = r'E:data\02.modellen\model_test_v2'
 folder = Folders(path)
 
 settings_df = pd.read_excel(folder.model.settings.path, engine="openpyxl")
@@ -48,10 +48,11 @@ RASTER_FILES =  ['dem_file', 'frict_coef_file', 'infiltration_rate_file', 'max_i
 
 # %%
 overwrite=True
+def create_schematisofns(row):
 
-for index, row in settings_df.iterrows():
-    if row['name'] != '1d2d_test':
-        continue
+    for index, row in settings_df.iterrows():
+        if row['name'] != '1d2d_test':
+            continue
 
     print(f"Create {row['name']}")
 
