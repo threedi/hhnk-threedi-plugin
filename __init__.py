@@ -24,21 +24,24 @@
 """
 from .dependencies import ensure_dependencies
 
-
+# %%
 #TODO
 import sys
-sys.path.append('.')
+if '.' not in sys.path:
+    sys.path.append('.')
+    
 # research tools installatie uit osgeo weghalen. Sys path append hier van de github repo. 
 import hhnk_threedi_plugin.local_settings as local_settings
-if local_settings.DEBUG:
-   sys.path.insert(0, local_settings.hhnk_threedi_tools_path)
+if not local_settings.DEBUG:
+    if local_settings.hhnk_threedi_tools_path not in sys.path:
+        sys.path.insert(0, local_settings.hhnk_threedi_tools_path)
 
-    # reload hhnk_threedi_tools and all modules within when reloading the plugin in QGIS.
-    # Does not work with importlib.reload.
-   import hhnk_threedi_tools
-   for m in [i for i in sys.modules.keys() if i.startswith('hhnk_threedi_tools')]:
-       del(sys.modules[m])
-   import hhnk_threedi_tools
+        # reload hhnk_threedi_tools and all modules within when reloading the plugin in QGIS.
+        # Does not work with importlib.reload.
+    import hhnk_threedi_tools
+    for m in [i for i in sys.modules.keys() if i.startswith('hhnk_threedi_tools')]:
+        del(sys.modules[m])
+    import hhnk_threedi_tools
 
 
 # noinspection PyPep8Naming

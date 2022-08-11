@@ -14,7 +14,8 @@ from hhnk_threedi_plugin.resources import *
 import pandas as pd
 import datetime
 from typing import Union
-from hhnk_threedi_plugin.gui.model_states.functions.api_calls.threedi_calls import ThreediCalls
+
+# from hhnk_threedi_plugin.gui.model_states.functions.api_calls.threedi_calls import ThreediCalls
 
 # Import the code for the DockWidget
 
@@ -32,9 +33,9 @@ from hhnk_threedi_plugin.gui.model_states import modelselection
 #from hhnk_threedi_plugin.tests.temp_upload_model import upload as upload_2
 from pathlib import Path
 from zipfile import ZipFile
-from threedi_api_client.api import ThreediApi
+# from threedi_api_client.api import ThreediApi
 from typing import Union, Dict, List
-from threedi_models_and_simulations.api_calls.threedi_calls import ThreediCalls
+# from threedi_models_and_simulations.api_calls.threedi_calls import ThreediCalls
 
 
 
@@ -55,7 +56,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.listWidget3.addItem(str(datetime.datetime.now()) + "SETTINGS FOLDER: - " + model_settings)
         self.run_push_btn.clicked.connect(self.iterlist)
         self.model_settings_path.fileChanged.connect(self.add_location)
-        self.upload_models_pbn.clicked.connect(self.upload_model)
+        # self.upload_models_pbn.clicked.connect(self.upload_model)
         self.cancel.clicked.connect(self.exit)
 
     def exit(self):
@@ -76,7 +77,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         #a = r'\\corp.hhnk.nl\data\Hydrologen_data\Data\02.modellen\model_test_v2\02_Model\model_settings.xlsx'
         if os.path.exists(modelsettings_path):
             try:
-                self.settings_df = pd.read_excel(modelsettings_path)
+                self.settings_df = pd.read_excel(modelsettings_path, engine='openpyxl')
                 self.settings_df.set_index('name', drop=False, inplace=True)
                 for index, row in self.settings_df.iterrows():
                     item_name = index

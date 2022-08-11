@@ -400,3 +400,54 @@ def build_vrt(raster_folder, vrt_name='combined_rasters', bandlist=[1], bounds=N
 build_vrt(raster_folder=r'\\srv57d1\geo_info\02_Werkplaatsen\06_HYD\Projecten\HKC16015 Wateropgave 2.0\06. Afgeleide gegevens\01.Input\inundatie_ref_T10_corr3')
 build_vrt(raster_folder=r'\\srv57d1\geo_info\02_Werkplaatsen\06_HYD\Projecten\HKC16015 Wateropgave 2.0\06. Afgeleide gegevens\01.Input\inundatie_ref_T100_corr3')
 build_vrt(raster_folder=r'\\srv57d1\geo_info\02_Werkplaatsen\06_HYD\Projecten\HKC16015 Wateropgave 2.0\06. Afgeleide gegevens\01.Input\inundatie_ref_T1000_corr3')
+
+
+
+
+
+
+
+# %%
+
+import hhnk_threedi_tools
+
+
+# %%
+#CHECK PATHS BETWEEN QGIS AND VS CODE
+q_p = ['E:\\github\\wvangerwen\\hhnk-threedi-tools', 'E:\\github\\wvangerwen\\hhnk-threedi-tools', 'C:\\Users\\wvangerwen\\AppData\\Roaming\\3Di\\QGIS3\\profiles\\default\\python\\plugins\\hhnk_threedi_plugin\\external-dependencies', 'C:\\Users\\wvangerwen\\AppData\\Roaming\\3Di\\QGIS3\\profiles\\default\\python\\plugins\\ThreeDiToolbox\\deps', 'C:/PROGRA~1/3DIMOD~1.22/apps/qgis-ltr/./python', 'C:\\Users\\wvangerwen\\AppData\\Roaming\\3Di\\QGIS3\\profiles\\default/python', 'C:\\Users\\wvangerwen\\AppData\\Roaming\\3Di\\QGIS3\\profiles\\default/python/plugins', 'C:/PROGRA~1/3DIMOD~1.22/apps/qgis-ltr/./python/plugins', 'C:\\PROGRA~1\\3DIMOD~1.22\\bin\\python39.zip', 'C:\\PROGRA~1\\3DIMOD~1.22\\apps\\Python39\\DLLs', 'C:\\PROGRA~1\\3DIMOD~1.22\\apps\\Python39\\lib', 'C:\\PROGRA~1\\3DIMOD~1.22\\bin', 'C:\\Users\\wvangerwen\\AppData\\Roaming\\Python\\Python39\\site-packages', 'C:\\PROGRA~1\\3DIMOD~1.22\\apps\\Python39', 'C:\\PROGRA~1\\3DIMOD~1.22\\apps\\Python39\\lib\\site-packages', 'C:\\PROGRA~1\\3DIMOD~1.22\\apps\\Python39\\lib\\site-packages\\GDAL-3.4.3-py3.9-win-amd64.egg', 'C:\\PROGRA~1\\3DIMOD~1.22\\apps\\Python39\\lib\\site-packages\\win32', 'C:\\PROGRA~1\\3DIMOD~1.22\\apps\\Python39\\lib\\site-packages\\win32\\lib', 'C:\\PROGRA~1\\3DIMOD~1.22\\apps\\Python39\\lib\\site-packages\\Pythonwin', 'C:\\Users\\wvangerwen\\AppData\\Roaming\\3Di\\QGIS3\\profiles\\default/python', '.', 'C:\\Program Files', 'C:\\', 'C:\\Program Files', 'C:\\', 'C:\\', 'C:\\Program Files', 'C:\\', 'C:\\']
+
+vs_p = ['C:/Users/wvangerwen/AppData/Roaming/QGIS/QGIS3/profiles/default/python/plugins/hhnk_threedi_plugin/external-dependencies',
+ 'C:/Users/wvangerwen/AppData/Roaming/QGIS/QGIS3/profiles/default/python',
+ 'e:\\github\\wvangerwen\\hhnk-threedi-plugin\\hhnk_threedi_plugin\\tests',
+ 'C:\\PROGRA~1\\3DIMOD~1.22\\apps\\Python39',
+ 'C:\\PROGRA~1\\3DIMOD~1.22\\apps\\Python39\\Scripts',
+ 'C:\\Users\\wvangerwen\\AppData\\Roaming\\3Di\\QGIS3\\profiles\\default\\python',
+ 'C:\\Users\\wvangerwen\\AppData\\Roaming\\3Di\\QGIS3\\profiles\\default\\python\\plugins\\hhnk_threedi_plugin\\external-dependencies',
+ 'C:\\PROGRA~1\\3DIMOD~1.22\\apps\\qgis-ltr\\python',
+ 'C:\\Users\\wvangerwen\\AppData\\Roaming\\3Di\\QGIS3\\profiles\\default\\python\\plugins\\ThreeDiToolbox\\deps',
+ 'C:\\Users\\wvangerwen\\AppData\\Roaming\\Python\\Python39',
+ 'C:\\Users\\wvangerwen\\AppData\\Roaming\\Python\\Python39\\Scripts',
+ 'c:\\PROGRA~1\\3DIMOD~1.22\\bin\\python39.zip',
+ 'C:\\PROGRA~1\\3DIMOD~1.22\\apps\\Python39\\DLLs',
+ 'C:\\PROGRA~1\\3DIMOD~1.22\\apps\\Python39\\lib',
+ 'c:\\PROGRA~1\\3DIMOD~1.22\\bin',
+ '',
+ 'C:\\Users\\wvangerwen\\AppData\\Roaming\\Python\\Python39\\site-packages',
+ 'C:\\PROGRA~1\\3DIMOD~1.22\\apps\\Python39\\lib\\site-packages',
+ 'C:\\PROGRA~1\\3DIMOD~1.22\\apps\\Python39\\lib\\site-packages\\GDAL-3.4.3-py3.9-win-amd64.egg',
+ 'C:\\PROGRA~1\\3DIMOD~1.22\\apps\\Python39\\lib\\site-packages\\win32',
+ 'C:\\PROGRA~1\\3DIMOD~1.22\\apps\\Python39\\lib\\site-packages\\win32\\lib',
+ 'C:\\PROGRA~1\\3DIMOD~1.22\\apps\\Python39\\lib\\site-packages\\Pythonwin']
+
+for i in q_p:
+    if i not in vs_p:
+        print(i)
+# %%
+
+sys.path
+# %%
+rm_list = ['C:/Users/wvangerwen/AppData/Roaming/QGIS/QGIS3/profiles/default/python/plugins/hhnk_threedi_plugin/external-dependencies', 'C:/Users/wvangerwen/AppData/Roaming/QGIS/QGIS3/profiles/default/python']
+for i in rm_list:
+    if i in sys.path:
+        sys.path.remove(i)
+        print(f'removed {i}')

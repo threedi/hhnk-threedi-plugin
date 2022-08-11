@@ -92,9 +92,7 @@ from functools import wraps
 from time import sleep
 from qgis.PyQt import uic
 
-
 from hhnk_threedi_plugin.gui.model_states.model_splitter import modelSplitterDialog
-from threedi_api_client.openapi import ApiException
 
 # from hhnk_threedi_plugin.gui.model_states.log_in import LogInDialog
 # # from hhnk_threedi_plugin.gui.model_states import login

@@ -8,8 +8,9 @@ if local_settings.DEBUG:
     sys.path.insert(0, local_settings.hhnk_threedi_tools_path)
     import importlib, hhnk_threedi_tools
     hhnk_threedi_tools=importlib.reload(hhnk_threedi_tools)
-    importlib.reload(hhnk_threedi_tools.core.folders)
+    # importlib.reload(hhnk_threedi_tools.core.folders)
 
+# %%
 
 from hhnk_threedi_tools.core.folders import Folders
 import shutil
@@ -177,7 +178,7 @@ def create_schematisofns(row):
 
 
 # %%
-import temp_upload_model.upload as upload
+import hhnk_threedi_plugin.gui.tests.temp_upload_model.upload as upload
 importlib.reload(upload)
 
 

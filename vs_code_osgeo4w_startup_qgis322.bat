@@ -27,7 +27,7 @@ SET PYTHONPATH=%PYTHONHOME%;%PYTHONHOME%\Scripts
 
 set QGIS_APPDATA_DIR=3Di
 set PYTHONPATH=%PYTHONPATH%;%appdata%\%QGIS_APPDATA_DIR%\QGIS3\profiles\default\python
-set PYTHONPATH=%PYTHONPATH%;%appdata%\%QGIS_APPDATA_DIR%\QGIS3\profiles\default\python\plugins\hhnk_threedi_toolbox\external-dependencies
+set PYTHONPATH=%PYTHONPATH%;%appdata%\%QGIS_APPDATA_DIR%\QGIS3\profiles\default\python\plugins\hhnk_threedi_plugin\external-dependencies
 set PYTHONPATH=%PYTHONPATH%;%OSGEO4W_ROOT%\apps\qgis-ltr\python
 set PYTHONPATH=%PYTHONPATH%;%appdata%\%QGIS_APPDATA_DIR%\QGIS3\profiles\default\python\plugins\ThreeDiToolbox\deps
 set PYTHONPATH=%PYTHONPATH%;%appdata%\Python\Python39

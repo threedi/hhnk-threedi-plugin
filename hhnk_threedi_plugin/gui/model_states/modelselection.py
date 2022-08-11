@@ -248,7 +248,7 @@ class Example:
         #a = r'\\corp.hhnk.nl\data\Hydrologen_data\Data\02.modellen\model_test_v2\02_Model\model_settings.xlsx'
         if os.path.exists(modelsettings_path):
             try:
-                self.settings_df = pd.read_excel(modelsettings_path)
+                self.settings_df = pd.read_excel(modelsettings_path, engine='openpyxl')
                 self.settings_df.set_index('name', drop=False, inplace=True)
                 for index, row in self.settings_df.iterrows():
                     item_name = index
@@ -264,7 +264,7 @@ class Example:
 
     def add_location(self):
         a = r'\\corp.hhnk.nl\data\Hydrologen_data\Data\02.modellen\model_test_v2\02_Model\model_settings.xlsx'
-        self.settings_df = pd.read_excel(a)
+        self.settings_df = pd.read_excel(a, engine='openpyxl')
         self.dlg .listWidget3.addItem(QListWidgetItem(a))
     
 
