@@ -76,7 +76,7 @@ FLEXIBLE_DEPENDENCIES = [
     Dependency("hhnk_research_tools","hhnk_research_tools","0.6", "==0.6", True, "external-dependencies" , True), 
     Dependency("threedi_raster_edits","threedi_raster_edits","0.26", "==0.26", True, "external-dependencies" , True),  
     Dependency("threedi_scenario_downloader","threedi_scenario_downloader","0.15", "==0.15", True, "external-dependencies" , True),  
-    # Dependency("threedi_api_client","threedi_api_client", '4.0.1', '==/4.0.1', False, "external-dependencies" , False),  
+    Dependency("pytest","pytest", "7.1.2", "7.1.2", False, "external-dependencies" , False),  
 ]
 
 
@@ -296,12 +296,12 @@ def _install_dependency(dependency: Dependency, command_only=False):
     else:
        print(f"Succesfully installed {dependency.name}!")
     
-    if dependency.package in sys.modules:
-        print("Unloading old %s module" % dependency.package)
-        del sys.modules[dependency.package]
-    if dependency.name in sys.modules:
-        print("Unloading old %s module" % dependency.name)
-        del sys.modules[dependency.name]
+    # if dependency.package in sys.modules:
+    #     print("Unloading old %s module" % dependency.package)
+    #     del sys.modules[dependency.package]
+    # if dependency.name in sys.modules:
+    #     print("Unloading old %s module" % dependency.name)
+    #     del sys.modules[dependency.name]
     
     return process.pid
     
