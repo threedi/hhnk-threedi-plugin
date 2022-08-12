@@ -18,3 +18,8 @@ pygeos-0.11.1-cp39-cp39-win_amd64.whl
 geopandas-0.8.2-py2.py3-none-any.whl
 APScheduler-3.9.1-py2.py3-none-any.whl
 Fiona-1.8.21-cp39-cp39-win_amd64.whl
+tqdm-4.64.0-py2.py3-none-any.whl
+tzlocal-4.2-py3-none-any.whl
+pytz_deprecation_shim-0.1.0.post0-py2.py3-none-any.whl
+ipyfilechooser-0.6.0-py3-none-any.whl
+threedi_api_client-4.0.1-py2.py3-none-any.whl
