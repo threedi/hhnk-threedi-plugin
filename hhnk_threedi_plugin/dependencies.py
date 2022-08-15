@@ -83,34 +83,35 @@ FLEXIBLE_DEPENDENCIES = [
 logger = logging.getLogger(__name__)
 
 
-def ensure_dependencies(requirements_path=REQUIREMENTS_PATH, flexible_dependencies=FLEXIBLE_DEPENDENCIES):
+def ensure_dependencies(requirements_path=REQUIREMENTS_PATH, flexible_dependencies=FLEXIBLE_DEPENDENCIES, only_path=False):
     """ensures dependencies by looking adding sys paths en looking into pip"""
     
     if DEPENDENCY_DIR not in sys.path:
         sys.path.insert(0, str(_dependencies_target_dir()))  # threedi
         sys.path.insert(0, DEPENDENCY_DIR)
 
-    frozen_dependencies = _requirements_to_dependencies(REQUIREMENTS_PATH)
-    dependencies = frozen_dependencies + flexible_dependencies
+    if not only_path:
+        frozen_dependencies = _requirements_to_dependencies(REQUIREMENTS_PATH)
+        dependencies = frozen_dependencies + flexible_dependencies
 
-    print("\nExtended paths:\n")
-    for path in sys.path:
-        print(path)
-    
-    if not "fiona" in os.listdir(DEPENDENCY_DIR):
-    
-        print("\n Moving geopandas distribution to site-packages")
-        copy_tree(WHEEL_DIR + "/geopandas", DEPENDENCY_DIR) 
-    
-    print("`\nInstalling frozen and flexible dependencies...:\n")
-    to_be_installed = []
-    for dependency in dependencies:
-        if not _available(dependency) or not _correct_version(dependency):
-            to_be_installed.append(dependency)
-            _install_dependency(dependency)
+        print("\nExtended paths:\n")
+        for path in sys.path:
+            print(path)
+        
+        if not "fiona" in os.listdir(DEPENDENCY_DIR):
+        
+            print("\n Moving geopandas distribution to site-packages")
+            copy_tree(WHEEL_DIR + "/geopandas", DEPENDENCY_DIR) 
+        
+        print("`\nInstalling frozen and flexible dependencies...:\n")
+        to_be_installed = []
+        for dependency in dependencies:
+            if not _available(dependency) or not _correct_version(dependency):
+                to_be_installed.append(dependency)
+                _install_dependency(dependency)
 
-    #_install_multiple_dependencies(to_be_installed)
-    _replace_patched_threedigrid()
+        #_install_multiple_dependencies(to_be_installed)
+        _replace_patched_threedigrid()
     
 def _dependencies_target_dir(our_dir=OUR_DIR, create=False) -> pathlib.Path:
     """Return (and create) the desired deps folder

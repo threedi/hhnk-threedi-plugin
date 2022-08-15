@@ -23,11 +23,11 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.model_settings_path.fileChanged.connect(self.load_settings)
         self.model_settings_path.fileChanged.connect(self.add_models_to_widget)
         self.run_push_btn.clicked.connect(self.create_schematisations)
-        self.upload_models_pbn.clicked.connect(self.upload_schematisations)
+        self.upload_push_btn.clicked.connect(self.upload_schematisations)
         self.cancel.clicked.connect(self.exit)
 
-        self.model_settings_path.setFilePath(self.caller.fenv.model.settings)
-        self.listWidget3.addItem(str(datetime.datetime.now()) + "SETTINGS FOLDER: - " + self.caller.fenv.model.settings)
+        self.model_settings_path.setFilePath(self.caller.fenv.model.settings.path)
+        self.listWidget3.addItem(str(datetime.datetime.now()) + "SETTINGS FOLDER: - " + self.caller.fenv.model.settings.path)
 
 
     def exit(self):
@@ -44,19 +44,15 @@ class modelSplitterDialog(QtWidgets.QDialog):
             #Add logging that file was changed 
             folder_path = self.model_settings_path.filePath()
             self.listWidget3.addItem("")
-            self.listWidget3.addItem(str(datetime.datetime.now() + "-----------------------------------------------------------------------------*"))
+            self.listWidget3.addItem(f"{datetime.datetime.now()} -----------------------------------------------------------------------------*")
             self.listWidget3.addItem("CHANGED SETTINGS FOLDER INTO: - " + folder_path)
-
-        else:
-            self.settings_df = None
-            self.settings_default_series = None  
 
 
     def add_models_to_widget(self):
         """Add models to the listwidgets"""
         #modelsettings_path = r'\\corp.hhnk.nl\data\Hydrologen_data\Data\02.modellen\model_test_v2\02_Model\model_settings.xlsx'
         if os.path.exists(self.model_settings_path.filePath()):
-            for item_name, row in self.settings_df.iterrows():
+            for item_name, row in self.modelschematisations.settings_df.iterrows():
 
                 if item_name not in self.get_lst_items(listwidget=self.listWidget2) and item_name not in self.get_lst_items(listwidget=self.listWidget1):
                     self.listWidget2.addItem(QListWidgetItem(item_name))
@@ -79,9 +75,9 @@ class modelSplitterDialog(QtWidgets.QDialog):
 
         #Logging
         self.listWidget3.addItem("")
-        self.listWidget3.addItem(str(datetime.datetime.now()) + " -----------------------------------------------------------------------------*")
-        self.listWidget3.addItem("Model versions enabled: " + str(self.get_lst_items(Listwidget=self.listWidget2)))
-        self.listWidget3.addItem("Model versions disabled: " + str(self.get_lst_items(Listwidget=self.listWidget1)))
+        self.listWidget3.addItem(f"{datetime.datetime.now()} -----------------------------------------------------------------------------*")
+        self.listWidget3.addItem("Model versions enabled: " + str(self.get_lst_items(listwidget=self.listWidget2)))
+        self.listWidget3.addItem("Model versions disabled: " + str(self.get_lst_items(listwidget=self.listWidget1)))
         self.listWidget3.addItem("Path: " + str(self.dockwidget.polder_selector.filePath()))
         self.listWidget3.addItem("Continue to upload the versions")
 
@@ -94,6 +90,6 @@ class modelSplitterDialog(QtWidgets.QDialog):
 
         #Logging
         self.listWidget3.addItem("")
-        self.listWidget3.addItem(str(datetime.datetime.now()) + " -----------------------------------------------------------------------------*")
-        self.listWidget3.addItem("Model versions uploaded: " + str(self.get_lst_items(Listwidget=self.listWidget2)))
+        self.listWidget3.addItem(f"{datetime.datetime.now()} -----------------------------------------------------------------------------*")
+        self.listWidget3.addItem("Model versions uploaded: " + str(self.get_lst_items(listwidget=self.listWidget2)))
         self.listWidget3.addItem("Path: " + str(self.dockwidget.polder_selector.filePath()))

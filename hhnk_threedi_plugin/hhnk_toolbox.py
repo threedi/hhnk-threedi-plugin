@@ -70,9 +70,6 @@ from hhnk_threedi_tools.variables.model_state import invalid_path
 # from .functionality_controllers.test_controllers.run_sqlite_tests import (
 #     run_sqlite_tests,
 # )
-from .functionality_controllers.model_states_conversion import (
-    run_model_states_conversion,
-)
 from .functionality_controllers.test_controllers.run_bank_levels_test import (
     run_bank_levels_test,
 )
@@ -92,12 +89,7 @@ from functools import wraps
 from time import sleep
 from qgis.PyQt import uic
 
-from hhnk_threedi_plugin.gui.model_states.model_splitter import modelSplitterDialog
-
-# from hhnk_threedi_plugin.gui.model_states.log_in import LogInDialog
-# # from hhnk_threedi_plugin.gui.model_states import login
-#from hhnk_threedi_plugin.gui.model_states.modelselection import Example
-# from hhnk_threedi_plugin.gui.model_states import log_in
+from hhnk_threedi_plugin.gui.model_splitter.model_splitter_dialog import modelSplitterDialog
 
 from .dependencies import DEPENDENCY_DIR, THREEDI_DIR
 
@@ -399,7 +391,7 @@ class HHNK_toolbox:
                 self.input_data_dialog.datachecker_selector.setFilePath(datachecker)
                 # self.sqlite_tests_dialog.datachecker_selector.setFilePath(datachecker)
                 # self.sqlite_tests_dialog.datachecker_selector.setFilePath(datachecker)
-                self.bank_levels.datachecker_selector.setFilePath(datachecker)
+                # self.bank_levels.datachecker_selector.setFilePath(datachecker)
             if damo is not None:
                 self.current_source_paths["damo"] = damo
             if hdb is not None:
@@ -437,28 +429,6 @@ class HHNK_toolbox:
     # --------------------------------------------------------------------------
     # Start tests and conversions
     # --------------------------------------------------------------------------
-    
-    def model_states_execution(self, test_env):
-        try:
-            if (
-                self.model_states_results_widget is not None
-                and self.model_states_results_widget
-                and self.model_states_results_widget.isVisible()
-            ):
-                self.model_states_results_widget.close()
-
-            # add the polder folder to the environment
-            test_env.polder_folder = self.polder_folder
-
-            self.model_states_results_widget = run_model_states_conversion(
-                test_env=test_env,
-                parent=self.dockwidget,
-                on_succes=self.update_current_paths,
-            )
-        except Exception as e:
-            self.iface.messageBar().pushMessage(str(e), Qgis.Critical)
-            pass
-
     def sqlite_tests_execution(self, selected_tests):
         try:
             # test_env.polder_folder = self.polder_folder
@@ -468,6 +438,7 @@ class HHNK_toolbox:
         except Exception as e:
             self.iface.messageBar().pushMessage(str(e), Qgis.Critical)
             pass
+
 
     def bank_levels_execution(self):
         try:
@@ -485,12 +456,19 @@ class HHNK_toolbox:
             self.iface.messageBar().pushMessage(str(e), Qgis.Critical)
             pass
 
+
     def new_project_folder_execute(self):
         dialog = newProjectDialog()
         dialog.project_folder_path.connect(Folders)
         dialog.exec()
         self.dockwidget.polder_selector.setFilePath(dialog.full_path)
       
+
+    def open_model_splitter_dialog(self):
+        if not hasattr(self, 'model_splitter_dialog'):
+            self.model_splitter_dialog = modelSplitterDialog(caller=self, parent=self.dockwidget)
+        self.model_splitter_dialog.show()
+
 
     def open_documentatie_link(self):
         webbrowser.open(DOCS_LINK, new=2)
@@ -516,7 +494,7 @@ class HHNK_toolbox:
                 self.dockwidget = HHNK_toolboxDockWidget()
                 
                 # disable predefined buttons    
-                self.dockwidget.model_state_btn.setEnabled(False)
+                self.dockwidget.model_state_btn.setEnabled(True)
                 self.dockwidget.tests_toolbox.setEnabled(False)
                 self.dockwidget.server_btn.setEnabled(False)
                 # self.dockwidget.load_layers_btn.setEnabled(False)
@@ -527,8 +505,7 @@ class HHNK_toolbox:
                 # self.model_states_dialog = modelStateDialog(caller=self, parent=self.dockwidget) #TODO remove
                 # self.schematisation_dialog = schematisationDialog(caller=self, parent=self.dockwidget) #TODO remove
                 self.input_data_dialog = inputDataDialog(caller=self, parent=self.dockwidget)
-                self.model_splitter_dialog = modelSplitterDialog(caller=self, parent=self.dockwidget)
-                
+
                 self.zero_d_one_d = zeroDOneDWidget(caller=self, parent=self.dockwidget)
                 self.bank_levels = bankLevelsWidget(caller=self, parent=self.dockwidget)
                 self.one_d_two_d = oneDTwoDWidget(caller=self, parent=self.dockwidget)
@@ -554,17 +531,15 @@ class HHNK_toolbox:
 
                 self.dockwidget.input_btn.clicked.connect(self.input_data_dialog.set_current_paths)
                 self.dockwidget.input_btn.clicked.connect(self.input_data_dialog.show)
-                self.dockwidget.model_state_btn.clicked.connect(self.model_splitter_dialog.show)
+                self.dockwidget.model_state_btn.clicked.connect(self.open_model_splitter_dialog)
                 self.dockwidget.create_new_project_btn.clicked.connect(self.new_project_folder_execute)
 
-                
                
                 self.dockwidget.documentatie_button.clicked.connect(self.open_documentatie_link)
                 self.dockwidget.server_btn.clicked.connect(self.notebook_widget.start_server)
 
                 # Connect start buttons to appropriate function calls
 
-                # self.model_states_dialog.start_conversion.connect(self.model_states_execution)
                 self.sqlite_tests_dialog.start_sqlite_tests.connect(self.sqlite_tests_execution)
                 # self.zero_d_one_d.start_0d1d_tests.connect(self.zero_d_one_d_tests_execution)
                 self.bank_levels.start_bank_levels_tests.connect(self.bank_levels_execution)
