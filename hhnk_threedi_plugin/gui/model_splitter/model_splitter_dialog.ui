@@ -10,11 +10,20 @@
     <height>641</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="cursor">
    <cursorShape>ArrowCursor</cursorShape>
   </property>
   <property name="windowTitle">
    <string>HHNK_experiment</string>
+  </property>
+  <property name="toolTip">
+   <string>These models will be created/uploaded</string>
   </property>
   <widget class="QFrame" name="frame_2">
    <property name="geometry">
@@ -40,6 +49,9 @@
       <height>192</height>
      </rect>
     </property>
+    <property name="toolTip">
+     <string>These models will be ignored</string>
+    </property>
     <property name="dragDropMode">
      <enum>QAbstractItemView::DragDrop</enum>
     </property>
@@ -61,6 +73,9 @@
       <width>231</width>
       <height>192</height>
      </rect>
+    </property>
+    <property name="toolTip">
+     <string>These models will be created/uploaded</string>
     </property>
     <property name="dragDropOverwriteMode">
      <bool>false</bool>

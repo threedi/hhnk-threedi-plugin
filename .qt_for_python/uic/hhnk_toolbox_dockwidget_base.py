@@ -15,7 +15,7 @@ class Ui_HHNK_toolboxDockWidget(object):
     def setupUi(self, HHNK_toolboxDockWidget):
         HHNK_toolboxDockWidget.setObjectName("HHNK_toolboxDockWidget")
         HHNK_toolboxDockWidget.resize(388, 492)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(HHNK_toolboxDockWidget.sizePolicy().hasHeightForWidth())
@@ -152,7 +152,7 @@ class Ui_HHNK_toolboxDockWidget(object):
         self.tests_toolbox.setToolTip("")
         self.tests_toolbox.setObjectName("tests_toolbox")
         self.sqlite_tests = QtWidgets.QWidget()
-        self.sqlite_tests.setGeometry(QtCore.QRect(0, 0, 459, 381))
+        self.sqlite_tests.setGeometry(QtCore.QRect(0, 0, 340, 381))
         self.sqlite_tests.setObjectName("sqlite_tests")
         self.gridLayout = QtWidgets.QGridLayout(self.sqlite_tests)
         self.gridLayout.setObjectName("gridLayout")

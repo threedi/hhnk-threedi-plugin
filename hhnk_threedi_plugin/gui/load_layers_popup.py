@@ -156,7 +156,6 @@ class loadLayersDialog(QDialog):
         self.caller = caller
 
         # load
-
         self.klimaatsommen_selector.aboutToShowPopup.connect(self.populate_klimaatsommen_combobox)
         self.one_d_two_d_selector.aboutToShowPopup.connect(self.populate_one_d_two_combobox)
         self.zero_d_one_d_selector.aboutToShowPopup.connect(self.populate_zero_d_one_d_combobox)
@@ -259,10 +258,6 @@ class loadLayersDialog(QDialog):
         if self.test_protocol_selector.isChecked() == True:
             subjects.append('test_protocol')
 
-        # Achtergrond
-        if self.achtergrond_selector.isChecked() == True: #Todo naam butten veranderen en andere achtergrond buttons weg.
-            subjects.append('achtergrond')
-
         # 0d1d test
         if self.zero_d_one_d_selector.currentText() != "":
             subjects.append('test_0d1d')
@@ -273,6 +268,9 @@ class loadLayersDialog(QDialog):
             subjects.append('test_1d2d')
             revisions['1d2d_test'] = self.one_d_two_d_selector.currentText()
 
+        # Achtergrond
+        if self.achtergrond_selector.isChecked() == True: #Todo naam button veranderen en andere achtergrond buttons weg.
+            subjects.append('achtergrond')
 
         #Laad geselecteerde lagen.
         print(revisions)

@@ -2,6 +2,7 @@ import os
 
 from hhnk_threedi_plugin.dependencies import DEPENDENCY_DIR, THREEDI_DIR
 from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
+import hhnk_threedi_plugin.local_settings as local_settings
 from pathlib import Path
 from qgis.PyQt.QtWidgets import QAction, QMessageBox
 
@@ -92,9 +93,14 @@ class NotebookWidget():
             self.polder_notebooks,
             {
                 "polder_folder": self.caller.polder_folder,
-                "lizard_api_key": api_key,            },
+                "lizard_api_key_path": self.api_file,            
+            },
         )
-        htt.add_notebook_paths([str(THREEDI_DIR),str(DEPENDENCY_DIR)])
+
+        notebook_paths = [str(THREEDI_DIR),str(DEPENDENCY_DIR)]
+        if local_settings.hhnk_threedi_tools_path not in [None, '']:
+            notebook_paths.append(local_settings.hhnk_threedi_tools_path)
+        htt.add_notebook_paths(notebook_paths)
         
     def start_server(self):
         api_key = self.generate_notebook_valid()
