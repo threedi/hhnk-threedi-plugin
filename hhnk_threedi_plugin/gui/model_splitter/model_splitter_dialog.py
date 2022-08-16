@@ -25,6 +25,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.run_push_btn.clicked.connect(self.create_schematisations)
         self.upload_push_btn.clicked.connect(self.upload_schematisations)
         self.cancel.clicked.connect(self.close)
+        
 
         self.model_settings_path.setFilePath(self.caller.fenv.model.settings.path)
         self.listWidget3.addItem(str(datetime.datetime.now()) + "SETTINGS FOLDER: - " + self.caller.fenv.model.settings.path)
@@ -81,8 +82,10 @@ class modelSplitterDialog(QtWidgets.QDialog):
     def upload_schematisations(self):   
         """Upload selected schematisations to the 3Di servers."""
         lst_items = self.get_lst_items(listwidget=self.listWidget2)
+        commit_message = self.textEdit.toPlainText()
+        api_key = self.dockwidget.lizard_api_key_textbox.text()
         for list_name in lst_items:
-            self.modelschematisations.upload_schematisation(name=list_name)
+            self.modelschematisations.upload_schematisation(name=list_name, commit_message=commit_message, api_key=api_key)
 
         #Logging
         self.listWidget3.addItem("")
