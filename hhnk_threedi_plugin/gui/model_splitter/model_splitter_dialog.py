@@ -83,7 +83,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         """Upload selected schematisations to the 3Di servers."""
         lst_items = self.get_lst_items(listwidget=self.listWidget2)
         commit_message = self.textEdit.toPlainText()
-        api_key = self.dockwidget.lizard_api_key_textbox.text()
+        api_key = self.dockwidget.threedi_api_key_textbox.text()
         for list_name in lst_items:
             self.modelschematisations.upload_schematisation(name=list_name, commit_message=commit_message, api_key=api_key)
 

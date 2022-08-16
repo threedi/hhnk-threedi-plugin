@@ -56,15 +56,6 @@ def load_layers(folder: Folders, df_path, revisions=None, subjects=None, group_i
 
     project.generate_themes()
 
-    if "grid" in subjects:
-        grid_path = folder.output.sqlite_tests.path
-        for part in ["cells", "lines", "nodes"]:
-
-            if not project.get_layer(layer_name=part, group_lst=['Grid']):
-                grid_path = folder.output.sqlite_tests.pl / part
-                qml = str(STYLING_DIR / "grid"/ part) + ".qml" 
-                layer = Layer(str(grid_path) + ".gpkg" , part, "vector", qml, part)
-                project.add_layer(layer=layer, group_lst=['Grid'])
 
 def load_sqlite(filepath=r"C:\Users\wvangerwen\Downloads\model_test_v2\02_Model\bwn_test.sqlite"):
     """use the 3Di NenS plugin to load the sqlite into the project."""
