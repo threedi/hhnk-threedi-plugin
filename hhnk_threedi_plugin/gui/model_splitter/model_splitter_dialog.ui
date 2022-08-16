@@ -6,15 +6,9 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>503</width>
-    <height>641</height>
+    <width>642</width>
+    <height>838</height>
    </rect>
-  </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
   </property>
   <property name="cursor">
    <cursorShape>ArrowCursor</cursorShape>
@@ -22,244 +16,451 @@
   <property name="windowTitle">
    <string>HHNK_experiment</string>
   </property>
-  <property name="toolTip">
-   <string>These models will be created/uploaded</string>
-  </property>
-  <widget class="QFrame" name="frame_2">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>100</y>
-     <width>491</width>
-     <height>212</height>
-    </rect>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
-   </property>
-   <widget class="QListWidget" name="listWidget1">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>231</width>
-      <height>192</height>
-     </rect>
-    </property>
-    <property name="toolTip">
-     <string>These models will be ignored</string>
-    </property>
-    <property name="dragDropMode">
-     <enum>QAbstractItemView::DragDrop</enum>
-    </property>
-    <property name="defaultDropAction">
-     <enum>Qt::MoveAction</enum>
-    </property>
-    <property name="selectionMode">
-     <enum>QAbstractItemView::ExtendedSelection</enum>
-    </property>
-    <property name="selectionBehavior">
-     <enum>QAbstractItemView::SelectItems</enum>
-    </property>
-   </widget>
-   <widget class="QListWidget" name="listWidget2">
-    <property name="geometry">
-     <rect>
-      <x>250</x>
-      <y>10</y>
-      <width>231</width>
-      <height>192</height>
-     </rect>
-    </property>
-    <property name="toolTip">
-     <string>These models will be created/uploaded</string>
-    </property>
-    <property name="dragDropOverwriteMode">
-     <bool>false</bool>
-    </property>
-    <property name="dragDropMode">
-     <enum>QAbstractItemView::DragDrop</enum>
-    </property>
-    <property name="defaultDropAction">
-     <enum>Qt::MoveAction</enum>
-    </property>
-    <property name="selectionMode">
-     <enum>QAbstractItemView::ExtendedSelection</enum>
-    </property>
-    <property name="viewMode">
-     <enum>QListView::ListMode</enum>
-    </property>
-   </widget>
-  </widget>
-  <widget class="QWidget" name="log_in_widget" native="true">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>481</width>
-     <height>59</height>
-    </rect>
-   </property>
-   <layout class="QGridLayout" name="gridLayout_2">
-    <item row="0" column="0">
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
-       <widget class="QLabel" name="label">
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="minimumSize">
+      <size>
+       <width>461</width>
+       <height>13</height>
+      </size>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="text">
+      <string>Select settings folder:</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QgsFileWidget" name="model_settings_path">
+     <property name="minimumSize">
+      <size>
+       <width>461</width>
+       <height>20</height>
+      </size>
+     </property>
+     <property name="fullUrl">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer_2">
+     <property name="minimumSize">
+      <size>
+       <width>23</width>
+       <height>16</height>
+      </size>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>49</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <spacer name="horizontalSpacer_6">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item alignment="Qt::AlignLeft">
+      <widget class="QLabel" name="label_3">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>221</width>
+         <height>14</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Enabled</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_4">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item alignment="Qt::AlignRight">
+      <widget class="QLabel" name="label_2">
+       <property name="minimumSize">
+        <size>
+         <width>222</width>
+         <height>14</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Disabled</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_5">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QFrame" name="frame_2">
+     <property name="minimumSize">
+      <size>
+       <width>600</width>
+       <height>141</height>
+      </size>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QListWidget" name="listWidget1">
+        <property name="minimumSize">
+         <size>
+          <width>231</width>
+          <height>121</height>
+         </size>
         </property>
-        <property name="text">
-         <string>Select settings folder:</string>
+        <property name="dragDropMode">
+         <enum>QAbstractItemView::DragDrop</enum>
         </property>
-        <property name="textFormat">
-         <enum>Qt::PlainText</enum>
+        <property name="defaultDropAction">
+         <enum>Qt::MoveAction</enum>
         </property>
-        <property name="alignment">
-         <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::ExtendedSelection</enum>
+        </property>
+        <property name="selectionBehavior">
+         <enum>QAbstractItemView::SelectItems</enum>
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="QgsFileWidget" name="model_settings_path">
-        <property name="fullUrl">
+      <item>
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>77</width>
+          <height>17</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QListWidget" name="listWidget2">
+        <property name="minimumSize">
+         <size>
+          <width>231</width>
+          <height>121</height>
+         </size>
+        </property>
+        <property name="dragDropOverwriteMode">
          <bool>false</bool>
+        </property>
+        <property name="dragDropMode">
+         <enum>QAbstractItemView::DragDrop</enum>
+        </property>
+        <property name="defaultDropAction">
+         <enum>Qt::MoveAction</enum>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::ExtendedSelection</enum>
+        </property>
+        <property name="viewMode">
+         <enum>QListView::ListMode</enum>
         </property>
        </widget>
       </item>
      </layout>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QFrame" name="frame">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>360</y>
-     <width>491</width>
-     <height>211</height>
-    </rect>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
-   </property>
-   <widget class="QListWidget" name="listWidget3">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>471</width>
-      <height>192</height>
-     </rect>
-    </property>
-   </widget>
-  </widget>
-  <widget class="QPushButton" name="run_push_btn">
-   <property name="geometry">
-    <rect>
-     <x>200</x>
-     <y>320</y>
-     <width>111</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Run: Model Splitter</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="cancel">
-   <property name="geometry">
-    <rect>
-     <x>430</x>
-     <y>610</y>
-     <width>71</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Cancel</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_4">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>340</y>
-     <width>81</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Information:</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="upload_push_btn">
-   <property name="geometry">
-    <rect>
-     <x>190</x>
-     <y>580</y>
-     <width>131</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Upload modelversion(s)</string>
-   </property>
-  </widget>
-  <widget class="QWidget" name="layoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>80</y>
-     <width>451</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <item>
-     <widget class="QLabel" name="label_2">
-      <property name="text">
-       <string>Disabled</string>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="run_push_btn">
+     <property name="minimumSize">
+      <size>
+       <width>111</width>
+       <height>23</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Run: Model Splitter</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="minimumSize">
+      <size>
+       <width>23</width>
+       <height>16</height>
+      </size>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>83</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_4">
+     <property name="minimumSize">
+      <size>
+       <width>81</width>
+       <height>20</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Information:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QListWidget" name="listWidget3">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>200</width>
+       <height>200</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer_3">
+     <property name="minimumSize">
+      <size>
+       <width>23</width>
+       <height>16</height>
+      </size>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_5">
+     <property name="minimumSize">
+      <size>
+       <width>91</width>
+       <height>20</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Commit message:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTextEdit" name="textEdit">
+     <property name="minimumSize">
+      <size>
+       <width>50</width>
+       <height>20</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="frame">
+     <property name="minimumSize">
+      <size>
+       <width>491</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <spacer name="verticalSpacer_5">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>10</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="upload_push_btn">
+        <property name="minimumSize">
+         <size>
+          <width>131</width>
+          <height>23</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Upload modelversion(s)</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="log_in_widget" native="true">
+     <property name="minimumSize">
+      <size>
+       <width>481</width>
+       <height>59</height>
+      </size>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <spacer name="verticalSpacer_6">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QSplitter" name="splitter">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <widget class="QPushButton" name="cancel">
+      <property name="minimumSize">
+       <size>
+        <width>71</width>
+        <height>23</height>
+       </size>
       </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
+      <property name="text">
+       <string>Cancel</string>
       </property>
      </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="label_3">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="text">
-       <string>Enabled</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <zorder>layoutWidget</zorder>
+    </widget>
+   </item>
+   <item>
+    <spacer name="horizontalSpacer">
+     <property name="minimumSize">
+      <size>
+       <width>43</width>
+       <height>23</height>
+      </size>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>621</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
   <zorder>frame</zorder>
-  <zorder>frame_2</zorder>
   <zorder>log_in_widget</zorder>
-  <zorder>run_push_btn</zorder>
-  <zorder>cancel</zorder>
+  <zorder>horizontalSpacer</zorder>
+  <zorder>splitter</zorder>
+  <zorder>frame_2</zorder>
   <zorder>label_4</zorder>
-  <zorder>upload_push_btn</zorder>
+  <zorder>model_settings_path</zorder>
+  <zorder>label</zorder>
+  <zorder>verticalSpacer_2</zorder>
+  <zorder>run_push_btn</zorder>
+  <zorder>verticalSpacer</zorder>
+  <zorder>verticalSpacer_3</zorder>
+  <zorder>label_5</zorder>
+  <zorder>listWidget3</zorder>
+  <zorder>textEdit</zorder>
  </widget>
  <customwidgets>
   <customwidget>
