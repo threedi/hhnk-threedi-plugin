@@ -72,8 +72,8 @@ Dependency = namedtuple(
 
 FLEXIBLE_DEPENDENCIES = [
     Dependency("jupyter", "jupyter", "1.0.0", "==1.0.0", False, "user", False), 
-    Dependency("hhnk_threedi_tools","hhnk_threedi_tools","0.9", "==0.9", True, "external-dependencies" , False),
-    Dependency("hhnk_research_tools","hhnk_research_tools","0.6", "==0.6", True, "external-dependencies" , True), 
+    Dependency("hhnk_threedi_tools","hhnk_threedi_tools","0.9.1", "==0.9.1", True, "external-dependencies" , True),
+    Dependency("hhnk_research_tools","hhnk_research_tools","0.7", "==0.7", True, "external-dependencies" , True), 
     Dependency("threedi_raster_edits","threedi_raster_edits","0.26", "==0.26", True, "external-dependencies" , True),  
     Dependency("threedi_scenario_downloader","threedi_scenario_downloader","0.15", "==0.15", True, "external-dependencies" , True),  
     Dependency("pytest","pytest", "7.1.2", "7.1.2", False, "external-dependencies" , False),  
