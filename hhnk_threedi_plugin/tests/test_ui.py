@@ -8,6 +8,7 @@ Overview of QGIS objects
 import os.path as path
 import unittest
 import pathlib
+import os
 
 # Add the correct path
 __file__ = (
@@ -114,5 +115,5 @@ if __name__ == "__main__":
     ui = test.dlg.ui
 
     s = QSettings(
-        "C:/Users/chris.kerklaan/AppData/Roaming/QGIS/QGIS3/profiles/default/QGIS/QGIS3.ini"
+        os.path.join(os.getenv('APPDATA'), r"3Di/QGIS3/profiles/default/QGIS/QGIS3.ini")
     )

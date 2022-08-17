@@ -12,42 +12,27 @@ def build_layer_dicts(type):
         layer_names_dict["controlled_structs_layer_name"] = "gestuurde_kunstwerken"
         layer_names_dict["structs_channel_layer_name"] = "bodemhoogte_kunstwerken"
         layer_names_dict["weir_height_layer_name"] = "bodemhoogte_stuw"
-        layer_names_dict[
-            "profiles_used_channel_width_layer_name"
-        ] = "watergangen_breedte"
-        layer_names_dict[
-            "profiles_used_channel_depth_layer_name"
-        ] = "watergangen_diepte"
+        layer_names_dict["profiles_used_channel_width_layer_name"] = "watergangen_breedte"
+        layer_names_dict["profiles_used_channel_depth_layer_name"] = "watergangen_diepte"
         layer_names_dict["dewatering_depth_layer_name"] = "ontwateringsdiepte"
         layer_names_dict["watersurface_area_layer_name"] = "oppervlaktewater"
 
     if type == 2:
-        layer_names_dict[
-            "hidden_hyd_test_channels_layer_name"
-        ] = "hd_watergang_segmenten"
+        layer_names_dict["hidden_hyd_test_channels_layer_name"] = "hd_watergang_segmenten"
         layer_names_dict["hyd_test_channels_layer_name"] = "watergang_segmenten"
         layer_names_dict["hidden_hyd_test_structs_layer_name"] = "hd_kunstwerken"
         layer_names_dict["hyd_test_structs_layer_name"] = "kunstwerken"
         layer_names_dict[
-            "waterlevel_start_rain_vs_start_sum_layer_name"
-        ] = "waterstand_begin_regen_vs_begin_som"
-        layer_names_dict[
-            "waterlevel_end_rain_vs_start_rain_layer_name"
-        ] = "waterstand_einde_regen_vs_begin_regen"
-        layer_names_dict[
-            "waterlevel_end_rain_vs_end_rain_min_one_layer_name"
-        ] = "waterstand_einde_regen_vs_1_dag_eerder"
-        layer_names_dict[
-            "waterlevel_end_sum_vs_start_sum_layer_name"
-        ] = "waterstand_einde_som_vs_start_som"
+            "waterlevel_start_rain_vs_start_sum_layer_name"] = "waterstand_begin_regen_vs_begin_som"
+        layer_names_dict["waterlevel_end_rain_vs_start_rain_layer_name"] = "waterstand_einde_regen_vs_begin_regen"
+        layer_names_dict["waterlevel_end_rain_vs_end_rain_min_one_layer_name"] = "waterstand_einde_regen_vs_1_dag_eerder"
+        layer_names_dict["waterlevel_end_sum_vs_start_sum_layer_name"] = "waterstand_einde_som_vs_start_som"
 
     if type == 3:
         layer_names_dict["flow_1d2d_flowlines_layer_name"] = "stroming_1d2d_flowlines"
         layer_names_dict["flow_1d2d_channels_layer_name"] = "stroming_1d2d_watergangen"
         layer_names_dict["flow_1d2d_manholes_layer_name"] = "stroming_1d2d_putten"
-        layer_names_dict[
-            "flow_1d2d_cross_sections_layer"
-        ] = "stroming_1d2d_cross_sections"
+        layer_names_dict["flow_1d2d_cross_sections_layer"] = "stroming_1d2d_cross_sections"
 
     if type == 4:
         # Voor kaarten 2 en 3 (waterdiepte en waterstand) is de naam afhankelijk van tijdstappen. Om die reden

@@ -33,9 +33,12 @@ from ...qgis_interaction.layers_management.groups.layer_groups_structure import 
     QgisLayerStructure,
 )
 import pandas as pd
+from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
 
 
-from ...qgis_interaction.configs.klimaatsommen import load_klimaatsommen_layers
+# from ...qgis_interaction.configs.klimaatsommen import load_klimaatsommen_layers
+from hhnk_threedi_plugin.qgis_interaction import load_layers_interaction
+
 from ...qgis_interaction.klimaatsommen_pdfs import create_pdfs, load_print_layout
 
 SUBJECT = "Klimaatsommen"
@@ -45,13 +48,14 @@ def setupUi(klimaatsommen_widget):
 
     klimaatsommen_widget.laad_layout_btn = QPushButton("Laad layout")
     klimaatsommen_widget.create_pdfs_btn = QPushButton("Maak pdfs")
+    klimaatsommen_widget.create_clean_btn = QPushButton("clean")
     klimaatsommen_widget.select_revision_label = QLabel("Selecteer revisie:")
     klimaatsommen_widget.select_revision_box = revisionsComboBox()
 
     # Main layout
     main_layout = QVBoxLayout()
     main_layout.setAlignment(Qt.AlignTop)
-    main_layout.setContentsMargins(25, 25, 25, 25)
+    main_layout.setContentsMargins(45, 45, 25, 25)
     main_layout.addSpacerItem(QSpacerItem(25, 5, QSizePolicy.Expanding))
 
     main_layout.addWidget(klimaatsommen_widget.select_revision_label)
@@ -59,6 +63,7 @@ def setupUi(klimaatsommen_widget):
     main_layout.addWidget(klimaatsommen_widget.laad_layout_btn)
     main_layout.addSpacerItem(QSpacerItem(25, 5, QSizePolicy.Expanding))
 
+    main_layout.addWidget(klimaatsommen_widget.create_clean_btn)
     main_layout.addWidget(klimaatsommen_widget.create_pdfs_btn)
     main_layout.addSpacerItem(QSpacerItem(25, 5, QSizePolicy.Expanding))
 
@@ -100,7 +105,9 @@ class KlimaatSommenWidget(QWidget):
 
         # set up the signals
         self.laad_layout_btn.clicked.connect(self.verify_submit_laad_layout)
+        self.laad_layout_btn.clicked.connect(self.verify_submit_laad_layout)
         self.create_pdfs_btn.clicked.connect(self.verify_submit_create_pdfs)
+        self.create_clean_btn.clicked.connect(self.verify_submit_create_clean)
         self.select_revision_box.aboutToShowPopup.connect(self.populate_combobox)
 
     def verify_submit_laad_layout(self):
@@ -110,7 +117,16 @@ class KlimaatSommenWidget(QWidget):
         """
 
         self.fenv = self.caller.fenv
-        load_klimaatsommen_layers(self.fenv, self.select_revision_box.currentText())
+
+        df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'klimaatsommen.csv')
+        revisions = {'klimaatsommen':self.select_revision_box.currentText()}
+        subjects=['klimaatsommen']
+        load_layers_interaction.load_layers(folder=self.caller.fenv, 
+                                            df_path=df_path, 
+                                            revisions=revisions, 
+                                            subjects=subjects,
+                                            remove_layer=True)
+
         load_print_layout()
 
     def verify_submit_create_pdfs(self):
@@ -121,10 +137,17 @@ class KlimaatSommenWidget(QWidget):
         QMessageBox.warning(
             None,
             SUBJECT,
-            "De pdf's zullen aangemaakt worden met de huidige QGIS extent!",
+            """
+                Let op:
+                - De pdf's worden aangemaakt met het huidige extent!
+                - Laadt de achtergrond laag in.
+                - Laadt de revisie laag in.
+                - Extents verschillen per monitor. Werkt het niet? Pas 
+                de extent aan in de layout manager. (project -> layouts -> wsa_kaarten)
+            """
         )
 
-        load_print_layout()
+        # load_print_layout()
         create_pdfs(self.caller.fenv, self.select_revision_box.currentText())
 
     def populate_combobox(self):
@@ -135,3 +158,10 @@ class KlimaatSommenWidget(QWidget):
         for revision in revisions:
             self.select_revision_box.addItem(revision)
 
+    def verify_submit_create_clean(self):
+            msgBox = QMessageBox()
+            msgBox.setIcon(QMessageBox.Information)
+            msgBox.setText("AL GOOD")
+            msgBox.setWindowTitle("GOOD MESSAGE")
+            msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+            msgBox.buttonClicked.connect(self.verify_submit_create_clean)

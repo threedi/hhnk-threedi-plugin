@@ -19,9 +19,6 @@ def get_bank_levels_manholes_task(results_widget, test_env, output=True):
             test_env, create_output=output, mutex=mutex, wait_cond=wait_cond
         )
         calculate_task.os_error.connect(check_os_error)
-        # load_results_task = load3diResultsTask(test_env, confirm_scenario=False)
-        # load_results_task.results_loaded.connect(calculate_task.set_threedi_results)
-        # calculate_task.addSubTask(load_results_task, [], QgsTask.ParentDependsOnSubTask)
         calculate_task.bank_level_widget_created.connect(
             results_widget.tabs.add_bank_levels_tab
         )

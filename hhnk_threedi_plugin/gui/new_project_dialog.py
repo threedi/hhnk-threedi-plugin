@@ -17,7 +17,7 @@ from ..error_messages.input_error_messages import (
     invalid_character_in_filename,
     folder_exists_already,
 )
-from hhnk_threedi_tools import Folders
+from hhnk_threedi_tools.core.folders import Folders
 
 
 def setupUi(new_project_dialog):
@@ -94,7 +94,7 @@ class newProjectDialog(QDialog):
                         )
                     else:
                         try:
-                            # os.mkdir(full_path)
+                            os.mkdir(full_path)
                             Folders(full_path, create=True)
                             self.project_folder_path.emit(full_path)
                             self.accept()

@@ -4,7 +4,7 @@ from qgis.core import QgsTask, Qgis
 from qgis.utils import QgsMessageLog, iface
 
 
-from ...gui.sql_preview.model_changes_preview import modelChangesPreview
+from hhnk_threedi_plugin.gui.sql_preview.model_changes_preview import modelChangesPreview
 
 # old imports
 # from hhnk_threedi_tools.variables.database_variables import id_col, calculation_type_col
@@ -13,7 +13,7 @@ from ...gui.sql_preview.model_changes_preview import modelChangesPreview
 #    get_proposed_adjustments_channels
 
 # hhnk-threedi-tests
-from hhnk_threedi_tools import Folders
+from hhnk_threedi_tools.core.folders import Folders
 from hhnk_threedi_tools.variables.model_state import channels_new_calc_type
 from hhnk_threedi_tools.variables.database_variables import id_col, calculation_type_col
 
