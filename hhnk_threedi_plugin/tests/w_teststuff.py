@@ -183,8 +183,8 @@ one_d_two_d_layers = [
 
 # %% Plugin data bekijken
 import qgis
-p = qgis.utils.plugins['hhnk_threedi_plugin']
-print( p.fenv )
+self = qgis.utils.plugins['hhnk_threedi_plugin']
+print( self.dockwidget )
 
 # %%
 

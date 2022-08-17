@@ -35,6 +35,7 @@ class NotebookWidget():
         api_keys = read_api_file(self.api_file)
         if api_keys['lizard']:
             self.parent.lizard_api_key_textbox.setText(api_keys['lizard'])
+            
         if api_keys['threedi']:
             self.parent.threedi_api_key_textbox.setText(api_keys['threedi'])
 

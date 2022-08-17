@@ -476,7 +476,13 @@ class HHNK_toolbox:
     def open_help(self):
         os.startfile(self.help_address)
 
-   
+    def hide_apikeys_lizard(self):
+        getattr(self.dockwidget, f'lizard_api_key_textbox').setEchoMode(2) #password echo mode
+
+    def hide_apikeys_threedi(self):
+        #TODO kan connect input meegeven zodat deze samen kan met lizard?
+        getattr(self.dockwidget, f'threedi_api_key_textbox').setEchoMode(2) #password echo mode
+
 
     def run(self):
         """Run method that loads and starts the plugin"""
@@ -498,7 +504,11 @@ class HHNK_toolbox:
                 self.dockwidget.tests_toolbox.setEnabled(False)
                 self.dockwidget.server_btn.setEnabled(False)
                 # self.dockwidget.load_layers_btn.setEnabled(False)
-                              
+
+                self.dockwidget.lizard_api_key_textbox.textChanged.connect(self.hide_apikeys_lizard)
+                self.dockwidget.threedi_api_key_textbox.textChanged.connect(self.hide_apikeys_threedi)
+
+
                 self.load_layers_dialog = loadLayersDialog(caller=self, parent=self.dockwidget)
                 self.sqlite_tests_dialog = sqliteCheckDialog(caller=self, parent=self.dockwidget)
 
@@ -533,10 +543,10 @@ class HHNK_toolbox:
                 self.dockwidget.input_btn.clicked.connect(self.input_data_dialog.show)
                 self.dockwidget.model_state_btn.clicked.connect(self.open_model_splitter_dialog)
                 self.dockwidget.create_new_project_btn.clicked.connect(self.new_project_folder_execute)
-
                
                 self.dockwidget.documentatie_button.clicked.connect(self.open_documentatie_link)
                 self.dockwidget.server_btn.clicked.connect(self.notebook_widget.start_server)
+
 
                 # Connect start buttons to appropriate function calls
 
