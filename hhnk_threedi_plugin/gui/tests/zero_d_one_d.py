@@ -41,8 +41,8 @@ def setupUi(zero_d_one_d_widget):
     )
     zero_d_one_d_widget.select_revision_box = revisionsComboBox()
     zero_d_one_d_widget.select_revision_label = QLabel("Selecteer revisie:")
-    zero_d_one_d_widget.result_selected_show_label = QLabel("Geselecteerde revisie: ")
-    zero_d_one_d_widget.result_selected_show = QLabel("Geen revisie geselecteerd")
+    # zero_d_one_d_widget.result_selected_show_label = QLabel("Geselecteerde revisie: ")
+    # zero_d_one_d_widget.result_selected_show = QLabel("Geen revisie geselecteerd")
     zero_d_one_d_widget.output_selector = fileWidget(
         select_text="Selecteer output map:",
         file_dialog_title="Selecteer map om output in aan te maken",
@@ -52,24 +52,24 @@ def setupUi(zero_d_one_d_widget):
     # Main layout
     zero_d_one_d_widget.main_layout = QVBoxLayout(zero_d_one_d_widget)
     zero_d_one_d_widget.main_layout.setAlignment(Qt.AlignTop)
-    zero_d_one_d_widget.main_layout.setContentsMargins(25, 25, 25, 25)
-    zero_d_one_d_widget.main_layout.addWidget(zero_d_one_d_widget.results_dir_selector)
+    # zero_d_one_d_widget.main_layout.setContentsMargins(25, 25, 25, 25)
+    # zero_d_one_d_widget.main_layout.addWidget(zero_d_one_d_widget.results_dir_selector)
     zero_d_one_d_widget.main_layout.addWidget(zero_d_one_d_widget.select_revision_label)
     zero_d_one_d_widget.main_layout.addWidget(zero_d_one_d_widget.select_revision_box)
     zero_d_one_d_widget.main_layout.addSpacerItem(
         QSpacerItem(25, 5, QSizePolicy.Expanding)
     )
-    zero_d_one_d_widget.main_layout.addWidget(
-        zero_d_one_d_widget.result_selected_show_label
-    )
-    zero_d_one_d_widget.main_layout.addWidget(zero_d_one_d_widget.result_selected_show)
-    zero_d_one_d_widget.main_layout.addSpacerItem(
-        QSpacerItem(25, 5, QSizePolicy.Expanding)
-    )
-    zero_d_one_d_widget.main_layout.addWidget(zero_d_one_d_widget.output_selector)
-    zero_d_one_d_widget.main_layout.addSpacerItem(
-        QSpacerItem(25, 5, QSizePolicy.Expanding)
-    )
+    # zero_d_one_d_widget.main_layout.addWidget(
+    #     zero_d_one_d_widget.result_selected_show_label
+    # )
+    # zero_d_one_d_widget.main_layout.addWidget(zero_d_one_d_widget.result_selected_show)
+    # zero_d_one_d_widget.main_layout.addSpacerItem(
+    #     QSpacerItem(25, 5, QSizePolicy.Expanding)
+    # )
+    # zero_d_one_d_widget.main_layout.addWidget(zero_d_one_d_widget.output_selector)
+    # zero_d_one_d_widget.main_layout.addSpacerItem(
+    #     QSpacerItem(25, 5, QSizePolicy.Expanding)
+    # )
     zero_d_one_d_widget.main_layout.addWidget(zero_d_one_d_widget.start_0d1d_tests_btn)
 
 
@@ -106,7 +106,7 @@ class zeroDOneDWidget(QWidget):
         #     )
         # )
         # Geef geselecteerde revisie weer
-        self.select_revision_box.currentIndexChanged.connect(self.set_revision_text)
+        # self.select_revision_box.currentIndexChanged.connect(self.set_revision_text)
         self.start_0d1d_tests_btn.clicked.connect(self.verify_submit)
         self.select_revision_box.aboutToShowPopup.connect(
             self.populate_revisions_combobox
@@ -154,11 +154,11 @@ class zeroDOneDWidget(QWidget):
             # self.start_0d1d_tests.emit(test_environment)
             self.zero_d_one_d_test_execution()
 
-    def set_revision_text(self):
-        current_rev_text = self.select_revision_box.currentText()
-        if not current_rev_text:
-            current_rev_text = "Geen revisie geselecteerd"
-        self.result_selected_show.setText(current_rev_text)
+    # def set_revision_text(self):
+    #     current_rev_text = self.select_revision_box.currentText()
+    #     if not current_rev_text:
+    #         current_rev_text = "Geen revisie geselecteerd"
+    #     self.result_selected_show.setText(current_rev_text)
 
     def setup_main_paths_signals(self):
         """
