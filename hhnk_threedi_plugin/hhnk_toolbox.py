@@ -352,9 +352,9 @@ class HHNK_toolbox:
         """
         self.load_layers_dialog.set_current_paths()
         #self.model_states_dialog.set_current_paths()
-        self.sqlite_tests_dialog.set_current_paths()
-        self.zero_d_one_d.set_current_paths()
-        self.one_d_two_d.set_current_paths()
+        # self.sqlite_tests_dialog.set_current_paths()
+        # self.zero_d_one_d.set_current_paths()
+        # self.one_d_two_d.set_current_paths()
         # self.schematisation_dialog.set_current_paths()
         self.input_data_dialog.set_current_paths()
 
@@ -388,7 +388,7 @@ class HHNK_toolbox:
         if self.current_source_paths is not None:
             if datachecker is not None:
                 self.current_source_paths["datachecker"] = datachecker
-                self.input_data_dialog.datachecker_selector.setFilePath(datachecker)
+                # self.input_data_dialog.datachecker_selector.setFilePath(datachecker)
                 # self.sqlite_tests_dialog.datachecker_selector.setFilePath(datachecker)
                 # self.sqlite_tests_dialog.datachecker_selector.setFilePath(datachecker)
                 # self.bank_levels.datachecker_selector.setFilePath(datachecker)
@@ -400,31 +400,42 @@ class HHNK_toolbox:
                 self.current_source_paths["polder_shapefile"] = polder_shapefile
             if channels_shapefile is not None:
                 self.current_source_paths["channels_shapefile"] = channels_shapefile
+
             if model is not None:
                 self.reset_ui(model=model)
                 self.current_source_paths["model"] = model
-                self.update_model_state()
-                self.input_data_dialog.model_selector.setFilePath(model)
-                self.bank_levels.model_selector.setFilePath(model)
-                self.one_d_two_d.model_selector.setFilePath(model)
+                # self.update_model_state()
+                # self.input_data_dialog.model_selector.setFilePath(model)
+                # self.bank_levels.model_selector.setFilePath(model)
+                # self.one_d_two_d.model_selector.setFilePath(model)
+
             if dem is not None:
                 self.current_source_paths["dem"] = dem
-                # self.sqlite_tests_dialog.dem_selector.setFilePath(dem)
-                self.input_data_dialog.dem_selector.setFilePath(dem)
-                # input_data_dialog
-                self.one_d_two_d.dem_selector.setFilePath(dem)
+                #self.sqlite_tests_dialog.dem_selector.setFilePath(dem)
+                # self.input_data_dialog.dem_selector.setFilePath(dem)
+                # self.one_d_two_d.dem_selector.setFilePath(dem)
+
             if zero_d_results is not None:
                 self.current_source_paths["0d1d_results_dir"] = zero_d_results
+
             if one_d_results is not None:
                 self.current_source_paths["1d2d_results_dir"] = one_d_results
+                # self.input_data_dialog.results_dir_selector.setFilePath(one_d_results)
+                # self.one_d_two_d.results_dir_selector.setFilePath(one_d_results)
+
             if sqlite_output is not None:
                 self.current_source_paths["sqlite_tests_output"] = sqlite_output
+            
             if zero_d_output is not None:
                 self.current_source_paths["0d1d_output"] = zero_d_output
             if bank_levels_output is not None:
                 self.current_source_paths["bank_levels_output"] = bank_levels_output
+
             if one_d_output is not None:
                 self.current_source_paths["1d2d_output"] = one_d_output
+                # self.input_data_dialog.output_selector.setFilePath(one_d_output)
+                # self.one_d_two_d.output_selector.setFilePath(one_d_output)
+
 
     # --------------------------------------------------------------------------
     # Start tests and conversions
@@ -544,7 +555,7 @@ class HHNK_toolbox:
                 self.dockwidget.model_state_btn.clicked.connect(self.open_model_splitter_dialog)
                 self.dockwidget.create_new_project_btn.clicked.connect(self.new_project_folder_execute)
                
-                self.dockwidget.documentatie_button.clicked.connect(self.open_documentatie_link)
+                # self.dockwidget.documentatie_button.clicked.connect(self.open_documentatie_link)
                 self.dockwidget.server_btn.clicked.connect(self.notebook_widget.start_server)
 
 
@@ -553,6 +564,7 @@ class HHNK_toolbox:
                 self.sqlite_tests_dialog.start_sqlite_tests.connect(self.sqlite_tests_execution)
                 # self.zero_d_one_d.start_0d1d_tests.connect(self.zero_d_one_d_tests_execution)
                 self.bank_levels.start_bank_levels_tests.connect(self.bank_levels_execution)
+                self.one_d_two_d.start_1d2d_tests_btn.clicked.connect(self.one_d_two_d.one_d_two_d_tests_execution)
 
 
 
