@@ -23,7 +23,7 @@ def handle_model_changes_task(result_widget, task, model_path):
     task_manager.addTask(task)
 
 
-def run_bank_levels_test(polder_folder, parent):
+def run_bank_levels_test(folder, parent):
     """
     Fuctions runs all bank levels test:
     - Loads 3di results
@@ -41,8 +41,9 @@ def run_bank_levels_test(polder_folder, parent):
 
     Creates a task that runs on separate thread for each test
     """
+    
     try:
-        model_path = polder_folder.model.schema_base.database.path
+        model_path = folder.model.schema_base.database.path
         
         results_widget = modelChangesDialog(
             model_path=model_path,
@@ -54,10 +55,12 @@ def run_bank_levels_test(polder_folder, parent):
             lambda task: handle_model_changes_task(results_widget, task, model_path)
         )
         task_manager = QgsApplication.taskManager()
-        calculate_task = get_bank_levels_manholes_task(results_widget, polder_folder)
+        calculate_task = get_bank_levels_manholes_task(results_widget, folder)
         calculate_task.taskCompleted.connect(results_widget.has_changes)
         calculate_task.taskCompleted.connect(results_widget.show)
-        task_manager.addTask(calculate_task)
+        folder.calculate_task = calculate_task 
+        task_manager.addTask(calculate_task) 
+
         return results_widget
     except Exception as e:
         raise e from None

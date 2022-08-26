@@ -5,7 +5,7 @@ from ..calculate_bank_levels_manholes import calculateBankLevelsManholesTask
 from ...tasks.utility_functions.handle_os_errors import check_os_error
 
 
-def get_bank_levels_manholes_task(results_widget, test_env, output=True):
+def get_bank_levels_manholes_task(results_widget, folder, output=True):
     """
     creates task that calculates new manholes and bank level updates from 3di results,
     then adds the loading of 3di results as a dependency to that task
@@ -16,7 +16,7 @@ def get_bank_levels_manholes_task(results_widget, test_env, output=True):
         mutex = QMutex()
         wait_cond = QWaitCondition()
         calculate_task = calculateBankLevelsManholesTask(
-            test_env, create_output=output, mutex=mutex, wait_cond=wait_cond
+            folder, create_output=output, mutex=mutex, wait_cond=wait_cond
         )
         calculate_task.os_error.connect(check_os_error)
         calculate_task.bank_level_widget_created.connect(
