@@ -1,9 +1,9 @@
 from PyQt5.QtWidgets import QDialog, QVBoxLayout, QPushButton, QLabel, QTextEdit
 from PyQt5.QtCore import pyqtSignal
 from qgis.utils import QgsMessageBar, Qgis
-from .proposed_changes_tabs import modelChangesTabs
-from ..gui.proposed_changes_exceptions import exceptionsWidget
-from ..tasks.execute_model_changes import executeModelChangesTask
+from hhnk_threedi_plugin.gui.tests.bank_levels_widgets.proposed_changes_tabs import modelChangesTabs
+from hhnk_threedi_plugin.gui.tests.bank_levels_widgets.proposed_changes_exceptions import exceptionsWidget
+from hhnk_threedi_plugin.tasks.execute_model_changes import executeModelChangesTask
 
 # hhnk-threedi-tests
 from hhnk_threedi_tools.variables.model_state import (
@@ -18,7 +18,7 @@ class modelChangesDialog(QDialog):
     query_execution_task_created = pyqtSignal(object)
 
     def __init__(self, model_path, parent, to_state, one_d_two_d_source=None):
-        super(modelChangesDialog, self).__init__(parent)
+        super().__init__(parent)
         self.to_state = to_state
         self.one_d_two_d_source = one_d_two_d_source
         self.setMinimumWidth(300)

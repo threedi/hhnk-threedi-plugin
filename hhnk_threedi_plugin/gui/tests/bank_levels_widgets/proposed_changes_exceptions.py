@@ -1,10 +1,10 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout
-from .general_objects import create_formatted_text_edit
+from hhnk_threedi_plugin.gui.general_objects import create_formatted_text_edit
 
 
 class exceptionsWidget(QWidget):
     def __init__(self, text):
-        super(exceptionsWidget, self).__init__()
+        super().__init__()
         layout = QVBoxLayout()
         self.text_edit = create_formatted_text_edit(text)
         layout.addWidget(self.text_edit)
