@@ -21,22 +21,15 @@ from hhnk_threedi_plugin.gui.tests.bank_levels_widgets.proposed_changes_dialog i
 import hhnk_threedi_plugin.tasks.task_bank_levels as task_bank_levels
 import hhnk_threedi_tools as htt
 
+
 def setupUi(bank_levels_widget):
     # Create button to start tests
     bank_levels_widget.start_bank_levels_btn = QPushButton("Begin tests")
 
-    bank_levels_widget.model_selector = fileWidget(
-        select_text="Selecteer model:",
-        file_dialog_title="Selecteer een model (.sqlite)",
-        file_mode=QFileDialog.ExistingFile,
-        name_filter="*.sqlite",
-    )
     # Main layout
     main_layout = QVBoxLayout()
     main_layout.setAlignment(Qt.AlignTop)
     main_layout.setContentsMargins(25, 25, 25, 25)
-    main_layout.addSpacerItem(QSpacerItem(25, 5, QSizePolicy.Expanding))
-    main_layout.addWidget(bank_levels_widget.model_selector)
     main_layout.addSpacerItem(QSpacerItem(25, 5, QSizePolicy.Expanding))
     main_layout.addWidget(bank_levels_widget.start_bank_levels_btn)
     bank_levels_widget.setLayout(main_layout)
@@ -74,7 +67,7 @@ class bankLevelsWidget(QWidget):
 
     def bank_level_test_execution(self):
 
-        model_path=self.parent.input_data_dialog.model_selector.filePath()
+        model_path=self.caller.input_data_dialog.model_selector.filePath()
         if not is_valid_model_path(model_path):
             message=invalid_model_path.format(model_path)
             self.caller.iface.messageBar().pushMessage(message, Qgis.Critical)
@@ -87,9 +80,7 @@ class bankLevelsWidget(QWidget):
                 ):
                     self.results_widget.close()
 
-                self.run_bank_levels_test(
-                    folder=self.caller.folder, parent=self.parent, model_path=model_path
-                )
+                self.run_bank_levels_test(model_path=model_path)
             except Exception as e:
                 self.iface.messageBar().pushMessage(str(e), Qgis.Critical)
                 pass
@@ -98,15 +89,15 @@ class bankLevelsWidget(QWidget):
     #Functionality controller
     def handle_model_changes_task(self, task, model_path):
         task_manager = QgsApplication.taskManager()
-        task.taskCompleted.connect(self.result_widget.handle_execution_result_success)
+        task.taskCompleted.connect(self.results_widget.handle_execution_result_success)
         task.taskCompleted.connect(lambda: htt.create_backups(model_path=model_path, manholes_bank_levels_only=True))
-        task.taskTerminated.connect(lambda: self.result_widget.handle_execution_result_failed(task.exception))
+        task.taskTerminated.connect(lambda: self.results_widget.handle_execution_result_failed(task.exception))
         self.tasks.append(task)
         task_manager.addTask(task)
 
 
     #Functionality controller
-    def run_bank_levels_test(self, folder, parent, model_path):
+    def run_bank_levels_test(self, model_path):
         """
         Fuctions runs all bank levels test:
         - Loads 3di results
@@ -127,7 +118,7 @@ class bankLevelsWidget(QWidget):
         try:            
             self.results_widget = modelChangesDialog(
                 model_path=model_path,
-                parent=parent,
+                parent=self.parent,
                 to_state="0d1d_test", #zero_d_one_d_name
                 one_d_two_d_source="1d2d uit berekening", #one_d_two_d_from_calc
             )
@@ -135,7 +126,7 @@ class bankLevelsWidget(QWidget):
                 lambda task: self.handle_model_changes_task(task, model_path)
             )
             task_manager = QgsApplication.taskManager()
-            task = task_bank_levels.get_bank_levels_manholes_task(results_widget=self.results_widget, folder=folder)
+            task = task_bank_levels.get_bank_levels_manholes_task(results_widget=self.results_widget, folder=self.caller.folder)
             task.taskCompleted.connect(self.results_widget.has_changes)
             task.taskCompleted.connect(self.results_widget.show)
             self.tasks.append(task)

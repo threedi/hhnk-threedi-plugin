@@ -1,4 +1,4 @@
-import copy
+import os
 from PyQt5.QtCore import pyqtSignal, QMutex, QWaitCondition
 from qgis.core import QgsTask, Qgis
 
@@ -18,8 +18,10 @@ from hhnk_threedi_tools.variables.bank_levels import (
     new_storage_area_col,
 )
 
-
 from hhnk_threedi_plugin.tasks.utility_functions.handle_os_errors import check_os_error
+
+from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
+from hhnk_threedi_plugin.qgis_interaction import load_layers_interaction
 
 
 def get_bank_levels_manholes_task(results_widget, folder, output=True):
@@ -174,5 +176,16 @@ class calculateBankLevelsManholesTask(QgsTask):
                 bank_levels_widget, new_manholes_widget = self.create_widgets()
                 self.bank_level_widget_created.emit(bank_levels_widget)
                 self.new_manholes_widget_created.emit(new_manholes_widget)
+
+                #Load layers
+                df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'testprotocol.csv')
+                revisions={'0d1d_test':'',
+                            '1d2d_test':'',
+                            'klimaatsommen':''}
+
+                load_layers_interaction.load_layers(folder=self.folder, 
+                                            df_path=df_path, 
+                                            revisions=revisions, 
+                                            subjects=['test_banklevels'])
             except Exception as e:
                 raise e from None
