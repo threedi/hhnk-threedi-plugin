@@ -463,6 +463,7 @@ class HHNK_toolbox:
             self.bank_levels_results_widget = run_bank_levels_test(
                 self.fenv, parent=self.dockwidget
             )
+            # self.bank_levels_results_widget.show()
         except Exception as e:
             self.iface.messageBar().pushMessage(str(e), Qgis.Critical)
             pass
@@ -563,6 +564,13 @@ class HHNK_toolbox:
 
                 self.sqlite_tests_dialog.start_sqlite_tests.connect(self.sqlite_tests_execution)
                 # self.zero_d_one_d.start_0d1d_tests.connect(self.zero_d_one_d_tests_execution)
+
+
+                # self.bank_levels.start_bank_levels_btn.clicked.connect(self.bank_levels_execution)
+                # self.bank_levels.start_bank_levels_tests.connect(self.bank_levels_execution)
+                # self.bank_levels.start_bank_levels_btn.clicked.connect(self.bank_levels.verify_submit)
+                # self.bank_levels.start_bank_levels_tests.connect(self.bank_levels.verify_submit)
+                # self.bank_levels.start_bank_levels_btn.clicked.connect(self.bank_levels.verify_submit)
                 self.bank_levels.start_bank_levels_tests.connect(self.bank_levels_execution)
                 self.one_d_two_d.start_1d2d_tests_btn.clicked.connect(self.one_d_two_d.one_d_two_d_tests_execution)
 

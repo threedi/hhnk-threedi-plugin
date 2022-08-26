@@ -24,11 +24,11 @@ class calculateBankLevelsManholesTask(QgsTask):
     new_manholes_widget_created = pyqtSignal(object)
     os_error = pyqtSignal(object, object, Exception)
 
-    def __init__(self, polder_folder, mutex, wait_cond, create_output=False):
+    def __init__(self, folder, mutex, wait_cond, create_output=False):
         super().__init__(description, QgsTask.CanCancel)
         self.description = description
         self.exception = None
-        self.polder_folder = polder_folder
+        self.folder = folder
         self.create_out = create_output
         self.new_manholes_df = None
         self.new_bank_levels_df = None
@@ -50,7 +50,7 @@ class calculateBankLevelsManholesTask(QgsTask):
         QgsMessageLog.logMessage(f"Taak gestart {self.description}", level=Qgis.Info)
         try:
             if self.os_retry is None:
-                self.bl_test = BankLevelTest(self.polder_folder)
+                self.bl_test = BankLevelTest(self.folder)
                 self.bl_test.import_data()
                 self.bl_test.run()
             QgsMessageLog.logMessage("Taak gestart opslaan resultaten", level=Qgis.Info)
@@ -76,7 +76,7 @@ class calculateBankLevelsManholesTask(QgsTask):
     def create_output(self):
         try:
             self.output_layers_list = []
-            path = self.polder_folder.output.bank_levels.path
+            path = self.folder.output.bank_levels.path
             self.bl_test.write(path, path)
         except Exception as e:
             raise e from None

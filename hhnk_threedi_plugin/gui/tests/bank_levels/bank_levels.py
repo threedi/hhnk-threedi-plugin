@@ -38,18 +38,18 @@ def setupUi(bank_levels_widget):
     # Create button to start tests
     bank_levels_widget.start_bank_levels_btn = QPushButton("Begin tests")
 
-    bank_levels_widget.model_selector = fileWidget(
-        select_text="Selecteer model:",
-        file_dialog_title="Selecteer een model (.sqlite)",
-        file_mode=QFileDialog.ExistingFile,
-        name_filter="*.sqlite",
-    )
+    # bank_levels_widget.model_selector = fileWidget(
+    #     select_text="Selecteer model:",
+    #     file_dialog_title="Selecteer een model (.sqlite)",
+    #     file_mode=QFileDialog.ExistingFile,
+    #     name_filter="*.sqlite",
+    # )
     # Main layout
     main_layout = QVBoxLayout()
     main_layout.setAlignment(Qt.AlignTop)
     main_layout.setContentsMargins(25, 25, 25, 25)
     main_layout.addSpacerItem(QSpacerItem(25, 5, QSizePolicy.Expanding))
-    main_layout.addWidget(bank_levels_widget.model_selector)
+    # main_layout.addWidget(bank_levels_widget.model_selector)
     main_layout.addSpacerItem(QSpacerItem(25, 5, QSizePolicy.Expanding))
     main_layout.addWidget(bank_levels_widget.start_bank_levels_btn)
     bank_levels_widget.setLayout(main_layout)
@@ -88,11 +88,12 @@ class bankLevelsWidget(QWidget):
         emits start tests signal to controller
         """
         res, message = verify_input(
-            model_path=self.model_selector.filePath(),
-        )
+            model_path=self.caller.input_data_dialog.model_selector.filePath())
         if not res:
             self.caller.iface.messageBar().pushMessage(message, Qgis.Critical)
         else:
             #test_environment = self.create_test_environment()
             self.start_bank_levels_tests.emit(None)
+            print(str(self.caller.input_data_dialog.model_selector.filePath()))
+            
 

@@ -64,7 +64,7 @@ def setupUi(input_data):
         file_dialog_title="Selecteer DEM raster (.tif)",
         file_mode=QFileDialog.ExistingFile,
         name_filter="*.tif",    )
-    input_data.dem_selector.setEnabled(True)
+    input_data.dem_selector.setEnabled(False)
 
     input_data.datachecker_label = QLabel("Selecteer datachecker output:")
     input_data.datachecker_selector = fileWidget(
@@ -96,6 +96,12 @@ def setupUi(input_data):
         file_dialog_title="Selecteer polder shapefile (.shp)",
         file_mode=QFileDialog.ExistingFile,    )
     input_data.polder_shape_selector.setEnabled(False)
+
+    input_data.output_0d_1d_label = QLabel("Selecteer output voor 0d_1d test:")
+    input_data.output_0d_1d__selector = fileWidget(
+        file_dialog_title="Selecteer map om output in aan te maken",
+        file_mode=QFileDialog.Directory,    )
+    input_data.output_0d_1d__selector.setEnabled(False)
     
     # Layouts
     separator = QFrame()
@@ -125,6 +131,9 @@ def setupUi(input_data):
     path_selection_layout.addWidget(input_data.damo_selector, 8, 1)
     path_selection_layout.addWidget(input_data.polder_shape_label, 9, 0)
     path_selection_layout.addWidget(input_data.polder_shape_selector, 9, 1)
+    path_selection_layout.addWidget(input_data.output_0d_1d_label, 10, 0)
+    path_selection_layout.addWidget(input_data.output_0d_1d__selector, 10, 1)
+
 
     # Main layout
     paths_selection = QLabel("Selecteer benodigde bestanden")
