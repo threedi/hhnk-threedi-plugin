@@ -266,6 +266,7 @@ class oneDTwoDWidget(QWidget):
         try:
             task_one_d_two_d.task_one_d_two_d(folder = self.caller.fenv, 
                                                     revision = self.select_revision_box.currentText(),
+                                                    # dem_path= self.caller.folders.current_source_paths['dem'])
                                                     dem_path = self.caller.input_data_dialog.dem_selector.filePath())
             
         except Exception as e:
