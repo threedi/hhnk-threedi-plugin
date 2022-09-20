@@ -75,7 +75,7 @@ def setupUi(input_data):
         file_dialog_title="Selecteer DEM raster (.tif)",
         file_mode=QFileDialog.ExistingFile,
         name_filter="*.tif",    )
-    input_data.dem_selector.setEnabled(False)
+    input_data.dem_selector.setEnabled(True)
    
 
     input_data.datachecker_label = QLabel("Selecteer datachecker output:")

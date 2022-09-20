@@ -50,7 +50,7 @@ from hhnk_threedi_plugin.gui.tests.zero_d_one_d import zeroDOneDWidget
 from hhnk_threedi_plugin.gui.tests.one_d_two_d import oneDTwoDWidget
 #from hhnk_threedi_plugin.gui.model_states.model_states import modelStateDialog
 from hhnk_threedi_plugin.gui.tests.sqlite_test_widgets.main_result_widget import collapsibleTree
-from hhnk_threedi_plugin.gui.tests.bank_levels import bankLevelsWidget
+from hhnk_threedi_plugin.gui.tests.bank_levels.bank_levels import bankLevelsWidget
 from hhnk_threedi_plugin.gui.klimaatsommen.klimaatsommen import KlimaatSommenWidget
 from hhnk_threedi_plugin.qgis_interaction.project import Project
 from hhnk_threedi_plugin.gui.new_project_dialog import newProjectDialog
@@ -298,11 +298,11 @@ class HHNK_toolbox:
             ):
                 self.model_states_results_widget.close()
             if (
-                self.bank_levels.results_widget is not None
-                and self.bank_levels.results_widget
-                and self.bank_levels.results_widget.isVisible()
+                self.bank_levels is not None
+                and self.bank_levels
+                and self.bank_levels.isVisible()
             ):
-                self.bank_levels.results_widget.close()
+                self.bank_levels.close()
     # Select from the dockwidget the path where the polder is located. If the path is not correct or if it is empty I will not enabled the buttons 
     def polder_folder_changed(self):
         """
