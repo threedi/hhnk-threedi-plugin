@@ -129,3 +129,4 @@ rasters;['Rasters'];Friction;;folder.02_Model.rasters.path;friction.tif;;raster;
 grid;['Calculation Grid'];Cells;;folder.output.sqlite_tests.path;cells.gpkg;;vector;os.path.join(HHNK_THREEDI_PLUGIN_DIR,'qgis_interaction','styling', 'grid');cells.qml;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 grid;['Calculation Grid'];Nodes;;folder.output.sqlite_tests.path;nodes.gpkg;;vector;os.path.join(HHNK_THREEDI_PLUGIN_DIR,'qgis_interaction','styling', 'grid');nodes.qml;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 grid;['Calculation Grid'];Lines;;folder.output.sqlite_tests.path;lines.gpkg;;vector;os.path.join(HHNK_THREEDI_PLUGIN_DIR,'qgis_interaction','styling', 'grid');lines.qml;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
