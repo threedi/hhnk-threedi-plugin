@@ -1,9 +1,9 @@
-import copy
-from PyQt5.QtCore import pyqtSignal
+import os
+from PyQt5.QtCore import pyqtSignal, QMutex, QWaitCondition
 from qgis.core import QgsTask, Qgis
+
 from qgis.utils import QgsMessageLog, iface
-from ..gui.sql_preview.model_changes_preview import modelChangesPreview
-description = "berekenen nieuwe bank levels en manholes"
+from hhnk_threedi_plugin.gui.sql_preview.model_changes_preview import modelChangesPreview
 
 # new
 from hhnk_threedi_tools import BankLevelTest
@@ -18,17 +18,49 @@ from hhnk_threedi_tools.variables.bank_levels import (
     new_storage_area_col,
 )
 
+from hhnk_threedi_plugin.tasks.utility_functions.handle_os_errors import check_os_error
+
+from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
+from hhnk_threedi_plugin.qgis_interaction import load_layers_interaction
+
+
+def get_bank_levels_manholes_task(results_widget, folder, output=True):
+    """
+    creates task that calculates new manholes and bank level updates from 3di results,
+    then adds the loading of 3di results as a dependency to that task
+
+    Used in model states conversions and bank levels test
+    """
+    try:
+        mutex = QMutex()
+        wait_cond = QWaitCondition()
+        calculate_task = calculateBankLevelsManholesTask(
+            folder, create_output=output, mutex=mutex, wait_cond=wait_cond
+        )
+        calculate_task.os_error.connect(check_os_error)
+        calculate_task.bank_level_widget_created.connect(
+            results_widget.tabs.add_bank_levels_tab
+        )
+        calculate_task.new_manholes_widget_created.connect(
+            results_widget.tabs.add_new_manholes_tab
+        )
+        return calculate_task
+    except Exception as e:
+        raise e from None
+
+
+description = "berekenen nieuwe bank levels en manholes"
 
 class calculateBankLevelsManholesTask(QgsTask):
     bank_level_widget_created = pyqtSignal(object)
     new_manholes_widget_created = pyqtSignal(object)
     os_error = pyqtSignal(object, object, Exception)
 
-    def __init__(self, polder_folder, mutex, wait_cond, create_output=False):
+    def __init__(self, folder, mutex, wait_cond, create_output=False):
         super().__init__(description, QgsTask.CanCancel)
         self.description = description
         self.exception = None
-        self.polder_folder = polder_folder
+        self.folder = folder
         self.create_out = create_output
         self.new_manholes_df = None
         self.new_bank_levels_df = None
@@ -40,9 +72,6 @@ class calculateBankLevelsManholesTask(QgsTask):
         self.mutex = mutex
         self.wait_cond = wait_cond
 
-    def set_threedi_results(self, result):
-        self.test_env.threedi_vars = copy.copy(result)
-
     def set_result(self, res):
         self.os_retry = res
 
@@ -50,7 +79,7 @@ class calculateBankLevelsManholesTask(QgsTask):
         QgsMessageLog.logMessage(f"Taak gestart {self.description}", level=Qgis.Info)
         try:
             if self.os_retry is None:
-                self.bl_test = BankLevelTest(self.polder_folder)
+                self.bl_test = BankLevelTest(self.folder)
                 self.bl_test.import_data()
                 self.bl_test.run()
             QgsMessageLog.logMessage("Taak gestart opslaan resultaten", level=Qgis.Info)
@@ -76,7 +105,7 @@ class calculateBankLevelsManholesTask(QgsTask):
     def create_output(self):
         try:
             self.output_layers_list = []
-            path = self.polder_folder.output.bank_levels.path
+            path = self.folder.output.bank_levels.path
             self.bl_test.write(path, path)
         except Exception as e:
             raise e from None
@@ -147,5 +176,16 @@ class calculateBankLevelsManholesTask(QgsTask):
                 bank_levels_widget, new_manholes_widget = self.create_widgets()
                 self.bank_level_widget_created.emit(bank_levels_widget)
                 self.new_manholes_widget_created.emit(new_manholes_widget)
+
+                #Load layers
+                df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'testprotocol.csv')
+                revisions={'0d1d_test':'',
+                            '1d2d_test':'',
+                            'klimaatsommen':''}
+
+                load_layers_interaction.load_layers(folder=self.folder, 
+                                            df_path=df_path, 
+                                            revisions=revisions, 
+                                            subjects=['test_banklevels'])
             except Exception as e:
                 raise e from None

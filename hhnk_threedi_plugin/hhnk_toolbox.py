@@ -33,10 +33,7 @@ from qgis.utils import showPluginHelp
 from hhnk_threedi_plugin.resources import *
 
 # Import the code for the DockWidget
-
-from hhnk_threedi_plugin.hhnk_toolbox_dockwidget import HHNK_toolboxDockWidget
-import os.path
-
+# %%
 try: 
     import hhnk_threedi_plugin.local_settings as local_settings
 except:
@@ -44,6 +41,7 @@ except:
 
 # Import the code for the plugin content
 # GUI
+from hhnk_threedi_plugin.hhnk_toolbox_dockwidget import HHNK_toolboxDockWidget
 from hhnk_threedi_plugin.gui.load_layers_popup import loadLayersDialog
 # from hhnk_threedi_plugin.gui.schematisation_splitter_uploader_dialog import schematisationDialog
 
@@ -58,7 +56,7 @@ from hhnk_threedi_plugin.qgis_interaction.project import Project
 from hhnk_threedi_plugin.gui.new_project_dialog import newProjectDialog
 from hhnk_threedi_plugin.gui.input_data import inputDataDialog
 from hhnk_threedi_plugin.qgis_interaction.open_notebook import NotebookWidget
-
+# %%
 # Functions
 from hhnk_threedi_tools.core.folders import Folders
 from hhnk_threedi_tools.core.checks.model_state import detect_model_states
@@ -70,9 +68,9 @@ from hhnk_threedi_tools.variables.model_state import invalid_path
 # from .functionality_controllers.test_controllers.run_sqlite_tests import (
 #     run_sqlite_tests,
 # )
-from .functionality_controllers.test_controllers.run_bank_levels_test import (
-    run_bank_levels_test,
-)
+# from .functionality_controllers.test_controllers.run_bank_levels_test import (
+#     run_bank_levels_test,
+# )
 from hhnk_threedi_plugin.tasks.task_sqlite_tests_main import task_sqlite_tests_main
 
 
@@ -147,7 +145,6 @@ class HHNK_toolbox:
         self.model_states_results_widget = None
         self.zero_d_one_d = None
         self.bank_levels = None
-        self.bank_levels_results_widget = None
         self.one_d_two_d = None
         self.polder_folder = None
         self.current_source_paths = None
@@ -301,11 +298,11 @@ class HHNK_toolbox:
             ):
                 self.model_states_results_widget.close()
             if (
-                self.bank_levels_results_widget is not None
-                and self.bank_levels_results_widget
-                and self.bank_levels_results_widget.isVisible()
+                self.bank_levels is not None
+                and self.bank_levels
+                and self.bank_levels.isVisible()
             ):
-                self.bank_levels_results_widget.close()
+                self.bank_levels.close()
     # Select from the dockwidget the path where the polder is located. If the path is not correct or if it is empty I will not enabled the buttons 
     def polder_folder_changed(self):
         """
@@ -320,7 +317,8 @@ class HHNK_toolbox:
         self.reset_ui(polder=path)
         if path is not None and os.path.exists(path):
             folder = Folders(path)
-            self.fenv = folder
+            self.fenv = folder #FIXME replace with self.folder in all scripts.
+            self.folder = folder
             self.polder_folder = path
             self.current_source_paths = folder.to_file_dict()
             self.initialize_current_paths()
@@ -332,6 +330,7 @@ class HHNK_toolbox:
             # self.dockwidget.load_layers_btn.setEnabled(True)
         else:
             self.fenv=None
+            self.folder = None
             self.polder_folder = None
             if self.current_source_paths is not None:
                 for key, value in self.current_source_paths.items():
@@ -451,23 +450,6 @@ class HHNK_toolbox:
             pass
 
 
-    def bank_levels_execution(self):
-        try:
-            if (
-                self.bank_levels_results_widget is not None
-                and self.bank_levels_results_widget
-                and self.bank_levels_results_widget.isVisible()
-            ):
-                self.bank_levels_results_widget.close()
-
-            self.bank_levels_results_widget = run_bank_levels_test(
-                self.fenv, parent=self.dockwidget
-            )
-        except Exception as e:
-            self.iface.messageBar().pushMessage(str(e), Qgis.Critical)
-            pass
-
-
     def new_project_folder_execute(self):
         dialog = newProjectDialog()
         dialog.project_folder_path.connect(Folders)
@@ -563,7 +545,8 @@ class HHNK_toolbox:
 
                 self.sqlite_tests_dialog.start_sqlite_tests.connect(self.sqlite_tests_execution)
                 # self.zero_d_one_d.start_0d1d_tests.connect(self.zero_d_one_d_tests_execution)
-                self.bank_levels.start_bank_levels_tests.connect(self.bank_levels_execution)
+                # self.bank_levels.start_bank_levels_tests.connect(self.bank_levels_execution)
+
                 self.one_d_two_d.start_1d2d_tests_btn.clicked.connect(self.one_d_two_d.one_d_two_d_tests_execution)
 
 
