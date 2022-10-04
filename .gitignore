@@ -1,8 +1,6 @@
-functions
 test_main.py
 venv_development_tools
 requirements_before_pb_tool_install.txt
-requirements.txt
 __pycache__
 zip_build
 docs
@@ -12,4 +10,7 @@ docs
 .spyproject
 hhnk_threedi_plugin\external-dependencies
 hhnk_threedi_plugin/api_key.txt
+*.bak
+local_settings.py
+*.bak
 *.bak

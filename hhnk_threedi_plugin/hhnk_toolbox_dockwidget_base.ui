@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>305</width>
-    <height>523</height>
+    <width>363</width>
+    <height>492</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,7 +19,7 @@
   <property name="minimumSize">
    <size>
     <width>215</width>
-    <height>400</height>
+    <height>492</height>
    </size>
   </property>
   <property name="maximumSize">
@@ -82,7 +82,7 @@
         <bool>true</bool>
        </property>
        <attribute name="title">
-        <string>Tab 1</string>
+        <string>Main</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
@@ -99,14 +99,14 @@
          </widget>
         </item>
         <item>
-         <widget class="QgsFileWidget" name="polder_selector">
+         <widget class="QgsFileWidget" name="polder_selector" native="true">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="dialogTitle">
+          <property name="dialogTitle" stdset="0">
            <string>Selecteer polder map</string>
           </property>
          </widget>
@@ -242,21 +242,41 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="toolTip">
+           <string>lizard_api_key</string>
+          </property>
           <property name="text">
            <string>Vul hier je Lizard API key in!</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="server_btn">
+         <widget class="QLineEdit" name="threedi_api_key_textbox">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="toolTip">
+           <string>threedi_api_key</string>
+          </property>
+          <property name="text">
+           <string>Vul hier je Threedi API key in!</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="server_btn">
           <property name="text">
            <string>Open Jupyter Notebook Server</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="input_btn">
+          <property name="text">
+           <string>Input</string>
           </property>
          </widget>
         </item>
@@ -280,7 +300,7 @@
         <bool>true</bool>
        </property>
        <attribute name="title">
-        <string>Tab 2</string>
+        <string>Tests</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
@@ -308,8 +328,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>257</width>
-             <height>257</height>
+             <width>315</width>
+             <height>381</height>
             </rect>
            </property>
            <attribute name="label">

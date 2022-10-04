@@ -48,13 +48,14 @@ def setupUi(klimaatsommen_widget):
 
     klimaatsommen_widget.laad_layout_btn = QPushButton("Laad layout")
     klimaatsommen_widget.create_pdfs_btn = QPushButton("Maak pdfs")
+    klimaatsommen_widget.create_clean_btn = QPushButton("clean")
     klimaatsommen_widget.select_revision_label = QLabel("Selecteer revisie:")
     klimaatsommen_widget.select_revision_box = revisionsComboBox()
 
     # Main layout
     main_layout = QVBoxLayout()
     main_layout.setAlignment(Qt.AlignTop)
-    main_layout.setContentsMargins(25, 25, 25, 25)
+    main_layout.setContentsMargins(45, 45, 25, 25)
     main_layout.addSpacerItem(QSpacerItem(25, 5, QSizePolicy.Expanding))
 
     main_layout.addWidget(klimaatsommen_widget.select_revision_label)
@@ -62,6 +63,7 @@ def setupUi(klimaatsommen_widget):
     main_layout.addWidget(klimaatsommen_widget.laad_layout_btn)
     main_layout.addSpacerItem(QSpacerItem(25, 5, QSizePolicy.Expanding))
 
+    main_layout.addWidget(klimaatsommen_widget.create_clean_btn)
     main_layout.addWidget(klimaatsommen_widget.create_pdfs_btn)
     main_layout.addSpacerItem(QSpacerItem(25, 5, QSizePolicy.Expanding))
 
@@ -103,7 +105,9 @@ class KlimaatSommenWidget(QWidget):
 
         # set up the signals
         self.laad_layout_btn.clicked.connect(self.verify_submit_laad_layout)
+        self.laad_layout_btn.clicked.connect(self.verify_submit_laad_layout)
         self.create_pdfs_btn.clicked.connect(self.verify_submit_create_pdfs)
+        self.create_clean_btn.clicked.connect(self.verify_submit_create_clean)
         self.select_revision_box.aboutToShowPopup.connect(self.populate_combobox)
 
     def verify_submit_laad_layout(self):
@@ -154,3 +158,10 @@ class KlimaatSommenWidget(QWidget):
         for revision in revisions:
             self.select_revision_box.addItem(revision)
 
+    def verify_submit_create_clean(self):
+            msgBox = QMessageBox()
+            msgBox.setIcon(QMessageBox.Information)
+            msgBox.setText("AL GOOD")
+            msgBox.setWindowTitle("GOOD MESSAGE")
+            msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+            msgBox.buttonClicked.connect(self.verify_submit_create_clean)

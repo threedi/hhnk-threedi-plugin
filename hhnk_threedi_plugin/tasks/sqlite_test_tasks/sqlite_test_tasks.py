@@ -100,7 +100,7 @@ class weirHeightTask(BaseSqliteTask):
         title, widget = create_weir_height_widget(
                             layer_source=self.layer_source,
                             gdf=self.gdf,
-                            model_path=self.folder.model.database.path,
+                            model_path=self.folder.model.schema_base.database.path,
                         )
 
         return title, widget
@@ -224,6 +224,7 @@ class dewateringTask(BaseSqliteTask):
             self.exception = e
             return False
 
+
     def finished_custom(self):
         """Add layer so it is seen by the widget"""
         # add_layers(self.layers_list, self.test_env.group_structure) #TODO
@@ -257,8 +258,8 @@ class gridTask(BaseSqliteTask):
     def run(self):
         QgsMessageLog.logMessage(f"Taak gestart {self.description}", level=Qgis.Info)
         try:
-            self.sqlite_test.create_grid_from_sqlite(sqlite_path=self.folder.model.sqlite_paths[0], 
-                                                        dem_path=self.folder.model.rasters.dem.path, 
+            self.sqlite_test.create_grid_from_sqlite(sqlite_path=self.folder.model.schema_base.sqlite_paths[0], 
+                                                        dem_path=self.folder.model.schema_base.rasters.dem.path, 
                                                         output_folder=self.folder.output.sqlite_tests.path)
             return True
         except Exception as e:

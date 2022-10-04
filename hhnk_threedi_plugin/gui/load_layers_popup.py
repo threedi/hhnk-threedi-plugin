@@ -29,6 +29,7 @@ from hhnk_threedi_plugin.qgis_interaction.layers_management.groups.layer_groups_
     QgisLayerStructure,
 )
 # from hhnk_threedi_plugin.qgis_interaction.layers_management.removing_layers import remove_layers
+from hhnk_threedi_tools import SqliteTest
 
 # new
 
@@ -63,9 +64,15 @@ def setup_ui(load_layers_popup):
     load_layers_popup.sqlite_selector = QCheckBox("Sqlite (3Di plugin)")
     load_layers_popup.sqlite_selector.setChecked(True)
     
+    load_layers_popup.grid_selector = QCheckBox("Grid genereren")
+    load_layers_popup.grid_selector.setChecked(True)
+    
     load_layers_popup.sqlite_test_selector = QCheckBox("Sqlite testen")
     load_layers_popup.sqlite_test_selector.setChecked(False)
 
+    load_layers_popup.banklevel_test_selector = QCheckBox("Banklevel test")
+    load_layers_popup.banklevel_test_selector.setChecked(False)
+    
     load_layers_popup.test_protocol_selector = QCheckBox("Basis layout")
     load_layers_popup.test_protocol_selector.setChecked(True)
 
@@ -104,8 +111,15 @@ def setup_ui(load_layers_popup):
     main_layout.addWidget(load_layers_popup.sqlite_selector)
     main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
 
+    main_layout.addWidget(load_layers_popup.grid_selector)
+    main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
+
     main_layout.addWidget(load_layers_popup.sqlite_test_selector)
     main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
+    
+    main_layout.addWidget(load_layers_popup.banklevel_test_selector)
+    main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
+    
 
     main_layout.addWidget(load_layers_popup.test_protocol_selector)
     main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
@@ -142,7 +156,6 @@ class loadLayersDialog(QDialog):
         self.caller = caller
 
         # load
-
         self.klimaatsommen_selector.aboutToShowPopup.connect(self.populate_klimaatsommen_combobox)
         self.one_d_two_d_selector.aboutToShowPopup.connect(self.populate_one_d_two_combobox)
         self.zero_d_one_d_selector.aboutToShowPopup.connect(self.populate_zero_d_one_d_combobox)
@@ -223,20 +236,27 @@ class loadLayersDialog(QDialog):
                     'klimaatsommen':''}
 
         if self.sqlite_selector.isChecked() == True:
-             load_layers_interaction.load_sqlite(filepath=self.caller.fenv.model.sqlite_paths[0])
+             load_layers_interaction.load_sqlite(filepath=self.caller.fenv.model.schema_base.sqlite_paths[0])
+
+        if self.grid_selector.isChecked() == True:
+            sqlite_test = SqliteTest(self.caller.fenv)
+            sqlite_test.create_grid_from_sqlite(sqlite_path=self.caller.fenv.model.schema_base.sqlite_paths[0], 
+                                                dem_path=self.caller.fenv.model.schema_base.rasters.dem.path, 
+                                                output_folder=self.caller.fenv.output.sqlite_tests.path)
+
+            subjects.append('grid')
 
 
         # Sqlite test
         if self.sqlite_test_selector.isChecked() == True:
             subjects.append('test_sqlite')
 
+        if self.banklevel_test_selector.isChecked() == True:
+            subjects.append('test_banklevels')
+
         # Test protocol
         if self.test_protocol_selector.isChecked() == True:
             subjects.append('test_protocol')
-
-        # Achtergrond
-        if self.achtergrond_selector.isChecked() == True: #Todo naam butten veranderen en andere achtergrond buttons weg.
-            subjects.append('achtergrond')
 
         # 0d1d test
         if self.zero_d_one_d_selector.currentText() != "":
@@ -248,6 +268,9 @@ class loadLayersDialog(QDialog):
             subjects.append('test_1d2d')
             revisions['1d2d_test'] = self.one_d_two_d_selector.currentText()
 
+        # Achtergrond
+        if self.achtergrond_selector.isChecked() == True: #Todo naam button veranderen en andere achtergrond buttons weg.
+            subjects.append('achtergrond')
 
         #Laad geselecteerde lagen.
         print(revisions)

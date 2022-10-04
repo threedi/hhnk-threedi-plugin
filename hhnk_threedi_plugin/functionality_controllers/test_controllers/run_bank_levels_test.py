@@ -23,7 +23,7 @@ def handle_model_changes_task(result_widget, task, model_path):
     task_manager.addTask(task)
 
 
-def run_bank_levels_test(test_env, parent):
+def run_bank_levels_test(polder_folder, parent):
     """
     Fuctions runs all bank levels test:
     - Loads 3di results
@@ -42,7 +42,8 @@ def run_bank_levels_test(test_env, parent):
     Creates a task that runs on separate thread for each test
     """
     try:
-        model_path = test_env.src_paths["model"]
+        model_path = polder_folder.model.schema_base.database.path
+        
         results_widget = modelChangesDialog(
             model_path=model_path,
             parent=parent,
@@ -52,10 +53,8 @@ def run_bank_levels_test(test_env, parent):
         results_widget.query_execution_task_created.connect(
             lambda task: handle_model_changes_task(results_widget, task, model_path)
         )
-        remove_layers([item for item in test_env.layers.values()])
         task_manager = QgsApplication.taskManager()
-        calculate_task = get_bank_levels_manholes_task(results_widget, test_env)
-        test_env.tasks.append(calculate_task)
+        calculate_task = get_bank_levels_manholes_task(results_widget, polder_folder)
         calculate_task.taskCompleted.connect(results_widget.has_changes)
         calculate_task.taskCompleted.connect(results_widget.show)
         task_manager.addTask(calculate_task)

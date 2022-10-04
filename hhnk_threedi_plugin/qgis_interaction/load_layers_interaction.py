@@ -13,14 +13,22 @@ if __name__ == '__main__':
     import pathlib, sys, os
     sys.path.append(str(pathlib.Path(os.path.abspath(__file__)).parents[2]))
 
+# First-party imports
+import os
+import pathlib
 
+# Third-party imports
+import pandas as pd
+
+# Local imports
+import hhnk_research_tools as hrt
 from hhnk_threedi_plugin.qgis_interaction.project import Layer, Project
 # from hhnk_threedi_plugin.qgis_interaction.styling import path as PATH #TODO deze verwijderen uit init?
 from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
 from hhnk_threedi_tools.core.folders import Folders
-import pandas as pd
-import os
 
+# globals
+STYLING_DIR = pathlib.Path(__file__).parent / "styling"
 
 def load_layers(folder: Folders, df_path, revisions=None, subjects=None, group_index=-1, remove_layer=False):
     """creates groups, loads layers in project and adds themes based on input df.
@@ -47,7 +55,6 @@ def load_layers(folder: Folders, df_path, revisions=None, subjects=None, group_i
             project.add_layer(layer=layer, group_lst=group_lst)
 
     project.generate_themes()
-
 
 
 def load_sqlite(filepath=r"C:\Users\wvangerwen\Downloads\model_test_v2\02_Model\bwn_test.sqlite"):
@@ -104,6 +111,3 @@ def load_sqlite(filepath=r"C:\Users\wvangerwen\Downloads\model_test_v2\02_Model\
                                         filepath=filepath)
 
     threeditoolbox.result_selection_tool.dialog.close() #close the window when loading is done.
-
-
-
