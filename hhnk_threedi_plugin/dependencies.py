@@ -75,7 +75,7 @@ FLEXIBLE_DEPENDENCIES = [
     Dependency("hhnk_threedi_tools","hhnk_threedi_tools","0.9.2", "==0.9.2", True, "external-dependencies" , True),
     Dependency("hhnk_research_tools","hhnk_research_tools","0.8", "==0.8", True, "external-dependencies" , True), 
     Dependency("threedi_raster_edits","threedi_raster_edits","0.26", "==0.26", True, "external-dependencies" , True),  
-    Dependency("threedi_scenario_downloader","threedi_scenario_downloader","0.15", "==0.15", True, "external-dependencies" , True),  
+    Dependency("threedi_scenario_downloader","threedi_scenario_downloader","0.16", "==0.16", True, "external-dependencies" , True),  
     Dependency("pytest","pytest", "7.1.2", "7.1.2", False, "external-dependencies" , False),  
 ]
 
