@@ -99,15 +99,18 @@
          </widget>
         </item>
         <item>
-         <widget class="QgsFileWidget" name="polder_selector" native="true">
+         <widget class="QgsFileWidget" name="polder_selector">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="dialogTitle" stdset="0">
+          <property name="dialogTitle">
            <string>Selecteer polder map</string>
+          </property>
+          <property name="storageMode">
+           <enum>QgsFileWidget::GetDirectory</enum>
           </property>
          </widget>
         </item>
@@ -328,8 +331,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>315</width>
-             <height>381</height>
+             <width>98</width>
+             <height>47</height>
             </rect>
            </property>
            <attribute name="label">
