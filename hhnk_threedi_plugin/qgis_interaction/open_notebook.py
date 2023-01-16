@@ -113,6 +113,11 @@ class NotebookWidget():
         notebook_paths = [str(THREEDI_DIR),str(DEPENDENCY_DIR)]
         if local_settings.hhnk_threedi_tools_path not in [None, '']:
             notebook_paths.append(local_settings.hhnk_threedi_tools_path)
+        try:     
+            if local_settings.hhnk_research_tools_path not in [None, '']:
+                notebook_paths.append(local_settings.hhnk_research_tools_path)
+        except:
+            pass
         htt.add_notebook_paths(notebook_paths)
         
     def start_server(self):

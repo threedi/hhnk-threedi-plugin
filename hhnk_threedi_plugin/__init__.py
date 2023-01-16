@@ -43,6 +43,19 @@ if local_settings.DEBUG:
             del(sys.modules[m])
         import hhnk_threedi_tools
 
+    try: 
+        if local_settings.hhnk_research_tools_path not in sys.path:
+            sys.path.insert(0, local_settings.hhnk_research_tools_path)
+
+            # reload hhnk_threedi_tools and all modules within when reloading the plugin in QGIS.
+            # Does not work with importlib.reload.
+            import hhnk_research_tools
+            for m in [i for i in sys.modules.keys() if i.startswith('hhnk_research_tools')]:
+                del(sys.modules[m])
+            import hhnk_research_tools
+    except:
+        pass
+
     #sys.path.append(local_settings.threeditoolbox_path)
 
 # noinspection PyPep8Naming
