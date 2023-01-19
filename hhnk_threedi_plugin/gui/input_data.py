@@ -68,7 +68,7 @@ def setupUi(input_data):
         file_dialog_title="Selecteer een model (.sqlite)",
         file_mode=QFileDialog.ExistingFile,
         name_filter="*.sqlite",    )
-    input_data.model_selector.setEnabled(False)
+    input_data.model_selector.setEnabled(True)
 
     input_data.dem_label = QLabel("Selecteer DEM raster")
     input_data.dem_selector = fileWidget(

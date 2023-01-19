@@ -15,7 +15,9 @@ def build_layer_dicts(type):
         layer_names_dict["profiles_used_channel_width_layer_name"] = "watergangen_breedte"
         layer_names_dict["profiles_used_channel_depth_layer_name"] = "watergangen_diepte"
         layer_names_dict["dewatering_depth_layer_name"] = "ontwateringsdiepte"
-        layer_names_dict["watersurface_area_layer_name"] = "oppervlaktewater"
+        layer_names_dict["watersurface_area_layer_name"] = "oppervlaktewater"  
+        layer_names_dict["cross_section_warning_layer_name"] = "overlappende_profielen"
+        layer_names_dict["cross_section_intersection_layer_name"] = "profielen_geen_vertex"
 
     if type == 2:
         layer_names_dict["hidden_hyd_test_channels_layer_name"] = "hd_watergang_segmenten"

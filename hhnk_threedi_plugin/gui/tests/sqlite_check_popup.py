@@ -1,3 +1,4 @@
+from msilib.schema import CheckBox
 from PyQt5.QtWidgets import (
     QPushButton,
     QVBoxLayout,
@@ -123,6 +124,11 @@ def setupUi(sqlite_dialog):
     sqlite_dialog.isolated_channels_chk.setObjectName("isolated_channels_chk")
     sqlite_dialog.grid_chk = QCheckBox("Genereer grid")
     sqlite_dialog.grid_chk.setObjectName("grid_chk")
+    sqlite_dialog.cross_section_chk = QCheckBox("Profile controle")
+    sqlite_dialog.cross_section_chk.setObjectName("cross_section_chk")
+    sqlite_dialog.cross_section_intersection_chk = QCheckBox("Profiel snijpunt in vertex")
+    sqlite_dialog.cross_section_intersection_chk.setObjectName("cross_section_intersection_chk")
+
 
 
     # Create slow tests checkboxes and group
@@ -177,6 +183,8 @@ def setupUi(sqlite_dialog):
     verif_layout.addWidget(sqlite_dialog.general_tests_chk)
     verif_layout.addWidget(sqlite_dialog.isolated_channels_chk)
     verif_layout.addWidget(sqlite_dialog.grid_chk)
+    verif_layout.addWidget(sqlite_dialog.cross_section_chk)
+    verif_layout.addWidget(sqlite_dialog.cross_section_intersection_chk)
     sqlite_dialog.data_verification.setLayout(verif_layout)
 
     # Slow tests
