@@ -12,7 +12,11 @@
       <end></end>
     </fixedRange>
   </temporal>
-  <renderer-v2 forceraster="0" type="singleSymbol" enableorderby="0" referencescale="-1" symbollevels="0">
+  <renderer-v2 forceraster="0" type="RuleRenderer" enableorderby="0" referencescale="-1" symbollevels="0">
+    <rules key="{47b6312f-ceb4-4432-9aaf-3a444388fb29}">
+      <rule symbol="0" filter="&quot;WS_CATEGORIE&quot; = 1" label="Primair" key="{bc1d6065-a091-4673-9463-5646a848dda0}"/>
+      <rule symbol="1" filter="ELSE" label="anders" key="{31eb171d-5fe7-4ee6-a6f1-48c61c9c297d}"/>
+    </rules>
     <symbols>
       <symbol alpha="1" type="marker" name="0" force_rhr="0" clip_to_extent="1">
         <data_defined_properties>
@@ -22,142 +26,192 @@
             <Option type="QString" name="type" value="collection"/>
           </Option>
         </data_defined_properties>
-        <layer locked="0" class="SimpleMarker" enabled="1" pass="0">
+        <layer locked="0" class="FontMarker" enabled="1" pass="0">
           <Option type="Map">
             <Option type="QString" name="angle" value="90"/>
-            <Option type="QString" name="cap_style" value="square"/>
+            <Option type="QString" name="chr" value="["/>
             <Option type="QString" name="color" value="35,35,35,255"/>
+            <Option type="QString" name="font" value="MS Shell Dlg 2"/>
+            <Option type="QString" name="font_style" value="Standaard"/>
             <Option type="QString" name="horizontal_anchor_point" value="1"/>
             <Option type="QString" name="joinstyle" value="miter"/>
-            <Option type="QString" name="name" value="line"/>
-            <Option type="QString" name="offset" value="-0.84000000000000008,0"/>
-            <Option type="QString" name="offset_map_unit_scale" value="3x:0,0,0,0,0,0"/>
-            <Option type="QString" name="offset_unit" value="MM"/>
-            <Option type="QString" name="outline_color" value="51,160,44,255"/>
-            <Option type="QString" name="outline_style" value="solid"/>
-            <Option type="QString" name="outline_width" value="0.4"/>
-            <Option type="QString" name="outline_width_map_unit_scale" value="3x:0,0,0,0,0,0"/>
-            <Option type="QString" name="outline_width_unit" value="MM"/>
-            <Option type="QString" name="scale_method" value="diameter"/>
-            <Option type="QString" name="size" value="2.8"/>
-            <Option type="QString" name="size_map_unit_scale" value="3x:0,0,0,0,0,0"/>
-            <Option type="QString" name="size_unit" value="MM"/>
-            <Option type="QString" name="vertical_anchor_point" value="1"/>
-          </Option>
-          <prop k="angle" v="90"/>
-          <prop k="cap_style" v="square"/>
-          <prop k="color" v="35,35,35,255"/>
-          <prop k="horizontal_anchor_point" v="1"/>
-          <prop k="joinstyle" v="miter"/>
-          <prop k="name" v="line"/>
-          <prop k="offset" v="-0.84000000000000008,0"/>
-          <prop k="offset_map_unit_scale" v="3x:0,0,0,0,0,0"/>
-          <prop k="offset_unit" v="MM"/>
-          <prop k="outline_color" v="51,160,44,255"/>
-          <prop k="outline_style" v="solid"/>
-          <prop k="outline_width" v="0.4"/>
-          <prop k="outline_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
-          <prop k="outline_width_unit" v="MM"/>
-          <prop k="scale_method" v="diameter"/>
-          <prop k="size" v="2.8"/>
-          <prop k="size_map_unit_scale" v="3x:0,0,0,0,0,0"/>
-          <prop k="size_unit" v="MM"/>
-          <prop k="vertical_anchor_point" v="1"/>
-          <data_defined_properties>
-            <Option type="Map">
-              <Option type="QString" name="name" value=""/>
-              <Option name="properties"/>
-              <Option type="QString" name="type" value="collection"/>
-            </Option>
-          </data_defined_properties>
-        </layer>
-        <layer locked="0" class="SimpleMarker" enabled="1" pass="0">
-          <Option type="Map">
-            <Option type="QString" name="angle" value="90"/>
-            <Option type="QString" name="cap_style" value="square"/>
-            <Option type="QString" name="color" value="35,35,35,255"/>
-            <Option type="QString" name="horizontal_anchor_point" value="1"/>
-            <Option type="QString" name="joinstyle" value="miter"/>
-            <Option type="QString" name="name" value="line"/>
-            <Option type="QString" name="offset" value="0.84000000000000008,0.00000000000000001"/>
-            <Option type="QString" name="offset_map_unit_scale" value="3x:0,0,0,0,0,0"/>
-            <Option type="QString" name="offset_unit" value="MM"/>
-            <Option type="QString" name="outline_color" value="51,160,44,255"/>
-            <Option type="QString" name="outline_style" value="solid"/>
-            <Option type="QString" name="outline_width" value="0.4"/>
-            <Option type="QString" name="outline_width_map_unit_scale" value="3x:0,0,0,0,0,0"/>
-            <Option type="QString" name="outline_width_unit" value="MM"/>
-            <Option type="QString" name="scale_method" value="diameter"/>
-            <Option type="QString" name="size" value="2.8"/>
-            <Option type="QString" name="size_map_unit_scale" value="3x:0,0,0,0,0,0"/>
-            <Option type="QString" name="size_unit" value="MM"/>
-            <Option type="QString" name="vertical_anchor_point" value="1"/>
-          </Option>
-          <prop k="angle" v="90"/>
-          <prop k="cap_style" v="square"/>
-          <prop k="color" v="35,35,35,255"/>
-          <prop k="horizontal_anchor_point" v="1"/>
-          <prop k="joinstyle" v="miter"/>
-          <prop k="name" v="line"/>
-          <prop k="offset" v="0.84000000000000008,0.00000000000000001"/>
-          <prop k="offset_map_unit_scale" v="3x:0,0,0,0,0,0"/>
-          <prop k="offset_unit" v="MM"/>
-          <prop k="outline_color" v="51,160,44,255"/>
-          <prop k="outline_style" v="solid"/>
-          <prop k="outline_width" v="0.4"/>
-          <prop k="outline_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
-          <prop k="outline_width_unit" v="MM"/>
-          <prop k="scale_method" v="diameter"/>
-          <prop k="size" v="2.8"/>
-          <prop k="size_map_unit_scale" v="3x:0,0,0,0,0,0"/>
-          <prop k="size_unit" v="MM"/>
-          <prop k="vertical_anchor_point" v="1"/>
-          <data_defined_properties>
-            <Option type="Map">
-              <Option type="QString" name="name" value=""/>
-              <Option name="properties"/>
-              <Option type="QString" name="type" value="collection"/>
-            </Option>
-          </data_defined_properties>
-        </layer>
-        <layer locked="0" class="SimpleMarker" enabled="1" pass="0">
-          <Option type="Map">
-            <Option type="QString" name="angle" value="90"/>
-            <Option type="QString" name="cap_style" value="square"/>
-            <Option type="QString" name="color" value="51,160,44,255"/>
-            <Option type="QString" name="horizontal_anchor_point" value="1"/>
-            <Option type="QString" name="joinstyle" value="miter"/>
-            <Option type="QString" name="name" value="square"/>
             <Option type="QString" name="offset" value="0,0"/>
             <Option type="QString" name="offset_map_unit_scale" value="3x:0,0,0,0,0,0"/>
             <Option type="QString" name="offset_unit" value="MM"/>
-            <Option type="QString" name="outline_color" value="51,160,44,255"/>
-            <Option type="QString" name="outline_style" value="solid"/>
-            <Option type="QString" name="outline_width" value="0.4"/>
+            <Option type="QString" name="outline_color" value="255,255,255,255"/>
+            <Option type="QString" name="outline_width" value="0"/>
             <Option type="QString" name="outline_width_map_unit_scale" value="3x:0,0,0,0,0,0"/>
             <Option type="QString" name="outline_width_unit" value="MM"/>
-            <Option type="QString" name="scale_method" value="diameter"/>
-            <Option type="QString" name="size" value="1.68"/>
+            <Option type="QString" name="size" value="6"/>
             <Option type="QString" name="size_map_unit_scale" value="3x:0,0,0,0,0,0"/>
             <Option type="QString" name="size_unit" value="MM"/>
             <Option type="QString" name="vertical_anchor_point" value="1"/>
           </Option>
           <prop k="angle" v="90"/>
-          <prop k="cap_style" v="square"/>
-          <prop k="color" v="51,160,44,255"/>
+          <prop k="chr" v="["/>
+          <prop k="color" v="35,35,35,255"/>
+          <prop k="font" v="MS Shell Dlg 2"/>
+          <prop k="font_style" v="Standaard"/>
           <prop k="horizontal_anchor_point" v="1"/>
           <prop k="joinstyle" v="miter"/>
-          <prop k="name" v="square"/>
           <prop k="offset" v="0,0"/>
           <prop k="offset_map_unit_scale" v="3x:0,0,0,0,0,0"/>
           <prop k="offset_unit" v="MM"/>
-          <prop k="outline_color" v="51,160,44,255"/>
-          <prop k="outline_style" v="solid"/>
-          <prop k="outline_width" v="0.4"/>
+          <prop k="outline_color" v="255,255,255,255"/>
+          <prop k="outline_width" v="0"/>
           <prop k="outline_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
           <prop k="outline_width_unit" v="MM"/>
-          <prop k="scale_method" v="diameter"/>
-          <prop k="size" v="1.68"/>
+          <prop k="size" v="6"/>
+          <prop k="size_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+          <prop k="size_unit" v="MM"/>
+          <prop k="vertical_anchor_point" v="1"/>
+          <data_defined_properties>
+            <Option type="Map">
+              <Option type="QString" name="name" value=""/>
+              <Option name="properties"/>
+              <Option type="QString" name="type" value="collection"/>
+            </Option>
+          </data_defined_properties>
+        </layer>
+        <layer locked="0" class="FontMarker" enabled="1" pass="0">
+          <Option type="Map">
+            <Option type="QString" name="angle" value="90"/>
+            <Option type="QString" name="chr" value="]"/>
+            <Option type="QString" name="color" value="35,35,35,255"/>
+            <Option type="QString" name="font" value="MS Shell Dlg 2"/>
+            <Option type="QString" name="font_style" value="Standaard"/>
+            <Option type="QString" name="horizontal_anchor_point" value="1"/>
+            <Option type="QString" name="joinstyle" value="miter"/>
+            <Option type="QString" name="offset" value="-1.79999999999999982,0.00000000000000006"/>
+            <Option type="QString" name="offset_map_unit_scale" value="3x:0,0,0,0,0,0"/>
+            <Option type="QString" name="offset_unit" value="MM"/>
+            <Option type="QString" name="outline_color" value="255,255,255,255"/>
+            <Option type="QString" name="outline_width" value="0"/>
+            <Option type="QString" name="outline_width_map_unit_scale" value="3x:0,0,0,0,0,0"/>
+            <Option type="QString" name="outline_width_unit" value="MM"/>
+            <Option type="QString" name="size" value="6"/>
+            <Option type="QString" name="size_map_unit_scale" value="3x:0,0,0,0,0,0"/>
+            <Option type="QString" name="size_unit" value="MM"/>
+            <Option type="QString" name="vertical_anchor_point" value="1"/>
+          </Option>
+          <prop k="angle" v="90"/>
+          <prop k="chr" v="]"/>
+          <prop k="color" v="35,35,35,255"/>
+          <prop k="font" v="MS Shell Dlg 2"/>
+          <prop k="font_style" v="Standaard"/>
+          <prop k="horizontal_anchor_point" v="1"/>
+          <prop k="joinstyle" v="miter"/>
+          <prop k="offset" v="-1.79999999999999982,0.00000000000000006"/>
+          <prop k="offset_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+          <prop k="offset_unit" v="MM"/>
+          <prop k="outline_color" v="255,255,255,255"/>
+          <prop k="outline_width" v="0"/>
+          <prop k="outline_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+          <prop k="outline_width_unit" v="MM"/>
+          <prop k="size" v="6"/>
+          <prop k="size_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+          <prop k="size_unit" v="MM"/>
+          <prop k="vertical_anchor_point" v="1"/>
+          <data_defined_properties>
+            <Option type="Map">
+              <Option type="QString" name="name" value=""/>
+              <Option name="properties"/>
+              <Option type="QString" name="type" value="collection"/>
+            </Option>
+          </data_defined_properties>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="marker" name="1" force_rhr="0" clip_to_extent="1">
+        <data_defined_properties>
+          <Option type="Map">
+            <Option type="QString" name="name" value=""/>
+            <Option name="properties"/>
+            <Option type="QString" name="type" value="collection"/>
+          </Option>
+        </data_defined_properties>
+        <layer locked="0" class="FontMarker" enabled="1" pass="0">
+          <Option type="Map">
+            <Option type="QString" name="angle" value="90"/>
+            <Option type="QString" name="chr" value="["/>
+            <Option type="QString" name="color" value="35,35,35,255"/>
+            <Option type="QString" name="font" value="MS Shell Dlg 2"/>
+            <Option type="QString" name="font_style" value="Standaard"/>
+            <Option type="QString" name="horizontal_anchor_point" value="1"/>
+            <Option type="QString" name="joinstyle" value="miter"/>
+            <Option type="QString" name="offset" value="0,0"/>
+            <Option type="QString" name="offset_map_unit_scale" value="3x:0,0,0,0,0,0"/>
+            <Option type="QString" name="offset_unit" value="MM"/>
+            <Option type="QString" name="outline_color" value="255,255,255,255"/>
+            <Option type="QString" name="outline_width" value="0"/>
+            <Option type="QString" name="outline_width_map_unit_scale" value="3x:0,0,0,0,0,0"/>
+            <Option type="QString" name="outline_width_unit" value="MM"/>
+            <Option type="QString" name="size" value="4"/>
+            <Option type="QString" name="size_map_unit_scale" value="3x:0,0,0,0,0,0"/>
+            <Option type="QString" name="size_unit" value="MM"/>
+            <Option type="QString" name="vertical_anchor_point" value="1"/>
+          </Option>
+          <prop k="angle" v="90"/>
+          <prop k="chr" v="["/>
+          <prop k="color" v="35,35,35,255"/>
+          <prop k="font" v="MS Shell Dlg 2"/>
+          <prop k="font_style" v="Standaard"/>
+          <prop k="horizontal_anchor_point" v="1"/>
+          <prop k="joinstyle" v="miter"/>
+          <prop k="offset" v="0,0"/>
+          <prop k="offset_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+          <prop k="offset_unit" v="MM"/>
+          <prop k="outline_color" v="255,255,255,255"/>
+          <prop k="outline_width" v="0"/>
+          <prop k="outline_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+          <prop k="outline_width_unit" v="MM"/>
+          <prop k="size" v="4"/>
+          <prop k="size_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+          <prop k="size_unit" v="MM"/>
+          <prop k="vertical_anchor_point" v="1"/>
+          <data_defined_properties>
+            <Option type="Map">
+              <Option type="QString" name="name" value=""/>
+              <Option name="properties"/>
+              <Option type="QString" name="type" value="collection"/>
+            </Option>
+          </data_defined_properties>
+        </layer>
+        <layer locked="0" class="FontMarker" enabled="1" pass="0">
+          <Option type="Map">
+            <Option type="QString" name="angle" value="90"/>
+            <Option type="QString" name="chr" value="]"/>
+            <Option type="QString" name="color" value="35,35,35,255"/>
+            <Option type="QString" name="font" value="MS Shell Dlg 2"/>
+            <Option type="QString" name="font_style" value="Standaard"/>
+            <Option type="QString" name="horizontal_anchor_point" value="1"/>
+            <Option type="QString" name="joinstyle" value="miter"/>
+            <Option type="QString" name="offset" value="-1.19999999999999951,0.00000000000000004"/>
+            <Option type="QString" name="offset_map_unit_scale" value="3x:0,0,0,0,0,0"/>
+            <Option type="QString" name="offset_unit" value="MM"/>
+            <Option type="QString" name="outline_color" value="255,255,255,255"/>
+            <Option type="QString" name="outline_width" value="0"/>
+            <Option type="QString" name="outline_width_map_unit_scale" value="3x:0,0,0,0,0,0"/>
+            <Option type="QString" name="outline_width_unit" value="MM"/>
+            <Option type="QString" name="size" value="4"/>
+            <Option type="QString" name="size_map_unit_scale" value="3x:0,0,0,0,0,0"/>
+            <Option type="QString" name="size_unit" value="MM"/>
+            <Option type="QString" name="vertical_anchor_point" value="1"/>
+          </Option>
+          <prop k="angle" v="90"/>
+          <prop k="chr" v="]"/>
+          <prop k="color" v="35,35,35,255"/>
+          <prop k="font" v="MS Shell Dlg 2"/>
+          <prop k="font_style" v="Standaard"/>
+          <prop k="horizontal_anchor_point" v="1"/>
+          <prop k="joinstyle" v="miter"/>
+          <prop k="offset" v="-1.19999999999999951,0.00000000000000004"/>
+          <prop k="offset_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+          <prop k="offset_unit" v="MM"/>
+          <prop k="outline_color" v="255,255,255,255"/>
+          <prop k="outline_width" v="0"/>
+          <prop k="outline_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+          <prop k="outline_width_unit" v="MM"/>
+          <prop k="size" v="4"/>
           <prop k="size_map_unit_scale" v="3x:0,0,0,0,0,0"/>
           <prop k="size_unit" v="MM"/>
           <prop k="vertical_anchor_point" v="1"/>
@@ -171,8 +225,6 @@
         </layer>
       </symbol>
     </symbols>
-    <rotation/>
-    <sizescale/>
   </renderer-v2>
   <customproperties>
     <Option type="Map">
@@ -298,7 +350,7 @@
         </config>
       </editWidget>
     </field>
-    <field name="id" configurationFlags="None">
+    <field name="Brug_ID" configurationFlags="None">
       <editWidget type="TextEdit">
         <config>
           <Option type="Map">
@@ -308,7 +360,7 @@
         </config>
       </editWidget>
     </field>
-    <field name="code" configurationFlags="None">
+    <field name="CODE" configurationFlags="None">
       <editWidget type="TextEdit">
         <config>
           <Option type="Map">
@@ -318,7 +370,7 @@
         </config>
       </editWidget>
     </field>
-    <field name="channel_code" configurationFlags="None">
+    <field name="HOOGTEONDERZIJDE" configurationFlags="None">
       <editWidget type="TextEdit">
         <config>
           <Option type="Map">
@@ -328,7 +380,14 @@
         </config>
       </editWidget>
     </field>
-    <field name="opmerking" configurationFlags="None">
+    <field name="DOORVAARTBREEDTE" configurationFlags="None">
+      <editWidget type="TextEdit">
+        <config>
+          <Option/>
+        </config>
+      </editWidget>
+    </field>
+    <field name="WS_CATEGORIE" configurationFlags="None">
       <editWidget type="TextEdit">
         <config>
           <Option type="Map">
@@ -338,91 +397,75 @@
         </config>
       </editWidget>
     </field>
-    <field name="wgtype_id" configurationFlags="None">
+    <field name="Som_doorstroombreedte" configurationFlags="None">
       <editWidget type="TextEdit">
         <config>
-          <Option type="Map">
-            <Option type="QString" name="IsMultiline" value="0"/>
-            <Option type="QString" name="UseHtml" value="0"/>
-          </Option>
+          <Option/>
         </config>
       </editWidget>
     </field>
-    <field name="channel_type_id" configurationFlags="None">
+    <field name="Aantal_doorstroomopeningen" configurationFlags="None">
       <editWidget type="TextEdit">
         <config>
-          <Option type="Map">
-            <Option type="QString" name="IsMultiline" value="0"/>
-            <Option type="QString" name="UseHtml" value="0"/>
-          </Option>
-        </config>
-      </editWidget>
-    </field>
-    <field name="isusable" configurationFlags="None">
-      <editWidget type="TextEdit">
-        <config>
-          <Option type="Map">
-            <Option type="QString" name="IsMultiline" value="0"/>
-            <Option type="QString" name="UseHtml" value="0"/>
-          </Option>
+          <Option/>
         </config>
       </editWidget>
     </field>
   </fieldConfiguration>
   <aliases>
     <alias index="0" field="OBJECTID" name=""/>
-    <alias index="1" field="id" name=""/>
-    <alias index="2" field="code" name=""/>
-    <alias index="3" field="channel_code" name=""/>
-    <alias index="4" field="opmerking" name=""/>
-    <alias index="5" field="wgtype_id" name=""/>
-    <alias index="6" field="channel_type_id" name=""/>
-    <alias index="7" field="isusable" name=""/>
+    <alias index="1" field="Brug_ID" name=""/>
+    <alias index="2" field="CODE" name=""/>
+    <alias index="3" field="HOOGTEONDERZIJDE" name=""/>
+    <alias index="4" field="DOORVAARTBREEDTE" name=""/>
+    <alias index="5" field="WS_CATEGORIE" name=""/>
+    <alias index="6" field="Som_doorstroombreedte" name=""/>
+    <alias index="7" field="Aantal_doorstroomopeningen" name=""/>
   </aliases>
   <defaults>
     <default field="OBJECTID" expression="" applyOnUpdate="0"/>
-    <default field="id" expression="" applyOnUpdate="0"/>
-    <default field="code" expression="" applyOnUpdate="0"/>
-    <default field="channel_code" expression="" applyOnUpdate="0"/>
-    <default field="opmerking" expression="" applyOnUpdate="0"/>
-    <default field="wgtype_id" expression="" applyOnUpdate="0"/>
-    <default field="channel_type_id" expression="" applyOnUpdate="0"/>
-    <default field="isusable" expression="" applyOnUpdate="0"/>
+    <default field="Brug_ID" expression="" applyOnUpdate="0"/>
+    <default field="CODE" expression="" applyOnUpdate="0"/>
+    <default field="HOOGTEONDERZIJDE" expression="" applyOnUpdate="0"/>
+    <default field="DOORVAARTBREEDTE" expression="" applyOnUpdate="0"/>
+    <default field="WS_CATEGORIE" expression="" applyOnUpdate="0"/>
+    <default field="Som_doorstroombreedte" expression="" applyOnUpdate="0"/>
+    <default field="Aantal_doorstroomopeningen" expression="" applyOnUpdate="0"/>
   </defaults>
   <constraints>
     <constraint field="OBJECTID" notnull_strength="1" constraints="3" exp_strength="0" unique_strength="1"/>
-    <constraint field="id" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
-    <constraint field="code" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
-    <constraint field="channel_code" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
-    <constraint field="opmerking" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
-    <constraint field="wgtype_id" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
-    <constraint field="channel_type_id" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
-    <constraint field="isusable" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
+    <constraint field="Brug_ID" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
+    <constraint field="CODE" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
+    <constraint field="HOOGTEONDERZIJDE" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
+    <constraint field="DOORVAARTBREEDTE" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
+    <constraint field="WS_CATEGORIE" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
+    <constraint field="Som_doorstroombreedte" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
+    <constraint field="Aantal_doorstroomopeningen" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
   </constraints>
   <constraintExpressions>
     <constraint field="OBJECTID" desc="" exp=""/>
-    <constraint field="id" desc="" exp=""/>
-    <constraint field="code" desc="" exp=""/>
-    <constraint field="channel_code" desc="" exp=""/>
-    <constraint field="opmerking" desc="" exp=""/>
-    <constraint field="wgtype_id" desc="" exp=""/>
-    <constraint field="channel_type_id" desc="" exp=""/>
-    <constraint field="isusable" desc="" exp=""/>
+    <constraint field="Brug_ID" desc="" exp=""/>
+    <constraint field="CODE" desc="" exp=""/>
+    <constraint field="HOOGTEONDERZIJDE" desc="" exp=""/>
+    <constraint field="DOORVAARTBREEDTE" desc="" exp=""/>
+    <constraint field="WS_CATEGORIE" desc="" exp=""/>
+    <constraint field="Som_doorstroombreedte" desc="" exp=""/>
+    <constraint field="Aantal_doorstroomopeningen" desc="" exp=""/>
   </constraintExpressions>
   <expressionfields/>
   <attributeactions>
     <defaultAction value="{00000000-0000-0000-0000-000000000000}" key="Canvas"/>
   </attributeactions>
-  <attributetableconfig sortExpression="&quot;WS_CATEGORIE&quot;" sortOrder="1" actionWidgetStyle="dropDown">
+  <attributetableconfig sortExpression="" sortOrder="0" actionWidgetStyle="dropDown">
     <columns>
       <column hidden="0" width="-1" type="field" name="OBJECTID"/>
-      <column hidden="0" width="-1" type="field" name="id"/>
-      <column hidden="0" width="-1" type="field" name="code"/>
-      <column hidden="0" width="-1" type="field" name="channel_code"/>
-      <column hidden="0" width="-1" type="field" name="opmerking"/>
-      <column hidden="0" width="-1" type="field" name="wgtype_id"/>
-      <column hidden="0" width="-1" type="field" name="channel_type_id"/>
-      <column hidden="0" width="-1" type="field" name="isusable"/>
+      <column hidden="0" width="-1" type="field" name="CODE"/>
+      <column hidden="0" width="-1" type="field" name="HOOGTEONDERZIJDE"/>
+      <column hidden="0" width="-1" type="field" name="WS_CATEGORIE"/>
+      <column hidden="0" width="-1" type="field" name="Brug_ID"/>
+      <column hidden="0" width="-1" type="field" name="DOORVAARTBREEDTE"/>
+      <column hidden="0" width="-1" type="field" name="Som_doorstroombreedte"/>
+      <column hidden="0" width="-1" type="field" name="Aantal_doorstroomopeningen"/>
       <column hidden="1" width="-1" type="actions"/>
     </columns>
   </attributetableconfig>
@@ -463,13 +506,6 @@ def my_form_open(dialog, layer, feature):
     <field name="OBJECTID" editable="1"/>
     <field name="Som_doorstroombreedte" editable="1"/>
     <field name="WS_CATEGORIE" editable="1"/>
-    <field name="channel_code" editable="1"/>
-    <field name="channel_type_id" editable="1"/>
-    <field name="code" editable="1"/>
-    <field name="id" editable="1"/>
-    <field name="isusable" editable="1"/>
-    <field name="opmerking" editable="1"/>
-    <field name="wgtype_id" editable="1"/>
   </editable>
   <labelOnTop>
     <field name="Aantal_doorstroomopeningen" labelOnTop="0"/>
@@ -480,13 +516,6 @@ def my_form_open(dialog, layer, feature):
     <field name="OBJECTID" labelOnTop="0"/>
     <field name="Som_doorstroombreedte" labelOnTop="0"/>
     <field name="WS_CATEGORIE" labelOnTop="0"/>
-    <field name="channel_code" labelOnTop="0"/>
-    <field name="channel_type_id" labelOnTop="0"/>
-    <field name="code" labelOnTop="0"/>
-    <field name="id" labelOnTop="0"/>
-    <field name="isusable" labelOnTop="0"/>
-    <field name="opmerking" labelOnTop="0"/>
-    <field name="wgtype_id" labelOnTop="0"/>
   </labelOnTop>
   <reuseLastValue>
     <field name="Aantal_doorstroomopeningen" reuseLastValue="0"/>
@@ -497,17 +526,10 @@ def my_form_open(dialog, layer, feature):
     <field name="OBJECTID" reuseLastValue="0"/>
     <field name="Som_doorstroombreedte" reuseLastValue="0"/>
     <field name="WS_CATEGORIE" reuseLastValue="0"/>
-    <field name="channel_code" reuseLastValue="0"/>
-    <field name="channel_type_id" reuseLastValue="0"/>
-    <field name="code" reuseLastValue="0"/>
-    <field name="id" reuseLastValue="0"/>
-    <field name="isusable" reuseLastValue="0"/>
-    <field name="opmerking" reuseLastValue="0"/>
-    <field name="wgtype_id" reuseLastValue="0"/>
   </reuseLastValue>
   <dataDefinedFieldProperties/>
   <widgets/>
-  <previewExpression>"code"</previewExpression>
+  <previewExpression>"CODE"</previewExpression>
   <mapTip></mapTip>
   <layerGeometryType>0</layerGeometryType>
 </qgis>

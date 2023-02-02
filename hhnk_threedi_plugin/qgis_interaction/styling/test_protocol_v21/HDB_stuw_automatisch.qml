@@ -26,10 +26,10 @@
           <Option type="Map">
             <Option type="QString" name="angle" value="180"/>
             <Option type="QString" name="cap_style" value="square"/>
-            <Option type="QString" name="color" value="51,160,44,255"/>
+            <Option type="QString" name="color" value="178,223,138,255"/>
             <Option type="QString" name="horizontal_anchor_point" value="1"/>
             <Option type="QString" name="joinstyle" value="bevel"/>
-            <Option type="QString" name="name" value="square_with_corners"/>
+            <Option type="QString" name="name" value="equilateral_triangle"/>
             <Option type="QString" name="offset" value="0,0"/>
             <Option type="QString" name="offset_map_unit_scale" value="3x:0,0,0,0,0,0"/>
             <Option type="QString" name="offset_unit" value="MM"/>
@@ -39,17 +39,17 @@
             <Option type="QString" name="outline_width_map_unit_scale" value="3x:0,0,0,0,0,0"/>
             <Option type="QString" name="outline_width_unit" value="MM"/>
             <Option type="QString" name="scale_method" value="diameter"/>
-            <Option type="QString" name="size" value="3.64706"/>
+            <Option type="QString" name="size" value="6.2"/>
             <Option type="QString" name="size_map_unit_scale" value="3x:0,0,0,0,0,0"/>
             <Option type="QString" name="size_unit" value="MM"/>
             <Option type="QString" name="vertical_anchor_point" value="1"/>
           </Option>
           <prop k="angle" v="180"/>
           <prop k="cap_style" v="square"/>
-          <prop k="color" v="51,160,44,255"/>
+          <prop k="color" v="178,223,138,255"/>
           <prop k="horizontal_anchor_point" v="1"/>
           <prop k="joinstyle" v="bevel"/>
-          <prop k="name" v="square_with_corners"/>
+          <prop k="name" v="equilateral_triangle"/>
           <prop k="offset" v="0,0"/>
           <prop k="offset_map_unit_scale" v="3x:0,0,0,0,0,0"/>
           <prop k="offset_unit" v="MM"/>
@@ -59,7 +59,7 @@
           <prop k="outline_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
           <prop k="outline_width_unit" v="MM"/>
           <prop k="scale_method" v="diameter"/>
-          <prop k="size" v="3.64706"/>
+          <prop k="size" v="6.2"/>
           <prop k="size_map_unit_scale" v="3x:0,0,0,0,0,0"/>
           <prop k="size_unit" v="MM"/>
           <prop k="vertical_anchor_point" v="1"/>
@@ -82,7 +82,7 @@
             <Option type="QString" name="offset_map_unit_scale" value="3x:0,0,0,0,0,0"/>
             <Option type="QString" name="offset_unit" value="Point"/>
             <Option type="QString" name="scale_method" value="diameter"/>
-            <Option type="QString" name="size" value="10"/>
+            <Option type="QString" name="size" value="17"/>
             <Option type="QString" name="size_map_unit_scale" value="3x:0,0,0,0,0,0"/>
             <Option type="QString" name="size_unit" value="Point"/>
             <Option type="QString" name="vertical_anchor_point" value="1"/>
@@ -96,7 +96,7 @@
           <prop k="offset_map_unit_scale" v="3x:0,0,0,0,0,0"/>
           <prop k="offset_unit" v="Point"/>
           <prop k="scale_method" v="diameter"/>
-          <prop k="size" v="10"/>
+          <prop k="size" v="17"/>
           <prop k="size_map_unit_scale" v="3x:0,0,0,0,0,0"/>
           <prop k="size_unit" v="Point"/>
           <prop k="vertical_anchor_point" v="1"/>
@@ -228,7 +228,7 @@
         </config>
       </editWidget>
     </field>
-    <field name="id" configurationFlags="None">
+    <field name="MEETVARIABELE" configurationFlags="None">
       <editWidget type="TextEdit">
         <config>
           <Option type="Map">
@@ -238,7 +238,7 @@
         </config>
       </editWidget>
     </field>
-    <field name="organisation_id" configurationFlags="None">
+    <field name="ACTIEVARIABELE" configurationFlags="None">
       <editWidget type="TextEdit">
         <config>
           <Option type="Map">
@@ -248,7 +248,7 @@
         </config>
       </editWidget>
     </field>
-    <field name="created" configurationFlags="None">
+    <field name="DREMPEL" configurationFlags="None">
       <editWidget type="TextEdit">
         <config>
           <Option type="Map">
@@ -258,7 +258,14 @@
         </config>
       </editWidget>
     </field>
-    <field name="code" configurationFlags="None">
+    <field name="CODE" configurationFlags="None">
+      <editWidget type="TextEdit">
+        <config>
+          <Option/>
+        </config>
+      </editWidget>
+    </field>
+    <field name="STREEFPEIL" configurationFlags="None">
       <editWidget type="TextEdit">
         <config>
           <Option type="Map">
@@ -268,7 +275,7 @@
         </config>
       </editWidget>
     </field>
-    <field name="type" configurationFlags="None">
+    <field name="overlastpeil" configurationFlags="None">
       <editWidget type="TextEdit">
         <config>
           <Option type="Map">
@@ -278,7 +285,7 @@
         </config>
       </editWidget>
     </field>
-    <field name="crest_width" configurationFlags="None">
+    <field name="MIN_KRUINHOOGTE" configurationFlags="None">
       <editWidget type="TextEdit">
         <config>
           <Option type="Map">
@@ -288,7 +295,7 @@
         </config>
       </editWidget>
     </field>
-    <field name="crest_level" configurationFlags="None">
+    <field name="MAX_KRUINHOOGTE" configurationFlags="None">
       <editWidget type="TextEdit">
         <config>
           <Option type="Map">
@@ -298,7 +305,7 @@
         </config>
       </editWidget>
     </field>
-    <field name="name" configurationFlags="None">
+    <field name="MEETWAARDEN" configurationFlags="None">
       <editWidget type="TextEdit">
         <config>
           <Option type="Map">
@@ -308,7 +315,7 @@
         </config>
       </editWidget>
     </field>
-    <field name="lat_dis_coeff" configurationFlags="None">
+    <field name="ACTIEWAARDEN" configurationFlags="None">
       <editWidget type="TextEdit">
         <config>
           <Option type="Map">
@@ -318,7 +325,7 @@
         </config>
       </editWidget>
     </field>
-    <field name="angle" configurationFlags="None">
+    <field name="action_table" configurationFlags="None">
       <editWidget type="TextEdit">
         <config>
           <Option type="Map">
@@ -328,7 +335,7 @@
         </config>
       </editWidget>
     </field>
-    <field name="allowed_flow_direction" configurationFlags="None">
+    <field name="TYPE_KUNSTWERK" configurationFlags="None">
       <editWidget type="TextEdit">
         <config>
           <Option type="Map">
@@ -338,7 +345,7 @@
         </config>
       </editWidget>
     </field>
-    <field name="controlled" configurationFlags="None">
+    <field name="KeuzeRegeling" configurationFlags="None">
       <editWidget type="TextEdit">
         <config>
           <Option type="Map">
@@ -348,7 +355,7 @@
         </config>
       </editWidget>
     </field>
-    <field name="comment" configurationFlags="None">
+    <field name="PolderCluster" configurationFlags="None">
       <editWidget type="TextEdit">
         <config>
           <Option type="Map">
@@ -358,147 +365,7 @@
         </config>
       </editWidget>
     </field>
-    <field name="discharge_coeff" configurationFlags="None">
-      <editWidget type="TextEdit">
-        <config>
-          <Option type="Map">
-            <Option type="QString" name="IsMultiline" value="0"/>
-            <Option type="QString" name="UseHtml" value="0"/>
-          </Option>
-        </config>
-      </editWidget>
-    </field>
-    <field name="image_url" configurationFlags="None">
-      <editWidget type="TextEdit">
-        <config>
-          <Option type="Map">
-            <Option type="QString" name="IsMultiline" value="0"/>
-            <Option type="QString" name="UseHtml" value="0"/>
-          </Option>
-        </config>
-      </editWidget>
-    </field>
-    <field name="num_timeseries" configurationFlags="None">
-      <editWidget type="TextEdit">
-        <config>
-          <Option type="Map">
-            <Option type="QString" name="IsMultiline" value="0"/>
-            <Option type="QString" name="UseHtml" value="0"/>
-          </Option>
-        </config>
-      </editWidget>
-    </field>
-    <field name="weir_shape" configurationFlags="None">
-      <editWidget type="TextEdit">
-        <config>
-          <Option type="Map">
-            <Option type="QString" name="IsMultiline" value="0"/>
-            <Option type="QString" name="UseHtml" value="0"/>
-          </Option>
-        </config>
-      </editWidget>
-    </field>
-    <field name="controlled_fdla_code" configurationFlags="None">
-      <editWidget type="TextEdit">
-        <config>
-          <Option type="Map">
-            <Option type="QString" name="IsMultiline" value="0"/>
-            <Option type="QString" name="UseHtml" value="0"/>
-          </Option>
-        </config>
-      </editWidget>
-    </field>
-    <field name="channel_code" configurationFlags="None">
-      <editWidget type="TextEdit">
-        <config>
-          <Option type="Map">
-            <Option type="QString" name="IsMultiline" value="0"/>
-            <Option type="QString" name="UseHtml" value="0"/>
-          </Option>
-        </config>
-      </editWidget>
-    </field>
-    <field name="type_function" configurationFlags="None">
-      <editWidget type="TextEdit">
-        <config>
-          <Option type="Map">
-            <Option type="QString" name="IsMultiline" value="0"/>
-            <Option type="QString" name="UseHtml" value="0"/>
-          </Option>
-        </config>
-      </editWidget>
-    </field>
-    <field name="opmerking" configurationFlags="None">
-      <editWidget type="TextEdit">
-        <config>
-          <Option type="Map">
-            <Option type="QString" name="IsMultiline" value="0"/>
-            <Option type="QString" name="UseHtml" value="0"/>
-          </Option>
-        </config>
-      </editWidget>
-    </field>
-    <field name="wgtype_id" configurationFlags="None">
-      <editWidget type="TextEdit">
-        <config>
-          <Option type="Map">
-            <Option type="QString" name="IsMultiline" value="0"/>
-            <Option type="QString" name="UseHtml" value="0"/>
-          </Option>
-        </config>
-      </editWidget>
-    </field>
-    <field name="channel_type_id" configurationFlags="None">
-      <editWidget type="TextEdit">
-        <config>
-          <Option type="Map">
-            <Option type="QString" name="IsMultiline" value="0"/>
-            <Option type="QString" name="UseHtml" value="0"/>
-          </Option>
-        </config>
-      </editWidget>
-    </field>
-    <field name="opmerk_datamining" configurationFlags="None">
-      <editWidget type="TextEdit">
-        <config>
-          <Option type="Map">
-            <Option type="QString" name="IsMultiline" value="0"/>
-            <Option type="QString" name="UseHtml" value="0"/>
-          </Option>
-        </config>
-      </editWidget>
-    </field>
-    <field name="crest_height_datamining" configurationFlags="None">
-      <editWidget type="TextEdit">
-        <config>
-          <Option type="Map">
-            <Option type="QString" name="IsMultiline" value="0"/>
-            <Option type="QString" name="UseHtml" value="0"/>
-          </Option>
-        </config>
-      </editWidget>
-    </field>
-    <field name="aanname" configurationFlags="None">
-      <editWidget type="TextEdit">
-        <config>
-          <Option type="Map">
-            <Option type="QString" name="IsMultiline" value="0"/>
-            <Option type="QString" name="UseHtml" value="0"/>
-          </Option>
-        </config>
-      </editWidget>
-    </field>
-    <field name="isusable" configurationFlags="None">
-      <editWidget type="TextEdit">
-        <config>
-          <Option type="Map">
-            <Option type="QString" name="IsMultiline" value="0"/>
-            <Option type="QString" name="UseHtml" value="0"/>
-          </Option>
-        </config>
-      </editWidget>
-    </field>
-    <field name="hasassumption" configurationFlags="None">
+    <field name="OPMERKINGEN" configurationFlags="None">
       <editWidget type="TextEdit">
         <config>
           <Option type="Map">
@@ -511,127 +378,75 @@
   </fieldConfiguration>
   <aliases>
     <alias index="0" field="OBJECTID" name=""/>
-    <alias index="1" field="id" name=""/>
-    <alias index="2" field="organisation_id" name=""/>
-    <alias index="3" field="created" name=""/>
-    <alias index="4" field="code" name=""/>
-    <alias index="5" field="type" name=""/>
-    <alias index="6" field="crest_width" name=""/>
-    <alias index="7" field="crest_level" name=""/>
-    <alias index="8" field="name" name=""/>
-    <alias index="9" field="lat_dis_coeff" name=""/>
-    <alias index="10" field="angle" name=""/>
-    <alias index="11" field="allowed_flow_direction" name=""/>
-    <alias index="12" field="controlled" name=""/>
-    <alias index="13" field="comment" name=""/>
-    <alias index="14" field="discharge_coeff" name=""/>
-    <alias index="15" field="image_url" name=""/>
-    <alias index="16" field="num_timeseries" name=""/>
-    <alias index="17" field="weir_shape" name=""/>
-    <alias index="18" field="controlled_fdla_code" name=""/>
-    <alias index="19" field="channel_code" name=""/>
-    <alias index="20" field="type_function" name=""/>
-    <alias index="21" field="opmerking" name=""/>
-    <alias index="22" field="wgtype_id" name=""/>
-    <alias index="23" field="channel_type_id" name=""/>
-    <alias index="24" field="opmerk_datamining" name=""/>
-    <alias index="25" field="crest_height_datamining" name=""/>
-    <alias index="26" field="aanname" name=""/>
-    <alias index="27" field="isusable" name=""/>
-    <alias index="28" field="hasassumption" name=""/>
+    <alias index="1" field="MEETVARIABELE" name=""/>
+    <alias index="2" field="ACTIEVARIABELE" name=""/>
+    <alias index="3" field="DREMPEL" name=""/>
+    <alias index="4" field="CODE" name=""/>
+    <alias index="5" field="STREEFPEIL" name=""/>
+    <alias index="6" field="overlastpeil" name=""/>
+    <alias index="7" field="MIN_KRUINHOOGTE" name=""/>
+    <alias index="8" field="MAX_KRUINHOOGTE" name=""/>
+    <alias index="9" field="MEETWAARDEN" name=""/>
+    <alias index="10" field="ACTIEWAARDEN" name=""/>
+    <alias index="11" field="action_table" name=""/>
+    <alias index="12" field="TYPE_KUNSTWERK" name=""/>
+    <alias index="13" field="KeuzeRegeling" name=""/>
+    <alias index="14" field="PolderCluster" name=""/>
+    <alias index="15" field="OPMERKINGEN" name=""/>
   </aliases>
   <defaults>
     <default field="OBJECTID" expression="" applyOnUpdate="0"/>
-    <default field="id" expression="" applyOnUpdate="0"/>
-    <default field="organisation_id" expression="" applyOnUpdate="0"/>
-    <default field="created" expression="" applyOnUpdate="0"/>
-    <default field="code" expression="" applyOnUpdate="0"/>
-    <default field="type" expression="" applyOnUpdate="0"/>
-    <default field="crest_width" expression="" applyOnUpdate="0"/>
-    <default field="crest_level" expression="" applyOnUpdate="0"/>
-    <default field="name" expression="" applyOnUpdate="0"/>
-    <default field="lat_dis_coeff" expression="" applyOnUpdate="0"/>
-    <default field="angle" expression="" applyOnUpdate="0"/>
-    <default field="allowed_flow_direction" expression="" applyOnUpdate="0"/>
-    <default field="controlled" expression="" applyOnUpdate="0"/>
-    <default field="comment" expression="" applyOnUpdate="0"/>
-    <default field="discharge_coeff" expression="" applyOnUpdate="0"/>
-    <default field="image_url" expression="" applyOnUpdate="0"/>
-    <default field="num_timeseries" expression="" applyOnUpdate="0"/>
-    <default field="weir_shape" expression="" applyOnUpdate="0"/>
-    <default field="controlled_fdla_code" expression="" applyOnUpdate="0"/>
-    <default field="channel_code" expression="" applyOnUpdate="0"/>
-    <default field="type_function" expression="" applyOnUpdate="0"/>
-    <default field="opmerking" expression="" applyOnUpdate="0"/>
-    <default field="wgtype_id" expression="" applyOnUpdate="0"/>
-    <default field="channel_type_id" expression="" applyOnUpdate="0"/>
-    <default field="opmerk_datamining" expression="" applyOnUpdate="0"/>
-    <default field="crest_height_datamining" expression="" applyOnUpdate="0"/>
-    <default field="aanname" expression="" applyOnUpdate="0"/>
-    <default field="isusable" expression="" applyOnUpdate="0"/>
-    <default field="hasassumption" expression="" applyOnUpdate="0"/>
+    <default field="MEETVARIABELE" expression="" applyOnUpdate="0"/>
+    <default field="ACTIEVARIABELE" expression="" applyOnUpdate="0"/>
+    <default field="DREMPEL" expression="" applyOnUpdate="0"/>
+    <default field="CODE" expression="" applyOnUpdate="0"/>
+    <default field="STREEFPEIL" expression="" applyOnUpdate="0"/>
+    <default field="overlastpeil" expression="" applyOnUpdate="0"/>
+    <default field="MIN_KRUINHOOGTE" expression="" applyOnUpdate="0"/>
+    <default field="MAX_KRUINHOOGTE" expression="" applyOnUpdate="0"/>
+    <default field="MEETWAARDEN" expression="" applyOnUpdate="0"/>
+    <default field="ACTIEWAARDEN" expression="" applyOnUpdate="0"/>
+    <default field="action_table" expression="" applyOnUpdate="0"/>
+    <default field="TYPE_KUNSTWERK" expression="" applyOnUpdate="0"/>
+    <default field="KeuzeRegeling" expression="" applyOnUpdate="0"/>
+    <default field="PolderCluster" expression="" applyOnUpdate="0"/>
+    <default field="OPMERKINGEN" expression="" applyOnUpdate="0"/>
   </defaults>
   <constraints>
     <constraint field="OBJECTID" notnull_strength="1" constraints="3" exp_strength="0" unique_strength="1"/>
-    <constraint field="id" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
-    <constraint field="organisation_id" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
-    <constraint field="created" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
-    <constraint field="code" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
-    <constraint field="type" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
-    <constraint field="crest_width" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
-    <constraint field="crest_level" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
-    <constraint field="name" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
-    <constraint field="lat_dis_coeff" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
-    <constraint field="angle" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
-    <constraint field="allowed_flow_direction" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
-    <constraint field="controlled" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
-    <constraint field="comment" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
-    <constraint field="discharge_coeff" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
-    <constraint field="image_url" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
-    <constraint field="num_timeseries" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
-    <constraint field="weir_shape" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
-    <constraint field="controlled_fdla_code" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
-    <constraint field="channel_code" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
-    <constraint field="type_function" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
-    <constraint field="opmerking" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
-    <constraint field="wgtype_id" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
-    <constraint field="channel_type_id" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
-    <constraint field="opmerk_datamining" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
-    <constraint field="crest_height_datamining" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
-    <constraint field="aanname" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
-    <constraint field="isusable" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
-    <constraint field="hasassumption" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
+    <constraint field="MEETVARIABELE" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
+    <constraint field="ACTIEVARIABELE" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
+    <constraint field="DREMPEL" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
+    <constraint field="CODE" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
+    <constraint field="STREEFPEIL" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
+    <constraint field="overlastpeil" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
+    <constraint field="MIN_KRUINHOOGTE" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
+    <constraint field="MAX_KRUINHOOGTE" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
+    <constraint field="MEETWAARDEN" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
+    <constraint field="ACTIEWAARDEN" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
+    <constraint field="action_table" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
+    <constraint field="TYPE_KUNSTWERK" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
+    <constraint field="KeuzeRegeling" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
+    <constraint field="PolderCluster" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
+    <constraint field="OPMERKINGEN" notnull_strength="0" constraints="0" exp_strength="0" unique_strength="0"/>
   </constraints>
   <constraintExpressions>
     <constraint field="OBJECTID" desc="" exp=""/>
-    <constraint field="id" desc="" exp=""/>
-    <constraint field="organisation_id" desc="" exp=""/>
-    <constraint field="created" desc="" exp=""/>
-    <constraint field="code" desc="" exp=""/>
-    <constraint field="type" desc="" exp=""/>
-    <constraint field="crest_width" desc="" exp=""/>
-    <constraint field="crest_level" desc="" exp=""/>
-    <constraint field="name" desc="" exp=""/>
-    <constraint field="lat_dis_coeff" desc="" exp=""/>
-    <constraint field="angle" desc="" exp=""/>
-    <constraint field="allowed_flow_direction" desc="" exp=""/>
-    <constraint field="controlled" desc="" exp=""/>
-    <constraint field="comment" desc="" exp=""/>
-    <constraint field="discharge_coeff" desc="" exp=""/>
-    <constraint field="image_url" desc="" exp=""/>
-    <constraint field="num_timeseries" desc="" exp=""/>
-    <constraint field="weir_shape" desc="" exp=""/>
-    <constraint field="controlled_fdla_code" desc="" exp=""/>
-    <constraint field="channel_code" desc="" exp=""/>
-    <constraint field="type_function" desc="" exp=""/>
-    <constraint field="opmerking" desc="" exp=""/>
-    <constraint field="wgtype_id" desc="" exp=""/>
-    <constraint field="channel_type_id" desc="" exp=""/>
-    <constraint field="opmerk_datamining" desc="" exp=""/>
-    <constraint field="crest_height_datamining" desc="" exp=""/>
-    <constraint field="aanname" desc="" exp=""/>
-    <constraint field="isusable" desc="" exp=""/>
-    <constraint field="hasassumption" desc="" exp=""/>
+    <constraint field="MEETVARIABELE" desc="" exp=""/>
+    <constraint field="ACTIEVARIABELE" desc="" exp=""/>
+    <constraint field="DREMPEL" desc="" exp=""/>
+    <constraint field="CODE" desc="" exp=""/>
+    <constraint field="STREEFPEIL" desc="" exp=""/>
+    <constraint field="overlastpeil" desc="" exp=""/>
+    <constraint field="MIN_KRUINHOOGTE" desc="" exp=""/>
+    <constraint field="MAX_KRUINHOOGTE" desc="" exp=""/>
+    <constraint field="MEETWAARDEN" desc="" exp=""/>
+    <constraint field="ACTIEWAARDEN" desc="" exp=""/>
+    <constraint field="action_table" desc="" exp=""/>
+    <constraint field="TYPE_KUNSTWERK" desc="" exp=""/>
+    <constraint field="KeuzeRegeling" desc="" exp=""/>
+    <constraint field="PolderCluster" desc="" exp=""/>
+    <constraint field="OPMERKINGEN" desc="" exp=""/>
   </constraintExpressions>
   <expressionfields/>
   <attributeactions>
@@ -640,34 +455,21 @@
   <attributetableconfig sortExpression="" sortOrder="0" actionWidgetStyle="dropDown">
     <columns>
       <column hidden="0" width="-1" type="field" name="OBJECTID"/>
-      <column hidden="0" width="-1" type="field" name="id"/>
-      <column hidden="0" width="-1" type="field" name="organisation_id"/>
-      <column hidden="0" width="-1" type="field" name="created"/>
-      <column hidden="0" width="-1" type="field" name="code"/>
-      <column hidden="0" width="-1" type="field" name="type"/>
-      <column hidden="0" width="-1" type="field" name="crest_width"/>
-      <column hidden="0" width="-1" type="field" name="crest_level"/>
-      <column hidden="0" width="-1" type="field" name="name"/>
-      <column hidden="0" width="-1" type="field" name="lat_dis_coeff"/>
-      <column hidden="0" width="-1" type="field" name="angle"/>
-      <column hidden="0" width="-1" type="field" name="allowed_flow_direction"/>
-      <column hidden="0" width="-1" type="field" name="controlled"/>
-      <column hidden="0" width="-1" type="field" name="comment"/>
-      <column hidden="0" width="-1" type="field" name="discharge_coeff"/>
-      <column hidden="0" width="-1" type="field" name="image_url"/>
-      <column hidden="0" width="-1" type="field" name="num_timeseries"/>
-      <column hidden="0" width="-1" type="field" name="weir_shape"/>
-      <column hidden="0" width="-1" type="field" name="controlled_fdla_code"/>
-      <column hidden="0" width="-1" type="field" name="channel_code"/>
-      <column hidden="0" width="-1" type="field" name="type_function"/>
-      <column hidden="0" width="-1" type="field" name="opmerking"/>
-      <column hidden="0" width="-1" type="field" name="wgtype_id"/>
-      <column hidden="0" width="-1" type="field" name="channel_type_id"/>
-      <column hidden="0" width="-1" type="field" name="opmerk_datamining"/>
-      <column hidden="0" width="-1" type="field" name="crest_height_datamining"/>
-      <column hidden="0" width="-1" type="field" name="aanname"/>
-      <column hidden="0" width="-1" type="field" name="isusable"/>
-      <column hidden="0" width="-1" type="field" name="hasassumption"/>
+      <column hidden="0" width="-1" type="field" name="CODE"/>
+      <column hidden="0" width="-1" type="field" name="MEETVARIABELE"/>
+      <column hidden="0" width="-1" type="field" name="ACTIEVARIABELE"/>
+      <column hidden="0" width="-1" type="field" name="DREMPEL"/>
+      <column hidden="0" width="-1" type="field" name="STREEFPEIL"/>
+      <column hidden="0" width="-1" type="field" name="overlastpeil"/>
+      <column hidden="0" width="-1" type="field" name="MIN_KRUINHOOGTE"/>
+      <column hidden="0" width="-1" type="field" name="MAX_KRUINHOOGTE"/>
+      <column hidden="0" width="-1" type="field" name="MEETWAARDEN"/>
+      <column hidden="0" width="-1" type="field" name="ACTIEWAARDEN"/>
+      <column hidden="0" width="-1" type="field" name="action_table"/>
+      <column hidden="0" width="-1" type="field" name="TYPE_KUNSTWERK"/>
+      <column hidden="0" width="-1" type="field" name="KeuzeRegeling"/>
+      <column hidden="0" width="-1" type="field" name="PolderCluster"/>
+      <column hidden="0" width="-1" type="field" name="OPMERKINGEN"/>
       <column hidden="1" width="-1" type="actions"/>
     </columns>
   </attributetableconfig>
@@ -744,8 +546,6 @@ def my_form_open(dialog, layer, feature):
     <field name="NAAM" editable="1"/>
     <field name="OBJECTID" editable="1"/>
     <field name="OPMERKINGEN" editable="1"/>
-    <field name="POINT_X" editable="1"/>
-    <field name="POINT_Y" editable="1"/>
     <field name="PolderCluster" editable="1"/>
     <field name="SOORTREGELBAARHEID" editable="1"/>
     <field name="STREEFPEIL" editable="1"/>
@@ -753,41 +553,9 @@ def my_form_open(dialog, layer, feature):
     <field name="WS_CATEGORIE" editable="1"/>
     <field name="WS_FUNCTIESTUW" editable="1"/>
     <field name="WS_KRUINVORM" editable="1"/>
-    <field name="aanname" editable="1"/>
     <field name="action_table" editable="1"/>
-    <field name="allowed_flow_direction" editable="1"/>
-    <field name="angle" editable="1"/>
-    <field name="channel_code" editable="1"/>
-    <field name="channel_type_id" editable="1"/>
-    <field name="code" editable="1"/>
-    <field name="comment" editable="1"/>
-    <field name="controlled" editable="1"/>
-    <field name="controlled_fdla_code" editable="1"/>
-    <field name="created" editable="1"/>
-    <field name="crest_height_datamining" editable="1"/>
-    <field name="crest_level" editable="1"/>
-    <field name="crest_width" editable="1"/>
-    <field name="discharge_coeff" editable="1"/>
-    <field name="functie" editable="1"/>
-    <field name="hasassumption" editable="1"/>
-    <field name="id" editable="1"/>
-    <field name="image_url" editable="1"/>
-    <field name="isusable" editable="1"/>
-    <field name="kruinhoogte_hdb" editable="1"/>
     <field name="kunstwerkxy.coordinaten" editable="1"/>
-    <field name="lat_dis_coeff" editable="1"/>
-    <field name="moet_op_peilgrens" editable="1"/>
-    <field name="name" editable="1"/>
-    <field name="num_timeseries" editable="1"/>
-    <field name="opmerk_datamining" editable="1"/>
-    <field name="opmerking" editable="1"/>
-    <field name="opmerkingen" editable="1"/>
-    <field name="organisation_id" editable="1"/>
     <field name="overlastpeil" editable="1"/>
-    <field name="type" editable="1"/>
-    <field name="type_function" editable="1"/>
-    <field name="weir_shape" editable="1"/>
-    <field name="wgtype_id" editable="1"/>
   </editable>
   <labelOnTop>
     <field name="ACTIEVARIABELE" labelOnTop="0"/>
@@ -835,8 +603,6 @@ def my_form_open(dialog, layer, feature):
     <field name="NAAM" labelOnTop="0"/>
     <field name="OBJECTID" labelOnTop="0"/>
     <field name="OPMERKINGEN" labelOnTop="0"/>
-    <field name="POINT_X" labelOnTop="0"/>
-    <field name="POINT_Y" labelOnTop="0"/>
     <field name="PolderCluster" labelOnTop="0"/>
     <field name="SOORTREGELBAARHEID" labelOnTop="0"/>
     <field name="STREEFPEIL" labelOnTop="0"/>
@@ -844,41 +610,9 @@ def my_form_open(dialog, layer, feature):
     <field name="WS_CATEGORIE" labelOnTop="0"/>
     <field name="WS_FUNCTIESTUW" labelOnTop="0"/>
     <field name="WS_KRUINVORM" labelOnTop="0"/>
-    <field name="aanname" labelOnTop="0"/>
     <field name="action_table" labelOnTop="0"/>
-    <field name="allowed_flow_direction" labelOnTop="0"/>
-    <field name="angle" labelOnTop="0"/>
-    <field name="channel_code" labelOnTop="0"/>
-    <field name="channel_type_id" labelOnTop="0"/>
-    <field name="code" labelOnTop="0"/>
-    <field name="comment" labelOnTop="0"/>
-    <field name="controlled" labelOnTop="0"/>
-    <field name="controlled_fdla_code" labelOnTop="0"/>
-    <field name="created" labelOnTop="0"/>
-    <field name="crest_height_datamining" labelOnTop="0"/>
-    <field name="crest_level" labelOnTop="0"/>
-    <field name="crest_width" labelOnTop="0"/>
-    <field name="discharge_coeff" labelOnTop="0"/>
-    <field name="functie" labelOnTop="0"/>
-    <field name="hasassumption" labelOnTop="0"/>
-    <field name="id" labelOnTop="0"/>
-    <field name="image_url" labelOnTop="0"/>
-    <field name="isusable" labelOnTop="0"/>
-    <field name="kruinhoogte_hdb" labelOnTop="0"/>
     <field name="kunstwerkxy.coordinaten" labelOnTop="0"/>
-    <field name="lat_dis_coeff" labelOnTop="0"/>
-    <field name="moet_op_peilgrens" labelOnTop="0"/>
-    <field name="name" labelOnTop="0"/>
-    <field name="num_timeseries" labelOnTop="0"/>
-    <field name="opmerk_datamining" labelOnTop="0"/>
-    <field name="opmerking" labelOnTop="0"/>
-    <field name="opmerkingen" labelOnTop="0"/>
-    <field name="organisation_id" labelOnTop="0"/>
     <field name="overlastpeil" labelOnTop="0"/>
-    <field name="type" labelOnTop="0"/>
-    <field name="type_function" labelOnTop="0"/>
-    <field name="weir_shape" labelOnTop="0"/>
-    <field name="wgtype_id" labelOnTop="0"/>
   </labelOnTop>
   <reuseLastValue>
     <field name="ACTIEVARIABELE" reuseLastValue="0"/>
@@ -897,8 +631,6 @@ def my_form_open(dialog, layer, feature):
     <field name="NAAM" reuseLastValue="0"/>
     <field name="OBJECTID" reuseLastValue="0"/>
     <field name="OPMERKINGEN" reuseLastValue="0"/>
-    <field name="POINT_X" reuseLastValue="0"/>
-    <field name="POINT_Y" reuseLastValue="0"/>
     <field name="PolderCluster" reuseLastValue="0"/>
     <field name="SOORTREGELBAARHEID" reuseLastValue="0"/>
     <field name="STREEFPEIL" reuseLastValue="0"/>
@@ -906,44 +638,12 @@ def my_form_open(dialog, layer, feature):
     <field name="WS_CATEGORIE" reuseLastValue="0"/>
     <field name="WS_FUNCTIESTUW" reuseLastValue="0"/>
     <field name="WS_KRUINVORM" reuseLastValue="0"/>
-    <field name="aanname" reuseLastValue="0"/>
     <field name="action_table" reuseLastValue="0"/>
-    <field name="allowed_flow_direction" reuseLastValue="0"/>
-    <field name="angle" reuseLastValue="0"/>
-    <field name="channel_code" reuseLastValue="0"/>
-    <field name="channel_type_id" reuseLastValue="0"/>
-    <field name="code" reuseLastValue="0"/>
-    <field name="comment" reuseLastValue="0"/>
-    <field name="controlled" reuseLastValue="0"/>
-    <field name="controlled_fdla_code" reuseLastValue="0"/>
-    <field name="created" reuseLastValue="0"/>
-    <field name="crest_height_datamining" reuseLastValue="0"/>
-    <field name="crest_level" reuseLastValue="0"/>
-    <field name="crest_width" reuseLastValue="0"/>
-    <field name="discharge_coeff" reuseLastValue="0"/>
-    <field name="functie" reuseLastValue="0"/>
-    <field name="hasassumption" reuseLastValue="0"/>
-    <field name="id" reuseLastValue="0"/>
-    <field name="image_url" reuseLastValue="0"/>
-    <field name="isusable" reuseLastValue="0"/>
-    <field name="kruinhoogte_hdb" reuseLastValue="0"/>
-    <field name="lat_dis_coeff" reuseLastValue="0"/>
-    <field name="moet_op_peilgrens" reuseLastValue="0"/>
-    <field name="name" reuseLastValue="0"/>
-    <field name="num_timeseries" reuseLastValue="0"/>
-    <field name="opmerk_datamining" reuseLastValue="0"/>
-    <field name="opmerking" reuseLastValue="0"/>
-    <field name="opmerkingen" reuseLastValue="0"/>
-    <field name="organisation_id" reuseLastValue="0"/>
     <field name="overlastpeil" reuseLastValue="0"/>
-    <field name="type" reuseLastValue="0"/>
-    <field name="type_function" reuseLastValue="0"/>
-    <field name="weir_shape" reuseLastValue="0"/>
-    <field name="wgtype_id" reuseLastValue="0"/>
   </reuseLastValue>
   <dataDefinedFieldProperties/>
   <widgets/>
-  <previewExpression>"code"</previewExpression>
+  <previewExpression>"CODE"</previewExpression>
   <mapTip></mapTip>
   <layerGeometryType>0</layerGeometryType>
 </qgis>
