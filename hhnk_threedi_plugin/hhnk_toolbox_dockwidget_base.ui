@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>507</width>
-    <height>559</height>
+    <width>363</width>
+    <height>492</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -82,7 +82,7 @@
         <bool>true</bool>
        </property>
        <attribute name="title">
-        <string>Tab 1</string>
+        <string>Main</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
@@ -245,8 +245,27 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="toolTip">
+           <string>lizard_api_key</string>
+          </property>
           <property name="text">
            <string>Vul hier je Lizard API key in!</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="threedi_api_key_textbox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="toolTip">
+           <string>threedi_api_key</string>
+          </property>
+          <property name="text">
+           <string>Vul hier je Threedi API key in!</string>
           </property>
          </widget>
         </item>
@@ -261,13 +280,6 @@
          <widget class="QPushButton" name="input_btn">
           <property name="text">
            <string>Input</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="documentatie_button">
-          <property name="text">
-           <string>Documentatie</string>
           </property>
          </widget>
         </item>
@@ -291,7 +303,7 @@
         <bool>true</bool>
        </property>
        <attribute name="title">
-        <string>Tab 2</string>
+        <string>Tests</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
@@ -319,8 +331,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>257</width>
-             <height>412</height>
+             <width>98</width>
+             <height>47</height>
             </rect>
            </property>
            <attribute name="label">

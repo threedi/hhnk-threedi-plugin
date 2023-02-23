@@ -16,12 +16,12 @@ import sys
 from pathlib import Path
 import os
 sys.path.append(str(Path(os.getcwd()).parent.parent))
-import hhnk_threedi_plugin.local_settings as local_settings
-if local_settings.DEBUG:
-    sys.path.insert(0, local_settings.hhnk_threedi_tools_path)
-    import importlib, hhnk_threedi_tools
-    hhnk_threedi_tools=importlib.reload(hhnk_threedi_tools)
-    importlib.reload(hhnk_threedi_tools.core.folders)
+# import hhnk_threedi_plugin.local_settings as local_settings
+# if local_settings.DEBUG:
+#     sys.path.insert(0, local_settings.hhnk_threedi_tools_path)
+#     import importlib, hhnk_threedi_tools
+#     hhnk_threedi_tools=importlib.reload(hhnk_threedi_tools)
+#     importlib.reload(hhnk_threedi_tools.core.folders)
 
 from hhnk_threedi_tools.core.folders import Folders
 class TestFolder():
@@ -183,14 +183,17 @@ one_d_two_d_layers = [
 
 # %% Plugin data bekijken
 import qgis
-p = qgis.utils.plugins['hhnk_threedi_plugin']
-print( p.fenv )
+self = qgis.utils.plugins['hhnk_threedi_plugin']
+print( self.dockwidget )
 
 # %%
 
 from ThreeDiToolbox.tool_result_selection.result_selection_view import ThreeDiResultSelectionWidget, add_spatialite_connection
 from ThreeDiToolbox.tool_result_selection.models import TimeseriesDatasourceModel
 from ThreeDiToolbox.tool_result_selection.result_selection import ThreeDiResultSelection
+
+
+
 
 
 filepath=r"C:\Users\wvangerwen\Downloads\model_test_v2\02_Model\bwn_test.sqlite"
