@@ -12,7 +12,7 @@ def main():
     args = get_args()
     deploy(
         admin_user=args.admin_user,
-        plugins=args.plugins,
+        plugins=args.plugin,
         plugins_dir=args.plugins_dir,
         users=args.user,
         users_ignored=args.ignore_user,
@@ -62,6 +62,7 @@ def deploy(
                                and cannot be copied.
                                """
                 )
+        print(f"plugins that can be copied: {plugins}")
     # get users
     if users is None:
         users = get_users()
@@ -107,10 +108,10 @@ def get_args() -> argparse.Namespace:
         "--admin_user", help="Admin user to copy plugins from", type=str
     )
     parser.add_argument(
-        "--plugins",
-        help="list of names with plugins to copy",
-        type=list,
-        default=["hhnk_threedi_plugin", "ThreeDiToolbox"],
+        "--plugin",
+        help="one or more plugins copy",
+        action="append",
+        default=[],
     )
     parser.add_argument(
         "--plugins_dir",
