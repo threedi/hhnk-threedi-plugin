@@ -40,7 +40,7 @@ def deploy(
     plugins_dir: str = PLUGINS_DIR,
     users: list[str] = None,
     users_ignored: list[str] = [],
-    files_ignored: list[str] = ["local_settings.py", "api_key.txt"],
+    files_ignored: list[str] = [],
 ):
     admin_plugins_dir = Path(plugins_dir.format(user=admin_user))
 
@@ -72,17 +72,35 @@ def deploy(
     for user in users:
         print(f"checking user '{user}'")
         user_plugins_dir = Path(plugins_dir.format(user=user))
-        if user_plugins_dir.is_dir():
+        user_python_dir = user_plugins_dir.parent
+        if user_plugins_dir.parent.is_dir():
             print(f"  copying plugins to {user_plugins_dir}")
+            user_plugins_dir.mkdir(exist_ok=True)
             for plugin in plugins:
                 print(f"  copying plugin: {plugin}")
                 user_plugin_dir = user_plugins_dir / plugin
+                
+                # some files we wish to keep
                 keep_files = []
                 for file in files_ignored:
                     file_path = user_plugin_dir.joinpath(file)
                     if file_path.exists():
                         print(f"  reading original: {file_path}")
                         keep_files.append((file_path, file_path.read_text()))
+                
+                # keeping api_key.txt if existing
+                api_key_path = user_plugin_dir.joinpath("api_key.txt")
+                if api_key_path.exists():
+                    api_key = api_key_path.read_text()
+                else:
+                    api_key = None
+                # keeping api_key.txt if existing
+                local_settings_path = user_plugin_dir.joinpath("local_settings.py")
+                if local_settings_path.exists():
+                    local_settings = local_settings_path.read_text()
+                else:
+                    local_settings = None
+
                 if user_plugin_dir.exists():
                     try:
                         print(f"  removing directory: {user_plugin_dir}")
@@ -97,9 +115,25 @@ def deploy(
                 )
                 shutil.copytree(admin_plugins_dir.joinpath(plugin), user_plugin_dir)
 
+                # some random original files we wish to keep
                 for file, text in keep_files:
                     print(f"  writing original '{file}'")
                     file.write_text(text)
+
+                # do api key
+                if api_key_path.exists():
+                    api_key_path.unlink()
+                if api_key is not None:
+                    api_key_path.write_text(api_key)
+
+                # local settings
+                if local_settings_path.exists():
+                    local_settings_path.unlink()
+                if local_settings is not None:
+                    local_settings_path.write_text(local_settings)
+ 
+        else:
+            print(f"user has no plugins-dir: {user_plugins_dir}")
 
 
 def get_args() -> argparse.Namespace:
