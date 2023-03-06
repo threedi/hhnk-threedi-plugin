@@ -207,7 +207,7 @@ def ensure_dependencies(
         if dependencies:
             if _is_windows():
                 dialog, bar = _create_progress_dialog(
-                    0, f"Installing {dependencies[0].name}"
+                    0, f"Installeren: {dependencies[0].name}"
                 )
                 QApplication.processEvents()
                 startupinfo = subprocess.STARTUPINFO()
@@ -219,14 +219,13 @@ def ensure_dependencies(
             for count, dependency in enumerate(dependencies):
                 logger.info(f"checking {dependency.name}")
                 # if not _available(dependency) or not _correct_version(dependency):
-                if not _available(dependency):
                     # to_be_installed.append(dependency)
-                    if dialog:
-                        dialog.setLabelText(f"Installeren: {dependency.name}")
-                        # _create_progress_dialog(0,"voor subprocess")
-                    _install_dependency(
-                        dependency, startupinfo=startupinfo, dialog=dialog
-                    )
+                if dialog:
+                    dialog.setLabelText(f"Installeren: {dependency.name}")
+                    QApplication.processEvents()
+                _install_dependency(
+                    dependency, startupinfo=startupinfo, dialog=dialog
+                )
 
                 if bar:
                     bar.setValue(int((count / len(dependencies)) * 100))
@@ -407,8 +406,8 @@ def _install_dependency(
         command.append("--user")
 
     if dependency.package == "jupyter":
-        # command.extend(["--upgrade", "--force-reinstall",  "--no-cache-dir", "--no-warn-script-location"])
-        command.extend(["--upgrade"])
+        command.extend(["--upgrade", "--force-reinstall",  "--no-cache-dir", "--no-warn-script-location"])
+        # command.extend(["--upgrade"])
 
     command.extend([dependency.package + dependency.constraint])
     if command_only:
@@ -436,8 +435,6 @@ def _install_dependency(
     exit_code = process.wait()
 
     if exit_code and (not _available(dependency, log=False)):
-        if dialog:
-            dialog.close()
         QApplication.processEvents()
         msg = f"Installeren {dependency.name} failed: ({' '.join(command)}) ({exit_code}) ({result})"
         try:
@@ -445,7 +442,10 @@ def _install_dependency(
         except (ImportError, ModuleNotFoundError) as e:
             msg + f"{(e)}"
             logger.error(msg)
+            if dialog:
+                dialog.close()
             raise RuntimeError(msg)
+            
 
     # if dependency.package in sys.modules:
     #     print("Unloading old %s module" % dependency.package)
