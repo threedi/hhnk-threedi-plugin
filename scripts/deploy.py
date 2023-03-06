@@ -14,8 +14,9 @@ def main():
         admin_user=args.admin_user,
         plugins=args.plugins,
         plugins_dir=args.plugins_dir,
-        users=args.users,
-        ignore_files=args.ignore_files,
+        users=args.user,
+        users_ignored=args.ignore_user,
+        files_ignored=args.ignore_file,
     )
 
 
@@ -38,7 +39,8 @@ def deploy(
     plugins: list[str] = ["hhnk_threedi_plugin", "ThreeDiToolbox"],
     plugins_dir: str = PLUGINS_DIR,
     users: list[str] = None,
-    ignore_files: list[str] = ["local_settings.py", "api_key.txt"],
+    users_ignored: list[str] = [],
+    files_ignored: list[str] = ["local_settings.py", "api_key.txt"],
 ):
     admin_plugins_dir = Path(plugins_dir.format(user=admin_user))
 
@@ -65,7 +67,7 @@ def deploy(
         users = get_users()
 
     # copy plugins
-    users = [i for i in users if i != admin_user]
+    users = [i for i in users if i not in users_ignored + [admin_user]]
     for user in users:
         print(f"checking user '{user}'")
         user_plugins_dir = Path(plugins_dir.format(user=user))
@@ -75,7 +77,7 @@ def deploy(
                 print(f"  copying plugin: {plugin}")
                 user_plugin_dir = user_plugins_dir / plugin
                 keep_files = []
-                for file in ignore_files:
+                for file in files_ignored:
                     file_path = user_plugin_dir.joinpath(file)
                     if file_path.exists():
                         print(f"  reading original: {file_path}")
@@ -118,16 +120,23 @@ def get_args() -> argparse.Namespace:
     )
 
     parser.add_argument(
-        "--users",
-        help="list of users. If non supplied, the list will be populated from c://users",
-        type=list,
+        "--user",
+        help="one or more users. If non supplied, the list will be populated from c://users",
+        action="append",
         default=None,
     )
 
     parser.add_argument(
-        "--ignore_files",
+        "--ignore_user",
+        help="one or more users to ignore. If non supplied, the list will be empty",
+        action="append",
+        default=[],
+    )
+
+    parser.add_argument(
+        "--ignore_file",
         help="list of files that will not be replaced by if found",
-        type=list,
+        action="append",
         default=["local_settings.py", "api_key.txt"],
     )
     parser.add_argument(
@@ -142,6 +151,6 @@ def get_args() -> argparse.Namespace:
         parser.error("At least --admin_user is to be specified")
     return args
 
-deploy("danie")
-# if __name__ == "__main__":
-#     main()
+
+if __name__ == "__main__":
+    main()
