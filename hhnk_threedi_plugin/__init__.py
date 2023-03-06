@@ -31,7 +31,11 @@ import sys
 
 sys.path.append('.')
 # research tools installatie uit osgeo weghalen. Sys path append hier van de github repo. 
-import hhnk_threedi_plugin.local_settings as local_settings
+try:
+    import hhnk_threedi_plugin.local_settings as local_settings
+except ModuleNotFoundError:
+    import hhnk_threedi_plugin.local_settings_default as local_settings
+    
 if local_settings.DEBUG:
     if local_settings.hhnk_threedi_tools_path not in sys.path:
         sys.path.insert(0, local_settings.hhnk_threedi_tools_path)
