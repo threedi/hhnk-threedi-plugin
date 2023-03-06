@@ -99,7 +99,7 @@ def deploy(
                 if local_settings_path.exists():
                     local_settings = local_settings_path.read_text()
                 else:
-                    local_settings = None
+                    local_settings = user_plugin_dir.joinpath("local_settings_default.py").read_text()
 
                 if user_plugin_dir.exists():
                     try:

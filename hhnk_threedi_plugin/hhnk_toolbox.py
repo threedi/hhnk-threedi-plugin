@@ -36,8 +36,8 @@ from hhnk_threedi_plugin.resources import *
 # %%
 try: 
     import hhnk_threedi_plugin.local_settings as local_settings
-except:
-    pass
+except ModuleNotFoundError:
+    import hhnk_threedi_plugin.local_settings_default as local_settings
 
 # Import the code for the plugin content
 # GUI
