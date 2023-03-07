@@ -72,6 +72,8 @@ YML_PATH = OUR_DIR / "environment.yml"
 LOG_DIR = OUR_DIR / "logs"
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 
+PATCH_DIR = OUR_DIR / "patches"
+
 # list of depencies
 """ folder can be set to "external-dependencies" to insstall in th plugin folder, it is loaded incorrectly 
 the first time you update the plugin
@@ -139,8 +141,25 @@ FLEXIBLE_DEPENDENCIES = [
     ),
 ]
 
+package_module_map = {"python_dateutil": "dateutil",
+                      "gdal": "osgeo",
+                      "threedi-api-client": "threedi_api_client"}
+
+patches = {"custom_types.py": r"threedi_schema//domain//custom_types.py"}
+
 # add logging + filehandler so we can log what we are doing
 logger = logging.getLogger(__name__)
+
+
+def install_patches():
+    deps_dir = _dependencies_target_dir()
+    for source, target in patches.items():
+        source = PATCH_DIR / source
+        target = deps_dir / target
+        if all((source.exists(), target.exists())):
+            if not (source.read_bytes() == target.read_bytes()):
+                logger.info(f"patching {target} with {source}")
+                target.write_text(source.read_text())
 
 
 def _is_windows():
@@ -199,9 +218,10 @@ def ensure_dependencies(
         frozen_dependencies = _requirements_to_dependencies(REQUIREMENTS_PATH)
         dependencies = frozen_dependencies + flexible_dependencies
 
-        logger.info(f"Our dependencies: {[i.name for i in dependencies]}")
+        # install patches over threeditoolbox
+        install_patches()
 
-        # to_be_installed = []
+        logger.info(f"Our dependencies: {[i.name for i in dependencies]}")
         dependencies = [i for i in dependencies if not _available(i)]
         logger.info(f"Our missing dependencies: {[i.name for i in dependencies]}")
         if dependencies:
@@ -234,6 +254,7 @@ def ensure_dependencies(
             if dialog:
                 dialog.close()
 
+    install_patches()
     logger.removeHandler(fh)
     fh.close()
 
@@ -260,12 +281,13 @@ def _can_import(package_name):
 
 
 def _available(dependency: Dependency, show=True, log=True):
+    logger.info(f"checking availability of {dependency.package}")
+    with open(LOG_DIR / "dependency_available.txt", "w+") as src:
+        src.write(f"checking availability of {dependency.package}")
     if dependency.package == "jupyter":
         possible_import = _notebook_available("user")
-    elif dependency.name == "python_dateutil":
-        possible_import = _can_import("dateutil")
-    elif dependency.name == "gdal":
-        possible_import = _can_import("osgeo")
+    elif dependency.name in package_module_map.keys():
+        possible_import = _can_import(package_module_map[dependency.name])
     else:
         possible_import = _can_import(dependency.name)
 
@@ -438,6 +460,10 @@ def _install_dependency(
         QApplication.processEvents()
         msg = f"Installeren {dependency.name} failed: ({' '.join(command)}) ({exit_code}) ({result})"
         try:
+            if dependency.name in package_module_map.keys():
+                module_name = package_module_map[dependency.name]
+            else:
+                module_name = dependency.name
             importlib.import_module(dependency.name)
         except (ImportError, ModuleNotFoundError) as e:
             msg + f"{(e)}"
