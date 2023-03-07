@@ -36,11 +36,11 @@ def get_users(user_dir="c://Users"):
 
 def deploy(
     admin_user: str,
-    plugins: list[str] = ["hhnk_threedi_plugin", "ThreeDiToolbox"],
+    plugins: list = ["hhnk_threedi_plugin", "ThreeDiToolbox"],
     plugins_dir: str = PLUGINS_DIR,
-    users: list[str] = None,
-    users_ignored: list[str] = [],
-    files_ignored: list[str] = [],
+    users: list = None,
+    users_ignored: list = [],
+    files_ignored: list = [],
 ):
     admin_plugins_dir = Path(plugins_dir.format(user=admin_user))
 
@@ -133,8 +133,8 @@ def deploy(
                     local_settings_path.write_text(local_settings)
                 
                 # delete dependencies directories
-                for i in ["deps", "external-dependencies"]:
-                    deps_dir = user_plugin_dir / i
+                if plugin == "hhnk_threedi_plugin":
+                    deps_dir = user_plugin_dir / "external-dependencies"
                     if deps_dir.exists():
                         print(f"removing {deps_dir}")
                         shutil.rmtree(deps_dir)
