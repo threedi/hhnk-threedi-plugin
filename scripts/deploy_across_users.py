@@ -99,7 +99,7 @@ def deploy(
                 if local_settings_path.exists():
                     local_settings = local_settings_path.read_text()
                 else:
-                    local_settings = user_plugin_dir.joinpath("local_settings_default.py").read_text()
+                    local_settings = None
 
                 if user_plugin_dir.exists():
                     try:
@@ -131,7 +131,13 @@ def deploy(
                     local_settings_path.unlink()
                 if local_settings is not None:
                     local_settings_path.write_text(local_settings)
- 
+                
+                # delete dependencies directories
+                for i in ["deps", "external-dependencies"]:
+                    deps_dir = user_plugin_dir / i
+                    if deps_dir.exists():
+                        print(f"removing {deps_dir}")
+                        shutil.rmtree(deps_dir)
         else:
             print(f"user has no plugins-dir: {user_plugins_dir}")
 
