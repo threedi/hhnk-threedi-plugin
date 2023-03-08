@@ -89,17 +89,16 @@ def deploy(
                         keep_files.append((file_path, file_path.read_text()))
                 
                 # keeping api_key.txt if existing
-                api_key_path = user_plugin_dir.joinpath("api_key.txt")
-                if api_key_path.exists():
-                    api_key = api_key_path.read_text()
-                else:
-                    api_key = None
-                # keeping api_key.txt if existing
-                local_settings_path = user_plugin_dir.joinpath("local_settings.py")
-                if local_settings_path.exists():
-                    local_settings = local_settings_path.read_text()
-                else:
-                    local_settings = None
+                keep_paths = {}
+                keep_file_content = {}
+
+                for key in ["api_key.txt", "local_settings.py"]:
+                    keep_paths[key] = user_plugin_dir.joinpath(key)
+                    if keep_paths[key].exists():
+                        keep_file_content[key] = keep_paths[key].read_text()
+                    else:
+                        keep_file_content[key] = None
+
 
                 if user_plugin_dir.exists():
                     try:
@@ -109,6 +108,11 @@ def deploy(
                         logger.error(
                             f"  removing {user_plugin_dir} failed with error: {e}"
                         )
+
+                        for key in ["api_key.txt", "local_settings.py"]:
+                            if not keep_paths[key].exists():
+                                if keep_file_content[key] is not None:
+                                    keep_paths[key].write_text(keep_file_content[key])                          
                         raise e
                 print(
                     f"  copying '{admin_plugins_dir.joinpath(plugin)}' to {user_plugin_dir}"
@@ -120,17 +124,13 @@ def deploy(
                     print(f"  writing original '{file}'")
                     file.write_text(text)
 
-                # do api key
-                if api_key_path.exists():
-                    api_key_path.unlink()
-                if api_key is not None:
-                    api_key_path.write_text(api_key)
+                # do api key and local settings
+                for key in ["api_key.txt", "local_settings.py"]:
+                    if keep_paths[key].exists():
+                        keep_paths[key].unlink()
+                    if keep_file_content[key] is not None:
+                        keep_paths[key].write_text(keep_file_content[key])     
 
-                # local settings
-                if local_settings_path.exists():
-                    local_settings_path.unlink()
-                if local_settings is not None:
-                    local_settings_path.write_text(local_settings)
                 
                 # delete dependencies directories
                 if plugin == "hhnk_threedi_plugin":
