@@ -1,0 +1,9 @@
+name: hhnk_qgis_plugin
+
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  - geopandas=0.11.1
+  - pygeos
