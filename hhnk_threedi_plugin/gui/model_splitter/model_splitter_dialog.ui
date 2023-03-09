@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>642</width>
-    <height>838</height>
+    <height>831</height>
    </rect>
   </property>
   <property name="cursor">
@@ -98,7 +98,7 @@
         </size>
        </property>
        <property name="text">
-        <string>Enabled</string>
+        <string>Disabled</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -127,7 +127,7 @@
         </size>
        </property>
        <property name="text">
-        <string>Disabled</string>
+        <string>Enabled</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -369,6 +369,9 @@
       </item>
       <item>
        <widget class="QPushButton" name="upload_push_btn">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="minimumSize">
          <size>
           <width>131</width>
@@ -377,6 +380,9 @@
         </property>
         <property name="text">
          <string>Upload modelversion(s)</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
