@@ -282,8 +282,6 @@ def _can_import(package_name):
 
 def _available(dependency: Dependency, show=True, log=True):
     logger.info(f"checking availability of {dependency.package}")
-    with open(LOG_DIR / "dependency_available.txt", "w+") as src:
-        src.write(f"checking availability of {dependency.package}")
     if dependency.package == "jupyter":
         possible_import = _notebook_available("user")
     elif dependency.name in package_module_map.keys():
@@ -530,7 +528,19 @@ def _download_wheels(dependency, directory=WHEEL_DIR):
     if exit_code:
         print(f"Downloading {dependency.package} failed with: {error} {output}")
 
+# %%
+def _clean_wheels(requirements_path=REQUIREMENTS_PATH, directory=WHEEL_DIR):
+    required_wheels = []
+    with open(requirements_path) as f:
+        for line in f.readlines():
+            file = line.split()[0]
+            if Path(file).suffix.lower() == ".whl":
+                required_wheels.append(file.lower())
 
+    for file in list(Path(directory).glob("*.whl")):
+        if not file.name.lower() in required_wheels:
+            file.unlink()        
+# %%
 def _requirements_to_dependencies(requirements_path):
     with open(requirements_path) as f:
         lines = f.readlines()
