@@ -47,6 +47,7 @@ import platform
 from collections import namedtuple
 import yaml
 from typing import List
+from platform import python_version
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QProgressDialog
@@ -67,90 +68,84 @@ WHEEL_DIR = OUR_DIR / "wheels"
 WHEEL_DIR = str(WHEEL_DIR)
 REQUIREMENTS_PATH = f"{WHEEL_DIR}/requirements.txt"
 
-YML_PATH = OUR_DIR / "environment.yml"
+YML_PATH = OUR_DIR.joinpath("env", "environment.yml")
 
 LOG_DIR = OUR_DIR / "logs"
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 PATCH_DIR = OUR_DIR / "patches"
+PATCHES = {"custom_types.py": r"threedi_schema//domain//custom_types.py"}
 
-# list of depencies
-""" folder can be set to "external-dependencies" to insstall in th plugin folder, it is loaded incorrectly 
-the first time you update the plugin
-"""
+Dependency = namedtuple("Dependency", ["package", "version"])
 
-Dependency = namedtuple(
-    "Dependency",
-    [
-        "name",
-        "package",
-        "version",
-        "constraint",
-        "no_dependecies",
-        "folder",
-        "enforce_version",
-    ],
-)
-
-FLEXIBLE_DEPENDENCIES = [
-    Dependency("jupyter", "jupyter", "1.0.0", "==1.0.0", False, "user", False),
-    Dependency(
-        "hhnk_research_tools",
-        "hhnk_research_tools",
-        "2023.1",
-        "==2023.1",
-        True,
-        "external-dependencies",
-        True,
-    ),
-    Dependency(
-        "hhnk_threedi_tools",
-        "hhnk_threedi_tools",
-        "2023.1",
-        "==2023.1",
-        True,
-        "external-dependencies",
-        True,
-    ),
-    Dependency(
-        "threedi_scenario_downloader",
-        "threedi_scenario_downloader",
-        "0.16",
-        "==0.16",
-        True,
-        "external-dependencies",
-        True,
-    ),
-    Dependency(
-        "threedi_raster_edits",
-        "threedi_raster_edits",
-        "0.26",
-        "==0.26",
-        True,
-        "external-dependencies",
-        True,
-    ),
-    Dependency(
-        "threedi-api-client",
-        "threedi-api-client",
-        "4.1.1",
-        "==4.1.1",
-        True,
-        "external-dependencies",
-        True,
-    ),
-]
-
-package_module_map = {"python_dateutil": "dateutil",
-                      "gdal": "osgeo",
-                      "threedi-api-client": "threedi_api_client"}
-
-patches = {"custom_types.py": r"threedi_schema//domain//custom_types.py"}
 
 # add logging + filehandler so we can log what we are doing
 logger = logging.getLogger(__name__)
 
 
+def _yaml_to_dependencies(yaml_path: Path = YML_PATH) -> List[Dependency]:
+    """
+    Function to read the dependencies from an environment.yml path
+
+    Args:
+        yaml_path (Path): Path to the environment.yml file
+
+    Returns:
+        Dependency, List[Dependency]: Python version or List of dependencies
+
+    """
+
+    environment = yaml.safe_load(yaml_path.read_text())
+    deps = []
+    python_dep = None
+
+    # Extract package names and versions
+    dependencies = environment.get("dependencies", [])
+    for dependency in dependencies:
+        if isinstance(dependency, str):
+            # Extract package name from string
+            name, version = dependency.lower().split("=")
+            if name == "python":
+                python_dep = Dependency(name, version)
+            else:
+                deps.append(Dependency(name, version))
+        elif isinstance(dependency, dict):
+            if "pip" in dependency.keys():
+                for pip_dependency in dependency["pip"]:
+                    name, version = pip_dependency.lower().split("==")
+                    deps.append(Dependency(name, version))
+
+    return python_dep, deps
+
+
+def _evaluate_environment():
+
+    missing_dependencies = []
+    inconsistent_dependencies = []
+
+    python_dep, dependencies = _yaml_to_dependencies(YML_PATH)
+
+    if python_dep is None:
+        correct_python_version = True
+    else:
+        correct_python_version = python_dep.version == python_version
+
+    for dependency in dependencies:
+        try:
+            pkg = pkg_resources.get_distribution(dependency.package)
+            if pkg.version != dependency.version:
+                inconsistent_dependencies.append(
+                    Dependency(
+                        dependency.package,
+                        pkg.version)
+                    )
+        except pkg_resources.DistributionNotFound:
+            missing_dependencies.append(dependency)
+
+    return correct_python_version, inconsistent_dependencies, missing_dependencies
+
+
+'''
 def install_patches():
     deps_dir = _dependencies_target_dir()
     for source, target in patches.items():
@@ -563,46 +558,13 @@ def _requirements_to_dependencies(requirements_path):
         )
     return deps
 
-def _yaml_to_dependencies(yaml_path: Path) -> List[Dependency]:
-    """
-    Function to read the dependencies from a yaml-path
-
-    Args:
-        yaml_path (Path): Path to the environment.yml file
-
-    Returns:
-        List[Dependency]: List of dependencies
-
-    """
-
-    environment = yaml.safe_load(YML_PATH.read_text())
-    deps = []
-
-    # Extract package names and versions
-    dependencies = environment.get('dependencies', [])
-    for dependency in dependencies:
-        if isinstance(dependency, str):
-            # Extract package name from string
-            name = dependency.split('=')[0]
-            constraint = dependency.replace(name, "", 1)
-            if constraint:
-                enforce_version = True
-            else:
-                enforce_version = False
-            deps.append(
-                Dependency(name,
-                           name,
-                           None,
-                           constraint,
-                           True,
-                           None,
-                           enforce_version
-                           ))
-    return deps
+#%%
 
 
+#%%
 THREEDI_DIR = _dependencies_target_dir()
 
 
 if __name__ == "__main__":
     ensure_dependencies()
+'''
