@@ -31,6 +31,7 @@ from collections import namedtuple
 import yaml
 from typing import List
 from platform import python_version
+import shutil
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QProgressDialog
@@ -50,8 +51,7 @@ DEPENDENCY_DIR = str(DEPENDENCY_DIR)
 THREEDI_DEPENCENDCY_DIR = OUR_DIR / "ThreeDiToolbox" / "deps"
 
 WHEEL_DIR = OUR_DIR / "wheels"
-WHEEL_DIR = str(WHEEL_DIR)
-REQUIREMENTS_PATH = f"{WHEEL_DIR}/requirements.txt"
+WHEEL_DIR.mkdir(parents=True, exist_ok=True)
 
 YML_PATH = OUR_DIR.joinpath("env", "environment.yml")
 
@@ -67,9 +67,15 @@ Dependency = namedtuple("Dependency", ["package", "version"])
 # add logging + filehandler so we can log what we are doing
 logger = logging.getLogger(__name__)
 
-# inconsistent_environment ="""Huidige python-omgeving is niet"""
 
-""" Helper functions for QGIS QProgressDialog """
+inconsist_deps_message = f"""
+De volgende afhankelijkheden in de QGIS omgeving zijn niet compatible met geteste plugin omgeving:
+{{msg}}
+
+Update de {YML_PATH} om deze melding te laten verdwijnen
+"""
+
+""" Helper functions for QGIS QProgressDialog and  QMessageBox """
 
 
 def _is_windows():
@@ -127,19 +133,27 @@ def _update_bar(bar, count, total, qgis=True):
         bar.update()
         QApplication.processEvents()
 
-# def _update_environment_yml(correct_python_version, inconsistent_dependencies, qgis=True):
-#     if not correct_python_version:
-#         inconsistent_dependencies.insert(0, Dependency("python",python_version()))
 
-#     if qgis:
-#         msg = f"""De QGIS environment is niet consistent met de environment in 
-#         {"\n".join([f"{i.package}=={i.version}" for i in inconsistent_dependencies])
-        
-        
-#         """
-#         QMessageBox.information(None,
-#                                 "Warning"
-#                                 msg)
+def _raise_inconsistency_warning(correct_python_version, inconsistent_dependencies, qgis=True):
+    """Raise an inconsistency warning if environment is not compatible with yml."""
+    if not correct_python_version:
+        inconsistent_dependencies.insert(
+            0,
+            Dependency("python", python_version())
+            )
+
+    if qgis:
+        msg = "\n".join(
+            [f"{i.package}=={i.version}" for i in inconsistent_dependencies]
+            )
+        msg = inconsist_deps_message.format(msg=msg)
+        logger.warning(msg)
+        QMessageBox.information(
+            None,
+            "Warning",
+            msg
+            )
+
 
 """ Helper functions for logging file-handler."""
 
@@ -283,6 +297,45 @@ def _install_patches(patches: dict = PATCHES, patch_dir: Path = PATCH_DIR):
                 target.write_text(source.read_text())
 
 
+""" Helper functions on maintaining the wheel directory """
+
+
+def _delete_directory(directory, mkdir=True):
+    directory = Path(directory)
+    try:
+        if directory.exists():
+            shutil.rmtree(directory)
+    except PermissionError:
+        logger.warning(f"Failed to remove {directory}")
+
+    if mkdir:
+        directory.mkdir(parents=True, exist_ok=True)
+
+
+def download_wheels(dependencies, directory=WHEEL_DIR, clean_dir=True):
+    """Download the wheels into the wheel directory"""
+
+    if clean_dir:
+        _delete_directory(directory, mkdir=True)
+
+    for dependency in dependencies:
+        command = [
+            _get_python_interpreter(),
+            "-m",
+            "pip",
+            "download",
+            "-d",
+            str(directory)
+            ]
+        command.extend([f"{dependency.package}=={dependency.version}"])
+        process = subprocess.Popen(command)
+        output, error = process.communicate()
+        exit_code = process.wait()
+        if exit_code:
+            logger.error(
+                f"Downloading {dependency.package} failed with: {error} {output}"
+                )
+
 """ Helper functions to install missing dependencies. """
 
 
@@ -310,7 +363,14 @@ def _get_python_interpreter():
 def _install_dependency(dependency: Dependency, dialog=None, startupinfo=None, fh=None):
     """install pip in the main directory of qgis"""
 
-    command = [_get_python_interpreter(), "-m", "pip", "install"]
+    command = [
+        _get_python_interpreter(),
+        "-m",
+        "pip",
+        "install",
+        "--find-links",
+        str(WHEEL_DIR)
+        ]
 
     # if jupyter, we go for a full install in user-directory
     if dependency.package == "jupyter":
@@ -402,13 +462,20 @@ def ensure_dependencies(
             logger.info(f"{dir_path} added to sys.path")
         else:
             logger.warning(f"{dir_path} does not exist and is not added to sys.path")
-    
+
     # make sure all currently installed modules are patched if necessary
     _install_patches()
-    
+
     logger.info("evaluating environment")
     correct_python_version, inconsistent_dependencies, missing_dependencies = _evaluate_environment(yml_path)
-    
+
+    # raise an inconsistency warning if environment is not consistent with tested plugin environment
+    if (not correct_python_version) or (inconsistent_dependencies):
+        _raise_inconsistency_warning(
+            correct_python_version,
+            inconsistent_dependencies
+            )
+
     if missing_dependencies:
         logger.info(
             f"missing dependencies: {' '.join([i.package for i in missing_dependencies])}"
@@ -442,5 +509,5 @@ def ensure_dependencies(
     _remove_logger_file_handler(fh)
 
 
-if __name__ == "__main__":
-    ensure_dependencies()
+#if __name__ == "__main__":
+#    ensure_dependencies()
