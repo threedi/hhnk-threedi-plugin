@@ -89,6 +89,13 @@ En test de plugin voor deze environment (!)
 """ Helper functions for QGIS QProgressDialog and  QMessageBox """
 
 
+restart_message = """
+Installatie hhnk_threedi_plugin dependencies is voltooid.
+
+Let op (!): QGIS herstarten om geinstalleerde modules te her-activeren.
+"""
+
+
 def _get_python_interpreter():
     """Return the path to the python3 interpreter.
 
@@ -187,6 +194,12 @@ def _raise_inconsistency_warning(
 
     if qgis:
         QMessageBox.information(None, "Warning", msg)
+
+
+def _raise_restart_warning(qgis=_is_qgis()):
+    """Raise restart warning after installation."""
+    if qgis:
+        QMessageBox.information(None, "Warning", restart_message)
 
 
 """ Helper functions for logging file-handler."""
@@ -564,6 +577,9 @@ def ensure_dependencies(
         # close dialog
         if dialog:
             dialog.close()
+
+        # restart warning: just to be sure...
+        _raise_restart_warning()
 
     # make sure all newly installed modules are patched if necessary
     _install_patches()
