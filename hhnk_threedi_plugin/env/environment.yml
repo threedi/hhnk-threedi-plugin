@@ -1,5 +1,5 @@
 # This is an environment for hhnk_qgis_plugin installation
-name: hhnk_threedi_plugin
+name: hhnk_threedi
 
 channels:
   - conda-forge
@@ -12,18 +12,14 @@ dependencies:
   - click=8.1.3
   - click-plugins=1.1.1
   - colorama=0.4.6
-  - et-xmlfile=1.1.0
   - exceptiongroup=1.1.1
   - iniconfig=2.0.0
   - ipyfilechooser=0.6.0
   - jupyter=1.0.0
   - geoalchemy2=0.10.2
   - geopandas=0.11.1
-  - hhnk_research_tools=2023.1
-  - hhnk_threedi_tools=2023.1
   - tomli=2.0.1
   - tzlocal=2.1
-  - openpyxl=3.1.2
   - packaging=23.0
   - pandas=1.1.3
   - pluggy=1.0.0
@@ -37,6 +33,10 @@ dependencies:
   - tqdm=4.64.0
   - xarray=2022.3.0
   - pip: # 3Di packages are not conda installable and are therefore installed by PIP
+    - et-xmlfile==1.1.0
+    - openpyxl==3.1.2
+    - hhnk_research_tools==2023.1
+    - hhnk_threedi_tools==2023.1
     - threedi_modelchecker==1.0.1
     - threedi_scenario_downloader==0.16
     - threedi_schema==0.214.4
