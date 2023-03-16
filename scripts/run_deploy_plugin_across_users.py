@@ -1,5 +1,5 @@
 # %%
-from deploy_across_users import deploy
+from deploy_plugin_across_users import deploy
 
 
 deploy(admin_user="wvangerwen",
