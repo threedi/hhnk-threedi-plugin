@@ -448,7 +448,7 @@ def _install_dependency(
     if dependency.version:
         command.extend([f"{dependency.package}=={dependency.version}"])
     else:
-        command.extend(["dependency.package"])
+        command.extend([f"{dependency.package}"])
 
     logger.info(f"executing command {' '.join(command)}")
     process = subprocess.Popen(
