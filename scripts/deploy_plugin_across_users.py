@@ -2,11 +2,14 @@ import argparse
 from pathlib import Path
 import logging
 import shutil
+from collections import namedtuple
 
 logger = logging.getLogger(__name__)
 
 PLUGINS_DIR = r"c://Users//{user}//AppData//Roaming//3Di//QGIS3//profiles//default//python//plugins"
 
+
+StoredFile = namedtuple("StoredFile", ["path", "content"])
 
 def main():
     args = get_args()
@@ -34,6 +37,35 @@ def get_users(user_dir="c://Users"):
     return [i.name for i in Path(user_dir).glob("*/")]
 
 
+def read_ignored_files(user_plugin_dir, files_ignored):
+    stored_files = []
+    for file in files_ignored:
+        path = user_plugin_dir.joinpath(file)
+        if path.exists():
+            print(f"  reading original: {path}")
+            stored_files.append(StoredFile(path, path.read_text()))
+    return stored_files
+
+
+def write_ignored_files(stored_files):
+    for stored_file in stored_files:
+        print(f"  writing original: {stored_file.path}")
+        stored_file.path.write_text(stored_file.content)
+
+
+def copy_directory_content(admin_plugin_dir, user_plugin_dir, files_ignored):
+    """Copy directory content, ingnoring some files."""
+    user_plugin_dir.mkdir(parents=True, exist_ok=True)
+
+    for path in admin_plugin_dir.glob("*"):
+        if path.is_dir():
+            if path.name != "external-dependencies":
+                shutil.copytree(path, user_plugin_dir.joinpath(path.name))
+        elif path.is_file():
+            if path.name not in files_ignored:
+                shutil.copy(path, user_plugin_dir.joinpath(path.name))
+
+
 def deploy(
     admin_user: str,
     plugins: list = ["hhnk_threedi_plugin", "ThreeDiToolbox"],
@@ -46,21 +78,19 @@ def deploy(
 
     # check what can be copied from admin
     if not admin_plugins_dir.is_dir():
-        raise FileNotFoundError(
-            f"""
-                                {admin_plugins_dir} is not an existing directory
-                                please evaluate input provided for
-                                admin_user: '{admin_user}' and plugins_dir: '{plugins_dir}'
-                                """
-        )
+        raise FileNotFoundError(f"""
+            {admin_plugins_dir} is not an existing directory
+            please evaluate input provided for
+            admin_user: '{admin_user}' and plugins_dir: '{plugins_dir}'
+            """)
     else:
         for plugin in plugins:
             if not admin_plugins_dir.joinpath(plugin).is_dir():
                 logger.warning(
                     f"""
-                               plugin '{plugin}' not installed in {admin_plugins_dir}"
-                               and cannot be copied.
-                               """
+                    plugin '{plugin}' not installed in {admin_plugins_dir}"
+                    and cannot be copied.
+                    """
                 )
         print(f"plugins that can be copied: {plugins}")
     # get users
@@ -81,24 +111,10 @@ def deploy(
                 user_plugin_dir = user_plugins_dir / plugin
                 
                 # some files we wish to keep
-                keep_files = []
-                for file in files_ignored:
-                    file_path = user_plugin_dir.joinpath(file)
-                    if file_path.exists():
-                        print(f"  reading original: {file_path}")
-                        keep_files.append((file_path, file_path.read_text()))
-                
-                # keeping api_key.txt if existing
-                keep_paths = {}
-                keep_file_content = {}
-
-                for key in ["api_key.txt", "local_settings.py"]:
-                    keep_paths[key] = user_plugin_dir.joinpath(key)
-                    if keep_paths[key].exists():
-                        keep_file_content[key] = keep_paths[key].read_text()
-                    else:
-                        keep_file_content[key] = None
-
+                stored_files = read_ignored_files(
+                    user_plugin_dir,
+                    files_ignored
+                    )
 
                 if user_plugin_dir.exists():
                     try:
@@ -109,35 +125,19 @@ def deploy(
                             f"  removing {user_plugin_dir} failed with error: {e}"
                         )
 
-                        for key in ["api_key.txt", "local_settings.py"]:
-                            if not keep_paths[key].exists():
-                                if keep_file_content[key] is not None:
-                                    keep_paths[key].write_text(keep_file_content[key])                          
+                        write_ignored_files(stored_files)                       
                         raise e
                 print(
                     f"  copying '{admin_plugins_dir.joinpath(plugin)}' to {user_plugin_dir}"
                 )
-                shutil.copytree(admin_plugins_dir.joinpath(plugin), user_plugin_dir)
+                copy_directory_content(
+                    admin_plugins_dir.joinpath(plugin),
+                    user_plugin_dir,
+                    files_ignored)
 
-                # some random original files we wish to keep
-                for file, text in keep_files:
-                    print(f"  writing original '{file}'")
-                    file.write_text(text)
+                # write stored files
+                write_ignored_files(stored_files)   
 
-                # do api key and local settings
-                for key in ["api_key.txt", "local_settings.py"]:
-                    if keep_paths[key].exists():
-                        keep_paths[key].unlink()
-                    if keep_file_content[key] is not None:
-                        keep_paths[key].write_text(keep_file_content[key])     
-
-                
-                # delete dependencies directories
-                if plugin == "hhnk_threedi_plugin":
-                    deps_dir = user_plugin_dir / "external-dependencies"
-                    if deps_dir.exists():
-                        print(f"removing {deps_dir}")
-                        shutil.rmtree(deps_dir)
         else:
             print(f"user has no plugins-dir: {user_plugins_dir}")
 
@@ -151,7 +151,7 @@ def get_args() -> argparse.Namespace:
         "--plugin",
         help="one or more plugins copy",
         action="append",
-        default=[],
+        default=["hhnk_threedi_plugin"],
     )
     parser.add_argument(
         "--plugins_dir",

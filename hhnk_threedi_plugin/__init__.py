@@ -69,8 +69,6 @@ def classFactory(iface):  # pylint: disable=invalid-name
     :param iface: A QGIS interface instance.
     :type iface: QgsInterface
     """
-    #
-    ensure_dependencies(only_path=False)
     from .hhnk_toolbox import HHNK_toolbox
 
     return HHNK_toolbox(iface)

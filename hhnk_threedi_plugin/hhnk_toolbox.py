@@ -64,32 +64,12 @@ from hhnk_threedi_tools.core.checks.model_state import detect_model_states
 # Variables
 from hhnk_threedi_tools.variables.model_state import invalid_path
 
-# Test controllers
-# from .functionality_controllers.test_controllers.run_sqlite_tests import (
-#     run_sqlite_tests,
-# )
-# from .functionality_controllers.test_controllers.run_bank_levels_test import (
-#     run_bank_levels_test,
-# )
 from hhnk_threedi_plugin.tasks.task_sqlite_tests_main import task_sqlite_tests_main
 
-
-# from .functionality_controllers.test_controllers.run_hydraulic_tests import (
-#     run_hydraulic_tests,
-# )
-# from .functionality_controllers.test_controllers.run_1d2d_tests import run_1d2d_tests
-
-# hhnk-threedi-tools
-from hhnk_threedi_tools.utils.notebooks.run import create_command_bat_file
-import logging
 import os
-from functools import wraps
-from time import sleep
-from qgis.PyQt import uic
 
 from hhnk_threedi_plugin.gui.model_splitter.model_splitter_dialog import modelSplitterDialog
 
-from .dependencies import DEPENDENCY_DIR, THREEDI_DIR
 
 # docs
 
