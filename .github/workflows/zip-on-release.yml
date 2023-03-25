@@ -1,16 +1,19 @@
 name: zip-on-release
-on: push
-
+on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Switch to plugin folder
-    - run: |
-        cd hhnk_threedi_plugin
-        ls -la
-    - name: Zip Folder
-      run: zip -r hhnk-threedi-plugin.zip . -x ".ipynb_checkpoints/*" ".__pycache__/*" ".external-dependencies/*"
-    - name: Release to Github
-      run: echo "Release"
+    - uses: actions/checkout@master
+    - name: Archive Release
+      uses: thedoctor0/zip-release@0.7.1
+      with:
+        type: 'zip'
+        path: ./hhnk_threedi_plugin
+        filename: 'hhnk_threedi_plugin.zip'
+        exclusions: '*.git* /*node_modules/* .editorconfig'
+    - name: Upload Release
+      uses: ncipollo/release-action@v1.12.0
+      with:
+        artifacts: "hhnk_threedi_plugin.zip"
+        token: ${{ secrets.GITHUB_TOKEN }}
