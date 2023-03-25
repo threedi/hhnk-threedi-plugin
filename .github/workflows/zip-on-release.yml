@@ -1,8 +1,7 @@
 name: zip-on-release
-on: 
-  push:
-    tags:
-    - '*'
+on:
+  release:
+    types: [created]
 
 jobs:
   build:
@@ -20,4 +19,5 @@ jobs:
       uses: ncipollo/release-action@v1.12.0
       with:
         artifacts: "hhnk_threedi_plugin.zip"
+        allowUpdates: true
         token: ${{ secrets.GITHUB_TOKEN }}
