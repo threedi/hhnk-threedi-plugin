@@ -1,9 +1,15 @@
 HHNK Toolbox
-===============================================
+============
 
-Welkom op de documentatie pagina van de HHNK toolbox QGIS plugin.
+Plugin voor het bouwen en analyseren van `3Di <https://3diwatermanagement.com/>`_ modellen van Hoogheemraadschap Hollands Noorderkwartier (HHNK)
 
-Deze plugin is ontwikkeld voor het klaarmaken van modellen voor het simuleren van regen scenarios met `3di <https://3diwatermanagement.com/>`_. Ook bevat deze Toolbox functionaliteit om de resultaten van deze simulaties te analyseren.
+.. image:: https://img.shields.io/github/v/release/threedi/hhnk-threedi-plugin
+   :alt: GitHub release (latest by date)
+   :target: https://github.com/threedi/hhnk-threedi-plugin/releases/latest
+
+**Documentatie**: `https://threedi.github.io/hhnk-threedi-plugin <https://threedi.github.io/hhnk-threedi-plugin/>`_
+
+**Broncode**: `https://github.com/threedi/hhnk-threedi-plugin <https://github.com/threedi/hhnk-threedi-plugin/>`_
 
 Inhoudsopgave
 ^^^^^^^^^^^^^

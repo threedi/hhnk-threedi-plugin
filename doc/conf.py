@@ -13,19 +13,28 @@
 import os
 import sys
 import sphinx_rtd_theme
+import 	
 
 sys.path.insert(0, os.path.abspath(''))
 sys.path.append('md_files')
 sys.path.append('images/installation')
 
+def get_release():
+    release = '0.0.1'
+    url = "https://api.github.com/repos/threedi/hhnk-threedi-plugin/releases/latest"
+    response = requests.get(url)
+    if response.ok:
+        if "name" in response.json().keys():
+            release = response.json()["name"]
+    return release
+
 # -- Project information -----------------------------------------------------
 
-project = 'HHNK toolbox QGIS plugin'
-copyright = '2021, L. Ravier'
-author = 'L. Ravier'
+project = 'HHNK 3Di plugin'
+copyright = 'Hoogheemraadschap Hollands Noorderkwartier'
 
 # The full version, including alpha/beta/rc tags
-release = '0.0.1'
+release = get_release()
 
 # -- General configuration ---------------------------------------------------
 

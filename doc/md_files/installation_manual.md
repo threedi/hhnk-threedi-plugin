@@ -32,10 +32,6 @@ Kijk, na herstart, of de 3Di Toolbox goed is geinstalleerd en geactiveerd. Navig
 ## Installatie HHNK Toolbox Plugin
 Download de laatste `hhnk_threedi_plugin.zip` [hier](https://github.com/threedi/hhnk-threedi-plugin/releases/latest/download/hhnk_threedi_plugin.zip). 
 
-Je kunt hem ook downloaden via de release-pagina op GitHub <a href="https://github.com/threedi/hhnk-threedi-plugin/releases/latest" target="_blank">https://github.com/threedi/hhnk-threedi-plugin/releases/latest</a>:
-
-![](../images/installation/plugin_download_zip.PNG)
-
 Navigeer naar `plugins > manage and install plugins`. In de Plugin Manager, klik op `install from ZIP`
 
 ![](../images/installation/plugin_manager_install_from_zip.PNG)
@@ -58,6 +54,11 @@ Als alles goed is gegaan is de plugin nu klaar voor gebruik:
 
 (bekende_problemen)=
 ## Bekende problemen
+
+###
+Je de plugin ook downloaden via de release-pagina op GitHub <a href="https://github.com/threedi/hhnk-threedi-plugin/releases/latest" target="_blank">https://github.com/threedi/hhnk-threedi-plugin/releases/latest</a>:
+
+![](../images/installation/plugin_download_zip.PNG)
 
 ### Directe installatie in plugin-folder
 Als de installatie via de plugin manager niet (soepel) verloopt, kun je de zip-file ook direct uitpakken in de plugin map. Deze staat in:
