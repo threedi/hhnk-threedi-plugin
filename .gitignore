@@ -17,3 +17,6 @@ local_settings.py
 hhnk_threedi_plugin/env/environment_spyder_dev.yml
 hhnk_threedi_plugin/external-dependencies/*
 hhnk_threedi_plugin/logs/*
+
+# documenation
+_build/*
