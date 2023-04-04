@@ -7,9 +7,12 @@ if __name__ =='__main__':
     import sys
     from pathlib import Path
     sys.path.append(str(Path(os.getcwd()).parent.parent))
-from hhnk_threedi_plugin.dependencies import DEPENDENCY_DIR, THREEDI_DIR
+from hhnk_threedi_plugin.dependencies import DEPENDENCY_DIR, THREEDI_DEPENDENCY_DIR
 from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
-import hhnk_threedi_plugin.local_settings as local_settings
+try: 
+    import hhnk_threedi_plugin.local_settings as local_settings
+except ModuleNotFoundError:
+    import hhnk_threedi_plugin.local_settings_default as local_settings
 from pathlib import Path
 from qgis.PyQt.QtWidgets import QAction, QMessageBox
 
@@ -110,7 +113,7 @@ class NotebookWidget():
             },
         )
 
-        notebook_paths = [str(THREEDI_DIR),str(DEPENDENCY_DIR)]
+        notebook_paths = [str(THREEDI_DEPENDENCY_DIR),str(DEPENDENCY_DIR)]
         if local_settings.hhnk_threedi_tools_path not in [None, '']:
             notebook_paths.append(local_settings.hhnk_threedi_tools_path)
         try:     

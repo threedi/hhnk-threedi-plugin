@@ -27,15 +27,23 @@ class modelSplitterDialog(QtWidgets.QDialog):
         #self.dockwidget.polder_selector.fileChanged.connect(print("polderselectorchanged")) 
         self.model_settings_path.fileChanged.connect(self.load_settings)
         self.model_settings_path.fileChanged.connect(self.add_models_to_widget)
+
+        # creating schematisations, revisions and enable the upload process
         self.run_push_btn.clicked.connect(self.create_schematisations)
         self.run_push_btn.clicked.connect(self.revision_check)
+        self.run_push_btn.clicked.connect(self.enable_upload)
+
+        # upload the models
         self.upload_push_btn.clicked.connect(self.upload_schematisations)
+
+        # other stuff
         self.cancel.clicked.connect(self.close)
                
 
         self.model_settings_path.setFilePath(self.caller.fenv.model.settings.path)
         self.listWidget3.addItem(str(datetime.datetime.now()) + "SETTINGS FOLDER: - " + self.caller.fenv.model.settings.path)
 
+        
 
     def load_settings(self):
         """Load model settings and default settings. Thet are added as .settings_df and .settings_default_series"""
@@ -50,6 +58,8 @@ class modelSplitterDialog(QtWidgets.QDialog):
             self.listWidget3.addItem(f"{datetime.datetime.now()} -----------------------------------------------------------------------------*")
             self.listWidget3.addItem("CHANGED SETTINGS FOLDER INTO: - " + folder_path)
 
+    def enable_upload(self):
+        self.upload_push_btn.setEnabled(True)
 
     def add_models_to_widget(self):
         """Add models to the listwidgets"""
@@ -85,14 +95,29 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.listWidget3.addItem("Path: " + str(self.dockwidget.polder_selector.filePath()))
         self.listWidget3.addItem("Continue to upload the versions")
 
+    def revision_check(self):
+        api_key = self.dockwidget.threedi_api_key_textbox.text()
+        lst_items = self.get_lst_items(listwidget=self.listWidget2)
+        self.listWidget3.addItem("")
+        self.listWidget3.addItem(f"{datetime.datetime.now()} -----------------------------------------------------------------------------*")
+        for list_name in lst_items:
+            self.listWidget3.addItem(self.modelschematisations.get_revision_info(name=list_name, api_key=api_key))
+
+        #Logging
+        self.listWidget3.addItem("Check revisions and continue to upload the versions")
 
     def upload_schematisations(self):   
         """Upload selected schematisations to the 3Di servers."""
-        lst_items = self.get_lst_items(listwidget=self.listWidget2)
         commit_message = self.textEdit.toPlainText()
+        commit_message=commit_message.lower()
+        commit_message = commit_message.replace('\n', ' ').replace('\r', ' ').replace("\\", '|')
+        
         api_key = self.dockwidget.threedi_api_key_textbox.text()
+
+        lst_items = self.get_lst_items(listwidget=self.listWidget2)
+        print(lst_items)
         for list_name in lst_items:
-            self.modelschematisations.upload_schematisation(name=list_name, commit_message=commit_message, api_key=api_key)
+             self.modelschematisations.upload_schematisation(name=list_name, commit_message=commit_message, api_key=api_key)
 
         #Logging
         self.listWidget3.addItem("")

@@ -18,7 +18,7 @@ from hhnk_threedi_plugin.gui.path_verification_functions import is_valid_model_p
 from hhnk_threedi_plugin.error_messages.input_error_messages import invalid_model_path
 
 from hhnk_threedi_plugin.gui.tests.bank_levels_widgets.proposed_changes_dialog import modelChangesDialog
-import hhnk_threedi_plugin.tasks.task_bank_levels as task_bank_levels
+#import hhnk_threedi_plugin.tasks.task_bank_levels as task_bank_levels
 import hhnk_threedi_tools as htt
 
 

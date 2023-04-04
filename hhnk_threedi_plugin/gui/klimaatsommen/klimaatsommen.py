@@ -44,30 +44,6 @@ from ...qgis_interaction.klimaatsommen_pdfs import create_pdfs, load_print_layou
 SUBJECT = "Klimaatsommen"
 
 
-def setupUi(klimaatsommen_widget):
-
-    klimaatsommen_widget.laad_layout_btn = QPushButton("Laad layout")
-    klimaatsommen_widget.create_pdfs_btn = QPushButton("Maak pdfs")
-    klimaatsommen_widget.create_clean_btn = QPushButton("clean")
-    klimaatsommen_widget.select_revision_label = QLabel("Selecteer revisie:")
-    klimaatsommen_widget.select_revision_box = revisionsComboBox()
-
-    # Main layout
-    main_layout = QVBoxLayout()
-    main_layout.setAlignment(Qt.AlignTop)
-    main_layout.setContentsMargins(45, 45, 25, 25)
-    main_layout.addSpacerItem(QSpacerItem(25, 5, QSizePolicy.Expanding))
-
-    main_layout.addWidget(klimaatsommen_widget.select_revision_label)
-    main_layout.addWidget(klimaatsommen_widget.select_revision_box)
-    main_layout.addWidget(klimaatsommen_widget.laad_layout_btn)
-    main_layout.addSpacerItem(QSpacerItem(25, 5, QSizePolicy.Expanding))
-
-    main_layout.addWidget(klimaatsommen_widget.create_clean_btn)
-    main_layout.addWidget(klimaatsommen_widget.create_pdfs_btn)
-    main_layout.addSpacerItem(QSpacerItem(25, 5, QSizePolicy.Expanding))
-
-    klimaatsommen_widget.setLayout(main_layout)
 
 
 class KlimaatSommenWidget(QWidget):
@@ -87,7 +63,8 @@ class KlimaatSommenWidget(QWidget):
 
     def __init__(self, caller, parent=None):
         super(KlimaatSommenWidget, self).__init__(parent)
-        setupUi(self)
+        self.setupUi()
+        
         # ----------------------------------------------------------
         # Variables
         # ----------------------------------------------------------
@@ -109,6 +86,34 @@ class KlimaatSommenWidget(QWidget):
         self.create_pdfs_btn.clicked.connect(self.verify_submit_create_pdfs)
         self.create_clean_btn.clicked.connect(self.verify_submit_create_clean)
         self.select_revision_box.aboutToShowPopup.connect(self.populate_combobox)
+
+
+    def setupUi(self):
+        self.select_revision_label = QLabel("Selecteer revisie:")
+        self.select_revision_box = revisionsComboBox()
+
+        self.laad_layout_btn = QPushButton("Laad layout")
+        self.create_pdfs_btn = QPushButton("Maak pdfs")
+        self.create_clean_btn = QPushButton("clean")
+
+
+        # Main layout
+        main_layout = QVBoxLayout()
+        main_layout.setAlignment(Qt.AlignTop)
+        main_layout.setContentsMargins(45, 45, 25, 25)
+        main_layout.addSpacerItem(QSpacerItem(25, 5, QSizePolicy.Expanding))
+
+        main_layout.addWidget(self.select_revision_label)
+        main_layout.addWidget(self.select_revision_box)
+        main_layout.addWidget(self.laad_layout_btn)
+        main_layout.addSpacerItem(QSpacerItem(25, 5, QSizePolicy.Expanding))
+
+        main_layout.addWidget(self.create_clean_btn)
+        main_layout.addWidget(self.create_pdfs_btn)
+        main_layout.addSpacerItem(QSpacerItem(25, 5, QSizePolicy.Expanding))
+
+        self.setLayout(main_layout)
+
 
     def verify_submit_laad_layout(self):
         """

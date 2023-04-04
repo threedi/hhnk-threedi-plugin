@@ -1,372 +1,592 @@
-# -*- coding: utf-8 -*-
 """
-Created on Fri Dec  3 16:19:30 2021
 
-@author: chris.kerklaan
+@author: Wietse Gerwen & Daniel Tollenaar
 
 Current requirements:
-    - The 3Di toolbox must be installed (for threedigrid and other deps).
     - QGIS version must be 3.22
+    - ThreeDiToolbox properly installed (for threedigrid and other deps).
 
-How these dependencies are made:
-    - Geopandas
-    First the osgeo installer is used to copy the main dependencies of
-    geopandas (wheels/geopandas). They are copied to external-dependencies.
-    Geopandas 0.8.2 must be used (instead of 0.8.1.) for reading excel sheets.
-    
-    - Jupyter (flexible)
-    Jupyter is installed in 'user' (roaming/python) due to constraints on
-    the hhnk servers.
-    
-    - hhnk_research_tools / hhnk_threedi_tools 
-    These deps are made flexible and are thus downloaded from the internet.
-    Therefore we can change the version very simply here in the script.
-    
-    
-    - Other
-    All other dependencies are installed via wheels (/wheels/requirements.txt)
-    in the external-dependencies folder.
-    
-    
-All dependencies are installed and reloaded. The external-dependencies path is 
-put at the top of sys.path so this is the first path that will be seen by
-python.
 
+How ensure_dependencies works:
+    1. Adding ThreeDiToolbox.deps and hhnk_threedi_plugin.external-dependencies
+       to path, so all installed modules can be found
+    2. Checking if the current Python-environment includes all packages with
+       versions as specified in hhnk_threedi_plugin.env.environment.yml
+    3. If Python and/or package versions in current environment do not match
+       hhnk_threedi_plugin.env.environment.yml, warn the user if this
+       inconsistencies
+    4. Installing all missing packages
+
+
+Functions are heavily inspired by/ copied from:
+    https://github.com/nens/ThreeDiToolbox/blob/master/dependencies.py
 """
 
 import os
 import sys
-import site
-import shutil
 import pkg_resources
-import importlib
 import logging
 import subprocess
-import pathlib
+from pathlib import Path
+import platform
+import importlib
 from collections import namedtuple
-from distutils.dir_util import copy_tree
+import yaml
+from typing import List
+from platform import python_version
+import shutil
+
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QProgressDialog
+from PyQt5.QtWidgets import QProgressBar
+from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWidgets import QMessageBox
 
 
 CREATE_NO_WINDOW = 0x08000000
 DETACHED_PROCESS = 0x00000008
 
 # Globals
-OUR_DIR = pathlib.Path(__file__).parent
+OUR_DIR = Path(__file__).parent
 DEPENDENCY_DIR = OUR_DIR / "external-dependencies"
 DEPENDENCY_DIR.mkdir(parents=True, exist_ok=True)
-DEPENDENCY_DIR = str(DEPENDENCY_DIR)
+THREEDI_DEPENDENCY_DIR = OUR_DIR.parent / "ThreeDiToolbox" / "deps"
 
 WHEEL_DIR = OUR_DIR / "wheels"
-WHEEL_DIR = str(WHEEL_DIR)
-REQUIREMENTS_PATH = f"{WHEEL_DIR}/requirements.txt"
+WHEEL_DIR.mkdir(parents=True, exist_ok=True)
 
-# list of depencies
-""" folder can be set to "external-dependencies" to insstall in th plugin folder, it is loaded incorrectly 
-the first time you update the plugin
+YML_PATH = OUR_DIR.joinpath("env", "environment.yml")
+
+LOG_DIR = OUR_DIR / "logs"
+LOG_DIR.mkdir(parents=True, exist_ok=True)
+
+PATCH_DIR = OUR_DIR / "patches"
+PATCHES = {
+    "custom_types.py": THREEDI_DEPENDENCY_DIR.joinpath(
+        "threedi_schema//domain//custom_types.py"
+    )
+}
+
+Dependency = namedtuple("Dependency", ["package", "version"])
+
+
+# add logging + filehandler so we can log what we are doing
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+
+inconsist_deps_message = f"""
+Installatie hhnk_threedi_plugin
+
+De volgende depencendies in deze QGIS python-environment zijn niet compatible met geteste plugin environment: 
+{{msg}}
+
+Update de {YML_PATH} om deze melding te laten verdwijnen.
+
+En test de plugin voor deze environment (!)
+""" # noqa: E501
+
+""" Helper functions for QGIS QProgressDialog and  QMessageBox """
+
+
+restart_message = """
+Installatie hhnk_threedi_plugin dependencies is voltooid.
+
+Let op (!): QGIS herstarten om geinstalleerde modules te her-activeren.
 """
 
-Dependency = namedtuple(
-    "Dependency",
-    ["name", "package", "version", "constraint", "no_dependecies", "folder", "enforce_version"],
-)
 
-FLEXIBLE_DEPENDENCIES = [
-    Dependency("jupyter", "jupyter", "1.0.0", "==1.0.0", False, "user", False), 
-    Dependency("hhnk_threedi_tools","hhnk_threedi_tools","2023.1", "==2023.1", True, "external-dependencies" , True),
-    Dependency("hhnk_research_tools","hhnk_research_tools","2023.1", "==2023.1", True, "external-dependencies" , True), 
-    Dependency("threedi_raster_edits","threedi_raster_edits","0.26", "==0.26", True, "external-dependencies" , True),  
-    Dependency("threedi_scenario_downloader","threedi_scenario_downloader","0.16", "==0.16", True, "external-dependencies" , True),  
-    Dependency("pytest","pytest", "7.1.2", "7.1.2", False, "external-dependencies" , False),  
-]
-
-
-logger = logging.getLogger(__name__)
-
-
-def ensure_dependencies(requirements_path=REQUIREMENTS_PATH, flexible_dependencies=FLEXIBLE_DEPENDENCIES, only_path=False):
-    """ensures dependencies by looking adding sys paths en looking into pip"""
-    
-    if DEPENDENCY_DIR not in sys.path:
-        sys.path.insert(0, str(_dependencies_target_dir()))  # threedi
-        sys.path.insert(0, DEPENDENCY_DIR)
-
-    if not only_path:
-        frozen_dependencies = _requirements_to_dependencies(REQUIREMENTS_PATH)
-        dependencies = frozen_dependencies + flexible_dependencies
-
-        print("\nExtended paths:\n")
-        for path in sys.path:
-            print(path)
-        
-        if not "fiona" in os.listdir(DEPENDENCY_DIR):
-        
-            print("\n Moving geopandas distribution to site-packages")
-            copy_tree(WHEEL_DIR + "/geopandas", DEPENDENCY_DIR) 
-        
-        print("`\nInstalling frozen and flexible dependencies...:\n")
-        to_be_installed = []
-        for dependency in dependencies:
-            if not _available(dependency) or not _correct_version(dependency):
-                to_be_installed.append(dependency)
-                _install_dependency(dependency)
-
-        #_install_multiple_dependencies(to_be_installed)
-        _replace_patched_threedigrid()
-    
-def _dependencies_target_dir(our_dir=OUR_DIR, create=False) -> pathlib.Path:
-    """Return (and create) the desired deps folder
-    This is the 'deps' subdirectory of the plugin home folder
-    """
-    target_dir = our_dir.parent / "ThreeDiToolbox" / "deps"
-    if not target_dir.exists():
-        print("Please install the threeditoolbox first!")
-
-    return target_dir
-
-def _can_import(package_name):
-    try:
-        importlib.import_module(package_name)
-    except (ImportError, ModuleNotFoundError) as e:
-        print(package_name, e)
-        return False
-    else:
-        return True
-        
-def _available(dependency: Dependency, show=True):
-
-    if dependency.package == "jupyter":
-        possible_import = _notebook_available('user')
-    elif dependency.name == "python_dateutil":
-        possible_import = _can_import('dateutil')
-    elif dependency.name == "gdal":
-        possible_import = _can_import('osgeo')    
-    else:
-        possible_import = _can_import(dependency.name)
-
-    if possible_import:
-        msg = f"{dependency.package} available!"
-    else:
-        msg = f"{dependency.package} does not exists!"
-        
-    if show:
-        print(msg)
-        
-    return possible_import
-
-def _correct_version(dependency: Dependency):
-    """ 
-    returns False if dependency is not available or has not correct version.
-    returns True if correct version or if not enforcing dependency.
-    """
-    correct = False
-    if _available(dependency, show=False):
-        
-        version = None
-        # path is not yet added to pkg_resources, so manually
-        if dependency.folder == "external-dependencies":  
-            for i in pkg_resources.find_distributions(DEPENDENCY_DIR):
-                if i.project_name == dependency.name:
-                    version = i.version 
-            
-        if version is None:
-            try:
-                version = pkg_resources.get_distribution(dependency.name).version
-            except pkg_resources.DistributionNotFound:
-                return True
-                
-        correct = version in dependency.version    
-        if correct:
-            print(f"{dependency.name} has correct version!")
-        else:
-            print(f"{dependency.name} has incorrect version: {version}")
-    
-    if not dependency.enforce_version:
-        return True
-    else:
-        return correct
-
-def _notebook_available(location="osgeo"):
-    """ jupyters notebook is checked by looking at the executable
-        instead of checking if it can be called in the cmd.
-        In the cmd you'll open it immediately, instead of checking if it exists
-    """
-    if location =='osgeo':
-        path = shutil.which("jupyter-notebook")
-        notebook_exists = path is not None
-        
-        if notebook_exists and _can_import("jupyter"):
-            return True
-        else:
-            return False
-    elif location == "user":
-        path = site.getusersitepackages().replace("site-packages", "Scripts")
-        print("Looking for jupyter at",path +"/jupyter-notebook.exe" )
-        if os.path.exists(path +"/jupyter-notebook.exe"):
-            return True
-        else:
-            return False
-    
-
-def _replace_patched_threedigrid(path=OUR_DIR):
-    """threedigrid is patched in the toolbox it does not work with the current scripting"""
-    try:
-        plugin_dir = OUR_DIR.parent
-        threedi_patch = str(
-            plugin_dir / "ThreeDiToolbox" / "utils" / "patched_threedigrid.py"
-        )
-        our_patch = str(OUR_DIR / "utils" / "patched_threedigrid.py")
-        print(our_patch, threedi_patch)
-        shutil.copy(our_patch, threedi_patch)
-    except Exception:
-        print("Failed to replace the threedigrid_patch with our own.")
-    else:
-        print("Successfully replaced the threedigrid_patch with our own.")
-
-
-def _get_python_interpreter(osgeo_shell=False):
+def _get_python_interpreter():
     """Return the path to the python3 interpreter.
 
     Under linux sys.executable is set to the python3 interpreter used by Qgis.
-    However, under Windows/Mac this is not the case and sys.executable refers to the
-    Qgis start-up script.
+    However, under Windows/Mac this is not the case and sys.executable refers
+    to the Qgis start-up script.
     """
     interpreter = None
     executable = sys.executable
-    directory, filename = os.path.split(executable)
-    if "python" in filename and not osgeo_shell:
+    directory, _ = os.path.split(executable)
+    if _is_windows():
+        interpreter = os.path.join(directory, "python3.exe")
+    elif platform.system().lower() == "darwin":
+        interpreter = os.path.join(directory, "bin", "python3")
+    else:
+        interpreter = executable
 
-        if filename.lower() in ["python.exe", "python3.exe"]:
-            interpreter = executable
+    assert os.path.exists(interpreter)  # safety check
+    return interpreter
+
+
+def _is_windows():
+    """Return whether we are starting from QGIS on Windows."""
+    executable = sys.executable
+    _, filename = os.path.split(executable)
+    if "python3" in filename.lower():
+        return False
+    elif "qgis" in filename.lower():
+        if platform.system().lower() == "darwin":
+            return False
         else:
-            raise EnvironmentError(
-                "Unexpected value for sys.executable: %s" % executable
-            )
-        assert os.path.exists(interpreter)  # safety check
-        return "python", interpreter
-
-    elif "qgis" in filename or "QGIS" in directory:
-        # qgis python interpreter
-        main_folder = str(pathlib.Path(executable).parents[0])
-        folder_files = os.listdir(main_folder)
-
-        if "py3_env.bat" in folder_files:
-            interpreter = main_folder + "/py3_env.bat"
-
-        if "python-qgis-ltr.bat" in folder_files:
-            interpreter = main_folder + "/python-qgis-ltr.bat"
-
-        if not interpreter:
-            raise EnvironmentError(
-                "could not find qgis-python bat file in: %s" % main_folder
-            )
-            
-        if osgeo_shell:
-            interpreter = str(pathlib.Path(executable).parents[1]) + "/OSGeo4W.bat"
-
-        return "qgis", interpreter
+            return True
 
 
-def _install_dependency(dependency: Dependency, command_only=False):
-    """install pip in the main directory of qgis"""
-    system, python_interpreter = _get_python_interpreter()
+def _is_qgis():
+    return any(
+        (i in _get_python_interpreter().lower() for i in ["qgis", "3di"])
+        )
 
-    command = [python_interpreter, "-m", "pip", "install"]
 
-    if dependency.folder == "external-dependencies":
-        command.extend(["--target", str(DEPENDENCY_DIR)])
-
-    if dependency.no_dependecies:
-        command.append("--no-deps")
-
-    if dependency.folder == "user":
-        command.append("--user")
-        
-    if dependency.package == "jupyter":
-        #command.extend(["--upgrade", "--force-reinstall",  "--no-cache-dir", "--no-warn-script-location"])
-        command.extend(["--upgrade"])
-    
-    command.extend([dependency.package + dependency.constraint])
-    if command_only:
-        return command
-    
-    process = subprocess.Popen(command)
-    output, error = process.communicate()
-    exit_code = process.wait()
-    if exit_code:
-       print(f"Installing {dependency.package} failed with: {error} {output}")
+def _create_progress_dialog(missing_dependencies, qgis=_is_qgis()):
+    """Create a process dialog."""
+    if _is_windows() and qgis:
+        label = f"Start installatie: {len(missing_dependencies)} packages"
+        dialog = QProgressDialog()
+        dialog.setWindowTitle("HHNK 3Di plugin installatie")
+        dialog.setLabelText(label)
+        dialog.setWindowFlags(Qt.WindowStaysOnTopHint)
+        bar = QProgressBar(dialog)
+        bar.setTextVisible(True)
+        bar.setValue(0)
+        bar.setMaximum(100)
+        dialog.setBar(bar)
+        dialog.setMinimumWidth(500)
+        dialog.update()
+        dialog.setCancelButton(None)
+        dialog.show()
+        QApplication.processEvents()
+        startupinfo = subprocess.STARTUPINFO()
+        startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
     else:
-       print(f"Succesfully installed {dependency.name}!")
-    
-    # if dependency.package in sys.modules:
-    #     print("Unloading old %s module" % dependency.package)
-    #     del sys.modules[dependency.package]
-    # if dependency.name in sys.modules:
-    #     print("Unloading old %s module" % dependency.name)
-    #     del sys.modules[dependency.name]
-    
-    return process.pid
-    
-def _install_multiple_dependencies(dependencies: [Dependency, Dependency]):
-    """install pip in the main directory of qgis"""
-    system, python_interpreter = _get_python_interpreter(True)
+        dialog, bar, startupinfo = None, None, None
+    return dialog, bar, startupinfo
 
-    complete_install = []
-    for dependency in dependencies:
-        command = _install_dependency(dependency, command_only=True)
-        complete_install.append(" ".join(command))
-    
-       
-    process = subprocess.Popen(python_interpreter, 
-                stdin=subprocess.PIPE,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                universal_newlines=True,
-                creationflags=DETACHED_PROCESS
+
+def _update_dialog(dialog, dependency, qgis=_is_qgis()):
+    """Update the label of the dialog."""
+    if dialog and qgis:
+        dialog.setLabelText(f"Installeren: {dependency.package}")
+        QApplication.processEvents()
+
+
+def _update_bar(bar, count, total, qgis=_is_qgis()):
+    """Update the progress bar of the dialog."""
+    if bar and qgis:
+        bar.setValue(int((count / total) * 100))
+        bar.update()
+        QApplication.processEvents()
+
+
+def _raise_inconsistency_warning(
+    correct_python_version, inconsistent_dependencies, qgis=_is_qgis()
+):
+    """Raise an inconsistency warning if environment is not compatible with yml.""" # noqa: E501s
+    if not correct_python_version:
+        inconsistent_dependencies.insert(
+            0,
+            Dependency("python", python_version())
             )
-            
-    output, error = process.communicate("\n".join(complete_install))
-    exit_code = process.wait()
-    print(output)
-    if exit_code:
-        print("Installing failed")
-    else:
-        print("Install succes!")
-        print(output)
-        #print(f"Installing {dependency.package} failed with: {error} {output}")
 
-    #if dependency.package in sys.modules:
-    #    print("Unloading old %s module" % dependency.package)
-    #    del sys.modules[dependency.package]
+    msg = "\n".join(
+        [f"{i.package}=={i.version}" for i in inconsistent_dependencies]
+    )
+    msg = inconsist_deps_message.format(msg=msg)
+    logger.warning(msg)
 
-    return process.pid
+    if qgis:
+        QMessageBox.information(None, "Warning", msg)
 
-def _download_wheels(dependency, directory= WHEEL_DIR):
-    """ Download the wheels into the wheel directory"""
-    
-    system, python_interpreter = _get_python_interpreter()
-    command = [python_interpreter, "-m", "pip", "download", "-d", directory]
-    command.extend( [dependency.package + dependency.constraint])
-    process = subprocess.Popen(command)
-    output, error = process.communicate()
-    exit_code = process.wait()
-    if exit_code:
-        print(f"Downloading {dependency.package} failed with: {error} {output}")
 
-def _requirements_to_dependencies(requirements_path):
-    with open(requirements_path) as f:
-        lines = f.readlines()
-    
+def _raise_restart_warning(qgis=_is_qgis()):
+    """Raise restart warning after installation."""
+    if qgis:
+        QMessageBox.information(None, "Warning", restart_message)
+
+
+""" Helper functions for logging file-handler."""
+
+
+def _add_logger_file_handler(log_file=LOG_DIR / "ensure_dependencies.log"):
+    """Add a logger file_handler."""
+    fh = logging.FileHandler(log_file)
+    fh.setFormatter(
+        logging.Formatter("%(asctime)s %(name)s %(levelname)s - %(message)s")
+    )
+    fh.setLevel(logging.DEBUG)
+    logger.addHandler(fh)
+    return fh
+
+
+def _remove_logger_file_handler(fh):
+    """Remove a logger file_handler."""
+    logger.removeHandler(fh)
+    fh.close()
+
+
+""" Helper functions for checking environment to environment.yml."""
+
+
+def _yaml_to_dependencies(yaml_path: Path = YML_PATH) -> List[Dependency]:
+    """
+    Function to read the dependencies from an environment.yml path
+
+    Args:
+        yaml_path (Path): Path to the environment.yml file
+
+    Returns:
+        Dependency, List[Dependency]: Python version or List of dependencies
+
+    """
+
+    environment = yaml.safe_load(Path(yaml_path).read_text())
     deps = []
-    for l in lines:
-        wheel = l.replace("\n", "")
-        name = wheel.split("-")[0].lower()
-        version = wheel.split("-")[0:2]
-        deps.append(Dependency(name, WHEEL_DIR + "/" + wheel,version, "", True, "external-dependencies", True))
-    return deps
-    
-THREEDI_DIR = _dependencies_target_dir()
+    python_dep = None
+
+    # Extract package names and versions
+    dependencies = environment.get("dependencies", [])
+    for dependency in dependencies:
+        if isinstance(dependency, str):
+            # Extract package name from string
+            splitted_dependency = dependency.lower().split("=")
+            name = splitted_dependency[0]
+            if len(splitted_dependency) > 1:
+                version = splitted_dependency[1]
+            else:
+                version = None
+            if name == "python":
+                python_dep = Dependency(name, version)
+            else:
+                deps.append(Dependency(name, version))
+        elif isinstance(dependency, dict):
+            if "pip" in dependency.keys():
+                for pip_dependency in dependency["pip"]:
+                    splitted_dependency = pip_dependency.lower().split("==")
+                    name = splitted_dependency[0]
+                    if len(splitted_dependency) > 1:
+                        version = splitted_dependency[1]
+                    else:
+                        version = None
+                    deps.append(Dependency(name, version))
+
+    return python_dep, deps
+
+
+def _update_path(directories):
+    """update path with directories."""
+    for dir_path in directories:
+        dir_path = Path(dir_path)
+        if dir_path.exists():
+            if str(dir_path) not in sys.path:
+                sys.path.insert(0, str(dir_path))
+                logger.info(f"{dir_path} added to sys.path")
+        else:
+            logger.warning(
+                f"{dir_path} does not exist and is not added to sys.path"
+                )
+
+
+def _evaluate_environment(yml_path: Path = YML_PATH):
+    """
+    Evaluates run-environment to an environment.yml
+
+    Args:
+        yml_path (Path, optional): Path to the environment.yml.
+        Defaults to YML_PATH.
+
+    Returns:
+        correct_python_version (bool): Python version matches environment
+        inconsistent_dependencies (list[Dependency]): List of dependencies in
+        environment with inconsistent version
+        missing_dependencies (list[Dependency]): List of missing dependencies in
+        environment
+
+    """
+
+    missing_dependencies = []
+    inconsistent_dependencies = []
+
+    python_dep, dependencies = _yaml_to_dependencies(yml_path)
+
+    if python_dep is None:
+        correct_python_version = True
+    else:
+        correct_python_version = python_dep.version == python_version()
+
+    for dependency in dependencies:
+        try:
+            pkg = pkg_resources.get_distribution(dependency.package)
+            if dependency.version is not None:
+                if pkg.version != dependency.version:
+                    inconsistent_dependencies.append(
+                        Dependency(dependency.package, pkg.version)
+                    )
+        except pkg_resources.DistributionNotFound:
+            missing_dependencies.append(dependency)
+
+    return (
+        correct_python_version,
+        inconsistent_dependencies,
+        missing_dependencies
+        )
+
+
+""" Installation of patches. Note (!) try to avoid patches!"""
+
+
+def _install_patches(patches: dict = PATCHES, patch_dir: Path = PATCH_DIR):
+    """
+    Install patches in the QGIS environment to fix errors in (threedi) modules.
+
+    Note (!) patches are not permanent fixes (!); please report issues in GitHub
+
+    Args:
+        patches (dict, optional): dictionary with patches in the form
+          {file.ext:path/to/destination/file.ext}. Defaults to PATCHES.
+        patch_dir (Path, optional): directory with path-files to be read.
+        Defaults to PATCH_DIR.
+
+    Returns:
+        None.
+
+    """
+    for source, target in patches.items():
+        source = patch_dir / source
+        target = target
+        if all((source.exists(), target.exists())):
+            if not (source.read_bytes() == target.read_bytes()):
+                logger.info(f"patching {target} with {source}")
+                target.write_text(source.read_text())
+
+
+""" Helper functions on maintaining the wheel directory """
+
+
+def _delete_directory(directory, mkdir=True):
+    directory = Path(directory)
+    try:
+        if directory.exists():
+            shutil.rmtree(directory)
+    except PermissionError:
+        logger.warning(f"Failed to remove {directory}")
+
+    if mkdir:
+        directory.mkdir(parents=True, exist_ok=True)
+
+
+def download_wheels(dependencies, directory=WHEEL_DIR, clean_dir=True):
+    """Download the wheels into the wheel directory"""
+
+    if clean_dir:
+        _delete_directory(directory, mkdir=True)
+
+    for dependency in dependencies:
+        command = [
+            _get_python_interpreter(),
+            "-m",
+            "pip",
+            "download",
+            "-d",
+            str(directory),
+        ]
+        command.extend([f"{dependency.package}=={dependency.version}"])
+        process = subprocess.Popen(command)
+        output, error = process.communicate()
+        exit_code = process.wait()
+        if exit_code:
+            logger.error(
+                f"Downloading {dependency.package} failed with: {error} {output}" # noqa: E501
+            )
+
+
+""" Helper functions to install missing dependencies. """
+
+
+def _refresh_python_import_mechanism():
+    """Refresh the import mechanism.
+    This is required when deps are dynamically installed/removed. The modules
+    'importlib' and 'pkg_resources' need to update their internal data structures. 
+    """ # noqa: E501
+    # This function should be called if any modules are created/installed while your # noqa: E501
+    # program is running to guarantee all finders will notice the new module’s existence. # noqa: E501
+    importlib.invalidate_caches()
+
+    # https://stackoverflow.com/questions/58612272/pkg-resources-get-distributionmymodule-version-not-updated-after-reload
+    # Apparantely pkg_resources needs to be reloaded to be up-to-date with newly installed packages # noqa: E501
+    importlib.reload(pkg_resources)
+
+
+def _install_dependency(
+        dependency: Dependency,
+        dialog=None,
+        startupinfo=None,
+        fh=None
+        ):
+    """install pip in the main directory of qgis"""
+
+    command = [
+        _get_python_interpreter(),
+        "-m",
+        "pip",
+        "install",
+        "--find-links",
+        str(WHEEL_DIR),
+    ]
+
+    # if jupyter, we go for a full install in user-directory
+    if dependency.package == "jupyter":
+        command.extend(
+            [
+                "--user",
+                "--upgrade",
+                "--force-reinstall",
+                "--no-cache-dir",
+                "--no-warn-script-location",
+            ]
+        )
+    else:  # if not we install it in the DEPENCENDY_DIR and ignore dependencies
+        command.extend(["--target", str(DEPENDENCY_DIR), "--no-deps"])
+
+    if dependency.version:
+        command.extend([f"{dependency.package}=={dependency.version}"])
+    else:
+        command.extend([f"{dependency.package}"])
+
+    logger.info(f"executing command {' '.join(command)}")
+    process = subprocess.Popen(
+        command,
+        universal_newlines=True,
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        startupinfo=startupinfo,
+    )
+
+    # The input/output/error stream handling is a bit involved, but it is
+    # necessary because of a python bug on windows 7, see
+    # https://bugs.python.org/issue3905 .
+    i, o, e = (process.stdin, process.stdout, process.stderr)
+    i.close()
+    result = o.read() + e.read()
+    o.close()
+    e.close()
+    exit_code = process.wait()
+
+    if exit_code:
+        try:  # if we can import the package now, we ignore the exit-code
+            _refresh_python_import_mechanism()
+            pkg_resources.get_distribution(dependency.package)
+        except pkg_resources.DistributionNotFound as e:
+            msg = f"""
+            Installeren {dependency.package} is gefaald met error code: {exit_code} 
+
+            Uitgevoerde command-line: {" ".join(command)}
+
+            Resulterende command-logging: {result}
+
+            Python-exception na import: {e}
+
+            """ # noqa: E501
+
+            logger.error(msg)
+
+            if dialog:
+                dialog.close()
+            if fh:
+                _remove_logger_file_handler(fh)
+
+            raise RuntimeError(msg)
+
+
+def ensure_dependencies(
+    threedi_dependency_dir=THREEDI_DEPENDENCY_DIR,
+    dependency_dir=DEPENDENCY_DIR,
+    yml_path=YML_PATH,
+):
+    """
+    Ensures all dependencies are installed
+
+    Args:
+        threedi_dependency_dir (Path, optional): Path to 3Di Toolbox dependencies
+            dir Defaults to THREEDI_DEPENCENDCY_DIR.
+        dependency_dir (Path, optional): path to hhnk_threedi_plugin dependencies
+            dir Defaults to DEPENDENCY_DIR.
+        yml_path (Path, optional): Path to environment.yml Defaults to YML_PATH.
+
+    """ # noqa: E501
+    # add log-file
+    fh = _add_logger_file_handler()
+
+    logger.info("start: ensuring dependencies")
+
+    logger.info(
+        f"python-interpreter {_get_python_interpreter()} is QGIS: {_is_qgis()}"
+        )
+
+    # make sure all currently installed modules are patched if necessary
+    _install_patches()
+
+    logger.info("adding paths")
+    # add paths to dependency-dirs
+    _update_path([threedi_dependency_dir, dependency_dir])
+    logger.info(f"sys.path: {','.join(sys.path)}")
+
+    # make sure all packages in path can be found
+    _refresh_python_import_mechanism()
+
+    logger.info("evaluating environment")
+    # check if all is consistent and what is missing
+    (
+        correct_python_version,
+        inconsistent_dependencies,
+        missing_dependencies,
+    ) = _evaluate_environment(yml_path)
+
+    # raise an inconsistency warning if environment is not consistent with tested plugin environment # noqa: E501
+    if (not correct_python_version) or (inconsistent_dependencies):
+        _raise_inconsistency_warning(
+            correct_python_version,
+            inconsistent_dependencies
+            )
+
+    if missing_dependencies:
+        logger.info(
+            f"missing dependencies: {' '.join([i.package for i in missing_dependencies])}" # noqa: E501
+        )
+        # create a QGIS progress dialog (if Windows)
+        dialog, bar, startupinfo = _create_progress_dialog(
+            missing_dependencies
+            )
+
+        # loop trough missing dependencies
+        for count, dependency in enumerate(missing_dependencies):
+
+            # update dialog label
+            _update_dialog(dialog, dependency)
+
+            # install dependency
+            logger.info(f"installing: {dependency.package}")
+            _install_dependency(
+                dependency, startupinfo=startupinfo, dialog=dialog, fh=fh
+            )
+
+            # update progress bar
+            _update_bar(bar, count, len(missing_dependencies))
+
+        # make all modules available for import
+        _refresh_python_import_mechanism()
+
+        # close dialog
+        if dialog:
+            dialog.close()
+
+        # restart warning: just to be sure...
+        _raise_restart_warning()
+
+    # make sure all newly installed modules are patched if necessary
+    _install_patches()
+
+    # remove log-file
+    _remove_logger_file_handler(fh)
 
 
 if __name__ == "__main__":
     ensure_dependencies()
-

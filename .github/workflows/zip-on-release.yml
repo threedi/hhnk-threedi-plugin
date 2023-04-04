@@ -1,0 +1,23 @@
+name: zip-on-release
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Archive Release
+      uses: thedoctor0/zip-release@0.7.1
+      with:
+        type: 'zip'
+        path: ./hhnk_threedi_plugin
+        filename: 'hhnk_threedi_plugin.zip'
+        exclusions: '*.git* /*node_modules/* .editorconfig'
+    - name: Upload Release
+      uses: ncipollo/release-action@v1.12.0
+      with:
+        artifacts: "hhnk_threedi_plugin.zip"
+        allowUpdates: true
+        token: ${{ secrets.GITHUB_TOKEN }}
