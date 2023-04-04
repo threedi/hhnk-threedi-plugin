@@ -420,7 +420,7 @@ def _install_dependency(
         startupinfo=None,
         fh=None
         ):
-    """install pip in the main directory of qgis"""
+    """Install a dependency with pip"""
 
     command = [
         _get_python_interpreter(),
@@ -496,6 +496,53 @@ def _install_dependency(
             raise RuntimeError(msg)
 
 
+def _uninstall_dependency(dependency, startupinfo=None):
+    """Uninstall a dependency with pip"""
+    command = [
+        _get_python_interpreter(),
+        "-m",
+        "pip",
+        "uninstall",
+        "--yes",
+        (dependency.package)
+        ]
+    process = subprocess.Popen(
+        command,
+        universal_newlines=True,
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        startupinfo=startupinfo,
+    )
+    # The input/output/error stream handling is a bit involved, but it is
+    # necessary because of a python bug on windows 7, see
+    # https://bugs.python.org/issue3905 .
+    i, o, e = (process.stdin, process.stdout, process.stderr)
+    i.close()
+    o.close()
+    e.close()
+    exit_code = process.wait()
+    if exit_code:
+        logger.error(f"uninstalling package failed!: {dependency.package}")
+
+
+def _clean_inconsistent_dependencies(inconsistent_dependencies, missing_dependencies):
+    """Uninstall inconsistent_dependencies if installed in DEPENDENCY_DIR.
+    If successfully uninstalled dependency will be added to missing_dependencies."""
+    for dependency in inconsistent_dependencies:
+        pkg = pkg_resources.get_distribution(dependency.package)
+        if DEPENDENCY_DIR == Path(pkg.location):
+            logger.info(f"uninstalling package: {dependency.package}")
+            _uninstall_dependency(dependency)
+            try:
+                pkg = pkg_resources.get_distribution(dependency.package)
+            except pkg_resources.DistributionNotFound:
+                inconsistent_dependencies.pop(dependency)
+                missing_dependencies.append(dependency)
+
+    return inconsistent_dependencies, missing_dependencies
+
+
 def ensure_dependencies(
     threedi_dependency_dir=THREEDI_DEPENDENCY_DIR,
     dependency_dir=DEPENDENCY_DIR,
@@ -539,6 +586,12 @@ def ensure_dependencies(
         inconsistent_dependencies,
         missing_dependencies,
     ) = _evaluate_environment(yml_path)
+
+    # try uninstalling inconsistent dependencies
+    inconsistent_dependencies, missing_dependencies = _clean_inconsistent_dependencies(
+        inconsistent_dependencies,
+        missing_dependencies
+        )
 
     # raise an inconsistency warning if environment is not consistent with tested plugin environment # noqa: E501
     if (not correct_python_version) or (inconsistent_dependencies):
