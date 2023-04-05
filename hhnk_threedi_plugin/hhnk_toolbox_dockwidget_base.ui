@@ -408,7 +408,10 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string>Server (offline):</string>
+           <string>Server:</string>
+          </property>
+          <property name="textFormat">
+           <enum>Qt::PlainText</enum>
           </property>
          </widget>
         </item>
@@ -424,8 +427,18 @@
            <bool>false</bool>
           </property>
           <property name="currentText">
-           <string/>
+           <string>http://srvota155:5000</string>
           </property>
+          <item>
+           <property name="text">
+            <string>http://srvota155:5000</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>http://127.0.0.1:5000</string>
+           </property>
+          </item>
          </widget>
         </item>
         <item>
@@ -469,6 +482,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="datachecker_log_btn">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -524,6 +540,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="modelbuilder_log_btn">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
