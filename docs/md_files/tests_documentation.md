@@ -2,35 +2,33 @@
 
 Op deze pagina vind je de inhoudelijke uitleg van de plugin functionaliteit.
 
-1. [Algemene concepten](#algemene_concepten)
-    1. [Standaard project indeling](#project_indeling)
-    2. [Qgis project](#qgis_project)
+1. [Algemene concepten](#algemene-concepten)
+    1. [Standaard project indeling](#standaard-project-indeling)
+    2. [Qgis project](#qgis-project)
     
-2. [Modelstaat aanpassen](#modelstaat_aanpassen)
-3. [Sqlite tests](#sqlite_tests)
-    1. [Data verificatie](#data_verificatie)
-        1. [Ondoorlatend oppervlak](#ondoorlatend_oppervlak)
-        2. [Gebruikte profielen](#gebruikte_profielen)
-        3. [Gestuurde kunstwerken](#gestuurde_kunstwerken)
-        4. [Bodemhoogte stuw](#bodemhoogte_stuw)
+2. [Modelstaat aanpassen](#modelstaat-aanpassen)
+3. [Sqlite tests](#sqlite-tests)
+    1. [Data verificatie](#data-verificatie)
+        1. [Ondoorlatend oppervlak](#ondoorlatend-oppervlak)
+        2. [Gebruikte profielen](#gebruikte-profielen)
+        3. [Gestuurde kunstwerken](#gestuurde-kunstwerken)
+        4. [Bodemhoogte stuw](#bodemhoogte-stuw)
         5. [Geometrie](#geometrie)
-        6. [Bodemhoogte kunstwerken](#bodemhoogte_kunstwerken)
-        7. [Algemene tests](#algemene_tests)
-        8. [Geïsoleerde watergangen](#geisoleerde_watergangen)
-     2. [Eenmalige tests](#eenmalige_tests)
-        1. [Maximale waarde DEM](#max_waarde_dem)
+        6. [Bodemhoogte kunstwerken](#bodemhoogte-kunstwerken)
+        7. [Algemene tests](#algemene-tests)
+        8. [Geïsoleerde watergangen](#geisoleerde-watergangen)
+     2. [Eenmalige tests](#eenmalige-tests)
+        1. [Maximale waarde DEM](#maximale-waarde-dem)
         2. [Ontwateringsdiepte](#ontwateringsdiepte)
         3. [Oppervlaktewater](#oppervlaktewater)
     
-4. [0d1d tests](#0d1d_tests)
-5. [Bank levels](#bank_levels_test)
-6. [1d2d tests](#1d2d_tests)
+4. [0d1d tests](#1d2d-tests)
+5. [Bank levels](#bank-levels)
+6. [1d2d tests](#1d2d-tests)
 
 
-(algemene_concepten)=
 ## Algemene concepten
 
-(project_indeling)=
 ### Standaard project indeling
 
 De HHNK Toolbox werkt het makkelijkst wanneer een project op een bepaalde manier is ingedeeld. Als een project op die 
@@ -111,7 +109,6 @@ lagen in ```QGIS```. Alle bestanden in deze twee mappen worden automatisch verva
 aangezet. Je kunt deze bestanden dus ook niet gebruiken als basis voor andere lagen in je project. Als je de eerdere 
 resultaten van een test wil behouden, kun je het best een andere output map specificeren.
 
-(qgis_project)=
 ### ```QGIS``` project
 
 De meeste tests die deel uitmaken van de toolbox voegen, als onderdeel van hun output, een kaartlaag (of meerdere 
@@ -124,7 +121,6 @@ Wanneer je een test opnieuw aanzet worden deze lagen automatisch verwijderd en o
 behouden (bijvoorbeeld ter vergelijking), dan kun je bijvoorbeeld de hoofdgroepen hernoemen. Let op: je zult in dit 
 geval ook een andere output map moeten specificeren.
 
-(modelstaat_aanpassen)=
 ## Modelstaat aanpassen
 
 Het aanpassen van de modelstaat is een hulpmiddel om te zorgen dat het rekenen met een model zo foutloos mogelijk 
@@ -200,92 +196,86 @@ Van hydraulische toets/0d1d staat naar 1d2d staat:
 | v2_manhole (nieuw)             | Toevoegen nieuw berekende manholes. | - |
 | v2_cross_section_location      | Oude waarden in ```bank_level``` vervangen voor berekende bank levels. | Oude waarden in ```bank_level``` vervangen door waarden in ```backup_bank_levels``` |
 
-(sqlite_tests)=
 ## Sqlite tests
 
 De sqlite tests zijn bedoeld om te checken of het model geschikt is om mee te rekenen. Hieronder worden de tests 
 inhoudelijk toegelicht.
 
-(data_verificatie)=
 ### Data verificatie
 
-(ondoorlatend_oppervlak)=
+<a name="ondoorlatend-oppervlak"></a>
 1. Ondoorlatend oppervlak
 
    Berekent het oppervlak van de polder op basis van de ```polder_shapefile``` en het ondoorlatend oppervlak in 
    het model. Het verschil tussen de twee zou niet te groot moeten zijn.
 
-(gebruikte_profielen)=
+<a name="gebruikte-profielen"></a>
 2. Gebruikte profielen
    
    Koppelt de v2_cross_section_definition laag van het model (discrete weergave van de natuurlijke geometrie van de 
    watergangen) aan de v2_channel laag (informatie over watergangen in het model). Het resultaat van deze toets is een 
    weergave van de breedtes en dieptes van watergangen in het model ter controle.
  
-(gestuurde_kunstwerken)=
+<a name="gestuurde-kunstwerken"></a>
 3. Gestuurde kunstwerken
    
    Deze test selecteert alle gestuurde kunstwerken (uit de v2_culvert, v2_orifice en v2_weir tabellen van het model) op
    basis van de v2_control_table tafel. Per kunstwerk worden actiewaarden opgevraagd. Per gevonden gestuurd kunstwerk
    wordt ook relevante informatie uit de HDB database toegevoegd, zoals het streefpeil en minimale en maximale kruin
    hoogtes.
-    
-(bodemhoogte_stuw)=
+
+<a name="bodemhoogte-stuw"></a>
 4. Bodemhoogte stuw
     
    Deze test vergelijkt de minimale kruinhoogte uit de sturingstabel met de aanliggende watergangen. Als de bodemhoogte 
    van de watergang hoger ligt dan de minimale kruinhoogte moet hier nog iets in worden aangepast door in de
    v2_cross_section tabel het reference_level aan te passen. Deze aanpassingen worden automatisch gegenereerd en ter 
    goedkeuring aan de gebruiker voorgelegd.
-   
-   
-(geometrie)=
+
+<a name="geometrie"></a>  
 5. Geometrie
 
    Deze test checkt of de geometrie van een object in het model correspondeert met de start- of end node in de
    v2_connection_nodes tabel. Als de verkeerde ids worden gebruikt geeft dit fouten in het model.
    
-
-(bodemhoogte_kunstwerken)=
+<a name="bodemhoogte-kunstwerken"></a> 
 6. Bodemhoogte kunstwerken
 
    Test checkt of de kruinhoogte of bodemhoogte van een kunstwerk lager ligt dan de bodemhoogte van aanliggende 
    watergangen. Als dit zo is moet dat worden aangepast om met het model te kunnen rekenen.
    
-
-(algemene_tests)=
+<a name="algemene-tests"></a> 
 7. Algemene tests
    
    De algemene tests is een collectie van checks op fouten die ervoor zorgen dat het model niet kan worden opgebouwd 
    of waardoor er niet meer gerekend kan worden. In het resultaat wordt onderscheid gemaakt tussen fouten en 
    waarchuwingen. Fouten moeten worden opgelost, waarschuwingen zijn aandachtspunten. In de resultaten wordt 
    omschreven wat het probleem is.
-   
-(geisoleerde_watergangen)=
+
+<a name="geisoleerde-watergangen"></a>    
 8. Geïsoleerde watergangen
 
    Test bepaalt welk aandeel van watergangen geen verbinding heeft met het maaiveld (isolated). 
    Het aandeel mag niet te groot zijn omdat neerslag de watergangen dan onvoldoende kunnen bereiken.
    
-(eenmalige_tests)=
 ### Eenmalige tests
 
 De eenmalige tests zijn er om een aantal randvoorwaarden te controleren. Als geverifieerd is dat hieraan is voldaan dan 
 hoeven ze niet opnieuw te worden gedraaid.
 
-(max_waarde_dem)=
+<a name="maximale-waarde-dem"></a> 
 1. Maximale waarde DEM
 
    Als de maximale waarde in de DEM te hoog is, duidt dat meestal op een fout in het bestand (de nodata waarde is 
    waarschijnlijk verkeerd ingevoerd). Deze test berekent deze maximale waarde.
-   
-(ontwateringsdiepte)=
+
+<a name="ontwateringsdiepte"></a>   
 2. Ontwateringsdiepte
    
    Deze test controleert of het initiële water niveau per polder onder de oppervlakte hoogte uitgelezen uit de DEM 
    ligt. Het initiële water niveau moet onder het oppervlak liggen.
-   
-(oppervlaktewater)=
+
+<a name="oppervlaktewater"></a>   
 3. Oppervlaktewater
 
    Deze test controleert per peilgebied in het model hoe groot het gebied is dat het oppervlaktewater beslaat in het 
@@ -294,14 +284,13 @@ hoeven ze niet opnieuw te worden gedraaid.
    totalen per peilgebied vergeleken met diezelfde totalen uit de DAMO database. De resultaten geven een indicatie van 
    over- of onderschatting van het oppervlaktewater in het model.
    
-(0d1d_tests)=
 ## 0d1d tests/hydraulische toets
 
 Als de sqlite tests zijn uitgevoerd, eventuele aanpassingen zijn gemaakt en het model is opgebouwd voor rekenen met 3di 
 wordt de hydraulische toets gedraaid. Deze toets is een test bui ontworpen om de 0d1d aspecten van het model te 
 controleren.
 
-Deze test werkt het best wanneer het model in de juiste staat is (zie [Model staat aanpassen](#modelstaat_aanpassen)).
+Deze test werkt het best wanneer het model in de juiste staat is (zie [Model staat aanpassen](#modelstaat-aanpassen)).
 
 De test bui begint met een droge dag, vijf dagen neerslag (14,4 mm/dag) en dan twee dagen droog.
 
@@ -344,7 +333,6 @@ Als er voldoende vertrouwen in de uitkomsten van het model is kan het verhang ov
 kunstwerken worden vergeleken met geldende normen (bijvoorbeeld 4 cm/km).
     
 
-(bank_levels_test)=
 ## Bank levels
 
 Als het 0d1d model is goedgekeurd kan deze test worden gedraaid. De bank levels test is grotendeels bedoeld om het model 
@@ -360,13 +348,12 @@ gelijk aan de levee hoogte.
 Het draaien van de bank levels test kan worden gedaan met elk 3di resultaat zolang het reken grid niet is veranderd. De 
 inhoud van het scenario is hierbij niet relevant.
 
-(1d2d_tests)=
 ## 1d2d tests
 
 Wanneer de bank levels zijn bijgewerkt en waar nodig manholes zijn toegevoegd kan de 1d2d test worden gedraaid. Dit 
 houdt in dat er opnieuw een test bui wordt gesimuleerd met 3di.
 
-Deze test werkt alleen wanneer het model in de 1d2d-toets-staat is ingesteld (zie [Model staat aanpassen](#modelstaat_aanpassen)).
+Deze test werkt alleen wanneer het model in de 1d2d-toets-staat is ingesteld (zie [Model staat aanpassen](#modelstaat-aanpassen)).
 
 De test bui begint in dit geval met een uur droog, dan twee uur regen (17,75 mm/uur), dan 12 uur droog.
 

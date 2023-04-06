@@ -1,0 +1,27 @@
+site_name: HHNK 3Di toolbox
+site_url: https://threedi.github.io/hhnk-threedi-plugin/
+theme:
+  name: "material"
+  language: en
+  logo: icons/hhnk_logo_white.png
+  favicon: icons/hhnk_logo.png
+  highlightjs: true
+  palette:
+    - scheme: hhnk
+extra_css:
+- stylesheets/extra.css
+
+plugins:
+  - search
+  - mkdocstrings
+  
+extra:
+  social:
+    - icon: fontawesome/brands/github-alt
+      link: https://github.com/threedi/hhnk-threedi-plugin
+nav:
+    - Home: index.md
+    - Installatie Instructies: md_files/installation_manual.md
+    - Gebruikershandleiding: md_files/usage.md
+    - Bron data: md_files/needed_data.md
+    - Uitleg tests en functionaliteit: md_files/tests_documentation.md
