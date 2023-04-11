@@ -2,10 +2,8 @@ from dataclasses import dataclass
 import requests
 from requests.exceptions import ConnectionError
 from PyQt5.QtWidgets import QDialog, QTextBrowser, QVBoxLayout
-from PyQt5.QtCore import QTimer, pyqtSignal, QObject, QMetaObject, Qt
+from PyQt5.QtCore import QTimer
 from hhnk_threedi_plugin.hhnk_toolbox_dockwidget import HHNK_toolboxDockWidget
-
-from threading import Thread
 
 
 class LogDialog(QDialog):
@@ -39,34 +37,6 @@ class LogDialog(QDialog):
             self.show()
 
 
-class Timer(QObject):
-    finished = pyqtSignal()
-    result_ready = pyqtSignal(bool)
-
-    def __init__(self, is_available):
-        super().__init__()
-        self.timer = QTimer(self)
-        self.timer.timeout.connect(self.check_function)
-        self.is_available = is_available
-
-    def start_timer(self, interval=5000):
-        self.timer.start(interval)
-        print(f"timer started: {interval}")
-
-    def stop_timer(self):
-        if self.timer.isActive():
-            print("timer stopped")
-            self.timer.stop()
-            self.finished.emit()
-
-    def check_function(self):
-        print("check function called")
-        if self.is_available():
-            self.timer.stop()
-            self.result_ready.emit(True)
-            self.finished.emit()
-
-
 @dataclass
 class ModelBuilder:
     """All actions in the modelbuilder tab of the HHNK 3Di Toolbox."""
@@ -74,8 +44,7 @@ class ModelBuilder:
     dockwidget: HHNK_toolboxDockWidget
 
     tab_label: str = "Modelbouw"
-    timer: Timer = None
-    timer_thread: Thread = None
+    timer: QTimer = QTimer()
     _online: bool = None
 
     datachecker_log: LogDialog = LogDialog(
@@ -89,13 +58,7 @@ class ModelBuilder:
 
     def __post_init__(self):
         """Connect all callback-functions to widgets."""
-        # add timer
-        self.timer = Timer(self.is_available)
-        self.timer.result_ready.connect(self.timer_ready)
-        self.timer_thread = Thread(target=self.timer.timer.start)
-        # self.timer_thread.timer.start()
-
-        # add callbacks
+        self.timer.timeout.connect(self.check_available)
         self.dockwidget.tabWidget.currentChanged.connect(self.change_tab)
         self.dockwidget.select_server_box.currentTextChanged.connect(
             self.connect_modelbuilder
@@ -113,14 +76,14 @@ class ModelBuilder:
         """Server online, returns True or False."""
         if self._online is None:
             try:
-                print("check server online")
                 response = requests.get(self.url, timeout=1)
                 self._online = response.ok
             except ConnectionError:
                 self._online = False
         return self._online
 
-    def is_available(self):
+    @property
+    def available(self):
         """Server available (to start modelbuilder or datachecker), returns True or False."""
         available = False
         if self.online:
@@ -136,13 +99,12 @@ class ModelBuilder:
 
     def start_timer(self, interval_milisecs=5000):
         """Start availability timer at interval."""
-        print("trying to start timer")
-        #self.timer_thread.start()
-        self.timer.start_timer()
+        self.timer.start(interval_milisecs)  # 5 seconds
 
     def stop_timer(self):
         """Stop availability timer if still active"""
-        self.timer.stop_timer()
+        if self.timer.isActive():
+            self.timer.stop()
 
     def set_select_server_label(self):
         """Set the select_server_label text and styling."""
@@ -168,7 +130,7 @@ class ModelBuilder:
 
     def start_datachecker(self):
         """Start the datachecker."""
-        if self.is_available():
+        if self.available:
             response = requests.post(f"{self.url}/datachecker/start")
             if response.ok:
                 self.set_unavailable()
@@ -177,7 +139,7 @@ class ModelBuilder:
         """Start the modelbuilder."""
         polder_id = str(self.dockwidget.polder_id_box.value())
         polder_name = self.dockwidget.poldernaam_textbox.text()
-        if polder_id and polder_name and self.is_available():
+        if polder_id and polder_name and self.available:
             response = requests.post(
                 url=f"{self.url}/modelbuilder/start",
                 data={"polder_id": polder_id, "polder_name": polder_name}
@@ -211,7 +173,7 @@ class ModelBuilder:
         self.set_select_server_label()
 
         # check if server is available and set buttons active
-        available = self.is_available()
+        available = self.available
         self.set_active_buttons(available)
 
         # if online, but not available, start availability timer. Else stop timer (if running). # NOQA
@@ -223,14 +185,11 @@ class ModelBuilder:
 
     def check_available(self):
         """check if server is still unavailable."""
-        available = self.is_available()
+        available = self.available
         print(f"server available: {available}")
         self.set_active_buttons(available=available)
         if available:
             self.stop_timer()
-
-    def timer_ready(self):
-        QMetaObject.invokeMethod(self, "check_available", Qt.QueuedConnection)
 
     def set_unavailable(self):
         """set the server to unavailable and start availability timer."""
