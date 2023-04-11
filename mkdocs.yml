@@ -8,6 +8,13 @@ theme:
   highlightjs: true
   palette:
     - scheme: hhnk
+      toggle:
+        icon: material/lightbulb-outline
+        name: Switch to dark mode
+    - scheme: slate
+      toggle:
+        icon: material/lightbulb
+        name: Switch to light mode
 extra_css:
 - stylesheets/extra.css
 
