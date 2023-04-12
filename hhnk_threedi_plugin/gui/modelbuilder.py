@@ -44,7 +44,7 @@ class ModelBuilder:
 
     dockwidget: HHNK_toolboxDockWidget
 
-    tab_label: str = "Tools"
+    tab_label: str = "Modelbouw"
     timer: QTimer = QTimer()
     status: dict = None
     _online: bool = None

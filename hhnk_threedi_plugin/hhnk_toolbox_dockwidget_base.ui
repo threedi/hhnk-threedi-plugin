@@ -331,8 +331,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>115</width>
-             <height>52</height>
+             <width>522</width>
+             <height>674</height>
             </rect>
            </property>
            <attribute name="label">
@@ -393,7 +393,7 @@
         <bool>true</bool>
        </property>
        <attribute name="title">
-        <string>Tools</string>
+        <string>Modelbouw</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
         <property name="spacing">
