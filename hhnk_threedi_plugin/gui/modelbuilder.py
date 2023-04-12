@@ -18,7 +18,8 @@ class LogDialog(QDialog):
         # Create a QTextBrowser widget
         self.text_browser = QTextBrowser(self)
         self.text_browser.setReadOnly(True)
-        self.text_browser.setMinimumWidth(500)
+        self.text_browser.setMinimumWidth(800)
+        self.text_browser.setMinimumHeight(800)
 
         # Set up the layout
         layout = QVBoxLayout()
@@ -43,8 +44,9 @@ class ModelBuilder:
 
     dockwidget: HHNK_toolboxDockWidget
 
-    tab_label: str = "Modelbouw"
+    tab_label: str = "Tools"
     timer: QTimer = QTimer()
+    status: dict = None
     _online: bool = None
 
     datachecker_log: LogDialog = LogDialog(
@@ -58,6 +60,14 @@ class ModelBuilder:
 
     def __post_init__(self):
         """Connect all callback-functions to widgets."""
+        
+        self.dockwidget.input_dir_select.setFilePath(
+            r"//corp.hhnk.nl/data/Hydrologen_data/Data/modelbuilder/data/input/"
+            )
+        self.dockwidget.output_dir_select.setFilePath(
+            r"//corp.hhnk.nl/data/Hydrologen_data/Data/modelbuilder/data/output/"
+            )
+
         self.timer.timeout.connect(self.check_available)
         self.dockwidget.tabWidget.currentChanged.connect(self.change_tab)
         self.dockwidget.select_server_box.currentTextChanged.connect(
@@ -71,26 +81,36 @@ class ModelBuilder:
         # we check if we are in Modelbuilder.
         self.change_tab()
 
+
+    def _request_status(self):
+        try:
+            response = requests.get(f"{self.url}/status", timeout=1)
+            self._online = response.ok
+            if self._online:
+                self.status = response.json()
+        except ConnectionError:
+            self._online = False
+
     @property
     def online(self):
         """Server online, returns True or False."""
         if self._online is None:
-            try:
-                response = requests.get(self.url, timeout=1)
-                self._online = response.ok
-            except ConnectionError:
-                self._online = False
+            self._request_status()
         return self._online
 
     @property
     def available(self):
+        status = self.get_status()
+        if status is not None:
+            return all(status.values())
+        else:
+            return False
+
+    def get_status(self):
         """Server available (to start modelbuilder or datachecker), returns True or False."""
-        available = False
         if self.online:
-            response = requests.get(f"{self.url}/status")
-            if response.ok and (response.text == "available"):
-                available = True
-        return available
+            self._request_status()
+        return self.status
 
     @property
     def url(self):
@@ -118,6 +138,18 @@ class ModelBuilder:
             self.dockwidget.select_server_label.setStyleSheet(
                 "color: red; font: bold"
                 )
+    
+    def set_modules_labels(self):
+        self.get_status()
+        for module in self.status.keys():
+            label = getattr(self.dockwidget, f"{module}_label")
+            if self.status[module]:
+                label.setText(f"{module} (beschikbaar):")
+                label.setStyleSheet("color: green; font: bold")
+            else:
+                label.setText(f"{module} (bezig):")
+                label.setStyleSheet("color: orange; font: bold")
+        
 
     def set_active_buttons(self, available):
         """Enable the correct buttons depending on online or available server."""
@@ -130,16 +162,18 @@ class ModelBuilder:
 
     def start_datachecker(self):
         """Start the datachecker."""
-        if self.available:
+        self.get_status()
+        if self.status["datachecker"]:
             response = requests.post(f"{self.url}/datachecker/start")
             if response.ok:
                 self.set_unavailable()
 
     def start_modelbuilder(self):
         """Start the modelbuilder."""
+        self.get_status()
         polder_id = str(self.dockwidget.polder_id_box.value())
         polder_name = self.dockwidget.poldernaam_textbox.text()
-        if polder_id and polder_name and self.available:
+        if polder_id and polder_name and self.status["modelbuilder"]:
             response = requests.post(
                 url=f"{self.url}/modelbuilder/start",
                 data={"polder_id": polder_id, "polder_name": polder_name}
@@ -169,29 +203,32 @@ class ModelBuilder:
         """connect to a datachecker server and check availability."""
 
         # check if server is online and set label
-        self._online = None
+        self._online = None # forces next line to check for status
         self.set_select_server_label()
 
         # check if server is available and set buttons active
-        available = self.available
+        available = all(self.status.values())
         self.set_active_buttons(available)
 
         # if online, but not available, start availability timer. Else stop timer (if running). # NOQA
-        if self.online and (not available):
-            print("unavailable; start timer?")
-            self.set_unavailable()
+        if self.online:
+            if not available:
+                self.set_unavailable()
+            else:
+               self.set_modules_labels() 
         else:
             self.stop_timer()
 
     def check_available(self):
         """check if server is still unavailable."""
         available = self.available
-        print(f"server available: {available}")
         self.set_active_buttons(available=available)
         if available:
+            self.set_modules_labels()
             self.stop_timer()
 
     def set_unavailable(self):
         """set the server to unavailable and start availability timer."""
         self.set_active_buttons(available=False)
+        self.set_modules_labels()
         self.start_timer()
