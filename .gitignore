@@ -3,7 +3,6 @@ venv_development_tools
 requirements_before_pb_tool_install.txt
 __pycache__
 zip_build
-docs
 .idea
 .vscode
 *.pyc
@@ -20,3 +19,5 @@ hhnk_threedi_plugin/logs/*
 
 # documenation
 _build/*
+*.cmd
+site/*

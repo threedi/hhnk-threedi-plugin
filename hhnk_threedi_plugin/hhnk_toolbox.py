@@ -56,6 +56,9 @@ from hhnk_threedi_plugin.qgis_interaction.project import Project
 from hhnk_threedi_plugin.gui.new_project_dialog import newProjectDialog
 from hhnk_threedi_plugin.gui.input_data import inputDataDialog
 from hhnk_threedi_plugin.qgis_interaction.open_notebook import NotebookWidget
+
+from hhnk_threedi_plugin.gui.modelbuilder import ModelBuilder
+
 # %%
 # Functions
 from hhnk_threedi_tools.core.folders import Folders
@@ -75,7 +78,7 @@ from hhnk_threedi_plugin.gui.model_splitter.model_splitter_dialog import modelSp
 
 import webbrowser
 
-DOCS_LINK = "https://hhnk-toolbox-user-docs.readthedocs.io/nl/latest/"
+DOCS_LINK = "https://threedi.github.io/hhnk-threedi-plugin/"
 
 class HHNK_toolbox:
     """QGIS Plugin Implementation."""
@@ -128,7 +131,8 @@ class HHNK_toolbox:
         self.one_d_two_d = None
         self.polder_folder = None
         self.current_source_paths = None
-           
+        self.modelbuilder = None
+
         # Keep tracks of last chosen source paths over the entire toolbox
         
 
@@ -456,7 +460,6 @@ class HHNK_toolbox:
         #TODO kan connect input meegeven zodat deze samen kan met lizard?
         getattr(self.dockwidget, f'threedi_api_key_textbox').setEchoMode(2) #password echo mode
 
-
     def run(self):
         """Run method that loads and starts the plugin"""
 
@@ -468,10 +471,10 @@ class HHNK_toolbox:
             # dockwidget may not exist if:
             #    first run of plugin
             #    removed on close (see self.onClosePlugin method)
-            if self.dockwidget == None:
+            if self.dockwidget is None:
                 # Create the dockwidget (after translation) and keep reference
                 self.dockwidget = HHNK_toolboxDockWidget()
-                
+
                 # disable predefined buttons    
                 self.dockwidget.model_state_btn.setEnabled(True)
                 self.dockwidget.tests_toolbox.setEnabled(False)
@@ -519,7 +522,7 @@ class HHNK_toolbox:
                
                 # self.dockwidget.documentatie_button.clicked.connect(self.open_documentatie_link)
                 self.dockwidget.server_btn.clicked.connect(self.notebook_widget.start_server)
-
+                
 
                 # Connect start buttons to appropriate function calls
 
@@ -529,7 +532,8 @@ class HHNK_toolbox:
 
                 self.one_d_two_d.start_1d2d_tests_btn.clicked.connect(self.one_d_two_d.one_d_two_d_tests_execution)
 
-
+                # define modelbuilder. Note, all callbacks and functions you can find in ModelBuilder class
+                self.modelbuilder = ModelBuilder(dockwidget=self.dockwidget)
 
                 # note that for 'klimaatsomme
                 # n' functions are run from the widget
