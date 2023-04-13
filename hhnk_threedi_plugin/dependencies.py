@@ -67,6 +67,8 @@ PATCHES = {
     )
 }
 
+USERDEPS =  ["jupyterlab", "ipywidgets"] #Dependencies in userfolder %appdata%/python/
+
 Dependency = namedtuple("Dependency", ["package", "version"])
 
 
@@ -432,7 +434,7 @@ def _install_dependency(
     ]
 
     # if jupyter, we go for a full install in user-directory
-    if dependency.package == "jupyter":
+    if dependency.package in USERDEPS:
         command.extend(
             [
                 "--user",
