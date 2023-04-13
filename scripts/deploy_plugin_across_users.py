@@ -145,26 +145,34 @@ def deploy(
         print(f"plugins that can be copied: {plugins}")
 
     # get users
-    if users is None:
+    if users in [None, [], [""]]:
         users = get_users()
 
     # copy plugins
     users = [i for i in users if i not in users_ignored + [admin_user]]
-    for user in users:
-        print(f"checking user '{user}'")
-        user_plugins_dir = Path(plugins_dir.format(user=user))
-        if user_plugins_dir.parent.is_dir():
-            print(f"  copying plugins to {user_plugins_dir}")
-            user_plugins_dir.mkdir(exist_ok=True)
-            for plugin in plugins:
-                print(f"  copying plugin: {plugin}")
-                user_plugin_dir = user_plugins_dir / plugin
-                admin_plugin_dir = admin_plugins_dir.joinpath(plugin)
-                # copy plugin
-                copy_plugin(admin_plugin_dir, user_plugin_dir, files_ignored)
 
-        else:
-            print(f"user has no plugins-dir: {user_plugins_dir}")
+    selected_users = []
+    for user in users:
+        if Path(plugins_dir.format(user=user)).parent.is_dir():
+            selected_users.append(user)
+    cont = input(f"Deploy to these users: {selected_users}? [y/n]")
+    
+    if cont=="y":
+        for user in selected_users:
+            # print(f"checking user '{user}'")
+            user_plugins_dir = Path(plugins_dir.format(user=user))
+            if user_plugins_dir.parent.is_dir():
+                print(f"  copying plugins to {user_plugins_dir}")
+                user_plugins_dir.mkdir(exist_ok=True)
+                for plugin in plugins:
+                    print(f"  copying plugin: {plugin}")
+                    user_plugin_dir = user_plugins_dir / plugin
+                    admin_plugin_dir = admin_plugins_dir.joinpath(plugin)
+                    # copy plugin
+                    copy_plugin(admin_plugin_dir, user_plugin_dir, files_ignored)
+
+            else:
+                print(f"user has no plugins-dir: {user_plugins_dir}")
 
 
 def get_args() -> argparse.Namespace:
