@@ -331,8 +331,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>522</width>
-             <height>674</height>
+             <width>98</width>
+             <height>47</height>
             </rect>
            </property>
            <attribute name="label">
@@ -444,7 +444,7 @@
         <item>
          <widget class="QgsFileWidget" name="input_dir_select">
           <property name="enabled">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
@@ -463,7 +463,7 @@
         <item>
          <widget class="QgsFileWidget" name="output_dir_select">
           <property name="enabled">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="fileWidgetButtonVisible">
            <bool>true</bool>
