@@ -3,7 +3,7 @@ from PyQt5.QtCore import pyqtSignal
 from qgis.core import QgsTask, Qgis
 from qgis.utils import QgsMessageLog, iface
 import hhnk_research_tools as hrt
-from hhnk_threedi_plugin.gui.tests.sqlite_test_widgets.general_checks_result import (
+from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.general_checks_result import (
     create_general_checks_result_widget,
 )
 

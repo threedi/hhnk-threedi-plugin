@@ -26,7 +26,6 @@ dependencies:
   # - tzlocal=2.1
   # - packaging=23.0
   # - pluggy=1.0.0
-  # - pygeos=0.14
   # - python-dateutil=2.8.2
   # - pytz=2020.1
   # - pytz-deprecation-shim=0.1.0.post0
@@ -40,6 +39,8 @@ dependencies:
   - pytest-cov
   - tqdm=4.64.0
   - xarray=2022.3.0
+  - pygeos=0.14 #required for geopandas
+
 
   - pip: # 3Di packages are not conda installable and are therefore installed by PIP
     # - et-xmlfile==1.1.0
