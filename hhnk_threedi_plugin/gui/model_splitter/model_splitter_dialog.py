@@ -22,7 +22,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         
         #Load setting
 
-        self.dockwidget.model_state_btn.clicked.connect(self.load_settings)
+        self.dockwidget.model_splitter_btn.clicked.connect(self.load_settings)
         self.model_settings_path.fileChanged.connect(self.load_settings)
         self.model_settings_path.fileChanged.connect(self.add_models_to_widget)
 

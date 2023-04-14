@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>324</width>
-    <height>529</height>
+    <height>556</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,8 +18,8 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>209</width>
-    <height>529</height>
+    <width>289</width>
+    <height>556</height>
    </size>
   </property>
   <property name="maximumSize">
@@ -183,33 +183,7 @@
          </spacer>
         </item>
         <item>
-         <widget class="QLabel" name="model_state_label">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>Huidige modelstaat:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="model_state_show">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>Onbekend</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="model_state_btn">
+         <widget class="QPushButton" name="model_splitter_btn">
           <property name="enabled">
            <bool>false</bool>
           </property>
@@ -220,7 +194,7 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string>Modelstaat aanpassen</string>
+           <string>Model splitten en uploaden</string>
           </property>
          </widget>
         </item>
@@ -236,6 +210,13 @@
            </size>
           </property>
          </spacer>
+        </item>
+        <item>
+         <widget class="QLabel" name="jupyter_label">
+          <property name="text">
+           <string>Notebooks (starten, downloaden, klimaatsommen)</string>
+          </property>
+         </widget>
         </item>
         <item>
          <widget class="QLineEdit" name="lizard_api_key_textbox">
@@ -277,9 +258,25 @@
          </widget>
         </item>
         <item>
+         <spacer name="verticalSpacer_9">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>10</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
          <widget class="QPushButton" name="input_btn">
+          <property name="toolTip">
+           <string>Paden naar de gebruikte input voor verschillende testen</string>
+          </property>
           <property name="text">
-           <string>Input</string>
+           <string>Input paden</string>
           </property>
          </widget>
         </item>
@@ -332,7 +329,7 @@
              <x>0</x>
              <y>0</y>
              <width>276</width>
-             <height>418</height>
+             <height>415</height>
             </rect>
            </property>
            <attribute name="label">

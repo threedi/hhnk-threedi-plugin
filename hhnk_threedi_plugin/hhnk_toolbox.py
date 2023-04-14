@@ -62,7 +62,7 @@ from hhnk_threedi_plugin.gui.modelbuilder import ModelBuilder
 # %%
 # Functions
 from hhnk_threedi_tools.core.folders import Folders
-from hhnk_threedi_tools.core.checks.model_state import detect_model_states
+# from hhnk_threedi_tools.core.checks.model_state import detect_model_states
 
 # Variables
 from hhnk_threedi_tools.variables.model_state import invalid_path
@@ -226,8 +226,8 @@ class HHNK_toolbox:
     def initGui(self):
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
 
-        icon_path = ":/plugins/hhnk_threedi_plugin/icons/hhnk_logo.jpg"
-        help_path = ":/plugins/hhnk_threedi_plugin/icons/help_icon.png"
+        icon_path = os.path.join(self.plugin_dir, "icons/hhnk_logo.jpg")
+        help_path = os.path.join(self.plugin_dir, "icons/help_icon.png") #":/plugins/hhnk_toolbox/icons/help_icon.png"
         self.add_action(
             icon_path,
             text=self.tr(u"HHNK Threedi Plugin"),
@@ -307,7 +307,7 @@ class HHNK_toolbox:
             self.current_source_paths = folder.to_file_dict()
             self.initialize_current_paths()
             
-            self.dockwidget.model_state_btn.setEnabled(True) #FIXME tijdelijk uitgezet totdat oplossing voor klondike release er is.
+            self.dockwidget.model_splitter_btn.setEnabled(True)
             self.dockwidget.tests_toolbox.setEnabled(True)
             self.dockwidget.server_btn.setEnabled(True)
             
@@ -320,7 +320,7 @@ class HHNK_toolbox:
                 for key, value in self.current_source_paths.items():
                     self.current_source_paths[key] = None
                 self.initialize_current_paths()
-            self.dockwidget.model_state_btn.setEnabled(False)
+            self.dockwidget.model_splitter_btn.setEnabled(False)
             self.dockwidget.tests_toolbox.setEnabled(False)
             self.dockwidget.server_btn.setEnabled(False)
             # self.dockwidget.load_layers_btn.setEnabled(True)
@@ -341,12 +341,12 @@ class HHNK_toolbox:
         # self.schematisation_dialog.set_current_paths()
         self.input_data_dialog.set_current_paths()
 
-    def update_model_state(self):
-        if self.current_source_paths is not None:
-            current_state = detect_model_states(self.current_source_paths["model"])
-            self.dockwidget.model_state_show.setText(current_state)
-        else:
-            self.dockwidget.model_state_show.setText(invalid_path)
+    # def update_model_state(self):
+    #     if self.current_source_paths is not None:
+    #         current_state = detect_model_states(self.current_source_paths["model"])
+    #         self.dockwidget.model_state_show.setText(current_state)
+    #     else:
+    #         self.dockwidget.model_state_show.setText(invalid_path)
 
     def update_current_paths(
         self,
@@ -476,7 +476,7 @@ class HHNK_toolbox:
                 self.dockwidget = HHNK_toolboxDockWidget()
 
                 # disable predefined buttons    
-                self.dockwidget.model_state_btn.setEnabled(True)
+                self.dockwidget.model_splitter_btn.setEnabled(True)
                 self.dockwidget.tests_toolbox.setEnabled(False)
                 self.dockwidget.server_btn.setEnabled(False)
                 # self.dockwidget.load_layers_btn.setEnabled(False)
@@ -517,7 +517,7 @@ class HHNK_toolbox:
 
                 self.dockwidget.input_btn.clicked.connect(self.input_data_dialog.set_current_paths)
                 self.dockwidget.input_btn.clicked.connect(self.input_data_dialog.show)
-                self.dockwidget.model_state_btn.clicked.connect(self.open_model_splitter_dialog)
+                self.dockwidget.model_splitter_btn.clicked.connect(self.open_model_splitter_dialog)
                 self.dockwidget.create_new_project_btn.clicked.connect(self.new_project_folder_execute)
                
                 # self.dockwidget.documentatie_button.clicked.connect(self.open_documentatie_link)
