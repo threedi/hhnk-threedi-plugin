@@ -226,11 +226,11 @@ class HHNK_toolbox:
     def initGui(self):
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
 
-        icon_path = ":/plugins/hhnk_toolbox/hhnk_logo.jpg"
-        help_path = ":/plugins/hhnk_toolbox/help_icon.png"
+        icon_path = ":/plugins/hhnk_threedi_plugin/icons/hhnk_logo.jpg"
+        help_path = ":/plugins/hhnk_threedi_plugin/icons/help_icon.png"
         self.add_action(
             icon_path,
-            text=self.tr(u"HHNK threedi Toolbox"),
+            text=self.tr(u"HHNK Threedi Plugin"),
             callback=self.run,
             parent=self.iface.mainWindow(),
         )
