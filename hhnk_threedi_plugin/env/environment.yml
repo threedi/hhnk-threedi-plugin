@@ -25,7 +25,6 @@ dependencies:
   # - tomli=2.0.1
   # - tzlocal=2.1
   # - packaging=23.0
-  # - pluggy=1.0.0
   # - python-dateutil=2.8.2
   # - pytz=2020.1
   # - pytz-deprecation-shim=0.1.0.post0
@@ -37,6 +36,9 @@ dependencies:
   #External deps plugin
   - pytest=7.2.2
   - pytest-cov
+  - pluggy=1.0.0 #pytest dependency
+  - exceptiongroup=1.1.1 #pytest dependency
+  - iniconfig=2.0.0 #pytest dependency
   - tqdm=4.64.0
   - xarray=2022.3.0
   - pygeos=0.14 #required for geopandas
