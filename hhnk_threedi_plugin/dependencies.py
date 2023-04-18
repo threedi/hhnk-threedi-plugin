@@ -61,13 +61,7 @@ LOG_DIR = OUR_DIR / "logs"
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 PATCH_DIR = OUR_DIR / "patches"
-PATCHES = {
-    "custom_types.py": THREEDI_DEPENDENCY_DIR.joinpath(
-        "threedi_schema//domain//custom_types.py"
-    )
-}
-
-USERDEPS =  ["jupyterlab", "ipywidgets"] #Dependencies in userfolder %appdata%/python/
+PATCHES = {}
 
 Dependency = namedtuple("Dependency", ["package", "version"])
 
@@ -79,13 +73,14 @@ logger.setLevel(logging.DEBUG)
 
 inconsist_deps_message = f"""
 Installatie hhnk_threedi_plugin
-
+<br><br>
 De volgende depencendies in deze QGIS python-environment zijn niet compatible met geteste plugin environment: 
+<br>
 {{msg}}
-
-Update de {YML_PATH} om deze melding te laten verdwijnen.
-
-En test de plugin voor deze environment (!)
+<br><br>
+Verwijder deze packages, of update de <a href='file:{YML_PATH}'>environment.yml</a> om deze melding te laten verdwijnen.
+<br>
+En test de plugin voor deze omgeving wanneer je de environment.yml update(!)
 """ # noqa: E501
 
 """ Helper functions for QGIS QProgressDialog and  QMessageBox """
@@ -182,21 +177,24 @@ def _raise_inconsistency_warning(
     correct_python_version, inconsistent_dependencies, qgis=_is_qgis()
 ):
     """Raise an inconsistency warning if environment is not compatible with yml.""" # noqa: E501s
-    if not correct_python_version:
-        inconsistent_dependencies.insert(
-            0,
-            Dependency("python", python_version())
-            )
 
-    msg = "\n".join(
-        [f"{i.package}=={i.version}" for i in inconsistent_dependencies]
+    if not correct_python_version:
+        msg = f"- python=={python_version()}<br>"
+
+    msg += "<br>".join(
+        [f"- {i.package}=={i.version} ({_package_location(i)})" for i in inconsistent_dependencies]
     )
     msg = inconsist_deps_message.format(msg=msg)
     logger.warning(msg)
 
     if qgis:
-        QMessageBox.information(None, "Warning", msg)
-
+        msg_box = QMessageBox()
+        msg_box.setTextFormat(Qt.RichText)
+        msg_box.setWindowTitle("Inconsistente Python environment")
+        msg_box.setIcon(QMessageBox.Warning)
+        msg_box.setText(msg)
+        msg_box.setFixedWidth(1000)
+        msg_box.exec_()
 
 def _raise_restart_warning(qgis=_is_qgis()):
     """Raise restart warning after installation."""
@@ -284,7 +282,15 @@ def _update_path(directories):
             logger.warning(
                 f"{dir_path} does not exist and is not added to sys.path"
                 )
-
+#%%
+def _package_location(dependency):
+    try:
+        pkg = pkg_resources.get_distribution(dependency.package)
+        location = Path(pkg.location) / dependency.package
+        return f"<a href='file:{location.as_posix()}'>{location.as_posix()}</a>"
+    except pkg_resources.DistributionNotFound:
+        pass
+#%%    
 
 def _evaluate_environment(yml_path: Path = YML_PATH):
     """
@@ -434,7 +440,7 @@ def _install_dependency(
     ]
 
     # if jupyter, we go for a full install in user-directory
-    if dependency.package in USERDEPS:
+    if dependency.package == "jupyter":
         command.extend(
             [
                 "--user",
