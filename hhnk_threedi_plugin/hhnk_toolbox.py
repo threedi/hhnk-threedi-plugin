@@ -96,7 +96,7 @@ class HHNK_toolbox:
 
         # initialize plugin directory
         self.plugin_dir = os.path.dirname(__file__)
-        self.help_address = "https://hhnk-toolbox-user-docs.readthedocs.io/nl/latest/"
+        self.help_address = "https://threedi.github.io/hhnk-threedi-plugin/"
 
         # initialize locale
         locale = QSettings().value("locale/userLocale")[0:2]

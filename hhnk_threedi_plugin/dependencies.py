@@ -178,23 +178,26 @@ def _raise_inconsistency_warning(
 ):
     """Raise an inconsistency warning if environment is not compatible with yml.""" # noqa: E501s
 
+    msg = ""
     if not correct_python_version:
         msg = f"- python=={python_version()}<br>"
 
     msg += "<br>".join(
         [f"- {i.package}=={i.version} ({_package_location(i)})" for i in inconsistent_dependencies]
     )
-    msg = inconsist_deps_message.format(msg=msg)
-    logger.warning(msg)
 
-    if qgis:
-        msg_box = QMessageBox()
-        msg_box.setTextFormat(Qt.RichText)
-        msg_box.setWindowTitle("Inconsistente Python environment")
-        msg_box.setIcon(QMessageBox.Warning)
-        msg_box.setText(msg)
-        msg_box.setFixedWidth(1000)
-        msg_box.exec_()
+    if msg:
+        msg = inconsist_deps_message.format(msg=msg)
+        logger.warning(msg)
+
+        if qgis:
+            msg_box = QMessageBox()
+            msg_box.setTextFormat(Qt.RichText)
+            msg_box.setWindowTitle("Inconsistente Python environment")
+            msg_box.setIcon(QMessageBox.Warning)
+            msg_box.setText(msg)
+            msg_box.setFixedWidth(1000)
+            msg_box.exec_()
 
 def _raise_restart_warning(qgis=_is_qgis()):
     """Raise restart warning after installation."""
