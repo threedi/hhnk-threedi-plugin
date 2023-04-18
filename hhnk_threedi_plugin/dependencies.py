@@ -61,11 +61,7 @@ LOG_DIR = OUR_DIR / "logs"
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 PATCH_DIR = OUR_DIR / "patches"
-PATCHES = {
-    "custom_types.py": THREEDI_DEPENDENCY_DIR.joinpath(
-        "threedi_schema//domain//custom_types.py"
-    )
-}
+PATCHES = {}
 
 Dependency = namedtuple("Dependency", ["package", "version"])
 
