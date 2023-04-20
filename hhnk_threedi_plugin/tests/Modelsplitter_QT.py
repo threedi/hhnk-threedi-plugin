@@ -51,7 +51,7 @@ INFILTRATION_COLS = ["infiltration_rate",
 
 def modelsplitter(self):
     overwrite = True 
-    path = self.dockwidget.polder_selector.filePath()
+    path = self.dockwidget.polders_map_selector.filePath()
     folder = Folders(path)
 
     settings_df = pd.read_excel(folder.model.settings.path, engine="openpyxl")

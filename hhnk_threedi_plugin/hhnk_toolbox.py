@@ -22,6 +22,7 @@
  ***************************************************************************/
 """
 import os.path
+from pathlib import Path
 from pyexpat import model
 from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication, Qt
 from qgis.PyQt.QtGui import QIcon
@@ -61,7 +62,7 @@ from hhnk_threedi_plugin.gui.modelbuilder import ModelBuilder
 
 # %%
 # Functions
-from hhnk_threedi_tools.core.folders import Folders
+from hhnk_threedi_tools.core.folders import Folder, Folders
 # from hhnk_threedi_tools.core.checks.model_state import detect_model_states
 
 # Variables
@@ -134,7 +135,19 @@ class HHNK_toolbox:
         self.modelbuilder = None
 
         # Keep tracks of last chosen source paths over the entire toolbox
-        
+    
+    @property
+    def polders_path(self):
+        if self.dockwidget.polders_map_selector.filePath():
+            return Path(self.dockwidget.polders_map_selector.filePath())
+
+    def enable_buttons(self, enabled):
+        self.dockwidget.model_splitter_btn.setEnabled(enabled)
+        self.dockwidget.tests_toolbox.setEnabled(enabled)
+        self.dockwidget.server_btn.setEnabled(enabled)
+        self.dockwidget.input_btn.setEnabled(enabled)
+        self.dockwidget.create_new_project_btn.setEnabled(enabled)
+        self.dockwidget.load_layers_btn.setEnabled(enabled)
 
     # noinspection PyMethodMayBeStatic
     def tr(self, message):
@@ -287,47 +300,69 @@ class HHNK_toolbox:
                 and self.bank_levels.isVisible()
             ):
                 self.bank_levels.close()
+
     # Select from the dockwidget the path where the polder is located. If the path is not correct or if it is empty I will not enabled the buttons 
-    def polder_folder_changed(self):
+    def polders_folder_changed(self):
+        """
+        Updates polder_selector from the contents of the path in polders_map_selector
+        """
+        items = []
+        # get the contents of the folder in polders_map_selector
+        path = self.dockwidget.polders_map_selector.filePath()
+        if path is not None:
+            if (path != "") and Path(path).exists():
+                folder = Folder(path)
+
+                # clean the contents (only accept directories)
+                items = [i for i in folder.content if (Path(path) / i).is_dir()]
+
+        # add items to the polder_selector
+        self.dockwidget.polder_selector.clear()
+        if items:
+            self.dockwidget.polder_selector.addItems(items)
+            self.dockwidget.polder_selector.setEnabled(True)
+        else:
+            self.dockwidget.polder_selector.setDisabled(True)
+
+    def polder_changed(self):
         """
         If a new polder is selected, based on validity of provided path:
         reset the current active paths
         enable or disable toolbox
         """
-        path = self.dockwidget.polder_selector.filePath()
-
+        polders_dir = self.dockwidget.polders_map_selector.filePath()
+        polder = self.dockwidget.polder_selector.currentText()
+        path = Path(polders_dir) / polder
 
         print("Found folder", path)
-        self.reset_ui(polder=path)
-        if path is not None and os.path.exists(path):
+        self.reset_ui(polder=polder)
+        if (polder != "") and path.exists():
             folder = Folders(path)
             self.fenv = folder #FIXME replace with self.folder in all scripts.
             self.folder = folder
-            self.polder_folder = path
+            self.polder_folder = path.as_posix()
             self.current_source_paths = folder.to_file_dict()
             self.initialize_current_paths()
             
-            self.dockwidget.model_splitter_btn.setEnabled(True)
-            self.dockwidget.tests_toolbox.setEnabled(True)
-            self.dockwidget.server_btn.setEnabled(True)
-            
-            # self.dockwidget.load_layers_btn.setEnabled(True)
+            self.enable_buttons(True)
+            if not os.path.exists(os.path.join(path, "01_Source_data")):
+                QMessageBox.warning(None, "Loading polder", "Incorrect folders!")
+                return
         else:
             self.fenv=None
             self.folder = None
             self.polder_folder = None
-            if self.current_source_paths is not None:
-                for key, value in self.current_source_paths.items():
-                    self.current_source_paths[key] = None
-                self.initialize_current_paths()
-            self.dockwidget.model_splitter_btn.setEnabled(False)
-            self.dockwidget.tests_toolbox.setEnabled(False)
-            self.dockwidget.server_btn.setEnabled(False)
+            # TODO: verify if deleting the commented block with self.current_source_paths = None is a good idea
+            self.current_source_paths = None
+            # if self.current_source_paths is not None:
+            #     for key, value in self.current_source_paths.items():
+            #         self.current_source_paths[key] = None
+            #     self.initialize_current_paths()
+
+            self.enable_buttons(False)
             # self.dockwidget.load_layers_btn.setEnabled(True)
 
-        if not os.path.exists(os.path.join(path, "01_Source_data")):
-            QMessageBox.warning(None, "Loading polder", "Incorrect folders!")
-            return
+
 
     def initialize_current_paths(self):
         """
@@ -435,10 +470,14 @@ class HHNK_toolbox:
 
 
     def new_project_folder_execute(self):
-        dialog = newProjectDialog()
-        dialog.project_folder_path.connect(Folders)
-        dialog.exec()
-        self.dockwidget.polder_selector.setFilePath(dialog.full_path)
+        dialog = newProjectDialog(self.polders_path)
+        result = dialog.exec()
+        if result:
+            if dialog.polder_path is not None:
+                self.dockwidget.polder_selector.addItem(dialog.polder_path.name)
+                self.dockwidget.polder_selector.setCurrentText(
+                    dialog.polder_path.name
+                    )
       
 
     def open_model_splitter_dialog(self):
@@ -476,9 +515,7 @@ class HHNK_toolbox:
                 self.dockwidget = HHNK_toolboxDockWidget()
 
                 # disable predefined buttons    
-                self.dockwidget.model_splitter_btn.setEnabled(True)
-                self.dockwidget.tests_toolbox.setEnabled(False)
-                self.dockwidget.server_btn.setEnabled(False)
+                self.enable_buttons(False)
                 # self.dockwidget.load_layers_btn.setEnabled(False)
 
                 self.dockwidget.lizard_api_key_textbox.textChanged.connect(self.hide_apikeys_lizard)
@@ -499,7 +536,8 @@ class HHNK_toolbox:
                 self.notebook_widget = NotebookWidget(caller=self, parent=self.dockwidget)
                 
                 # If a polder folder is selected
-                self.dockwidget.polder_selector.fileChanged.connect(self.polder_folder_changed)
+                self.dockwidget.polders_map_selector.fileChanged.connect(self.polders_folder_changed)
+                self.dockwidget.polder_selector.currentTextChanged.connect(self.polder_changed)
                 # Controls widgets showing results
                 self.sqlite_results_widget = collapsibleTree(self.dockwidget.sqlite_tests)
                 self.dockwidget.sqlite_tests.layout().addWidget(self.sqlite_results_widget)
@@ -550,6 +588,6 @@ class HHNK_toolbox:
 
             # #For debug set project_path in local_settings.
             try:
-                self.dockwidget.polder_selector.setFilePath(local_settings.project_path)
+                self.dockwidget.polders_map_selector.setFilePath(local_settings.project_path)
             except:
                 pass

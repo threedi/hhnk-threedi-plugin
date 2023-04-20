@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>324</width>
-    <height>556</height>
+    <width>574</width>
+    <height>671</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,8 +18,8 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>289</width>
-    <height>556</height>
+    <width>345</width>
+    <height>671</height>
    </size>
   </property>
   <property name="maximumSize">
@@ -86,7 +86,7 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <widget class="QLabel" name="select_polder_label">
+         <widget class="QLabel" name="select_polders_map_label">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -94,12 +94,12 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string>Selecteer een polder</string>
+           <string>Polders map:</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QgsFileWidget" name="polder_selector">
+         <widget class="QgsFileWidget" name="polders_map_selector">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -109,8 +109,41 @@
           <property name="dialogTitle">
            <string>Selecteer polder map</string>
           </property>
+          <property name="defaultRoot">
+           <string/>
+          </property>
           <property name="storageMode">
            <enum>QgsFileWidget::GetDirectory</enum>
+          </property>
+          <property name="options">
+           <set>QFileDialog::ShowDirsOnly</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="select_polder_label">
+          <property name="text">
+           <string>Polder:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="polder_selector">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="currentText">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="input_btn">
+          <property name="toolTip">
+           <string>Paden naar de gebruikte input voor verschillende testen</string>
+          </property>
+          <property name="text">
+           <string>Input paden</string>
           </property>
          </widget>
         </item>
@@ -137,6 +170,13 @@
           </property>
           <property name="text">
            <string>Nieuw project aanmaken</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="Line" name="line_3">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
           </property>
          </widget>
         </item>
@@ -195,6 +235,13 @@
           </property>
           <property name="text">
            <string>Model splitten en uploaden</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="Line" name="line_4">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
           </property>
          </widget>
         </item>
@@ -271,16 +318,6 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="input_btn">
-          <property name="toolTip">
-           <string>Paden naar de gebruikte input voor verschillende testen</string>
-          </property>
-          <property name="text">
-           <string>Input paden</string>
-          </property>
-         </widget>
-        </item>
-        <item>
          <spacer name="verticalSpacer_5">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -328,8 +365,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>276</width>
-             <height>415</height>
+             <width>517</width>
+             <height>541</height>
             </rect>
            </property>
            <attribute name="label">
@@ -452,9 +489,6 @@
           <property name="fileWidgetButtonVisible">
            <bool>true</bool>
           </property>
-          <property name="storageMode">
-           <enum>QgsFileWidget::GetDirectory</enum>
-          </property>
          </widget>
         </item>
         <item>
@@ -464,9 +498,6 @@
           </property>
           <property name="fileWidgetButtonVisible">
            <bool>true</bool>
-          </property>
-          <property name="storageMode">
-           <enum>QgsFileWidget::GetDirectory</enum>
           </property>
          </widget>
         </item>
