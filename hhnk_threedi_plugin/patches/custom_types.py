@@ -1,6 +1,5 @@
 import geoalchemy2
-# from packaging import version
-# from pkg_resources import get_distribution
+from packaging import version
 from sqlalchemy.types import Integer, TypeDecorator, VARCHAR
 
 
@@ -14,10 +13,9 @@ class Geometry(geoalchemy2.types.Geometry):
             "spatial_index": True,
             "from_text": from_text,
         }
-        # if version.parse(
-        #         get_distribution("GeoAlchemy2").version
-        #         ) < version.parse("0.13.0"):
-        kwargs["management"] = True
+        if not geoalchemy2.__version__ == "UNKNOWN VERSION":
+            if version.parse(geoalchemy2.__version__) < version.parse("0.13.0"):
+                kwargs["management"] = True
         super().__init__(**kwargs)
 
 
