@@ -342,12 +342,12 @@ class HHNK_toolbox:
             self.folder = folder
             self.polder_folder = path.as_posix()
             self.current_source_paths = folder.to_file_dict()
-            self.initialize_current_paths()
-            
             self.enable_buttons(True)
             if not os.path.exists(os.path.join(path, "01_Source_data")):
                 QMessageBox.warning(None, "Loading polder", "Incorrect folders!")
                 return
+            else:
+                self.initialize_current_paths()
         else:
             self.fenv=None
             self.folder = None
