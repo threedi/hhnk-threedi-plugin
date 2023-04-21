@@ -63,6 +63,8 @@ LOG_DIR.mkdir(parents=True, exist_ok=True)
 PATCH_DIR = OUR_DIR / "patches"
 PATCHES = {PATCH_DIR / "custom_types.py": THREEDI_DEPENDENCY_DIR.joinpath(r"threedi_schema\domain\custom_types.py")}
 
+USERDEPS =  ["jupyterlab", "ipywidgets"] #Dependencies in userfolder %appdata%/python/
+
 Dependency = namedtuple("Dependency", ["package", "version"])
 
 
@@ -443,7 +445,7 @@ def _install_dependency(
     ]
 
     # if jupyter, we go for a full install in user-directory
-    if dependency.package == "jupyterlab":
+    if dependency.package in USERDEPS:
         command.extend(
             [
                 "--user",
