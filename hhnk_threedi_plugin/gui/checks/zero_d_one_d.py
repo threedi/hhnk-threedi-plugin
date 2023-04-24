@@ -13,7 +13,7 @@ from hhnk_threedi_plugin.gui.general_objects import revisionsComboBox
 from qgis.core import Qgis
 from PyQt5.QtCore import Qt, pyqtSignal
 from hhnk_threedi_plugin.gui.utility.file_widget import fileWidget
-from hhnk_threedi_plugin.gui.tests.verify_zero_d_one_d_ui import verify_input
+from hhnk_threedi_plugin.gui.checks.verify_zero_d_one_d_ui import verify_input
 from hhnk_threedi_plugin.gui.path_verification_functions import is_valid_results_folder
 from hhnk_threedi_plugin.qgis_interaction.layers_management.layers.get_layers_list import (
     get_layers_list,

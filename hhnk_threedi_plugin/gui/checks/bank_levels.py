@@ -17,8 +17,8 @@ from hhnk_threedi_plugin.gui.utility.file_widget import fileWidget
 from hhnk_threedi_plugin.gui.path_verification_functions import is_valid_model_path
 from hhnk_threedi_plugin.error_messages.input_error_messages import invalid_model_path
 
-from hhnk_threedi_plugin.gui.tests.bank_levels_widgets.proposed_changes_dialog import modelChangesDialog
-#import hhnk_threedi_plugin.tasks.task_bank_levels as task_bank_levels
+from hhnk_threedi_plugin.gui.checks.bank_levels_widgets.proposed_changes_dialog import modelChangesDialog
+import hhnk_threedi_plugin.tasks.task_bank_levels as task_bank_levels
 import hhnk_threedi_tools as htt
 
 
@@ -82,7 +82,7 @@ class bankLevelsWidget(QWidget):
 
                 self.run_bank_levels_test(model_path=model_path)
             except Exception as e:
-                self.iface.messageBar().pushMessage(str(e), Qgis.Critical)
+                self.caller.iface.messageBar().pushMessage(str(e), Qgis.Critical)
                 pass
 
 

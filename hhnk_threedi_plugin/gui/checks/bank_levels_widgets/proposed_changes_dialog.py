@@ -1,8 +1,8 @@
 from PyQt5.QtWidgets import QDialog, QVBoxLayout, QPushButton, QLabel, QTextEdit
 from PyQt5.QtCore import pyqtSignal
 from qgis.utils import QgsMessageBar, Qgis
-from hhnk_threedi_plugin.gui.tests.bank_levels_widgets.proposed_changes_tabs import modelChangesTabs
-from hhnk_threedi_plugin.gui.tests.bank_levels_widgets.proposed_changes_exceptions import exceptionsWidget
+from hhnk_threedi_plugin.gui.checks.bank_levels_widgets.proposed_changes_tabs import modelChangesTabs
+from hhnk_threedi_plugin.gui.checks.bank_levels_widgets.proposed_changes_exceptions import exceptionsWidget
 from hhnk_threedi_plugin.tasks.execute_model_changes import executeModelChangesTask
 
 # hhnk-threedi-tests
