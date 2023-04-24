@@ -61,9 +61,7 @@ LOG_DIR = OUR_DIR / "logs"
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 PATCH_DIR = OUR_DIR / "patches"
-PATCHES = {PATCH_DIR / "custom_types.py": THREEDI_DEPENDENCY_DIR.joinpath(r"threedi_schema\domain\custom_types.py")}
-
-USERDEPS =  ["jupyterlab", "ipywidgets"] #Dependencies in userfolder %appdata%/python/
+PATCHES = {}
 
 Dependency = namedtuple("Dependency", ["package", "version"])
 
