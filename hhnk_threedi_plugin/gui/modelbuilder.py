@@ -207,7 +207,10 @@ class ModelBuilder:
         self.set_select_server_label()
 
         # check if server is available and set buttons active
-        available = all(self.status.values())
+        if self.status is not None:
+            available = all(self.status.values())
+        else:
+            available = False
         self.set_active_buttons(available)
 
         # if online, but not available, start availability timer. Else stop timer (if running). # NOQA

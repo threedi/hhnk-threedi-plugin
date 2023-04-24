@@ -3,7 +3,7 @@ from PyQt5.QtCore import pyqtSignal
 from qgis.core import QgsTask, Qgis
 from qgis.utils import QgsMessageLog, iface
 from hhnk_threedi_plugin.qgis_interaction.layers_management.adding_layers import add_layers
-from hhnk_threedi_plugin.gui.tests.sqlite_test_widgets.isolated_channels_result import (
+from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.isolated_channels_result import (
     create_isolated_channels_result_widget,
 )
 

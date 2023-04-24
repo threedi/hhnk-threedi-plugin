@@ -22,7 +22,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         
         #Load setting
 
-        self.dockwidget.model_state_btn.clicked.connect(self.load_settings)
+        self.dockwidget.model_splitter_btn.clicked.connect(self.load_settings)
         self.model_settings_path.fileChanged.connect(self.load_settings)
         self.model_settings_path.fileChanged.connect(self.add_models_to_widget)
 
@@ -87,7 +87,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.listWidget3.addItem(f"{datetime.datetime.now()} -----------------------------------------------------------------------------*")
         self.listWidget3.addItem("Model versions enabled: " + str(self.get_lst_items(listwidget=self.listWidget2)))
         self.listWidget3.addItem("Model versions disabled: " + str(self.get_lst_items(listwidget=self.listWidget1)))
-        self.listWidget3.addItem("Path: " + str(self.dockwidget.polder_selector.filePath()))
+        self.listWidget3.addItem("Path: " + str(self.dockwidget.polders_map_selector.filePath()))
         self.listWidget3.addItem("Continue to upload the versions")
 
     def revision_check(self):
@@ -118,4 +118,4 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.listWidget3.addItem("")
         self.listWidget3.addItem(f"{datetime.datetime.now()} -----------------------------------------------------------------------------*")
         self.listWidget3.addItem("Model versions uploaded: " + str(self.get_lst_items(listwidget=self.listWidget2)))
-        self.listWidget3.addItem("Path: " + str(self.dockwidget.polder_selector.filePath()))
+        self.listWidget3.addItem("Path: " + str(self.dockwidget.polders_map_selector.filePath()))

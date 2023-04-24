@@ -2,7 +2,7 @@ import copy
 from PyQt5.QtCore import pyqtSignal
 from qgis.core import QgsTask, Qgis
 from qgis.utils import QgsMessageLog, iface
-from hhnk_threedi_plugin.gui.tests.sqlite_test_widgets.dem_max_val_result import (
+from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.dem_max_val_result import (
     create_dem_max_val_result_widget,
 )
 
