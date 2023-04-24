@@ -313,8 +313,8 @@ class HHNK_toolbox:
             if (path != "") and Path(path).exists():
                 folder = Folder(path)
 
-                # clean the contents (only accept directories)
-                items = [i for i in folder.content if (Path(path) / i).is_dir()]
+                # clean the contents (only accept valid Folders directories)
+                items = [i for i in folder.content if Folders(Path(path)/i).is_valid()]
 
         # add items to the polder_selector
         self.dockwidget.polder_selector.clear()
