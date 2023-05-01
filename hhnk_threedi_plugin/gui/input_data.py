@@ -31,8 +31,6 @@ from hhnk_threedi_plugin.qgis_interaction.layers_management.groups.layer_groups_
 from hhnk_threedi_plugin.tasks.task_sqlite_tests_main import task_sqlite_tests_main
 from hhnk_threedi_plugin.qgis_interaction import load_layers_interaction
 
-from hhnk_threedi_tools.qgis.get_working_paths import get_working_paths
-from hhnk_threedi_tools.qgis.environment import testEnvironment
 
 
 def setupUi(input_data):

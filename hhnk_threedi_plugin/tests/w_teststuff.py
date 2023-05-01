@@ -143,43 +143,7 @@ project.zoom_to_layer(layer_name=layer_name, group_name=group_name)
 'BWN_bwn_test_#6_1d2d_test'\Layers\1d2d_alle_stroming.gpkg
 
 # project.instance.mapLayersByName()
-# %%
-from hhnk_threedi_plugin.qgis_interaction.layers_management.layers.get_layers_list import get_layers_list
-from hhnk_threedi_tools.qgis.paths_functions import get_top_level_directories
-from hhnk_threedi_tools.qgis.build_output_files_dict import build_output_files_dict
 
-
-one_d_two_d_dict = build_output_files_dict(
-                test_type=4,
-                base_folder=self.one_d_two_d_output_path,
-                revision_dir_name=self.one_d_two_d_selector.currentText(),
-            )
-
-
-one_d_two_d_layers = get_layers_list(
-    test_type=4,
-    plugin_dir=self.caller.plugin_dir,
-    output_dict=one_d_two_d_dict,
-    group_structure=layer_groups_structure,
-    chosen_tests=None,
-)
-
-# TODO fix layers dict to list
-one_d_two_d_layers = [
-    one_d_two_d_layers[x] for x in one_d_two_d_layers
-]
-
-# Add tif layers created by regular expression
-# one_d_two_d_layers = find_tif_layers_and_append(
-#     input_folder=one_d_two_d_dict["layer_path"],
-#     layers_list=.one_d_two_d_layers,
-# )
-
-# remove_layers(self.one_d_two_d_layers)  # Remove layers from project
-# add_layers(
-#     layers_list=self.one_d_two_d_layers,
-#     group_structure=layer_groups_structure,
-# )
 
 # %% Plugin data bekijken
 import qgis

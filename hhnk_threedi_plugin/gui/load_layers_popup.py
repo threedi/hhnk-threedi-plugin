@@ -38,8 +38,6 @@ from hhnk_threedi_plugin.qgis_interaction.project import Project
 from hhnk_threedi_plugin.qgis_interaction import load_layers_interaction
 
 # hhnk-threedi-tests
-from hhnk_threedi_tools.qgis.paths_functions import get_top_level_directories
-from hhnk_threedi_tools.qgis.build_output_files_dict import build_output_files_dict
 from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
 
 
