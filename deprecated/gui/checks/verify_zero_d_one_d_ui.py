@@ -1,6 +1,6 @@
 from hhnk_threedi_plugin.error_messages.input_error_messages import no_output_folder, no_result_selected
 
-
+#Verplaatst naar \hhnk_threedi_plugin\gui\checks\zero_d_one_d.py
 def verify_input(output_path, revision_selected):
     """
     Checks whether all fields are correctly filled out

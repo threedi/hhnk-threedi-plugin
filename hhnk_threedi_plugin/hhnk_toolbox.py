@@ -568,7 +568,6 @@ class HHNK_toolbox:
                 # self.zero_d_one_d.start_0d1d_tests.connect(self.zero_d_one_d_tests_execution)
                 # self.bank_levels.start_bank_levels_tests.connect(self.bank_levels_execution)
 
-                self.one_d_two_d.start_1d2d_tests_btn.clicked.connect(self.one_d_two_d.one_d_two_d_tests_execution)
 
                 # define modelbuilder. Note, all callbacks and functions you can find in ModelBuilder class
                 self.modelbuilder = ModelBuilder(dockwidget=self.dockwidget)

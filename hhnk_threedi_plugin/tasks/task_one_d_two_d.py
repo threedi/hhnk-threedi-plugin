@@ -25,16 +25,8 @@ import os
 from qgis.core import Qgis
 from qgis.utils import QgsMessageLog
 
-if __name__ == '__main__':
-    path = r'C:\Users\wvangerwen\Downloads\model_test_v2'
-    folder = htt.folders(path)
-    revision='BWN bwn_test #5 1d2d_test'
-    dem_path = folder.model.schema_base.rasters.dem.path
-    
-# %%
 
 def task_one_d_two_d(folder, revision, dem_path):
-# %%
     #Define file locations
     output_file_flowline = folder.output.one_d_two_d[revision].stroming_1d2d_test.path
     output_file_node = folder.output.one_d_two_d[revision].grid_nodes_2d.path
@@ -82,3 +74,9 @@ def task_one_d_two_d(folder, revision, dem_path):
                                 subjects=['test_1d2d'])
 
 # %%
+if __name__ == '__main__':
+    path = r'C:\Users\wvangerwen\Downloads\model_test_v2'
+    folder = htt.folders(path)
+    revision='BWN bwn_test #5 1d2d_test'
+    dem_path = folder.model.schema_base.rasters.dem.path
+    
