@@ -10,23 +10,21 @@ Voor uitleg over de interpretatie van resultaten, zie !!!
 
 ![](../images/usage/plugin_overview_legend.png)
 
-1. [Polder selecteren](#polder_selection_usage)
-2. [Nieuw project aanmaken](#new_project_usage)
-3. [Modelstaat aanpassen](#model_state_conversion_usage)
-4. [Sqlite tests](#sqlite_tests_usage)
-5. [0d1d tests](#0d1d_tests_usage)
-6. [Bank levels](#bank_levels_test_usage)
-7. [1d2d tests](#1d2d_tests_usage)
+1. [Polder selecteren](#1-polder-selecteren)
+2. [Nieuw project aanmaken](#2-nieuw-project-aanmaken)
+3. [Modelstaat aanpassen](#3-modelstaat-aanpassen)
+4. [Sqlite tests](#4-sqlite-tests)
+5. [0d1d tests](#5-0d1d-tests)
+6. [Bank levels](#6-bank-levels-test)
+7. [1d2d tests](#7-1d2d-tests)
 
-(polder_selection_usage)=
 ## 1. Polder selecteren
 
-Selecteer een project map (zie [Standaard project indeling](tests_documentation.md) voor uitleg over de 
+Selecteer een project map (zie [Standaard project indeling](tests_documentation.md#indeling-project-map) voor uitleg over de 
 standaard indeling voor een project). Het is handig maar niet noodzakelijk om een project volgens de standaard indeling 
 in te richten. De meeste functionaliteit van de plugin is alleen beschikbaar wanneer een project 
 is geselecteerd.
 
-(new_project_usage)=
 ## 2. Nieuw project aanmaken
 
 Wanneer je op deze knop klikt open zich een nieuw venster:
@@ -37,14 +35,13 @@ Selecteer een map om het nieuwe project in aan te maken (veld 1). Geef het nieuw
 het project de naam van het gebied waar het model een weergave van is te geven) in veld 2.
 
 Wanneer je op 'Project aanmaken' klikt wordt er een lege mappenstructuur aangemaakt volgens de standaard projectindeling 
-(zie [project indeling](tests_documentation.md)). In de verschillende mappen worden ```readme``` files 
+(zie [project indeling](tests_documentation.md#indeling-project-map)). In de verschillende mappen worden ```readme``` files 
 aangemaakt waarin staat welke files in welke map wordt gezocht.
 
 Het resultaat ziet er als volgt uit:
 
 ![](../images/usage/new_project_created.PNG)
 
-(model_state_conversion_usage)=
 ## 3. Modelstaat aanpassen
 
 Wanneer je op deze knop klikt open zich een nieuw venster:
@@ -54,7 +51,7 @@ Wanneer je op deze knop klikt open zich een nieuw venster:
 1. Selecteer een model
    
 2. Zodra een model is geselecteerd wordt de huidige staat gedetecteerd (zie 
-   [Modelstaat aanpassen](tests_documentation.md)). Het is belangrijk dat de gedetecteerde staat 
+   [Modelstaat aanpassen](tests_documentation.md#modelstaat-aanpassen)). Het is belangrijk dat de gedetecteerde staat 
    klopt.
 3. Kies de staat om het model naar om te zetten
 4. Deze sectie wordt beschikbaar als we bij 3 '1d2d toets' als nieuwe staat hebben geselecteerd. Er zijn twee opties 
@@ -84,13 +81,12 @@ opgeslagen:
 
 ![](../images/usage/model_states_manual_changes.PNG)
 
-(sqlite_tests_usage)=
 ## 4. Sqlite tests
 
 De sqlite tests zijn bedoeld om het model te controleren op (potentiële) fouten in de data en deze te corrigeren waar 
 nodig. Na de sqlite tests is het model klaar om op te bouwen en om de 0d1d toets te draaien (zie 
-[0d1d toets/Hydraulische toets](tests_documentation.md)). Voor de inhoudelijke uitleg van de tests, zie:
-[Sqlite tests](tests_documentation.md)
+[0d1d toets/Hydraulische toets](tests_documentation.md#1d2d-tests)). Voor de inhoudelijke uitleg van de tests, zie:
+[Sqlite tests](tests_documentation.md#sqlite-tests)
 
 Wanneer je op deze knop klikt open zich een nieuw venster:
 
@@ -120,13 +116,12 @@ Klik op 'OK' om de tests te starten. De resultaten worden weergegeven als de tes
 
 De test resultaten worden ook als ```.csv``` files in de gekozen ```Output map``` in de ```Logs``` submap.
 
-(0d1d_tests_usage)=
 ## 5. 0d1d tests
 
 ![](../images/usage/0d1d_tests_tab_legend.png)
 
 De ```0d1d tests``` zijn bedoeld om de resultaten van de 
-[0d1d toets/Hydraulische toets](tests_documentation.md) te analyseren.
+[0d1d toets/Hydraulische toets](tests_documentation.md#0d1d-testshydraulische-toets) te analyseren.
 
 1. Selecteer 3di resultaten map: map waarin de 0d1d/hydraulic 3di test resultaten per revisie staan opgeslagen
    
@@ -151,12 +146,11 @@ gekozen ```Output map```, in de map met de naam van de geselecteerde ```revisie`
 resultaten worden ook als ```.csv``` files in de gekozen ```Output map```, in de map met de naam van de geselecteerde 
 ```revisie```, in de ```Logs``` submap.
 
-(bank_levels_test_usage)=
 ## 6. Bank levels test
 
 ![](../images/usage/bank_levels_tab_legend.png)
 
-Voor meer informatie over de inhoud van de test, zie: [Bank levels](tests_documentation.md)
+Voor meer informatie over de inhoud van de test, zie: [Bank levels](tests_documentation.md#bank-levels)
 
 1. Selecteer 3di resultaten map: map waarin de 0d1d/hydraulic 3di test resultaten per revisie staan opgeslagen
    
@@ -188,13 +182,12 @@ De bronnen voor deze lagen zijn ```geopackages (.gpkg)```. Deze files worden aut
 gekozen ```Output map```, in de ```Layers``` submap. De test resultaten worden ook als ```.csv``` files in de gekozen 
 ```Output map``` in de ```Logs``` submap.
 
-(1d2d_tests_usage)=
 ## 7. 1d2d tests
 
 ![](../images/usage/1d2d_tests_tab_legend.png)
 
 De ```1d2d tests``` zijn bedoeld om de resultaten van de 
-[1d2d toets](tests_documentation.md) te analyseren.
+[1d2d toets](tests_documentation.md#1d2d-tests) te analyseren.
 
 1. Selecteer 3di resultaten map: map waarin de 0d1d/hydraulic 3di test resultaten per revisie staan opgeslagen
    

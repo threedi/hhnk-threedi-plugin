@@ -179,7 +179,7 @@ class modelStateDialog(QDialog):
         self.buttons.rejected.connect(self.close)
         # Verify on accept
         self.buttons.accepted.connect(self.verify_submit)
-        self.parent().model_state_btn.clicked.connect(self.model_changed)
+        self.parent().model_splitter_btn.clicked.connect(self.model_changed)
         self.model_changed()
 
     def set_current_paths(self):

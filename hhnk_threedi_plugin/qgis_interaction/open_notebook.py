@@ -32,6 +32,16 @@ class NotebookWidget():
 
         self.load_api_key()
 
+    def notebook_paths(self):
+        notebook_paths = [str(THREEDI_DEPENDENCY_DIR),str(DEPENDENCY_DIR)]
+        if local_settings.hhnk_threedi_tools_path not in [None, '']:
+            notebook_paths.append(local_settings.hhnk_threedi_tools_path)
+        try:     
+            if local_settings.hhnk_research_tools_path not in [None, '']:
+                notebook_paths.append(local_settings.hhnk_research_tools_path)
+        except:
+            pass
+        return notebook_paths
 
     def load_api_key(self):
         """Load api_key from file and update textbox"""
@@ -113,15 +123,7 @@ class NotebookWidget():
             },
         )
 
-        notebook_paths = [str(THREEDI_DEPENDENCY_DIR),str(DEPENDENCY_DIR)]
-        if local_settings.hhnk_threedi_tools_path not in [None, '']:
-            notebook_paths.append(local_settings.hhnk_threedi_tools_path)
-        try:     
-            if local_settings.hhnk_research_tools_path not in [None, '']:
-                notebook_paths.append(local_settings.hhnk_research_tools_path)
-        except:
-            pass
-        htt.add_notebook_paths(notebook_paths)
+        htt.add_notebook_paths(self.notebook_paths())
         
     def start_server(self):
         api_key = self.generate_notebook_valid()
@@ -129,4 +131,9 @@ class NotebookWidget():
             return
         
         self.generate_notebook_folder(api_key)
-        htt.open_server(directory=self.polder_notebooks, location="user", use="run")
+        htt.open_server(
+            directory=self.polder_notebooks,
+            location="user",
+            use="run",
+            notebook_paths=self.notebook_paths()
+            )

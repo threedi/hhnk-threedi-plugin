@@ -2,7 +2,7 @@ import copy
 from PyQt5.QtCore import pyqtSignal
 from qgis.core import QgsTask, Qgis
 from qgis.utils import QgsMessageLog, iface
-from hhnk_threedi_plugin.gui.tests.sqlite_test_widgets.impervious_surface_result import (
+from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.impervious_surface_result import (
     create_impervious_surface_widget,
 )
 

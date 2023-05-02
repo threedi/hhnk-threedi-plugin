@@ -43,9 +43,9 @@ def setupUi(sqlite_dialog):
 
 #     # Create all file widgets
 #     sqlite_dialog.polder_label = QLabel("Polder:")
-#     sqlite_dialog.polder_selector = fileWidget(
+#     sqlite_dialog.polders_map_selector = fileWidget(
 #         file_dialog_title="", file_mode=QFileDialog.Directory    )
-#     sqlite_dialog.polder_selector.setEnabled(False)
+#     sqlite_dialog.polders_map_selector.setEnabled(False)
 
 #     sqlite_dialog.output_selector_label = QLabel("Selecteer output map:")
 #     sqlite_dialog.output_selector = fileWidget(
@@ -146,7 +146,7 @@ def setupUi(sqlite_dialog):
                         # path_selection_layout.setHorizontalSpacing(25)
                         # path_selection_layout.addWidget(separator, 0, 0, 1, 2)
                         # path_selection_layout.addWidget(sqlite_dialog.polder_label, 1, 0)
-                        # path_selection_layout.addWidget(sqlite_dialog.polder_selector, 1, 1)
+                        # path_selection_layout.addWidget(sqlite_dialog.polders_map_selector, 1, 1)
                         # path_selection_layout.addWidget(sqlite_dialog.output_selector_label, 2, 0)
                         # path_selection_layout.addWidget(sqlite_dialog.output_selector, 2, 1)
                         # path_selection_layout.addWidget(sqlite_dialog.model_selector_label, 3, 0)
@@ -344,7 +344,7 @@ class sqliteCheckDialog(QDialog):
         """
         paths = self.caller.current_source_paths
         # if paths is not None:
-        #     self.polder_selector.setFilePath(paths["polder_folder"])
+        #     self.polders_map_selector.setFilePath(paths["polder_folder"])
         #     self.model_selector.setFilePath(paths["model"])
         #     self.dem_selector.setFilePath(paths["dem"])
         #     self.datachecker_selector.setFilePath(paths["datachecker"])

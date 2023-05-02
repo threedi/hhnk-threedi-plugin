@@ -3,6 +3,7 @@ import pandas as pd
 import shutil
 import glob 
 
+from pathlib import Path
 from PyQt5.QtWidgets import (
     QComboBox,
     QDialog,
@@ -34,19 +35,6 @@ def setupUi(new_project_dialog):
     new_project_dialog.setMinimumWidth(275)
     
     # Creates items to be in widget
-    new_project_dialog.folder_selector = fileWidget(
-        file_dialog_title="Selecteer map waarin project wordt aangemaakt",
-        file_mode=QFileDialog.Directory,
-        select_text="Selecteer map:",
-    )
-
-    """" later gebruiken"""
-    # new_project_dialog.reference_model_box = fileWidget(
-    #     file_dialog_title="Kies referentie model:",
-    #     file_mode=QFileDialog.Directory,
-    #     select_text="Selecteer referentie polder map:",
-    # )
-
     new_project_dialog.reference_model_label = QLabel("Geef referentie polder op:")
     new_project_dialog.reference_model_box = QComboBox()
 
@@ -56,8 +44,6 @@ def setupUi(new_project_dialog):
     new_project_dialog.create_project_btn = QPushButton("Project aanmaken")
 
     # Add items to layout
-    layout.addWidget(new_project_dialog.folder_selector, alignment=Qt.AlignTop)
-    layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
 
     layout.addWidget(new_project_dialog.reference_model_label, alignment=Qt.AlignTop)
     layout.addWidget(new_project_dialog.reference_model_box, alignment=Qt.AlignTop)
@@ -100,41 +86,43 @@ class newProjectDialog(QDialog):
 
     project_folder_path = pyqtSignal(str)
 
-    def __init__(self):
+    def __init__(self, base_path):
         super(newProjectDialog, self).__init__()
         setupUi(self)
+        self.base_path = Path(base_path)
+        self.polder_path = None
         # ----------------------------------------------------------
         # Signals
         # ----------------------------------------------------------
-        self.create_project_btn.clicked.connect(self.verify_submit)
-        self.full_path = ""
+        self.create_project_btn.clicked.connect(self.make_folders)
 
-    def verify_submit(self):
-        base_path = self.folder_selector.filePath()
-        if not base_path:
-            iface.messageBar().pushMessage(
-                "Selecteer een map om nieuw project in aan te maken", Qgis.Critical
-            )
-              
-        else:
-            if not os.path.isdir(base_path):
+    def make_folders(self):
+            project_name = self.polder_name_field.text().replace(" ","_")
+            if not project_name:
                 iface.messageBar().pushMessage(
-                    "Selecteer een bestaande map om nieuw project in aan te maken",
-                    Qgis.Critical,
-                )  
+                    "Geen projectnaam opgegeven", Qgis.Critical
+                )
             else:
-                project_name = self.polder_name_field.text()
-                if not project_name:
+                polder_path = self.base_path / project_name
+                if polder_path.is_dir():
                     iface.messageBar().pushMessage(
-                        "Geen projectnaam opgegeven", Qgis.Critical
+                        folder_exists_already, Qgis.Critical
                     )
                 else:
-                    full_path = os.path.join(base_path, project_name)
-                    if os.path.isdir(full_path):
-                        iface.messageBar().pushMessage(
-                            folder_exists_already, Qgis.Critical
+                    try:
+                        Folders(polder_path, create=True)
+                        self.project_folder_path.emit(polder_path.as_posix())
+                        self.accept()
+                        self.polder_path = polder_path
+                        QMessageBox.information(
+                            None, "Create project", "Your folders are created!"
                         )
-                           
+                    except Exception:
+                        iface.messageBar().pushMessage(
+                            invalid_character_in_filename, Qgis.Critical
+                        )
+                        pass
+       
                     else:
                         try:
                             print(full_path)
