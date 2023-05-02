@@ -21,6 +21,7 @@ from qgis.utils import QgsMessageBar, QgsMessageLog, iface
 
 
 from hhnk_threedi_tools import SqliteTest
+import hhnk_research_tools as hrt
 
 # new
 
@@ -245,6 +246,15 @@ class loadLayersDialog(QDialog):
 
         # Test protocol
         if self.test_protocol_selector.isChecked() == True:
+            #FIXME tijdelijke implementatie om gdb in gpkg om te zetten. Als dit in alle projectmappen staat kan het weer weg. 
+            datachecker_gdb = hrt.FileGDB(self.caller.fenv.source_data.datachecker.pl.with_suffix(".gdb"))
+            datachecker_gpkg = self.caller.fenv.source_data.datachecker
+            if not datachecker_gpkg.exists:
+                iface.messageBar().pushMessage(
+                    f"datachecker_gdb omzetten in datachecker_gpkg. Datachecker_gdb kan verwijderd worden.", level=Qgis.Warning
+                )
+                hrt.convert_gdb_to_gpkg(gdb=datachecker_gdb, gpkg=datachecker_gpkg, overwrite=False, verbose=False)        
+
             subjects.append('test_protocol')
 
         # 0d1d test
