@@ -19,16 +19,7 @@ from PyQt5.QtCore import Qt, pyqtSignal
 from qgis.core import QgsTask, Qgis
 from qgis.utils import QgsMessageBar, QgsMessageLog, iface
 
-from .utility_functions import get_revision
-from hhnk_threedi_plugin.qgis_interaction.layers_management.layers.get_layers_list import get_layers_list
-# from hhnk_threedi_plugin.qgis_interaction.layers_management.adding_layers import (
-#     add_layers,
-#     find_tif_layers_and_append,
-# )
-from hhnk_threedi_plugin.qgis_interaction.layers_management.groups.layer_groups_structure import (
-    QgisLayerStructure,
-)
-# from hhnk_threedi_plugin.qgis_interaction.layers_management.removing_layers import remove_layers
+
 from hhnk_threedi_tools import SqliteTest
 
 # new

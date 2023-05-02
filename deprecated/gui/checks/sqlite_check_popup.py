@@ -18,7 +18,7 @@ from PyQt5.QtCore import Qt, pyqtSignal
 from qgis.gui import QgsMessageBar
 from .verify_sqlite_tests_input import verify_input
 from ...utility.file_widget import fileWidget
-from hhnk_threedi_plugin.qgis_interaction.layers_management.layers.get_layers_list import (
+from deprecated.qgis_interaction.get_layers_list import (
     get_layers_list,
 )
 from hhnk_threedi_plugin.qgis_interaction.layers_management.groups.layer_groups_structure import (

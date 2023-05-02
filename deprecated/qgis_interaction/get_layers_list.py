@@ -1,11 +1,11 @@
-from ..groups.layer_groups_structure import QgisLayerStructure
+from ...hhnk_threedi_plugin.qgis_interaction.layers_management.groups.layer_groups_structure import QgisLayerStructure
 import os
 import re
-from ..groups.project_groups_dicts import build_groups_dict
-from ..layers.build_layer_names_dict import build_layer_dicts
-from ..layers.layer_variable import layerVariables
-from ..layers.build_layer_styles_dict import build_layer_styles_dict
-from ..layers.layer_types_definition import VECTOR, VIRTUAL, RASTER
+from .layers_management.groups.project_groups_dicts import build_groups_dict
+from .layers_management.layers.build_layer_names_dict import build_layer_dicts
+from ...hhnk_threedi_plugin.qgis_interaction.layers_management.layers.layer_variable import layerVariables
+from .build_layer_styles_dict import build_layer_styles_dict
+from ...hhnk_threedi_plugin.qgis_interaction.layers_management.layers.layer_types_definition import VECTOR, VIRTUAL, RASTER
 
 
 from hhnk_research_tools.variables import file_types_dict, GPKG, TIF

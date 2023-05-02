@@ -136,7 +136,6 @@ def create_pdfs(folder, revisie):
 
     for index, row in df.iterrows():
         result = create_pdf_from_composer(
-            layoutmanager,
             project,
             composer_name=row["composer_name"],
             title=row["title"],
@@ -156,7 +155,6 @@ def create_pdfs(folder, revisie):
 
 
 def create_pdf_from_composer(
-    layoutmanager,
     project,
     composer_name,
     title,
@@ -166,7 +164,7 @@ def create_pdf_from_composer(
     theme,
     output_file,
 ):
-    layout_item = layoutmanager.layoutByName(composer_name)  # test is the layout name
+    layout_item = project.layoutmanager.layoutByName(composer_name)  # test is the layout name
 
     # -------------------------------------------------------------------------------------
     # Change layout settings
