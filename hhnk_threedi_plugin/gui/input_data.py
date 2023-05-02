@@ -18,14 +18,10 @@ from PyQt5.QtWidgets import (
     QHBoxLayout,
     QApplication,
 )
-from qgis.core import QgsTask, Qgis
-from qgis.utils import QgsMessageLog, iface
 from PyQt5.QtCore import Qt, pyqtSignal
 from qgis.gui import QgsMessageBar
 # from hhnk_threedi_plugin.gui.tests.verify_sqlite_tests_input import verify_input
 from hhnk_threedi_plugin.gui.utility.file_widget import fileWidget
-from hhnk_threedi_plugin.qgis_interaction.layers_management.groups.layer_groups_structure import (
-    QgisLayerStructure)
 
 
 
