@@ -128,10 +128,9 @@ class Layer:
         )
 
     def get_type(self, file_name):
-        if ".shp" in file_name:
-            return "vector"
-        if ".gdb" in file_name:
-            return "vector"
+        for ext in ['.shp', '.gdb', '.gpkg']:
+            if ext in file_name:
+                return "vector"
         if ".tif" in file_name:
             return "raster"
 
