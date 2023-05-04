@@ -1,3 +1,18 @@
+
+# %%
+import hhnk_threedi_plugin.qgis_interaction.load_layers_interaction as lli
+import qgis
+self = qgis.utils.plugins['hhnk_threedi_plugin']
+
+
+folder = self.fenv
+df_path=r"E:\github\wvangerwen\hhnk-threedi-plugin\hhnk_threedi_plugin\qgis_interaction\layer_structure\testprotocol.csv"
+
+#lli.load_layers(folder=folder, df_path=df_path, revisions={'0d1d_test':'','1d2d_test':'',"klimaatsommen":"batch_test"})
+
+
+
+
 # %%
 import matplotlib.pyplot as plt
 
