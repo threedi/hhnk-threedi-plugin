@@ -59,7 +59,7 @@ def task_one_d_two_d(folder, revision, dem_path):
     #Raster results
     description = "waterstandraster per tijdstap genereren"
     QgsMessageLog.logMessage(f"1d2d test - {description}", level=Qgis.Info)
-    test_1d2d.run_levels_depths_at_timesteps()
+    test_1d2d.run_wlvl_depth_at_timesteps(overwrite=False)
 
 
     #Add layers to project
