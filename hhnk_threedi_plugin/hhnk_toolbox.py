@@ -461,7 +461,6 @@ class HHNK_toolbox:
     def sqlite_tests_execution(self, selected_tests):
         try:
             # test_env.polder_folder = self.polder_folder
-            # run_sqlite_tests(results_widget=self.sqlite_results_widget, test_env=test_env)
             task_sqlite_tests_main(parent_widget=self.sqlite_results_widget, folder=self.fenv, selected_tests=selected_tests)
 
         except Exception as e:
