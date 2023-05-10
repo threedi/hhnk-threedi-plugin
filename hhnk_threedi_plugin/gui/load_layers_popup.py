@@ -20,7 +20,7 @@ from qgis.core import QgsTask, Qgis
 from qgis.utils import QgsMessageBar, QgsMessageLog, iface
 
 
-from hhnk_threedi_tools import SqliteTest
+from hhnk_threedi_tools import SqliteCheck
 import hhnk_research_tools as hrt
 
 # new
@@ -229,7 +229,7 @@ class loadLayersDialog(QDialog):
              load_layers_interaction.load_sqlite(filepath=self.caller.fenv.model.schema_base.sqlite_paths[0])
 
         if self.grid_selector.isChecked() == True:
-            sqlite_test = SqliteTest(self.caller.fenv)
+            sqlite_test = SqliteCheck(self.caller.fenv)
             sqlite_test.create_grid_from_sqlite(sqlite_path=self.caller.fenv.model.schema_base.sqlite_paths[0], 
                                                 dem_path=self.caller.fenv.model.schema_base.rasters.dem.path, 
                                                 output_folder=self.caller.fenv.output.sqlite_tests.path)
