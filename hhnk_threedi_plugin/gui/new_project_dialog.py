@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import shutil
 import glob 
+import importlib.resources as pkg_resources
 
 from pathlib import Path
 from PyQt5.QtWidgets import (
@@ -195,24 +196,29 @@ class newProjectDialog(QDialog):
        
         #adjust and copy model settings        
         if reference_model == (""):
-            raw_model_settings = pd.read_excel(r"E:\github\jkaptein\hhnk-threedi-plugin\hhnk_threedi_plugin\model_settings.xlsx", engine="openpyxl")
-            new_model_settings = pd.DataFrame(raw_model_settings.replace(regex=['hoekje'], value="[--set raster name--]"))
-            new_model_settings['name'] = (new_model_settings['name'] + str('_' + project_name))
-            new_model_settings.to_excel(os.path.join(dst.model.base, "model_settings.xlsx"))
+            with pkg_resources.path(htt.resources, "model_settings.xlsx") as p:
+                raw_model_settings = pd.read_excel(p.absolute().as_posix(), engine="openpyxl")
+                new_model_settings = pd.DataFrame(raw_model_settings.replace(regex=['hoekje'], value="[--set raster name--]"))
+                new_model_settings['name'] = (new_model_settings['name'] + str('_' + project_name))
+                new_model_settings.to_excel(os.path.join(dst.model.base, "model_settings.xlsx"))
             
             #copy model settings default file
-            model_settings_default = pd.read_excel(r"E:\github\jkaptein\hhnk-threedi-plugin\hhnk_threedi_plugin\model_settings_default.xlsx", engine="openpyxl")
-            model_settings_default.to_excel(os.path.join(dst.model.base, "model_settings_default.xlsx"))
+            with pkg_resources.path(htt.resources, "model_settings.xlsx") as p:
+                model_settings_default = pd.read_excel(pd.read_excel(p.absolute().as_posix(), engine="openpyxl")
+                model_settings_default.to_excel(os.path.join(dst.model.base, "model_settings_default.xlsx"))
         
         else:
-            raw_model_settings = pd.read_excel(r"E:\github\jkaptein\hhnk-threedi-plugin\hhnk_threedi_plugin\model_settings.xlsx", engine="openpyxl")
-            new_model_settings = pd.DataFrame(raw_model_settings.replace(regex=['hoekje'], value=reference_model))
-            new_model_settings['name'] = (new_model_settings['name'] + str('_' + project_name))       
-            new_model_settings.to_excel(os.path.join(dst.model.base, "model_settings.xlsx"))
+            with pkg_resources.path(htt.resources, "model_settings.xlsx") as p:
+                raw_model_settings = pd.read_excel(p.absolute().as_posix(), engine="openpyxl")
+                new_model_settings = pd.DataFrame(raw_model_settings.replace(regex=['hoekje'], value=reference_model))
+                new_model_settings['name'] = (new_model_settings['name'] + str('_' + project_name))       
+                new_model_settings.to_excel(os.path.join(dst.model.base, "model_settings.xlsx"))
 
             #copy model settings default file
-            model_settings_default = pd.read_excel(r"E:\github\jkaptein\hhnk-threedi-plugin\hhnk_threedi_plugin\model_settings_default.xlsx", engine="openpyxl")
-            model_settings_default.to_excel(os.path.join(dst.model.base, "model_settings_default.xlsx"))
+            with pkg_resources.path(htt.resources, "model_settings.xlsx") as p:
+                model_settings_default = pd.read_excel(pd.read_excel(p.absolute().as_posix(), engine="openpyxl")
+                model_settings_default.to_excel(os.path.join(dst.model.base, "model_settings_default.xlsx"))
+        
             
             #searching sqlite file and copy to destination folder
             for paths in bwn_paths:
