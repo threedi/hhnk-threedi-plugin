@@ -62,8 +62,8 @@ def setupUi(new_project_dialog):
     base_path = Path(dockwidget.polders_map_selector.filePath())
     base_path = str(base_path.parent)
     print(base_path)
-    if base_path == ".":
-        base_path = 'E:\\02.modellen'
+    if base_path == "." or "":
+        base_path = r'E:\02.modellen'
     
     print(base_path)
 
@@ -135,7 +135,7 @@ class newProjectDialog(QDialog):
        
                     else:
                         try:
-                            full_path = os.path.join(self.base_path, project_name)
+                            full_path = ''
                            
                             # os.mkdir(str(full_path))
                             # print("succes0")
@@ -147,8 +147,8 @@ class newProjectDialog(QDialog):
                             
                             # self.accept()
                             # QMessageBox.information(
-                            #     None, "Create project", "Your folders are created!"
-                            # )
+                            #      None, "Create project", "Your folders are created!"
+                            #  )
                             # self.full_path = full_path                                
 
                         except Exception:
@@ -180,6 +180,7 @@ class newProjectDialog(QDialog):
         print(base_path + " copy_files")
         if not base_path == r'E:\02.modellen':
             base_path = r'E:\02.modellen'
+            
         #base_path = self.folder_selector.filePath()
         project_name = self.polder_name_field.text()
         print(project_name)
@@ -194,23 +195,23 @@ class newProjectDialog(QDialog):
        
         #adjust and copy model settings        
         if reference_model == (""):
-            raw_model_settings = pd.read_excel("E:\\github\\jkaptein\\hhnk-threedi-plugin\\hhnk-threedi_plugin\\model_settings.xlsx", engine="openpyxl")
+            raw_model_settings = pd.read_excel(r"E:\github\jkaptein\hhnk-threedi-plugin\hhnk_threedi_plugin\model_settings.xlsx", engine="openpyxl")
             new_model_settings = pd.DataFrame(raw_model_settings.replace(regex=['hoekje'], value="[--set raster name--]"))
             new_model_settings['name'] = (new_model_settings['name'] + str('_' + project_name))
             new_model_settings.to_excel(os.path.join(dst.model.base, "model_settings.xlsx"))
             
             #copy model settings default file
-            model_settings_default = pd.read_excel("E:\\github\\jkaptein\\hhnk-threedi-plugin\\hhnk-threedi_plugin\\model_settings_default.xlsx", engine="openpyxl")
+            model_settings_default = pd.read_excel(r"E:\github\jkaptein\hhnk-threedi-plugin\hhnk_threedi_plugin\model_settings_default.xlsx", engine="openpyxl")
             model_settings_default.to_excel(os.path.join(dst.model.base, "model_settings_default.xlsx"))
         
         else:
-            raw_model_settings = pd.read_excel("E:\\github\\jkaptein\\hhnk-threedi-plugin\\hhnk-threedi_plugin\\model_settings.xlsx", engine="openpyxl")
+            raw_model_settings = pd.read_excel(r"E:\github\jkaptein\hhnk-threedi-plugin\hhnk_threedi_plugin\model_settings.xlsx", engine="openpyxl")
             new_model_settings = pd.DataFrame(raw_model_settings.replace(regex=['hoekje'], value=reference_model))
             new_model_settings['name'] = (new_model_settings['name'] + str('_' + project_name))       
             new_model_settings.to_excel(os.path.join(dst.model.base, "model_settings.xlsx"))
 
             #copy model settings default file
-            model_settings_default = pd.read_excel("E:\\github\\jkaptein\\hhnk-threedi-plugin\\hhnk-threedi_plugin\\model_settings_default.xlsx", engine="openpyxl")
+            model_settings_default = pd.read_excel(r"E:\github\jkaptein\hhnk-threedi-plugin\hhnk_threedi_plugin\model_settings_default.xlsx", engine="openpyxl")
             model_settings_default.to_excel(os.path.join(dst.model.base, "model_settings_default.xlsx"))
             
             #searching sqlite file and copy to destination folder
