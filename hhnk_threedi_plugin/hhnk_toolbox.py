@@ -322,7 +322,7 @@ class HHNK_toolbox:
             self.dockwidget.polder_selector.addItems(items)
             self.dockwidget.polder_selector.setEnabled(True)
         else:
-            self.dockwidget.polder_selector.setDisabled(True)
+            self.dockwidget.polder_selector.setDisabled(False)
 
     def polder_changed(self):
         """
@@ -515,7 +515,7 @@ class HHNK_toolbox:
                 self.dockwidget = HHNK_toolboxDockWidget()
 
                 # disable predefined buttons    
-                self.enable_buttons(False)
+                self.enable_buttons(True)
                 # self.dockwidget.load_layers_btn.setEnabled(False)
 
                 self.dockwidget.lizard_api_key_textbox.textChanged.connect(self.hide_apikeys_lizard)

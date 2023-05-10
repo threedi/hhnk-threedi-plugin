@@ -24,6 +24,7 @@ from ..error_messages.input_error_messages import (
     folder_exists_already,
 )
 from hhnk_threedi_tools.core.folders import Folders
+from hhnk_threedi_plugin.hhnk_toolbox_dockwidget import HHNK_toolboxDockWidget
 
 
 
@@ -57,7 +58,15 @@ def setupUi(new_project_dialog):
     new_project_dialog.setLayout(layout)
 
     #set reference model
-    base_path = r"E:\02.modellen"
+    dockwidget = HHNK_toolboxDockWidget()
+    base_path = Path(dockwidget.polders_map_selector.filePath())
+    base_path = str(base_path.parent)
+    print(base_path)
+    if base_path == ".":
+        base_path = 'E:\\02.modellen'
+    
+    print(base_path)
+
     reference_models_paths = glob.glob(str(base_path + "\\cbt-[0-9]")) + glob.glob(str(base_path + "\\cbt-[0-9][0-9]"))
     new_project_dialog.reference_model_box.addItem("",)
     for paths in reference_models_paths:
@@ -91,6 +100,7 @@ class newProjectDialog(QDialog):
         setupUi(self)
         self.base_path = Path(base_path)
         self.polder_path = None
+        
         # ----------------------------------------------------------
         # Signals
         # ----------------------------------------------------------
@@ -125,16 +135,21 @@ class newProjectDialog(QDialog):
        
                     else:
                         try:
-                            print(full_path)
-                            os.mkdir(full_path)
-                            Folders(full_path, create=True)
-                            print("succes1")
-                            self.project_folder_path.emit(full_path)
-                            self.accept()
-                            QMessageBox.information(
-                                None, "Create project", "Your folders are created!"
-                            )
-                            self.full_path = full_path                                
+                            full_path = os.path.join(self.base_path, project_name)
+                           
+                            # os.mkdir(str(full_path))
+                            # print("succes0")
+
+                            # Folders(full_path, create=True)
+                            # print("succes1")
+                            
+                            # self.project_folder_path.emit(full_path)
+                            
+                            # self.accept()
+                            # QMessageBox.information(
+                            #     None, "Create project", "Your folders are created!"
+                            # )
+                            # self.full_path = full_path                                
 
                         except Exception:
                             iface.messageBar().pushMessage(
@@ -159,9 +174,17 @@ class newProjectDialog(QDialog):
 
     def copy_files(self):
         #setting the paths
-        base_path = self.folder_selector.filePath()
+        dockwidget = HHNK_toolboxDockWidget()
+        base_path = Path(dockwidget.polders_map_selector.filePath())
+        base_path = str(base_path.parent)
+        print(base_path + " copy_files")
+        if not base_path == r'E:\02.modellen':
+            base_path = r'E:\02.modellen'
+        #base_path = self.folder_selector.filePath()
         project_name = self.polder_name_field.text()
-        dst = Folders(os.path.join(base_path, project_name))
+        print(project_name)
+        dst = Folders(os.path.join(str(base_path), str(project_name)))
+        print(dst)
         
         reference_model_base = self.reference_model_box.currentText()
         reference_model = reference_model_base[4:]
