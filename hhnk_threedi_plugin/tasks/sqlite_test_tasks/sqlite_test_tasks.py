@@ -69,9 +69,7 @@ class controlledStructsTask(BaseSqliteTask):
 
     def run_custom(self):
         if self.os_retry is None:
-            self.gdf = self.sqlite_test.run_controlled_structures()
-
-        self.gdf.to_file(self.layer_source, index=False, driver='GPKG')
+            self.sqlite_test.run_controlled_structures(overwrite=False)
         return True
 
     def finished_custom(self):
@@ -218,7 +216,7 @@ class dewateringTask(BaseSqliteTask):
     def run(self):
         QgsMessageLog.logMessage(f"Taak gestart {self.description}", level=Qgis.Info)
         try:
-            self.sqlite_test.run_dewatering_depth(output_file=self.folder.output.sqlite_tests.drooglegging.path)
+            self.sqlite_test.run_dewatering_depth(overwrite=False)
             return True
         except Exception as e:
             self.exception = e

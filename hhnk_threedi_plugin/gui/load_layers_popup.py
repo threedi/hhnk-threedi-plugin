@@ -19,17 +19,9 @@ from PyQt5.QtCore import Qt, pyqtSignal
 from qgis.core import QgsTask, Qgis
 from qgis.utils import QgsMessageBar, QgsMessageLog, iface
 
-from .utility_functions import get_revision
-from hhnk_threedi_plugin.qgis_interaction.layers_management.layers.get_layers_list import get_layers_list
-# from hhnk_threedi_plugin.qgis_interaction.layers_management.adding_layers import (
-#     add_layers,
-#     find_tif_layers_and_append,
-# )
-from hhnk_threedi_plugin.qgis_interaction.layers_management.groups.layer_groups_structure import (
-    QgisLayerStructure,
-)
-# from hhnk_threedi_plugin.qgis_interaction.layers_management.removing_layers import remove_layers
+
 from hhnk_threedi_tools import SqliteTest
+import hhnk_research_tools as hrt
 
 # new
 
@@ -38,8 +30,6 @@ from hhnk_threedi_plugin.qgis_interaction.project import Project
 from hhnk_threedi_plugin.qgis_interaction import load_layers_interaction
 
 # hhnk-threedi-tests
-from hhnk_threedi_tools.qgis.paths_functions import get_top_level_directories
-from hhnk_threedi_tools.qgis.build_output_files_dict import build_output_files_dict
 from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
 
 
@@ -256,6 +246,15 @@ class loadLayersDialog(QDialog):
 
         # Test protocol
         if self.test_protocol_selector.isChecked() == True:
+            #FIXME tijdelijke implementatie om gdb in gpkg om te zetten. Als dit in alle projectmappen staat kan het weer weg. 
+            datachecker_gdb = hrt.FileGDB(self.caller.fenv.source_data.datachecker.pl.with_suffix(".gdb"))
+            datachecker_gpkg = self.caller.fenv.source_data.datachecker
+            if not datachecker_gpkg.exists:
+                iface.messageBar().pushMessage(
+                    f"datachecker_gdb omzetten in datachecker_gpkg. Datachecker_gdb kan verwijderd worden.", level=Qgis.Warning
+                )
+                hrt.convert_gdb_to_gpkg(gdb=datachecker_gdb, gpkg=datachecker_gpkg, overwrite=False, verbose=False)        
+
             subjects.append('test_protocol')
 
         # 0d1d test

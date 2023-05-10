@@ -461,7 +461,6 @@ class HHNK_toolbox:
     def sqlite_tests_execution(self, selected_tests):
         try:
             # test_env.polder_folder = self.polder_folder
-            # run_sqlite_tests(results_widget=self.sqlite_results_widget, test_env=test_env)
             task_sqlite_tests_main(parent_widget=self.sqlite_results_widget, folder=self.fenv, selected_tests=selected_tests)
 
         except Exception as e:
@@ -568,7 +567,6 @@ class HHNK_toolbox:
                 # self.zero_d_one_d.start_0d1d_tests.connect(self.zero_d_one_d_tests_execution)
                 # self.bank_levels.start_bank_levels_tests.connect(self.bank_levels_execution)
 
-                self.one_d_two_d.start_1d2d_tests_btn.clicked.connect(self.one_d_two_d.one_d_two_d_tests_execution)
 
                 # define modelbuilder. Note, all callbacks and functions you can find in ModelBuilder class
                 self.modelbuilder = ModelBuilder(dockwidget=self.dockwidget)

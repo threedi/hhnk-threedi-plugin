@@ -36,19 +36,6 @@ def is_valid_geodatabase_path(datachecker_path):
     return True
 
 
-def is_valid_results_folder(threedi_result_folder):
-    nc_count = 0
-    h5_count = 0
-    if valid_path(threedi_result_folder):
-        for item in os.listdir(threedi_result_folder):
-            if Path(item).suffix == file_types_dict[H5]:
-                h5_count += 1
-            if Path(item).suffix == file_types_dict[NC]:
-                nc_count += 1
-        return nc_count == 1 and h5_count == 1
-    return False
-
-
 def is_valid_raster(raster_path):
     if not valid_path(raster_path) or not check_extension(raster_path, TIF):
         return False

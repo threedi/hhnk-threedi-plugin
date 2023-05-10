@@ -18,21 +18,11 @@ from PyQt5.QtWidgets import (
     QHBoxLayout,
     QApplication,
 )
-from qgis.core import QgsTask, Qgis
-from qgis.utils import QgsMessageLog, iface
 from PyQt5.QtCore import Qt, pyqtSignal
 from qgis.gui import QgsMessageBar
 # from hhnk_threedi_plugin.gui.tests.verify_sqlite_tests_input import verify_input
 from hhnk_threedi_plugin.gui.utility.file_widget import fileWidget
-from hhnk_threedi_plugin.qgis_interaction.layers_management.layers.get_layers_list import (
-    get_layers_list)
-from hhnk_threedi_plugin.qgis_interaction.layers_management.groups.layer_groups_structure import (
-    QgisLayerStructure)
-from hhnk_threedi_plugin.tasks.task_sqlite_tests_main import task_sqlite_tests_main
-from hhnk_threedi_plugin.qgis_interaction import load_layers_interaction
 
-from hhnk_threedi_tools.qgis.get_working_paths import get_working_paths
-from hhnk_threedi_tools.qgis.environment import testEnvironment
 
 
 def setupUi(input_data):

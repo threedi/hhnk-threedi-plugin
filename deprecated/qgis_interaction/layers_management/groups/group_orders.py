@@ -1,4 +1,4 @@
-from .layer_groups_structure import QgisLayerStructure
+from .....hhnk_threedi_plugin.qgis_interaction.layers_management.groups.layer_groups_structure import QgisLayerStructure
 
 
 def build_group_order(qls):
