@@ -57,8 +57,10 @@ class modelSplitterDialog(QtWidgets.QDialog):
             self.listWidget3.addItem(f"{datetime.datetime.now()} -----------------------------------------------------------------------------*")
             self.listWidget3.addItem("CHANGED SETTINGS FOLDER INTO: - " + folder_path)
 
+
     def enable_upload(self):
         self.upload_push_btn.setEnabled(True)
+
 
     def add_models_to_widget(self):
         """Add models to the listwidgets"""
@@ -94,6 +96,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.listWidget3.addItem("Path: " + str(self.dockwidget.polders_map_selector.filePath()))
         self.listWidget3.addItem("Continue to upload the versions")
 
+
     def revision_check(self):
         api_key = self.dockwidget.threedi_api_key_textbox.text()
         lst_items = self.get_lst_items(listwidget=self.listWidget2)
@@ -104,6 +107,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
 
         #Logging
         self.listWidget3.addItem("Check revisions and continue to upload the versions")
+
 
     def upload_schematisations(self):   
         """Upload selected schematisations to the 3Di servers."""
