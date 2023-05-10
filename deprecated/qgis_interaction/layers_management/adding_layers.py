@@ -1,7 +1,7 @@
 import os
 import re
 import copy
-from .layers.layer_types_definition import VECTOR, VIRTUAL, RASTER
+from ....hhnk_threedi_plugin.qgis_interaction.layers_management.layers.layer_types_definition import VECTOR, VIRTUAL, RASTER
 from qgis.core import (
     QgsProject,
     QgsVectorLayer,

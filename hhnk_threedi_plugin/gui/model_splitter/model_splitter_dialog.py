@@ -7,6 +7,7 @@ import pandas as pd
 import datetime
 
 from hhnk_threedi_tools.core.checks import model_splitter
+from hhnk_threedi_plugin.hhnk_toolbox_dockwidget import HHNK_toolboxDockWidget
 #from hhnk_threedi_plugin.gui.model_states.functions.create_new_sqlite import create_schematisation
 
 
@@ -36,6 +37,8 @@ class modelSplitterDialog(QtWidgets.QDialog):
 
         # other stuff
         self.cancel.clicked.connect(self.close)
+               
+
         self.model_settings_path.setFilePath(self.caller.fenv.model.settings.path)
         self.listWidget3.addItem(str(datetime.datetime.now()) + "SETTINGS FOLDER: - " + self.caller.fenv.model.settings.path)
 
@@ -43,8 +46,8 @@ class modelSplitterDialog(QtWidgets.QDialog):
 
     def load_settings(self):
         """Load model settings and default settings. Thet are added as .settings_df and .settings_default_series"""
+        self.model_settings_path.setFilePath(self.caller.fenv.model.settings.path)
         modelsettings_path = self.model_settings_path.filePath() 
-        
         self.modelschematisations = model_splitter.ModelSchematisations(folder=self.caller.fenv, modelsettings_path=modelsettings_path)
 
         if self.modelschematisations.settings_loaded:
@@ -54,8 +57,10 @@ class modelSplitterDialog(QtWidgets.QDialog):
             self.listWidget3.addItem(f"{datetime.datetime.now()} -----------------------------------------------------------------------------*")
             self.listWidget3.addItem("CHANGED SETTINGS FOLDER INTO: - " + folder_path)
 
+
     def enable_upload(self):
         self.upload_push_btn.setEnabled(True)
+
 
     def add_models_to_widget(self):
         """Add models to the listwidgets"""
@@ -79,6 +84,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         """Loop over the selected models in the list widget on the right
         Create individual schematisations for each"""
         lst_items = self.get_lst_items(listwidget=self.listWidget2)
+        api_key = self.dockwidget.threedi_api_key_textbox.text()
         for list_name in lst_items:
             self.modelschematisations.create_schematisation(name=list_name)
 
@@ -90,6 +96,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.listWidget3.addItem("Path: " + str(self.dockwidget.polders_map_selector.filePath()))
         self.listWidget3.addItem("Continue to upload the versions")
 
+
     def revision_check(self):
         api_key = self.dockwidget.threedi_api_key_textbox.text()
         lst_items = self.get_lst_items(listwidget=self.listWidget2)
@@ -100,6 +107,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
 
         #Logging
         self.listWidget3.addItem("Check revisions and continue to upload the versions")
+
 
     def upload_schematisations(self):   
         """Upload selected schematisations to the 3Di servers."""

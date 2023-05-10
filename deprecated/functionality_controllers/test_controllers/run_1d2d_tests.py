@@ -2,7 +2,7 @@
 
 from qgis.core import QgsApplication
 from PyQt5.QtCore import QMutex, QWaitCondition
-from hhnk_threedi_plugin.qgis_interaction.layers_management.removing_layers import remove_layers
+from deprecated.qgis_interaction.layers_management.removing_layers import remove_layers
 from hhnk_threedi_plugin.tasks.load_3di_results_tasks import load3diResultsTask
 # from hhnk_threedi_plugin.tasks.tests_tasks.one_d_two_d.read_nodes_task import readNodesTask
 # from hhnk_threedi_plugin.tasks.tests_tasks.one_d_two_d.flowlines_task import flowLinesTask

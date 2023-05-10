@@ -3,20 +3,8 @@ from qgis.core import QgsApplication
 from qgis.core import QgsTask, Qgis
 from qgis.utils import QgsMessageLog, iface
 from PyQt5.QtCore import QMutex, QWaitCondition
-from hhnk_threedi_plugin.qgis_interaction.layers_management.removing_layers import remove_layers
-# from hhnk_threedi_plugin.tasks.sqlite_test_tasks.impervious_surface_task import impSurfaceTask
-# from hhnk_threedi_plugin.tasks.sqlite_test_tasks.profiles_used_task import profilesUsedTask
-# from hhnk_threedi_plugin.tasks.sqlite_test_tasks.isolated_channels_task import isolatedChannelsTask
-# from hhnk_threedi_plugin.tasks.sqlite_test_tasks.controlled_structs_task import controlledStructsTask
-# from hhnk_threedi_plugin.tasks.sqlite_test_tasks.weir_height_task import weirHeightTask
-# from hhnk_threedi_plugin.tasks.sqlite_test_tasks.geometries_task import geometriesTask
-# from hhnk_threedi_plugin.tasks.sqlite_test_tasks.structs_channel_task import structsChannelsTask
-# from hhnk_threedi_plugin.tasks.sqlite_test_tasks.general_checks_task import generalChecksTask
-# from hhnk_threedi_plugin.tasks.sqlite_test_tasks.dem_max_val_task import demMaxValTask
-# from hhnk_threedi_plugin.tasks.sqlite_test_tasks.dewatering_task import dewateringTask
-# from hhnk_threedi_plugin.tasks.sqlite_test_tasks.watersurface_area_task import watersurfaceAreaTask
-from hhnk_threedi_plugin.tasks.utility_functions.handle_os_errors import check_os_error
 
+from hhnk_threedi_plugin.tasks.utility_functions.handle_os_errors import check_os_error
 from hhnk_threedi_plugin.qgis_interaction import load_layers_interaction
 
 from hhnk_threedi_plugin.tasks.sqlite_test_tasks.sqlite_test_tasks import (
