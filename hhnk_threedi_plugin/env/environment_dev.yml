@@ -23,7 +23,7 @@ dependencies:
   - packaging=23.0
   - pandas=1.1.3
   - pluggy=1.0.0
-  - pygeos=0.14
+  # - pygeos=0.14 #required for geopandas, not for geopandas 0.12.2
   - python-dateutil=2.8.2
   - pytz=2020.1
   - pytz-deprecation-shim=0.1.0.post0

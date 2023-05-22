@@ -41,7 +41,7 @@ dependencies:
   - iniconfig=2.0.0 #pytest dependency
   - tqdm=4.64.0
   - xarray=2022.3.0
-  - pygeos=0.14 #required for geopandas
+  # - pygeos=0.14 #required for geopandas, not for geopandas 0.12.2
 
 
   - pip: # 3Di packages are not conda installable and are therefore installed by PIP
