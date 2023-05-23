@@ -100,15 +100,16 @@ class HHNK_toolbox:
         self.help_address = "https://threedi.github.io/hhnk-threedi-plugin/"
 
         # initialize locale
-        locale = QSettings().value("locale/userLocale")[0:2]
-        locale_path = os.path.join(
-            self.plugin_dir, "i18n", "HHNK_threedi_toolbox_{}.qm".format(locale)
-        )
-
-        if os.path.exists(locale_path):
-            self.translator = QTranslator()
-            self.translator.load(locale_path)
-            QCoreApplication.installTranslator(self.translator)
+        locale = QSettings().value("locale/userLocale")
+        if locale is not None:
+            locale_path = os.path.join(
+                self.plugin_dir, "i18n", "HHNK_threedi_toolbox_{}.qm".format(locale[0:2])
+            )
+    
+            if os.path.exists(locale_path):
+                self.translator = QTranslator()
+                self.translator.load(locale_path)
+                QCoreApplication.installTranslator(self.translator)
 
         # Declare instance attributes
         self.actions = []
