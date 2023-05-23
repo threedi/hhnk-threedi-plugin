@@ -2,7 +2,7 @@
 
 REM Vul hier het pad naar de OSGeo4W installatie in
 @REM set OSGEO4W_ROOT=C:\OSGeo4W
-set OSGEO4W_ROOT=%ProgramFiles%\3DiModellerInterface 3.22
+set OSGEO4W_ROOT=%ProgramFiles%\3DiModellerInterface 3.28
 
 REM Vul hier het pad naar de visual studio code executable in
 set VSCODE="C:\Program Files\Microsoft VS Code Insiders\Code - Insiders.exe"
