@@ -2,9 +2,77 @@
 
 Deze pagina is bedoeld als handleiding om de HHNK Toolbox te gebruiken. 
 
-Voor inhoudelijke uitleg van de tests, zie [Documentatie](tests_documentation.md)
-Voor uitleg over de benodigde data, zie [Bron data](needed_data.md)
-Voor uitleg over de interpretatie van resultaten, zie !!!
+Er zijn twee mogelijkheden om met de HHNK plugin aan de slag te gaan:
+1. HHNK levert de benodigde data (model) aan
+2. Gebruiker van de plugin bouwt een model vanaf de 'grond' op
+
+Nadere informatie over de inhoud van de testen, benodigde data en het interpreteren van resultaten zijn te vinden via onderstaande links:
+* Voor inhoudelijke uitleg van de tests, zie [Documentatie](tests_documentation.md).
+
+* Voor uitleg over de benodigde data, zie [Bron data](needed_data.md).
+
+* Voor uitleg over de interpretatie van resultaten, zie !!!
+
+Volg onderstaande werkwijze als HHNK de benodigde data (model) aanlevert (1).
+
+1. [Map aanmaken](#1-map-aanmaken)
+2. [Data kopiëren](#2-data-kopiëren)
+3. [Model inladen](#3-model-inladen)
+4. [Inladen resultaten tests (indien van toepassing)](#4-inladen-resultaten-tests-indien-van-toepassing)
+
+## 1. Map aanmaken 
+Maak een nieuwe map aan in de verkenner (locatie staat vrij, maar raadzaam om lokaal te werken) met de naam van het aangeleverde gebied (bijvoorbeeld polder_X). Dit levert het volgende pad op: `C:\Users\{gebruiker}\Documents\3Di\polder_X`. 
+
+`{gebruiker}` is de naam van de Windows-gebruiker.
+
+## 2. Data kopiëren
+Kopieer de aangeleverde data naar de map die in stap 1 is gemaakt. Hieronder is een voorbeeld te zien waaruit de aangeleverde data (deze kan qua inhoud verschillen) is opgebouwd.
+
+![](../images/usage/copy_data.PNG)
+
+## 3. Model inladen
+Het model kan vervolgens ingeladen worden door bij `modellen folder` door de volgende handeling: als je in stap 1 de map hebt aangemaakt in het pad: `C:\Users\{gebruiker}\Documents\3Di\polder_X`, kies je bij `modellen folder` het volgende pad om het model in te kunnen laden: `C:\Users\{gebruiker}\Documents\3Di`. Vervolgens kan bij `polder` gekozen worden voor `polder_X`. 
+
+`{gebruiker}` is de naam van de Windows-gebruiker.
+
+![](../images/usage/load_polder.PNG)
+
+## 4. Inladen resultaten tests (indien van toepassing)
+Indien er testen voor het model zijn uitgevoerd, kunnen deze worden ingeladen via de knop `laad lagen`.
+
+![](../images/usage/load_polder.PNG)
+
+Vervolgens verschijnt het onderstaande scherm met een aantal keuzes: 
+
+![](../images/usage/load_test_results.PNG)
+
+Afhankelijk van de tests die zijn uitgevoerd, kan er gekozen worden tussen het inladen van de van 0d1d, 1d2d of de klimaatsom resultaten. Hierbij is de mogelijkheid om een aantal opties aan te vinken:
+* [Sqlite (3Di plugin)](#sqlite-3di-plugin)
+* [Grid genereren](#grid-genereren)
+* [Sqlite testen](#sqlite-testen)
+* [Banklevel test](#banklevel-test)
+* [Basis layout](#basis-layout)
+* [Achtergrondkaarten](#achtergrondkaarten)
+
+### Sqlite (3Di plugin)
+Deze optie geeft de mogelijkheid om de schematisatie (.sqlite) van het model in te laden.
+
+### Grid genereren
+FOUTMELDING > ZIE LOGBOEK 
+
+### Sqlite testen
+De sqlite tests zijn bedoeld om het model te controleren op (potentiële) fouten in de data en deze te corrigeren waar nodig. 
+
+### Banklevel test
+
+
+### Basis layout
+
+
+### Achtergrondkaarten
+
+
+Volg onderstaande werkwijze als je het model vanaf de 'grond' gaat opbouwen (2)
 
 ## Plugin overzicht
 
@@ -27,12 +95,11 @@ is geselecteerd.
 
 ## 2. Nieuw project aanmaken
 
-Wanneer je op deze knop klikt open zich een nieuw venster:
+Wanneer je op deze knop klikt, opent zich een nieuw venster:
 
 ![](../images/usage/new_project_setup_legend.PNG)
 
-Selecteer een map om het nieuwe project in aan te maken (veld 1). Geef het nieuwe project een naam (de conventie is om 
-het project de naam van het gebied waar het model een weergave van is te geven) in veld 2.
+Selecteer een map om het nieuwe project in aan te maken (veld 1). Geef het nieuwe project een naam (de conventie is om het project de naam van het gebied te geven, waar het model een weergave van is) in veld 2.
 
 Wanneer je op 'Project aanmaken' klikt wordt er een lege mappenstructuur aangemaakt volgens de standaard projectindeling 
 (zie [project indeling](tests_documentation.md#indeling-project-map)). In de verschillende mappen worden ```readme``` files 
@@ -56,10 +123,10 @@ Wanneer je op deze knop klikt open zich een nieuw venster:
 3. Kies de staat om het model naar om te zetten
 4. Deze sectie wordt beschikbaar als we bij 3 '1d2d toets' als nieuwe staat hebben geselecteerd. Er zijn twee opties 
    wanneer we het model omzetten naar de 1d2d toets staat: <br>
-   4a. We can calculate the correct configuration from a 3di result 
+   4a. We can calculate the correct configuration from a 3Di result 
    * 4a.1 <br>
-     Bereken de 1d2d staat op basis van een 3di resultaat:
-     Selecteer een 3d1 resultaat map (bevat een ```.nc``` en een ```.h5``` file). Dit resultaat wordt alleen gebruikt om 
+     Bereken de 1d2d staat op basis van een 3Di resultaat:
+     Selecteer een 3Di resultaat map (bevat een ```.nc``` en een ```.h5``` file). Dit resultaat wordt alleen gebruikt om 
      het rekengrid te bepalen. Het maakt dus niet uit of het resultaat een 0d1d of 1d2d som betreft.
        
     * 4a.2 <br>
@@ -83,8 +150,7 @@ opgeslagen:
 
 ## 4. Sqlite tests
 
-De sqlite tests zijn bedoeld om het model te controleren op (potentiële) fouten in de data en deze te corrigeren waar 
-nodig. Na de sqlite tests is het model klaar om op te bouwen en om de 0d1d toets te draaien (zie 
+De sqlite tests zijn bedoeld om het model te controleren op (potentiële) fouten in de data en deze te corrigeren waar nodig. Na de sqlite tests is het model klaar om op te bouwen en om de 0d1d toets te draaien (zie 
 [0d1d toets/Hydraulische toets](tests_documentation.md#1d2d-tests)). Voor de inhoudelijke uitleg van de tests, zie:
 [Sqlite tests](tests_documentation.md#sqlite-tests)
 
@@ -123,16 +189,16 @@ De test resultaten worden ook als ```.csv``` files in de gekozen ```Output map``
 De ```0d1d tests``` zijn bedoeld om de resultaten van de 
 [0d1d toets/Hydraulische toets](tests_documentation.md#0d1d-testshydraulische-toets) te analyseren.
 
-1. Selecteer 3di resultaten map: map waarin de 0d1d/hydraulic 3di test resultaten per revisie staan opgeslagen
+1. Selecteer 3Di resultaten map: map waarin de 0d1d/hydraulic 3Di test resultaten per revisie staan opgeslagen
    
-2. Selecteer 3di revisie: format is normaal gesproken {polder name}{revision number}{type of test} (map die 
+2. Selecteer 3Di revisie: format is normaal gesproken {polder name}{revision number}{type of test} (map die 
    ```.nc``` en ```.h5``` files bevat).
    
 3. Toont de geselecteerde revisie
 4. Selecteer map om resultaten in op te slaan
 
-Wanneer je op 'Begin tests' klikt word je gevraagd het 3di scenario te bevestigen. Het scenario moet overeenkomen met 
-het 0d1d toets/hydraulische toets scenario om geldige resultaten te genereren. Als het scenario bevestigd is worden de 
+Wanneer je op 'Begin tests' klikt word je gevraagd het 3Di scenario te bevestigen. Het scenario moet overeenkomen met 
+het 0d1d toets/hydraulische toets scenario om geldige resultaten te genereren. Als het scenario bevestigd is, worden de 
 tests gestart.
 
 ![](../images/usage/0d1d_tests_confirm.PNG)
@@ -152,9 +218,9 @@ resultaten worden ook als ```.csv``` files in de gekozen ```Output map```, in de
 
 Voor meer informatie over de inhoud van de test, zie: [Bank levels](tests_documentation.md#bank-levels)
 
-1. Selecteer 3di resultaten map: map waarin de 0d1d/hydraulic 3di test resultaten per revisie staan opgeslagen
+1. Selecteer 3Di resultaten map: map waarin de 0d1d/hydraulic 3di test resultaten per revisie staan opgeslagen
    
-2. Selecteer 3di revisie: format is normaal gesproken {polder name}{revision number}{type of test} (map die 
+2. Selecteer 3Di revisie: format is normaal gesproken {polder name}{revision number}{type of test} (map die 
    ```.nc``` en ```.h5``` files bevat).
    
 3. Toont de geselecteerde revisie
@@ -189,9 +255,9 @@ gekozen ```Output map```, in de ```Layers``` submap. De test resultaten worden o
 De ```1d2d tests``` zijn bedoeld om de resultaten van de 
 [1d2d toets](tests_documentation.md#1d2d-tests) te analyseren.
 
-1. Selecteer 3di resultaten map: map waarin de 0d1d/hydraulic 3di test resultaten per revisie staan opgeslagen
+1. Selecteer 3Di resultaten map: map waarin de 0d1d/hydraulic 3Di test resultaten per revisie staan opgeslagen
    
-2. Selecteer 3di revisie: format is normaal gesproken {polder name}{revision number}{type of test} (map die 
+2. Selecteer 3Di revisie: format is normaal gesproken {polder name}{revision number}{type of test} (map die 
    ```.nc``` en ```.h5``` files bevat).
    
 3. Toont de geselecteerde revisie
@@ -199,7 +265,7 @@ De ```1d2d tests``` zijn bedoeld om de resultaten van de
 5. Selecteer model (```.sqlite```)
 6. Selecteer map om resultaten in op te slaan
 
-Wanneer je op 'Begin tests' klikt word je gevraagd het 3di scenario te bevestigen. Het scenario moet overeenkomen met 
+Wanneer je op 'Begin tests' klikt word je gevraagd het 3Di scenario te bevestigen. Het scenario moet overeenkomen met 
 het 1d2d toets scenario om geldige resultaten te genereren. Als het scenario bevestigd is worden de 
 tests gestart.
 

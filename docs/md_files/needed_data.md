@@ -37,9 +37,9 @@ Hieronder vind je een beschrijving van alle brondata die wordt gebruikt voor de 
    ```Sturing_3Di```).
    
    
-4. 3di resultaten
+4. 3Di resultaten
 
-   De 3di resultaten worden gebruikt in de ```0d1d tests```, ```bank level tests``` en ```1d2d test```. De resultaten 
+   De 3Di resultaten worden gebruikt in de ```0d1d tests```, ```bank level tests``` en ```1d2d test```. De resultaten 
    bevatten informatie over het gedrag van een model op verschillende tijdstappen tijdens het gesimuleerde scenario.
    
 
@@ -67,7 +67,7 @@ Hieronder vind je een beschrijving van alle brondata die wordt gebruikt voor de 
    gebruikte laag is ```fixeddrainagelevelarea```). 
    
    * ```Bodemhoogte kunstwerken``` test om informatie over aannames (waar van toepassing) toe te voegen aan 
-   kunstwerken. De laag die daarvoor wordt gebruikt is```culvert```.
+   kunstwerken. De laag die daarvoor wordt gebruikt is ```culvert```.
    
 8. Channel surface from profiles
    

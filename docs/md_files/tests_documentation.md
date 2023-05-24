@@ -79,7 +79,7 @@ Nodig voor tests:
 ![](../images/documentation/default_folder_3di_results.PNG)
 
 In zowel de ```0d1d_results map``` als de ```1d2d_results``` map staan de gedownloade resultaten van het draaien van 
-3di berekeningen. De conventie voor de naam van mappen is:
+3Di berekeningen. De conventie voor de naam van mappen is:
 
 ```{naam polder} #{revisie nummer} {type test}```
 
@@ -94,7 +94,7 @@ indeling van deze map wordt bepaald door de plugin en is als volgt:
 
 ![](../images/documentation/default_folder_output.PNG)
 
-De ```0d1d_tests``` en de ```1d2d_tests``` mappen worden verder ingedeeld per gebruikte 3di revisie:
+De ```0d1d_tests``` en de ```1d2d_tests``` mappen worden verder ingedeeld per gebruikte 3Di revisie:
 
 Bijvoorbeeld:
 
@@ -179,7 +179,7 @@ Van modelbuilder staat naar hydraulische toets/0d1d staat:
 
 Van modelbuilder staat naar 1d2d staat:
 
-| Tabel in model                 | Aanpassingen 'Berekenen uit 3di resultaat'              | Aanpassingen 'Uit backup van eerdere 1d2d staat'  |
+| Tabel in model                 | Aanpassingen 'Berekenen uit 3Di resultaat'              | Aanpassingen 'Uit backup van eerdere 1d2d staat'  |
 |------------------------------- | ------------------------------------------------------- | ------------------------------------------------- |
 | v2_global_settings             | Verwijderen rijen waar ```name``` '0d1d_test' is.       | Verwijderen rijen waar ```name``` '0d1d_test' is. |
 | v2_cross_section_location      | Oude waarden in ```bank_level``` vervangen voor berekende bank levels. | Oude waarden in ```bank_level``` vervangen door waarden in ```backup_bank_levels``` |
@@ -187,7 +187,7 @@ Van modelbuilder staat naar 1d2d staat:
 
 Van hydraulische toets/0d1d staat naar 1d2d staat:
 
-| Tabel in model                 |  Aanpassingen 'Berekenen uit 3di resultaat'               | Aanpassingen 'Uit backup van eerdere 1d2d staat'  |
+| Tabel in model                 |  Aanpassingen 'Berekenen uit 3Di resultaat'               | Aanpassingen 'Uit backup van eerdere 1d2d staat'  |
 |------------------------------- | --------------------------------------------------------- | ------------------------------------------------- |
 | v2_global_settings             | Verwijderen rijen waar ```name``` '0d1d_test' is.<br>Rijen toevoegen uit ```backup_global_settings``` waar ```name``` niet '0d1d_test' is. | Geen verschil |
 | v2_channel                     | Aanpassen ```calculation_type``` naar originele waarde uit ```backup_channels``` | Geen verschil |
@@ -221,8 +221,7 @@ inhoudelijk toegelicht.
    
    Deze test selecteert alle gestuurde kunstwerken (uit de v2_culvert, v2_orifice en v2_weir tabellen van het model) op
    basis van de v2_control_table tafel. Per kunstwerk worden actiewaarden opgevraagd. Per gevonden gestuurd kunstwerk
-   wordt ook relevante informatie uit de HDB database toegevoegd, zoals het streefpeil en minimale en maximale kruin
-   hoogtes.
+   wordt ook relevante informatie uit de HDB database toegevoegd, zoals het streefpeil en minimale en maximale kruinhoogtes.
 
 <a name="bodemhoogte-stuw"></a>
 4. Bodemhoogte stuw
@@ -286,7 +285,7 @@ hoeven ze niet opnieuw te worden gedraaid.
    
 ## 0d1d tests/hydraulische toets
 
-Als de sqlite tests zijn uitgevoerd, eventuele aanpassingen zijn gemaakt en het model is opgebouwd voor rekenen met 3di 
+Als de sqlite tests zijn uitgevoerd, eventuele aanpassingen zijn gemaakt en het model is opgebouwd voor rekenen met 3Di 
 wordt de hydraulische toets gedraaid. Deze toets is een test bui ontworpen om de 0d1d aspecten van het model te 
 controleren.
 
@@ -303,7 +302,7 @@ die worden veroorzaakt door fouten in het model.
 De tests die worden gedaan door de Toolbox zijn onderverdeeld in:
 * 0d1d test
 
-  In deze test worden de 1d nodes uit het 3di resultaat gefilterd en op vaste tijdstappen de waterstand voor deze nodes
+  In deze test worden de 1d nodes uit het 3Di resultaat gefilterd en op vaste tijdstappen de waterstand voor deze nodes
   uitgelezen. Deze tijdstappen zijn:
    * Aan het begin van de som
    * Aan het begin van de regen
@@ -320,7 +319,7 @@ De tests die worden gedaan door de Toolbox zijn onderverdeeld in:
   
 * Hydraulische test
 
-  In deze test worden eveneens de 1d nodes uit het 3di resultaat gefilterd. Voor kunstwerken en watergangen 
+  In deze test worden eveneens de 1d nodes uit het 3Di resultaat gefilterd. Voor kunstwerken en watergangen 
   corresponderend met deze nodes worden de waterstanden aan het begin en einde van het scenario uitgelezen. 
   Voor deze watergangen en kunstwerken wordt het volgende bepaald:
   
@@ -329,14 +328,14 @@ De tests die worden gedaan door de Toolbox zijn onderverdeeld in:
     * De stroomsnelheid in m/s (u)
     * De stroomrichting
 
-Als er voldoende vertrouwen in de uitkomsten van het model is kan het verhang over watergangen en 
+Als er voldoende vertrouwen in de uitkomsten van het model is, kan het verhang over watergangen en 
 kunstwerken worden vergeleken met geldende normen (bijvoorbeeld 4 cm/km).
     
 
 ## Bank levels
 
 Als het 0d1d model is goedgekeurd kan deze test worden gedraaid. De bank levels test is grotendeels bedoeld om het model 
-klaar te maken voor 3di simulaties waarbij uitwisseling plaatsvindt tussen het watersysteem en het maaiveld.
+klaar te maken voor 3Di simulaties waarbij uitwisseling plaatsvindt tussen het watersysteem en het maaiveld.
 Door de resultaten van de simulatie te analyseren wordt bepaald welke watergangen een 1d2d verbinding hebben over een 
 levee heen. Voor deze watergangen wordt een bank level voorgesteld gelijk aan de hoogte van de levee om vroegtijdige 
 uitwisseling te voorkomen. Voor overige watergangen is het voorgestelde bank level streefpeil + 10, waar het streefpeil 
@@ -345,13 +344,13 @@ bepaald wordt aan de hand van de ```connection_node_start_id``` die correspondee
 Als een 1d2d verbinding op een connection node ligt wordt voorgesteld hier een manhole aan toe te voegen met drain level 
 gelijk aan de levee hoogte.
 
-Het draaien van de bank levels test kan worden gedaan met elk 3di resultaat zolang het reken grid niet is veranderd. De 
+Het draaien van de bank levels test kan worden gedaan met elk 3Di resultaat zolang het rekengrid niet is veranderd. De 
 inhoud van het scenario is hierbij niet relevant.
 
 ## 1d2d tests
 
 Wanneer de bank levels zijn bijgewerkt en waar nodig manholes zijn toegevoegd kan de 1d2d test worden gedraaid. Dit 
-houdt in dat er opnieuw een test bui wordt gesimuleerd met 3di.
+houdt in dat er opnieuw een test bui wordt gesimuleerd met 3Di.
 
 Deze test werkt alleen wanneer het model in de 1d2d-toets-staat is ingesteld (zie [Model staat aanpassen](#modelstaat-aanpassen)).
 
@@ -369,7 +368,7 @@ De test die worden gedaan door de Toolbox zijn als volgt onder te verdelen:
 
 * Resultaat nodes inlezen
 
-  Deze functie leest alle 2d nodes uit het 3di resultaat en berekent de volgende waarden:
+  Deze functie leest alle 2d nodes uit het 3Di resultaat en berekent de volgende waarden:
     * de minimale DEM waarde binnen het gebied van de betreffende node (geometrie is omgezet naar een vierkant)
     * het totale oppervlak dat de node beslaat
   
@@ -384,7 +383,7 @@ De test die worden gedaan door de Toolbox zijn als volgt onder te verdelen:
 
 * Stroom lijnen inlezen
 
-  Deze functie leest alle stroom lijnen in uit het 3di resultaat. Vervolgens wordt gekeken naar het type van de lijn 
+  Deze functie leest alle stroom lijnen in uit het 3Di resultaat. Vervolgens wordt gekeken naar het type van de lijn 
   (1D2D of 2D). Vervolgens wordt op drie tijdstappen (het begin van de regen het einde van de regen en het einde van de 
   som) het volgende bepaald:
     * De waterstand per tijdstap
@@ -394,7 +393,7 @@ De test die worden gedaan door de Toolbox zijn als volgt onder te verdelen:
     
 * Waterstanden uitlezen
 
-  Deze functie bepaalt de waterstanden op de gegeven tijdstappen op basis van het 3di resultaat. Vervolgens wordt op 
+  Deze functie bepaalt de waterstanden op de gegeven tijdstappen op basis van het 3Di resultaat. Vervolgens wordt op 
   basis van de DEM en de waterstand per tijdstap de waterdiepte bepaald.
   
 

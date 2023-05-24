@@ -1,5 +1,5 @@
 # Installatie instructies
-test
+
 De HHNK Toolbox is te installeren in de volgende twee stappen:
 
 1. [Installatie 3Di Modeller Interface (QGIS)](#installatie-3di-modeller-interface-qgis)
@@ -47,14 +47,14 @@ Na installatie moet je, zoals aangegeven, de Modeller Interface opnieuw starten:
 
 ![](../images/installation/plugin_restart_warning.PNG)
 
-Als alles goed is gegaan is de plugin nu klaar voor gebruik:
+Als alles goed is gegaan, is de plugin nu klaar voor gebruik:
 
 ![](../images/installation/plugin_ready.PNG)
 
 ## Bekende problemen
 
 ###
-Je de plugin ook downloaden via de release-pagina op GitHub <a href="https://github.com/threedi/hhnk-threedi-plugin/releases/latest" target="_blank">https://github.com/threedi/hhnk-threedi-plugin/releases/latest</a>:
+Je kunt de plugin ook downloaden via de release-pagina op GitHub <a href="https://github.com/threedi/hhnk-threedi-plugin/releases/latest" target="_blank">https://github.com/threedi/hhnk-threedi-plugin/releases/latest</a>:
 
 ![](../images/installation/plugin_download_zip.PNG)
 
@@ -63,12 +63,12 @@ Als de installatie via de plugin manager niet (soepel) verloopt, kun je de zip-f
 
 `c:\Users\{gebruiker}\AppData\Roaming\3Di\QGIS3\profiles\default\python\plugins\` 
 
-`{gebruiker}` is de naam van de Windows-gebruiker waarbij de plugin geinstalleerd is.
+`{gebruiker}` is de naam van de Windows-gebruiker waarbij de plugin geïnstalleerd is.
 
 N.B. Na het uitpakken van de zip-file moet je zorgen dat de plugin staat aangevinkt in de plugin-manager, en de installatie van de plugin verder wordt uitgevoerd zoals beschreven bij [installatie](#installatie-hhnk-toolbox-plugin)
 
 ### Inconsistente Python omgeving
-De plugin is getest in een Python omgeving beschreven in deze Conda [environment.yml](https://github.com/threedi/hhnk-threedi-plugin/blob/main/hhnk_threedi_plugin/env/environment.yml). Het kan zijn dat de Python versie en/of modules geinstalleerd in de Modeller Interface en 3Di Toolbox niet (meer) compatible zijn met de geteste versie van de HHNK Toolbox. Als dat zo is, krijg je bij start van de installatie de volgende melding:
+De plugin is getest in een Python omgeving beschreven in deze Conda [environment.yml](https://github.com/threedi/hhnk-threedi-plugin/blob/main/hhnk_threedi_plugin/env/environment.yml). Het kan zijn dat de Python versie en/of modules geïnstalleerd in de Modeller Interface en 3Di Toolbox niet (meer) compatible zijn met de geteste versie van de HHNK Toolbox. Als dat zo is, krijg je bij start van de installatie de volgende melding:
 ![](../images/installation/plugin_inconsistent_dependencies_warning.png)
 
 Zolang de plugin werkt, kun je deze melding negeren/verhelpen, maar uiteindelijk zal de HHNK Toolbox plugin éérst goed getest moeten worden in de gebruikte MI versie.
