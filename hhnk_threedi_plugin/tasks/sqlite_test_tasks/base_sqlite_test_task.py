@@ -3,11 +3,9 @@ from PyQt5.QtCore import pyqtSignal
 from qgis.core import QgsTask, Qgis
 from qgis.utils import QgsMessageLog, iface
 from PyQt5.QtCore import QMutex, QWaitCondition
-from hhnk_threedi_plugin.qgis_interaction.layers_management.adding_layers import add_layers
 
 # hhnk-threedi-tests
-import hhnk_research_tools as hrt
-from hhnk_threedi_tools import SqliteTest
+from hhnk_threedi_tools import SqliteCheck
 
 
 class BaseSqliteTask(QgsTask):
@@ -26,7 +24,7 @@ class BaseSqliteTask(QgsTask):
         self.mutex = mutex
         self.wait_cond = wait_cond
         self.layer_source = None
-        self.sqlite_test = SqliteTest(self.folder)
+        self.sqlite_test = SqliteCheck(self.folder)
 
     def set_result(self, res):
         self.os_retry = res

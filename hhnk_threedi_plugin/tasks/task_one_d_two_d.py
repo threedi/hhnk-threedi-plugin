@@ -4,7 +4,10 @@ if __name__ == '__main__':
     from pathlib import Path
     import os
     sys.path.append(str(Path(os.getcwd()).parent.parent))
-    import hhnk_threedi_plugin.local_settings as local_settings
+    try: 
+        import hhnk_threedi_plugin.local_settings as local_settings
+    except ModuleNotFoundError:
+        import hhnk_threedi_plugin.local_settings_default as local_settings
 
     if local_settings.DEBUG:
         sys.path.insert(0, local_settings.hhnk_threedi_tools_path)
@@ -22,16 +25,8 @@ import os
 from qgis.core import Qgis
 from qgis.utils import QgsMessageLog
 
-if __name__ == '__main__':
-    path = r'C:\Users\wvangerwen\Downloads\model_test_v2'
-    folder = htt.folders(path)
-    revision='BWN bwn_test #5 1d2d_test'
-    dem_path = folder.model.schema_base.rasters.dem.path
-    
-# %%
 
 def task_one_d_two_d(folder, revision, dem_path):
-# %%
     #Define file locations
     output_file_flowline = folder.output.one_d_two_d[revision].stroming_1d2d_test.path
     output_file_node = folder.output.one_d_two_d[revision].grid_nodes_2d.path
@@ -64,7 +59,7 @@ def task_one_d_two_d(folder, revision, dem_path):
     #Raster results
     description = "waterstandraster per tijdstap genereren"
     QgsMessageLog.logMessage(f"1d2d test - {description}", level=Qgis.Info)
-    test_1d2d.run_levels_depths_at_timesteps()
+    test_1d2d.run_wlvl_depth_at_timesteps(overwrite=False)
 
 
     #Add layers to project
@@ -79,3 +74,9 @@ def task_one_d_two_d(folder, revision, dem_path):
                                 subjects=['test_1d2d'])
 
 # %%
+if __name__ == '__main__':
+    path = r'C:\Users\wvangerwen\Downloads\model_test_v2'
+    folder = htt.folders(path)
+    revision='BWN bwn_test #5 1d2d_test'
+    dem_path = folder.model.schema_base.rasters.dem.path
+    

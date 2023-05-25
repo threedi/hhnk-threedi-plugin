@@ -1,6 +1,6 @@
 from qgis.core import QgsApplication
 from PyQt5.QtCore import QMutex, QWaitCondition
-from hhnk_threedi_plugin.qgis_interaction.layers_management.removing_layers import remove_layers
+from deprecated.qgis_interaction.layers_management.removing_layers import remove_layers
 from hhnk_threedi_plugin.tasks.sqlite_test_tasks.profiles_used_task import profilesUsedTask
 from hhnk_threedi_plugin.tasks.sqlite_test_tasks.isolated_channels_task import isolatedChannelsTask
 from hhnk_threedi_plugin.tasks.sqlite_test_tasks.controlled_structs_task import controlledStructsTask

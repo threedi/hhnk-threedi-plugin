@@ -178,7 +178,7 @@ def create_schematisofns(row):
 
 
 # %%
-import hhnk_threedi_plugin.gui.tests.temp_upload_model.upload as upload
+import hhnk_threedi_plugin.gui.checks.temp_upload_model.upload as upload
 importlib.reload(upload)
 
 

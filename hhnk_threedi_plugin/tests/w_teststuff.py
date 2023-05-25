@@ -1,3 +1,18 @@
+
+# %%
+import hhnk_threedi_plugin.qgis_interaction.load_layers_interaction as lli
+import qgis
+self = qgis.utils.plugins['hhnk_threedi_plugin']
+
+
+folder = self.fenv
+df_path=r"E:\github\wvangerwen\hhnk-threedi-plugin\hhnk_threedi_plugin\qgis_interaction\layer_structure\testprotocol.csv"
+
+#lli.load_layers(folder=folder, df_path=df_path, revisions={'0d1d_test':'','1d2d_test':'',"klimaatsommen":"batch_test"})
+
+
+
+
 # %%
 import matplotlib.pyplot as plt
 
@@ -143,43 +158,7 @@ project.zoom_to_layer(layer_name=layer_name, group_name=group_name)
 'BWN_bwn_test_#6_1d2d_test'\Layers\1d2d_alle_stroming.gpkg
 
 # project.instance.mapLayersByName()
-# %%
-from hhnk_threedi_plugin.qgis_interaction.layers_management.layers.get_layers_list import get_layers_list
-from hhnk_threedi_tools.qgis.paths_functions import get_top_level_directories
-from hhnk_threedi_tools.qgis.build_output_files_dict import build_output_files_dict
 
-
-one_d_two_d_dict = build_output_files_dict(
-                test_type=4,
-                base_folder=self.one_d_two_d_output_path,
-                revision_dir_name=self.one_d_two_d_selector.currentText(),
-            )
-
-
-one_d_two_d_layers = get_layers_list(
-    test_type=4,
-    plugin_dir=self.caller.plugin_dir,
-    output_dict=one_d_two_d_dict,
-    group_structure=layer_groups_structure,
-    chosen_tests=None,
-)
-
-# TODO fix layers dict to list
-one_d_two_d_layers = [
-    one_d_two_d_layers[x] for x in one_d_two_d_layers
-]
-
-# Add tif layers created by regular expression
-# one_d_two_d_layers = find_tif_layers_and_append(
-#     input_folder=one_d_two_d_dict["layer_path"],
-#     layers_list=.one_d_two_d_layers,
-# )
-
-# remove_layers(self.one_d_two_d_layers)  # Remove layers from project
-# add_layers(
-#     layers_list=self.one_d_two_d_layers,
-#     group_structure=layer_groups_structure,
-# )
 
 # %% Plugin data bekijken
 import qgis
@@ -244,7 +223,10 @@ import sys
 from pathlib import Path
 import os
 sys.path.append(str(Path(os.getcwd()).parent.parent))
-import hhnk_threedi_plugin.local_settings as local_settings
+try: 
+    import hhnk_threedi_plugin.local_settings as local_settings
+except ModuleNotFoundError:
+    import hhnk_threedi_plugin.local_settings_default as local_settings
 if local_settings.DEBUG:
     sys.path.insert(0, local_settings.hhnk_threedi_tools_path)
     import importlib, hhnk_threedi_tools

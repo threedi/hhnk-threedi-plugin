@@ -6,18 +6,18 @@ import copy
 from PyQt5.QtCore import pyqtSignal
 from qgis.core import QgsTask, Qgis
 from qgis.utils import QgsMessageLog, iface
-from hhnk_threedi_plugin.gui.tests.sqlite_test_widgets.impervious_surface_result import create_impervious_surface_widget
-from hhnk_threedi_plugin.gui.tests.sqlite_test_widgets.profiles_used_result import create_profiles_used_widget
-from hhnk_threedi_plugin.gui.tests.sqlite_test_widgets.controlled_structs_result import create_controlled_structs_widget
-from hhnk_threedi_plugin.gui.tests.sqlite_test_widgets.weir_height_result import create_weir_height_widget
-from hhnk_threedi_plugin.gui.tests.sqlite_test_widgets.geometries_result import create_geometries_result_widget
-from hhnk_threedi_plugin.gui.tests.sqlite_test_widgets.structs_channels_result import create_structs_channels_result_widget
-from hhnk_threedi_plugin.gui.tests.sqlite_test_widgets.general_checks_result import create_general_checks_result_widget
-from hhnk_threedi_plugin.gui.tests.sqlite_test_widgets.isolated_channels_result import create_isolated_channels_result_widget
-from hhnk_threedi_plugin.gui.tests.sqlite_test_widgets.dem_max_val_result import create_dem_max_val_result_widget
-from hhnk_threedi_plugin.gui.tests.sqlite_test_widgets.watersurface_area_result import create_watersurface_area_result_widget
-from hhnk_threedi_plugin.gui.tests.sqlite_test_widgets.cross_section_warning_result import cross_section_warning_result_widget
-from hhnk_threedi_plugin.gui.tests.sqlite_test_widgets.cross_section_vertex_result import cross_section_vertex_result_widget
+from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.impervious_surface_result import create_impervious_surface_widget
+from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.profiles_used_result import create_profiles_used_widget
+from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.controlled_structs_result import create_controlled_structs_widget
+from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.weir_height_result import create_weir_height_widget
+from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.geometries_result import create_geometries_result_widget
+from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.structs_channels_result import create_structs_channels_result_widget
+from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.general_checks_result import create_general_checks_result_widget
+from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.isolated_channels_result import create_isolated_channels_result_widget
+from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.dem_max_val_result import create_dem_max_val_result_widget
+from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.watersurface_area_result import create_watersurface_area_result_widget
+from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.cross_section_warning_result import cross_section_warning_result_widget
+from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.cross_section_vertex_result import cross_section_vertex_result_widget
 
 import hhnk_research_tools as hrt
 import geopandas as gpd
@@ -70,9 +70,7 @@ class controlledStructsTask(BaseSqliteTask):
 
     def run_custom(self):
         if self.os_retry is None:
-            self.gdf = self.sqlite_test.run_controlled_structures()
-
-        self.gdf.to_file(self.layer_source, index=False, driver='GPKG')
+            self.sqlite_test.run_controlled_structures(overwrite=False)
         return True
 
     def finished_custom(self):
@@ -219,7 +217,7 @@ class dewateringTask(BaseSqliteTask):
     def run(self):
         QgsMessageLog.logMessage(f"Taak gestart {self.description}", level=Qgis.Info)
         try:
-            self.sqlite_test.run_dewatering_depth(output_file=self.folder.output.sqlite_tests.drooglegging.path)
+            self.sqlite_test.run_dewatering_depth(overwrite=False)
             return True
         except Exception as e:
             self.exception = e

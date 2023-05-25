@@ -19,17 +19,9 @@ from PyQt5.QtCore import Qt, pyqtSignal
 from qgis.core import QgsTask, Qgis
 from qgis.utils import QgsMessageBar, QgsMessageLog, iface
 
-from .utility_functions import get_revision
-from hhnk_threedi_plugin.qgis_interaction.layers_management.layers.get_layers_list import get_layers_list
-# from hhnk_threedi_plugin.qgis_interaction.layers_management.adding_layers import (
-#     add_layers,
-#     find_tif_layers_and_append,
-# )
-from hhnk_threedi_plugin.qgis_interaction.layers_management.groups.layer_groups_structure import (
-    QgisLayerStructure,
-)
-# from hhnk_threedi_plugin.qgis_interaction.layers_management.removing_layers import remove_layers
-from hhnk_threedi_tools import SqliteTest
+
+from hhnk_threedi_tools import SqliteCheck
+import hhnk_research_tools as hrt
 
 # new
 
@@ -38,8 +30,6 @@ from hhnk_threedi_plugin.qgis_interaction.project import Project
 from hhnk_threedi_plugin.qgis_interaction import load_layers_interaction
 
 # hhnk-threedi-tests
-from hhnk_threedi_tools.qgis.paths_functions import get_top_level_directories
-from hhnk_threedi_tools.qgis.build_output_files_dict import build_output_files_dict
 from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
 
 
@@ -239,7 +229,7 @@ class loadLayersDialog(QDialog):
              load_layers_interaction.load_sqlite(filepath=self.caller.fenv.model.schema_base.sqlite_paths[0])
 
         if self.grid_selector.isChecked() == True:
-            sqlite_test = SqliteTest(self.caller.fenv)
+            sqlite_test = SqliteCheck(self.caller.fenv)
             sqlite_test.create_grid_from_sqlite(sqlite_path=self.caller.fenv.model.schema_base.sqlite_paths[0], 
                                                 dem_path=self.caller.fenv.model.schema_base.rasters.dem.path, 
                                                 output_folder=self.caller.fenv.output.sqlite_tests.path)
@@ -256,6 +246,18 @@ class loadLayersDialog(QDialog):
 
         # Test protocol
         if self.test_protocol_selector.isChecked() == True:
+            #FIXME tijdelijke implementatie om gdb in gpkg om te zetten. Als dit in alle projectmappen staat kan het weer weg. 
+            for source in ["datachecker", "damo", "hdb"]:
+                in_gdb = hrt.FileGDB(getattr(self.caller.fenv.source_data, source).pl.with_suffix(".gdb"))
+                out_gpkg = getattr(self.caller.fenv.source_data, source)
+
+                hrt.convert_gdb_to_gpkg(gdb=in_gdb, gpkg=out_gpkg, overwrite=False, verbose=False)        
+
+                if in_gdb.pl.exists():
+                    iface.messageBar().pushMessage(
+                        f"{source}_gdb is omgezet in {source}_gpkg. {source}.gdb kan verwijderd worden.", level=Qgis.Warning
+                    )
+
             subjects.append('test_protocol')
 
         # 0d1d test

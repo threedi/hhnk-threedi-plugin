@@ -25,13 +25,17 @@
 from .dependencies import ensure_dependencies
 ensure_dependencies()
 
-#TODO
+# #TODO
 import sys
 #import os
 
 sys.path.append('.')
 # research tools installatie uit osgeo weghalen. Sys path append hier van de github repo. 
-import hhnk_threedi_plugin.local_settings as local_settings
+try:
+    import hhnk_threedi_plugin.local_settings as local_settings
+except ModuleNotFoundError:
+    import hhnk_threedi_plugin.local_settings_default as local_settings
+    
 if local_settings.DEBUG:
     if local_settings.hhnk_threedi_tools_path not in sys.path:
         sys.path.insert(0, local_settings.hhnk_threedi_tools_path)
@@ -43,6 +47,19 @@ if local_settings.DEBUG:
             del(sys.modules[m])
         import hhnk_threedi_tools
 
+    try: 
+        if local_settings.hhnk_research_tools_path not in sys.path:
+            sys.path.insert(0, local_settings.hhnk_research_tools_path)
+
+            # reload hhnk_threedi_tools and all modules within when reloading the plugin in QGIS.
+            # Does not work with importlib.reload.
+            import hhnk_research_tools
+            for m in [i for i in sys.modules.keys() if i.startswith('hhnk_research_tools')]:
+                del(sys.modules[m])
+            import hhnk_research_tools
+    except:
+        pass
+
     #sys.path.append(local_settings.threeditoolbox_path)
 
 # noinspection PyPep8Naming
@@ -52,8 +69,6 @@ def classFactory(iface):  # pylint: disable=invalid-name
     :param iface: A QGIS interface instance.
     :type iface: QgsInterface
     """
-    #
-    ensure_dependencies(only_path=False)
     from .hhnk_toolbox import HHNK_toolbox
 
     return HHNK_toolbox(iface)

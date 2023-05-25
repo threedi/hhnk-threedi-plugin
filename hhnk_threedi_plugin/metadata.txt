@@ -3,17 +3,18 @@
 # This file should be included when you package your plugin.# Mandatory items:
 
 [general]
-name=HHNK threedi toolbox
+name=HHNK 3Di toolbox
 qgisMinimumVersion=3.0
-description=Plugin voor watersystemen analyse
-version=0.1
-author=Laure Ravier, HHNK
-email=L.Ravier@hhnk.nl
+description=Plugin voor watersysteemanalyse met 3Di
+version=2023.2
+author=Wietse van Gerwen, HHNK
+email=w.vangerwen@hhnk.nl
 
-about=Deze plugin bevat tools voor het controleren en aanpassen van modellen voor analyse van scenarios met 3di en het analyseren de resultaten van die analyse.
+about=Plugin voor het bouwen en analyseren van 3Di modellen van Hoogheemraadschap Hollands Noorderkwartier (HHNK)
 
-tracker=http://bugs
-repository=http://repo
+
+tracker=https://github.com/threedi/hhnk-threedi-plugin
+repository=https://github.com/threedi/hhnk-threedi-plugin
 # End of mandatory metadata
 
 # Recommended items:
@@ -23,13 +24,13 @@ hasProcessingProvider=no
 # changelog=
 
 # Tags are comma separated with spaces allowed
-tags=python
+tags=analysis, dem, hydraulics, network analysis, web processing
 
-homepage=http://homepage
+homepage=https://threedi.github.io/hhnk-threedi-plugin/
 category=Plugins
 icon=icon.png
 # experimental flag
-experimental=True
+experimental=False
 
 # deprecated flag (applies to the whole plugin, not just a single version)
 deprecated=False

@@ -2,11 +2,8 @@ import copy
 from PyQt5.QtCore import pyqtSignal
 from qgis.core import QgsTask, Qgis
 from qgis.utils import QgsMessageLog, iface
-from hhnk_threedi_plugin.qgis_interaction.layers_management.adding_layers import add_layers
+from deprecated.qgis_interaction.layers_management.adding_layers import add_layers
 
-# old
-# from hhnk_threedi_tools.tests.one_d_two_d.read_nodes_results import read_node_results
-# import hhnk_research_tools as hrt
 
 # new
 from hhnk_threedi_tools import OneDTwoDTest

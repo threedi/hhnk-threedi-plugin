@@ -23,6 +23,7 @@
  ***************************************************************************/
 """
 import os.path
+from pathlib import Path
 from pyexpat import model
 from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication, Qt
 from qgis.PyQt.QtGui import QIcon
@@ -37,8 +38,8 @@ from hhnk_threedi_plugin.resources import *
 # %%
 try: 
     import hhnk_threedi_plugin.local_settings as local_settings
-except:
-    pass
+except ModuleNotFoundError:
+    import hhnk_threedi_plugin.local_settings_default as local_settings
 
 # Import the code for the plugin content
 # GUI
@@ -46,57 +47,40 @@ from hhnk_threedi_plugin.hhnk_toolbox_dockwidget import HHNK_toolboxDockWidget
 from hhnk_threedi_plugin.gui.load_layers_popup import loadLayersDialog
 # from hhnk_threedi_plugin.gui.schematisation_splitter_uploader_dialog import schematisationDialog
 
-from hhnk_threedi_plugin.gui.tests.sqlite_check_popup import sqliteCheckDialog
-from hhnk_threedi_plugin.gui.tests.zero_d_one_d import zeroDOneDWidget
-from hhnk_threedi_plugin.gui.tests.one_d_two_d import oneDTwoDWidget
+from hhnk_threedi_plugin.gui.checks.sqlite_check_popup import sqliteCheckDialog
+from hhnk_threedi_plugin.gui.checks.zero_d_one_d import zeroDOneDWidget
+from hhnk_threedi_plugin.gui.checks.one_d_two_d import oneDTwoDWidget
 #from hhnk_threedi_plugin.gui.model_states.model_states import modelStateDialog
-from hhnk_threedi_plugin.gui.tests.sqlite_test_widgets.main_result_widget import collapsibleTree
-from hhnk_threedi_plugin.gui.tests.bank_levels.bank_levels import bankLevelsWidget
+from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.main_result_widget import collapsibleTree
+from hhnk_threedi_plugin.gui.checks.bank_levels import bankLevelsWidget
 from hhnk_threedi_plugin.gui.klimaatsommen.klimaatsommen import KlimaatSommenWidget
 from hhnk_threedi_plugin.qgis_interaction.project import Project
 from hhnk_threedi_plugin.gui.new_project_dialog import newProjectDialog
 from hhnk_threedi_plugin.gui.input_data import inputDataDialog
 from hhnk_threedi_plugin.qgis_interaction.open_notebook import NotebookWidget
+
+from hhnk_threedi_plugin.gui.modelbuilder import ModelBuilder
+
 # %%
 # Functions
-from hhnk_threedi_tools.core.folders import Folders
-from hhnk_threedi_tools.core.checks.model_state import detect_model_states
+from hhnk_threedi_tools.core.folders import Folder, Folders
+# from hhnk_threedi_tools.core.checks.model_state import detect_model_states
 
 # Variables
 from hhnk_threedi_tools.variables.model_state import invalid_path
 
-# Test controllers
-# from .functionality_controllers.test_controllers.run_sqlite_tests import (
-#     run_sqlite_tests,
-# )
-# from .functionality_controllers.test_controllers.run_bank_levels_test import (
-#     run_bank_levels_test,
-# )
 from hhnk_threedi_plugin.tasks.task_sqlite_tests_main import task_sqlite_tests_main
 
-
-# from .functionality_controllers.test_controllers.run_hydraulic_tests import (
-#     run_hydraulic_tests,
-# )
-# from .functionality_controllers.test_controllers.run_1d2d_tests import run_1d2d_tests
-
-# hhnk-threedi-tools
-from hhnk_threedi_tools.utils.notebooks.run import create_command_bat_file
-import logging
 import os
-from functools import wraps
-from time import sleep
-from qgis.PyQt import uic
 
 from hhnk_threedi_plugin.gui.model_splitter.model_splitter_dialog import modelSplitterDialog
 
-from .dependencies import DEPENDENCY_DIR, THREEDI_DIR
 
 # docs
 
 import webbrowser
 
-DOCS_LINK = "https://hhnk-toolbox-user-docs.readthedocs.io/nl/latest/"
+DOCS_LINK = "https://threedi.github.io/hhnk-threedi-plugin/"
 
 class HHNK_toolbox:
     """QGIS Plugin Implementation."""
@@ -114,18 +98,19 @@ class HHNK_toolbox:
 
         # initialize plugin directory
         self.plugin_dir = os.path.dirname(__file__)
-        self.help_address = "https://hhnk-toolbox-user-docs.readthedocs.io/nl/latest/"
+        self.help_address = "https://threedi.github.io/hhnk-threedi-plugin/"
 
         # initialize locale
-        locale = QSettings().value("locale/userLocale")[0:2]
-        locale_path = os.path.join(
-            self.plugin_dir, "i18n", "HHNK_threedi_toolbox_{}.qm".format(locale)
-        )
-
-        if os.path.exists(locale_path):
-            self.translator = QTranslator()
-            self.translator.load(locale_path)
-            QCoreApplication.installTranslator(self.translator)
+        locale = QSettings().value("locale/userLocale")
+        if locale is not None:
+            locale_path = os.path.join(
+                self.plugin_dir, "i18n", "HHNK_threedi_toolbox_{}.qm".format(locale[0:2])
+            )
+    
+            if os.path.exists(locale_path):
+                self.translator = QTranslator()
+                self.translator.load(locale_path)
+                QCoreApplication.installTranslator(self.translator)
 
         # Declare instance attributes
         self.actions = []
@@ -149,9 +134,22 @@ class HHNK_toolbox:
         self.one_d_two_d = None
         self.polder_folder = None
         self.current_source_paths = None
-           
+        self.modelbuilder = None
+
         # Keep tracks of last chosen source paths over the entire toolbox
-        
+    
+    @property
+    def polders_path(self):
+        if self.dockwidget.polders_map_selector.filePath():
+            return Path(self.dockwidget.polders_map_selector.filePath())
+
+    def enable_buttons(self, enabled):
+        self.dockwidget.model_splitter_btn.setEnabled(enabled)
+        self.dockwidget.tests_toolbox.setEnabled(enabled)
+        self.dockwidget.server_btn.setEnabled(enabled)
+        self.dockwidget.input_btn.setEnabled(enabled)
+        self.dockwidget.create_new_project_btn.setEnabled(enabled)
+        self.dockwidget.load_layers_btn.setEnabled(enabled)
 
     # noinspection PyMethodMayBeStatic
     def tr(self, message):
@@ -243,11 +241,11 @@ class HHNK_toolbox:
     def initGui(self):
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
 
-        icon_path = ":/plugins/hhnk_toolbox/hhnk_logo.jpg"
-        help_path = ":/plugins/hhnk_toolbox/help_icon.png"
+        icon_path = os.path.join(self.plugin_dir, "icons/hhnk_logo.jpg")
+        help_path = os.path.join(self.plugin_dir, "icons/help_icon.png") #":/plugins/hhnk_toolbox/icons/help_icon.png"
         self.add_action(
             icon_path,
-            text=self.tr(u"HHNK threedi Toolbox"),
+            text=self.tr(u"HHNK Threedi Plugin"),
             callback=self.run,
             parent=self.iface.mainWindow(),
         )
@@ -304,47 +302,69 @@ class HHNK_toolbox:
                 and self.bank_levels.isVisible()
             ):
                 self.bank_levels.close()
+
     # Select from the dockwidget the path where the polder is located. If the path is not correct or if it is empty I will not enabled the buttons 
-    def polder_folder_changed(self):
+    def polders_folder_changed(self):
+        """
+        Updates polder_selector from the contents of the path in polders_map_selector
+        """
+        items = []
+        # get the contents of the folder in polders_map_selector
+        path = self.dockwidget.polders_map_selector.filePath()
+        if path is not None:
+            if (path != "") and Path(path).exists():
+                folder = Folder(path)
+
+                # clean the contents (only accept valid Folders directories)
+                items = [i for i in folder.content if Folders(Path(path)/i).is_valid()]
+
+        # add items to the polder_selector
+        self.dockwidget.polder_selector.clear()
+        if items:
+            self.dockwidget.polder_selector.addItems(items)
+            self.dockwidget.polder_selector.setEnabled(True)
+        else:
+            self.dockwidget.polder_selector.setDisabled(False)
+
+    def polder_changed(self):
         """
         If a new polder is selected, based on validity of provided path:
         reset the current active paths
         enable or disable toolbox
         """
-        path = self.dockwidget.polder_selector.filePath()
-
+        polders_dir = self.dockwidget.polders_map_selector.filePath()
+        polder = self.dockwidget.polder_selector.currentText()
+        path = Path(polders_dir) / polder
 
         print("Found folder", path)
-        self.reset_ui(polder=path)
-        if path is not None and os.path.exists(path):
+        self.reset_ui(polder=polder)
+        if (polder != "") and path.exists():
             folder = Folders(path)
             self.fenv = folder #FIXME replace with self.folder in all scripts.
             self.folder = folder
-            self.polder_folder = path
+            self.polder_folder = path.as_posix()
             self.current_source_paths = folder.to_file_dict()
-            self.initialize_current_paths()
-            
-            self.dockwidget.model_state_btn.setEnabled(True) #FIXME tijdelijk uitgezet totdat oplossing voor klondike release er is.
-            self.dockwidget.tests_toolbox.setEnabled(True)
-            self.dockwidget.server_btn.setEnabled(True)
-            
-            # self.dockwidget.load_layers_btn.setEnabled(True)
+            self.enable_buttons(True)
+            if not os.path.exists(os.path.join(path, "01_Source_data")):
+                QMessageBox.warning(None, "Loading polder", "Incorrect folders!")
+                return
+            else:
+                self.initialize_current_paths()
         else:
             self.fenv=None
             self.folder = None
             self.polder_folder = None
-            if self.current_source_paths is not None:
-                for key, value in self.current_source_paths.items():
-                    self.current_source_paths[key] = None
-                self.initialize_current_paths()
-            self.dockwidget.model_state_btn.setEnabled(False)
-            self.dockwidget.tests_toolbox.setEnabled(False)
-            self.dockwidget.server_btn.setEnabled(False)
+            # TODO: verify if deleting the commented block with self.current_source_paths = None is a good idea
+            self.current_source_paths = None
+            # if self.current_source_paths is not None:
+            #     for key, value in self.current_source_paths.items():
+            #         self.current_source_paths[key] = None
+            #     self.initialize_current_paths()
+
+            self.enable_buttons(False)
             # self.dockwidget.load_layers_btn.setEnabled(True)
 
-        if not os.path.exists(os.path.join(path, "01_Source_data")):
-            QMessageBox.warning(None, "Loading polder", "Incorrect folders!")
-            return
+
 
     def initialize_current_paths(self):
         """
@@ -358,12 +378,12 @@ class HHNK_toolbox:
         # self.schematisation_dialog.set_current_paths()
         self.input_data_dialog.set_current_paths()
 
-    def update_model_state(self):
-        if self.current_source_paths is not None:
-            current_state = detect_model_states(self.current_source_paths["model"])
-            self.dockwidget.model_state_show.setText(current_state)
-        else:
-            self.dockwidget.model_state_show.setText(invalid_path)
+    # def update_model_state(self):
+    #     if self.current_source_paths is not None:
+    #         current_state = detect_model_states(self.current_source_paths["model"])
+    #         self.dockwidget.model_state_show.setText(current_state)
+    #     else:
+    #         self.dockwidget.model_state_show.setText(invalid_path)
 
     def update_current_paths(
         self,
@@ -443,7 +463,6 @@ class HHNK_toolbox:
     def sqlite_tests_execution(self, selected_tests):
         try:
             # test_env.polder_folder = self.polder_folder
-            # run_sqlite_tests(results_widget=self.sqlite_results_widget, test_env=test_env)
             task_sqlite_tests_main(parent_widget=self.sqlite_results_widget, folder=self.fenv, selected_tests=selected_tests)
 
         except Exception as e:
@@ -452,10 +471,14 @@ class HHNK_toolbox:
 
 
     def new_project_folder_execute(self):
-        dialog = newProjectDialog()
-        dialog.project_folder_path.connect(Folders)
-        dialog.exec()
-        self.dockwidget.polder_selector.setFilePath(dialog.full_path)
+        dialog = newProjectDialog(self.polders_path)
+        result = dialog.exec()
+        if result:
+            if dialog.polder_path is not None:
+                self.dockwidget.polder_selector.addItem(dialog.polder_path.name)
+                self.dockwidget.polder_selector.setCurrentText(
+                    dialog.polder_path.name
+                    )
       
 
     def open_model_splitter_dialog(self):
@@ -477,7 +500,6 @@ class HHNK_toolbox:
         #TODO kan connect input meegeven zodat deze samen kan met lizard?
         getattr(self.dockwidget, f'threedi_api_key_textbox').setEchoMode(2) #password echo mode
 
-
     def run(self):
         """Run method that loads and starts the plugin"""
 
@@ -489,14 +511,12 @@ class HHNK_toolbox:
             # dockwidget may not exist if:
             #    first run of plugin
             #    removed on close (see self.onClosePlugin method)
-            if self.dockwidget == None:
+            if self.dockwidget is None:
                 # Create the dockwidget (after translation) and keep reference
                 self.dockwidget = HHNK_toolboxDockWidget()
-                
+
                 # disable predefined buttons    
-                self.dockwidget.model_state_btn.setEnabled(True)
-                self.dockwidget.tests_toolbox.setEnabled(False)
-                self.dockwidget.server_btn.setEnabled(False)
+                self.enable_buttons(True)
                 # self.dockwidget.load_layers_btn.setEnabled(False)
 
                 self.dockwidget.lizard_api_key_textbox.textChanged.connect(self.hide_apikeys_lizard)
@@ -517,7 +537,8 @@ class HHNK_toolbox:
                 self.notebook_widget = NotebookWidget(caller=self, parent=self.dockwidget)
                 
                 # If a polder folder is selected
-                self.dockwidget.polder_selector.fileChanged.connect(self.polder_folder_changed)
+                self.dockwidget.polders_map_selector.fileChanged.connect(self.polders_folder_changed)
+                self.dockwidget.polder_selector.currentTextChanged.connect(self.polder_changed)
                 # Controls widgets showing results
                 self.sqlite_results_widget = collapsibleTree(self.dockwidget.sqlite_tests)
                 self.dockwidget.sqlite_tests.layout().addWidget(self.sqlite_results_widget)
@@ -535,12 +556,12 @@ class HHNK_toolbox:
 
                 self.dockwidget.input_btn.clicked.connect(self.input_data_dialog.set_current_paths)
                 self.dockwidget.input_btn.clicked.connect(self.input_data_dialog.show)
-                self.dockwidget.model_state_btn.clicked.connect(self.open_model_splitter_dialog)
+                self.dockwidget.model_splitter_btn.clicked.connect(self.open_model_splitter_dialog)
                 self.dockwidget.create_new_project_btn.clicked.connect(self.new_project_folder_execute)
                
                 # self.dockwidget.documentatie_button.clicked.connect(self.open_documentatie_link)
                 self.dockwidget.server_btn.clicked.connect(self.notebook_widget.start_server)
-
+                
 
                 # Connect start buttons to appropriate function calls
 
@@ -548,9 +569,9 @@ class HHNK_toolbox:
                 # self.zero_d_one_d.start_0d1d_tests.connect(self.zero_d_one_d_tests_execution)
                 # self.bank_levels.start_bank_levels_tests.connect(self.bank_levels_execution)
 
-                self.one_d_two_d.start_1d2d_tests_btn.clicked.connect(self.one_d_two_d.one_d_two_d_tests_execution)
 
-
+                # define modelbuilder. Note, all callbacks and functions you can find in ModelBuilder class
+                self.modelbuilder = ModelBuilder(dockwidget=self.dockwidget)
 
                 # note that for 'klimaatsomme
                 # n' functions are run from the widget
@@ -567,6 +588,6 @@ class HHNK_toolbox:
 
             # #For debug set project_path in local_settings.
             try:
-                self.dockwidget.polder_selector.setFilePath(local_settings.project_path)
+                self.dockwidget.polders_map_selector.setFilePath(local_settings.project_path)
             except:
                 pass

@@ -3,7 +3,10 @@ import sys
 from pathlib import Path
 import os
 sys.path.append(str(Path(os.getcwd()).parent.parent))
-import hhnk_threedi_plugin.local_settings as local_settings
+try: 
+    import hhnk_threedi_plugin.local_settings as local_settings
+except ModuleNotFoundError:
+    import hhnk_threedi_plugin.local_settings_default as local_settings
 if local_settings.DEBUG:
     sys.path.insert(0, local_settings.hhnk_threedi_tools_path)
     import importlib, hhnk_threedi_tools
@@ -48,7 +51,7 @@ INFILTRATION_COLS = ["infiltration_rate",
 
 def modelsplitter(self):
     overwrite = True 
-    path = self.dockwidget.polder_selector.filePath()
+    path = self.dockwidget.polders_map_selector.filePath()
     folder = Folders(path)
 
     settings_df = pd.read_excel(folder.model.settings.path, engine="openpyxl")

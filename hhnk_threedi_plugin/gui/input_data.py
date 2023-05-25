@@ -18,21 +18,11 @@ from PyQt5.QtWidgets import (
     QHBoxLayout,
     QApplication,
 )
-from qgis.core import QgsTask, Qgis
-from qgis.utils import QgsMessageLog, iface
 from PyQt5.QtCore import Qt, pyqtSignal
 from qgis.gui import QgsMessageBar
 # from hhnk_threedi_plugin.gui.tests.verify_sqlite_tests_input import verify_input
 from hhnk_threedi_plugin.gui.utility.file_widget import fileWidget
-from hhnk_threedi_plugin.qgis_interaction.layers_management.layers.get_layers_list import (
-    get_layers_list)
-from hhnk_threedi_plugin.qgis_interaction.layers_management.groups.layer_groups_structure import (
-    QgisLayerStructure)
-from hhnk_threedi_plugin.tasks.task_sqlite_tests_main import task_sqlite_tests_main
-from hhnk_threedi_plugin.qgis_interaction import load_layers_interaction
 
-from hhnk_threedi_tools.qgis.get_working_paths import get_working_paths
-from hhnk_threedi_tools.qgis.environment import testEnvironment
 
 
 def setupUi(input_data):
@@ -52,9 +42,9 @@ def setupUi(input_data):
 
     # Create all file widgets
     input_data.polder_label = QLabel("Project Folder:")
-    input_data.polder_selector = fileWidget(
+    input_data.polders_map_selector = fileWidget(
         file_dialog_title="", file_mode=QFileDialog.Directory    )
-    input_data.polder_selector.setEnabled(False)
+    input_data.polders_map_selector.setEnabled(False)
 
     input_data.output_selector_label = QLabel("Selecteer output map:")
     input_data.output_selector_label.setStyleSheet("background-color: lightgreen;border: 1px solid black;")
@@ -133,7 +123,7 @@ def setupUi(input_data):
     path_selection_layout.setHorizontalSpacing(25)
     path_selection_layout.addWidget(separator, 0, 0, 1, 2)
     # path_selection_layout.addWidget(input_data.polder_label, 1, 0)
-    # path_selection_layout.addWidget(input_data.polder_selector, 1, 1)
+    # path_selection_layout.addWidget(input_data.polders_map_selector, 1, 1)
     # path_selection_layout.addWidget(input_data.output_selector_label, 2, 0)
     # path_selection_layout.addWidget(input_data.output_selector, 2, 1)
     path_selection_layout.addWidget(input_data.model_selector_label, 1, 0)
@@ -161,7 +151,7 @@ def setupUi(input_data):
     main_layout.setAlignment(Qt.AlignTop)
     main_layout.setContentsMargins(25, 25, 25, 25)
     main_layout.addWidget(input_data.polder_label)
-    main_layout.addWidget( input_data.polder_selector)
+    main_layout.addWidget( input_data.polders_map_selector)
     main_layout.addWidget(input_data.bar)
     # main_layout.addWidget(paths_selection)
     main_layout.addLayout(path_selection_layout)
@@ -209,7 +199,7 @@ class inputDataDialog(QDialog):
         paths = self.caller.current_source_paths
         if paths is not None:
 
-            widgets = OrderedDict({"polder_selector":"polder_folder","model_selector":"model",
+            widgets = OrderedDict({"polders_map_selector":"polder_folder","model_selector":"model",
             "dem_selector":"dem", "datachecker_selector":"datachecker", "channel_from_profiles_selector":"channels_shapefile",
             "hdb_selector":"hdb", "damo_selector":"damo", "polder_shape_selector":"polder_shapefile"})
 
@@ -221,9 +211,9 @@ class inputDataDialog(QDialog):
 
                 #Remove first part of path
                 try:
-                    if key != "polder_selector":
-                        name = filepath(self.polder_selector.filePath())[-1]
-                        # name = filepath.split(self.polder_selector.filePath())[-1]
+                    if key != "polders_map_selector":
+                        name = filepath(self.polders_map_selector.filePath())[-1]
+                        # name = filepath.split(self.polders_map_selector.filePath())[-1]
                 except:
                     pass
                 widgt.setFilePath(name)
@@ -237,18 +227,18 @@ class inputDataDialog(QDialog):
                     widgt.setStyleSheet("background-color: blue; border: 1px solid black")
 
 
-            # self.polder_selector.setFilePath(paths["polder_folder"])
+            # self.polders_map_selector.setFilePath(paths["polder_folder"])
 
 
-            # self.polder_selector.setFilePath(paths["polder_folder"])
-            # self.model_selector.setFilePath(paths["model"].split(self.polder_selector.filePath())[-1])
+            # self.polders_map_selector.setFilePath(paths["polder_folder"])
+            # self.model_selector.setFilePath(paths["model"].split(self.polders_map_selector.filePath())[-1])
             # self.dem_selector.setFilePath(paths["dem"])
-            # self.datachecker_selector.setFilePath(paths["datachecker"].split(self.polder_selector.filePath())[-1])
-            # self.channel_from_profiles_selector.setFilePath(paths["channels_shapefile"].split(self.polder_selector.filePath())[-1])
-            # self.hdb_selector.setFilePath(paths["hdb"].split(self.polder_selector.filePath())[-1])
-            # self.damo_selector.setFilePath(paths["damo"].split(self.polder_selector.filePath())[-1])
-            # self.polder_shape_selector.setFilePath(paths["polder_shapefile"].split(self.polder_selector.filePath())[-1])
-            # self.output_selector.setFilePath(paths["sqlite_tests_output"].split(self.polder_selector.filePath())[-1])
+            # self.datachecker_selector.setFilePath(paths["datachecker"].split(self.polders_map_selector.filePath())[-1])
+            # self.channel_from_profiles_selector.setFilePath(paths["channels_shapefile"].split(self.polders_map_selector.filePath())[-1])
+            # self.hdb_selector.setFilePath(paths["hdb"].split(self.polders_map_selector.filePath())[-1])
+            # self.damo_selector.setFilePath(paths["damo"].split(self.polders_map_selector.filePath())[-1])
+            # self.polder_shape_selector.setFilePath(paths["polder_shapefile"].split(self.polders_map_selector.filePath())[-1])
+            # self.output_selector.setFilePath(paths["sqlite_tests_output"].split(self.polders_map_selector.filePath())[-1])
             self.output_0d_1d__selector.setFilePath(paths["0d1d_output"])
             # self.one_d_two_d.dem_selector.setFilePath(paths["dem"])
             
