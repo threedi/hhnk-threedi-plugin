@@ -1,5 +1,10 @@
 # Gebruikershandleiding
 
+Voorstellen naamgeving BvL:
+
+0d1d tests > watersysteem controle <br>
+1d2d tests > ?
+
 Deze pagina is bedoeld als handleiding om de HHNK Toolbox te gebruiken. 
 
 Er zijn twee mogelijkheden om met de HHNK plugin aan de slag te gaan:
@@ -8,12 +13,10 @@ Er zijn twee mogelijkheden om met de HHNK plugin aan de slag te gaan:
 
 Nadere informatie over de inhoud van de testen, benodigde data en het interpreteren van resultaten zijn te vinden via onderstaande links:
 * Voor inhoudelijke uitleg van de tests, zie [Documentatie](tests_documentation.md).
-
 * Voor uitleg over de benodigde data, zie [Bron data](needed_data.md).
-
 * Voor uitleg over de interpretatie van resultaten, zie !!!
-
-Volg onderstaande werkwijze als HHNK de benodigde data (model) aanlevert (1).
+ 
+Volg onderstaande werkwijze als HHNK de benodigde data (model) aanlevert (optie 1).
 
 1. [Map aanmaken](#1-map-aanmaken)
 2. [Data kopiëren](#2-data-kopiëren)
@@ -21,7 +24,7 @@ Volg onderstaande werkwijze als HHNK de benodigde data (model) aanlevert (1).
 4. [Inladen resultaten tests (indien van toepassing)](#4-inladen-resultaten-tests-indien-van-toepassing)
 
 ## 1. Map aanmaken 
-Maak een nieuwe map aan in de verkenner (locatie staat vrij, maar raadzaam om lokaal te werken) met de naam van het aangeleverde gebied (bijvoorbeeld polder_X). Dit levert het volgende pad op: `C:\Users\{gebruiker}\Documents\3Di\polder_X`. 
+Maak een nieuwe map aan in de verkenner (locatie staat vrij, maar raadzaam om lokaal te werken) met de naam van het aangeleverde gebied (bijvoorbeeld polder_X). Dat kan er als volgt uit zien: `C:\Users\{gebruiker}\Documents\3Di\polder_X`. 
 
 `{gebruiker}` is de naam van de Windows-gebruiker.
 
@@ -31,16 +34,16 @@ Kopieer de aangeleverde data naar de map die in stap 1 is gemaakt. Hieronder is 
 ![](../images/usage/copy_data.PNG)
 
 ## 3. Model inladen
-Het model kan vervolgens ingeladen worden door bij `modellen folder` door de volgende handeling: als je in stap 1 de map hebt aangemaakt in het pad: `C:\Users\{gebruiker}\Documents\3Di\polder_X`, kies je bij `modellen folder` het volgende pad om het model in te kunnen laden: `C:\Users\{gebruiker}\Documents\3Di`. Vervolgens kan bij `polder` gekozen worden voor `polder_X`. 
+Het model kan vervolgens ingeladen worden door bij `modellen folder` (1) door de volgende handeling: als je in stap 1 de map hebt aangemaakt in het pad: `C:\Users\{gebruiker}\Documents\3Di\polder_X`, kies je bij `modellen folder` het volgende pad om het model in te kunnen laden: `C:\Users\{gebruiker}\Documents\3Di`. Vervolgens kan bij `polder` (2) gekozen worden voor `polder_X`. 
 
 `{gebruiker}` is de naam van de Windows-gebruiker.
 
-![](../images/usage/load_polder.PNG)
+![](../images/usage/load_polder_legend.PNG)
 
 ## 4. Inladen resultaten tests (indien van toepassing)
-Indien er testen voor het model zijn uitgevoerd, kunnen deze worden ingeladen via de knop `laad lagen`.
+Indien er testen voor het model zijn uitgevoerd, kunnen deze worden ingeladen via de knop `laad lagen` (3). Als er nog geen testen zijn uitgevoerd, klik dan hier: NOG TE MAKEN.
 
-![](../images/usage/load_polder.PNG)
+![](../images/usage/load_polder_legend.PNG)
 
 Vervolgens verschijnt het onderstaande scherm met een aantal keuzes: 
 
@@ -58,21 +61,25 @@ Afhankelijk van de tests die zijn uitgevoerd, kan er gekozen worden tussen het i
 Deze optie geeft de mogelijkheid om de schematisatie (.sqlite) van het model in te laden.
 
 ### Grid genereren
-FOUTMELDING > ZIE LOGBOEK 
+NIEUWE FOUTMELDING > ZIE LOGBOEK. GEEN IDEE HOE OP TE LOSSEN.
+
+Bij het genereren van het grid kan het voorkomen dat er een foutmelding wordt weergegeven dat de .sqlite te oud is. ![](../images/usage/old_sqlite_error.PNG) Ga naar [bekende problemen](#bekende-problemen) om de oplossing te bekijken.  
 
 ### Sqlite testen
-De sqlite tests zijn bedoeld om het model te controleren op (potentiële) fouten in de data en deze te corrigeren waar nodig. 
+De sqlite tests zijn bedoeld om het model te controleren op (potentiële) fouten in de data en deze te corrigeren waar nodig. Na de sqlite tests is het model klaar om op te bouwen en om de 0d1d toets te draaien (zie 
+[0d1d toets/Hydraulische toets](tests_documentation.md#1d2d-tests)). Voor de inhoudelijke uitleg van de tests, zie:
+[Sqlite tests](tests_documentation.md#sqlite-tests)
 
 ### Banklevel test
-
+Door de ``banklevel test`` in te laden, kun je de resultaten inzien die volgen uit de test die is uitgevoerd. Verdere toelichting over de ``banklevel test`` is te vinden in [banklevel test](tests_documentation#bank-levels).
 
 ### Basis layout
-
+Met het inladen van de ``basis layout`` krijg je inzicht in de resultaten die volgen uit controles die zijn uitgevoerd om te kijken of het model goed is opgebouwd vanuit de brondata of dat er nog data mist.
 
 ### Achtergrondkaarten
+Met de optie ``achtergrondkaarten`` kun je verschillende soorten kaarten als achtergrond onder de schematisatie leggen. Dit is bijvoorbeeld handig om te controleren of een breedte van een watergang in het model overeenkomt met de breedte op de luchtfoto. 
 
-
-Volg onderstaande werkwijze als je het model vanaf de 'grond' gaat opbouwen (2)
+Volg onderstaande werkwijze als je het model vanaf de 'grond' gaat opbouwen (optie 2)
 
 ## Plugin overzicht
 
@@ -88,10 +95,7 @@ Volg onderstaande werkwijze als je het model vanaf de 'grond' gaat opbouwen (2)
 
 ## 1. Polder selecteren
 
-Selecteer een project map (zie [Standaard project indeling](tests_documentation.md#indeling-project-map) voor uitleg over de 
-standaard indeling voor een project). Het is handig maar niet noodzakelijk om een project volgens de standaard indeling 
-in te richten. De meeste functionaliteit van de plugin is alleen beschikbaar wanneer een project 
-is geselecteerd.
+Selecteer een project map (zie [Standaard project indeling](tests_documentation.md#indeling-project-map) voor uitleg over de standaard indeling voor een project). Het is handig maar niet noodzakelijk om een project volgens de standaard indeling in te richten. De meeste functionaliteit van de plugin is alleen beschikbaar wanneer een project is geselecteerd.
 
 ## 2. Nieuw project aanmaken
 
@@ -279,3 +283,21 @@ De bronnen voor deze lagen zijn ```geopackages (.gpkg)```. Deze files worden aut
 gekozen ```Output map```, in de map met de naam van de geselecteerde ```revisie```, in de ```Layers``` submap. De test 
 resultaten worden ook als ```.csv``` files in de gekozen ```Output map```, in de map met de naam van de geselecteerde 
 ```revisie```, in de ```Logs``` submap.
+
+## Bekende problemen
+### Oude sqlite error
+Wanneer in de aangeleverde data nog een .sqlite zit die in een oudere versie van 3Di is gemaakt, kan het voorkomen dat onderstaande foutmelding wordt weergegeven: ![](../images/usage/old_sqlite_error.PNG)
+
+Deze error kan op de volgende manier opgeloste worden:
+
+1. Ga naar ``select 3Di results`` (1)
+![](../images/usage/old_sqlite_error_solution_1.PNG)
+2. Klik op ``load`` (2)
+![](../images/usage/old_sqlite_error_solution_2.PNG)
+3. Ga naar de map waar je data hebt opgeslagen zie ook [map aanmaken](#1-map-aanmaken)
+4. Vervolgens ga je naar het volgende pad: `C:\Users\{gebruiker}\Documents\3Di\polder_Bart\02_schematisation\00_basis` en dubbelklik je op het .sqlite bestand. 
+5. Nadat je hier op hebt geklikt, krijg je onderstaande waarschuwing: 
+![](../images/usage/old_sqlite_error_solution_3.PNG)
+Klik op `yes`. De .sqlite staat nu in een versie die ingeladen kan worden in 3Di zonder foutmelding. 
+
+`{gebruiker}` is de naam van de Windows-gebruiker.
