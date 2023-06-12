@@ -22,6 +22,8 @@ Volg onderstaande werkwijze als HHNK de benodigde data (model) aanlevert (optie 
 2. [Data kopiëren](#2-data-kopiëren)
 3. [Model inladen](#3-model-inladen)
 4. [Inladen resultaten tests (indien van toepassing)](#4-inladen-resultaten-tests-indien-van-toepassing)
+5. [Modelvarianten maken](#5-modelvarianten-maken)
+6. [Berekeningen uitvoeren](#6-berekeningen-uitvoeren)
 
 ## 1. Map aanmaken 
 Maak een nieuwe map aan in de verkenner (locatie staat vrij, maar raadzaam om lokaal te werken) met de naam van het aangeleverde gebied (bijvoorbeeld polder_X). Dat kan er als volgt uit zien: `C:\Users\{gebruiker}\Documents\3Di\polder_X`. 
@@ -40,16 +42,20 @@ Het model kan vervolgens ingeladen worden door bij `modellen folder` (1) door de
 
 ![](../images/usage/load_polder_legend.PNG)
 
-## 4. Inladen resultaten tests (indien van toepassing)
-Indien er testen voor het model zijn uitgevoerd, kunnen deze worden ingeladen via de knop `laad lagen` (3). Als er nog geen testen zijn uitgevoerd, klik dan hier: NOG TE MAKEN.
+## 4. Inladen lagen
+Via de knop ``laad lagen`` (3) kun je diverse lagen inladen om inzicht te geven in het model.
 
 ![](../images/usage/load_polder_legend.PNG)
+
+AFBEELDINGEN NIET ZICHTBAAR IN GITHUB!
 
 Vervolgens verschijnt het onderstaande scherm met een aantal keuzes: 
 
 ![](../images/usage/load_test_results.PNG)
 
-Afhankelijk van de tests die zijn uitgevoerd, kan er gekozen worden tussen het inladen van de van 0d1d, 1d2d of de klimaatsom resultaten. Hierbij is de mogelijkheid om een aantal opties aan te vinken:
+Afhankelijk van de tests die zijn uitgevoerd, kan er gekozen worden tussen het inladen van de van 0d1d, 1d2d of de klimaatsom resultaten. Indien er nog geen testberekeningen of klimaatsommen zijn gemaakt, klik dan hier: [Testberekeningen uitvoeren](#5-testberekeningen-uitvoeren)
+
+Daarnaast kunnen nog een aantal andere opties aangevinkt worden:
 * [Sqlite (3Di plugin)](#sqlite-3di-plugin)
 * [Grid genereren](#grid-genereren)
 * [Sqlite testen](#sqlite-testen)
@@ -71,13 +77,91 @@ De sqlite tests zijn bedoeld om het model te controleren op (potentiële) fouten
 [Sqlite tests](tests_documentation.md#sqlite-tests)
 
 ### Banklevel test
-Door de ``banklevel test`` in te laden, kun je de resultaten inzien die volgen uit de test die is uitgevoerd. Verdere toelichting over de ``banklevel test`` is te vinden in [banklevel test](tests_documentation#bank-levels).
+Door de ``banklevel test`` in te laden, kun je de resultaten inzien die volgen uit de test die is uitgevoerd. Verdere toelichting over de ``banklevel test`` is te vinden in [banklevel test](tests_documentation.md#bank-levels).
 
 ### Basis layout
 Met het inladen van de ``basis layout`` krijg je inzicht in de resultaten die volgen uit controles die zijn uitgevoerd om te kijken of het model goed is opgebouwd vanuit de brondata of dat er nog data mist.
 
 ### Achtergrondkaarten
 Met de optie ``achtergrondkaarten`` kun je verschillende soorten kaarten als achtergrond onder de schematisatie leggen. Dit is bijvoorbeeld handig om te controleren of een breedte van een watergang in het model overeenkomt met de breedte op de luchtfoto. 
+
+Onderstaande stappen zijn uit te voeren als er nog geen testberekeningen en testen voor het model zijn uitgevoerd.
+
+## 5. Modelvarianten maken
+Als er nog geen modelvarianten en testberekeningen uitgevoerd zijn, kunnen de volgende stappen doorlopen worden:
+
+1. Klik op ``Model splitten en uploaden`` (4). 
+![](../images/usage/load_polder_legend.PNG)
+
+2. Hierna wordt het volgende scherm weergegeven:
+![](../images/usage/load_modelsplitter_legend.PNG)
+De modelsplitter geeft de mogelijkheid om een aantal modelvarianten te genereren, zoals in het vak met de ``1`` is te zien. De modelvarianten voor de te genereren modellen staan automatisch in het rechtervak met daarboven ``Enabled``. In het rechtervak laat je de modelvarianten staan waarvan je een model wil laten maken. Als je een bepaalde modelvariant niet nodig hebt, kun je deze naar het linkervak slepen met daarboven ``Disabled``.  
+3. Druk op ``Run: Model Splitter`` (2) om de modelvariant(en) die onder ``Enabled`` staan te genereren
+4. Geef een ``Commit message`` mee (3)
+5. Upload de modelvariant(en) door op ``Upload modelversion(s)`` te klikken (4)
+
+## 6. Berekeningen uitvoeren
+Nadat stap 5 is uitgevoerd, kunnen (test)berekeningen uitgevoerd gaan worden. Hieronder wordt toegelicht hoe een (test)bereking gestart kan worden:
+1. Voer je Lizard API key (5) en 3Di API key (6) in. Indien je nog geen API key(s) hebt, klik <a href="https://demo.lizard.net/management/personal_api_keys" target="_blank">hier</a> voor een Lizard API key en klik <a href="https://management.3di.live/personal_api_keys" target="_blank">hier</a> voor een 3Di API key. 
+![](../images/usage/load_polder_legend.PNG)
+2. Klik op ``Open Jupyter Notebook Server`` (7) om het notebook te openen voor het starten van de (test)berekeningen. Je wordt doorverwezen naar een lokale server en het volgende scherm komt tevoorschijn:
+![](../images/usage/notebook_starting_calculation_1.PNG)
+3. Om een simulatie te starten, kun je het beste gebruik maken van de meest recente versie van ``xx_calculation_gui_vx``. Door te dubbelklikken op de nieuwste versie, word je doorgestuurd naar het volgende scherm:
+![](../images/usage/notebook_starting_calculation_2.PNG)
+4. Doorloop nu de eerste stap door ergens te klikken in het veld met ``#imports`` en vervolgens crtl + enter. Dit levert het onderstaande invoerscherm op:
+![](../images/usage/notebook_starting_calculation_3.PNG)
+5. Loop vervolgens stap voor stap de volgende punten af:
+
+   1. ``Login with API keys``: voer hier de Lizard en 3Di API keys in
+   2. ``Search for schematisation on 3Di``: typ de naam van het model in en klik vervolgens op ``Search``
+   3. ``Select schematisation and model``: kies hier de modelvariant onder ``Schematisation`` en kies bij ``Revision`` voor de door te rekenen revisie. Het ``3Di model`` wordt automatisch ingevoerd, waarna bij ``Organisation`` gekozen kan worden voor de organisatie waar de simulatie gedraaid moet worden
+   4. ``Select rain event``: maak hier een keuze voor de neerslagsituatie die bij de modelvariant hoort
+   5. ``Select output folder/name``: kies hier de ``Sub folder`` waar de resultaten weggeschreven moeten worden 
+   6. ``Select settings to include``: deze optie geeft de mogelijkheid om een aantal opties aan te vinken voor de naverwerking van de resultaten NOG UITLEGGEN GEVEN WAT DE PROCESSING INHOUDEN?
+   7. ``Start simulation``: de simulatienaam wordt automatisch gegenereerd op basis van de schematisatie die gebruikt wordt. Om de berekening te kunnen starten, moet eerst een simulatie aangemaakt worden middels de ``Create simulation`` knop. ERROR STARTEN SIMULATIE, ZIE OOK LOGBOEK
+
+## 7. Resultaten downloaden
+Naast het starten van simulaties, is het downloaden van de resultaten van de (test)berekeningen mogelijk middels het notebook. Hieronder is toegelicht hoe dat in zijn werk gaat:
+
+1. Om een simulatie te downloaden, kun je het beste gebruik maken van de meest recente versie van ``xx_download_gui_vx``. Door te dubbelklikken op de nieuwste versie, word je doorgestuurd naar het volgende scherm:
+![](../images/usage/notebook_download_simulation_1.PNG)
+2. Doorloop nu de eerste stap door ergens te klikken in het veld met ``#imports`` en vervolgens crtl + enter. Dit levert het onderstaande invoerscherm op:
+![](../images/usage/notebook_download_simulation_2.PNG)
+
+3. Loop vervolgens stap voor stap de volgende punten af:
+
+   1. ``Login with API keys``: voer hier de Lizard API key in
+   2. ``Search for simulation on lizard``: typ de naam van de te downloaden simulatie in en klik vervolgens op ``search``
+   3. ``Select simulation results``: hier komt een overzicht te staan met de simulaties die overeenkomen met de zoekterm ingevoerd in stap 2. Selecteer de de simulatie of simulaties die je wil downloaden
+   4. ``Select filetype``: selecteer hier welke ``File results``, ``Raster results``, eventueel welk ``Timestep raster`` en de ``Resolution`` gedownload moet worden
+   5. ``Select output folder/name``: kies hier de ``Sub folder`` waar de resultaten weggeschreven moeten worden 
+   6. ``Download selected``: klik op ``Download`` om de resultaten te downloaden
+   7. ``Download klimaatsommen``: klik op ``Download batch`` om een batch te downloaden > HOE ZIET DE NAAM VAN DE FOLDER ERUIT DIE GEMAAKT MOET WORDEN ALS DE BATCH FOLDER NOG NIET BESTAAT? IN MIJN MAP STAAT batch_results, MAAR DEZE WORDT NIET GEZIEN IN HET NOTEBOOK
+
+## 7. Model testen uitvoeren
+De plugin heeft de mogelijkheid om een aantal testen voor het model en de testberekeningen uit te voeren:
+* [Sqlite checks](#sqlite-checks)
+* [0d1d tests](#0d1d-tests)
+* [Bank levels](#bank-levels)
+* [1d2d tests](#1d2d-tests)
+* [Klimaatsommen](#klimaatsommen)
+
+### Sqlite checks > NAAMGEVING STAAT DOOR ELKAAR HEEN?
+De sqlite tests zijn bedoeld om het model te controleren op (potentiële) fouten in de data en deze te corrigeren waar nodig. Na de sqlite tests is het model klaar om op te bouwen en om de 0d1d toets te draaien (zie 
+[0d1d toets/Hydraulische toets](tests_documentation.md#1d2d-tests)). Voor de inhoudelijke uitleg van de tests, zie:
+[Sqlite tests](tests_documentation.md#sqlite-tests)
+
+### 0d1d tests
+De ```0d1d tests``` zijn bedoeld om de resultaten van de [0d1d toets/Hydraulische toets](tests_documentation.md#0d1d-testshydraulische-toets) te analyseren.
+
+### Bank levels
+Voor meer informatie over de inhoud van de test, zie: [Bank levels](tests_documentation.md#bank-levels)
+
+### 1d2d tests
+De ```1d2d tests``` zijn bedoeld om de resultaten van de [1d2d toets](tests_documentation.md#1d2d-tests) te analyseren.
+
+### Klimaatsommen
+NOG AANVULLEN!!!
 
 Volg onderstaande werkwijze als je het model vanaf de 'grond' gaat opbouwen (optie 2)
 
@@ -256,8 +340,7 @@ gekozen ```Output map```, in de ```Layers``` submap. De test resultaten worden o
 
 ![](../images/usage/1d2d_tests_tab_legend.png)
 
-De ```1d2d tests``` zijn bedoeld om de resultaten van de 
-[1d2d toets](tests_documentation.md#1d2d-tests) te analyseren.
+De ```1d2d tests``` zijn bedoeld om de resultaten van de [1d2d toets](tests_documentation.md#1d2d-tests) te analyseren.
 
 1. Selecteer 3Di resultaten map: map waarin de 0d1d/hydraulic 3Di test resultaten per revisie staan opgeslagen
    
