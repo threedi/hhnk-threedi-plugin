@@ -22,7 +22,7 @@ Volg onderstaande werkwijze als HHNK de benodigde data (model) aanlevert (optie 
 2. [Data kopiëren](#2-data-kopiëren)
 3. [Model inladen](#3-model-inladen)
 4. [Inladen resultaten tests (indien van toepassing)](#4-inladen-resultaten-tests-indien-van-toepassing)
-5. [Modelvarianten maken](#5-modelvarianten-maken)
+5. [Modelstaten maken](#5)
 6. [Berekeningen uitvoeren](#6-berekeningen-uitvoeren)
 
 ## 1. Map aanmaken 
@@ -47,7 +47,7 @@ Via de knop ``laad lagen`` (3) kun je diverse lagen inladen om inzicht te geven 
 
 ![](../images/usage/load_polder_legend.PNG)
 
-AFBEELDINGEN NIET ZICHTBAAR IN GITHUB!
+##### AFBEELDINGEN NIET ZICHTBAAR IN GITHUB!
 
 Vervolgens verschijnt het onderstaande scherm met een aantal keuzes: 
 
@@ -67,7 +67,7 @@ Daarnaast kunnen nog een aantal andere opties aangevinkt worden:
 Deze optie geeft de mogelijkheid om de schematisatie (.sqlite) van het model in te laden.
 
 ### Grid genereren
-NIEUWE FOUTMELDING > ZIE LOGBOEK. GEEN IDEE HOE OP TE LOSSEN.
+##### NIEUWE FOUTMELDING > ZIE LOGBOEK. GEEN IDEE HOE OP TE LOSSEN.
 
 Bij het genereren van het grid kan het voorkomen dat er een foutmelding wordt weergegeven dat de .sqlite te oud is. ![](../images/usage/old_sqlite_error.PNG) Ga naar [bekende problemen](#bekende-problemen) om de oplossing te bekijken.  
 
@@ -87,18 +87,18 @@ Met de optie ``achtergrondkaarten`` kun je verschillende soorten kaarten als ach
 
 Onderstaande stappen zijn uit te voeren als er nog geen testberekeningen en testen voor het model zijn uitgevoerd.
 
-## 5. Modelvarianten maken
-Als er nog geen modelvarianten en testberekeningen uitgevoerd zijn, kunnen de volgende stappen doorlopen worden:
+## 5. Modelstaten maken
+Als er nog geen modelstaten en testberekeningen uitgevoerd zijn, kunnen de volgende stappen doorlopen worden:
 
 1. Klik op ``Model splitten en uploaden`` (4). 
 ![](../images/usage/load_polder_legend.PNG)
 
 2. Hierna wordt het volgende scherm weergegeven:
 ![](../images/usage/load_modelsplitter_legend.PNG)
-De modelsplitter geeft de mogelijkheid om een aantal modelvarianten te genereren, zoals in het vak met de ``1`` is te zien. De modelvarianten voor de te genereren modellen staan automatisch in het rechtervak met daarboven ``Enabled``. In het rechtervak laat je de modelvarianten staan waarvan je een model wil laten maken. Als je een bepaalde modelvariant niet nodig hebt, kun je deze naar het linkervak slepen met daarboven ``Disabled``.  
-3. Druk op ``Run: Model Splitter`` (2) om de modelvariant(en) die onder ``Enabled`` staan te genereren
+De modelsplitter geeft de mogelijkheid om een aantal modelstaten te genereren, zoals in het vak met de ``1`` is te zien. De modelstaten voor de te genereren modellen staan automatisch in het rechtervak met daarboven ``Enabled``. In het rechtervak laat je de modelstaten staan waarvan je een model wil laten maken. Als je een bepaalde modelstaat niet nodig hebt, kun je deze naar het linkervak slepen met daarboven ``Disabled``.  
+3. Druk op ``Run: Model Splitter`` (2) om de modelsta(a)t(en) die onder ``Enabled`` staan te genereren
 4. Geef een ``Commit message`` mee (3)
-5. Upload de modelvariant(en) door op ``Upload modelversion(s)`` te klikken (4)
+5. Upload de modelsta(a)t(en) door op ``Upload modelversion(s)`` te klikken (4)
 
 ## 6. Berekeningen uitvoeren
 Nadat stap 5 is uitgevoerd, kunnen (test)berekeningen uitgevoerd gaan worden. Hieronder wordt toegelicht hoe een (test)bereking gestart kan worden:
@@ -114,10 +114,11 @@ Nadat stap 5 is uitgevoerd, kunnen (test)berekeningen uitgevoerd gaan worden. Hi
 
    1. ``Login with API keys``: voer hier de Lizard en 3Di API keys in
    2. ``Search for schematisation on 3Di``: typ de naam van het model in en klik vervolgens op ``Search``
-   3. ``Select schematisation and model``: kies hier de modelvariant onder ``Schematisation`` en kies bij ``Revision`` voor de door te rekenen revisie. Het ``3Di model`` wordt automatisch ingevoerd, waarna bij ``Organisation`` gekozen kan worden voor de organisatie waar de simulatie gedraaid moet worden
-   4. ``Select rain event``: maak hier een keuze voor de neerslagsituatie die bij de modelvariant hoort
+   3. ``Select schematisation and model``: kies hier de modelstaat onder ``Schematisation`` en kies bij ``Revision`` voor de door te rekenen revisie. Het ``3Di model`` wordt automatisch ingevoerd, waarna bij ``Organisation`` gekozen kan worden voor de organisatie waar de simulatie gedraaid moet worden
+   4. ``Select rain event``: maak hier een keuze voor de neerslagsituatie die bij de modelstaat hoort
    5. ``Select output folder/name``: kies hier de ``Sub folder`` waar de resultaten weggeschreven moeten worden 
-   6. ``Select settings to include``: deze optie geeft de mogelijkheid om een aantal opties aan te vinken voor de naverwerking van de resultaten NOG UITLEGGEN GEVEN WAT DE PROCESSING INHOUDEN?
+   6. ``Select settings to include``: deze optie geeft de mogelijkheid om een aantal opties aan te vinken voor de naverwerking van de resultaten 
+   ##### NOG UITLEGGEN GEVEN WAT DE PROCESSING INHOUDEN?
    7. ``Start simulation``: de simulatienaam wordt automatisch gegenereerd op basis van de schematisatie die gebruikt wordt. Om de berekening te kunnen starten, moet eerst een simulatie aangemaakt worden middels de ``Create simulation`` knop. ERROR STARTEN SIMULATIE, ZIE OOK LOGBOEK
 
 ## 7. Resultaten downloaden
@@ -136,7 +137,8 @@ Naast het starten van simulaties, is het downloaden van de resultaten van de (te
    4. ``Select filetype``: selecteer hier welke ``File results``, ``Raster results``, eventueel welk ``Timestep raster`` en de ``Resolution`` gedownload moet worden
    5. ``Select output folder/name``: kies hier de ``Sub folder`` waar de resultaten weggeschreven moeten worden 
    6. ``Download selected``: klik op ``Download`` om de resultaten te downloaden
-   7. ``Download klimaatsommen``: klik op ``Download batch`` om een batch te downloaden > HOE ZIET DE NAAM VAN DE FOLDER ERUIT DIE GEMAAKT MOET WORDEN ALS DE BATCH FOLDER NOG NIET BESTAAT? IN MIJN MAP STAAT batch_results, MAAR DEZE WORDT NIET GEZIEN IN HET NOTEBOOK
+   7. ``Download klimaatsommen``: klik op ``Download batch`` om een batch te downloaden 
+   ##### WAT IS DE NAAM VAN DE FOLDER ERUIT DIE GEMAAKT MOET WORDEN ALS DE BATCH FOLDER NOG NIET BESTAAT? IN MIJN MAP STAAT batch_results, MAAR DEZE WORDT NIET GEZIEN IN HET NOTEBOOK
 
 ## 7. Model testen uitvoeren
 De plugin heeft de mogelijkheid om een aantal testen voor het model en de testberekeningen uit te voeren:
@@ -161,7 +163,7 @@ Voor meer informatie over de inhoud van de test, zie: [Bank levels](tests_docume
 De ```1d2d tests``` zijn bedoeld om de resultaten van de [1d2d toets](tests_documentation.md#1d2d-tests) te analyseren.
 
 ### Klimaatsommen
-NOG AANVULLEN!!!
+##### NOG AANVULLEN!!!
 
 Volg onderstaande werkwijze als je het model vanaf de 'grond' gaat opbouwen (optie 2)
 
