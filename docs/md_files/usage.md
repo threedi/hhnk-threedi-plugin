@@ -140,7 +140,7 @@ Naast het starten van simulaties, is het downloaden van de resultaten van de (te
    7. ``Download klimaatsommen``: klik op ``Download batch`` om een batch te downloaden 
    ##### WAT IS DE NAAM VAN DE FOLDER ERUIT DIE GEMAAKT MOET WORDEN ALS DE BATCH FOLDER NOG NIET BESTAAT? IN MIJN MAP STAAT batch_results, MAAR DEZE WORDT NIET GEZIEN IN HET NOTEBOOK
 
-## 7. Model testen uitvoeren
+## 8. Model testen uitvoeren
 De plugin heeft de mogelijkheid om een aantal testen voor het model en de testberekeningen uit te voeren:
 * [Sqlite checks](#sqlite-checks)
 * [0d1d tests](#0d1d-tests)
@@ -148,7 +148,8 @@ De plugin heeft de mogelijkheid om een aantal testen voor het model en de testbe
 * [1d2d tests](#1d2d-tests)
 * [Klimaatsommen](#klimaatsommen)
 
-### Sqlite checks > NAAMGEVING STAAT DOOR ELKAAR HEEN?
+### Sqlite checks 
+##### NAAMGEVING STAAT DOOR ELKAAR HEEN? Ene keer sqlite checks andere keer sqlite testen
 De sqlite tests zijn bedoeld om het model te controleren op (potentiële) fouten in de data en deze te corrigeren waar nodig. Na de sqlite tests is het model klaar om op te bouwen en om de 0d1d toets te draaien (zie 
 [0d1d toets/Hydraulische toets](tests_documentation.md#1d2d-tests)). Voor de inhoudelijke uitleg van de tests, zie:
 [Sqlite tests](tests_documentation.md#sqlite-tests)

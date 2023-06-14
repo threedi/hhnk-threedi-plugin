@@ -4,7 +4,7 @@ Op deze pagina vind je de inhoudelijke uitleg van de plugin functionaliteit.
 
 1. [Algemene concepten](#algemene-concepten)
     1. [Standaard project indeling](#standaard-project-indeling)
-    2. [Qgis project](#qgis-project)
+    2. [QGIS project](#qgis-project)
     
 2. [Modelstaat aanpassen](#modelstaat-aanpassen)
 3. [Sqlite tests](#sqlite-tests)
@@ -26,6 +26,7 @@ Op deze pagina vind je de inhoudelijke uitleg van de plugin functionaliteit.
 5. [Bank levels](#bank-levels)
 6. [1d2d tests](#1d2d-tests)
 
+##### Linkjes 3.1.1 t/m 3.1.8 en 3.2.1 t/m 3.2.3 werken niet?
 
 ## Algemene concepten
 
@@ -154,7 +155,7 @@ Met deze aanpassingen in gedachten worden drie modelstaten onderscheiden:
     * In tabel ```v2_global_settings``` '1d2d_test' staat bij ``name` en sturing aan staat (```control_group_id``` is niet ```NULL```/leeg).
       
     * De tabel ```backup_global_settings``` bestaat. 
-##### IK ZIE DEZE NERGENS?
+##### IK ZIE DEZE TABEL NERGENS?
 
 Het is belangrijk dat de gedetecteerde staat overeenkomt met de daadwerkelijke staat van het model, aangezien de gedetecteerde staat van het model bepaalt welke aanpassingen er worden gedaan. > IK SNAP DIT STUK NIET
 
@@ -194,7 +195,7 @@ Van hydraulische toets/0d1d staat naar 1d2d staat:
 De sqlite tests zijn bedoeld om te checken of het model geschikt is om mee te rekenen. Hieronder worden de tests inhoudelijk toegelicht.
 
 ### Data verificatie
-
+##### Code is veranderd, waardoor niet meer gelinkt kan worden naar onderstaande testen.
 <a name="ondoorlatend-oppervlak"></a>
 1. Ondoorlatend oppervlak
 
