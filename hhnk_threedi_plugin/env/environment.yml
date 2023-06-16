@@ -41,8 +41,6 @@ dependencies:
   - iniconfig=2.0.0 #pytest dependency
   - tqdm=4.64.0
   - xarray=2022.3.0
-  # - pygeos=0.14 #required for geopandas, not for geopandas 0.12.2
-
 
   - pip: # 3Di packages are not conda installable and are therefore installed by PIP
     # - et-xmlfile==1.1.0
@@ -54,9 +52,12 @@ dependencies:
     - threedi-api-client==4.1.1
     - threedigrid_builder==1.10.0 #ThreediToolbox 2.5.2
     - threedigrid==2.0.5
+    - threedidepth==0.5 #ThreediToolbox 2.5.2
     - cached_property==1.5.2 #threedi_raster_edits dep
     - rtree==1.0.1 #threedi_raster_edits dep 
-
+    - sqlparse #Datachecker
+    - psycopg2 #Datachecker
+    
     #Plugin
     - hhnk_research_tools==2023.2
     - hhnk_threedi_tools==2023.2
