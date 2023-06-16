@@ -17,7 +17,7 @@ from pathlib import Path
 from qgis.PyQt.QtWidgets import QAction, QMessageBox
 
 from hhnk_threedi_tools.utils.notebooks.run import create_command_bat_file
-from hhnk_threedi_tools.core.api.read_api_file import read_api_file
+import hhnk_research_tools as hrt
 import hhnk_threedi_tools as htt
 
 
@@ -45,7 +45,7 @@ class NotebookWidget():
 
     def load_api_key(self):
         """Load api_key from file and update textbox"""
-        api_keys = read_api_file(self.api_file)
+        api_keys = hrt.read_api_file(self.api_file)
         if api_keys['lizard']:
             self.parent.lizard_api_key_textbox.setText(api_keys['lizard'])
             
@@ -74,7 +74,7 @@ class NotebookWidget():
 
         if api_keys['lizard'] == "Vul hier je Lizard API key in!" or api_keys['threedi'] == "Vul hier je Threedi API key in!":
             if os.path.exists(self.api_file):
-                api_keys = read_api_file(self.api_file)
+                api_keys = hrt.read_api_file(self.api_file)
                 
                 if api_keys['lizard'] != '' and api_keys['threedi'] != '':
                     return api_keys
