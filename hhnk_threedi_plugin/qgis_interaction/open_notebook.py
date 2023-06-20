@@ -33,14 +33,14 @@ class NotebookWidget():
         self.load_api_key()
 
     def notebook_paths(self):
-        notebook_paths = [str(THREEDI_DEPENDENCY_DIR),str(DEPENDENCY_DIR)]
-        if local_settings.hhnk_threedi_tools_path not in [None, '']:
-            notebook_paths.append(local_settings.hhnk_threedi_tools_path)
-        try:     
-            if local_settings.hhnk_research_tools_path not in [None, '']:
-                notebook_paths.append(local_settings.hhnk_research_tools_path)
-        except:
-            pass
+        notebook_paths = [str(THREEDI_DEPENDENCY_DIR), str(DEPENDENCY_DIR)]
+        # if local_settings.hhnk_threedi_tools_path not in [None, '']:
+        #     notebook_paths.append(local_settings.hhnk_threedi_tools_path)
+        # try:     
+        #     if local_settings.hhnk_research_tools_path not in [None, '']:
+        #         notebook_paths.append(local_settings.hhnk_research_tools_path)
+        # except:
+        #     pass
         return notebook_paths
 
     def load_api_key(self):
@@ -119,11 +119,12 @@ class NotebookWidget():
             self.polder_notebooks,
             {
                 "polder_folder": self.caller.polder_folder,
-                "api_keys_path": self.api_file,            
+                "api_keys_path": self.api_file,
+                "extra_paths": self.notebook_paths(),
             },
         )
 
-        htt.add_notebook_paths(self.notebook_paths())
+        # htt.add_notebook_paths(self.notebook_paths())
         
     def start_server(self):
         api_key = self.generate_notebook_valid()
