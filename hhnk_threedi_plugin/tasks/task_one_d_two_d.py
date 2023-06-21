@@ -4,18 +4,7 @@ if __name__ == '__main__':
     from pathlib import Path
     import os
     sys.path.append(str(Path(os.getcwd()).parent.parent))
-    try: 
-        import hhnk_threedi_plugin.local_settings as local_settings
-    except ModuleNotFoundError:
-        import hhnk_threedi_plugin.local_settings_default as local_settings
 
-    if local_settings.DEBUG:
-        sys.path.insert(0, local_settings.hhnk_threedi_tools_path)
-        import hhnk_threedi_tools as htt
-        #Reload hhnk_threedi_tools and all modules within. Does not work with importlib.reload.
-        for m in [i for i in sys.modules.keys() if i.startswith('hhnk_threedi_tools')]:
-            del(sys.modules[m])
-        import hhnk_threedi_tools as htt
 
 from hhnk_threedi_tools.core.checks.one_d_two_d import OneDTwoDTest
 from hhnk_threedi_plugin.qgis_interaction import load_layers_interaction

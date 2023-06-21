@@ -4,18 +4,6 @@ if __name__ == '__main__':
     from pathlib import Path
     import os
     sys.path.append(str(Path(os.getcwd()).parent.parent))
-    try: 
-        import hhnk_threedi_plugin.local_settings as local_settings
-    except ModuleNotFoundError:
-        import hhnk_threedi_plugin.local_settings_default as local_settings
-
-    if local_settings.DEBUG:
-        sys.path.insert(0, local_settings.hhnk_threedi_tools_path)
-        import hhnk_threedi_tools as htt
-        #Reload hhnk_threedi_tools and all modules within. Does not work with importlib.reload.
-        for m in [i for i in sys.modules.keys() if i.startswith('hhnk_threedi_tools')]:
-            del(sys.modules[m])
-        import hhnk_threedi_tools as htt
 
 
 import hhnk_research_tools as hrt
@@ -29,6 +17,7 @@ from qgis.core import Qgis
 from qgis.utils import QgsMessageLog
 
 if __name__ == '__main__':
+    import hhnk_threedi_tools as htt
     path = r'C:\Users\wvangerwen\Downloads\model_test_v2'
     folder = htt.folders(path)
     revision='BWN bwn_test #5 0d1d_test'
