@@ -1,6 +1,6 @@
 
 @REM deploy plugin to appdata
-pb_tool compile
+@REM pb_tool compile
 
 SET PLUGIN_PATH=%appdata%\3Di\QGIS3\profiles\default\python\plugins
 
