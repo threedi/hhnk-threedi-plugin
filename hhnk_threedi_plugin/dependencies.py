@@ -3,7 +3,7 @@
 @author: Wietse Gerwen & Daniel Tollenaar
 
 Current requirements:
-    - QGIS version must be 3.22
+    - QGIS version must be 3.28
     - ThreeDiToolbox properly installed (for threedigrid and other deps).
 
 
