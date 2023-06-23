@@ -164,8 +164,6 @@ class loadLayersDialog(QDialog):
     def populate_one_d_two_combobox(self):
         """Add available revisions to dropdown"""
         revisions = self.caller.fenv.output.one_d_two_d.revisions
-        if len(revisions) == 0:
-            return
 
         self.one_d_two_d_selector.clear()
         self.one_d_two_d_selector.addItem("")
@@ -176,9 +174,6 @@ class loadLayersDialog(QDialog):
         """Add available revisions to dropdown"""
         revisions = self.caller.fenv.output.zero_d_one_d.revisions
 
-        if len(revisions) == 0:
-            return
-
         self.zero_d_one_d_selector.clear()
         self.zero_d_one_d_selector.addItem("")
         for revision in revisions:
@@ -187,8 +182,6 @@ class loadLayersDialog(QDialog):
     def populate_klimaatsommen_combobox(self):
         """Add available revisions to dropdown"""
         revisions = self.caller.fenv.threedi_results.climate_results.revisions
-        if len(revisions) == 0:
-            return
 
         self.klimaatsommen_selector.clear()
         self.klimaatsommen_selector.addItem("")
