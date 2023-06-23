@@ -58,4 +58,4 @@ dependencies:
     
     #Plugin
     - hhnk_research_tools==2023.3
-    - hhnk_threedi_tools==2023.3
+    - hhnk_threedi_tools==2023.3.1
