@@ -57,5 +57,5 @@ dependencies:
     - rtree==1.0.1 #threedi_raster_edits dep 
     
     #Plugin
-    - hhnk_research_tools==2023.3
+    - hhnk_research_tools==2023.3.1
     - hhnk_threedi_tools==2023.3.1
