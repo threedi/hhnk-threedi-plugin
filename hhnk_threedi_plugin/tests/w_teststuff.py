@@ -217,34 +217,6 @@ settings.setValue("last_used_spatialite_path", os.path.dirname(filepath))
 
 #threeditoolbox.result_selection_tool.dialog.close()
 
-# %%
-
-import sys
-from pathlib import Path
-import os
-sys.path.append(str(Path(os.getcwd()).parent.parent))
-try: 
-    import hhnk_threedi_plugin.local_settings as local_settings
-except ModuleNotFoundError:
-    import hhnk_threedi_plugin.local_settings_default as local_settings
-if local_settings.DEBUG:
-    sys.path.insert(0, local_settings.hhnk_threedi_tools_path)
-    import importlib, hhnk_threedi_tools
-    hhnk_threedi_tools=importlib.reload(hhnk_threedi_tools)
-    importlib.reload(hhnk_threedi_tools.core.folders)
-
-from hhnk_threedi_tools.core.folders import Folders
-
-from hhnk_threedi_tools.core.checks.bank_levels import BankLevelTest
-import hhnk_threedi_tools.core.checks.bank_levels as bank_levels
-
-
-path = r'E:\02.modellen\model_test_v3'
-folder = Folders(path)
-
-self = BankLevelTest(folder)
-
-# self.import_data()
 
 # %%
 import hhnk_research_tools as hrt
