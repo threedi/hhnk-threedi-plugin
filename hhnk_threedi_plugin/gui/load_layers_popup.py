@@ -20,7 +20,7 @@ from qgis.core import QgsTask, Qgis
 from qgis.utils import QgsMessageBar, QgsMessageLog, iface
 
 
-from hhnk_threedi_tools import SqliteCheck
+from hhnk_threedi_tools import SqliteCheck, MigrateSchema
 import hhnk_research_tools as hrt
 
 # new
@@ -164,8 +164,6 @@ class loadLayersDialog(QDialog):
     def populate_one_d_two_combobox(self):
         """Add available revisions to dropdown"""
         revisions = self.caller.fenv.output.one_d_two_d.revisions
-        if len(revisions) == 0:
-            return
 
         self.one_d_two_d_selector.clear()
         self.one_d_two_d_selector.addItem("")
@@ -176,9 +174,6 @@ class loadLayersDialog(QDialog):
         """Add available revisions to dropdown"""
         revisions = self.caller.fenv.output.zero_d_one_d.revisions
 
-        if len(revisions) == 0:
-            return
-
         self.zero_d_one_d_selector.clear()
         self.zero_d_one_d_selector.addItem("")
         for revision in revisions:
@@ -187,8 +182,6 @@ class loadLayersDialog(QDialog):
     def populate_klimaatsommen_combobox(self):
         """Add available revisions to dropdown"""
         revisions = self.caller.fenv.threedi_results.climate_results.revisions
-        if len(revisions) == 0:
-            return
 
         self.klimaatsommen_selector.clear()
         self.klimaatsommen_selector.addItem("")
@@ -226,7 +219,13 @@ class loadLayersDialog(QDialog):
                     'klimaatsommen':''}
 
         if self.sqlite_selector.isChecked() == True:
-             load_layers_interaction.load_sqlite(filepath=self.caller.fenv.model.schema_base.sqlite_paths[0])
+             
+            #Migrate sqlite to newest version
+            migrate_schema = MigrateSchema(filename=self.caller.fenv.model.schema_base.sqlite_paths[0])
+            migrate_schema.run()
+
+            #load in project
+            load_layers_interaction.load_sqlite(filepath=self.caller.fenv.model.schema_base.sqlite_paths[0])
 
         if self.grid_selector.isChecked() == True:
             sqlite_test = SqliteCheck(self.caller.fenv)

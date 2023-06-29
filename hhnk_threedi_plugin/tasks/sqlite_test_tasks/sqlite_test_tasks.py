@@ -233,8 +233,8 @@ class dewateringTask(BaseSqliteTask):
 class watersurfaceAreaTask(BaseSqliteTask):
     def __init__(self, folder):
         super().__init__(folder)
-        self.description="oppervlaktewater bepalen"
-        self.layer_source = self.folder.output.sqlite_tests.geisoleerde_watergangen.path
+        self.description="wateroppervlak damo/model vergelijken"
+        self.layer_source = self.folder.output.sqlite_tests.wateroppervlak.path
 
     def run_custom(self):
         if self.os_retry is None:
