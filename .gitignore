@@ -11,6 +11,7 @@ hhnk_threedi_plugin\external-dependencies
 hhnk_threedi_plugin/api_key.txt
 *.bak
 local_settings.py
+<<<<<<< HEAD
 hhnk_threedi_plugin/env/environment_spyder_dev.yml
 hhnk_threedi_plugin/external-dependencies/*
 hhnk_threedi_plugin/logs/*
@@ -23,3 +24,7 @@ Thumbs.db
 _build/*
 *.cmd
 site/*
+=======
+*.bak
+*.bak
+>>>>>>> parent of 37d5e07 (sqlite_tests)

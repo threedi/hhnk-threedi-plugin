@@ -275,10 +275,11 @@ class crossSectionTask(BaseSqliteTask):
         super().__init__(folder)
         self.description="overlappende/kruisende profielen bepalen"
         self.layer_source = self.folder.output.sqlite_tests.overlappende_profielen.path
+        self.database =  self.folder.model.schema_base.database
 
     def run_custom(self):
         if self.os_retry is None:
-            self.gdf = self.sqlite_test.run_cross_secction()
+            self.gdf = self.sqlite_test.run_cross_section(database = self.database)
 
         self.gdf.to_file(self.layer_source, index=False, driver='GPKG')
 
@@ -292,11 +293,13 @@ class crossSectionIntersectionTask(BaseSqliteTask):
     def __init__(self, folder):
         super().__init__(folder)
         self.description="profielen geen snijpunt in vertex "
+        self.database =   self.folder.model.schema_base.database
         self.layer_source = self.folder.output.sqlite_tests.profielen_geen_vertex.path
 
     def run_custom(self):
+        
         if self.os_retry is None:
-            self.gdf = self.sqlite_test.run_cross_secction_vertex()
+            self.gdf = self.sqlite_test.run_cross_section_vertex(database = self.database)
 
         self.gdf.to_file(self.layer_source, index=False, driver='GPKG')
 
@@ -305,3 +308,4 @@ class crossSectionIntersectionTask(BaseSqliteTask):
 
         title, widget = cross_section_vertex_result_widget(layer_source=self.layer_source)
         return title, widget
+    
