@@ -8,6 +8,7 @@ import datetime
 
 from hhnk_threedi_tools.core.checks import model_splitter
 from hhnk_threedi_plugin.hhnk_toolbox_dockwidget import HHNK_toolboxDockWidget
+from hhnk_threedi_tools import MigrateSchema
 #from hhnk_threedi_plugin.gui.model_states.functions.create_new_sqlite import create_schematisation
 
 
@@ -22,12 +23,13 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.setWindowTitle('Modelsplitter')
         
         #Load setting
-
+        self.dockwidget.model_splitter_btn.clicked.connect(self.migration_check)
         self.dockwidget.model_splitter_btn.clicked.connect(self.load_settings)
         self.model_settings_path.fileChanged.connect(self.load_settings)
         self.model_settings_path.fileChanged.connect(self.add_models_to_widget)
 
         # creating schematisations, revisions and enable the upload process
+        self.run_push_btn.clicked.connect(self.migration_check)
         self.run_push_btn.clicked.connect(self.create_schematisations)
         self.run_push_btn.clicked.connect(self.revision_check)
         self.run_push_btn.clicked.connect(self.enable_upload)
@@ -76,6 +78,11 @@ class modelSplitterDialog(QtWidgets.QDialog):
         for x in range(listwidget.count()):
             items.append(listwidget.item(x).text())
         return items
+
+    def migration_check(self):
+        migrate_schema = MigrateSchema(filename=self.dockwidget.model.schema_base.sqlite_paths[0])
+        migrate_schema.run()
+        
 
 
     def create_schematisations(self):
