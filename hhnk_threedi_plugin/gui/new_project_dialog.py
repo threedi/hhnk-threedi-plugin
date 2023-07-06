@@ -200,24 +200,24 @@ class newProjectDialog(QDialog):
                 raw_model_settings = pd.read_excel(p.absolute().as_posix(), engine="openpyxl")
                 new_model_settings = pd.DataFrame(raw_model_settings.replace(regex=['hoekje'], value="[--set raster name--]"))
                 new_model_settings['name'] = (new_model_settings['name'] + str('_' + project_name))
-                new_model_settings.to_excel(os.path.join(dst.model.base, "model_settings.xlsx"))
+                new_model_settings.to_excel(os.path.join(dst.model.path, "model_settings.xlsx"))
             
             #copy model settings default file
             with pkg_resources.path(setting_resource, "model_settings_default.xlsx") as p:
                 model_settings_default = pd.read_excel(p.absolute().as_posix(), engine="openpyxl")
-                model_settings_default.to_excel(os.path.join(dst.model.base, "model_settings_default.xlsx"))
+                model_settings_default.to_excel(os.path.join(dst.model.path, "model_settings_default.xlsx"))
         
         else:
             with pkg_resources.path(setting_resource, "model_settings.xlsx") as p:
                 raw_model_settings = pd.read_excel(p.absolute().as_posix(), engine="openpyxl")
                 new_model_settings = pd.DataFrame(raw_model_settings.replace(regex=['hoekje'], value=reference_model))
                 new_model_settings['name'] = (new_model_settings['name'] + str('_' + project_name))       
-                new_model_settings.to_excel(os.path.join(dst.model.base, "model_settings.xlsx"))
+                new_model_settings.to_excel(os.path.join(dst.model.path, "model_settings.xlsx"))
 
             #copy model settings default file
             with pkg_resources.path(setting_resource, "model_settings_default.xlsx") as p:
                 model_settings_default = pd.read_excel(p.absolute().as_posix(), engine="openpyxl")
-                model_settings_default.to_excel(os.path.join(dst.model.base, "model_settings_default.xlsx"))
+                model_settings_default.to_excel(os.path.join(dst.model.path, "model_settings_default.xlsx"))
         
             
             #searching sqlite file and copy to destination folder

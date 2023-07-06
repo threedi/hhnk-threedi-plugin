@@ -42,6 +42,7 @@ def is_valid_raster(raster_path):
     return True
 
 
+#TODO refactor
 def shapefile_dependencies_present(shapefile_path):
     base_path = Path(shapefile_path).parent
     base_name = Path(shapefile_path).stem

@@ -252,7 +252,7 @@ class loadLayersDialog(QDialog):
 
                 hrt.convert_gdb_to_gpkg(gdb=in_gdb, gpkg=out_gpkg, overwrite=False, verbose=False)        
 
-                if in_gdb.pl.exists():
+                if in_gdb.exists():
                     iface.messageBar().pushMessage(
                         f"{source}_gdb is omgezet in {source}_gpkg. {source}.gdb kan verwijderd worden.", level=Qgis.Warning
                     )
