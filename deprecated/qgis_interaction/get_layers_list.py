@@ -120,27 +120,6 @@ def get_sqlite_tests_layers_dict(plugin_dir, chosen_tests, output_dict, groups_d
             layer_source=create_source_path(output_dict, "water_surface_filename"),
         )
         layers_dict["watersurface_area_layer_vars"] = layer
-        
-    if chosen_tests == None or "cross_section_chk" in chosen_tests:
-        layer = layerVariables(
-            layer_name=layer_names_dict["cross_section_warning_layer_name"],
-            layer_group=groups_dict["sqlite_checks"],
-            layer_style=styles_dict["cross_section_style"],
-            layer_type=VECTOR,
-            layer_source=create_source_path(output_dict, "cross_section_filename"),
-        )
-        layers_dict["overlappende_profielen_vars"] = layer
-
-    if chosen_tests == None or "cross_section_intersection_chk" in chosen_tests:
-        layer = layerVariables(
-            layer_name=layer_names_dict["cross_section_intersection_layer_name"],
-            layer_group=groups_dict["sqlite_checks"],
-            layer_style=styles_dict["cross_section_intersection_style"],
-            layer_type=VECTOR,
-            layer_source=create_source_path(output_dict, "cross_section_intersection_filename"),
-        )
-        layers_dict["profielen_geen_vertex_vars"] = layer    
-
     return layers_dict
 
 
