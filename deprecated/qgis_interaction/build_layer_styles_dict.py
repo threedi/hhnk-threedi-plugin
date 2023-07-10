@@ -22,7 +22,6 @@ def build_layer_styles_dict(plugin_path, type):
         styles_dict["profiles_used_depth_style"] = os.path.join(styles_path, "channel_depth.qml")
         styles_dict["dewatering_depth_style"] = os.path.join(styles_path, "dewatering_depth.qml")
         styles_dict["watersurface_area_style"] = os.path.join(styles_path, "watersurface_area.qml")
-        styles_dict["cross_section_style"] = os.path.join(styles_path, "cross_section_overlap.qml")
 
     elif type == 2:
         styles_path = os.path.join(plugin_path_styles_path, "zero_d_one_d")

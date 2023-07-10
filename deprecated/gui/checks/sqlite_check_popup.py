@@ -115,9 +115,6 @@ def setupUi(sqlite_dialog):
     sqlite_dialog.general_tests_chk.setObjectName("general_tests_chk")
     sqlite_dialog.isolated_channels_chk = QCheckBox("Geisoleerde watergangen")
     sqlite_dialog.isolated_channels_chk.setObjectName("isolated_channels_chk")
-    sqlite_dialog.cross_section_chk = QCheckBox("Profile controle")
-    sqlite_dialog.cross_section_chk.setObjectName("cross_section_chk")
-
 
     # Create slow tests checkboxes and group
     sqlite_dialog.one_time_checks = QGroupBox(
@@ -172,7 +169,6 @@ def setupUi(sqlite_dialog):
     verif_layout.addWidget(sqlite_dialog.structs_channel_chk)
     verif_layout.addWidget(sqlite_dialog.general_tests_chk)
     verif_layout.addWidget(sqlite_dialog.isolated_channels_chk)
-    verif_layout.addWidget(sqlite_dialog.cross_section_overlaps_chk)
     sqlite_dialog.data_verification.setLayout(verif_layout)
 
     # Slow tests
