@@ -12,8 +12,6 @@ from hhnk_threedi_plugin.tasks.sqlite_test_tasks.general_checks_task import gene
 from hhnk_threedi_plugin.tasks.sqlite_test_tasks.dem_max_val_task import demMaxValTask
 from hhnk_threedi_plugin.tasks.sqlite_test_tasks.dewatering_task import dewateringTask
 from hhnk_threedi_plugin.tasks.sqlite_test_tasks.watersurface_area_task import watersurfaceAreaTask
-from hhnk_threedi_plugin.tasks.sqlite_test_tasks.cross_section_task import crossSectionTask
-from hhnk_threedi_plugin.tasks.sqlite_test_tasks.cross_section_intersection_task import crossSectionIntersectionTask
 from hhnk_threedi_plugin.tasks.utility_functions.handle_os_errors import check_os_error
 
 
@@ -135,19 +133,5 @@ def run_sqlite_tests(results_widget, test_env):
             task.result_widget_created.connect(results_widget.add_section)
             test_env.tasks.append(task)
             task_manager.addTask(task)
-        if "cross_section_chk"  in test_env.selected_tests:
-            cross_section_mutex = QMutex()
-            cross_section_wait_cond = QWaitCondition()
-            task = crossSectionTask(
-                test_env=test_env,
-                mutex=cross_section_mutex,
-                wait_cond=cross_section_wait_cond
-            )
-            task.os_error.connect(check_os_error)
-            task.result_widget_created.connect(results_widget.add_section)
-            test_env.tasks.append(task)
-            task_manager.addTask(task)            
-
-
     except Exception as e:
         raise e from None
