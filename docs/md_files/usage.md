@@ -40,7 +40,7 @@ Het model kan vervolgens ingeladen worden door bij `modellen folder` (1) door de
 
 `{gebruiker}` is de naam van de Windows-gebruiker.
 
-![](../images/usage/load_polder_legend.PNG)
+![](../images/usage/load_polder_legend.png)
 
 ## 4. Inladen lagen
 Via de knop ``laad lagen`` (3) kun je diverse lagen inladen om inzicht te geven in het model.
