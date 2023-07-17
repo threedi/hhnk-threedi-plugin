@@ -1,32 +1,31 @@
 # Uitleg tests en functionaliteit
 
-Op deze pagina vind je de inhoudelijke uitleg van de plugin functionaliteit.
+Op deze pagina vind je de inhoudelijke uitleg van de HHNK Toolbox checks en de functionaliteit.
 
 1. [Algemene concepten](#algemene-concepten)
     1. [Standaard project indeling](#standaard-project-indeling)
     2. [QGIS project](#qgis-project)
-    
 2. [Modelstaat aanpassen](#modelstaat-aanpassen)
-3. [Sqlite tests](#sqlite-tests)
+3. [Sqlite checks](#sqlite-checks)
     1. [Data verificatie](#data-verificatie)
-        1. [Ondoorlatend oppervlak](#ondoorlatend-oppervlak)
-        2. [Gebruikte profielen](#gebruikte-profielen)
-        3. [Gestuurde kunstwerken](#gestuurde-kunstwerken)
-        4. [Bodemhoogte stuw](#bodemhoogte-stuw)
-        5. [Geometrie](#geometrie)
-        6. [Bodemhoogte kunstwerken](#bodemhoogte-kunstwerken)
-        7. [Algemene tests](#algemene-tests)
-        8. [Geïsoleerde watergangen](#geisoleerde-watergangen)
+        1. [Ondoorlatend oppervlak](#1-ondoorlatend-oppervlak)
+        2. [Gebruikte profielen](#2-gebruikte-profielen)
+        3. [Gestuurde kunstwerken](#3-gestuurde-kunstwerken)
+        4. [Bodemhoogte stuw](#4-bodemhoogte-stuw)
+        5. [Geometrie](#5-geometrie)
+        6. [Bodemhoogte kunstwerken](#6-bodemhoogte-kunstwerken)
+        7. [Algemene tests](#7-algemene-tests)
+        8. [Geïsoleerde watergangen](#8-geïsoleerde-watergangen)
+        9. [Genereer grid](#9-genereer-grid)
      2. [Eenmalige tests](#eenmalige-tests)
-        1. [Maximale waarde DEM](#maximale-waarde-dem)
-        2. [Ontwateringsdiepte](#ontwateringsdiepte)
-        3. [Oppervlaktewater](#oppervlaktewater)
+        1. [Maximale waarde DEM](#1-maximale-waarde-dem)
+        2. [Ontwateringsdiepte](#2-ontwateringsdiepte)
+        3. [Oppervlaktewater](#3-oppervlaktewater)
     
 4. [0d1d tests](#1d2d-tests)
 5. [Bank levels](#bank-levels)
 6. [1d2d tests](#1d2d-tests)
-
-##### Linkjes 3.1.1 t/m 3.1.8 en 3.2.1 t/m 3.2.3 werken niet?
+7. [Klimaatsommen](#klimaatsommen)
 
 ## Algemene concepten
 
@@ -37,23 +36,25 @@ volgt:
 
 #### Indeling project map:
 
-![](../images/documentation/default_folder_top_level.PNG)
+![](../images/documentation/default_folder_top_level.png)
 
 #### Indeling 01_source_data:
 
-![](../images/documentation/default_folder_source_data.PNG) 
-##### DIT LIJKT OOK VERANDERD TE ZIJN. WAT IS MINIMAAL NODIG?
+![](../images/documentation/default_folder_source_data.png) 
+##### DIT LIJKT OOK VERANDERD TE ZIJN. WAT IS MINIMAAL NODIG? > actie voor Wietse om dit te verduidelijken
 
 Nodig voor tests:
 
     DAMO.gdb
     datachecker_output.gdb
     HDB.gdb
-    polder_polygon (alle extensies) > DEZE EXTENSIES ZITTEN ER NIET MEER IN?
+    polder_polygon (alle extensies)
+
+##### Wat is minimaal nodig voor tests? > Actie voor Wietse
 
 Indeling 01_source_data/modelbuilder_output:
 
-![](../images/documentation/default_folder_source_data_modelbuilder_output.PNG)
+![](../images/documentation/default_folder_source_data_modelbuilder_output.png)
 
 Nodig voor tests:
 
@@ -63,16 +64,18 @@ Nodig voor tests:
 
 In deze map moet minimaal de map ``00_basis`` zitten. De andere modelstaten worden gegenereerd bij het ['splitten'](usage.md#5-modelstaten-maken) van de modellen of wanneer nieuwe revisies worden gemaakt. De Excel bestanden bevatten de instellingen voor het genereren van de verschillende modelstaten. > KLOPT DIT?  
 
-![](../images/documentation/default_folder_schematisation.PNG) 
+![](../images/documentation/default_folder_schematisation.png) 
 
 Nodig voor tests: 
-##### SQLITE ZIT NIET MEER IN DIT PAD. HOE ZIT DIT PRECIES?
+##### SQLITE ZIT NIET MEER IN DIT PAD. HOE ZIT DIT PRECIES? > Zie hierboven
 
     model.sqlite
 
-Indeling 02.Model/rasters: HOE ZIT DIT IN DE NIEUWSTE VERSIE?
+Indeling 02.Model/rasters: 
 
-![](../images/documentation/default_folder_model_rasters.PNG)
+##### HOE ZIT DIT IN DE NIEUWSTE VERSIE? > zie mappenstructuur 
+
+![](../images/documentation/default_folder_model_rasters.png)
 
 Nodig voor tests:
     
@@ -80,7 +83,7 @@ Nodig voor tests:
 
 #### Indeling 03_3di_results
 
-![](../images/documentation/default_folder_3di_results.PNG)
+![](../images/documentation/default_folder_3di_results.png)
 
 In de mappen zijn de resultaten te vinden van de simulaties die gemaakt zijn. De conventie van de naam van de mappen is als volgt:
 
@@ -88,26 +91,19 @@ In de mappen zijn de resultaten te vinden van de simulaties die gemaakt zijn. De
 
 Bijvoorbeeld:
 
-![](../images/documentation/revision_example.PNG)
+![](../images/documentation/revision_example.png)
 
 #### 04_test_results
 
 De ```04_test_results``` map is de map die (standaard) wordt gebruikt door de plugin om resultaten van tests op te slaan. De indeling van deze map wordt bepaald door de plugin en is als volgt:
 
-![](../images/documentation/default_folder_test_results.PNG)
+![](../images/documentation/default_folder_test_results.png)
 
 De ```0d1d_tests``` en de ```1d2d_tests``` mappen worden verder ingedeeld per gebruikte 3Di revisie:
 
 Bijvoorbeeld:
 
-![](../images/documentation/revision_output_example.PNG)
-
-Alle mappen in ```Output``` zijn op het diepste niveau als volgt opgedeeld:
-
-![](../images/documentation/layers_logs.PNG) > VERANDERD IN DE NIEUWSTE VERSIE?
-
-De ```Logs``` map bevat de resultaten in een menselijk leesbaar formaat. De ```Layers``` map bevat de brondata voor lagen in ```QGIS```. Alle bestanden in deze twee mappen worden automatisch vervangen wanneer een test opnieuw wordt 
-aangezet. Je kunt deze bestanden dus ook niet gebruiken als basis voor andere lagen in je project. Als je de eerdere resultaten van een test wil behouden, kun je het best een andere output map specificeren.
+![](../images/documentation/revision_output_example.png)
 
 ### ```QGIS``` project
 
@@ -115,7 +111,7 @@ De meeste tests die deel uitmaken van de toolbox voegen, als onderdeel van hun o
 kaartlagen) toe aan het op dat moment geopende ```QGIS```-project. Elke test beheert zijn eigen ```QGIS layer group``` 
 en diens subgroepen. De hoofdgroepen zijn als volgt:
 
-![](../images/documentation/qgis_groups.PNG)
+![](../images/documentation/qgis_groups.png)
 
 Wanneer je een test opnieuw aanzet worden deze lagen automatisch verwijderd en opnieuw aangemaakt. Als je de lagen wilt behouden (bijvoorbeeld ter vergelijking), dan kun je bijvoorbeeld de hoofdgroepen hernoemen. Let op: je zult in dit geval ook een andere output map moeten specificeren.
 
@@ -190,70 +186,62 @@ Van hydraulische toets/0d1d staat naar 1d2d staat:
 | v2_manhole (nieuw)             | Toevoegen nieuw berekende manholes. | - |
 | v2_cross_section_location      | Oude waarden in ```bank_level``` vervangen voor berekende bank levels. | Oude waarden in ```bank_level``` vervangen door waarden in ```backup_bank_levels``` |
 
-## Sqlite tests
+## Sqlite checks
 
-De sqlite tests zijn bedoeld om te checken of het model geschikt is om mee te rekenen. Hieronder worden de tests inhoudelijk toegelicht.
+De sqlite checks zijn bedoeld om te checken of het model geschikt is om mee te rekenen. Hieronder worden de tests inhoudelijk toegelicht.
 
 ### Data verificatie
-##### Code is veranderd, waardoor niet meer gelinkt kan worden naar onderstaande testen.
-<a name="ondoorlatend-oppervlak"></a>
-1. Ondoorlatend oppervlak
+
+#### 1. Ondoorlatend oppervlak
 
    Berekent het oppervlak van de polder op basis van de ```polder_shapefile``` en het ondoorlatend oppervlak in het model. Het verschil tussen de twee zou niet te groot moeten zijn.
 
-<a name="gebruikte-profielen"></a>
-2. Gebruikte profielen
+#### 2. Gebruikte profielen
    
    Koppelt de v2_cross_section_definition laag van het model (discrete weergave van de natuurlijke geometrie van de watergangen) aan de v2_channel laag (informatie over watergangen in het model). Het resultaat van deze toets is een weergave van de breedtes en dieptes van watergangen in het model ter controle.
  
-<a name="gestuurde-kunstwerken"></a>
-3. Gestuurde kunstwerken
+#### 3. Gestuurde kunstwerken
    
    Deze test selecteert alle gestuurde kunstwerken (uit de v2_culvert, v2_orifice en v2_weir tabellen van het model) op basis van de v2_control_table. Per kunstwerk worden actiewaarden opgevraagd. Per gevonden gestuurd kunstwerk
    wordt ook relevante informatie uit de HDB database toegevoegd, zoals het streefpeil en minimale en maximale kruinhoogtes.
 
-<a name="bodemhoogte-stuw"></a>
-4. Bodemhoogte stuw
+#### 4. Bodemhoogte stuw
     
    Deze test vergelijkt de minimale kruinhoogte uit de sturingstabel met de aanliggende watergangen. Als de bodemhoogte van de watergang hoger ligt dan de minimale kruinhoogte moet hier nog iets in worden aangepast door in de
    v2_cross_section tabel het reference_level aan te passen. Deze aanpassingen worden automatisch gegenereerd en ter goedkeuring aan de gebruiker voorgelegd.
 
-<a name="geometrie"></a>  
-5. Geometrie
+#### 5. Geometrie
 
    Deze test checkt of de geometrie van een object in het model correspondeert met de start- of end node in de v2_connection_nodes tabel. Als de verkeerde ids worden gebruikt geeft dit fouten in het model.
    
-<a name="bodemhoogte-kunstwerken"></a> 
-6. Bodemhoogte kunstwerken
+#### 6. Bodemhoogte kunstwerken
 
    Test checkt of de kruinhoogte of bodemhoogte van een kunstwerk lager ligt dan de bodemhoogte van aanliggende watergangen. Als dit zo is moet dat worden aangepast om met het model te kunnen rekenen.
    
-<a name="algemene-tests"></a> 
-7. Algemene tests
+#### 7. Algemene tests
    
    De algemene tests is een collectie van checks op fouten die ervoor zorgen dat het model niet kan worden opgebouwd of waardoor er niet meer gerekend kan worden. In het resultaat wordt onderscheid gemaakt tussen fouten en waarschuwingen. Fouten moeten worden opgelost, waarschuwingen zijn aandachtspunten. In de resultaten wordt omschreven wat het probleem is.
-
-<a name="geisoleerde-watergangen"></a>    
-8. Geïsoleerde watergangen
+   
+#### 8. Geïsoleerde watergangen
 
    Test bepaalt welk aandeel van watergangen geen verbinding heeft met het maaiveld (isolated). Het aandeel mag niet te groot zijn omdat neerslag de watergangen dan onvoldoende kunnen bereiken.
+
+#### 9. Genereer grid
+##### Nog aanvullen
    
 ### Eenmalige tests
 
 De eenmalige tests zijn er om een aantal randvoorwaarden te controleren. Als geverifieerd is dat hieraan is voldaan dan hoeven ze niet opnieuw te worden gedraaid.
 
-<a name="maximale-waarde-dem"></a> 
-1. Maximale waarde DEM
+#### 1. Maximale waarde DEM
 
    Als de maximale waarde in de DEM te hoog is, duidt dat meestal op een fout in het bestand (de nodata waarde is waarschijnlijk verkeerd ingevoerd). Deze test berekent deze maximale waarde.
-
-<a name="ontwateringsdiepte"></a>   
-2. Ontwateringsdiepte
+ 
+#### 2. Ontwateringsdiepte
    
    Deze test controleert of het initiële water niveau per polder onder de oppervlakte hoogte uitgelezen uit de DEM ligt. Het initiële water niveau moet onder het oppervlak liggen.
-
-<a name="oppervlaktewater"></a>   
-3. Oppervlaktewater
+  
+#### 3. Oppervlaktewater
 
    Deze test controleert per peilgebied in het model hoe groot het gebied is dat het oppervlaktewater beslaat in het model. Dit totaal is opgebouwd uit de ```storage_area``` uit de ```v2_connection_nodes``` tabel opgeteld bij het 
    oppervlak van de watergangen (uitgelezen uit de ```channel_surface_from_profiles```) shapefile. Vervolgens worden de 
@@ -268,7 +256,7 @@ Deze test werkt het best wanneer het model in de juiste staat is (zie [Model sta
 
 De test bui begint met een droge dag, vijf dagen neerslag (14,4 mm/dag) en dan twee dagen droog.
 
-![](../images/documentation/hydraulische_toets_bui.PNG)
+![](../images/documentation/hydraulische_toets_bui.png)
 
 Het resultaat van het simuleren van deze bui kan vervolgens worden geanalyseerd met de HHNK Toolbox. De kaarten die het resultaat zijn van die analyse kunnen worden gebruikt om eventuele onrealistische resultaten te vinden die worden veroorzaakt door fouten in het model.
 
@@ -321,7 +309,7 @@ Deze test werkt alleen wanneer het model in de 1d2d-toets-staat is ingesteld (zi
 
 De test bui begint in dit geval met een uur droog, dan twee uur regen (17,75 mm/uur), dan 12 uur droog.
 
-![](../images/documentation/1d2d_toets_bui.PNG)
+![](../images/documentation/1d2d_toets_bui.png)
 
 Het resultaat van het simuleren van deze bui met het model kan vervolgens worden geanalyseerd met de HHNK Toolbox. De kaarten die het resultaat zijn van die analyse kunnen worden gebruikt om eventuele onrealistische resultaten te vinden 
 die worden veroorzaakt door fouten in het model.
@@ -356,5 +344,38 @@ De test die worden gedaan door de Toolbox zijn als volgt onder te verdelen:
 * Waterstanden uitlezen
 
   Deze functie bepaalt de waterstanden op de gegeven tijdstappen op basis van het 3Di resultaat. Vervolgens wordt op basis van de DEM en de waterstand per tijdstap de waterdiepte bepaald.
-  
+
+## Klimaatsommen  
+De gevolgen van klimaatverandering worden steeds beter merkbaar. Onder andere in de vorm van hevigere (piek) en/of langdurige (blok) neerslagsituaties. Om de gevolgen van deze neerslagevenementen in beeld te brengen, worden een aantal scenario's met verschillende herhalingstijden doorgerekend. De drie herhalingstijden die gesimuleerd kunnen worden zijn:
+
+1. T10 (neerslagsituatie die zich statistisch gezien 1x in de 10 jaar voordoet)
+2. T100 (neerslagsituatie die zich statistisch gezien 1x in de 100 jaar voordoet)
+3. T1000 (neerslagsituatie die zich statistisch gezien 1x in de 10 jaar voordoet)
+
+Voor deze herhalingstijden zijn ook nog twee verschillende neerslagduren mogelijk:
+
+1. Piek: hevige neerslagsituatie die in 2 uur valt
+2. Blok: langdurige neerslagsituatie met een lage neerslagintensiteit die 48 uur duurt 
+
+In totaal zijn er zes scenario's:
+
+1. Opbouw T10 blok bui: 
+![](../images/usage/T10_blok.png)
+
+2. Opbouw T100 blok bui: 
+![](../images/usage/T100_blok.png)
+
+3. Opbouw T1000 blok bui: 
+![](../images/usage/T1000_blok.png)
+
+4. Opbouw T10 piek bui: 
+![](../images/usage/T10_piek.png)
+
+5. Opbouw T100 piek bui: 
+![](../images/usage/T100_piek.png)
+
+6. Opbouw T1000 piek bui: 
+![](../images/usage/T1000_piek.png)
+
+##### Andere afbeeldingen in Python genereren? > Wietse?
 

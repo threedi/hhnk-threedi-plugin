@@ -2,12 +2,17 @@
 
 Voorstellen naamgeving BvL:
 
-0d1d tests > watersysteem controle <br>
-1d2d tests > ?
+##### 0d1d tests > watersysteem controle <br>
+##### 1d2d tests > ?
 
-Deze pagina is bedoeld als handleiding om de HHNK Toolbox te gebruiken. 
+Deze pagina is bedoeld als handleiding om de HHNK Toolbox te gebruiken. De HHNK Toolbox is opgedeeld in drie delen:
 
-Er zijn twee mogelijkheden om met de HHNK plugin aan de slag te gaan:
+![](../images/usage/header_main.png)
+1. Main: hier wordt het model ingeladen/gebouwd, kunnen resultaten worden ingeladen en is het mogelijk om simulaties te starten
+2. Checks: dit onderdeel geeft de gebruiker de mogelijkheid om controles uit te voeren voor het model
+3. Modelbouw: op dit moment niet in gebruik
+
+Er zijn twee mogelijkheden om met de toolbox aan de slag te gaan:
 1. HHNK levert de benodigde data (model) aan
 2. Gebruiker van de plugin bouwt een model vanaf de 'grond' op
 
@@ -15,7 +20,12 @@ Nadere informatie over de inhoud van de testen, benodigde data en het interprete
 * Voor inhoudelijke uitleg van de tests, zie [Documentatie](tests_documentation.md).
 * Voor uitleg over de benodigde data, zie [Bron data](needed_data.md).
 * Voor uitleg over de interpretatie van resultaten, zie !!!
- 
+
+## Main
+Klik op het tabblad 'Main' om naar dit onderdeel te gaan.
+
+![](../images/usage/header_main.png)
+
 Volg onderstaande werkwijze als HHNK de benodigde data (model) aanlevert (optie 1).
 
 1. [Map aanmaken](#1-map-aanmaken)
@@ -25,33 +35,31 @@ Volg onderstaande werkwijze als HHNK de benodigde data (model) aanlevert (optie 
 5. [Modelstaten maken](#5)
 6. [Berekeningen uitvoeren](#6-berekeningen-uitvoeren)
 
-## 1. Map aanmaken 
+### 1. Map aanmaken 
 Maak een nieuwe map aan in de verkenner (locatie staat vrij, maar raadzaam om lokaal te werken) met de naam van het aangeleverde gebied (bijvoorbeeld polder_X). Dat kan er als volgt uit zien: `C:\Users\{gebruiker}\Documents\3Di\polder_X`. 
 
 `{gebruiker}` is de naam van de Windows-gebruiker.
 
-## 2. Data kopiëren
+### 2. Data kopiëren
 Kopieer de aangeleverde data naar de map die in stap 1 is gemaakt. Hieronder is een voorbeeld te zien waaruit de aangeleverde data (deze kan qua inhoud verschillen) is opgebouwd.
 
 ![](../images/usage/copy_data.PNG)
 
-## 3. Model inladen
+### 3. Model inladen
 Het model kan vervolgens ingeladen worden door bij `modellen folder` (1) door de volgende handeling: als je in stap 1 de map hebt aangemaakt in het pad: `C:\Users\{gebruiker}\Documents\3Di\polder_X`, kies je bij `modellen folder` het volgende pad om het model in te kunnen laden: `C:\Users\{gebruiker}\Documents\3Di`. Vervolgens kan bij `polder` (2) gekozen worden voor `polder_X`. 
 
 `{gebruiker}` is de naam van de Windows-gebruiker.
 
 ![](../images/usage/load_polder_legend.png)
 
-## 4. Inladen lagen
+### 4. Inladen lagen
 Via de knop ``laad lagen`` (3) kun je diverse lagen inladen om inzicht te geven in het model.
 
 ![](../images/usage/load_polder_legend.png)
 
-##### AFBEELDINGEN NIET ZICHTBAAR IN GITHUB!
-
 Vervolgens verschijnt het onderstaande scherm met een aantal keuzes: 
 
-![](../images/usage/load_test_results.PNG)
+![](../images/usage/load_test_results.png)
 
 Afhankelijk van de tests die zijn uitgevoerd, kan er gekozen worden tussen het inladen van de van 0d1d, 1d2d of de klimaatsom resultaten. Indien er nog geen testberekeningen of klimaatsommen zijn gemaakt, klik dan hier: [Testberekeningen uitvoeren](#5-testberekeningen-uitvoeren)
 
@@ -63,74 +71,81 @@ Daarnaast kunnen nog een aantal andere opties aangevinkt worden:
 * [Basis layout](#basis-layout)
 * [Achtergrondkaarten](#achtergrondkaarten)
 
-### Sqlite (3Di plugin)
+#### Sqlite (3Di plugin)
 Deze optie geeft de mogelijkheid om de schematisatie (.sqlite) van het model in te laden.
 
-### Grid genereren
+#### Grid genereren
 ##### NIEUWE FOUTMELDING > ZIE LOGBOEK. GEEN IDEE HOE OP TE LOSSEN.
 
 Bij het genereren van het grid kan het voorkomen dat er een foutmelding wordt weergegeven dat de .sqlite te oud is. ![](../images/usage/old_sqlite_error.PNG) Ga naar [bekende problemen](#bekende-problemen) om de oplossing te bekijken.  
 
-### Sqlite testen
+#### Sqlite testen
 De sqlite tests zijn bedoeld om het model te controleren op (potentiële) fouten in de data en deze te corrigeren waar nodig. Na de sqlite tests is het model klaar om op te bouwen en om de 0d1d toets te draaien (zie 
 [0d1d toets/Hydraulische toets](tests_documentation.md#1d2d-tests)). Voor de inhoudelijke uitleg van de tests, zie:
 [Sqlite tests](tests_documentation.md#sqlite-tests)
 
-### Banklevel test
+#### Banklevel test
 Door de ``banklevel test`` in te laden, kun je de resultaten inzien die volgen uit de test die is uitgevoerd. Verdere toelichting over de ``banklevel test`` is te vinden in [banklevel test](tests_documentation.md#bank-levels).
 
-### Basis layout
+#### Basis layout
 Met het inladen van de ``basis layout`` krijg je inzicht in de resultaten die volgen uit controles die zijn uitgevoerd om te kijken of het model goed is opgebouwd vanuit de brondata of dat er nog data mist.
 
-### Achtergrondkaarten
+#### Achtergrondkaarten
 Met de optie ``achtergrondkaarten`` kun je verschillende soorten kaarten als achtergrond onder de schematisatie leggen. Dit is bijvoorbeeld handig om te controleren of een breedte van een watergang in het model overeenkomt met de breedte op de luchtfoto. 
 
 Onderstaande stappen zijn uit te voeren als er nog geen testberekeningen en testen voor het model zijn uitgevoerd.
 
-## 5. Modelstaten maken
+### 5. Modelstaten maken
 Als er nog geen modelstaten en testberekeningen uitgevoerd zijn, kunnen de volgende stappen doorlopen worden:
 
 1. Klik op ``Model splitten en uploaden`` (4). 
-![](../images/usage/load_polder_legend.PNG)
+![](../images/usage/load_polder_legend.png)
 
 2. Hierna wordt het volgende scherm weergegeven:
-![](../images/usage/load_modelsplitter_legend.PNG)
-Als er een Excel met model instellingen aanwezig is in het pad ``C:\Users\{gebruiker}\Documents\3Di\polder_Bart\02_schematisation``, dan zullen een aantal opties tevoorschijn komen (zoals in vak 1 is te zien). Als er nog geen Excel aanwezig is in het voorgenoemde pad, klik dan [hier](needed_data.md#model-instellingen) om de opbouw van de Excel te bekijken. De modelsplitter geeft de mogelijkheid om een aantal modelstaten te genereren, zoals in het vak met de ``1`` is te zien. De modelstaten voor de te genereren modellen staan automatisch in het rechtervak met daarboven ``Enabled``. In het rechtervak laat je de modelstaten staan waarvan je een model wil laten maken. Als je een bepaalde modelstaat niet nodig hebt, kun je deze naar het linkervak slepen met daarboven ``Disabled``.  
+![](../images/usage/load_modelsplitter_legend.png)
+Als er een Excel met modelinstellingen aanwezig is in het pad ``C:\Users\{gebruiker}\Documents\3Di\polder_Bart\02_schematisation``, dan zullen een aantal opties tevoorschijn komen (zoals in vak 1 is te zien). Als er nog geen Excel aanwezig is in het voorgenoemde pad, klik dan [hier](needed_data.md#model-instellingen) om de opbouw van de Excel te bekijken. In de Excel is het tevens mogelijk om de modelinstellingen aan te passen, zoals de simulatie tijdstappen of de startdatum. De modelsplitter geeft de mogelijkheid om een aantal modelstaten te genereren, zoals in het vak met de ``1`` is te zien. De modelstaten voor de te genereren modellen staan automatisch in het rechtervak met daarboven ``Enabled``. In het rechtervak laat je de modelstaten staan waarvan je een model wil laten maken. Als je een bepaalde modelstaat niet nodig hebt, kun je deze naar het linkervak slepen met daarboven ``Disabled``.  
 3. Druk op ``Run: Model Splitter`` (2) om de modelsta(a)t(en) die onder ``Enabled`` staan te genereren
 4. Geef een ``Commit message`` mee (3)
 5. Upload de modelsta(a)t(en) door op ``Upload modelversion(s)`` te klikken (4)
 
 `{gebruiker}` is de naam van de Windows-gebruiker.
 
-## 6. Berekeningen uitvoeren
+### 6. Berekeningen uitvoeren
 Nadat stap 5 is uitgevoerd, kunnen (test)berekeningen uitgevoerd gaan worden. Hieronder wordt toegelicht hoe een (test)bereking gestart kan worden:
 1. Voer je Lizard API key (5) en 3Di API key (6) in. Indien je nog geen API key(s) hebt, klik <a href="https://demo.lizard.net/management/personal_api_keys" target="_blank">hier</a> voor een Lizard API key en klik <a href="https://management.3di.live/personal_api_keys" target="_blank">hier</a> voor een 3Di API key. 
-![](../images/usage/load_polder_legend.PNG)
+![](../images/usage/load_polder_legend.png)
 2. Klik op ``Open Jupyter Notebook Server`` (7) om het notebook te openen voor het starten van de (test)berekeningen. Je wordt doorverwezen naar een lokale server en het volgende scherm komt tevoorschijn:
-![](../images/usage/notebook_starting_calculation_1.PNG)
+![](../images/usage/notebook_starting_calculation_1.png)
 3. Om een simulatie te starten, kun je het beste gebruik maken van de meest recente versie van ``xx_calculation_gui_vx``. Door te dubbelklikken op de nieuwste versie, word je doorgestuurd naar het volgende scherm:
-![](../images/usage/notebook_starting_calculation_2.PNG)
+![](../images/usage/notebook_starting_calculation_2.png)
 4. Doorloop nu de eerste stap door ergens te klikken in het veld met ``#imports`` en vervolgens crtl + enter. Dit levert het onderstaande invoerscherm op:
-![](../images/usage/notebook_starting_calculation_3.PNG)
+![](../images/usage/notebook_starting_calculation_3.png)
 5. Loop vervolgens stap voor stap de volgende punten af:
 
    1. ``Login with API keys``: voer hier de Lizard en 3Di API keys in
-   2. ``Search for schematisation on 3Di``: typ de naam van het model in waar je een berekening mee wil maken en klik vervolgens op ``Search``
+   2. ``Search for schematisation on 3Di``: typ de naam van het model in waar je een berekening mee wil maken en klik vervolgens op ``Search``. LET OP: om ervoor te zorgen dat de simulatienaam herleidbaar blijft voor nadere analyse, is het noodzakelijk om de gehele naam van de schematisatie te gebruiken. Voorbeeld: met de zoekterm 'Cal' zal het model 'Callantsoog' gevonden worden, maar wordt in de simulatienaam (7) alleen 'Cal' gebruikt. Typ daarom de gehele naam van het door te rekenen model in
    3. ``Select schematisation and model``: kies hier de modelstaat onder ``Schematisation`` en kies bij ``Revision`` voor de door te rekenen revisie. Het ``3Di model`` wordt automatisch ingevoerd, waarna bij ``Organisation`` gekozen kan worden voor de organisatie waar de simulatie gedraaid moet worden
    4. ``Select rain event``: maak hier een keuze voor de neerslagsituatie die bij de modelstaat hoort
    5. ``Select output folder/name``: kies hier de ``Sub folder`` waar de resultaten weggeschreven moeten worden 
-   6. ``Select settings to include``: deze optie geeft de mogelijkheid om een aantal opties aan te vinken voor de naverwerking van de resultaten 
-   ##### NOG UITLEGGEN GEVEN WAT DE PROCESSING INHOUDEN?
-   7. ``Start simulation``: de simulatienaam wordt automatisch gegenereerd op basis van de schematisatie die gebruikt wordt. Om de berekening te kunnen starten, moet eerst een simulatie aangemaakt worden middels de ``Create simulation`` knop. 
-   ##### ERROR STARTEN SIMULATIE, ZIE OOK LOGBOEK
+   6. ``Select settings to include``: deze stap geeft de mogelijkheid om een aantal opties aan te vinken voor de naverwerking van de resultaten: <br>
+      a. Basic processing: <br>
+      b. Damage processing: <br>
+      c. Arrival processing: <br>
+      d. Structure control: <br>
+      e. Laterals: 
+   ##### NOG UITLEGGEN GEVEN WAT DE PROCESSING INHOUDEN? > 5 settings benoemen, Jelle vult deze aan.
+   7. ``Start simulation``: de simulatienaam wordt automatisch gegenereerd op basis van de schematisatie die gebruikt wordt. Om de berekening te kunnen starten, moet eerst een simulatie aangemaakt worden middels de ``Create simulation`` knop.
 
-## 7. Resultaten downloaden
+Als je meerdere klimaatsommen wil doorrekenen, kun je ervoor kiezen om in plaats van de tab ``single calculation``, de tab ``batch calculation`` te gebruiken en de scenario's te kiezen welke doorgerekend moeten worden. 
+![](../images/usage/notebook_starting_batch_calculation.png)
+
+### 7. Resultaten downloaden
 Naast het starten van simulaties, is het downloaden van de resultaten van de (test)berekeningen mogelijk middels het notebook. Hieronder is toegelicht hoe dat in zijn werk gaat:
 
 1. Om een simulatie te downloaden, kun je het beste gebruik maken van de meest recente versie van ``xx_download_gui_vx``. Door te dubbelklikken op de nieuwste versie, word je doorgestuurd naar het volgende scherm:
-![](../images/usage/notebook_download_simulation_1.PNG)
+![](../images/usage/notebook_download_simulation_1.png)
 2. Doorloop nu de eerste stap door ergens te klikken in het veld met ``#imports`` en vervolgens crtl + enter. Dit levert het onderstaande invoerscherm op:
-![](../images/usage/notebook_download_simulation_2.PNG)
+![](../images/usage/notebook_download_simulation_2.png)
 
 3. Loop vervolgens stap voor stap de volgende punten af:
 
@@ -141,9 +156,8 @@ Naast het starten van simulaties, is het downloaden van de resultaten van de (te
    5. ``Select output folder/name``: kies hier de ``Sub folder`` waar de resultaten weggeschreven moeten worden 
    6. ``Download selected``: klik op ``Download`` om de resultaten te downloaden
    7. ``Download klimaatsommen``: klik op ``Download batch`` om een batch te downloaden 
-   ##### WAT IS DE NAAM VAN DE FOLDER ERUIT DIE GEMAAKT MOET WORDEN ALS DE BATCH FOLDER NOG NIET BESTAAT? IN MIJN MAP STAAT batch_results, MAAR DEZE WORDT NIET GEZIEN IN HET NOTEBOOK
 
-## 8. Model testen uitvoeren
+### 8. Model testen uitvoeren
 De plugin heeft de mogelijkheid om een aantal testen voor het model en de testberekeningen uit te voeren:
 * [Sqlite checks](#sqlite-checks)
 * [0d1d tests](#0d1d-tests)
@@ -151,55 +165,42 @@ De plugin heeft de mogelijkheid om een aantal testen voor het model en de testbe
 * [1d2d tests](#1d2d-tests)
 * [Klimaatsommen](#klimaatsommen)
 
-### Sqlite checks 
-##### NAAMGEVING STAAT DOOR ELKAAR HEEN? Ene keer sqlite checks andere keer sqlite testen
-De sqlite tests zijn bedoeld om het model te controleren op (potentiële) fouten in de data en deze te corrigeren waar nodig. Na de sqlite tests is het model klaar om op te bouwen en om de 0d1d toets te draaien (zie [0d1d toets/Hydraulische toets](tests_documentation.md#1d2d-tests)). Voor de inhoudelijke uitleg van de tests, zie:[Sqlite tests](tests_documentation.md#sqlite-tests)
+#### Sqlite checks 
+##### NAAMGEVING STAAT DOOR ELKAAR HEEN? Ene keer sqlite checks andere keer sqlite testen > wordt checks in de toekomst
+De sqlite checks zijn bedoeld om het model te controleren op (potentiële) fouten in de data en deze te corrigeren waar nodig. Na de sqlite checks is het model klaar om op te bouwen en om de 0d1d toets te draaien (zie [0d1d toets/Hydraulische toets](tests_documentation.md#1d2d-tests)). Voor de inhoudelijke uitleg van de tests, zie: [Sqlite tests](tests_documentation.md#sqlite-tests)
 
-### 0d1d tests
+#### 0d1d tests
 De ```0d1d tests``` zijn bedoeld om de resultaten van de [0d1d toets/Hydraulische toets](tests_documentation.md#0d1d-testshydraulische-toets) te analyseren.
 
-### Bank levels
+#### Bank levels
 Voor meer informatie over de inhoud van de test, zie: [Bank levels](tests_documentation.md#bank-levels)
 
-### 1d2d tests
+#### 1d2d tests
 De ```1d2d tests``` zijn bedoeld om de resultaten van de [1d2d toets](tests_documentation.md#1d2d-tests) te analyseren.
 
-### Klimaatsommen
-##### NOG AANVULLEN!!!
+#### Klimaatsommen
+De [klimaatsommen](#klimaatsommen-1) zijn neerslagsituaties die 1x in de 10, 100 of 1000 jaar voorkomen. Daarnaast wordt er onderscheid gemaakt tussen piek (korte en hevige neerslagsituatie) en blok (langdurig en lage neerslagintensiteit) buien. 
+
+---------------------------------------------------------------------------------
 
 Volg onderstaande werkwijze als je het model vanaf de 'grond' gaat opbouwen (optie 2)
 
-## Plugin overzicht
-
-![](../images/usage/plugin_overview_legend.png)
-
-1. [Polder selecteren](#1-polder-selecteren)
-2. [Nieuw project aanmaken](#2-nieuw-project-aanmaken)
-3. [Modelstaat aanpassen](#3-modelstaat-aanpassen)
-4. [Sqlite tests](#4-sqlite-tests)
-5. [0d1d tests](#5-0d1d-tests)
-6. [Bank levels](#6-bank-levels-test)
-7. [1d2d tests](#7-1d2d-tests)
-
-## 1. Modellen folder selecteren
+### 1. Modellen folder selecteren
 Voordat een nieuw project aangemaakt kan worden, moet een modellen folder gekozen worden. Op deze locatie wordt alle data in het vervolg opgeslagen. Hieronder is te zien op welke plek de modellen folder (1) zich bevindt:
 
-![](../images/usage/new_project.PNG)
+![](../images/usage/new_project.png)
 
 Kies een locatie in de verkenner waar alles opgeslagen gaat worden (raadzaam om een lokale map te kiezen). Dit kan bijvoorbeeld in de map `C:\Users\{gebruiker}\Documents\3Di`. Je kunt ook een nieuwe map in de verkenner (locatie staat vrij, maar raadzaam om lokaal te werken) aanmaken. 
 
 `{gebruiker}` is de naam van de Windows-gebruiker.
 
-Kies de locatie van de hierboven aangemaakte map om ervoor te zorgen dat ``Nieuw project aanmaken`` (2) geactiveerd wordt.
+Kies de locatie van de hierboven aangemaakte map om ervoor te zorgen dat ``Nieuw project aanmaken`` (2) geactiveerd wordt. 
 
-Selecteer een project map (zie [Standaard project indeling](tests_documentation.md#indeling-project-map) voor uitleg over de standaard indeling voor een project). Het is handig maar niet noodzakelijk om een project volgens de standaard indeling in te richten. De meeste functionaliteit van de plugin is alleen beschikbaar wanneer een project is geselecteerd. 
-##### Dit gebeurt tegenwoordig automatisch in stap 2?
-
-## 2. Nieuw project aanmaken
+### 2. Nieuw project aanmaken
 
 Wanneer je op ``Nieuw project aanmaken`` (2) klikt, opent zich een nieuw venster:
 
-![](../images/usage/new_project_setup_legend.PNG)
+![](../images/usage/new_project_setup_legend.png)
 
 Hier kun je een referentie polder (1) opgeven als je die hebt. Het is niet noodzakelijk om deze op te geven. Geef de schematisatie die je gaat aanmaken een naam (2). 
 
@@ -207,12 +208,12 @@ Wanneer je op ``Project aanmaken`` klikt, wordt er een lege mappenstructuur aang
 
 Het resultaat ziet er als volgt uit:
 
-![](../images/usage/new_project_created.PNG)
+![](../images/usage/new_project_created.png)
 
 Volg hierna de stappen die [hier](#4-inladen-lagen) zijn toegelicht.  
 
-##### Onderstaande stap niet meer actueel?
-## 3. Modelstaat aanpassen
+##### Onderstaande stap niet meer actueel? > kijk even of je hier nog handige informatie uit kunt halen
+### 3. Modelstaat aanpassen
 
 Wanneer je op deze knop klikt open zich een nieuw venster:
 
@@ -221,8 +222,7 @@ Wanneer je op deze knop klikt open zich een nieuw venster:
 1. Selecteer een model
    
 2. Zodra een model is geselecteerd wordt de huidige staat gedetecteerd (zie 
-   [Modelstaat aanpassen](tests_documentation.md#modelstaat-aanpassen)). Het is belangrijk dat de gedetecteerde staat 
-   klopt.
+   [Modelstaat aanpassen](tests_documentation.md#modelstaat-aanpassen)). Het is belangrijk dat de gedetecteerde staat    klopt.
 3. Kies de staat om het model naar om te zetten
 4. Deze sectie wordt beschikbaar als we bij 3 '1d2d toets' als nieuwe staat hebben geselecteerd. Er zijn twee opties 
    wanneer we het model omzetten naar de 1d2d toets staat: <br>
@@ -240,7 +240,7 @@ Wanneer je op deze knop klikt open zich een nieuw venster:
    
 Wanneer je op 'OK' klikt worden alle benodigde aanpassingen berekend en voorgelegd aan de gebruiker:
 
-![](../images/usage/model_states_changes_dialog.PNG)
+![](../images/usage/model_states_changes_dialog.png)
 
 In sommige gevallen kunnen de nieuwe waarden handmatig worden aangepast. In sommige gevallen kunnen bepaalde rijen 
 worden uitgesloten zodat ze niet worden meegenomen in het aanpassen van het model.
@@ -249,175 +249,119 @@ Controleer de voorgestelde aanpassingen en klik op 'Aanpassingen uitvoeren' om z
 aanpassingen zijn gedaan of er rijen zijn uitgesloten dan worden deze wijzigingen weergegeven zodat ze kunnen worden 
 opgeslagen:
 
-![](../images/usage/model_states_manual_changes.PNG)
+![](../images/usage/model_states_manual_changes.png)
 
-## 4. Sqlite tests
+## Checks
 
-De sqlite tests zijn bedoeld om het model te controleren op (potentiële) fouten in de data en deze te corrigeren waar nodig. Na de sqlite tests is het model klaar om op te bouwen en om de 0d1d toets te draaien (zie 
-[0d1d toets/Hydraulische toets](tests_documentation.md#1d2d-tests)). Voor de inhoudelijke uitleg van de tests, zie:
-[Sqlite tests](tests_documentation.md#sqlite-tests)
+Om te controleren of het model geen fouten bevat, zijn er diverse checks in de HHNK Toolbox gebouwd. 
+![](../images/usage/header_checks.png)
 
-Wanneer je op deze knop klikt open zich een nieuw venster:
+De tab 'checks' is opgebouwd uit een aantal subonderdelen:
 
-![](../images/usage/sqlite_tests_dialog_legend.png)
+1. [Sqlite checks](#1-sqlite-checks)
+2. [0d1d tests](#2-0d1d-tests)
+3. [Bank levels](#3-bank-levels-test)
+4. [1d2d tests](#4-1d2d-tests)
+5. [Klimaatsommen](#5-klimaatsommen)
 
-1. Polder: alleen-lezen veld waarin de huidige project map wordt weergegeven
-2. Output map: selecteer de map waar de resultaten in worden opgeslagen (hoeft geen bestaande map te zijn)
-3. Model: selecteer een model (```*.sqlite```)
-4. DEM: selecteer het DEM raster (```*.tif```)
-5. Datachecker: selecteer datachecker output (```*.gdb```)
-6. Channel surface from profiles: selecteer shapefile (```*.shp```)
-7. HDB: selecteer HDB database (```*.gdb```)
-8. DAMO: selecteer DAMO database (```*.gdb```)
-9. Polder shapefile: selecteer polder shapefile (```*.shp```)
-10. Data verificatie: selecteer tests
-11. Eenmalige tests: selecteer tests
+### 1. Sqlite checks
+De sqlite checks zijn bedoeld om het model te controleren op (potentiële) fouten in de data en deze te corrigeren waar nodig. Na de sqlite checks is het model klaar om op te bouwen en om de 0d1d toets te draaien (zie [0d1d toets/Hydraulische toets](tests_documentation.md#0d1d-testshydraulische-toets)). 
 
-Klik op 'OK' om de tests te starten. De resultaten worden weergegeven als de tests uitgevoerd zijn:
+![](../images/usage/sqlite_checks_tab_legend.png)
 
-![](../images/usage/sqlite_tests_results_legend.PNG)
+Na het klikken op ``Sqlite tests`` wordt het volgende venster getoond:
 
-1. De resultaten van sommige tests worden gevisualiseerd als ```QGIS``` lagen. Deze lagen worden toegevoegd aan het 
-   ```layers panel``` in ```QGIS```. De bronnen voor deze lagen zijn ```geopackages (.gpkg)```. Deze files worden 
-   automatisch aangemaakt en opgeslagen in de gekozen ```Output map```, in de ```Layers``` submap.
+![](../images/usage/sqlite_checks_dialog.png)
+
+Voor de inhoudelijke uitleg van de tests, zie: [Sqlite checks](tests_documentation.md#sqlite-checks).
+
+Selecteer de checks die je wil laten uitveroen en klik op 'Start tests' om de tests te starten. De resultaten worden weergegeven als de tests uitgevoerd zijn:
+##### Dit werkt nog niet helemaal goed bij mij.
+![](../images/usage/sqlite_tests_results_legend.png)
+
+1. De resultaten van sommige tests worden gevisualiseerd als ```QGIS``` lagen. Deze lagen worden toegevoegd aan het ```layers panel``` in ```QGIS```. De bronnen voor deze lagen zijn ```geopackages (.gpkg)```. Deze files worden automatisch aangemaakt en opgeslagen in ```04_test_results``` \ ```sqlite_tests```.
    
-2. Een overzicht van de test resultaten wordt weergegeven in de ```Sqlite tests``` tab in de toolbox.
+2. Een overzicht van de test resultaten wordt weergegeven in de ```Sqlite checks``` tab in de toolbox.
 
-De test resultaten worden ook als ```.csv``` files in de gekozen ```Output map``` in de ```Logs``` submap.
+De test resultaten worden ook als ```.csv``` files in ```04_test_results``` \ ```sqlite_tests``` weggeschreven.
 
-## 5. 0d1d tests
+### 2. 0d1d tests
+De ```0d1d tests``` zijn bedoeld om de resultaten van de [0d1d toets/Hydraulische toets](tests_documentation.md#0d1d-testshydraulische-toets) te analyseren.
 
 ![](../images/usage/0d1d_tests_tab_legend.png)
 
-De ```0d1d tests``` zijn bedoeld om de resultaten van de [0d1d toets/Hydraulische toets](tests_documentation.md#0d1d-testshydraulische-toets) te analyseren.
-
-1. Selecteer 3Di resultaten map: map waarin de 0d1d/hydraulic 3Di test resultaten per revisie staan opgeslagen
-   
-2. Selecteer 3Di revisie: format is normaal gesproken {polder name}{revision number}{type of test} (map die 
-   ```.nc``` en ```.h5``` files bevat).
-   
-3. Toont de geselecteerde revisie
-4. Selecteer map om resultaten in op te slaan
-
-Wanneer je op 'Begin tests' klikt word je gevraagd het 3Di scenario te bevestigen. Het scenario moet overeenkomen met het 0d1d toets/hydraulische toets scenario om geldige resultaten te genereren. Als het scenario bevestigd is, worden de tests gestart.
-
-![](../images/usage/0d1d_tests_confirm.PNG)
-##### Verkeerde afbeelding?
+Selecteer de revisie die je wil controleren en klik op ``Begin tests``.
 
 Resultaten van de tests worden als lagen toegevoegd aan ```QGIS```:
 
-![](../images/usage/0d1d_tests_map_results.PNG)
+![](../images/usage/0d1d_tests_map_results.png)
 
-De bronnen voor deze lagen zijn ```geopackages (.gpkg)```. Deze files worden automatisch aangemaakt en opgeslagen in de gekozen ```Output map```, in de map met de naam van de geselecteerde ```revisie```, in de ```Layers``` submap. De test resultaten worden ook als ```.csv``` files in de gekozen ```Output map```, in de map met de naam van de geselecteerde ```revisie```, in de ```Logs``` submap.
+De bronnen voor deze lagen zijn ```geopackages (.gpkg)```. Deze files worden automatisch aangemaakt en opgeslagen in ```04_test_results``` \ ```0d1d_tests```. De test resultaten worden ook als ```.csv``` files in ```04_test_results``` \ ```0d1d_tests``` geplaatst.
 
-## 6. Bank levels test
-
-![](../images/usage/bank_levels_tab_legend.png)
+### 3. Bank levels test
 
 Voor meer informatie over de inhoud van de test, zie: [Bank levels](tests_documentation.md#bank-levels)
 
-1. Selecteer 3Di resultaten map: map waarin de 0d1d/hydraulic 3di test resultaten per revisie staan opgeslagen
-   
-2. Selecteer 3Di revisie: format is normaal gesproken {polder name}{revision number}{type of test} (map die 
-   ```.nc``` en ```.h5``` files bevat).
-   
-3. Toont de geselecteerde revisie
-4. Selecteer model (```*.sqlite```)
-5. Selecteer datachecker output geodatabase (```.gdb```)
-6. Selecteer map om resultaten in op te slaan
+![](../images/usage/bank_levels_tab_legend.png)
 
-Klik op 'Begin tests' om de tests te starten. De bank levels test genereert voorgestelde aanpassingen aan het model, die 
-aan de gebruiker worden voorgelegd:
+Klik op 'Begin tests' om de tests te starten. De bank levels test genereert (mogelijk) voorgestelde aanpassingen aan het model, die aan de gebruiker worden voorgelegd:
+##### Bij mij werden er geen voorstellen gedaan, ziet het er tegenwoordig nog steeds als onderstaande afbeeldingen uit?
+![](../images/usage/bank_levels_proposed_changes.png)
 
-![](../images/usage/bank_levels_proposed_changes.PNG)
+Je kunt manholes deselecteren die je niet aan het model wil toevoegen. Waar nodig kun je de voorgestelde bank levels handmatig aanpassen. Klik op 'Aanpassingen uitvoeren' om de voorgestelde wijzigingen door te voeren. Als er handmatige 
+aanpassingen zijn gemaakt of er rijen zijn uitgesloten, dan worden die wijzigingen weergegeven zodat de gebruiker ze kan opslaan.
 
-Je kunt manholes deselecteren die je niet aan het model wil toevoegen. Waar nodig kun je de voorgestelde bank levels 
-handmatig aanpassen. Klik op 'Aanpassingen uitvoeren' om de voorgestelde wijzigingen door te voeren. Als er handmatige 
-aanpassingen zijn gemaakt of er rijen zijn uitgesloten, dan worden die wijzigingen weergegeven zodat de gebruiker ze 
-kan opslaan.
-
-![](../images/usage/bank_levels_manual_changes.PNG)
+![](../images/usage/bank_levels_manual_changes.png)
 
 Resultaten van de tests worden als lagen toegevoegd aan ```QGIS```:
 
-![](../images/usage/bank_levels_layer_group.PNG)
+![](../images/usage/bank_levels_layer_group.png)
 
-De bronnen voor deze lagen zijn ```geopackages (.gpkg)```. Deze files worden automatisch aangemaakt en opgeslagen in de 
-gekozen ```Output map```, in de ```Layers``` submap. De test resultaten worden ook als ```.csv``` files in de gekozen 
-```Output map``` in de ```Logs``` submap.
+De bronnen voor deze lagen zijn ```geopackages (.gpkg)```. Deze files worden automatisch aangemaakt en opgeslagen in ```04_test_results``` \ ``bank_levels``, in de ```Layers``` submap. De test resultaten worden ook als ```.csv``` files in de gekozen ```04_test_results``` \ ``bank_levels`` in de ```Logs``` submap.
 
-## 7. 1d2d tests
-
-![](../images/usage/1d2d_tests_tab_legend.png)
+### 4. 1d2d tests
 
 De ```1d2d tests``` zijn bedoeld om de resultaten van de [1d2d toets](tests_documentation.md#1d2d-tests) te analyseren.
 
-1. Selecteer 3Di resultaten map: map waarin de 0d1d/hydraulic 3Di test resultaten per revisie staan opgeslagen
-   
-2. Selecteer 3Di revisie: format is normaal gesproken {polder name}{revision number}{type of test} (map die ```.nc``` en ```.h5``` files bevat).
-   
-3. Toont de geselecteerde revisie
-4. Selecteer DEM raster (```.tif```) 
-5. Selecteer model (```.sqlite```)
-6. Selecteer map om resultaten in op te slaan
+![](../images/usage/1d2d_tests_tab_legend.png)
 
-Wanneer je op 'Begin tests' klikt word je gevraagd het 3Di scenario te bevestigen. Het scenario moet overeenkomen met het 1d2d toets scenario om geldige resultaten te genereren. Als het scenario bevestigd is worden de tests gestart.
-
-![](../images/usage/1d2d_tests_confirm.PNG)
-##### Verkeerde afbeelding?
+Selecteer de revisie die je wil controleren en klik op ``Begin tests``.
 
 Resultaten van de tests worden als lagen toegevoegd aan ```QGIS```:
 
-![](../images/usage/1d2d_tests_layer_group.PNG)
+![](../images/usage/1d2d_tests_layer_group.png)
 
-De bronnen voor deze lagen zijn ```geopackages (.gpkg)```. Deze files worden automatisch aangemaakt en opgeslagen in de gekozen ```Output map```, in de map met de naam van de geselecteerde ```revisie```, in de ```Layers``` submap. De test resultaten worden ook als ```.csv``` files in de gekozen ```Output map```, in de map met de naam van de geselecteerde ```revisie```, in de ```Logs``` submap.
+De bronnen voor deze lagen zijn ```geopackages (.gpkg)```. Deze files worden automatisch aangemaakt en opgeslagen in ```04_test_results``` \ ``1d2d_tests``.
 
-## Klimaatsommen
-Het klimaat verandert al een aantal jaar en de gevolgen daarvan zijn merkbaar. Onder andere in de vorm van hevigere (piek) en/of langdurige (blok) neerslagsituaties. Om de gevolgen van deze neerslagevenementen in beeld te brengen, worden een aantal scenario's met verschillende herhalingstijden doorgerekend. De drie herhalingstijden die gesimuleerd kunnen worden zijn:
+### 5. Klimaatsommen
+``Klimaatsommen`` kan gebruikt worden om inundatiekaarten te maken. Meer achtergrondinformatie over de klimaatsommen is [hier](tests_documentation.md#klimaatsommen) te vinden.
 
-1. T10 (neerslagsituatie die zich statistisch gezien 1x in de 10 jaar voordoet)
-2. T100 (neerslagsituatie die zich statistisch gezien 1x in de 100 jaar voordoet)
-3. T1000 (neerslagsituatie die zich statistisch gezien 1x in de 10 jaar voordoet)
+![](../images/usage/klimaatsommen_tab_legend.png)
 
-Voor deze herhalingstijden zijn ook nog twee verschillende neerslagduren mogelijk:
+Selecteer de revisie die je wil controleren en klik op ``Laad layout``.
 
-1. Piek: hevige neerslagsituatie die in 2 uur valt
-2. Blok: langdurige neerslagsituatie met een lage neerslagintensiteit die 48 uur duurt 
+Resultaten van de klimaatsommen worden als lagen toegevoegd aan ```QGIS```:
 
-In totaal zijn er zes scenario's:
+![](../images/usage/klimaatsommen_layer_group.png)
 
-1. Opbouw T10 blok bui: 
-![](../images/usage/T10_blok.PNG)
+##### nog verder aanvullen...
 
-2. Opbouw T100 blok bui: 
-![](../images/usage/T100_blok.PNG)
-
-3. Opbouw T1000 blok bui: 
-![](../images/usage/T1000_blok.PNG)
-
-4. Opbouw T10 piek bui: 
-![](../images/usage/T10_piek.PNG)
-
-5. Opbouw T100 piek bui: 
-![](../images/usage/T100_piek.PNG)
-
-6. Opbouw T1000 piek bui: 
-![](../images/usage/T1000_piek.PNG)
+##### Nabewerking klimaatsommen in notebook? Wat daar mee te doen?
 
 ## Bekende problemen
 ### Oude sqlite error
-Wanneer in de aangeleverde data nog een .sqlite zit die in een oudere versie van 3Di is gemaakt, kan het voorkomen dat onderstaande foutmelding wordt weergegeven: ![](../images/usage/old_sqlite_error.PNG)
+Wanneer in de aangeleverde data nog een .sqlite zit die in een oudere versie van 3Di is gemaakt, kan het voorkomen dat onderstaande foutmelding wordt weergegeven: ![](../images/usage/old_sqlite_error.png)
 
 Deze error kan op de volgende manier opgeloste worden:
 
 1. Ga naar ``select 3Di results`` (1)
-![](../images/usage/old_sqlite_error_solution_1.PNG)
+![](../images/usage/old_sqlite_error_solution_1.png)
 2. Klik op ``load`` (2)
-![](../images/usage/old_sqlite_error_solution_2.PNG)
+![](../images/usage/old_sqlite_error_solution_2.png)
 3. Ga naar de map waar je data hebt opgeslagen zie ook [map aanmaken](#1-map-aanmaken)
 4. Vervolgens ga je naar het volgende pad: `C:\Users\{gebruiker}\Documents\3Di\polder_Bart\02_schematisation\00_basis` en dubbelklik je op het .sqlite bestand. 
 5. Nadat je hier op hebt geklikt, krijg je onderstaande waarschuwing: 
-![](../images/usage/old_sqlite_error_solution_3.PNG)
+![](../images/usage/old_sqlite_error_solution_3.png)
 Klik op `yes`. De .sqlite staat nu in een versie die ingeladen kan worden in 3Di zonder foutmelding. 
 
-`{gebruiker}` is de naam van de Windows-gebruiker.
+   `{gebruiker}` is de naam van de Windows-gebruiker.
