@@ -28,8 +28,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.model_settings_path.fileChanged.connect(self.load_settings)
         self.model_settings_path.fileChanged.connect(self.add_models_to_widget)
 
-        # creating schematisations, revisions and enable the upload process
-        self.run_push_btn.clicked.connect(self.migration_check)
+        # creating schematisations, revisions and enable the upload process          
         self.run_push_btn.clicked.connect(self.create_schematisations)
         self.run_push_btn.clicked.connect(self.revision_check)
         self.run_push_btn.clicked.connect(self.enable_upload)
@@ -80,14 +79,15 @@ class modelSplitterDialog(QtWidgets.QDialog):
         return items
 
     def migration_check(self):
-        migrate_schema = MigrateSchema(filename=self.dockwidget.model.schema_base.sqlite_paths[0])
+        migrate_schema = MigrateSchema(filename=self.caller.fenv.model.schema_base.sqlite_paths[0])
         migrate_schema.run()
         
-
-
     def create_schematisations(self):
         """Loop over the selected models in the list widget on the right
         Create individual schematisations for each"""
+        #create local split-revision
+        self.modelschematisations.sqlite_revision(commit_message=str(" (local split revision)" ))
+        
         lst_items = self.get_lst_items(listwidget=self.listWidget2)
         api_key = self.dockwidget.threedi_api_key_textbox.text()
         for list_name in lst_items:
@@ -101,6 +101,9 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.listWidget3.addItem("Path: " + str(self.dockwidget.polders_map_selector.filePath()))
         self.listWidget3.addItem("Continue to upload the versions")
 
+        
+        
+
     def revision_check(self):
         api_key = self.dockwidget.threedi_api_key_textbox.text()
         lst_items = self.get_lst_items(listwidget=self.listWidget2)
@@ -112,16 +115,24 @@ class modelSplitterDialog(QtWidgets.QDialog):
         #Logging
         self.listWidget3.addItem("Check revisions and continue to upload the versions")
 
+        
     def upload_schematisations(self):   
         """Upload selected schematisations to the 3Di servers."""
         commit_message = self.textEdit.toPlainText()
-        commit_message=commit_message.lower()
+        commit_message = commit_message.lower()
         commit_message = commit_message.replace('\n', ' ').replace('\r', ' ').replace("\\", '|')
         
+        #create lcal upload revision
+        self.modelschematisations.sqlite_revision(commit_message = commit_message)
+
+
+        #settings for upload
         api_key = self.dockwidget.threedi_api_key_textbox.text()
 
         lst_items = self.get_lst_items(listwidget=self.listWidget2)
-        print(lst_items)
+        print(lst_items)    
+        
+        #upload the schematisation                                          
         for list_name in lst_items:
              self.modelschematisations.upload_schematisation(name=list_name, commit_message=commit_message, api_key=api_key)
 
@@ -130,3 +141,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.listWidget3.addItem(f"{datetime.datetime.now()} -----------------------------------------------------------------------------*")
         self.listWidget3.addItem("Model versions uploaded: " + str(self.get_lst_items(listwidget=self.listWidget2)))
         self.listWidget3.addItem("Path: " + str(self.dockwidget.polders_map_selector.filePath()))
+        
+        
+
+
