@@ -20,14 +20,12 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtCore import Qt, pyqtSignal
 from qgis.utils import Qgis, iface
-from ..gui.utility.file_widget import fileWidget
 from ..error_messages.input_error_messages import (
     invalid_character_in_filename,
     folder_exists_already,
 )
 from hhnk_threedi_tools.core.folders import Folders
-from hhnk_threedi_plugin.hhnk_toolbox_dockwidget import HHNK_toolboxDockWidget\
-
+from hhnk_threedi_plugin.hhnk_toolbox_dockwidget import HHNK_toolboxDockWidget
 
 
 

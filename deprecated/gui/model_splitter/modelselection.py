@@ -80,16 +80,17 @@ class Example:
         # initialize plugin directory
         self.plugin_dir = os.path.dirname(__file__)
         # initialize locale
-        locale = QSettings().value('locale/userLocale')[0:2]
-        locale_path = os.path.join(
-            self.plugin_dir,
-            'i18n',
-            'Example_{}.qm'.format(locale))
+        locale = QSettings().value('locale/userLocale')
+        if locale is not None:
+            locale_path = os.path.join(
+                self.plugin_dir,
+                'i18n',
+                'Example_{}.qm'.format(locale[0:2]))
 
-        if os.path.exists(locale_path):
-            self.translator = QTranslator()
-            self.translator.load(locale_path)
-            QCoreApplication.installTranslator(self.translator)
+            if os.path.exists(locale_path):
+                self.translator = QTranslator()
+                self.translator.load(locale_path)
+                QCoreApplication.installTranslator(self.translator)
 
         # Declare instance attributes
         self.actions = []

@@ -6,7 +6,7 @@
 name=HHNK 3Di toolbox
 qgisMinimumVersion=3.0
 description=Plugin voor watersysteemanalyse met 3Di
-version=2023.1
+version=2023.3.2
 author=Wietse van Gerwen, HHNK
 email=w.vangerwen@hhnk.nl
 

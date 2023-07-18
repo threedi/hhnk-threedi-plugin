@@ -36,29 +36,30 @@ try:
 except ModuleNotFoundError:
     import hhnk_threedi_plugin.local_settings_default as local_settings
     
-if local_settings.DEBUG:
-    if local_settings.hhnk_threedi_tools_path not in sys.path:
-        sys.path.insert(0, local_settings.hhnk_threedi_tools_path)
+# if local_settings.DEBUG:
+#     try: 
+#         if local_settings.hhnk_research_tools_path not in sys.path:
+#             sys.path.insert(0, local_settings.hhnk_research_tools_path)
 
-        # reload hhnk_threedi_tools and all modules within when reloading the plugin in QGIS.
-        # Does not work with importlib.reload.
-        import hhnk_threedi_tools
-        for m in [i for i in sys.modules.keys() if i.startswith('hhnk_threedi_tools')]:
-            del(sys.modules[m])
-        import hhnk_threedi_tools
+#             # reload hhnk_threedi_tools and all modules within when reloading the plugin in QGIS.
+#             # Does not work with importlib.reload.
+#             import hhnk_research_tools
+#             for m in [i for i in sys.modules.keys() if i.startswith('hhnk_research_tools')]:
+#                 del(sys.modules[m])
+#             import hhnk_research_tools
+#     except:
+#         pass
+#     if local_settings.hhnk_threedi_tools_path not in sys.path:
+#         sys.path.insert(0, local_settings.hhnk_threedi_tools_path)
 
-    try: 
-        if local_settings.hhnk_research_tools_path not in sys.path:
-            sys.path.insert(0, local_settings.hhnk_research_tools_path)
+#         # reload hhnk_threedi_tools and all modules within when reloading the plugin in QGIS.
+#         # Does not work with importlib.reload.
+#         import hhnk_threedi_tools
+#         for m in [i for i in sys.modules.keys() if i.startswith('hhnk_threedi_tools')]:
+#             del(sys.modules[m])
+#         import hhnk_threedi_tools
 
-            # reload hhnk_threedi_tools and all modules within when reloading the plugin in QGIS.
-            # Does not work with importlib.reload.
-            import hhnk_research_tools
-            for m in [i for i in sys.modules.keys() if i.startswith('hhnk_research_tools')]:
-                del(sys.modules[m])
-            import hhnk_research_tools
-    except:
-        pass
+
 
     #sys.path.append(local_settings.threeditoolbox_path)
 

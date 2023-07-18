@@ -18,6 +18,7 @@ from qgis.PyQt.QtWidgets import QAction, QMessageBox
 
 from hhnk_threedi_tools.utils.notebooks.run import create_command_bat_file
 from hhnk_research_tools.threedi.read_api_file import read_api_file
+import hhnk_research_tools as hrt
 import hhnk_threedi_tools as htt
 
 
@@ -33,19 +34,19 @@ class NotebookWidget():
         self.load_api_key()
 
     def notebook_paths(self):
-        notebook_paths = [str(THREEDI_DEPENDENCY_DIR),str(DEPENDENCY_DIR)]
-        if local_settings.hhnk_threedi_tools_path not in [None, '']:
-            notebook_paths.append(local_settings.hhnk_threedi_tools_path)
-        try:     
-            if local_settings.hhnk_research_tools_path not in [None, '']:
-                notebook_paths.append(local_settings.hhnk_research_tools_path)
-        except:
-            pass
+        notebook_paths = [str(THREEDI_DEPENDENCY_DIR), str(DEPENDENCY_DIR)]
+        # if local_settings.hhnk_threedi_tools_path not in [None, '']:
+        #     notebook_paths.append(local_settings.hhnk_threedi_tools_path)
+        # try:     
+        #     if local_settings.hhnk_research_tools_path not in [None, '']:
+        #         notebook_paths.append(local_settings.hhnk_research_tools_path)
+        # except:
+        #     pass
         return notebook_paths
 
     def load_api_key(self):
         """Load api_key from file and update textbox"""
-        api_keys = read_api_file(self.api_file)
+        api_keys = hrt.read_api_file(self.api_file)
         if api_keys['lizard']:
             self.parent.lizard_api_key_textbox.setText(api_keys['lizard'])
             
@@ -74,7 +75,7 @@ class NotebookWidget():
 
         if api_keys['lizard'] == "Vul hier je Lizard API key in!" or api_keys['threedi'] == "Vul hier je Threedi API key in!":
             if os.path.exists(self.api_file):
-                api_keys = read_api_file(self.api_file)
+                api_keys = hrt.read_api_file(self.api_file)
                 
                 if api_keys['lizard'] != '' and api_keys['threedi'] != '':
                     return api_keys
@@ -119,11 +120,12 @@ class NotebookWidget():
             self.polder_notebooks,
             {
                 "polder_folder": self.caller.polder_folder,
-                "api_keys_path": self.api_file,            
+                "api_keys_path": self.api_file,
+                "extra_paths": self.notebook_paths(),
             },
         )
 
-        htt.add_notebook_paths(self.notebook_paths())
+        # htt.add_notebook_paths(self.notebook_paths())
         
     def start_server(self):
         api_key = self.generate_notebook_valid()
