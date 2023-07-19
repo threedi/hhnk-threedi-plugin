@@ -62,18 +62,15 @@ Nodig voor tests:
 
 #### Indeling 02_schematisation:
 
-In deze map moet minimaal de map ``00_basis`` zitten. De andere modelstaten worden gegenereerd bij het ['splitten'](usage.md#5-modelstaten-maken) van de modellen of wanneer nieuwe revisies worden gemaakt. De Excel bestanden bevatten de instellingen voor het genereren van de verschillende modelstaten. > KLOPT DIT?  
+In deze map moet minimaal de map ``00_basis`` zitten. De andere modelstaten worden gegenereerd bij het ['splitten'](usage.md#5-modelstaten-maken) van de modellen of wanneer nieuwe revisies worden gemaakt. De Excel bestanden bevatten de instellingen voor het genereren van de verschillende modelstaten.
 
 ![](../images/documentation/default_folder_schematisation.png) 
 
 Nodig voor tests: 
-##### SQLITE ZIT NIET MEER IN DIT PAD. HOE ZIT DIT PRECIES? > Zie hierboven
 
     model.sqlite
 
-Indeling 02.Model/rasters: 
-
-##### HOE ZIT DIT IN DE NIEUWSTE VERSIE? > zie mappenstructuur 
+Indeling 02_schematisation/00_basis/rasters: 
 
 ![](../images/documentation/default_folder_model_rasters.png)
 
@@ -122,7 +119,7 @@ Het aanpassen van de modelstaat is een hulpmiddel om te zorgen dat het rekenen m
 1. 0d1d toetsing van het model t.b.v. de hydraulische randvoorwaarde (alleen watersysteem)
 2. 1d2d toetsing van het model t.b.v. klimaatsommen (watersysteem, maaiveld en bodem)
 
-Door de modelstaat aan te passen worden specifieke instellingen in het model aangepast. In de map van de [schematisatie](#indeling-02_schematisation) staat in de ``model_settings.xlsx`` per modelstaat wat de instellingen zijn. Deze manier heeft voordelen ten opzichte van het werken met aparte modellen, omdat andere wijzigingen in het model (zoals het aanpassen van een duiker) dan niet in twee modellen hoeft te worden doorgevoerd. De aanpassingen in het model die worden gedaan bij het aanpassen van de modelstaat hebben betrekking op de uitwisseling tussen het watersysteem (1D) en het maaiveld (2D). 
+Door de modelstaat aan te passen worden specifieke instellingen in het model aangepast. In de map van de [schematisatie](#indeling-02_schematisation) staat in ``model_settings.xlsx`` per modelstaat wat de instellingen zijn. Deze manier heeft voordelen ten opzichte van het werken met aparte modellen, omdat andere wijzigingen in het model (zoals het aanpassen van een duiker) dan niet in twee modellen hoeft te worden doorgevoerd. De aanpassingen in het model die worden gedaan bij het aanpassen van de modelstaat hebben betrekking op de uitwisseling tussen het watersysteem (1D) en het maaiveld (2D). 
 
 Met deze aanpassingen in gedachten worden drie modelstaten onderscheiden:
 
@@ -212,7 +209,7 @@ De sqlite checks zijn bedoeld om te checken of het model geschikt is om mee te r
 
 #### 5. Geometrie
 
-   Deze test checkt of de geometrie van een object in het model correspondeert met de start- of end node in de v2_connection_nodes tabel. Als de verkeerde ids worden gebruikt geeft dit fouten in het model.
+   Deze test checkt of de geometrie van een object in het model correspondeert met de start- of end node in de v2_connection_nodes tabel. Als de verkeerde id's worden gebruikt geeft dit fouten in het model.
    
 #### 6. Bodemhoogte kunstwerken
 
@@ -231,7 +228,7 @@ De sqlite checks zijn bedoeld om te checken of het model geschikt is om mee te r
    
 ### Eenmalige tests
 
-De eenmalige tests zijn er om een aantal randvoorwaarden te controleren. Als geverifieerd is dat hieraan is voldaan dan hoeven ze niet opnieuw te worden gedraaid.
+De eenmalige tests zijn er om een aantal randvoorwaarden te controleren. Als geverifieerd is dat hieraan is voldaan, dan hoeven ze niet opnieuw te worden gedraaid.
 
 #### 1. Maximale waarde DEM
 
@@ -329,8 +326,9 @@ De test die worden gedaan door de Toolbox zijn als volgt onder te verdelen:
     * de hoeveelheid water (volume in m3) per tijdstap
     * het natte oppervlak per tijdstap (in m2)
     * opslag van regen in het gebied van de node (hoeveelheid water / totale oppervlak gebied)
-  
-  (* Wanneer het gaat om het standaard 1d2d test scenario)
+ 
+  (* Wanneer het gaat om het standaard 1d2d test scenario) 
+  ##### ik zie het bovenstaande * nergens naar verwijzen?
 
 * Stroomlijnen inlezen
 
@@ -352,13 +350,40 @@ De gevolgen van klimaatverandering worden steeds beter merkbaar. Onder andere in
 2. T100 (neerslagsituatie die zich statistisch gezien 1x in de 100 jaar voordoet)
 3. T1000 (neerslagsituatie die zich statistisch gezien 1x in de 10 jaar voordoet)
 
-Voor deze herhalingstijden zijn ook nog twee verschillende neerslagduren mogelijk:
+Voor deze herhalingstijden zijn twee verschillende neerslagduren mogelijk:
 
 1. Piek: hevige neerslagsituatie die in 2 uur valt
 2. Blok: langdurige neerslagsituatie met een lage neerslagintensiteit die 48 uur duurt 
 
-In totaal zijn er zes scenario's:
+Daarnaast is de bodemtoestand voorafgaand aan de neerslagsituatie van invloed op het verloop van het scenario. De volgende drie bodemtoestanden kunnen worden toegepast: 
+1. Gemiddel laagste grondwaterstand (GLG): de gemiddeld laagste grondwaterstand wordt vastgesteld op basis van metingen van grondwaterstanden op de 14e en 28e van de maand. Per jaar worden de drie laagste grondwaterstanden geselecteerd en gemiddeld over minimaal 8 jaar.
+2. Gemiddelde grondwaterstand (GGG): de gemiddelde grondwaterstand wordt vastgesteld op basis van metingen van grondwaterstanden op de 14e en 28e van de maand. Deze metingen worden over het jaar gemiddeld en vervolgens gemiddeld over minimaal 8 jaar.
+3. Gemiddeld hoogste grondwaterstand (GHG): de gemiddeld hoogste grondwaterstand wordt vastgesteld op basis van metingen van grondwaterstanden op de 14e en 28e van de maand. Per jaar worden de drie hoogste grondwaterstanden geselecteerd en gemiddeld over minimaal 8 jaar.
 
+In totaal zijn er 18 mogelijke scenario's: <br>
+
+| Herhalingstijd  | Neerslagduur | Bodemtoestand   |
+|-----------------|--------------|-----------------|
+| T10    | Piek   | GLG
+| T100   | Piek   | GLG
+| T1000  | Piek   | GLG
+| T10    | Piek   | GGG
+| T100   | Piek   | GGG
+| T1000  | Piek   | GGG
+| T10    | Piek   | GHG
+| T100   | Piek   | GHG
+| T1000  | Piek   | GHG
+| T10    | Blok   | GLG
+| T100   | Blok   | GLG
+| T1000  | Blok   | GLG
+| T10    | Blok   | GGG
+| T100   | Blok   | GGG
+| T1000  | Blok   | GGG
+| T10    | Blok   | GHG
+| T100   | Blok   | GHG
+| T1000  | Blok   | GHG
+
+Hieronder is voor de zes mogelijke combinaties van herhalingstijd en neerslagduur de opbouw weergegeven:
 1. Opbouw T10 blok bui: 
 ![](../images/usage/T10_blok.png)
 
@@ -378,4 +403,3 @@ In totaal zijn er zes scenario's:
 ![](../images/usage/T1000_piek.png)
 
 ##### Andere afbeeldingen in Python genereren? > Wietse?
-

@@ -10,11 +10,11 @@ Deze pagina is bedoeld als handleiding om de HHNK Toolbox te gebruiken. De HHNK 
 ![](../images/usage/header_main.png)
 1. Main: hier wordt het model ingeladen/gebouwd, kunnen resultaten worden ingeladen en is het mogelijk om simulaties te starten
 2. Checks: dit onderdeel geeft de gebruiker de mogelijkheid om controles uit te voeren voor het model
-3. Modelbouw: op dit moment niet in gebruik
+3. Modelbouw: werkt alleen op de server van HHNK (wordt later toegevoegd aan handleiding)
 
 Er zijn twee mogelijkheden om met de toolbox aan de slag te gaan:
-1. HHNK levert de benodigde data (model) aan
-2. Gebruiker van de plugin bouwt een model vanaf de 'grond' op
+1. HHNK levert de benodigde data (model) aan (klik [hier](#1-data-aangeleverd-door-hhnk))
+2. Gebruiker van de plugin bouwt een model vanaf de 'grond' op (klik [hier](#2-zelf-een-model-maken))
 
 Nadere informatie over de inhoud van de testen, benodigde data en het interpreteren van resultaten zijn te vinden via onderstaande links:
 * Voor inhoudelijke uitleg van de tests, zie [Documentatie](tests_documentation.md).
@@ -26,7 +26,8 @@ Klik op het tabblad 'Main' om naar dit onderdeel te gaan.
 
 ![](../images/usage/header_main.png)
 
-Volg onderstaande werkwijze als HHNK de benodigde data (model) aanlevert (optie 1).
+## 1. Data aangeleverd door HHNK
+Volg onderstaande werkwijze als HHNK de benodigde data (model) aanlevert (optie 1). Als je zelf een model vanaf de 'grond' gaat bouwen, klik dan [hier](#2-zelf-een-model-maken) (optie 2)
 
 1. [Map aanmaken](#1-map-aanmaken)
 2. [Data kopiëren](#2-data-kopiëren)
@@ -112,8 +113,8 @@ Als er een Excel met modelinstellingen aanwezig is in het pad ``C:\Users\{gebrui
 
 ### 6. Berekeningen uitvoeren
 Nadat stap 5 is uitgevoerd, kunnen (test)berekeningen uitgevoerd gaan worden. Hieronder wordt toegelicht hoe een (test)bereking gestart kan worden:
-1. Voer je Lizard API key (5) en 3Di API key (6) in. Indien je nog geen API key(s) hebt, klik <a href="https://demo.lizard.net/management/personal_api_keys" target="_blank">hier</a> voor een Lizard API key en klik <a href="https://management.3di.live/personal_api_keys" target="_blank">hier</a> voor een 3Di API key. 
-![](../images/usage/load_polder_legend.png)
+1. Voer je Lizard API key (5) en 3Di API key (6) in. Indien je nog geen API key(s) hebt, klik <a href="https://demo.lizard.net/management/personal_api_keys" target="_blank">hier</a> voor een Lizard API key en klik <a href="https://management.3di.live/personal_api_keys" target="_blank">hier</a> voor een 3Di API key.
+   ![](../images/usage/load_polder_legend.png)
 2. Klik op ``Open Jupyter Notebook Server`` (7) om het notebook te openen voor het starten van de (test)berekeningen. Je wordt doorverwezen naar een lokale server en het volgende scherm komt tevoorschijn:
 ![](../images/usage/notebook_starting_calculation_1.png)
 3. Om een simulatie te starten, kun je het beste gebruik maken van de meest recente versie van ``xx_calculation_gui_vx``. Door te dubbelklikken op de nieuwste versie, word je doorgestuurd naar het volgende scherm:
@@ -128,12 +129,12 @@ Nadat stap 5 is uitgevoerd, kunnen (test)berekeningen uitgevoerd gaan worden. Hi
    4. ``Select rain event``: maak hier een keuze voor de neerslagsituatie die bij de modelstaat hoort
    5. ``Select output folder/name``: kies hier de ``Sub folder`` waar de resultaten weggeschreven moeten worden 
    6. ``Select settings to include``: deze stap geeft de mogelijkheid om een aantal opties aan te vinken voor de naverwerking van de resultaten: <br>
-      a. Basic processing: <br>
-      b. Damage processing: <br>
-      c. Arrival processing: <br>
-      d. Structure control: <br>
-      e. Laterals: 
-   ##### NOG UITLEGGEN GEVEN WAT DE PROCESSING INHOUDEN? > 5 settings benoemen, Jelle vult deze aan.
+      * Basic processing: <br>
+      * Damage processing: <br>
+      * Arrival processing: <br>
+      * Structure control: <br>
+      * Laterals: 
+ ##### 5 settings benoemen, Jelle vult deze aan.
    7. ``Start simulation``: de simulatienaam wordt automatisch gegenereerd op basis van de schematisatie die gebruikt wordt. Om de berekening te kunnen starten, moet eerst een simulatie aangemaakt worden middels de ``Create simulation`` knop.
 
 Als je meerdere klimaatsommen wil doorrekenen, kun je ervoor kiezen om in plaats van de tab ``single calculation``, de tab ``batch calculation`` te gebruiken en de scenario's te kiezen welke doorgerekend moeten worden. 
@@ -152,10 +153,33 @@ Naast het starten van simulaties, is het downloaden van de resultaten van de (te
    1. ``Login with API keys``: voer hier de Lizard API key in
    2. ``Search for simulation on lizard``: typ de naam van de te downloaden simulatie in en klik vervolgens op ``search``
    3. ``Select simulation results``: hier komt een overzicht te staan met de simulaties die overeenkomen met de zoekterm ingevoerd in stap 2. Selecteer de de simulatie of simulaties die je wil downloaden
-   4. ``Select filetype``: selecteer hier welke ``File results``, ``Raster results``, eventueel welk ``Timestep raster`` en de ``Resolution`` gedownload moet worden
+   4. ``Select filetype``: selecteer hier welke ``File results`` en ``Raster results`` gedownload moeten worden. <br>
+      ``File results``: <br>
+      * raw 3Di output (.nc): bevat de resultaten van de simulatie (noodzakelijk) <br>
+      * aggregated 3Di output (.nc): bevat verschillende tijdstappen van de resultaten van de simulatie (noodzakelijk) <br>
+      * grid administration (.h5): ? <br>
+      * calculation core logging (.txt): bevat verschillende bestanden met informatie over simulatie 
+
+      ``Raster results``: <br>
+      * Max water level: dit raster bevat de maximale waterstand (m NAP) over de gehele simulatieduur <br>
+      * Max water depth: dit raster bevat de maximale waterdieptes (m) over de gehele simulatieduur <br>
+      * Total damage: dit raster bevat de berekende schade als gevolg van inundatie <br>
+      * Water level at selected time: dit raster bevat de waterstand op een gekozen tijdstip <br>
+      * Water depth at selected time: dit raster bevat de waterdiepte op een gekozen tijdstip <br>
+      * Depth (damage calc): ? 
    5. ``Select output folder/name``: kies hier de ``Sub folder`` waar de resultaten weggeschreven moeten worden 
-   6. ``Download selected``: klik op ``Download`` om de resultaten te downloaden
-   7. ``Download klimaatsommen``: klik op ``Download batch`` om een batch te downloaden 
+   6. ``Download selected``: hier kun je kiezen uit een aantal opties:<br>
+      a. DEM extent: laat deze aangevinkt als je het DEM als extent wil gebruiken en vink deze uit als je dat niet wil<br>
+      b. Timestep raster: hier kan gekozen worden om voor een bepaald tijdstip een raster te downloaden. Als hier niets wordt gekozen, zal de laatste tijdstap worden gedownload <br>
+      ##### klopt de tekst bij b? Met name de laatste zin
+      c. Resolution (m): voer hier de gewenste resolutie van het te downloaden raster in <br>
+   Klik vervolgens op ``Download`` om de resultaten te downloaden
+   7. ``Download klimaatsommen``: deze wordt alleen gebruikt voor het downloaden van klimaatsommen. Bij deze stap zijn twee invoervelden: <br>
+      a. Locatie DEM: voer hier de locatie in van de DEM die bij te downloaden resultaten hoort. Deze verschijnt als het goed is automatisch bij het klikken op het veld <br>
+      b. Naam van de batch folder (maak aan als niet bestaat!): kies hier de folder waar de resultaten weggeschreven moeten worden. Bijvoorbeeld: als je de resultaten van de ``ggg`` situatie wil downloaden, kies je hier ook voor de batch folder ``ggg`` <br>
+      Klik vervolgens op ``Download batch`` om een batch te downloaden 
+
+##### Verder naverwerking opnemen? Nabewerking klimaatsommen werkt niet bij mij.
 
 ### 8. Model testen uitvoeren
 De plugin heeft de mogelijkheid om een aantal testen voor het model en de testberekeningen uit te voeren:
@@ -166,7 +190,7 @@ De plugin heeft de mogelijkheid om een aantal testen voor het model en de testbe
 * [Klimaatsommen](#klimaatsommen)
 
 #### Sqlite checks 
-##### NAAMGEVING STAAT DOOR ELKAAR HEEN? Ene keer sqlite checks andere keer sqlite testen > wordt checks in de toekomst
+##### Ene keer sqlite checks andere keer sqlite testen > wordt checks in de toekomst
 De sqlite checks zijn bedoeld om het model te controleren op (potentiële) fouten in de data en deze te corrigeren waar nodig. Na de sqlite checks is het model klaar om op te bouwen en om de 0d1d toets te draaien (zie [0d1d toets/Hydraulische toets](tests_documentation.md#1d2d-tests)). Voor de inhoudelijke uitleg van de tests, zie: [Sqlite tests](tests_documentation.md#sqlite-tests)
 
 #### 0d1d tests
@@ -183,6 +207,7 @@ De [klimaatsommen](#klimaatsommen-1) zijn neerslagsituaties die 1x in de 10, 100
 
 ---------------------------------------------------------------------------------
 
+## 2. Zelf een model maken
 Volg onderstaande werkwijze als je het model vanaf de 'grond' gaat opbouwen (optie 2)
 
 ### 1. Modellen folder selecteren

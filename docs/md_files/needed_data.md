@@ -1,6 +1,6 @@
-# Bron data
+# Essentiële data
 
-Hieronder vind je een beschrijving van alle brondata die wordt gebruikt voor de tests in de HHNK Toolbox. Daarnaast is hier informatie te vinden over model instellingen.
+Hieronder vind je een beschrijving van alle brondata die wordt gebruikt voor de tests in de HHNK Toolbox. Daarnaast is hier informatie te vinden over modelinstellingen.
 
 1. Model
 
@@ -23,8 +23,8 @@ Hieronder vind je een beschrijving van alle brondata die wordt gebruikt voor de 
 
 3. HDB
    
-   De ```HDB``` database (```.gdb```) bevat aanvullende informatie over het gebied dat het model representeert. Het gaat hier om informatie die niet in de ```DAMO``` kan worden opgeslagen maar die wel relevant is voor hydrologische analyse. De ```HDB``` wordt gebruikt in de ```gestuurde kunstwerken``` test om informatie toe te voegen over de kunstwerken, zoals de object code, het streefpeil en de minimale en maximale kruinhoogtes. De gebruikte laag is (
-   ```Sturing_3Di```).
+   De ```HDB``` database (```.gdb```) bevat aanvullende informatie over het gebied dat het model representeert. Het gaat hier om informatie die niet in de ```DAMO``` kan worden opgeslagen, maar die wel relevant is voor hydrologische analyse. De ```HDB``` wordt gebruikt in de ```gestuurde kunstwerken``` test om informatie toe te voegen over de kunstwerken, zoals de object code, het streefpeil en de minimale en maximale kruinhoogtes. De gebruikte laag is 
+   ```Sturing_3Di```.
    
    
 4. 3Di resultaten
@@ -46,9 +46,9 @@ Hieronder vind je een beschrijving van alle brondata die wordt gebruikt voor de 
    
    De output van de datachecker bevat veel gegevens die overeenkomen met ```DAMO``` aangevuld met gecombineerde en gecontroleerde gegevens. Deze gegevens worden gebruikt in de volgende tests:
    
-   * ```ontwateringsdiepte``` test om de waterstanden van de verschillende peilgebieden te bepalen (de gebruikte laag is ```fixeddrainagelevelarea```). 
+   * ```Ontwateringsdiepte``` test om de waterstanden van de verschillende peilgebieden te bepalen (de gebruikte laag is ```fixeddrainagelevelarea```). 
    
-   * ```oppervlaktewater``` test om het oppervlaktewater te berekenen voor de verschillende peilgebieden (de gebruikte laag is ```fixeddrainagelevelarea```). 
+   * ```Oppervlaktewater``` test om het oppervlaktewater te berekenen voor de verschillende peilgebieden (de gebruikte laag is ```fixeddrainagelevelarea```). 
    
    * ```Bodemhoogte kunstwerken``` test om informatie over aannames (waar van toepassing) toe te voegen aan kunstwerken. De laag die daarvoor wordt gebruikt is ```culvert```.
    
@@ -56,20 +56,27 @@ Hieronder vind je een beschrijving van alle brondata die wordt gebruikt voor de 
    
    De channel surface from profiles shapefile (```.shp```) bevat informatie over de breedte van de watergangen. Deze informatie wordt gebruikt in de ```oppervlaktewater``` test om het totale oppervlaktewater van de watergangen in het model te berekenen. Dit bestand is een output van de modelbuilder.
 
-### Model instellingen
-Om verschillende modelstaten te kunnen genereren zijn twee Excel documenten van belang. Deze Excel documenten moeten in de volgende map staan: ``C:\Users\{gebruiker}\Documents\3Di\polder_Bart\02_schematisation``
+### Modelinstellingen
+Om verschillende modelstaten te kunnen genereren zijn twee Excel documenten van belang. Deze Excel documenten moeten in de volgende map staan: ``C:\Users\{gebruiker}\Documents\3Di\Polder_X\02_schematisation``.
 
 `{gebruiker}` is de naam van de Windows-gebruiker.
 
 1. Model settings
 
-In de tabel hieronder zijn voor de verschillende modelstaten de benodigde gegevens te zien. Deze gegevens dienen in een Excel met de naam ``model_settings`` ingevoerd te worden, zodat ze in 3Di uitgelezen kunnen worden en de juiste invoerwaarden worden gebruikt. Op de plek waar ``Naam polder`` staat, komt de naam van polder, bijvoorbeeld ``callantsoog_0d1d_test``. Als er andere namen voor rasters worden gebruikt, kunnen deze uiteraard ingevoerd worden in de Excel, zolang ze corresponderen met de namen van de rasters die in ``C:\Users\{gebruiker}\Documents\3Di\polder_X\02_schematisation_00_basis_rasters`` (padnaam kan bij  gebruiker anders zijn) zijn opgeslagen. 
+   In de tabel hieronder zijn voor de verschillende modelstaten de benodigde gegevens te zien. 
+   
+   ![](../images/needed_data/model_settings.png)
+   
+   Deze gegevens dienen in een Excel met de naam ``model_settings`` ingevoerd te worden, zodat ze in 3Di uitgelezen kunnen worden en de juiste invoerwaarden worden gebruikt. Op de plek waar ``Naam polder`` staat, komt de naam van polder, bijvoorbeeld ``callantsoog_0d1d_test``. Als er andere namen voor rasters worden gebruikt, kunnen deze uiteraard ingevoerd worden in de Excel, zolang ze corresponderen met de namen van de rasters die in ``C:\Users\{gebruiker}\Documents\3Di\polder_X\02_schematisation_00_basis_rasters`` (padnaam kan bij  gebruiker anders zijn) zijn opgeslagen. 
 
-![](../images/needed_data/model_settings.PNG)
-
-`{gebruiker}` is de naam van de Windows-gebruiker.
+   `{gebruiker}` is de naam van de Windows-gebruiker.
 
 2. Model settings default
-In de tabel hieronder zijn een aantal default instellingen voor de schematisatie weergegeven. Deze gegevens dienen in een Excel met de naam ``model_settings`` ingevoerd te worden, zodat ze in 3Di uitgelezen kunnen worden en de juiste invoerwaarden worden gebruikt.
 
-![](../images/needed_data/model_settings_default.PNG)
+   In de tabel hieronder zijn een aantal default instellingen voor de schematisatie weergegeven.
+
+   ![](../images/needed_data/model_settings_default.png) 
+
+   Deze gegevens dienen in een Excel met de naam ``model_settings`` ingevoerd te worden, zodat ze in 3Di uitgelezen kunnen worden en de juiste invoerwaarden worden gebruikt.
+
+
