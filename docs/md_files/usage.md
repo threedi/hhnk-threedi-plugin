@@ -118,11 +118,17 @@ Nadat stap 5 is uitgevoerd, kunnen (test)berekeningen uitgevoerd gaan worden. Hi
 
    ![](../images/usage/load_polder_legend.png)
 2. Klik op ``Open Jupyter Notebook Server`` (7) om het notebook te openen voor het starten van de (test)berekeningen. Je wordt doorverwezen naar een lokale server en het volgende scherm komt tevoorschijn:
-![](../images/usage/notebook_starting_calculation_1.png)
+
+   ![](../images/usage/notebook_starting_calculation_1.png)
+
 3. Om een simulatie te starten, kun je het beste gebruik maken van de meest recente versie van ``xx_calculation_gui_vx``. Door te dubbelklikken op de nieuwste versie, word je doorgestuurd naar het volgende scherm:
-![](../images/usage/notebook_starting_calculation_2.png)
+
+   ![](../images/usage/notebook_starting_calculation_2.png)
+
 4. Doorloop nu de eerste stap door ergens te klikken in het veld met ``#imports`` en vervolgens crtl + enter. Dit levert het onderstaande invoerscherm op:
-![](../images/usage/notebook_starting_calculation_3.png)
+
+   ![](../images/usage/notebook_starting_calculation_3.png)
+
 5. Loop vervolgens stap voor stap de volgende punten af:
 
    1. ``Login with API keys``: voer hier de Lizard en 3Di API keys in
@@ -147,9 +153,12 @@ Als je meerdere klimaatsommen wil doorrekenen, kun je ervoor kiezen om in plaats
 Naast het starten van simulaties, is het downloaden van de resultaten van de (test)berekeningen mogelijk middels het notebook. Hieronder is toegelicht hoe dat in zijn werk gaat:
 
 1. Om een simulatie te downloaden, kun je het beste gebruik maken van de meest recente versie van ``xx_download_gui_vx``. Door te dubbelklikken op de nieuwste versie, word je doorgestuurd naar het volgende scherm:
-![](../images/usage/notebook_download_simulation_1.png)
+
+   ![](../images/usage/notebook_download_simulation_1.png)
+
 2. Doorloop nu de eerste stap door ergens te klikken in het veld met ``#imports`` en vervolgens crtl + enter. Dit levert het onderstaande invoerscherm op:
-![](../images/usage/notebook_download_simulation_2.png)
+
+   ![](../images/usage/notebook_download_simulation_2.png)
 
 3. Loop vervolgens stap voor stap de volgende punten af:
 
@@ -378,18 +387,26 @@ Resultaten van de klimaatsommen worden als lagen toegevoegd aan ```QGIS```:
 
 ## Bekende problemen
 ### Oude sqlite error
-Wanneer in de aangeleverde data nog een .sqlite zit die in een oudere versie van 3Di is gemaakt, kan het voorkomen dat onderstaande foutmelding wordt weergegeven: ![](../images/usage/old_sqlite_error.png)
+Wanneer in de aangeleverde data nog een .sqlite zit die in een oudere versie van 3Di is gemaakt, kan het voorkomen dat onderstaande foutmelding wordt weergegeven:
+
+![](../images/usage/old_sqlite_error.png)
 
 Deze error kan op de volgende manier opgeloste worden:
 
 1. Ga naar ``select 3Di results`` (1)
-![](../images/usage/old_sqlite_error_solution_1.png)
+
+   ![](../images/usage/old_sqlite_error_solution_1.png)
+
 2. Klik op ``load`` (2)
-![](../images/usage/old_sqlite_error_solution_2.png)
+
+   ![](../images/usage/old_sqlite_error_solution_2.png)
+
 3. Ga naar de map waar je data hebt opgeslagen zie ook [map aanmaken](#1-map-aanmaken)
 4. Vervolgens ga je naar het volgende pad: `C:\Users\{gebruiker}\Documents\3Di\polder_Bart\02_schematisation\00_basis` en dubbelklik je op het .sqlite bestand. 
 5. Nadat je hier op hebt geklikt, krijg je onderstaande waarschuwing: 
-![](../images/usage/old_sqlite_error_solution_3.png)
+
+   ![](../images/usage/old_sqlite_error_solution_3.png)
+
 Klik op `yes`. De .sqlite staat nu in een versie die ingeladen kan worden in 3Di zonder foutmelding. 
 
    `{gebruiker}` is de naam van de Windows-gebruiker.
