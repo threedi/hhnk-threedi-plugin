@@ -100,7 +100,8 @@ Onderstaande stappen zijn uit te voeren als er nog geen testberekeningen en test
 Als er nog geen modelstaten en testberekeningen uitgevoerd zijn, kunnen de volgende stappen doorlopen worden:
 
 1. Klik op ``Model splitten en uploaden`` (4). 
-![](../images/usage/load_polder_legend.png)
+
+   ![](../images/usage/load_polder_legend.png)
 
 2. Hierna wordt het volgende scherm weergegeven:
 ![](../images/usage/load_modelsplitter_legend.png)
@@ -114,6 +115,7 @@ Als er een Excel met modelinstellingen aanwezig is in het pad ``C:\Users\{gebrui
 ### 6. Berekeningen uitvoeren
 Nadat stap 5 is uitgevoerd, kunnen (test)berekeningen uitgevoerd gaan worden. Hieronder wordt toegelicht hoe een (test)bereking gestart kan worden:
 1. Voer je Lizard API key (5) en 3Di API key (6) in. Indien je nog geen API key(s) hebt, klik <a href="https://demo.lizard.net/management/personal_api_keys" target="_blank">hier</a> voor een Lizard API key en klik <a href="https://management.3di.live/personal_api_keys" target="_blank">hier</a> voor een 3Di API key.
+
    ![](../images/usage/load_polder_legend.png)
 2. Klik op ``Open Jupyter Notebook Server`` (7) om het notebook te openen voor het starten van de (test)berekeningen. Je wordt doorverwezen naar een lokale server en het volgende scherm komt tevoorschijn:
 ![](../images/usage/notebook_starting_calculation_1.png)
@@ -138,6 +140,7 @@ Nadat stap 5 is uitgevoerd, kunnen (test)berekeningen uitgevoerd gaan worden. Hi
    7. ``Start simulation``: de simulatienaam wordt automatisch gegenereerd op basis van de schematisatie die gebruikt wordt. Om de berekening te kunnen starten, moet eerst een simulatie aangemaakt worden middels de ``Create simulation`` knop.
 
 Als je meerdere klimaatsommen wil doorrekenen, kun je ervoor kiezen om in plaats van de tab ``single calculation``, de tab ``batch calculation`` te gebruiken en de scenario's te kiezen welke doorgerekend moeten worden. 
+
 ![](../images/usage/notebook_starting_batch_calculation.png)
 
 ### 7. Resultaten downloaden
