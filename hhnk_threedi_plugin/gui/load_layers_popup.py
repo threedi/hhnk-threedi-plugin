@@ -247,7 +247,7 @@ class loadLayersDialog(QDialog):
         if self.test_protocol_selector.isChecked() == True:
             #FIXME tijdelijke implementatie om gdb in gpkg om te zetten. Als dit in alle projectmappen staat kan het weer weg. 
             for source in ["datachecker", "damo", "hdb"]:
-                in_gdb = hrt.FileGDB(getattr(self.caller.fenv.source_data, source).pl.with_suffix(".gdb"))
+                in_gdb = hrt.FileGDB(getattr(self.caller.fenv.source_data, source).path.with_suffix(".gdb"))
                 out_gpkg = getattr(self.caller.fenv.source_data, source)
 
                 hrt.convert_gdb_to_gpkg(gdb=in_gdb, gpkg=out_gpkg, overwrite=False, verbose=False)        
