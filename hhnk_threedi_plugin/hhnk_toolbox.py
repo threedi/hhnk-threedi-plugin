@@ -68,6 +68,8 @@ from hhnk_threedi_tools.core.folders import Folder, Folders
 # Variables
 from hhnk_threedi_tools.variables.model_state import invalid_path
 
+import hhnk_threedi_tools.core.api.upload_model.upload as upload
+
 from hhnk_threedi_plugin.tasks.task_sqlite_tests_main import task_sqlite_tests_main
 
 import os
@@ -499,6 +501,15 @@ class HHNK_toolbox:
         #TODO kan connect input meegeven zodat deze samen kan met lizard?
         getattr(self.dockwidget, f'threedi_api_key_textbox').setEchoMode(2) #password echo mode
 
+    def get_uuid(self):
+        try:
+            api_key = getattr(self.dockwidget, f'threedi_api_key_textbox')
+            uuid_list = upload.get_organisation_uuid(api_key)
+            return uuid_list
+        except:
+            return('no uuid avalilable - check api_key and permissions')
+        
+
     def run(self):
         """Run method that loads and starts the plugin"""
 
@@ -520,6 +531,8 @@ class HHNK_toolbox:
 
                 self.dockwidget.lizard_api_key_textbox.textChanged.connect(self.hide_apikeys_lizard)
                 self.dockwidget.threedi_api_key_textbox.textChanged.connect(self.hide_apikeys_threedi)
+                
+                # self.dockwidget.uuid_comboBox.addItems(self.get_uuid)
 
 
                 self.load_layers_dialog = loadLayersDialog(caller=self, parent=self.dockwidget)

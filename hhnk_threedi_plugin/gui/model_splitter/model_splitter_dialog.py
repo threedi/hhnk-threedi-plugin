@@ -87,8 +87,6 @@ class modelSplitterDialog(QtWidgets.QDialog):
     def create_schematisations(self):
         """Loop over the selected models in the list widget on the right
         Create individual schematisations for each"""
-        #create local split-revision
-        self.modelschematisations.sqlite_revision(commit_message=str(" (local split revision)" ))
         
         lst_items = self.get_lst_items(listwidget=self.listWidget2)
         api_key = self.dockwidget.threedi_api_key_textbox.text()
@@ -103,6 +101,8 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.listWidget3.addItem("Path: " + str(self.dockwidget.polders_map_selector.filePath()))
         self.listWidget3.addItem("Continue to upload the versions")
 
+        #create local split-revision
+        self.modelschematisations.sqlite_revision(commit_message=str(" (local split revision)" ))
 
     def revision_check(self):
         api_key = self.dockwidget.threedi_api_key_textbox.text()
@@ -120,10 +120,6 @@ class modelSplitterDialog(QtWidgets.QDialog):
         commit_message = self.textEdit.toPlainText()
         commit_message = commit_message.lower()
         commit_message = commit_message.replace('\n', ' ').replace('\r', ' ').replace("\\", '|')
-        
-        #create lcal upload revision
-        self.modelschematisations.sqlite_revision(commit_message = commit_message)
-
 
         #settings for upload
         api_key = self.dockwidget.threedi_api_key_textbox.text()
@@ -141,6 +137,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.listWidget3.addItem("Model versions uploaded: " + str(self.get_lst_items(listwidget=self.listWidget2)))
         self.listWidget3.addItem("Path: " + str(self.dockwidget.polders_map_selector.filePath()))
         
-        
+        #create local upload revision
+        self.modelschematisations.sqlite_revision(commit_message = ("upload revision " + commit_message))
 
 
