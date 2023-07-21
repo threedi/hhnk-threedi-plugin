@@ -502,10 +502,18 @@ class HHNK_toolbox:
         getattr(self.dockwidget, f'threedi_api_key_textbox').setEchoMode(2) #password echo mode
 
     def get_uuid(self):
+        print('trying to get uuid')
+        api_key = getattr(self.dockwidget, f'threedi_api_key_textbox')
+        print(api_key)
+        self.dockwidget.uuid_comboBox.clear()
         try:
-            api_key = getattr(self.dockwidget, f'threedi_api_key_textbox')
+            
+            api_key = getattr(self.dockwidget, f'threedi_api_key_textbox').text()
             uuid_list = upload.get_organisation_uuid(api_key)
-            return uuid_list
+            print(uuid_list)
+            for i in uuid_list:
+                print(i)
+                self.dockwidget.uuid_comboBox.addItem(str(i))
         except:
             return('no uuid avalilable - check api_key and permissions')
         
@@ -531,7 +539,7 @@ class HHNK_toolbox:
 
                 self.dockwidget.lizard_api_key_textbox.textChanged.connect(self.hide_apikeys_lizard)
                 self.dockwidget.threedi_api_key_textbox.textChanged.connect(self.hide_apikeys_threedi)
-                
+                self.dockwidget.threedi_api_key_textbox.textChanged.connect(self.get_uuid)
                 # self.dockwidget.uuid_comboBox.addItems(self.get_uuid)
 
 
