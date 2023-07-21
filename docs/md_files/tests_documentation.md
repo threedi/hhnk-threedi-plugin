@@ -355,15 +355,15 @@ Voor deze herhalingstijden zijn twee verschillende neerslagduren mogelijk:
 1. Piek: hevige neerslagsituatie die in 2 uur valt
 2. Blok: langdurige neerslagsituatie met een lage neerslagintensiteit die 48 uur duurt 
 
-Daarnaast is de bodemtoestand voorafgaand aan de neerslagsituatie van invloed op het verloop van het scenario. De volgende drie bodemtoestanden kunnen worden toegepast: 
+Daarnaast is de grondwater conditie voorafgaand aan de neerslagsituatie van invloed op het verloop van het scenario. De volgende drie grondwater condities kunnen worden toegepast: 
 1. Gemiddel laagste grondwaterstand (GLG): de gemiddeld laagste grondwaterstand wordt vastgesteld op basis van metingen van grondwaterstanden op de 14e en 28e van de maand. Per jaar worden de drie laagste grondwaterstanden geselecteerd en gemiddeld over minimaal 8 jaar.
 2. Gemiddelde grondwaterstand (GGG): de gemiddelde grondwaterstand wordt vastgesteld op basis van metingen van grondwaterstanden op de 14e en 28e van de maand. Deze metingen worden over het jaar gemiddeld en vervolgens gemiddeld over minimaal 8 jaar.
 3. Gemiddeld hoogste grondwaterstand (GHG): de gemiddeld hoogste grondwaterstand wordt vastgesteld op basis van metingen van grondwaterstanden op de 14e en 28e van de maand. Per jaar worden de drie hoogste grondwaterstanden geselecteerd en gemiddeld over minimaal 8 jaar.
 
 In totaal zijn er 18 mogelijke scenario's: <br>
 
-| Herhalingstijd  | Neerslagduur | Bodemtoestand   |
-|-----------------|--------------|-----------------|
+| Herhalingstijd  | Neerslagduur | Grondwater conditie   |
+|-----------------|--------------|-----------------      |
 | T10    | Piek   | GLG
 | T100   | Piek   | GLG
 | T1000  | Piek   | GLG
@@ -383,23 +383,8 @@ In totaal zijn er 18 mogelijke scenario's: <br>
 | T100   | Blok   | GHG
 | T1000  | Blok   | GHG
 
-Hieronder is voor de zes mogelijke combinaties van herhalingstijd en neerslagduur de opbouw weergegeven:
-1. Opbouw T10 blok bui: 
-![](../images/usage/T10_blok.png)
+Hieronder is voor zes scenario's van herhalingstijd en neerslagduur de opbouw weergegeven:
 
-2. Opbouw T100 blok bui: 
-![](../images/usage/T100_blok.png)
+![](../images/documentation/neerslagevents_piek_blok.png)
 
-3. Opbouw T1000 blok bui: 
-![](../images/usage/T1000_blok.png)
-
-4. Opbouw T10 piek bui: 
-![](../images/usage/T10_piek.png)
-
-5. Opbouw T100 piek bui: 
-![](../images/usage/T100_piek.png)
-
-6. Opbouw T1000 piek bui: 
-![](../images/usage/T1000_piek.png)
-
-##### Andere afbeeldingen in Python genereren? > Wietse?
+Bron: Brede Methodiek Wateroverlast

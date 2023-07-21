@@ -314,6 +314,7 @@ Voor de inhoudelijke uitleg van de tests, zie: [Sqlite checks](tests_documentati
 
 Selecteer de checks die je wil laten uitveroen en klik op 'Start tests' om de tests te starten. De resultaten worden weergegeven als de tests uitgevoerd zijn:
 ##### Dit werkt nog niet helemaal goed bij mij.
+
 ![](../images/usage/sqlite_tests_results_legend.png)
 
 1. De resultaten van sommige tests worden gevisualiseerd als ```QGIS``` lagen. Deze lagen worden toegevoegd aan het ```layers panel``` in ```QGIS```. De bronnen voor deze lagen zijn ```geopackages (.gpkg)```. Deze files worden automatisch aangemaakt en opgeslagen in ```04_test_results``` \ ```sqlite_tests```.
@@ -383,7 +384,7 @@ Resultaten van de klimaatsommen worden als lagen toegevoegd aan ```QGIS```:
 
 ##### nog verder aanvullen...
 
-##### Nabewerking klimaatsommen in notebook? Wat daar mee te doen?
+##### Nabewerking klimaatsommen in notebook? Wat daar mee te doen? > Verder uitwerken, maar eerst foutmeldingen oplossen.
 
 ## Bekende problemen
 ### Oude sqlite error
@@ -410,3 +411,5 @@ Deze error kan op de volgende manier opgeloste worden:
 Klik op `yes`. De .sqlite staat nu in een versie die ingeladen kan worden in 3Di zonder foutmelding. 
 
    `{gebruiker}` is de naam van de Windows-gebruiker.
+
+##### Input paden uitwerken? Nabewerking klimaatsommen werkt niet door ontbreken polder shapefile in map x?
