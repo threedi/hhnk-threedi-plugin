@@ -17,6 +17,7 @@ theme:
         name: Switch to light mode
 extra_css:
 - stylesheets/extra.css
+- stylesheets/headings.css
 
 plugins:
   - search

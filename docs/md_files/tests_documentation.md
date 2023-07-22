@@ -2,46 +2,62 @@
 
 Op deze pagina vind je de inhoudelijke uitleg van de HHNK Toolbox checks en de functionaliteit.
 
-1. [Algemene concepten](#algemene-concepten)
-    1. [Standaard project indeling](#standaard-project-indeling)
-    2. [QGIS project](#qgis-project)
-2. [Modelstaat aanpassen](#modelstaat-aanpassen)
-3. [Sqlite checks](#sqlite-checks)
-    1. [Data verificatie](#data-verificatie)
-        1. [Ondoorlatend oppervlak](#1-ondoorlatend-oppervlak)
-        2. [Gebruikte profielen](#2-gebruikte-profielen)
-        3. [Gestuurde kunstwerken](#3-gestuurde-kunstwerken)
-        4. [Bodemhoogte stuw](#4-bodemhoogte-stuw)
-        5. [Geometrie](#5-geometrie)
-        6. [Bodemhoogte kunstwerken](#6-bodemhoogte-kunstwerken)
-        7. [Algemene tests](#7-algemene-tests)
-        8. [Geïsoleerde watergangen](#8-geïsoleerde-watergangen)
-        9. [Genereer grid](#9-genereer-grid)
-     2. [Eenmalige tests](#eenmalige-tests)
-        1. [Maximale waarde DEM](#1-maximale-waarde-dem)
-        2. [Ontwateringsdiepte](#2-ontwateringsdiepte)
-        3. [Oppervlaktewater](#3-oppervlaktewater)
-    
-4. [0d1d tests](#1d2d-tests)
-5. [Bank levels](#bank-levels)
-6. [1d2d tests](#1d2d-tests)
-7. [Klimaatsommen](#klimaatsommen)
+- [Uitleg tests en functionaliteit](#uitleg-tests-en-functionaliteit)
+      - [01\_source\_data](#01_source_data)
+        - [DIT LIJKT OOK VERANDERD TE ZIJN. WAT IS MINIMAAL NODIG? \> actie voor Wietse om dit te verduidelijken](#dit-lijkt-ook-veranderd-te-zijn-wat-is-minimaal-nodig--actie-voor-wietse-om-dit-te-verduidelijken)
+        - [Wat is minimaal nodig voor tests? \> Actie voor Wietse](#wat-is-minimaal-nodig-voor-tests--actie-voor-wietse)
+      - [Modelbuilder output](#modelbuilder-output)
+    - [ Duikers als orifice](#-duikers-als-orifice)
+      - [02\_schematisation:](#02_schematisation)
+      - [03\_3di\_results](#03_3di_results)
+      - [04\_test\_results](#04_test_results)
+    - [```QGIS``` project](#qgis-project)
+  - [Modelstaat aanpassen](#modelstaat-aanpassen)
+        - [IK ZIE DEZE TABEL NERGENS?](#ik-zie-deze-tabel-nergens)
+        - [IK ZOU ONDERSTAANDE GRAAG EEN KEER UITGELEGD KRIJGEN](#ik-zou-onderstaande-graag-een-keer-uitgelegd-krijgen)
+  - [Sqlite checks  WE: *Nu begint de test documentatie pas? Indeling niet handig.*](#sqlite-checks--we-nu-begint-de-test-documentatie-pas-indeling-niet-handig)
+    - [Data verificatie](#data-verificatie)
+      - [1. Ondoorlatend oppervlak](#1-ondoorlatend-oppervlak)
+      - [2. Gebruikte profielen](#2-gebruikte-profielen)
+      - [3. Gestuurde kunstwerken](#3-gestuurde-kunstwerken)
+      - [4. Bodemhoogte stuw](#4-bodemhoogte-stuw)
+      - [5. Geometrie](#5-geometrie)
+      - [6. Bodemhoogte kunstwerken](#6-bodemhoogte-kunstwerken)
+      - [7. Algemene tests](#7-algemene-tests)
+      - [8. Geïsoleerde watergangen](#8-geïsoleerde-watergangen)
+      - [9. Genereer grid](#9-genereer-grid)
+        - [Nog aanvullen](#nog-aanvullen)
+    - [Eenmalige tests](#eenmalige-tests)
+      - [1. Maximale waarde DEM](#1-maximale-waarde-dem)
+      - [2. Ontwateringsdiepte](#2-ontwateringsdiepte)
+      - [3. Oppervlaktewater](#3-oppervlaktewater)
+  - [0d1d tests/hydraulische toets](#0d1d-testshydraulische-toets)
+  - [Bank levels  WE: *@Jelle verouderd, hebben we al aanpassing?*](#bank-levels--we-jelle-verouderd-hebben-we-al-aanpassing)
+  - [1d2d tests](#1d2d-tests)
+  - [Klimaatsommen](#klimaatsommen)
 
-## Algemene concepten
 
-### Standaard project indeling
+<span style="color:yellow"> WE: *Kun je nummering met meerdere niveaus toepassen en de nummers ook terug laten komen in de hoofdstukken hieronder?*</span>
+
+<h2>Algemene concepten<h2>
+
+<h3>Standaard project indeling<h3>
 
 De HHNK Toolbox werkt het makkelijkst wanneer een project op een bepaalde manier is ingedeeld. Als een project op die manier is ingedeeld worden de meeste paden automatisch ingevuld wanneer je een polder selecteert. De indeling is als 
 volgt:
 
-#### Indeling project map:
-
 ![](../images/documentation/default_folder_top_level.png)
 
-#### Indeling 01_source_data:
+#### 01_source_data
+<span style="color:yellow"> WE: *Hier meer achtergrond geven. Wat zit er in deze bestanden en mappen, waar komen ze vandaar en waar worden ze voor gebruikt? Meestal in opmaak voor controle.*</span>
 
 ![](../images/documentation/default_folder_source_data.png) 
 ##### DIT LIJKT OOK VERANDERD TE ZIJN. WAT IS MINIMAAL NODIG? > actie voor Wietse om dit te verduidelijken
+
+
+<span style="color:yellow"> WE: *In het plaatje mist de map peilgebieden met daarin een shape van de peilgebieden. Of was het zonder mapje? Deze moet beginnen met peilgebieden_ en is nodig voor de naverwerking. @Jelle, waarom deze niet uit de nieuwe geopackage halen?*</span>
+
+<span style="color:yellow"> WE: *De DAMO gdb en HDB worden inmiddels door de plugin omgezet naar geopackage. Let wel op als je een nieuwe export hebt gemaakt je de geopackage weg gooit. We hebben als doel over te stappen naar geopackage, maar dat werkt nog niet in de modelbuilder.*</span>
 
 Nodig voor tests:
 
@@ -52,33 +68,61 @@ Nodig voor tests:
 
 ##### Wat is minimaal nodig voor tests? > Actie voor Wietse
 
+#### Modelbuilder output
+De modelbuilder geeft naast het gemaakte model feedback over een aantal onderdelen van de modelbouw. Het is belangrijk deze te controleren. Dit zijn:
+
+-  **channel_surface_from_profiles**: het oppervlakte open water in de 1D profielen om te vergelijken met de BGT waterdelen.
+-  **culvert_to_orifice**: duikers die in het model als orifice zijn geschematiseert. <span style="color:yellow"> WE: *Uitleggen welke dat zijn in beschrijving modelbuilder, stukje hieronder op de juiste plek zetten*</span>
+-  **impervious_surface(_simple)**: weergave van de oppervlakken gebruikt voor de impervious surface (0d1d berekening)
+-  **misfits_lines / _points**: kunstwerken die bij het inpassen in de watergangen niet dezelfde lengte hebben gekregen of helemaal niet zijn gelukt. Deze moeten meestal handmatig met de hand aan het model toegevoegd worden.
+-  **model_feeback**: overige opmerkingen en aannames. 
+
+
+
+### <span style="color:yellow"> Duikers als orifice</span>
+Vanwege rekensnelheid, maar vooral vanwege aanhoudende instabiliteit in 3Di rondom korte duikers schemateseren we een deel van de duikers als doorlaat. De uitgangspunten hierbij zijn:
+1.	Lange overlaat (orifice) met discharge coëfficiënten op 1.0, mits:
+
+	   a.	Duiker breedte of diameter is factor 3 kleiner dan breedte watergang op streefpeil en,
+
+      b.	Duiker is korter dan 25m (zo veel mogelijk culverts voor eerste test, als er toch nog instabiele lange duikers ontstaan dan misschien langere afstand kiezen) en,
+
+      c.	Het verschil in bob is kleiner dan 10 cm.
+      
+2.	Duikers korter dan 10 m (die reeds als orifice werden gemodelleerd) als lange overlaten met discharge coëfficiënt op 1.0
+3.	Alle andere duikers (lang, breed of schuin) blijven culvert maar toevoegen 1m2 storage op begin en eind node daar waar dat nog niet tenminste het geval is
+4.	Alle bruggen krijgen discharge coëfficiënt op 1.0 (voorheen vaak 0.8)
+
 Indeling 01_source_data/modelbuilder_output:
 
 ![](../images/documentation/default_folder_source_data_modelbuilder_output.png)
 
-Nodig voor tests:
+Nodig voor tests: <span style="color:yellow"> WE: *Welke test? Waarom? Of verwijzing naar onderdeel hieronder.*</span>
 
     channel_surface_from_profiles (shapefile uit modelbuilder)
 
-#### Indeling 02_schematisation:
+#### 02_schematisation:
 
-In deze map moet minimaal de map ``00_basis`` zitten. De andere modelstaten worden gegenereerd bij het ['splitten'](usage.md#5-modelstaten-maken) van de modellen of wanneer nieuwe revisies worden gemaakt. De Excel bestanden bevatten de instellingen voor het genereren van de verschillende modelstaten.
+In deze map moet minimaal de map ``00_basis`` zitten. De map basis bevat het basis model van waaruit meerdere modelstaten kunnen worden gemaakt. In de map basis plaats je een nieuw aangemaakt model. Een 3Di model bestaat uit een sqlite database en een map met één of meerdere rasters. Plaats maar één sqlite in de map basis.
+ De andere modelstaten worden gegenereerd bij het ['splitten'](usage.md#5-modelstaten-maken) van de modellen of wanneer nieuwe revisies worden gemaakt. De Excel bestanden bevatten de instellingen voor het genereren van de verschillende modelstaten.
 
 ![](../images/documentation/default_folder_schematisation.png) 
 
-Nodig voor tests: 
+Nodig voor tests: <span style="color:yellow"> WE: *Welke test? Waarom? Of verwijzing naar onderdeel hieronder.*</span>
 
     model.sqlite
 
 Indeling 02_schematisation/00_basis/rasters: 
+<span style="color:yellow"> WE: *Leg uit wat deze rasters zijn. Of verwijs naar waar de dat doet.*</span>
 
 ![](../images/documentation/default_folder_model_rasters.png)
 
-Nodig voor tests:
+Nodig voor tests: <span style="color:yellow"> WE: *Welke test? Waarom? Of verwijzing naar onderdeel hieronder.*</span>
     
     dem_[polder] (waar [polder] de naam van de polder is)
 
-#### Indeling 03_3di_results
+#### 03_3di_results
+In de deze map worden resultaten van berekeningen opgeslagen. De indeling is als volgt:
 
 ![](../images/documentation/default_folder_3di_results.png)
 
@@ -113,6 +157,7 @@ en diens subgroepen. De hoofdgroepen zijn als volgt:
 Wanneer je een test opnieuw aanzet worden deze lagen automatisch verwijderd en opnieuw aangemaakt. Als je de lagen wilt behouden (bijvoorbeeld ter vergelijking), dan kun je bijvoorbeeld de hoofdgroepen hernoemen. Let op: je zult in dit geval ook een andere output map moeten specificeren.
 
 ## Modelstaat aanpassen
+<span style="color:yellow"> WE: *Dit is geen test. Ik heb moeite met de indeling. De splitsing van usage en test documentation vind ik onhandig. Ik zie liever een soort tutorial, een opbouw die de workflow volgt. Goed om een hoofdstuk te hebben met de mappenstructuur aan het begin, maar dat kan meer op hoofdlijnen wat mij betreft.*</span>
 
 Het aanpassen van de modelstaat is een hulpmiddel om te zorgen dat het rekenen met een model zo foutloos mogelijk gebeurt. Binnen de werkwijze van HHNK worden twee belangrijke model toetsingen gedaan:
 
@@ -129,12 +174,13 @@ Met deze aanpassingen in gedachten worden drie modelstaten onderscheiden:
 
 
 2. Hydraulische toets staat (0d1d staat)
+<span style="color:yellow"> WE: *Uitleggen wat dit is?*</span>
 
     Van een model in deze staat wordt aangenomen dat:
 
     * In tabel ```v2_global_settings``` '0d1d_test' staat bij ``name`` en dat de sturing is uitgeschakeld (```control_group_id``` is ```NULL```/leeg).
   
-    * De volgende tabellen in het model staan: 
+    * De volgende tabellen in het model staan: <span style="color:yellow"> WE: *kan denk ik weg, merk je als gebruiker niet. Wat welk nuttig zou zijn te beschrijven welke wijzigingen of verschillen er zijn tussen de modelstaten. Dus sturing uit/aan, stuwen 10breder en alles isolated voor 0d1dstaat. Vervolgens zijn er nog meer standaard staten, namelijk voor de batch berekening.*</span>
     ##### WAAR ZOUDEN DEZE MOETEN STAAN, WANT IK ZIE ZE NIET TUSSEN DE LAGEN STAAN
 
             backup_channels
@@ -142,7 +188,7 @@ Met deze aanpassingen in gedachten worden drie modelstaten onderscheiden:
             backup_controlled_weir_widths
             backup_global_settings
     
-3. 1d2d toets staat
+3. 1d2d toets staat <span style="color:yellow"> WE: *Wat hebben we aan deze beschrijving? Leg uit waarom het bestaat en wat iemand er mee moet.*</span>
     
     Van een model in deze staat wordt aangenomen dat:
     * In tabel ```v2_global_settings``` '1d2d_test' staat bij ``name` en sturing aan staat (```control_group_id``` is niet ```NULL```/leeg).
@@ -150,7 +196,7 @@ Met deze aanpassingen in gedachten worden drie modelstaten onderscheiden:
     * De tabel ```backup_global_settings``` bestaat. 
 ##### IK ZIE DEZE TABEL NERGENS?
 
-Het is belangrijk dat de gedetecteerde staat overeenkomt met de daadwerkelijke staat van het model, aangezien de gedetecteerde staat van het model bepaalt welke aanpassingen er worden gedaan. > IK SNAP DIT STUK NIET
+Het is belangrijk dat de gedetecteerde staat overeenkomt met de daadwerkelijke staat van het model, aangezien de gedetecteerde staat van het model bepaalt welke aanpassingen er worden gedaan. > IK SNAP DIT STUK NIET <span style="color:yellow"> WE: *ik ook niet.*</span>
 
 Aanpassingen per staat 
 ##### IK ZOU ONDERSTAANDE GRAAG EEN KEER UITGELEGD KRIJGEN
@@ -162,14 +208,14 @@ Van modelbuilder staat naar hydraulische toets/0d1d staat:
 | v2_global_settings             | Verwijderen rijen waar ```name``` niet '0d1d_test' is.<br>Aanpassen ```control_group_id``` naar ```NULL```. |
 | v2_manhole                     | Aanpassen ```calculation_type``` naar '1' |
 | v2_channel                     | Aanpassen ```calculation_type``` naar '101' |
-| v2_weir                        | Aanpassen ```width``` naar ```width``` * 10 voor gestuurde stuwen |
+| v2_weir                        | Aanpassen ```width``` naar ```width``` maal 10 voor gestuurde stuwen |
 
 Van modelbuilder staat naar 1d2d staat:
 
 | Tabel in model                 | Aanpassingen 'Berekenen uit 3Di resultaat'              | Aanpassingen 'Uit backup van eerdere 1d2d staat'  |
 |------------------------------- | ------------------------------------------------------- | ------------------------------------------------- |
 | v2_global_settings             | Verwijderen rijen waar ```name``` '0d1d_test' is.       | Verwijderen rijen waar ```name``` '0d1d_test' is. |
-| v2_cross_section_location      | Oude waarden in ```bank_level``` vervangen voor berekende bank levels. | Oude waarden in ```bank_level``` vervangen door waarden in ```backup_bank_levels``` |
+| v2_cross_section_location      | Oude waarden in ```bank_level``` vervangen voor berekende bank levels. <span style="color:yellow"> WE: *Wat wordt hier berekend? Updaten met inzihct dat levees voor 1d2d verbindingen werken? @Wietse*</span> | Oude waarden in ```bank_level``` vervangen door waarden in ```backup_bank_levels``` |
 | v2_manhole                     | Toevoegen nieuw berekende manholes. | - |
 
 Van hydraulische toets/0d1d staat naar 1d2d staat:
@@ -183,24 +229,25 @@ Van hydraulische toets/0d1d staat naar 1d2d staat:
 | v2_manhole (nieuw)             | Toevoegen nieuw berekende manholes. | - |
 | v2_cross_section_location      | Oude waarden in ```bank_level``` vervangen voor berekende bank levels. | Oude waarden in ```bank_level``` vervangen door waarden in ```backup_bank_levels``` |
 
-## Sqlite checks
+## Sqlite checks <span style="color:yellow"> WE: *Nu begint de test documentatie pas? Indeling niet handig.*</span>
 
 De sqlite checks zijn bedoeld om te checken of het model geschikt is om mee te rekenen. Hieronder worden de tests inhoudelijk toegelicht.
 
 ### Data verificatie
+<span style="color:yellow"> WE: *overal tenminste vertellen wat het is, waarom uitvoeren, waar resultaat zichtbaar, wat controleren en wat eraan doen*</span>
 
 #### 1. Ondoorlatend oppervlak
 
-   Berekent het oppervlak van de polder op basis van de ```polder_shapefile``` en het ondoorlatend oppervlak in het model. Het verschil tussen de twee zou niet te groot moeten zijn.
+   Berekent het oppervlak van de polder op basis van de ```polder_shapefile``` en het ondoorlatend oppervlak (impervious surface, 0d) in het model. Het verschil tussen de twee zou niet te groot moeten zijn. <span style="color:yellow"> WE: *Waar zien we dit resultaat? Hoe fout op te lossen?*</span>
 
 #### 2. Gebruikte profielen
    
-   Koppelt de v2_cross_section_definition laag van het model (discrete weergave van de natuurlijke geometrie van de watergangen) aan de v2_channel laag (informatie over watergangen in het model). Het resultaat van deze toets is een weergave van de breedtes en dieptes van watergangen in het model ter controle.
+   Koppelt de v2_cross_section_definition laag van het model (discrete weergave van de natuurlijke geometrie van de watergangen) aan de v2_channel laag (informatie over watergangen in het model). Het resultaat van deze toets is een weergave van de breedtes en dieptes van watergangen in het model ter controle. <span style="color:yellow"> WE: *@Wietse gebruiken we die shape uit de modelbuilder hier niet meer voor?*</span>
  
 #### 3. Gestuurde kunstwerken
    
    Deze test selecteert alle gestuurde kunstwerken (uit de v2_culvert, v2_orifice en v2_weir tabellen van het model) op basis van de v2_control_table. Per kunstwerk worden actiewaarden opgevraagd. Per gevonden gestuurd kunstwerk
-   wordt ook relevante informatie uit de HDB database toegevoegd, zoals het streefpeil en minimale en maximale kruinhoogtes.
+   wordt ook relevante informatie uit de HDB database toegevoegd, zoals het streefpeil en minimale en maximale kruinhoogtes. <span style="color:yellow"> WE: *Waar zien we dit resultaat? Wat controleren? Wat aanpassen? (hieronder herhaal ik het niet, algemene opmerking hierboven toegevoegd)*</span>
 
 #### 4. Bodemhoogte stuw
     
@@ -232,11 +279,11 @@ De eenmalige tests zijn er om een aantal randvoorwaarden te controleren. Als gev
 
 #### 1. Maximale waarde DEM
 
-   Als de maximale waarde in de DEM te hoog is, duidt dat meestal op een fout in het bestand (de nodata waarde is waarschijnlijk verkeerd ingevoerd). Deze test berekent deze maximale waarde.
+   Als de maximale waarde in de DEM te hoog is, duidt dat meestal op een fout in het bestand (de nodata waarde is waarschijnlijk verkeerd ingevoerd). Deze test berekent deze maximale waarde. <span style="color:yellow"> WE: *foute nodata is toch meestal een heel groot negatief getal? Dan vind je die niet met de max denk ik. Ook toevoegen dat 10 meestal de max is omdat watergangen daarop worden dicht gesmeerd.*</span>
  
 #### 2. Ontwateringsdiepte
    
-   Deze test controleert of het initiële water niveau per polder onder de oppervlakte hoogte uitgelezen uit de DEM ligt. Het initiële water niveau moet onder het oppervlak liggen.
+   Deze test controleert of het initiële water niveau per polder onder de maaiveldhoogte (DEM) ligt. Het initiële water niveau moet onder het oppervlak liggen.
   
 #### 3. Oppervlaktewater
 
@@ -246,18 +293,19 @@ De eenmalige tests zijn er om een aantal randvoorwaarden te controleren. Als gev
    
 ## 0d1d tests/hydraulische toets
 
-Als de sqlite tests zijn uitgevoerd, eventuele aanpassingen zijn gemaakt en het model is opgebouwd voor rekenen met 3Di wordt de hydraulische toets gedraaid. Deze toets is een test bui ontworpen om de 0d1d aspecten van het model te 
-controleren.
+Als de sqlite tests zijn uitgevoerd, eventuele aanpassingen zijn gemaakt en het model is opgebouwd voor rekenen met 3Di wordt de hydraulische toets gedraaid. Deze toets is een test bui ontworpen om het 1d watersysteem in het model te controleren. De test bui begint met een droge dag, vijf dagen neerslag gelijk aan de maalcapaciteit (in de meeste polders is dit 14,4 mm/dag) en dan twee dagen droog. Deze bui is zo ontworpen dat we een aantal eigenschappen van het watersysteem kunnen toetsen:
 
-Deze test werkt het best wanneer het model in de juiste staat is (zie [Model staat aanpassen](#modelstaat-aanpassen)).
-
-De test bui begint met een droge dag, vijf dagen neerslag (14,4 mm/dag) en dan twee dagen droog.
+- **streefpeil handhaving**: blijven waterpeilen constant tijdens de droge dag?
+- **stationaire afvoer**: stabiliseert het peil en de afvoer na de 5 dagen neerslag?
+- **herstel streefpeil**: herstelt het streefpeil na de natte periode?
 
 ![](../images/documentation/hydraulische_toets_bui.png)
 
-Het resultaat van het simuleren van deze bui kan vervolgens worden geanalyseerd met de HHNK Toolbox. De kaarten die het resultaat zijn van die analyse kunnen worden gebruikt om eventuele onrealistische resultaten te vinden die worden veroorzaakt door fouten in het model.
+Voer deze test uit met het model in 0d1d-staat (zie [Model staat aanpassen](#modelstaat-aanpassen)).
 
-De tests die worden gedaan door de Toolbox zijn onderverdeeld in:
+Het resultaat van het simuleren van deze bui kan vervolgens worden geanalyseerd met de HHNK Toolbox. De kaarten die het resultaat zijn van die analyse kunnen worden gebruikt om eventuele onrealistische resultaten te vinden die worden veroorzaakt door fouten in het model. <span style="color:yellow"> WE: *maak concreet!*</span>
+
+De tests die worden gedaan door de Toolbox zijn onderverdeeld in: <span style="color:yellow"> WE: *waar of hoe moet deze test gedraaid worden?*</span>
 * 0d1d test
 
   In deze test worden de 1d nodes uit het 3Di resultaat gefilterd en op vaste tijdstappen de waterstand voor deze nodes
@@ -273,7 +321,8 @@ De tests die worden gedaan door de Toolbox zijn onderverdeeld in:
    * Het verschil in waterstand tussen het begin van de regen en het einde van de regen (streefpeilhandhaving)
    * Het verschil in waterstand tussen het einde van de regen en een dag daarvoor (stabiele waterstandsverhoging einde regen)
    * Het verschil in waterstand tussen het einde van de regen en het einde van de som (herstel streefpeil)
-   
+
+<span style="color:yellow"> WE: *leg uit waarom hier naar kijken, wat zijn redelijke waarden, wat aanpassen, veelvoorkomende fouten?*</span>   
   
 * Hydraulische test
 
@@ -285,9 +334,11 @@ De tests die worden gedaan door de Toolbox zijn onderverdeeld in:
     * De stroomrichting
 
 Als er voldoende vertrouwen in de uitkomsten van het model is, kan het verhang over watergangen en kunstwerken worden vergeleken met geldende normen (bijvoorbeeld 4 cm/km).
-    
+  <span style="color:yellow"> WE: *is de HT een aparte knop of gaat dat gelijk mee met de 0d1d toets?*</span> 
 
-## Bank levels
+  <span style="color:yellow"> WE: *Wie keurt dit model goed? Beschrijf ook de werkwijze voor de watersysteemanalyse, in dit geval overleg met watersysteemadviseurs en gebiedsbeheerders*</span> 
+
+## Bank levels <span style="color:yellow"> WE: *@Jelle verouderd, hebben we al aanpassing?*</span>
 
 Als het 0d1d model is goedgekeurd kan deze test worden gedraaid. De bank levels test is grotendeels bedoeld om het model klaar te maken voor 3Di simulaties waarbij uitwisseling plaatsvindt tussen het watersysteem en het maaiveld.
 Door de resultaten van de simulatie te analyseren wordt bepaald welke watergangen een 1d2d verbinding hebben over een levee heen. Voor deze watergangen wordt een bank level voorgesteld gelijk aan de hoogte van de levee om vroegtijdige 
@@ -304,7 +355,7 @@ Wanneer de bank levels zijn bijgewerkt en waar nodig manholes zijn toegevoegd ka
 
 Deze test werkt alleen wanneer het model in de 1d2d-toets-staat is ingesteld (zie [Model staat aanpassen](#modelstaat-aanpassen)).
 
-De test bui begint in dit geval met een uur droog, dan twee uur regen (17,75 mm/uur), dan 12 uur droog.
+De test bui begint in dit geval met een uur droog, dan twee uur regen (17,75 mm/uur), dan 12 uur droog. <span style="color:yellow"> WE: *Waarom?*</span>
 
 ![](../images/documentation/1d2d_toets_bui.png)
 
@@ -327,8 +378,6 @@ De test die worden gedaan door de Toolbox zijn als volgt onder te verdelen:
     * het natte oppervlak per tijdstap (in m2)
     * opslag van regen in het gebied van de node (hoeveelheid water / totale oppervlak gebied)
  
-  (* Wanneer het gaat om het standaard 1d2d test scenario) 
-  ##### ik zie het bovenstaande * nergens naar verwijzen?
 
 * Stroomlijnen inlezen
 
@@ -356,11 +405,11 @@ Voor deze herhalingstijden zijn twee verschillende neerslagduren mogelijk:
 2. Blok: langdurige neerslagsituatie met een lage neerslagintensiteit die 48 uur duurt 
 
 Daarnaast is de grondwater conditie voorafgaand aan de neerslagsituatie van invloed op het verloop van het scenario. De volgende drie grondwater condities kunnen worden toegepast: 
-1. Gemiddel laagste grondwaterstand (GLG): de gemiddeld laagste grondwaterstand wordt vastgesteld op basis van metingen van grondwaterstanden op de 14e en 28e van de maand. Per jaar worden de drie laagste grondwaterstanden geselecteerd en gemiddeld over minimaal 8 jaar.
+1. Gemiddeld laagste grondwaterstand (GLG): de gemiddeld laagste grondwaterstand wordt vastgesteld op basis van metingen van grondwaterstanden op de 14e en 28e van de maand. Per jaar worden de drie laagste grondwaterstanden geselecteerd en gemiddeld over minimaal 8 jaar.
 2. Gemiddelde grondwaterstand (GGG): de gemiddelde grondwaterstand wordt vastgesteld op basis van metingen van grondwaterstanden op de 14e en 28e van de maand. Deze metingen worden over het jaar gemiddeld en vervolgens gemiddeld over minimaal 8 jaar.
 3. Gemiddeld hoogste grondwaterstand (GHG): de gemiddeld hoogste grondwaterstand wordt vastgesteld op basis van metingen van grondwaterstanden op de 14e en 28e van de maand. Per jaar worden de drie hoogste grondwaterstanden geselecteerd en gemiddeld over minimaal 8 jaar.
 
-In totaal zijn er 18 mogelijke scenario's: <br>
+In totaal zijn er 18 mogelijke scenario's: <span style="color:yellow"> WE: *deze tabel voegt voor mij niets toe.*</span> <br>
 
 | Herhalingstijd  | Neerslagduur | Grondwater conditie   |
 |-----------------|--------------|-----------------      |

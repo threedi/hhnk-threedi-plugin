@@ -8,7 +8,7 @@ Voorstellen naamgeving BvL:
 Deze pagina is bedoeld als handleiding om de HHNK Toolbox te gebruiken. De HHNK Toolbox is opgedeeld in drie delen:
 
 ![](../images/usage/header_main.png)
-1. Main: hier wordt het model ingeladen/gebouwd, kunnen resultaten worden ingeladen en is het mogelijk om simulaties te starten
+1. Main: hier wordt het model ingeladen, kunnen resultaten worden ingeladen en is het mogelijk om simulaties te starten
 2. Checks: dit onderdeel geeft de gebruiker de mogelijkheid om controles uit te voeren voor het model
 3. Modelbouw: werkt alleen op de server van HHNK (wordt later toegevoegd aan handleiding)
 
@@ -36,13 +36,13 @@ Volg onderstaande werkwijze als HHNK de benodigde data (model) aanlevert (optie 
 5. [Modelstaten maken](#5)
 6. [Berekeningen uitvoeren](#6-berekeningen-uitvoeren)
 
-### 1. Map aanmaken 
+### 1. Map aanmaken <span style="color:yellow"> WE: *verouderd, kan inmiddels met toolbox*</span>
 Maak een nieuwe map aan in de verkenner (locatie staat vrij, maar raadzaam om lokaal te werken) met de naam van het aangeleverde gebied (bijvoorbeeld polder_X). Dat kan er als volgt uit zien: `C:\Users\{gebruiker}\Documents\3Di\polder_X`. 
 
 `{gebruiker}` is de naam van de Windows-gebruiker.
 
-### 2. Data kopiëren
-Kopieer de aangeleverde data naar de map die in stap 1 is gemaakt. Hieronder is een voorbeeld te zien waaruit de aangeleverde data (deze kan qua inhoud verschillen) is opgebouwd.
+### 2. Data kopiëren 
+Kopieer de aangeleverde data naar de map die in stap 1 is gemaakt. Hieronder is een voorbeeld te zien waaruit de aangeleverde data (deze kan qua inhoud verschillen) is opgebouwd. <span style="color:yellow"> WE: *peilgebieden ontbreken*</span>
 
 ![](../images/usage/copy_data.PNG)
 
