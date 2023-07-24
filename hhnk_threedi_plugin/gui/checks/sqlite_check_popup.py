@@ -119,7 +119,7 @@ def setupUi(sqlite_dialog):
     sqlite_dialog.grid_chk.setObjectName("grid_chk")
     sqlite_dialog.cross_section_duplicate_chk = QCheckBox("Dubbele cross-sections")
     sqlite_dialog.cross_section_duplicate_chk.setObjectName("cross_section_duplicate_chk")
-    sqlite_dialog.cross_section_intersection_chk = QCheckBox(" Cross-section op channel vertex")
+    sqlite_dialog.cross_section_intersection_chk = QCheckBox("Cross-section op channel vertex")
     sqlite_dialog.cross_section_intersection_chk.setObjectName("cross_section_intersection_chk")
 
 

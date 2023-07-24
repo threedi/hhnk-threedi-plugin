@@ -270,7 +270,7 @@ class gridTask(BaseSqliteTask):
         # add_layers(self.layers_list, self.test_env.group_structure) #TODO
         return None, None #No widget created.
 
-class crossSectionTask(BaseSqliteTask):
+class crossSectionDuplicateTask(BaseSqliteTask):
     def __init__(self, folder):
         super().__init__(folder)
         self.description="overlappende/kruisende profielen bepalen"
@@ -279,7 +279,7 @@ class crossSectionTask(BaseSqliteTask):
 
     def run_custom(self):
         if self.os_retry is None:
-            self.gdf = self.sqlite_test.run_cross_section(database = self.database)
+            self.gdf = self.sqlite_test.cross_section_duplicate_chk(database = self.database)
 
         self.gdf.to_file(self.layer_source, index=False, driver='GPKG')
 

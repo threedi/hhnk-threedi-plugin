@@ -4,7 +4,7 @@ from hhnk_threedi_plugin.gui.general_objects import (
     create_layer_added_label,
 )
 
-cross_section_title = "Profielen Overlappen"
+cross_section_duplicate_chk_title = "Dubbele cross-sections"
 
 
 def cross_section_warning_result_widget(layer_source):
@@ -15,4 +15,4 @@ def cross_section_warning_result_widget(layer_source):
     layout.addWidget(label)
     layout.addWidget(button)
     widget.setLayout(layout)
-    return cross_section_title, widget
+    return cross_section_duplicate_chk_title, widget
