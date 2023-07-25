@@ -273,8 +273,8 @@ class gridTask(BaseSqliteTask):
 class crossSectionDuplicateTask(BaseSqliteTask):
     def __init__(self, folder):
         super().__init__(folder)
-        self.description="overlappende/kruisende profielen bepalen"
-        self.layer_source = self.folder.output.sqlite_tests.overlappende_profielen.path
+        self.description="Dubbele_cross_sections/kruisende profielen bepalen"
+        self.layer_source = self.folder.output.sqlite_tests.Dubbele_cross_sections.path
         self.database =  self.folder.model.schema_base.database
 
     def run_custom(self):
