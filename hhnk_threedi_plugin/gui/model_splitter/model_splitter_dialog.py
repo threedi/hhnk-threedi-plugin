@@ -6,7 +6,7 @@ from qgis.PyQt import QtGui, QtWidgets, uic
 import pandas as pd
 import datetime
 
-from hhnk_threedi_tools.core.checks import model_splitter
+import hhnk_threedi_tools as htt
 from hhnk_threedi_plugin.hhnk_toolbox_dockwidget import HHNK_toolboxDockWidget
 #from hhnk_threedi_plugin.gui.model_states.functions.create_new_sqlite import create_schematisation
 
@@ -48,7 +48,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         """Load model settings and default settings. Thet are added as .settings_df and .settings_default_series"""
         self.model_settings_path.setFilePath(self.caller.fenv.model.settings.path)
         modelsettings_path = self.model_settings_path.filePath() 
-        self.modelschematisations = model_splitter.ModelSchematisations(folder=self.caller.fenv, modelsettings_path=modelsettings_path)
+        self.modelschematisations = htt.model_splitter.ModelSchematisations(folder=self.caller.fenv, modelsettings_path=modelsettings_path)
 
         if self.modelschematisations.settings_loaded:
             #Add logging that file was changed 
