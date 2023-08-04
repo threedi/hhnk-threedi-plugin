@@ -198,7 +198,7 @@ class newProjectDialog(QDialog):
         if reference_model == (""):
             with pkg_resources.path(setting_resource, "model_settings.xlsx") as p:
                 raw_model_settings = pd.read_excel(p.absolute().as_posix(), engine="openpyxl")
-                new_model_settings = pd.DataFrame(raw_model_settings.replace(regex=['hoekje'], value="[--set raster name--]"))
+                new_model_settings = pd.DataFrame(raw_model_settings.replace(regex=['callantsoog'], value="[--set raster name--]"))
                 new_model_settings['name'] = (new_model_settings['name'] + str('_' + project_name))
                 new_model_settings.to_excel(os.path.join(dst.model.base, "model_settings.xlsx"))
             
@@ -210,7 +210,7 @@ class newProjectDialog(QDialog):
         else:
             with pkg_resources.path(setting_resource, "model_settings.xlsx") as p:
                 raw_model_settings = pd.read_excel(p.absolute().as_posix(), engine="openpyxl")
-                new_model_settings = pd.DataFrame(raw_model_settings.replace(regex=['hoekje'], value=reference_model))
+                new_model_settings = pd.DataFrame(raw_model_settings.replace(regex=['callantsoog'], value=reference_model))
                 new_model_settings['name'] = (new_model_settings['name'] + str('_' + project_name))       
                 new_model_settings.to_excel(os.path.join(dst.model.base, "model_settings.xlsx"))
 
