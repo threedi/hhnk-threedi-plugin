@@ -237,7 +237,7 @@ self.grid = hrt.threedi.grid.Grid(sqlite_path=self.fenv.model.schema_base.sqlite
                 )
 
 
-self.fixeddrainage_layer = self.fenv.source_data.datachecker_fixed_drainage
+self.fixeddrainage_layer = self.fenv.source_data.datachecker.layers.fixeddrainagelevelarea
 
 self.imports = bank_levels.import_information(
     model_path=self.model_path,
