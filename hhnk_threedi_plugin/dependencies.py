@@ -61,7 +61,7 @@ LOG_DIR = OUR_DIR / "logs"
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 PATCH_DIR = OUR_DIR / "patches"
-PATCHES = {}
+PATCHES = {"downloader.py":DEPENDENCY_DIR/r"threedi_scenario_downloader/downloader.py"}
 
 USERDEPS =  ["jupyterlab", "ipywidgets"] #Dependencies in userfolder %appdata%/python/
 
@@ -360,6 +360,8 @@ def _install_patches(patches: dict = PATCHES, patch_dir: Path = PATCH_DIR):
     Returns:
         None.
 
+    example:
+    PATCHES = {"downloader.py":DEPENDENCY_DIR/r"threedi_scenario_downloader/downloader.py"}
     """
     for source, target in patches.items():
         source = patch_dir / source
