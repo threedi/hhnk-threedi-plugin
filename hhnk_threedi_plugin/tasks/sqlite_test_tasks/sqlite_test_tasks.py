@@ -16,7 +16,8 @@ from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.general_checks_result im
 from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.isolated_channels_result import create_isolated_channels_result_widget
 from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.dem_max_val_result import create_dem_max_val_result_widget
 from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.watersurface_area_result import create_watersurface_area_result_widget
-
+from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.cross_section_warning_result import cross_section_warning_result_widget
+from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.cross_section_vertex_result import cross_section_vertex_result_widget
 
 import hhnk_research_tools as hrt
 import geopandas as gpd
@@ -268,3 +269,43 @@ class gridTask(BaseSqliteTask):
         """Add layer so it is seen by the widget"""
         # add_layers(self.layers_list, self.test_env.group_structure) #TODO
         return None, None #No widget created.
+
+class crossSectionDuplicateTask(BaseSqliteTask):
+    def __init__(self, folder):
+        super().__init__(folder)
+        self.description="dubbele cross sections"
+        self.layer_source = self.folder.output.sqlite_tests.cross_section_duplicates.path
+        self.database =  self.folder.model.schema_base.database
+
+    def run_custom(self):
+        if self.os_retry is None:
+            self.gdf = self.sqlite_test.run_cross_section_duplicates(database = self.database)
+
+        self.gdf.to_file(self.layer_source, index=False, driver='GPKG')
+
+    
+    def finished_custom(self):
+
+        title, widget = cross_section_warning_result_widget(layer_source=self.layer_source)
+        return title, widget
+
+class crossSectionNoVertexTask(BaseSqliteTask):
+    def __init__(self, folder):
+        super().__init__(folder)
+        self.description="profielen geen snijpunt in vertex "
+        self.database =   self.folder.model.schema_base.database
+        self.layer_source = self.folder.output.sqlite_tests.profielen_geen_vertex.path
+
+    def run_custom(self):
+        
+        if self.os_retry is None:
+            self.gdf = self.sqlite_test.run_cross_section_no_vertex(database = self.database)
+
+        self.gdf.to_file(self.layer_source, index=False, driver='GPKG')
+
+    
+    def finished_custom(self):
+
+        title, widget = cross_section_vertex_result_widget(layer_source=self.layer_source)
+        return title, widget
+    
