@@ -273,13 +273,13 @@ class gridTask(BaseSqliteTask):
 class crossSectionDuplicateTask(BaseSqliteTask):
     def __init__(self, folder):
         super().__init__(folder)
-        self.description="Dubbele_cross_sections/kruisende profielen bepalen"
-        self.layer_source = self.folder.output.sqlite_tests.Dubbele_cross_sections.path
+        self.description="dubbele cross sections"
+        self.layer_source = self.folder.output.sqlite_tests.cross_section_duplicates.path
         self.database =  self.folder.model.schema_base.database
 
     def run_custom(self):
         if self.os_retry is None:
-            self.gdf = self.sqlite_test.cross_section_duplicate_chk(database = self.database)
+            self.gdf = self.sqlite_test.run_cross_section_duplicates(database = self.database)
 
         self.gdf.to_file(self.layer_source, index=False, driver='GPKG')
 
@@ -289,7 +289,7 @@ class crossSectionDuplicateTask(BaseSqliteTask):
         title, widget = cross_section_warning_result_widget(layer_source=self.layer_source)
         return title, widget
 
-class crossSectionIntersectionTask(BaseSqliteTask):
+class crossSectionNoVertexTask(BaseSqliteTask):
     def __init__(self, folder):
         super().__init__(folder)
         self.description="profielen geen snijpunt in vertex "
@@ -299,7 +299,7 @@ class crossSectionIntersectionTask(BaseSqliteTask):
     def run_custom(self):
         
         if self.os_retry is None:
-            self.gdf = self.sqlite_test.run_cross_section_vertex(database = self.database)
+            self.gdf = self.sqlite_test.run_cross_section_no_vertex(database = self.database)
 
         self.gdf.to_file(self.layer_source, index=False, driver='GPKG')
 

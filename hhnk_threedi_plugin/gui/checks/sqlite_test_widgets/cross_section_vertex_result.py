@@ -4,7 +4,7 @@ from hhnk_threedi_plugin.gui.general_objects import (
     create_layer_added_label,
 )
 
-cross_section_intersection_chk_title = "Cross-section op channel vertex"
+cross_section_no_vertex_chk_title = "Cross-section op channel vertex"
 
 
 def cross_section_vertex_result_widget(layer_source):
@@ -15,4 +15,4 @@ def cross_section_vertex_result_widget(layer_source):
     layout.addWidget(label)
     layout.addWidget(button)
     widget.setLayout(layout)
-    return cross_section_intersection_chk_title, widget
+    return cross_section_no_vertex_chk_title, widget

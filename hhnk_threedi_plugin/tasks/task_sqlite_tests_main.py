@@ -21,7 +21,7 @@ from hhnk_threedi_plugin.tasks.sqlite_test_tasks.sqlite_test_tasks import (
     dewateringTask,
     watersurfaceAreaTask,
     crossSectionDuplicateTask,
-    crossSectionIntersectionTask,
+    crossSectionNoVertexTask,
     )
 
 
@@ -61,7 +61,7 @@ def task_sqlite_tests_main(parent_widget, folder, selected_tests):
             "dewatering_depth_chk":dewateringTask,
             "watersurface_area_chk":watersurfaceAreaTask,
             "cross_section_duplicate_chk":crossSectionDuplicateTask,
-            "cross_section_intersection_chk":crossSectionIntersectionTask,
+            "cross_section_no_vertex_chk":crossSectionNoVertexTask,
             }
         
 
