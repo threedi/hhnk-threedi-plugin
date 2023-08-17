@@ -20,6 +20,8 @@ from hhnk_threedi_plugin.tasks.sqlite_test_tasks.sqlite_test_tasks import (
     demMaxValTask,
     dewateringTask,
     watersurfaceAreaTask,
+    crossSectionDuplicateTask,
+    crossSectionNoVertexTask,
     )
 
 
@@ -58,6 +60,8 @@ def task_sqlite_tests_main(parent_widget, folder, selected_tests):
             "max_dem_chk":demMaxValTask,
             "dewatering_depth_chk":dewateringTask,
             "watersurface_area_chk":watersurfaceAreaTask,
+            "cross_section_duplicate_chk":crossSectionDuplicateTask,
+            "cross_section_no_vertex_chk":crossSectionNoVertexTask,
             }
         
 
