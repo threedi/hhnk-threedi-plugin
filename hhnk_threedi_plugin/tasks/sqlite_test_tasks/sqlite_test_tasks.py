@@ -257,9 +257,7 @@ class gridTask(BaseSqliteTask):
     def run(self):
         QgsMessageLog.logMessage(f"Taak gestart {self.description}", level=Qgis.Info)
         try:
-            self.sqlite_test.create_grid_from_sqlite(sqlite_path=self.folder.model.schema_base.sqlite_paths[0], 
-                                                        dem_path=self.folder.model.schema_base.rasters.dem.path, 
-                                                        output_folder=self.folder.output.sqlite_tests.path)
+            self.sqlite_test.create_grid_from_sqlite(output_folder=self.folder.output.sqlite_tests.path)
             return True
         except Exception as e:
             self.exception = e

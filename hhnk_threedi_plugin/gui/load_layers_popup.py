@@ -229,9 +229,7 @@ class loadLayersDialog(QDialog):
 
         if self.grid_selector.isChecked() == True:
             sqlite_test = SqliteCheck(self.caller.fenv)
-            sqlite_test.create_grid_from_sqlite(sqlite_path=self.caller.fenv.model.schema_base.sqlite_paths[0], 
-                                                dem_path=self.caller.fenv.model.schema_base.rasters.dem.path, 
-                                                output_folder=self.caller.fenv.output.sqlite_tests.path)
+            sqlite_test.create_grid_from_sqlite(output_folder=self.caller.fenv.output.sqlite_tests.path)
 
             subjects.append('grid')
 
