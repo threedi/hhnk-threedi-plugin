@@ -16,8 +16,8 @@ from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.general_checks_result im
 from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.isolated_channels_result import create_isolated_channels_result_widget
 from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.dem_max_val_result import create_dem_max_val_result_widget
 from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.watersurface_area_result import create_watersurface_area_result_widget
-from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.cross_section_warning_result import cross_section_warning_result_widget
-from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.cross_section_vertex_result import cross_section_vertex_result_widget
+from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.cross_section_warning_result import cross_section_duplicate_widget
+from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.cross_section_vertex_result import cross_section_no_vertex_widget
 
 import hhnk_research_tools as hrt
 import geopandas as gpd
@@ -286,7 +286,7 @@ class crossSectionDuplicateTask(BaseSqliteTask):
     
     def finished_custom(self):
 
-        title, widget = cross_section_warning_result_widget(layer_source=self.layer_source)
+        title, widget = cross_section_duplicate_widget(layer_source=self.layer_source)
         return title, widget
 
 class crossSectionNoVertexTask(BaseSqliteTask):
@@ -294,7 +294,7 @@ class crossSectionNoVertexTask(BaseSqliteTask):
         super().__init__(folder)
         self.description="profielen geen snijpunt in vertex "
         self.database =   self.folder.model.schema_base.database
-        self.layer_source = self.folder.output.sqlite_tests.profielen_geen_vertex.path
+        self.layer_source = self.folder.output.sqlite_tests.cross_section_no_vertex.path
 
     def run_custom(self):
         
@@ -306,6 +306,6 @@ class crossSectionNoVertexTask(BaseSqliteTask):
     
     def finished_custom(self):
 
-        title, widget = cross_section_vertex_result_widget(layer_source=self.layer_source)
+        title, widget = cross_section_no_vertex_widget(layer_source=self.layer_source)
         return title, widget
     

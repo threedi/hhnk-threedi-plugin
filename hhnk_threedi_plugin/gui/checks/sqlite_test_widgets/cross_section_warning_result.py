@@ -7,7 +7,7 @@ from hhnk_threedi_plugin.gui.general_objects import (
 cross_section_duplicate_chk_title = "Dubbele cross-sections"
 
 
-def cross_section_warning_result_widget(layer_source):
+def cross_section_duplicate_widget(layer_source):
     widget = QWidget()
     layout = QVBoxLayout()
     label = create_layer_added_label()
