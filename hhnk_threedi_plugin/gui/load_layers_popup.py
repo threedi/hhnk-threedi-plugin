@@ -168,7 +168,7 @@ class loadLayersDialog(QDialog):
         self.one_d_two_d_selector.clear()
         self.one_d_two_d_selector.addItem("")
         for revision in revisions:
-            self.one_d_two_d_selector.addItem(revision)
+            self.one_d_two_d_selector.addItem(revision.name)
 
     def populate_zero_d_one_d_combobox(self):
         """Add available revisions to dropdown"""
@@ -177,7 +177,7 @@ class loadLayersDialog(QDialog):
         self.zero_d_one_d_selector.clear()
         self.zero_d_one_d_selector.addItem("")
         for revision in revisions:
-            self.zero_d_one_d_selector.addItem(revision)
+            self.zero_d_one_d_selector.addItem(revision.name)
 
     def populate_klimaatsommen_combobox(self):
         """Add available revisions to dropdown"""
@@ -186,7 +186,7 @@ class loadLayersDialog(QDialog):
         self.klimaatsommen_selector.clear()
         self.klimaatsommen_selector.addItem("")
         for revision in revisions:
-            self.klimaatsommen_selector.addItem(revision)
+            self.klimaatsommen_selector.addItem(revision.name)
 
     def set_current_paths(self):
         """

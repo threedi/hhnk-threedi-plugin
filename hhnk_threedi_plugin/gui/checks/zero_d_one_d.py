@@ -105,7 +105,7 @@ class zeroDOneDWidget(QWidget):
         self.select_revision_box.clear()
         self.select_revision_box.addItem("")
         for revision in revisions:
-            self.select_revision_box.addItem(revision)
+            self.select_revision_box.addItem(revision.name)
 
 
     def zero_d_one_d_test_execution(self):

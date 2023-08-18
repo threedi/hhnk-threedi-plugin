@@ -38,13 +38,13 @@ class modelSplitterDialog(QtWidgets.QDialog):
 
         # other stuff
         self.cancel.clicked.connect(self.close)            
-        self.model_settings_path.setFilePath(self.caller.fenv.model.settings.path)
+        self.model_settings_path.setFilePath(self.caller.fenv.model.settings.base)
 
         
 
     def load_settings(self):
         """Load model settings and default settings. Thet are added as .settings_df and .settings_default_series"""
-        self.model_settings_path.setFilePath(self.caller.fenv.model.settings.path)
+        self.model_settings_path.setFilePath(self.caller.fenv.model.settings.base)
         modelsettings_path = self.model_settings_path.filePath() 
         self.modelschematisations = htt.model_splitter.ModelSchematisations(folder=self.caller.fenv, modelsettings_path=modelsettings_path)
 

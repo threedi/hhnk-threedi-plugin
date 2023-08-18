@@ -10,7 +10,7 @@ from hhnk_threedi_tools.variables.model_state import (
     one_d_two_d_from_calc,
     one_d_two_d_state,
 )
-from hhnk_threedi_tools.core.checks.model_backup import update_bank_levels_last_calc
+from hhnk_threedi_tools.core.schematisation.model_backup import update_bank_levels_last_calc
 
 
 class modelChangesDialog(QDialog):
