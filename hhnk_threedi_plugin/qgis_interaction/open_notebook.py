@@ -17,7 +17,6 @@ from pathlib import Path
 from qgis.PyQt.QtWidgets import QAction, QMessageBox
 
 from hhnk_threedi_tools.utils.notebooks.run import create_command_bat_file
-from hhnk_research_tools.threedi.read_api_file import read_api_file
 import hhnk_research_tools as hrt
 import hhnk_threedi_tools as htt
 

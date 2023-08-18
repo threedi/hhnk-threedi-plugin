@@ -104,12 +104,12 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.listWidget3.addItem("Model versions enabled: " + str(self.get_lst_items(listwidget=self.listWidget2)))
         self.listWidget3.addItem("Model versions disabled: " + str(self.get_lst_items(listwidget=self.listWidget1)))
         self.listWidget3.addItem("")
-        self.listWidget3.addItem("Selected Organisation ID: " + self.dockwidget.uuid_comboBox.currentText())
+        self.listWidget3.addItem("Selected Organisation ID: " + self.dockwidget.org_name_comboBox.currentText())
         self.listWidget3.addItem("")
         self.listWidget3.addItem("Continue to upload the versions!")
 
         #create local split-revision
-        self.modelschematisations.sqlite_revision(commit_message=str(" (local split revision)" ))
+        self.modelschematisations.create_local_sqlite_revision(commit_message=str(" (local split revision)" ))
 
     def revision_check(self):
         api_key = self.dockwidget.threedi_api_key_textbox.text()
@@ -117,7 +117,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         
         self.listWidget3.addItem("")
         self.listWidget3.addItem(f"{datetime.datetime.now()} -----------------------------------------------------------------------------*")
-        self.listWidget3.addItem(self.modelschematisations.get_local_revision_info(name=lst_items[0], api_key=api_key))
+        self.listWidget3.addItem(self.modelschematisations.get_latest_local_revision_str())
 
         for list_name in lst_items:
             self.listWidget3.addItem(self.modelschematisations.get_model_revision_info(name=list_name, api_key=api_key))
@@ -137,9 +137,9 @@ class modelSplitterDialog(QtWidgets.QDialog):
 
         #settings for upload
         api_key = self.dockwidget.threedi_api_key_textbox.text()
-        organisation_uuid = upload.threedi.api.contracts_list(organisation__name=self.dockwidget.uuid_comboBox.currentText()).results
-        for uuid in organisation_uuid: 
-            uuid_slug = uuid.organisation 
+        organisations = upload.threedi.api.contracts_list(organisation__name=self.dockwidget.org_name_comboBox.currentText()).results
+        for org in organisations: 
+            uuid_slug = org.organisation 
         lst_items = self.get_lst_items(listwidget=self.listWidget2)
         print(lst_items)    
         
@@ -159,6 +159,6 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.listWidget3.addItem("Path: " + str(path))
         
         #create local upload revision
-        self.modelschematisations.sqlite_revision(commit_message = ("upload revision " + commit_message))
+        self.modelschematisations.create_local_sqlite_revision(commit_message = ("upload revision " + commit_message))
 
 
