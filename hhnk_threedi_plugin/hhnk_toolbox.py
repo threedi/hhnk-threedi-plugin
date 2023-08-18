@@ -509,7 +509,10 @@ class HHNK_toolbox:
             for i in organisation_names:
                 self.dockwidget.org_name_comboBox.addItem(str(i))
         except:
-            return('no organisation names available - check 3Di api_key and permissions')
+            self.iface.messageBar().pushMessage(
+                    'no organisation names available - check 3Di api_key and permissions', 
+                    level=Qgis.Warning
+                )
         
 
     def run(self):
