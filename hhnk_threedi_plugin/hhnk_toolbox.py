@@ -68,7 +68,7 @@ from hhnk_threedi_tools.core.folders import Folder, Folders
 # Variables
 from hhnk_threedi_tools.variables.model_state import invalid_path
 
-import hhnk_threedi_tools.core.api.upload_model.upload as upload
+import hhnk_threedi_tools.core.schematisation.upload as upload
 
 from hhnk_threedi_plugin.tasks.task_sqlite_tests_main import task_sqlite_tests_main
 
