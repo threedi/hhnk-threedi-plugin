@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>472</width>
-    <height>789</height>
+    <height>841</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,7 +19,7 @@
   <property name="minimumSize">
    <size>
     <width>345</width>
-    <height>789</height>
+    <height>841</height>
    </size>
   </property>
   <property name="maximumSize">
@@ -307,6 +307,21 @@
          </widget>
         </item>
         <item>
+         <widget class="QComboBox" name="org_name_comboBox">
+          <property name="editable">
+           <bool>false</bool>
+          </property>
+          <property name="currentText">
+           <string>--Selecteer hier je Organisation UUID!--</string>
+          </property>
+          <item>
+           <property name="text">
+            <string>--Selecteer hier je Organisation UUID!--</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item>
          <widget class="QPushButton" name="server_btn">
           <property name="text">
            <string>Open Jupyter Notebook Server</string>
@@ -375,7 +390,7 @@
              <x>0</x>
              <y>0</y>
              <width>424</width>
-             <height>678</height>
+             <height>704</height>
             </rect>
            </property>
            <attribute name="label">
