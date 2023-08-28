@@ -1,23 +1,16 @@
 import os
-from pathlib import Path
-from re import S
-from qgis.core import QgsVectorLayer
 from PyQt5.QtWidgets import (
     QDialog,
-    QFileDialog,
     QVBoxLayout,
     QLabel,
     QSpacerItem,
     QSizePolicy,
-    QComboBox,
-    QGroupBox,
     QCheckBox,
     QDialogButtonBox,
-    QMessageBox,
 )
 from PyQt5.QtCore import Qt, pyqtSignal
-from qgis.core import QgsTask, Qgis
-from qgis.utils import QgsMessageBar, QgsMessageLog, iface
+from qgis.core import Qgis
+from qgis.utils import QgsMessageBar, iface
 
 
 from hhnk_threedi_tools import SqliteCheck, MigrateSchema
@@ -221,15 +214,15 @@ class loadLayersDialog(QDialog):
         if self.sqlite_selector.isChecked() == True:
              
             #Migrate sqlite to newest version
-            migrate_schema = MigrateSchema(filename=self.caller.fenv.model.schema_base.sqlite_paths[0])
+            migrate_schema = MigrateSchema(filename=self.caller.fenv.model.schema_base.sqlite_paths[0].as_posix())
             migrate_schema.run()
 
             #load in project
-            load_layers_interaction.load_sqlite(filepath=self.caller.fenv.model.schema_base.sqlite_paths[0])
+            load_layers_interaction.load_sqlite(filepath=self.caller.fenv.model.schema_base.sqlite_paths[0].as_posix())
 
         if self.grid_selector.isChecked() == True:
             sqlite_test = SqliteCheck(self.caller.fenv)
-            sqlite_test.create_grid_from_sqlite(output_folder=self.caller.fenv.output.sqlite_tests.path)
+            sqlite_test.create_grid_from_sqlite(output_folder=self.caller.fenv.output.sqlite_tests.base)
 
             subjects.append('grid')
 
