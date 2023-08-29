@@ -3,16 +3,12 @@ import os
 from qgis.PyQt.QtWidgets import QAction, QListWidgetItem
 from qgis.PyQt import QtGui, QtWidgets, uic
 
-import pandas as pd
 import datetime
 from pathlib import Path
 
-
-from hhnk_threedi_tools.core.checks import model_splitter
-from hhnk_threedi_plugin.hhnk_toolbox_dockwidget import HHNK_toolboxDockWidget
+import hhnk_threedi_tools as htt
 from hhnk_threedi_tools import MigrateSchema
-import hhnk_threedi_tools.core.api.upload_model.upload as upload
-#from hhnk_threedi_plugin.gui.model_states.functions.create_new_sqlite import create_schematisation
+import hhnk_threedi_tools.core.schematisation.upload as upload
 
 
 class modelSplitterDialog(QtWidgets.QDialog):
@@ -42,15 +38,15 @@ class modelSplitterDialog(QtWidgets.QDialog):
 
         # other stuff
         self.cancel.clicked.connect(self.close)            
-        self.model_settings_path.setFilePath(self.caller.fenv.model.settings.path)
+        self.model_settings_path.setFilePath(self.caller.fenv.model.settings.base)
 
         
 
     def load_settings(self):
         """Load model settings and default settings. Thet are added as .settings_df and .settings_default_series"""
-        self.model_settings_path.setFilePath(self.caller.fenv.model.settings.path)
+        self.model_settings_path.setFilePath(self.caller.fenv.model.settings.base)
         modelsettings_path = self.model_settings_path.filePath() 
-        self.modelschematisations = model_splitter.ModelSchematisations(folder=self.caller.fenv, modelsettings_path=modelsettings_path)
+        self.modelschematisations = htt.model_splitter.ModelSchematisations(folder=self.caller.fenv, modelsettings_path=modelsettings_path)
 
         if self.modelschematisations.settings_loaded:
             #Add logging that file was changed 
@@ -133,7 +129,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         commit_message = commit_message.replace('\n', ' ').replace('\r', ' ').replace("\\", '|')
         polders_dir = self.dockwidget.polders_map_selector.filePath()
         polder = self.dockwidget.polder_selector.currentText()
-        path = Path(polders_dir) / polder
+        polder_path = Path(polders_dir) / polder
 
         #settings for upload
         api_key = self.dockwidget.threedi_api_key_textbox.text()
@@ -155,8 +151,8 @@ class modelSplitterDialog(QtWidgets.QDialog):
         #Logging
         self.listWidget3.addItem("")
         self.listWidget3.addItem(f"{datetime.datetime.now()} -----------------------------------------------------------------------------*")
-        self.listWidget3.addItem("Model versions uploaded: " + str(self.get_lst_items(listwidget=self.listWidget2)))
-        self.listWidget3.addItem("Path: " + str(path))
+        self.listWidget3.addItem(f"Model versions uploaded: {self.get_lst_items(listwidget=self.listWidget2)}")
+        self.listWidget3.addItem(f"Path: {polder_path}")
         
         #create local upload revision
         self.modelschematisations.create_local_sqlite_revision(commit_message = ("upload revision " + commit_message))

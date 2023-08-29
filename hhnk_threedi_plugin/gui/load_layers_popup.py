@@ -1,23 +1,16 @@
 import os
-from pathlib import Path
-from re import S
-from qgis.core import QgsVectorLayer
 from PyQt5.QtWidgets import (
     QDialog,
-    QFileDialog,
     QVBoxLayout,
     QLabel,
     QSpacerItem,
     QSizePolicy,
-    QComboBox,
-    QGroupBox,
     QCheckBox,
     QDialogButtonBox,
-    QMessageBox,
 )
 from PyQt5.QtCore import Qt, pyqtSignal
-from qgis.core import QgsTask, Qgis
-from qgis.utils import QgsMessageBar, QgsMessageLog, iface
+from qgis.core import Qgis
+from qgis.utils import QgsMessageBar, iface
 
 
 from hhnk_threedi_tools import SqliteCheck, MigrateSchema
@@ -168,7 +161,7 @@ class loadLayersDialog(QDialog):
         self.one_d_two_d_selector.clear()
         self.one_d_two_d_selector.addItem("")
         for revision in revisions:
-            self.one_d_two_d_selector.addItem(revision)
+            self.one_d_two_d_selector.addItem(revision.name)
 
     def populate_zero_d_one_d_combobox(self):
         """Add available revisions to dropdown"""
@@ -177,7 +170,7 @@ class loadLayersDialog(QDialog):
         self.zero_d_one_d_selector.clear()
         self.zero_d_one_d_selector.addItem("")
         for revision in revisions:
-            self.zero_d_one_d_selector.addItem(revision)
+            self.zero_d_one_d_selector.addItem(revision.name)
 
     def populate_klimaatsommen_combobox(self):
         """Add available revisions to dropdown"""
@@ -186,7 +179,7 @@ class loadLayersDialog(QDialog):
         self.klimaatsommen_selector.clear()
         self.klimaatsommen_selector.addItem("")
         for revision in revisions:
-            self.klimaatsommen_selector.addItem(revision)
+            self.klimaatsommen_selector.addItem(revision.name)
 
     def set_current_paths(self):
         """
@@ -221,17 +214,15 @@ class loadLayersDialog(QDialog):
         if self.sqlite_selector.isChecked() == True:
              
             #Migrate sqlite to newest version
-            migrate_schema = MigrateSchema(filename=self.caller.fenv.model.schema_base.sqlite_paths[0])
+            migrate_schema = MigrateSchema(filename=self.caller.fenv.model.schema_base.sqlite_paths[0].as_posix())
             migrate_schema.run()
 
             #load in project
-            load_layers_interaction.load_sqlite(filepath=self.caller.fenv.model.schema_base.sqlite_paths[0])
+            load_layers_interaction.load_sqlite(filepath=self.caller.fenv.model.schema_base.sqlite_paths[0].as_posix())
 
         if self.grid_selector.isChecked() == True:
             sqlite_test = SqliteCheck(self.caller.fenv)
-            sqlite_test.create_grid_from_sqlite(sqlite_path=self.caller.fenv.model.schema_base.sqlite_paths[0], 
-                                                dem_path=self.caller.fenv.model.schema_base.rasters.dem.path, 
-                                                output_folder=self.caller.fenv.output.sqlite_tests.path)
+            sqlite_test.create_grid_from_sqlite(output_folder=self.caller.fenv.output.sqlite_tests.base)
 
             subjects.append('grid')
 
@@ -247,12 +238,12 @@ class loadLayersDialog(QDialog):
         if self.test_protocol_selector.isChecked() == True:
             #FIXME tijdelijke implementatie om gdb in gpkg om te zetten. Als dit in alle projectmappen staat kan het weer weg. 
             for source in ["datachecker", "damo", "hdb"]:
-                in_gdb = hrt.FileGDB(getattr(self.caller.fenv.source_data, source).pl.with_suffix(".gdb"))
+                in_gdb = hrt.FileGDB(getattr(self.caller.fenv.source_data, source).path.with_suffix(".gdb"))
                 out_gpkg = getattr(self.caller.fenv.source_data, source)
 
                 hrt.convert_gdb_to_gpkg(gdb=in_gdb, gpkg=out_gpkg, overwrite=False, verbose=False)        
 
-                if in_gdb.pl.exists():
+                if in_gdb.exists():
                     iface.messageBar().pushMessage(
                         f"{source}_gdb is omgezet in {source}_gpkg. {source}.gdb kan verwijderd worden.", level=Qgis.Warning
                     )

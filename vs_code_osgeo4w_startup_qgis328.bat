@@ -36,7 +36,7 @@ set PYTHONPATH=%PYTHONPATH%;%appdata%\%QGIS_APPDATA_DIR%\QGIS3\profiles\default\
 set PYTHONPATH=%PYTHONPATH%;%appdata%\Python\Python39
 set PYTHONPATH=%PYTHONPATH%;%appdata%\Python\Python39\Scripts
 
-path %PYTHONPATH%;%PATH%
+path %PATH%;%PYTHONPATH%
 
 REM below is called in from o4w_env.bat - "C:\Program Files\3DiModellerInterface 3.22\etc\ini\qt5.bat"
 @REM path %OSGEO4W_ROOT%\apps\qt5\bin;%PATH%

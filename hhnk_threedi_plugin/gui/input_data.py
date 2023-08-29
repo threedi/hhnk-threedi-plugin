@@ -1,7 +1,7 @@
 # %%
+#TODO refactor en doet nu niet wat het zou moeten;
 import os
 from collections import OrderedDict
-# %%
 import pandas as pd
 from PyQt5.QtWidgets import (
     QPushButton,
@@ -22,15 +22,10 @@ from PyQt5.QtCore import Qt, pyqtSignal
 from qgis.gui import QgsMessageBar
 # from hhnk_threedi_plugin.gui.tests.verify_sqlite_tests_input import verify_input
 from hhnk_threedi_plugin.gui.utility.file_widget import fileWidget
-
-
+from pathlib import Path
 
 def setupUi(input_data):
     #Color 
-
-    
-    
-    
     input_data.setWindowTitle("Selecteer benodigde bestanden")
     input_data.setMinimumWidth(500)
 
@@ -207,19 +202,13 @@ class inputDataDialog(QDialog):
                 widgt = getattr(self, key)
                 
                 filepath = paths[value] #Get filepath from current source paths
+
                 name=filepath
 
-                #Remove first part of path
-                try:
-                    if key != "polders_map_selector":
-                        name = filepath(self.polders_map_selector.filePath())[-1]
-                        # name = filepath.split(self.polders_map_selector.filePath())[-1]
-                except:
-                    pass
                 widgt.setFilePath(name)
 
                 if filepath is not None:
-                    if os.path.exists(filepath):
+                    if Path(filepath).exists():
                         widgt.setStyleSheet("background-color: lightgreen;border: 1px solid black")
                     else: 
                         widgt.setStyleSheet("background-color: orange; border: 1px solid black")
@@ -262,3 +251,4 @@ class inputDataDialog(QDialog):
     #         self.results_dir_selector.setFilePath(paths["1d2d_results_dir"])
     #         self.output_selector.setFilePath(paths["1d2d_output"])
     #         #         E:\02.modellen\model_test_v2_juan
+# %%

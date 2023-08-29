@@ -72,7 +72,7 @@ class oneDTwoDWidget(QWidget):
         self.select_revision_box.clear()
         self.select_revision_box.addItem("")
         for revision in revisions:
-            self.select_revision_box.addItem(revision)
+            self.select_revision_box.addItem(revision.name)
 
 
     def one_d_two_d_tests_execution(self):

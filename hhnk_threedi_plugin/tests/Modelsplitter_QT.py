@@ -83,8 +83,8 @@ def modelsplitter(self):
         if overwrite:
             #Copy sqlite
             src=schema_base.database.path
-            dst = os.path.join(schema_new.path, schema_base.database.pl.name)
-            shutil.copyfile(src=src, dst=dst) 
+            dst = schema_new.full_path(schema_base.database.name)
+            shutil.copyfile(src=src, dst=dst.path) 
 
             raster_path =  os.path.join(schema_new.path, 'rasters')
             if not os.path.exists(raster_path):

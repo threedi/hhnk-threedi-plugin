@@ -151,7 +151,7 @@ class KlimaatSommenWidget(QWidget):
         self.select_revision_box.clear()
         self.select_revision_box.addItem("")
         for revision in revisions:
-            self.select_revision_box.addItem(revision)
+            self.select_revision_box.addItem(revision.name)
 
     def verify_submit_create_clean(self):
             msgBox = QMessageBox()

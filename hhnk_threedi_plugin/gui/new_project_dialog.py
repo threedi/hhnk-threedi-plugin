@@ -2,8 +2,6 @@ import os
 import pandas as pd
 import shutil
 import glob 
-import importlib.resources as pkg_resources
-import hhnk_threedi_tools.resources as setting_resource
 
 from pathlib import Path
 from PyQt5.QtWidgets import (
@@ -26,7 +24,8 @@ from ..error_messages.input_error_messages import (
 )
 from hhnk_threedi_tools.core.folders import Folders
 from hhnk_threedi_plugin.hhnk_toolbox_dockwidget import HHNK_toolboxDockWidget
-
+import hhnk_threedi_tools as htt
+import hhnk_research_tools as hrt
 
 
 def setupUi(new_project_dialog):
@@ -195,22 +194,23 @@ class newProjectDialog(QDialog):
         raster_paths = glob.glob(str(base_path + "\\cbt-[0-9]\\rasters")) + glob.glob(str(base_path + "\\cbt-[0-9][0-9]\\rasters"))      
        
         #adjust and copy model settings      
-        # TODO refactor use hrt.get_pkg_resource_path  
         if reference_model == (""):
             value = "[--set raster name--]"
         else: 
             value = reference_model
 
-        with pkg_resources.path(setting_resource, "model_settings.xlsx") as p:
-            raw_model_settings = pd.read_excel(p.absolute().as_posix(), engine="openpyxl")
-            new_model_settings = pd.DataFrame(raw_model_settings.replace(regex=['callantsoog'], value=value))
-            new_model_settings['name'] = (new_model_settings['name'] + str('_' + project_name))       
-            new_model_settings.to_excel(os.path.join(dst.model.base, "model_settings.xlsx"))
+        p = hrt.get_pkg_resource_path(package_resource=htt.resources, 
+                            name="model_settings.xslx")
+        raw_model_settings = pd.read_excel(p, engine="openpyxl")
+        new_model_settings = pd.DataFrame(raw_model_settings.replace(regex=['callantsoog'], value=value))
+        new_model_settings['name'] = (new_model_settings['name'] + str('_' + project_name))       
+        new_model_settings.to_excel(dst.model.settings.base)
 
         #copy model settings default file
-        with pkg_resources.path(setting_resource, "model_settings_default.xlsx") as p:
-            model_settings_default = pd.read_excel(p.absolute().as_posix(), engine="openpyxl")
-            model_settings_default.to_excel(os.path.join(dst.model.base, "model_settings_default.xlsx"))
+        p = hrt.get_pkg_resource_path(package_resource=htt.resources, 
+                            name="model_settings_default.xslx")
+        model_settings_default = pd.read_excel(p, engine="openpyxl")
+        model_settings_default.to_excel(dst.model.settings_default.base)
     
         if reference_model != (""):
             #searching sqlite file and copy to destination folder
