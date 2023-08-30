@@ -82,6 +82,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         return items
 
     def migration_check(self):
+        print(self.caller.fenv.model.schema_base.sqlite_paths[0])
         migrate_schema = MigrateSchema(filename=self.caller.fenv.model.schema_base.sqlite_paths[0])
         migrate_schema.run()
         
@@ -100,12 +101,14 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.listWidget3.addItem("Model versions enabled: " + str(self.get_lst_items(listwidget=self.listWidget2)))
         self.listWidget3.addItem("Model versions disabled: " + str(self.get_lst_items(listwidget=self.listWidget1)))
         self.listWidget3.addItem("")
+        #create local split-revision
+        response = self.modelschematisations.create_local_sqlite_revision(commit_message=str(" (local split revision)" ))
+        self.listWidget3.addItem(response)
+        self.listWidget3.addItem("")
         self.listWidget3.addItem("Selected Organisation ID: " + self.dockwidget.org_name_comboBox.currentText())
         self.listWidget3.addItem("")
         self.listWidget3.addItem("Continue to upload the versions!")
 
-        #create local split-revision
-        self.modelschematisations.create_local_sqlite_revision(commit_message=str(" (local split revision)" ))
 
     def revision_check(self):
         api_key = self.dockwidget.threedi_api_key_textbox.text()
@@ -155,6 +158,6 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.listWidget3.addItem(f"Path: {polder_path}")
         
         #create local upload revision
-        self.modelschematisations.create_local_sqlite_revision(commit_message = ("upload revision " + commit_message))
-
+        response = self.modelschematisations.create_local_sqlite_revision(commit_message = ("upload revision " + commit_message))
+        self.listWidget3.addItem(response)
 
