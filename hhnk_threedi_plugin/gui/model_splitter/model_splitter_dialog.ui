@@ -40,14 +40,14 @@
     </widget>
    </item>
    <item>
-    <widget class="QgsFileWidget" name="model_settings_path">
+    <widget class="QgsFileWidget" name="model_settings_path" native="true">
      <property name="minimumSize">
       <size>
        <width>461</width>
        <height>20</height>
       </size>
      </property>
-     <property name="fullUrl">
+     <property name="fullUrl" stdset="0">
       <bool>false</bool>
      </property>
     </widget>
@@ -165,7 +165,7 @@
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
-       <widget class="QListWidget" name="listWidget1">
+       <widget class="QListWidget" name="disabled_list">
         <property name="minimumSize">
          <size>
           <width>231</width>
@@ -200,7 +200,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QListWidget" name="listWidget2">
+       <widget class="QListWidget" name="enabled_list">
         <property name="minimumSize">
          <size>
           <width>231</width>
@@ -276,7 +276,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QListWidget" name="listWidget3">
+    <widget class="QListWidget" name="info_list">
      <property name="enabled">
       <bool>true</bool>
      </property>
@@ -427,7 +427,7 @@
        </size>
       </property>
       <property name="text">
-       <string>Cancel</string>
+       <string>Close</string>
       </property>
      </widget>
     </widget>
@@ -465,7 +465,7 @@
   <zorder>verticalSpacer</zorder>
   <zorder>verticalSpacer_3</zorder>
   <zorder>label_5</zorder>
-  <zorder>listWidget3</zorder>
+  <zorder>info_list</zorder>
   <zorder>textEdit</zorder>
  </widget>
  <customwidgets>

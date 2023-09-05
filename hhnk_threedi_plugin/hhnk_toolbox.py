@@ -136,8 +136,6 @@ class HHNK_toolbox:
         self.polder_folder = None
         self.current_source_paths = None
         self.modelbuilder = None
-
-        # Keep tracks of last chosen source paths over the entire toolbox
     
     @property
     def polders_path(self):
@@ -302,7 +300,7 @@ class HHNK_toolbox:
                 and self.bank_levels
                 and self.bank_levels.isVisible()
             ):
-                self.bank_levels.close()
+                self.bank_levels.close()       
 
     # Select from the dockwidget the path where the polder is located. If the path is not correct or if it is empty I will not enabled the buttons 
     def polders_folder_changed(self):
@@ -312,6 +310,7 @@ class HHNK_toolbox:
         items = []
         # get the contents of the folder in polders_map_selector
         path = self.dockwidget.polders_map_selector.filePath()
+        
         if path is not None:
             if (path != "") and Path(path).exists():
                 folder = Folder(path)
@@ -531,7 +530,7 @@ class HHNK_toolbox:
                 self.dockwidget = HHNK_toolboxDockWidget()
 
                 # disable predefined buttons    
-                self.enable_buttons(True)
+                self.enable_buttons(False)
                 # self.dockwidget.load_layers_btn.setEnabled(False)
 
                 self.dockwidget.lizard_api_key_textbox.textChanged.connect(self.hide_apikeys_lizard)
@@ -601,9 +600,10 @@ class HHNK_toolbox:
             self.iface.addTabifiedDockWidget(Qt.RightDockWidgetArea, self.dockwidget, raiseTab=True)
             self.dockwidget.show()
 
-
             # #For debug set project_path in local_settings.
             try:
                 self.dockwidget.polders_map_selector.setFilePath(local_settings.project_path)
             except:
                 pass
+            #
+            
