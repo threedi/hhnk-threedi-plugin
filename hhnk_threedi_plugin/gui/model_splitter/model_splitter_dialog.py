@@ -1,46 +1,53 @@
 import os
 
-from qgis.PyQt.QtWidgets import QAction, QListWidgetItem
-from qgis.PyQt import QtGui, QtWidgets, uic
+from qgis.PyQt.QtWidgets import QListWidgetItem
+from qgis.PyQt import QtWidgets, uic
+from PyQt5.QtGui import QTextCursor
 
 import datetime
 from pathlib import Path
+import re
 
 import hhnk_threedi_tools as htt
 from hhnk_threedi_tools import MigrateSchema
 import hhnk_threedi_tools.core.schematisation.upload as upload
 
 
+#%%
+def strip_special_characters(input_string):
+    # Replace all backslashes with forward slashes
+    input_string = input_string.replace('\\', '/')
+    
+    # Remove all characters except alphanumeric, underscores, hyphens, and forward slashes
+    return re.sub(r'[^a-zA-Z0-9-_\/ ]', '', input_string).lower()
+
+#%%
+
 class modelSplitterDialog(QtWidgets.QDialog):
     def __init__(self, caller, parent=None):
-        # super().__init__()
         super(modelSplitterDialog, self).__init__(parent)
 
         uic.loadUi(os.path.join(os.path.dirname(__file__), "model_splitter_dialog.ui"),self)
         self.caller=caller
         self.dockwidget = parent
         self.setWindowTitle('Modelsplitter')
-        
-        #Load setting
+
+        # init widget
         self.dockwidget.model_splitter_btn.clicked.connect(self.migration_check)
         self.dockwidget.model_splitter_btn.clicked.connect(self.init_widgets)
         self.model_settings_path.fileChanged.connect(self.init_widgets)
-        #self.model_settings_path.fileChanged.connect(self.add_models_to_widget)
 
         # creating schematisations, revisions and enable the upload process          
         self.run_push_btn.clicked.connect(self.revision_check)
         self.run_push_btn.clicked.connect(self.create_schematisations)
-        self.run_push_btn.clicked.connect(self.disable_buttons)
 
         # upload the models
+        self.commitMessage.textChanged.connect(self.enable_upload_button)
         self.upload_push_btn.clicked.connect(self.upload_schematisations)
-        self.upload_push_btn.clicked.connect(self.disable_buttons)
 
         # other stuff
         self.cancel.clicked.connect(self.close_widget)      
         self.model_settings_path.setFilePath(self.caller.fenv.model.settings.base)
-
-        
 
     def init_widgets(self):
         """Load model settings and default settings. Thet are added as .settings_df and .settings_default_series"""
@@ -48,39 +55,59 @@ class modelSplitterDialog(QtWidgets.QDialog):
         modelsettings_path = self.model_settings_path.filePath() 
         self.modelschematisations = htt.model_splitter.ModelSchematisations(folder=self.caller.fenv, modelsettings_path=modelsettings_path)
         self.add_models_to_widget()
-        
-        self.upload_push_btn.setEnabled(False)
 
         if self.modelschematisations.settings_loaded:
-            #Add logging that file was changed 
+            # Add logging that file was changed 
             folder_path = self.model_settings_path.filePath()
             self.info_list.addItem("")
             self.info_list.addItem(f"{datetime.datetime.now()} -----------------------------------------------------------------------------*")
             self.info_list.addItem("Current model settings folder:")
             self.info_list.addItem("- " + folder_path)
 
-    def enable_buttons(self):
-        self.upload_push_btn.setEnabled(True)
-        #self.cancel.setEnabled(True)
-        self.run_push_btn.setEnabled(True)        
+        self.model_splitted = False
 
-    def disable_buttons(self):
+    def reset_buttons(self):
         self.upload_push_btn.setEnabled(False)
-        self.cancel.setEnabled(False)
-        #self.run_push_btn.setEnabled(False)        
+        if self.modelschematisations.settings_loaded:
+            self.run_push_btn.setEnabled(True)
+        else:
+            self.run_push_btn.setEnabled(False)
+    
+    def enable_upload_button(self):
+        commit_message = self.get_commit_message()
+        if (len(commit_message) > 2) & self.model_splitted:
+            self.upload_push_btn.setEnabled(True)
+        else:
+            self.upload_push_btn.setEnabled(False)
 
     def close_widget(self):
         # clear all list-widgets
+        self.commitMessage.clear()
         self.info_list.clear()
         self.enabled_list.clear()
         self.disabled_list.clear()
 
         # enable all buttons for next time
-        self.enable_buttons()
+        self.reset_buttons()
 
         # close the widget
         self.close()
         
+    def upload_ready(self):
+        """Check if upload is ready; model is splitted and commit-message supplied."""
+        self.upload_push_btn.setEnabled(False)
+        if self.model_splitted:
+            if len(self.get_commit_message()) > 2:
+                self.info_list.addItem("Continue to upload the version(s)!")
+                self.upload_push_btn.setEnabled(True)
+            else:
+                self.info_list.addItem("Provide commit message (minimal 3 characters) to upload version(s)")
+        else:
+            self.info_list.addItem("Split model to upload version(s)") 
+                
+        self.info_list.addItem("")
+                
+                            
 
     def add_models_to_widget(self):
         """Add models to the listwidgets"""
@@ -95,6 +122,17 @@ class modelSplitterDialog(QtWidgets.QDialog):
         for x in range(listwidget.count()):
             items.append(listwidget.item(x).text())
         return items
+    
+   
+    def get_commit_message(self):
+        commit_message = self.commitMessage.toPlainText()
+        cleaned_commit_message = strip_special_characters(commit_message)
+        if commit_message != cleaned_commit_message:
+            self.commitMessage.setPlainText(cleaned_commit_message)
+            cursor = self.commitMessage.textCursor()
+            cursor.movePosition(QTextCursor.End)
+            self.commitMessage.setTextCursor(cursor)
+        return cleaned_commit_message
 
     def migration_check(self):
         print(self.caller.fenv.model.schema_base.sqlite_paths[0])
@@ -114,20 +152,20 @@ class modelSplitterDialog(QtWidgets.QDialog):
                 self.info_list.addItem(f"ERROR: {str(e)}")
                 raise e
 
-        #Logging
+        # Logging
         self.info_list.addItem("")
         # self.info_list.addItem(f"{datetime.datetime.now()} -----------------------------------------------------------------------------*")
         self.info_list.addItem("Model versions enabled: " + str(self.get_lst_items(listwidget=self.enabled_list)))
         self.info_list.addItem("Model versions disabled: " + str(self.get_lst_items(listwidget=self.disabled_list)))
         self.info_list.addItem("")
-        #create local split-revision
+        # create local split-revision
         response = self.modelschematisations.create_local_sqlite_revision(commit_message=str(" (local split revision)" ))
         self.info_list.addItem(response)
         self.info_list.addItem("")
         self.info_list.addItem("Selected Organisation ID: " + self.dockwidget.org_name_comboBox.currentText())
         self.info_list.addItem("")
-        self.info_list.addItem("Continue to upload the versions!")
-        self.enable_buttons()
+        self.model_splitted = True
+        self.upload_ready()
 
 
     def revision_check(self):
@@ -141,28 +179,26 @@ class modelSplitterDialog(QtWidgets.QDialog):
         for list_name in lst_items:
             self.info_list.addItem(self.modelschematisations.get_model_revision_info(name=list_name, api_key=api_key))
 
-        #Logging
+        # Logging
         self.info_list.addItem("")
         self.info_list.addItem("Check revisions and continue to upload the versions")
 
     def upload_schematisations(self):   
         """Upload selected schematisations to the 3Di servers."""
-        commit_message = self.textEdit.toPlainText()
-        commit_message = commit_message.lower()
-        commit_message = commit_message.replace('\n', ' ').replace('\r', ' ').replace("\\", '|')
+
+        commit_message = self.get_commit_message()
         polders_dir = self.dockwidget.polders_map_selector.filePath()
         polder = self.dockwidget.polder_selector.currentText()
         polder_path = Path(polders_dir) / polder
 
-        #settings for upload
+        # settings for upload
         api_key = self.dockwidget.threedi_api_key_textbox.text()
         organisations = upload.threedi.api.contracts_list(organisation__name=self.dockwidget.org_name_comboBox.currentText()).results
         for org in organisations: 
             uuid_slug = org.organisation 
-        lst_items = self.get_lst_items(listwidget=self.enabled_list)
-        print(lst_items)    
+        lst_items = self.get_lst_items(listwidget=self.enabled_list) 
         
-        #upload the schematisation                                          
+        # upload the schematisation                                          
         for list_name in lst_items:
              self.info_list.addItem("")
              self.info_list.addItem("Started uploading: " + list_name)
@@ -170,14 +206,14 @@ class modelSplitterDialog(QtWidgets.QDialog):
              self.info_list.addItem("Finished uploading: " + list_name)
              self.info_list.addItem("")
 
-
-        #Logging
+        # Logging
         self.info_list.addItem("")
         self.info_list.addItem(f"{datetime.datetime.now()} -----------------------------------------------------------------------------*")
         self.info_list.addItem(f"Model versions uploaded: {self.get_lst_items(listwidget=self.enabled_list)}")
         self.info_list.addItem(f"Path: {polder_path}")
         
-        #create local upload revision
+        # create local upload revision
         response = self.modelschematisations.create_local_sqlite_revision(commit_message = ("upload revision " + commit_message))
         self.info_list.addItem(response)
-        self.enable_buttons()
+        self.model_splitted = False
+        self.upload_push_btn.setEnabled(False)
