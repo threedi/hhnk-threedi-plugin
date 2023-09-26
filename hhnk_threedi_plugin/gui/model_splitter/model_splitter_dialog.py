@@ -19,7 +19,7 @@ def strip_special_characters(input_string):
     input_string = input_string.replace('\\', '/')
     
     # Remove all characters except alphanumeric, underscores, hyphens, and forward slashes
-    return re.sub(r'[^a-zA-Z0-9-_\/ ]', '', input_string).lower()
+    return re.sub(r'[^a-zA-Z0-9-_\/. ]', '', input_string)
 
 #%%
 
@@ -36,6 +36,9 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.dockwidget.model_splitter_btn.clicked.connect(self.migration_check)
         self.dockwidget.model_splitter_btn.clicked.connect(self.init_widgets)
         self.model_settings_path.fileChanged.connect(self.init_widgets)
+
+        # checking model-consistency
+        self.disabled_list.itemSelectionChanged.connect(self.check_consistency_selected_models)
 
         # creating schematisations, revisions and enable the upload process          
         self.run_push_btn.clicked.connect(self.revision_check)
@@ -65,6 +68,21 @@ class modelSplitterDialog(QtWidgets.QDialog):
             self.info_list.addItem("- " + folder_path)
 
         self.model_splitted = False
+
+    def check_consistency_selected_models(self):
+        selected_models = [i.text() for i in self.disabled_list.selectedItems()]
+        enabled_models = self.get_lst_items(listwidget=self.enabled_list)
+        self.check_consistency_models(selected_models + enabled_models)
+    
+    def check_consistency_models(self, models):
+        if models:
+            models_df = self.modelschematisations.settings_df.loc[models]
+            for parameter in ["kmax", "grid_space", "output_time_step"]:
+                if parameter in models_df.columns:
+                    if models_df[parameter].nunique() != 1:
+                        self.info_list.addItem(
+                            f"WARNING: value of '{parameter}' is not unique: {models_df[parameter].to_dict()}"
+                            )
 
     def reset_buttons(self):
         self.upload_push_btn.setEnabled(False)
@@ -112,9 +130,14 @@ class modelSplitterDialog(QtWidgets.QDialog):
     def add_models_to_widget(self):
         """Add models to the listwidgets"""
         if os.path.exists(self.model_settings_path.filePath()):
+            enabled_models = []
             for item_name in self.modelschematisations.settings_df.index:
                 if item_name not in self.get_lst_items(listwidget=self.enabled_list) and item_name not in self.get_lst_items(listwidget=self.disabled_list):
-                    self.enabled_list.addItem(QListWidgetItem(item_name))
+                    self.disabled_list.addItem(QListWidgetItem(item_name))
+                else:
+                    enabled_models.append(item_name)
+            self.check_consistency_models(enabled_models)
+                    
 
     def get_lst_items(self, listwidget) -> list:
         """Get items from widgets"""
