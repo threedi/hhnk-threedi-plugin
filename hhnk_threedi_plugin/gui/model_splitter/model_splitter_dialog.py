@@ -12,7 +12,7 @@ import hhnk_threedi_tools as htt
 from hhnk_threedi_tools import MigrateSchema
 import hhnk_threedi_tools.core.schematisation.upload as upload
 
-
+CHECK_PARAMETERS = ["kmax", "grid_space", "output_time_step"]
 #%%
 def strip_special_characters(input_string):
     # Replace all backslashes with forward slashes
@@ -77,7 +77,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
     def check_consistency_models(self, models):
         if models:
             models_df = self.modelschematisations.settings_df.loc[models]
-            for parameter in ["kmax", "grid_space", "output_time_step"]:
+            for parameter in CHECK_PARAMETERS:
                 if parameter in models_df.columns:
                     if models_df[parameter].nunique() != 1:
                         self.info_list.addItem(
