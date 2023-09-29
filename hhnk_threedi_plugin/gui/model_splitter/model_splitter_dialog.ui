@@ -40,14 +40,14 @@
     </widget>
    </item>
    <item>
-    <widget class="QgsFileWidget" name="model_settings_path">
+    <widget class="QgsFileWidget" name="model_settings_path" native="true">
      <property name="minimumSize">
       <size>
        <width>461</width>
        <height>20</height>
       </size>
      </property>
-     <property name="fullUrl">
+     <property name="fullUrl" stdset="0">
       <bool>false</bool>
      </property>
     </widget>
@@ -225,6 +225,13 @@
        </widget>
       </item>
      </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="check_push_btn">
+     <property name="text">
+      <string>check Sqlite</string>
+     </property>
     </widget>
    </item>
    <item>
@@ -427,7 +434,7 @@
        </size>
       </property>
       <property name="text">
-       <string>Reset and close</string>
+       <string>Close</string>
       </property>
      </widget>
     </widget>
@@ -467,6 +474,7 @@
   <zorder>label_5</zorder>
   <zorder>info_list</zorder>
   <zorder>commitMessage</zorder>
+  <zorder>check_push_btn</zorder>
  </widget>
  <customwidgets>
   <customwidget>

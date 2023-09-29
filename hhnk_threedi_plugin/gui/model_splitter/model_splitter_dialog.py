@@ -12,6 +12,8 @@ import hhnk_threedi_tools as htt
 from hhnk_threedi_tools import MigrateSchema
 import hhnk_threedi_tools.core.schematisation.upload as upload
 
+from hhnk_threedi_plugin.tasks import generalChecksTask, checkSchematisationTask
+
 CHECK_PARAMETERS = ["kmax", "grid_space", "output_time_step"]
 #%%
 def strip_special_characters(input_string):
@@ -32,6 +34,8 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.dockwidget = parent
         self.setWindowTitle('Modelsplitter')
         self.api_key = self.dockwidget.threedi_api_key_textbox.text()
+        self.sql_error = True
+        self.model_splitted = False
 
         # init widget
         self.dockwidget.model_splitter_btn.clicked.connect(self.migration_check)
@@ -44,6 +48,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         # creating schematisations, revisions and enable the upload process          
         self.run_push_btn.clicked.connect(self.revision_check)
         self.run_push_btn.clicked.connect(self.create_schematisations)
+        self.check_push_btn.clicked.connect(self.sqlite_check)
 
         # upload the models
         self.commitMessage.textChanged.connect(self.enable_upload_button)
@@ -68,7 +73,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
             self.info_list.addItem("Current model settings folder:")
             self.info_list.addItem("- " + folder_path)
 
-        self.model_splitted = False
+        
 
     @property
     def enabled_lst(self):
@@ -98,7 +103,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
     
     def enable_upload_button(self):
         commit_message = self.get_commit_message()
-        if (len(commit_message) > 2) & self.model_splitted:
+        if (len(commit_message) > 2) & self.model_splitted & (not self.sql_error):
             self.upload_push_btn.setEnabled(True)
         else:
             self.upload_push_btn.setEnabled(False)
@@ -120,16 +125,16 @@ class modelSplitterDialog(QtWidgets.QDialog):
         """Check if upload is ready; model is splitted and commit-message supplied."""
         self.upload_push_btn.setEnabled(False)
         if self.model_splitted:
-            if len(self.get_commit_message()) > 2:
-                self.info_list.addItem("Continue to upload the version(s)!")
-                self.upload_push_btn.setEnabled(True)
-            else:
-                self.info_list.addItem("Provide commit message (minimal 3 characters) to upload version(s)")
+            if not self.sql_error:
+                if len(self.get_commit_message()) > 2:
+                    self.info_list.addItem("Continue to upload the version(s)!")
+                    self.upload_push_btn.setEnabled(True)
+                else:
+                    self.info_list.addItem("Provide commit message (minimal 3 characters) to upload version(s)")
         else:
             self.info_list.addItem("Split model to upload version(s)") 
-                
+
         self.info_list.addItem("")
-                
                             
 
     def add_models_to_widget(self):
@@ -162,6 +167,26 @@ class modelSplitterDialog(QtWidgets.QDialog):
             self.commitMessage.setTextCursor(cursor)
         return cleaned_commit_message
 
+    def sqlite_check(self):
+        """Check if sqlite is OK according to 3Di:schematisation_checker and HHNK general checks"""
+
+        # init checks
+        check_schematisation = checkSchematisationTask(folder=self.caller.fenv)
+        check_general = generalChecksTask(folder=self.caller.fenv)
+        
+        # run checks
+        check_schematisation.run()
+        check_general.run()
+        
+        # check errors
+        self.sql_error = any((check_schematisation.error, check_general.error))
+        self.info_list.addItem("")
+        if self.sql_error:
+            self.info_list.addItem(f"ERROR: Model contains errors in sqlite database and cannot be uploaded. Run sqlite checks and fix errors.")
+        else:
+            self.info_list.addItem("Model does not contain errors and can be uploaded.")
+
+                                   
     def migration_check(self):
         """Migrate schema to newest version using htt.MigrateSchema"""
         print(self.caller.fenv.model.schema_base.sqlite_paths[0])
