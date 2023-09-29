@@ -94,7 +94,7 @@ class Layer:
 
         # check layer
         if not self.valid:
-            self.send_message(f"Layer {layer_name} of {source_path} not valid")
+            self.send_message(f"Layer {layer_name} not valid. Please check data-source: {source_path}")
 
     @property
     def name(self):
