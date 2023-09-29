@@ -45,7 +45,6 @@ except ModuleNotFoundError:
 from hhnk_threedi_plugin.hhnk_toolbox_dockwidget import HHNK_toolboxDockWidget
 from hhnk_threedi_plugin.gui.load_layers_popup import loadLayersDialog
 # from hhnk_threedi_plugin.gui.schematisation_splitter_uploader_dialog import schematisationDialog
-
 from hhnk_threedi_plugin.gui.checks.sqlite_check_popup import sqliteCheckDialog
 from hhnk_threedi_plugin.gui.checks.zero_d_one_d import zeroDOneDWidget
 from hhnk_threedi_plugin.gui.checks.one_d_two_d import oneDTwoDWidget
@@ -59,6 +58,8 @@ from hhnk_threedi_plugin.gui.input_data import inputDataDialog
 from hhnk_threedi_plugin.qgis_interaction.open_notebook import NotebookWidget
 
 from hhnk_threedi_plugin.gui.modelbuilder import ModelBuilder
+
+from hhnk_threedi_plugin.processing.providers import HHNKProvider
 
 # %%
 # Functions
@@ -255,7 +256,13 @@ class HHNK_toolbox:
             parent=self.iface.mainWindow(),
             add_to_toolbar=True,
         )
+        
+        self.initProcessing()
 
+    def initProcessing(self):
+        """Create the Qgis Processing Toolbox provider and its algorithms"""
+        self.provider = HHNKProvider()
+        QgsApplication.processingRegistry().addProvider(self.provider)
     # --------------------------------------------------------------------------
 
     def onClosePlugin(self):
