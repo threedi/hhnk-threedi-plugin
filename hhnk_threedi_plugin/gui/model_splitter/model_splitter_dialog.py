@@ -172,7 +172,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         """Loop over the selected models in the list widget on the right
         Create individual schematisations for each"""
         
-        for list_name in self.enabled_list:
+        for list_name in self.enabled_lst:
             try:
                 self.modelschematisations.create_schematisation(name=list_name)
             except Exception as e:
