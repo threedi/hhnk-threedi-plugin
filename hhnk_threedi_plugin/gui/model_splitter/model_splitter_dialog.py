@@ -31,6 +31,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.caller=caller
         self.dockwidget = parent
         self.setWindowTitle('Modelsplitter')
+        self.api_key = self.dockwidget.threedi_api_key_textbox.text()
 
         # init widget
         self.dockwidget.model_splitter_btn.clicked.connect(self.migration_check)
@@ -68,6 +69,10 @@ class modelSplitterDialog(QtWidgets.QDialog):
             self.info_list.addItem("- " + folder_path)
 
         self.model_splitted = False
+
+    @property
+    def enabled_list(self):
+        return self.get_lst_items(listwidget=self.enabled_list)
 
     def check_consistency_selected_models(self):
         selected_models = [i.text() for i in self.disabled_list.selectedItems()]
@@ -158,6 +163,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         return cleaned_commit_message
 
     def migration_check(self):
+        """Migrate schema to newest version using htt.MigrateSchema"""
         print(self.caller.fenv.model.schema_base.sqlite_paths[0])
         migrate_schema = MigrateSchema(filename=self.caller.fenv.model.schema_base.sqlite_paths[0])
         migrate_schema.run()
@@ -166,9 +172,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         """Loop over the selected models in the list widget on the right
         Create individual schematisations for each"""
         
-        lst_items = self.get_lst_items(listwidget=self.enabled_list)
-        api_key = self.dockwidget.threedi_api_key_textbox.text()
-        for list_name in lst_items:
+        for list_name in self.enabled_list:
             try:
                 self.modelschematisations.create_schematisation(name=list_name)
             except Exception as e:
@@ -192,15 +196,14 @@ class modelSplitterDialog(QtWidgets.QDialog):
 
 
     def revision_check(self):
-        api_key = self.dockwidget.threedi_api_key_textbox.text()
-        lst_items = self.get_lst_items(listwidget=self.enabled_list)
+        """Log latest revision."""
         
         self.info_list.addItem("")
         self.info_list.addItem(f"{datetime.datetime.now()} -----------------------------------------------------------------------------*")
         self.info_list.addItem(self.modelschematisations.get_latest_local_revision_str())
 
-        for list_name in lst_items:
-            self.info_list.addItem(self.modelschematisations.get_model_revision_info(name=list_name, api_key=api_key))
+        for list_name in self.enabled_list:
+            self.info_list.addItem(self.modelschematisations.get_model_revision_info(name=list_name, api_key=self.api_key))
 
         # Logging
         self.info_list.addItem("")
@@ -215,17 +218,15 @@ class modelSplitterDialog(QtWidgets.QDialog):
         polder_path = Path(polders_dir) / polder
 
         # settings for upload
-        api_key = self.dockwidget.threedi_api_key_textbox.text()
         organisations = upload.threedi.api.contracts_list(organisation__name=self.dockwidget.org_name_comboBox.currentText()).results
         for org in organisations: 
             uuid_slug = org.organisation 
-        lst_items = self.get_lst_items(listwidget=self.enabled_list) 
         
         # upload the schematisation                                          
-        for list_name in lst_items:
+        for list_name in self.enabled_list:
              self.info_list.addItem("")
              self.info_list.addItem("Started uploading: " + list_name)
-             self.modelschematisations.upload_schematisation(name=list_name, commit_message=commit_message, api_key=api_key, organisation_uuid=uuid_slug)
+             self.modelschematisations.upload_schematisation(name=list_name, commit_message=commit_message, api_key=self.api_key, organisation_uuid=uuid_slug)
              self.info_list.addItem("Finished uploading: " + list_name)
              self.info_list.addItem("")
 
