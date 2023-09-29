@@ -71,12 +71,12 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.model_splitted = False
 
     @property
-    def enabled_list(self):
+    def enabled_lst(self):
         return self.get_lst_items(listwidget=self.enabled_list)
 
     def check_consistency_selected_models(self):
         selected_models = [i.text() for i in self.disabled_list.selectedItems()]
-        enabled_models = self.get_lst_items(listwidget=self.enabled_list)
+        enabled_models = self.enabled_lst
         self.check_consistency_models(selected_models + enabled_models)
     
     def check_consistency_models(self, models):
@@ -202,7 +202,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.info_list.addItem(f"{datetime.datetime.now()} -----------------------------------------------------------------------------*")
         self.info_list.addItem(self.modelschematisations.get_latest_local_revision_str())
 
-        for list_name in self.enabled_list:
+        for list_name in self.enabled_lst:
             self.info_list.addItem(self.modelschematisations.get_model_revision_info(name=list_name, api_key=self.api_key))
 
         # Logging
@@ -223,7 +223,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
             uuid_slug = org.organisation 
         
         # upload the schematisation                                          
-        for list_name in self.enabled_list:
+        for list_name in self.enabled_lst:
              self.info_list.addItem("")
              self.info_list.addItem("Started uploading: " + list_name)
              self.modelschematisations.upload_schematisation(name=list_name, commit_message=commit_message, api_key=self.api_key, organisation_uuid=uuid_slug)
