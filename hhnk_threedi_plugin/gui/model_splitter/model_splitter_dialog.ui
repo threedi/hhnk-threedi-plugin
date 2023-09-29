@@ -40,14 +40,14 @@
     </widget>
    </item>
    <item>
-    <widget class="QgsFileWidget" name="model_settings_path" native="true">
+    <widget class="QgsFileWidget" name="model_settings_path">
      <property name="minimumSize">
       <size>
        <width>461</width>
        <height>20</height>
       </size>
      </property>
-     <property name="fullUrl" stdset="0">
+     <property name="fullUrl">
       <bool>false</bool>
      </property>
     </widget>
@@ -327,7 +327,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QTextEdit" name="textEdit">
+    <widget class="QTextEdit" name="commitMessage">
      <property name="minimumSize">
       <size>
        <width>50</width>
@@ -427,7 +427,7 @@
        </size>
       </property>
       <property name="text">
-       <string>Close</string>
+       <string>Reset and close</string>
       </property>
      </widget>
     </widget>
@@ -466,7 +466,7 @@
   <zorder>verticalSpacer_3</zorder>
   <zorder>label_5</zorder>
   <zorder>info_list</zorder>
-  <zorder>textEdit</zorder>
+  <zorder>commitMessage</zorder>
  </widget>
  <customwidgets>
   <customwidget>
