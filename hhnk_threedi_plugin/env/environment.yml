@@ -38,5 +38,5 @@ dependencies:
     - threedidepth==0.6.1 #ThreediToolbox 2.5.4
 
     #Plugin
-    - hhnk_research_tools==2023.3.4
-    - hhnk_threedi_tools==2023.3.4
+    - hhnk_research_tools==2023.4
+    - hhnk_threedi_tools==2023.4
