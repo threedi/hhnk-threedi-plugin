@@ -3,6 +3,7 @@ import os
 from qgis.PyQt.QtWidgets import QListWidgetItem
 from qgis.PyQt import QtWidgets, uic
 from PyQt5.QtGui import QTextCursor
+from PyQt5.QtWidgets import QApplication
 
 import datetime
 from pathlib import Path
@@ -51,7 +52,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.check_push_btn.clicked.connect(self.sqlite_check)
 
         # upload the models
-        self.commitMessage.textChanged.connect(self.enable_upload_button)
+        self.commitMessage.textChanged.connect(lambda: self.verify_upload(verbose=False))
         self.upload_push_btn.clicked.connect(self.upload_schematisations)
 
         # other stuff
@@ -111,14 +112,6 @@ class modelSplitterDialog(QtWidgets.QDialog):
         else:
             self.run_splitter_btn.setEnabled(False)
         self.run_splitter_btn.setStyleSheet('QPushButton')
-    
-
-    def enable_upload_button(self):
-        commit_message = self.get_commit_message()
-        if (len(commit_message) > 2) & self.model_splitted & (not self.sql_error):
-            self.upload_push_btn.setEnabled(True)
-        else:
-            self.upload_push_btn.setEnabled(False)
 
 
     def close_widget(self):
@@ -137,20 +130,33 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.close()
         
 
-    def verify_upload(self):
+    def verify_upload(self, verbose=True):
         """Check if upload is ready; model is splitted and commit-message supplied."""
         self.upload_push_btn.setEnabled(False)
-        if self.model_splitted:
-            if not self.sql_error:
-                if len(self.get_commit_message()) > 2:
-                    self.info_list.addItem("Continue to upload the version(s)!")
-                    self.upload_push_btn.setEnabled(True)
-                else:
-                    self.info_list.addItem("Provide commit message (minimal 3 characters) to upload version(s)")
-        else:
-            self.info_list.addItem("Split model to upload version(s)") 
+        cont = True
 
-        self.info_list.addItem("")
+        #Model not split
+        if not self.model_splitted:
+            message = "Split model to upload version(s)"
+            cont = False
+
+        #empty list
+        if cont and not self.enabled_lst: 
+            message = "Enable a schematisation and use checker+splitter to upload version(s)"
+            cont = False      
+
+        #No commit message
+        if cont and not self.sql_error and (len(self.get_commit_message()) <= 2):
+            message = "Provide commit message (minimal 3 characters) to upload version(s)"
+            cont = False
+
+        if cont:
+            message = "Continue to upload the version(s)!"
+            self.upload_push_btn.setEnabled(True)
+
+        if verbose:
+            self.info_list.addItem(message)
+            self.info_list.addItem("")
                             
 
     def add_models_to_widget(self):
@@ -243,7 +249,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.info_list.addItem("")
         self.model_splitted = True
         self.update_button_background(button=self.run_splitter_btn, color="green")
-        self.verify_upload()
+        self.verify_upload(verbose=True)
 
 
     def revision_check(self):
@@ -300,3 +306,4 @@ class modelSplitterDialog(QtWidgets.QDialog):
 
     def update_button_background(self, button, color):
         button.setStyleSheet(f"QPushButton {'{'}background-color: {color}; color:black{'}'}")
+        QApplication.processEvents()
