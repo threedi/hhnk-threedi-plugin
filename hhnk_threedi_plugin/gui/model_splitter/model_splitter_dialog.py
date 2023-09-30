@@ -195,10 +195,12 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.info_list.addItem("")
         if self.sql_error:
             self.info_list.addItem(f"ERROR: Model contains errors in sqlite database and cannot be uploaded. Run sqlite checks and fix errors.")
+            self.check_push_btn.setStyleSheet('QPushButton {background-color: red; color:black}')
         else:
             self.info_list.addItem("Model does not contain errors and can be uploaded.")
-
-                                   
+            self.check_push_btn.setStyleSheet('QPushButton {background-color: green; color:black}')
+        self.check_push_btn.setEnabled(False)
+                              
     def migration_check(self):
         """Migrate schema to newest version using htt.MigrateSchema"""
         print(self.caller.fenv.model.schema_base.sqlite_paths[0])
