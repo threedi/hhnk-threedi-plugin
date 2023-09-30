@@ -235,7 +235,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="run_push_btn">
+    <widget class="QPushButton" name="run_splitter_btn">
      <property name="minimumSize">
       <size>
        <width>111</width>
@@ -426,7 +426,7 @@
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <widget class="QPushButton" name="cancel">
+     <widget class="QPushButton" name="close_btn">
       <property name="minimumSize">
        <size>
         <width>71</width>

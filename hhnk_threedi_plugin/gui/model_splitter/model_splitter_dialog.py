@@ -46,8 +46,8 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.enabled_list.itemChanged.connect(self.check_consistency_enabled_models)
 
         # creating schematisations, revisions and enable the upload process          
-        self.run_push_btn.clicked.connect(self.revision_check)
-        self.run_push_btn.clicked.connect(self.create_schematisations)
+        self.run_splitter_btn.clicked.connect(self.revision_check)
+        self.run_splitter_btn.clicked.connect(self.create_schematisations)
         self.check_push_btn.clicked.connect(self.sqlite_check)
 
         # upload the models
@@ -55,7 +55,8 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.upload_push_btn.clicked.connect(self.upload_schematisations)
 
         # other stuff
-        self.cancel.clicked.connect(self.close_widget)      
+        self.rejected.connect(self.close_widget)
+        self.close_btn.clicked.connect(self.close_widget)      
         self.model_settings_path.setFilePath(self.caller.fenv.model.settings.base)
 
     def init_widgets(self):
@@ -106,9 +107,10 @@ class modelSplitterDialog(QtWidgets.QDialog):
     def reset_buttons(self):
         self.upload_push_btn.setEnabled(False)
         if self.modelschematisations.settings_loaded:
-            self.run_push_btn.setEnabled(True)
+            self.run_splitter_btn.setEnabled(True)
         else:
-            self.run_push_btn.setEnabled(False)
+            self.run_splitter_btn.setEnabled(False)
+        self.run_splitter_btn.setStyleSheet('QPushButton')
     
 
     def enable_upload_button(self):
@@ -128,6 +130,8 @@ class modelSplitterDialog(QtWidgets.QDialog):
 
         # enable all buttons for next time
         self.reset_buttons()
+        
+        self.check_push_btn.setStyleSheet('QPushButton')
 
         # close the widget
         self.close()
@@ -182,6 +186,8 @@ class modelSplitterDialog(QtWidgets.QDialog):
     def sqlite_check(self):
         """Check if sqlite is OK according to 3Di:schematisation_checker and HHNK general checks"""
 
+        self.update_button_background(button=self.check_push_btn, color="orange")
+        
         # init checks
         check_schematisation = checkSchematisationTask(folder=self.caller.fenv, add_to_project=True)
         check_general = generalChecksTask(folder=self.caller.fenv)
@@ -195,27 +201,32 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.info_list.addItem("")
         if self.sql_error:
             self.info_list.addItem(f"ERROR: Model contains errors in sqlite database and cannot be uploaded. Run sqlite checks and fix errors.")
-            self.check_push_btn.setStyleSheet('QPushButton {background-color: red; color:black}')
+            self.update_button_background(button=self.check_push_btn, color="red")
         else:
             self.info_list.addItem("Model does not contain errors and can be uploaded.")
-            self.check_push_btn.setStyleSheet('QPushButton {background-color: green; color:black}')
-        self.check_push_btn.setEnabled(False)
-                              
+            self.update_button_background(button=self.check_push_btn, color="green")
+
+
     def migration_check(self):
         """Migrate schema to newest version using htt.MigrateSchema"""
         print(self.caller.fenv.model.schema_base.sqlite_paths[0])
         migrate_schema = MigrateSchema(filename=self.caller.fenv.model.schema_base.sqlite_paths[0])
         migrate_schema.run()
         
+
     def create_schematisations(self):
         """Loop over the selected models in the list widget on the right
         Create individual schematisations for each"""
         
+        self.update_button_background(button=self.run_splitter_btn, color="orange")
+
         for list_name in self.enabled_lst:
             try:
                 self.modelschematisations.create_schematisation(name=list_name)
             except Exception as e:
                 self.info_list.addItem(f"ERROR: {str(e)}")
+                self.update_button_background(button=self.run_splitter_btn, color="red")
+
                 raise e
 
         # Logging
@@ -231,6 +242,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.info_list.addItem("Selected Organisation ID: " + self.dockwidget.org_name_comboBox.currentText())
         self.info_list.addItem("")
         self.model_splitted = True
+        self.update_button_background(button=self.run_splitter_btn, color="green")
         self.verify_upload()
 
 
@@ -248,35 +260,43 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.info_list.addItem("")
         self.info_list.addItem("Check revisions and continue to upload the versions")
 
+
     def upload_schematisations(self):   
         """Upload selected schematisations to the 3Di servers."""
+        try:
+            commit_message = self.get_commit_message()
+            polders_dir = self.dockwidget.polders_map_selector.filePath()
+            polder = self.dockwidget.polder_selector.currentText()
+            polder_path = Path(polders_dir) / polder
 
-        commit_message = self.get_commit_message()
-        polders_dir = self.dockwidget.polders_map_selector.filePath()
-        polder = self.dockwidget.polder_selector.currentText()
-        polder_path = Path(polders_dir) / polder
+            # settings for upload
+            organisations = upload.threedi.api.contracts_list(organisation__name=self.dockwidget.org_name_comboBox.currentText()).results
+            for org in organisations: 
+                uuid_slug = org.organisation 
+            
+            # upload the schematisation                                          
+            for list_name in self.enabled_lst:
+                self.info_list.addItem("")
+                self.info_list.addItem("Started uploading: " + list_name)
+                self.modelschematisations.upload_schematisation(name=list_name, commit_message=commit_message, api_key=self.api_key, organisation_uuid=uuid_slug)
+                self.info_list.addItem("Finished uploading: " + list_name)
+                self.info_list.addItem("")
 
-        # settings for upload
-        organisations = upload.threedi.api.contracts_list(organisation__name=self.dockwidget.org_name_comboBox.currentText()).results
-        for org in organisations: 
-            uuid_slug = org.organisation 
-        
-        # upload the schematisation                                          
-        for list_name in self.enabled_lst:
-             self.info_list.addItem("")
-             self.info_list.addItem("Started uploading: " + list_name)
-             self.modelschematisations.upload_schematisation(name=list_name, commit_message=commit_message, api_key=self.api_key, organisation_uuid=uuid_slug)
-             self.info_list.addItem("Finished uploading: " + list_name)
-             self.info_list.addItem("")
+            # Logging
+            self.info_list.addItem("")
+            self.info_list.addItem(f"{datetime.datetime.now()} -----------------------------------------------------------------------------*")
+            self.info_list.addItem(f"Model versions uploaded: {self.enabled_lst}")
+            self.info_list.addItem(f"Path: {polder_path}")
+            
+            # create local upload revision
+            response = self.modelschematisations.create_local_sqlite_revision(commit_message = ("upload revision " + commit_message))
+            self.info_list.addItem(response)
+            self.model_splitted = False
+            self.upload_push_btn.setEnabled(False)
+            self.update_button_background(self.upload_push_btn, color="green")
+        except Exception as e:
+            self.update_button_background(self.upload_push_btn, color="red")
+            raise e
 
-        # Logging
-        self.info_list.addItem("")
-        self.info_list.addItem(f"{datetime.datetime.now()} -----------------------------------------------------------------------------*")
-        self.info_list.addItem(f"Model versions uploaded: {self.enabled_lst}")
-        self.info_list.addItem(f"Path: {polder_path}")
-        
-        # create local upload revision
-        response = self.modelschematisations.create_local_sqlite_revision(commit_message = ("upload revision " + commit_message))
-        self.info_list.addItem(response)
-        self.model_splitted = False
-        self.upload_push_btn.setEnabled(False)
+    def update_button_background(self, button, color):
+        button.setStyleSheet(f"QPushButton {'{'}background-color: {color}; color:black{'}'}")
