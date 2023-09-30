@@ -230,7 +230,7 @@
    <item>
     <widget class="QPushButton" name="check_push_btn">
      <property name="text">
-      <string>check Sqlite</string>
+      <string>Check Sqlite (runtime up to 30s)</string>
      </property>
     </widget>
    </item>

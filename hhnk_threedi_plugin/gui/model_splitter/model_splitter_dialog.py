@@ -43,7 +43,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.model_settings_path.fileChanged.connect(self.init_widgets)
 
         # checking model-consistency
-        self.disabled_list.itemSelectionChanged.connect(self.check_consistency_selected_models)
+        self.enabled_list.itemChanged.connect(self.check_consistency_enabled_models)
 
         # creating schematisations, revisions and enable the upload process          
         self.run_push_btn.clicked.connect(self.revision_check)
@@ -79,20 +79,29 @@ class modelSplitterDialog(QtWidgets.QDialog):
     def enabled_lst(self):
         return self.get_lst_items(listwidget=self.enabled_list)
 
-    def check_consistency_selected_models(self):
-        selected_models = [i.text() for i in self.disabled_list.selectedItems()]
-        enabled_models = self.enabled_lst
-        self.check_consistency_models(selected_models + enabled_models)
-    
-    def check_consistency_models(self, models):
-        if models:
-            models_df = self.modelschematisations.settings_df.loc[models]
-            for parameter in CHECK_PARAMETERS:
-                if parameter in models_df.columns:
-                    if models_df[parameter].nunique() != 1:
-                        self.info_list.addItem(
-                            f"WARNING: value of '{parameter}' is not unique: {models_df[parameter].to_dict()}"
-                            )
+
+    def check_consistency_enabled_models(self):
+        """Check settings_df if any of the CHECK_PARAMETERS columns have different values
+        give this back as warning so user is aware of the differences."""
+        if self.enabled_lst:
+            if "" in self.enabled_lst:
+                #itemChanged geeft als er meerdere items aan enabled toe worden gevoegd
+                #een signaal af voor elk item. Met daarna lege entries. We hoeven alleen
+                #check te draaien als alle items zijn toegevoegd aan enabled_list.
+                return
+            else:
+                models_df = self.modelschematisations.settings_df.loc[self.enabled_lst]
+                for parameter in CHECK_PARAMETERS:
+                    if parameter in models_df.columns:
+                        if models_df[parameter].nunique() != 1:
+                            self.info_list.addItem(
+                                f"WARNING: value of '{parameter}' is not unique: {models_df[parameter].to_dict()}"
+                                )
+
+        #Something changed in selected so we need to split again.
+        self.model_splitted = False
+        self.reset_buttons()
+
 
     def reset_buttons(self):
         self.upload_push_btn.setEnabled(False)
@@ -101,12 +110,14 @@ class modelSplitterDialog(QtWidgets.QDialog):
         else:
             self.run_push_btn.setEnabled(False)
     
+
     def enable_upload_button(self):
         commit_message = self.get_commit_message()
         if (len(commit_message) > 2) & self.model_splitted & (not self.sql_error):
             self.upload_push_btn.setEnabled(True)
         else:
             self.upload_push_btn.setEnabled(False)
+
 
     def close_widget(self):
         # clear all list-widgets
@@ -121,7 +132,8 @@ class modelSplitterDialog(QtWidgets.QDialog):
         # close the widget
         self.close()
         
-    def upload_ready(self):
+
+    def verify_upload(self):
         """Check if upload is ready; model is splitted and commit-message supplied."""
         self.upload_push_btn.setEnabled(False)
         if self.model_splitted:
@@ -142,11 +154,11 @@ class modelSplitterDialog(QtWidgets.QDialog):
         if os.path.exists(self.model_settings_path.filePath()):
             enabled_models = []
             for item_name in self.modelschematisations.settings_df.index:
-                if item_name not in self.get_lst_items(listwidget=self.enabled_list) and item_name not in self.get_lst_items(listwidget=self.disabled_list):
+                if item_name not in self.enabled_lst and item_name not in self.get_lst_items(listwidget=self.disabled_list):
                     self.disabled_list.addItem(QListWidgetItem(item_name))
                 else:
                     enabled_models.append(item_name)
-            self.check_consistency_models(enabled_models)
+            self.check_consistency_enabled_models()
                     
 
     def get_lst_items(self, listwidget) -> list:
@@ -171,7 +183,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         """Check if sqlite is OK according to 3Di:schematisation_checker and HHNK general checks"""
 
         # init checks
-        check_schematisation = checkSchematisationTask(folder=self.caller.fenv)
+        check_schematisation = checkSchematisationTask(folder=self.caller.fenv, add_to_project=True)
         check_general = generalChecksTask(folder=self.caller.fenv)
         
         # run checks
@@ -207,7 +219,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         # Logging
         self.info_list.addItem("")
         # self.info_list.addItem(f"{datetime.datetime.now()} -----------------------------------------------------------------------------*")
-        self.info_list.addItem("Model versions enabled: " + str(self.get_lst_items(listwidget=self.enabled_list)))
+        self.info_list.addItem("Model versions enabled: " + str(self.enabled_lst))
         self.info_list.addItem("Model versions disabled: " + str(self.get_lst_items(listwidget=self.disabled_list)))
         self.info_list.addItem("")
         # create local split-revision
@@ -217,7 +229,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.info_list.addItem("Selected Organisation ID: " + self.dockwidget.org_name_comboBox.currentText())
         self.info_list.addItem("")
         self.model_splitted = True
-        self.upload_ready()
+        self.verify_upload()
 
 
     def revision_check(self):
@@ -258,7 +270,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         # Logging
         self.info_list.addItem("")
         self.info_list.addItem(f"{datetime.datetime.now()} -----------------------------------------------------------------------------*")
-        self.info_list.addItem(f"Model versions uploaded: {self.get_lst_items(listwidget=self.enabled_list)}")
+        self.info_list.addItem(f"Model versions uploaded: {self.enabled_lst}")
         self.info_list.addItem(f"Path: {polder_path}")
         
         # create local upload revision

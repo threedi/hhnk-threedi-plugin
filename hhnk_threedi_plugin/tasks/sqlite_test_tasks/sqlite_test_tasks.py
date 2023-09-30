@@ -161,10 +161,10 @@ class generalChecksTask(BaseSqliteTask):
 
     def run_custom(self):
         if self.os_retry is None:
-            self.gdf = self.sqlite_test.run_model_checks()
-            self.error = self.gdf.error.str.contains("ERROR").any()
+            self.df = self.sqlite_test.run_model_checks()
+            self.error = self.df.error.str.contains("ERROR").any()
 
-        hrt.gdf_write_to_csv(self.gdf, filepath=self.layer_source)
+        hrt.gdf_write_to_csv(self.df, filepath=self.layer_source)
         return True
 
     def finished_custom(self):
