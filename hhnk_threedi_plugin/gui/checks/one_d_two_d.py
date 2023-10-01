@@ -87,18 +87,3 @@ class oneDTwoDWidget(QWidget):
         except Exception as e:
             self.caller.iface.messageBar().pushMessage(str(e), Qgis.Critical)
             pass
-
-# %%
-import hhnk_threedi_tools as htt
-import hhnk_research_tools as hrt
-
-a=htt.Folders(r"E:\02.modellen\callantsoog")
-
-a.threedi_results.one_d_two_d.revisions
-
-revisions = a.threedi_results.one_d_two_d.revisions
-
-revision_names = [rev.name for rev in revisions]
-
-
-# %%
