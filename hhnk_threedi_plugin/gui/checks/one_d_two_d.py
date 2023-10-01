@@ -1,4 +1,5 @@
 import os
+import numpy as np
 from pathlib import Path
 from PyQt5.QtWidgets import (
     QPushButton,
@@ -71,8 +72,10 @@ class oneDTwoDWidget(QWidget):
 
         self.select_revision_box.clear()
         self.select_revision_box.addItem("")
-        for revision in revisions:
-            self.select_revision_box.addItem(revision.name)
+
+        revisions_sorted = np.take(revisions, np.argsort([rev.lstat().st_mtime for rev in revisions]))[::-1]
+        for rev in revisions_sorted:
+            self.select_revision_box.addItem(rev.name)
 
 
     def one_d_two_d_tests_execution(self):
@@ -84,3 +87,18 @@ class oneDTwoDWidget(QWidget):
         except Exception as e:
             self.caller.iface.messageBar().pushMessage(str(e), Qgis.Critical)
             pass
+
+# %%
+import hhnk_threedi_tools as htt
+import hhnk_research_tools as hrt
+
+a=htt.Folders(r"E:\02.modellen\callantsoog")
+
+a.threedi_results.one_d_two_d.revisions
+
+revisions = a.threedi_results.one_d_two_d.revisions
+
+revision_names = [rev.name for rev in revisions]
+
+
+# %%

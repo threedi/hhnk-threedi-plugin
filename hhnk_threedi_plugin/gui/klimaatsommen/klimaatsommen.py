@@ -1,4 +1,5 @@
 import os
+import numpy as np
 from pathlib import Path
 from PyQt5.QtWidgets import (
     QPushButton,
@@ -33,8 +34,6 @@ from hhnk_threedi_plugin.qgis_interaction import load_layers_interaction
 from ...qgis_interaction.klimaatsommen_pdfs import create_pdfs, load_print_layout
 
 SUBJECT = "Klimaatsommen"
-
-
 
 
 class KlimaatSommenWidget(QWidget):
@@ -150,8 +149,11 @@ class KlimaatSommenWidget(QWidget):
 
         self.select_revision_box.clear()
         self.select_revision_box.addItem("")
-        for revision in revisions:
-            self.select_revision_box.addItem(revision.name)
+
+        revisions_sorted = np.take(revisions, np.argsort([rev.lstat().st_mtime for rev in revisions]))[::-1]
+        for rev in revisions_sorted:
+            self.select_revision_box.addItem(rev.name)
+
 
     def verify_submit_create_clean(self):
             msgBox = QMessageBox()

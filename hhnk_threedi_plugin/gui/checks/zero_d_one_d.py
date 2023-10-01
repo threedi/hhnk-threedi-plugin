@@ -1,4 +1,5 @@
 import os
+import numpy as np
 from pathlib import Path
 from PyQt5.QtWidgets import (
     QWidget,
@@ -104,8 +105,10 @@ class zeroDOneDWidget(QWidget):
         #    return
         self.select_revision_box.clear()
         self.select_revision_box.addItem("")
-        for revision in revisions:
-            self.select_revision_box.addItem(revision.name)
+
+        revisions_sorted = np.take(revisions, np.argsort([rev.lstat().st_mtime for rev in revisions]))[::-1]
+        for rev in revisions_sorted:
+            self.select_revision_box.addItem(rev.name)
 
 
     def zero_d_one_d_test_execution(self):
