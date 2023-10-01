@@ -270,6 +270,8 @@ class modelSplitterDialog(QtWidgets.QDialog):
     def upload_schematisations(self):   
         """Upload selected schematisations to the 3Di servers."""
         try:
+            self.update_button_background(self.upload_push_btn, color="orange")
+
             commit_message = self.get_commit_message()
             polders_dir = self.dockwidget.polders_map_selector.filePath()
             polder = self.dockwidget.polder_selector.currentText()
