@@ -125,6 +125,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.reset_buttons()
         
         self.check_push_btn.setStyleSheet('QPushButton')
+        self.upload_push_btn.setStyleSheet('QPushButton')
 
         # close the widget
         self.close()
