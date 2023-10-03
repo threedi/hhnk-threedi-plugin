@@ -91,3 +91,5 @@ Om de anaconda omgeving bij te werken gebruik je de volgende  stappen:
 4. D:
 5. cd D:\modelbuilder\update_threedipy
 6. conda env update --file environment_services.yml
+
+Of maak een nieuwe omgeving via conda env create -f environment_services.yml
