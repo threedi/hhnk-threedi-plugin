@@ -77,7 +77,7 @@ Zolang de plugin werkt, kun je deze melding negeren/verhelpen, maar uiteindelijk
 # Datachecker en modelbuilder
 In de HHNK omgeving draait de modelbuilder op de srv155 in D:\modelbuilder. De code staat in de map code en komt van de repo: https://github.com/hhnk-git/hhnk-modelbuilder. Daarnaast gebruikt hij data van de \\corp.hhnk.nl\data\Hydrologen_data (vaste input, niet in github) en je eigen FME export in de map data/input. In de map data staan ook nog enkele kleinere input bestanden.
 
-Het draaien van de modelbuilder kan via visual studio, gebruik de interperter threedipy van anaconda. Met de volgende bestanden zijn de datachecker en modelbuilder te draaien. Pas voor de modelbuilder de naam en polder-id van je model aan.
+Het draaien van de modelbuilder kan via visual studio, gebruik de interperter threedipy van anaconda. Start de visual code niet met de .bat waarmee deze vanuit de 3DI Modeler Interface op start, maar gewoon vanuit de snelkopping van windows. Met de volgende bestanden zijn de datachecker en modelbuilder te draaien. Pas voor de modelbuilder de naam en polder-id van je model aan.
 
 modelbuilder\code\datachecker\datachecker_visual_studio.py
 
