@@ -2,10 +2,10 @@
 <qgis version="3.16.1-Hannover" styleCategories="Symbology">
   <renderer-v2 enableorderby="0" forceraster="0" symbollevels="0" type="RuleRenderer">
     <rules key="{b551c2b6-72b2-422b-8259-a51f730c435b}">
-      <rule symbol="0" label="1 - 2 cm" filter=" &quot;wtrlvl_diff_abs_m&quot; >= 0.01 AND  &quot;wtrlvl_diff_abs_m&quot; &lt; 0.02" key="{c59c7c00-6b31-4a68-9229-c6c7b8f09f1c}"/>
-      <rule symbol="1" label="2 - 3 cm" filter=" &quot;wtrlvl_diff_abs_m&quot; >= 0.02 AND  &quot;wtrlvl_diff_abs_m&quot; &lt; 0.03" key="{6b8510d6-f58f-4aef-8c92-78ead7b36037}"/>
-      <rule symbol="2" label="3 -  5 cm" filter=" &quot;wtrlvl_diff_abs_m&quot; >= 0.03 AND  &quot;wtrlvl_diff_abs_m&quot; &lt; 0.05" key="{2bfc654b-abee-4e26-ba25-a60f5213eb7e}"/>
-      <rule symbol="3" label="5 - 10 cm" filter=" &quot;wtrlvl_diff_abs_m&quot; >= 0.05 AND  &quot;wtrlvl_diff_abs_m&quot; &lt; 0.1" key="{14a87122-bbfb-4c4f-bd8f-514c9bb5e5c9}"/>
+      <rule symbol="0" label="1 - 2 cm" filter=" &quot;wlvl_diff_abs_m&quot; >= 0.01 AND  &quot;wlvl_diff_abs_m&quot; &lt; 0.02" key="{c59c7c00-6b31-4a68-9229-c6c7b8f09f1c}"/>
+      <rule symbol="1" label="2 - 3 cm" filter=" &quot;wlvl_diff_abs_m&quot; >= 0.02 AND  &quot;wlvl_diff_abs_m&quot; &lt; 0.03" key="{6b8510d6-f58f-4aef-8c92-78ead7b36037}"/>
+      <rule symbol="2" label="3 -  5 cm" filter=" &quot;wlvl_diff_abs_m&quot; >= 0.03 AND  &quot;wlvl_diff_abs_m&quot; &lt; 0.05" key="{2bfc654b-abee-4e26-ba25-a60f5213eb7e}"/>
+      <rule symbol="3" label="5 - 10 cm" filter=" &quot;wlvl_diff_abs_m&quot; >= 0.05 AND  &quot;wlvl_diff_abs_m&quot; &lt; 0.1" key="{14a87122-bbfb-4c4f-bd8f-514c9bb5e5c9}"/>
       <rule symbol="4" label="> 10 cm" filter=" &quot;wtrlvl_diff_abs_m&quot; >= 0.1" key="{2c553726-d566-4ee2-afa9-5d89a80cae8a}"/>
     </rules>
     <symbols>
