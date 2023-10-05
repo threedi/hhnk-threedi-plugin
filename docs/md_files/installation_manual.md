@@ -4,6 +4,8 @@ De HHNK Toolbox is te installeren in de volgende twee stappen:
 
 1. [Installatie 3Di Modeller Interface (QGIS)](#installatie-3di-modeller-interface-qgis)
 2. [Installatie HHNK Toolbox Plugin](#installatie-hhnk-toolbox-plugin)
+3. [Datachecker en modelbuilder](#datachecker-en-modelbuilder)
+4. [Python env](#python-env)
 
 Wanneer er tijdens de installatie zaken niet gaan zoals verwacht, kun je kijken bij [bekende problemen](#bekende-problemen)
 
@@ -65,10 +67,40 @@ Als de installatie via de plugin manager niet (soepel) verloopt, kun je de zip-f
 
 `{gebruiker}` is de naam van de Windows-gebruiker waarbij de plugin geinstalleerd is.
 
-N.B. Na het uitpakken van de zip-file moet je zorgen dat de plugin staat aangevinkt in de plugin-manager, en de installatie van de plugin verder wordt uitgevoerd zoals beschreven bij [installatie](#installatie-hhnk-toolbox-plugin)
+N.B. Na het uitpakken van de zip-file moet je zorgen dat de plugin staat aangevinkt in de plugin-manager, en de installatie van de plugin verder wordt uitgevoerd zoals beschreven bij [installatie](#installatie-hhnk-toolbox-plugin).
 
 ### Inconsistente Python omgeving
 De plugin is getest in een Python omgeving beschreven in deze Conda [environment.yml](https://github.com/threedi/hhnk-threedi-plugin/blob/main/hhnk_threedi_plugin/env/environment.yml). Het kan zijn dat de Python versie en/of modules geinstalleerd in de Modeller Interface en 3Di Toolbox niet (meer) compatible zijn met de geteste versie van de HHNK Toolbox. Als dat zo is, krijg je bij start van de installatie de volgende melding:
 ![](../images/installation/plugin_inconsistent_dependencies_warning.png)
 
 Zolang de plugin werkt, kun je deze melding negeren/verhelpen, maar uiteindelijk zal de HHNK Toolbox plugin éérst goed getest moeten worden in de gebruikte MI versie.
+
+# Datachecker en modelbuilder
+In de HHNK omgeving draait de modelbuilder op de srv155 in D:\modelbuilder. De code staat in de map code en komt van de repo: https://github.com/hhnk-git/hhnk-modelbuilder. Daarnaast gebruikt hij data van de `\\corp.hhnk.nl\data\Hydrologen_data` (vaste input, niet in github) en je eigen FME export in de map data/input. In de map data staan ook nog enkele kleinere input bestanden.
+
+Het draaien van de modelbuilder kan via visual studio, gebruik de interperter threedipy van anaconda. Start de visual code niet met de .bat waarmee deze vanuit de 3DI Modeler Interface op start, maar gewoon vanuit de snelkoppeling van windows. Met de volgende bestanden zijn de datachecker en modelbuilder te draaien. Pas voor de modelbuilder de naam en polder-id van je model aan.
+
+`modelbuilder\code\datachecker\datachecker_visual_studio.py`
+
+`modelbuilder\code\modelbuilder\modelbuilder_visual_studio.py`
+
+
+# Python env
+Om te kunnen ontwikkelen afzonderlijk van QGIS is de python environment **threedipy** opgezet. Om dit te kunnen installeren is een installatie van anaconda navigator, miniconda of mambaforge nodig. 
+
+Installatie van de env gaat met de volgende stappen:
+
+1. Kopieer 
+[environment_services.yml](https://github.com/threedi/hhnk-threedi-plugin/blob/main/hhnk_threedi_plugin/env/environment_services.yml) naar `C:\users\%user%\environment_services.yml`
+
+2. Open anaconda prompt met admin rechten
+
+3. `cd %homepath%`
+
+Nieuwe installatie:
+
+4. `conda env create -f environment_services.yml`
+
+Of installatie bijwerken:
+
+4. `conda env update -f environment_services.yml`
