@@ -29,14 +29,17 @@ class impSurfaceTask(BaseSqliteTask):
         self.description="bereken ondoorlatend oppervlak model en polder"
 
     def run(self):
-        QgsMessageLog.logMessage(f"Taak gestart {self.description}", level=Qgis.Info)
-        try:
-            self.result_text = self.sqlite_test.run_imp_surface_area()
-            return True
-        except Exception as e:
-            self.exception = e
+        if self.sqlite_test.verify_inputs("run_imp_surface_area"):
+            QgsMessageLog.logMessage(f"Taak gestart {self.description}", level=Qgis.Info)
+            try:
+                self.result_text = self.sqlite_test.run_imp_surface_area()
+                return True
+            except Exception as e:
+                self.exception = e
+                return False
+        else:
+            QgsMessageLog.logMessage(f"Taak {self.description} kan niet worden gestart wegens ontbrekende input", level=Qgis.Info)
             return False
-
 
     def finished_custom(self):
         title, widget = create_impervious_surface_widget(result_text=self.result_text)
@@ -137,12 +140,13 @@ class structsChannelsTask(BaseSqliteTask):
         # print(self.layer_source)
 
     def run_custom(self):
-        if self.os_retry is None:
-            self.gdf = self.sqlite_test.run_struct_channel_bed_level()
-
-        # print(self.gdf)
-        hrt.gdf_write_to_geopackage(self.gdf, filepath=str(self.layer_source))
-        return True
+        if self.sqlite_test.verify_inputs("run_struct_channel_bed_level"):
+            if self.os_retry is None:
+                self.gdf = self.sqlite_test.run_struct_channel_bed_level()
+    
+            # print(self.gdf)
+            hrt.gdf_write_to_geopackage(self.gdf, filepath=str(self.layer_source))
+            return True
 
     def finished_custom(self):
         # add_layers(self.layers_list, self.test_env.group_structure) #TODO
