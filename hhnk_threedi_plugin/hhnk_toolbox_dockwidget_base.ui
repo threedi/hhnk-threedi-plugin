@@ -19,7 +19,7 @@
   <property name="minimumSize">
    <size>
     <width>345</width>
-    <height>841</height>
+    <height>800</height>
    </size>
   </property>
   <property name="maximumSize">
@@ -105,24 +105,18 @@
          </widget>
         </item>
         <item>
-         <widget class="QgsFileWidget" name="polders_map_selector">
+         <widget class="QgsFileWidget" name="polders_map_selector" native="true">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="dialogTitle">
+          <property name="dialogTitle" stdset="0">
            <string>Selecteer polder map</string>
           </property>
-          <property name="defaultRoot">
+          <property name="defaultRoot" stdset="0">
            <string/>
-          </property>
-          <property name="storageMode">
-           <enum>QgsFileWidget::GetDirectory</enum>
-          </property>
-          <property name="options">
-           <set>QFileDialog::ShowDirsOnly</set>
           </property>
          </widget>
         </item>
@@ -389,8 +383,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>424</width>
-             <height>704</height>
+             <width>98</width>
+             <height>47</height>
             </rect>
            </property>
            <attribute name="label">
@@ -500,7 +494,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QgsFileWidget" name="input_dir_select">
+         <widget class="QgsFileWidget" name="input_dir_select" native="true">
           <property name="enabled">
            <bool>false</bool>
           </property>
@@ -510,17 +504,17 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="fileWidgetButtonVisible">
+          <property name="fileWidgetButtonVisible" stdset="0">
            <bool>true</bool>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QgsFileWidget" name="output_dir_select">
+         <widget class="QgsFileWidget" name="output_dir_select" native="true">
           <property name="enabled">
            <bool>false</bool>
           </property>
-          <property name="fileWidgetButtonVisible">
+          <property name="fileWidgetButtonVisible" stdset="0">
            <bool>true</bool>
           </property>
          </widget>

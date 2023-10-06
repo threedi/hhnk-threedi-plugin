@@ -186,7 +186,7 @@ class isolatedChannelsTask(BaseSqliteTask):
         if self.os_retry is None:
             self.gdf, self.result_text = self.sqlite_test.run_isolated_channels()
 
-        hrt.gdf_write_to_csv(self.gdf, filepath=self.layer_source)
+        hrt.gdf_write_to_geopackage(self.gdf, filepath=self.layer_source)
         return True
 
     def finished_custom(self):
