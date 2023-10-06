@@ -13,7 +13,10 @@ Wanneer er tijdens de installatie zaken niet gaan zoals verwacht, kun je kijken 
 
 ### Installatie van de Modeller Interface
 
-Het installeren van de 3Di Modeller Interface kun je uitvoeren met deze <a href="https://docs.3di.live/f_3di_instruments_and_downloads.html#di-instruments-and-downloads" target="_blank">Installatie handleiding</a>. Voer de installatie van de Modeller Interface uit.
+:warning: Download de MI versie die op de <a href="https://github.com/threedi/hhnk-threedi-plugin/releases/latest">release</a> pagina van de hhnk plugin staat. :warning:
+
+Voor verdere installatie instructies kan je deze <a href="https://docs.3di.live/f_3di_instruments_and_downloads.html#di-instruments-and-downloads" target="_blank">Installatie handleiding</a> raadplegen. Voer de installatie van de Modeller Interface uit.
+
 
 ![](../images/installation/mi_installer.PNG)
 
@@ -85,6 +88,7 @@ Het draaien van de modelbuilder kan via visual studio, gebruik de interperter th
 `modelbuilder\code\modelbuilder\modelbuilder_visual_studio.py`
 
 
+
 # Python env
 Om te kunnen ontwikkelen afzonderlijk van QGIS is de python environment **threedipy** opgezet. Om dit te kunnen installeren is een installatie van anaconda navigator, miniconda of mambaforge nodig. 
 
@@ -97,10 +101,18 @@ Installatie van de env gaat met de volgende stappen:
 
 3. `cd %homepath%`
 
-Nieuwe installatie:
+4. Verwijderen bestaande env:\
+    `conda remove --name threedipy --all`\
+    :warning: Let op dat `C:\ProgramData\anaconda3\envs\threedipy` ook echt weg is! Als er locks op zitten is het misschien toch mogelijk om de map te hernoemen.:warning:
 
-4. `conda env create -f environment_services.yml`
+5. Nieuwe installatie:\
+    `conda env create -f environment_services.yml`
 
-Of installatie bijwerken:
+5. Of installatie bijwerken (als env hierna niet meer werkt, doe dan een verse installatie):\
+   `conda env update -f environment_services.yml`
 
-4. `conda env update -f environment_services.yml`
+6. Bij een nieuwe installatie van anaconda is het ook nodig om mod_spatialite te installeren. De foutmelding die je dan krijgt geeft aan wat je moet doen:
+```
+Download mod_spatialite extension from http://www.gaia-gis.it/gaia-sins/windows-bin-amd64/
+                and place into anaconda installation C:\ProgramData\Anaconda3\mod_spatialite-5.0.1-win-amd64.
+```
