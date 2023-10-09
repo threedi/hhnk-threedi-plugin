@@ -10,14 +10,14 @@ De HHNK Toolbox is te installeren in de volgende twee stappen:
 Wanneer er tijdens de installatie zaken niet gaan zoals verwacht, kun je kijken bij [bekende problemen](#bekende-problemen)
 
 ## Installatie 3Di Modeller Interface (QGIS)
-:warning: Download de MI versie die op de <a href="https://github.com/threedi/hhnk-threedi-plugin/releases/latest">release</a> pagina van de hhnk plugin staat. :warning:
+### 1. Installatie van de Modeller Interface
+Download de MI versie die op de <a href="https://github.com/threedi/hhnk-threedi-plugin/releases/latest">release</a> pagina van de hhnk plugin staat.
+
+:warning: LET OP: deze versie kan afwijken van de versie die op de 3Di docs staat. :warning:
 
 Voor verdere installatie instructies kan je deze <a href="https://docs.3di.live/f_3di_instruments_and_downloads.html#di-instruments-and-downloads" target="_blank">Installatie handleiding</a> raadplegen. Voer de installatie van de Modeller Interface uit.
 
-
-![](../images/installation/mi_installer.PNG)
-
-### Installatie en activatie van de 3Di Toolbox plugin
+### 2. Installatie en activatie van de 3Di Toolbox plugin
 Bij het starten van de Modeller Interface wordt de 3Di Toolbox geinstalleerd:
 
 ![](../images/installation/mi_threedi_toolbox_installation.PNG)
