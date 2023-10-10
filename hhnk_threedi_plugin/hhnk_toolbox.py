@@ -258,13 +258,7 @@ class HHNK_toolbox:
             parent=self.iface.mainWindow(),
             add_to_toolbar=True,
         )
-        
-        self.initProcessing()
-
-    def initProcessing(self):
-        """Create the Qgis Processing Toolbox provider and its algorithms"""
-        self.provider = HHNKProvider()
-        QgsApplication.processingRegistry().addProvider(self.provider)
+            
     # --------------------------------------------------------------------------
 
     def onClosePlugin(self):
