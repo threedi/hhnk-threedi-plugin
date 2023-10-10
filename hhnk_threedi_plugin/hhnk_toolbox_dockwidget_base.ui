@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>472</width>
-    <height>841</height>
+    <height>750</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,8 +18,8 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>345</width>
-    <height>800</height>
+    <width>348</width>
+    <height>750</height>
    </size>
   </property>
   <property name="maximumSize">
@@ -105,17 +105,17 @@
          </widget>
         </item>
         <item>
-         <widget class="QgsFileWidget" name="polders_map_selector" native="true">
+         <widget class="QgsFileWidget" name="polders_map_selector">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="dialogTitle" stdset="0">
+          <property name="dialogTitle">
            <string>Selecteer polder map</string>
           </property>
-          <property name="defaultRoot" stdset="0">
+          <property name="defaultRoot">
            <string/>
           </property>
          </widget>
@@ -323,27 +323,17 @@
          </widget>
         </item>
         <item>
-         <spacer name="verticalSpacer_9">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>10</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
          <spacer name="verticalSpacer_5">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::MinimumExpanding</enum>
+          </property>
           <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
-            <height>300</height>
+            <height>0</height>
            </size>
           </property>
          </spacer>
@@ -383,8 +373,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>98</width>
-             <height>47</height>
+             <width>415</width>
+             <height>448</height>
             </rect>
            </property>
            <attribute name="label">
@@ -494,7 +484,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QgsFileWidget" name="input_dir_select" native="true">
+         <widget class="QgsFileWidget" name="input_dir_select">
           <property name="enabled">
            <bool>false</bool>
           </property>
@@ -504,17 +494,17 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="fileWidgetButtonVisible" stdset="0">
+          <property name="fileWidgetButtonVisible">
            <bool>true</bool>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QgsFileWidget" name="output_dir_select" native="true">
+         <widget class="QgsFileWidget" name="output_dir_select">
           <property name="enabled">
            <bool>false</bool>
           </property>
-          <property name="fileWidgetButtonVisible" stdset="0">
+          <property name="fileWidgetButtonVisible">
            <bool>true</bool>
           </property>
          </widget>
