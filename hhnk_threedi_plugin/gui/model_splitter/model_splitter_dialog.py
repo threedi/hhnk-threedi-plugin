@@ -12,7 +12,7 @@ import re
 import hhnk_threedi_tools as htt
 from hhnk_threedi_tools import MigrateSchema
 import hhnk_threedi_tools.core.schematisation.upload as upload
-
+import hhnk_research_tools as hrt
 from hhnk_threedi_plugin.tasks import generalChecksTask, checkSchematisationTask
 
 CHECK_PARAMETERS = ["kmax", "grid_space", "output_time_step"]
@@ -71,11 +71,10 @@ class modelSplitterDialog(QtWidgets.QDialog):
             # Add logging that file was changed 
             folder_path = self.model_settings_path.filePath()
             self.info_list.addItem("")
-            self.info_list.addItem(f"{datetime.datetime.now()} -----------------------------------------------------------------------------*")
+            self.add_list_item(self.info_list, f"-----------------------------------------------------------------------------*", addtime=True)
             self.info_list.addItem("Current model settings folder:")
-            self.info_list.addItem("- " + folder_path)
-
-        
+            self.add_list_item(self.info_list, f"- {folder_path}")
+  
 
     @property
     def enabled_lst(self):
@@ -112,6 +111,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         else:
             self.run_splitter_btn.setEnabled(False)
         self.run_splitter_btn.setStyleSheet('QPushButton')
+        self.upload_push_btn.setStyleSheet('QPushButton')
 
 
     def close_widget(self):
@@ -157,8 +157,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
 
         if verbose:
             self.info_list.addItem(message)
-            self.info_list.addItem("")
-                            
+            self.add_list_item(self.info_list, "")   
 
     def add_models_to_widget(self):
         """Add models to the listwidgets"""
@@ -257,7 +256,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         """Log latest revision."""
         
         self.info_list.addItem("")
-        self.info_list.addItem(f"{datetime.datetime.now()} -----------------------------------------------------------------------------*")
+        self.add_list_item(self.info_list, f"-----------------------------------------------------------------------------*", addtime=True)
         self.info_list.addItem(self.modelschematisations.get_latest_local_revision_str())
 
         for list_name in self.enabled_lst:
@@ -286,20 +285,20 @@ class modelSplitterDialog(QtWidgets.QDialog):
             # upload the schematisation                                          
             for list_name in self.enabled_lst:
                 self.info_list.addItem("")
-                self.info_list.addItem("Started uploading: " + list_name)
+                self.add_list_item(self.info_list, f"Started uploading: {list_name}", addtime=True)
+
                 self.modelschematisations.upload_schematisation(name=list_name, commit_message=commit_message, api_key=self.api_key, organisation_uuid=uuid_slug)
-                self.info_list.addItem("Finished uploading: " + list_name)
-                self.info_list.addItem("")
+                self.add_list_item(self.info_list, f"Finished uploading: {list_name}", addtime=True)
 
             # Logging
             self.info_list.addItem("")
-            self.info_list.addItem(f"{datetime.datetime.now()} -----------------------------------------------------------------------------*")
+            self.add_list_item(self.info_list, f"-----------------------------------------------------------------------------*", addtime=True)
             self.info_list.addItem(f"Model versions uploaded: {self.enabled_lst}")
             self.info_list.addItem(f"Path: {polder_path}")
             
             # create local upload revision
             response = self.modelschematisations.create_local_sqlite_revision(commit_message = ("upload revision " + commit_message))
-            self.info_list.addItem(response)
+            self.add_list_item(self.info_list, response)
             self.model_splitted = False
             self.upload_push_btn.setEnabled(False)
             self.update_button_background(self.upload_push_btn, color="green")
@@ -310,3 +309,13 @@ class modelSplitterDialog(QtWidgets.QDialog):
     def update_button_background(self, button, color):
         button.setStyleSheet(f"QPushButton {'{'}background-color: {color}; color:black{'}'}")
         QApplication.processEvents()
+
+    def add_list_item(self, lst_widget, text, addtime=False):
+        """add item to info_list and scroll to botom"""
+        if addtime:
+            lst_widget.addItem(f"{hrt.current_time()} {text}")
+        else:
+            lst_widget.addItem(f"{text}")
+
+        lst_widget.scrollToBottom()
+        lst_widget.repaint() #update widgets

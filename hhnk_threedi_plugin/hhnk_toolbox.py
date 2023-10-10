@@ -33,7 +33,6 @@ import datetime
 
 # Initialize Qt resources from file resources.py
 from hhnk_threedi_plugin.resources import *
-
 # Import the code for the DockWidget
 # %%
 try: 
@@ -77,6 +76,7 @@ from hhnk_threedi_plugin.tasks.task_sqlite_tests_main import task_sqlite_tests_m
 import os
 
 from hhnk_threedi_plugin.gui.model_splitter.model_splitter_dialog import modelSplitterDialog
+import hhnk_research_tools as hrt
 
 
 # docs
@@ -645,7 +645,6 @@ class HHNK_toolbox:
 
     #TODO centraal ergens zetten?
     def add_message(self, message):
-        timenow = datetime.datetime.now().strftime("%H:%M:%S")
-        message = f"{timenow}: {message}"
+        message = f"{hrt.current_time()}: {message}"
         # QgsMessageLog.logMessage(message, level=level)
         print(message)
