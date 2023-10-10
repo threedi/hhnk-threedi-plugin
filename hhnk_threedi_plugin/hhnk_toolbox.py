@@ -59,7 +59,6 @@ from hhnk_threedi_plugin.qgis_interaction.open_notebook import NotebookWidget
 
 from hhnk_threedi_plugin.gui.modelbuilder import ModelBuilder
 
-from hhnk_threedi_plugin.processing.providers import HHNKProvider
 
 # %%
 # Functions
@@ -621,7 +620,6 @@ class HHNK_toolbox:
 
                 # define modelbuilder. Note, all callbacks and functions you can find in ModelBuilder class
                 self.modelbuilder = ModelBuilder(dockwidget=self.dockwidget)
-
             
                 # note that for 'klimaatsomme
                 # n' functions are run from the widget
@@ -640,11 +638,11 @@ class HHNK_toolbox:
                 self.dockwidget.polders_map_selector.setFilePath(local_settings.project_path)
             except:
                 pass
-            #
-
 
     #TODO centraal ergens zetten?
     def add_message(self, message):
         message = f"{hrt.current_time()}: {message}"
         # QgsMessageLog.logMessage(message, level=level)
         print(message)
+
+            

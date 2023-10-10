@@ -12,9 +12,11 @@ import re
 import hhnk_threedi_tools as htt
 from hhnk_threedi_tools import MigrateSchema
 import hhnk_threedi_tools.core.schematisation.upload as upload
+
 import hhnk_research_tools as hrt
 from hhnk_threedi_plugin.tasks import generalChecksTask, checkSchematisationTask
 from hhnk_threedi_plugin.gui.utility.widget_interaction import update_button_background
+
 
 CHECK_PARAMETERS = ["kmax", "grid_space", "output_time_step"]
 #%%
@@ -175,10 +177,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         if os.path.exists(self.model_settings_path.filePath()):
             enabled_models = []
             for item_name in self.modelschematisations.settings_df.index:
-                if item_name not in self.enabled_lst and item_name not in self.get_lst_items(listwidget=self.disabled_list):
-                    self.disabled_list.addItem(QListWidgetItem(item_name))
-                else:
-                    enabled_models.append(item_name)
+                self.disabled_list.addItem(QListWidgetItem(item_name))
             self.check_consistency_enabled_models()
                     
 
