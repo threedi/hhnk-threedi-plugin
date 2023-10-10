@@ -35,7 +35,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.dockwidget = parent
         self.setWindowTitle('Modelsplitter')
         self.api_key = self.dockwidget.threedi_api_key_textbox.text()
-        self.sql_error = True
+        self.sql_error = None
         self.model_splitted = False
 
         # init widget
@@ -136,6 +136,16 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.upload_push_btn.setEnabled(False)
         cont = True
 
+        #Error in sqlite
+        if cont and self.sql_error is None:
+            message = "Run Check Sqlite to continue"
+            cont = False
+
+        #Error in sqlite
+        if cont and self.sql_error:
+            message = "Model contains errors in sqlite database and cannot be uploaded. Run sqlite checks and fix errors."
+            cont = False
+
         #Model not split
         if not self.model_splitted:
             message = "Split model to upload version(s)"
@@ -143,11 +153,10 @@ class modelSplitterDialog(QtWidgets.QDialog):
 
         #empty list
         if cont and not self.enabled_lst: 
-            message = "Enable a schematisation and use checker+splitter to upload version(s)"
+            message = "Enable a schematisation and use splitter"
             cont = False      
 
-        #No commit message
-        if cont and not self.sql_error and (len(self.get_commit_message()) <= 2):
+        if cont and (len(self.get_commit_message()) <= 2):
             message = "Provide commit message (minimal 3 characters) to upload version(s)"
             cont = False
 
@@ -205,12 +214,12 @@ class modelSplitterDialog(QtWidgets.QDialog):
         # check errors
         self.sql_error = any((check_schematisation.error, check_general.error))
         self.info_list.addItem("")
+
         if self.sql_error:
-            self.info_list.addItem(f"ERROR: Model contains errors in sqlite database and cannot be uploaded. Run sqlite checks and fix errors.")
             self.update_button_background(button=self.check_push_btn, color="red")
         else:
-            self.info_list.addItem("Model does not contain errors and can be uploaded.")
             self.update_button_background(button=self.check_push_btn, color="green")
+        self.verify_upload(verbose=True)
 
 
     def migration_check(self):
