@@ -40,14 +40,14 @@
     </widget>
    </item>
    <item>
-    <widget class="QgsFileWidget" name="model_settings_path">
+    <widget class="QgsFileWidget" name="model_settings_path" native="true">
      <property name="minimumSize">
       <size>
        <width>461</width>
        <height>20</height>
       </size>
      </property>
-     <property name="fullUrl">
+     <property name="fullUrl" stdset="0">
       <bool>false</bool>
      </property>
     </widget>
@@ -228,7 +228,14 @@
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="run_push_btn">
+    <widget class="QPushButton" name="check_push_btn">
+     <property name="text">
+      <string>Check Sqlite (runtime up to 30s)</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="run_splitter_btn">
      <property name="minimumSize">
       <size>
        <width>111</width>
@@ -419,7 +426,7 @@
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <widget class="QPushButton" name="cancel">
+     <widget class="QPushButton" name="close_btn">
       <property name="minimumSize">
        <size>
         <width>71</width>
@@ -427,7 +434,7 @@
        </size>
       </property>
       <property name="text">
-       <string>Reset and close</string>
+       <string>Close</string>
       </property>
      </widget>
     </widget>
@@ -467,6 +474,7 @@
   <zorder>label_5</zorder>
   <zorder>info_list</zorder>
   <zorder>commitMessage</zorder>
+  <zorder>check_push_btn</zorder>
  </widget>
  <customwidgets>
   <customwidget>

@@ -28,7 +28,8 @@ from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication, Qt
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction, QMessageBox
 from qgis.core import QgsApplication, Qgis, QgsProject, QgsVectorLayer
-from qgis.utils import showPluginHelp
+from qgis.utils import QgsMessageLog, showPluginHelp
+import datetime
 
 # Initialize Qt resources from file resources.py
 from hhnk_threedi_plugin.resources import *
@@ -45,7 +46,6 @@ except ModuleNotFoundError:
 from hhnk_threedi_plugin.hhnk_toolbox_dockwidget import HHNK_toolboxDockWidget
 from hhnk_threedi_plugin.gui.load_layers_popup import loadLayersDialog
 # from hhnk_threedi_plugin.gui.schematisation_splitter_uploader_dialog import schematisationDialog
-
 from hhnk_threedi_plugin.gui.checks.sqlite_check_popup import sqliteCheckDialog
 from hhnk_threedi_plugin.gui.checks.zero_d_one_d import zeroDOneDWidget
 from hhnk_threedi_plugin.gui.checks.one_d_two_d import oneDTwoDWidget
@@ -59,6 +59,7 @@ from hhnk_threedi_plugin.gui.input_data import inputDataDialog
 from hhnk_threedi_plugin.qgis_interaction.open_notebook import NotebookWidget
 
 from hhnk_threedi_plugin.gui.modelbuilder import ModelBuilder
+
 
 # %%
 # Functions
@@ -136,6 +137,8 @@ class HHNK_toolbox:
         self.polder_folder = None
         self.current_source_paths = None
         self.modelbuilder = None
+
+        self.debug = local_settings.DEBUG
     
     @property
     def polders_path(self):
@@ -307,17 +310,20 @@ class HHNK_toolbox:
         """
         Updates polder_selector from the contents of the path in polders_map_selector
         """
+        if self.debug:
+            self.add_message("polders_folder_changed start")
         items = []
         # get the contents of the folder in polders_map_selector
         path = self.dockwidget.polders_map_selector.filePath()
-        
+
         if path is not None:
             if (path != "") and Path(path).exists():
                 folder = Folder(path)
 
                 # clean the contents (only accept valid Folders directories)
-                items = [i.name for i in folder.content if Folders(Path(path)/i).is_valid()]
+                items = [i.name for i in folder.content if Folders.is_valid(Path(path)/i)]
 
+            
         # add items to the polder_selector
         self.dockwidget.polder_selector.clear()
         if items:
@@ -326,12 +332,19 @@ class HHNK_toolbox:
         else:
             self.dockwidget.polder_selector.setDisabled(False)
 
+        if self.debug:
+            self.add_message("polders_folder_changed end")
+
+
     def polder_changed(self):
         """
         If a new polder is selected, based on validity of provided path:
         reset the current active paths
         enable or disable toolbox
         """
+        if self.debug:
+            self.add_message("polder_changed start")
+
         polders_dir = self.dockwidget.polders_map_selector.filePath()
         polder = self.dockwidget.polder_selector.currentText()
         path = Path(polders_dir) / polder
@@ -363,6 +376,9 @@ class HHNK_toolbox:
 
             self.enable_buttons(False)
             # self.dockwidget.load_layers_btn.setEnabled(True)
+
+        if self.debug:
+            self.add_message("polder_changed end")
 
 
 
@@ -501,6 +517,10 @@ class HHNK_toolbox:
         getattr(self.dockwidget, f'threedi_api_key_textbox').setEchoMode(2) #password echo mode
 
     def get_org_names(self):
+
+        if self.debug:
+            self.add_message("org names start")
+
         api_key = getattr(self.dockwidget, f'threedi_api_key_textbox').text()
         self.dockwidget.org_name_comboBox.clear()
         try:
@@ -512,7 +532,9 @@ class HHNK_toolbox:
                     'no organisation names available - check 3Di api_key and permissions', 
                     level=Qgis.Warning
                 )
-        
+            
+        if self.debug:
+            self.add_message("org names done")
 
     def run(self):
         """Run method that loads and starts the plugin"""
@@ -527,11 +549,16 @@ class HHNK_toolbox:
             #    removed on close (see self.onClosePlugin method)
             if self.dockwidget is None:
                 # Create the dockwidget (after translation) and keep reference
+
+                if self.debug:
+                    self.add_message("starting plugin")
+
                 self.dockwidget = HHNK_toolboxDockWidget()
 
                 # disable predefined buttons    
                 self.enable_buttons(False)
                 # self.dockwidget.load_layers_btn.setEnabled(False)
+
 
                 self.dockwidget.lizard_api_key_textbox.textChanged.connect(self.hide_apikeys_lizard)
                 self.dockwidget.threedi_api_key_textbox.textChanged.connect(self.hide_apikeys_threedi)
@@ -551,6 +578,7 @@ class HHNK_toolbox:
                 self.klimaatsommen = KlimaatSommenWidget(caller=self, parent=self.dockwidget)
                 self.notebook_widget = NotebookWidget(caller=self, parent=self.dockwidget)
                 
+
                 # If a polder folder is selected
                 self.dockwidget.polders_map_selector.fileChanged.connect(self.polders_folder_changed)
                 self.dockwidget.polder_selector.currentTextChanged.connect(self.polder_changed)
@@ -584,10 +612,10 @@ class HHNK_toolbox:
                 # self.zero_d_one_d.start_0d1d_tests.connect(self.zero_d_one_d_tests_execution)
                 # self.bank_levels.start_bank_levels_tests.connect(self.bank_levels_execution)
 
-
                 # define modelbuilder. Note, all callbacks and functions you can find in ModelBuilder class
                 self.modelbuilder = ModelBuilder(dockwidget=self.dockwidget)
 
+            
                 # note that for 'klimaatsomme
                 # n' functions are run from the widget
             # self.dlg = modelSplitterDialog(caller=self)
@@ -600,10 +628,17 @@ class HHNK_toolbox:
             self.iface.addTabifiedDockWidget(Qt.RightDockWidgetArea, self.dockwidget, raiseTab=True)
             self.dockwidget.show()
 
-            # #For debug set project_path in local_settings.
+            #set project_path from local_settings.
             try:
                 self.dockwidget.polders_map_selector.setFilePath(local_settings.project_path)
             except:
                 pass
             #
-            
+
+
+    #TODO centraal ergens zetten?
+    def add_message(self, message):
+        timenow = datetime.datetime.now().strftime("%H:%M:%S")
+        message = f"{timenow}: {message}"
+        # QgsMessageLog.logMessage(message, level=level)
+        print(message)

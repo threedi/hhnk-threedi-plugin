@@ -1,0 +1,6 @@
+# generate grid
+from hhnk_threedi_plugin.tasks.task_generate_grid import generateGridTask
+
+# checks tasks
+from hhnk_threedi_plugin.tasks.sqlite_test_tasks.sqlite_test_tasks import generalChecksTask
+from hhnk_threedi_plugin.tasks.task_check_schematisation import checkSchematisationTask

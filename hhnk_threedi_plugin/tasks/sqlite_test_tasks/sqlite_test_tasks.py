@@ -29,14 +29,17 @@ class impSurfaceTask(BaseSqliteTask):
         self.description="bereken ondoorlatend oppervlak model en polder"
 
     def run(self):
-        QgsMessageLog.logMessage(f"Taak gestart {self.description}", level=Qgis.Info)
-        try:
-            self.result_text = self.sqlite_test.run_imp_surface_area()
-            return True
-        except Exception as e:
-            self.exception = e
+        if self.sqlite_test.verify_inputs("run_imp_surface_area"):
+            QgsMessageLog.logMessage(f"Taak gestart {self.description}", level=Qgis.Info)
+            try:
+                self.result_text = self.sqlite_test.run_imp_surface_area()
+                return True
+            except Exception as e:
+                self.exception = e
+                return False
+        else:
+            QgsMessageLog.logMessage(f"Taak {self.description} kan niet worden gestart wegens ontbrekende input", level=Qgis.Info)
             return False
-
 
     def finished_custom(self):
         title, widget = create_impervious_surface_widget(result_text=self.result_text)
@@ -137,12 +140,13 @@ class structsChannelsTask(BaseSqliteTask):
         # print(self.layer_source)
 
     def run_custom(self):
-        if self.os_retry is None:
-            self.gdf = self.sqlite_test.run_struct_channel_bed_level()
-
-        # print(self.gdf)
-        hrt.gdf_write_to_geopackage(self.gdf, filepath=str(self.layer_source))
-        return True
+        if self.sqlite_test.verify_inputs("run_struct_channel_bed_level"):
+            if self.os_retry is None:
+                self.gdf = self.sqlite_test.run_struct_channel_bed_level()
+    
+            # print(self.gdf)
+            hrt.gdf_write_to_geopackage(self.gdf, filepath=str(self.layer_source))
+            return True
 
     def finished_custom(self):
         # add_layers(self.layers_list, self.test_env.group_structure) #TODO
@@ -157,12 +161,14 @@ class generalChecksTask(BaseSqliteTask):
         super().__init__(folder)
         self.description="algemene model checks"
         self.layer_source = self.folder.output.sqlite_tests.general_sqlite_checks.path
+        self.error = True
 
     def run_custom(self):
         if self.os_retry is None:
-            self.gdf = self.sqlite_test.run_model_checks()
+            self.df = self.sqlite_test.run_model_checks()
+            self.error = self.df.error.str.contains("ERROR").any()
 
-        hrt.gdf_write_to_csv(self.gdf, filepath=self.layer_source)
+        hrt.gdf_write_to_csv(self.df, filepath=self.layer_source)
         return True
 
     def finished_custom(self):
@@ -180,7 +186,7 @@ class isolatedChannelsTask(BaseSqliteTask):
         if self.os_retry is None:
             self.gdf, self.result_text = self.sqlite_test.run_isolated_channels()
 
-        hrt.gdf_write_to_csv(self.gdf, filepath=self.layer_source)
+        hrt.gdf_write_to_geopackage(self.gdf, filepath=self.layer_source)
         return True
 
     def finished_custom(self):

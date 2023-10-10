@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>472</width>
-    <height>841</height>
+    <height>750</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,8 +18,8 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>345</width>
-    <height>841</height>
+    <width>348</width>
+    <height>750</height>
    </size>
   </property>
   <property name="maximumSize">
@@ -120,9 +120,6 @@
           </property>
           <property name="storageMode">
            <enum>QgsFileWidget::GetDirectory</enum>
-          </property>
-          <property name="options">
-           <set>QFileDialog::ShowDirsOnly</set>
           </property>
          </widget>
         </item>
@@ -329,27 +326,17 @@
          </widget>
         </item>
         <item>
-         <spacer name="verticalSpacer_9">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>10</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
          <spacer name="verticalSpacer_5">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::MinimumExpanding</enum>
+          </property>
           <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
-            <height>300</height>
+            <height>0</height>
            </size>
           </property>
          </spacer>
@@ -389,8 +376,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>424</width>
-             <height>704</height>
+             <width>115</width>
+             <height>52</height>
             </rect>
            </property>
            <attribute name="label">

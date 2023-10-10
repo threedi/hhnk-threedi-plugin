@@ -25,6 +25,9 @@ from hhnk_threedi_plugin.qgis_interaction import load_layers_interaction
 # hhnk-threedi-tests
 from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
 
+# get plugin-tasks
+from hhnk_threedi_plugin.tasks import generateGridTask
+
 
 def setup_ui(load_layers_popup):
     load_layers_popup.setMinimumWidth(400)
@@ -221,10 +224,13 @@ class loadLayersDialog(QDialog):
             load_layers_interaction.load_sqlite(filepath=self.caller.fenv.model.schema_base.sqlite_paths[0].as_posix())
 
         if self.grid_selector.isChecked() == True:
-            sqlite_test = SqliteCheck(self.caller.fenv)
-            sqlite_test.create_grid_from_sqlite(output_folder=self.caller.fenv.output.sqlite_tests.base)
+            iface.messageBar().pushMessage("genereer grid")
+            grid_task = generateGridTask(self.caller.fenv)
+            grid_task.run()
+            # sqlite_test = SqliteCheck(self.caller.fenv)
+            # sqlite_test.create_grid_from_sqlite(output_folder=self.caller.fenv.output.sqlite_tests.base)
 
-            subjects.append('grid')
+            # subjects.append('grid')
 
 
         # Sqlite test
