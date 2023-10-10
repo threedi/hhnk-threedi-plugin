@@ -145,13 +145,12 @@ class KlimaatSommenWidget(QWidget):
         create_pdfs(self.caller.fenv, self.select_revision_box.currentText())
 
     def populate_combobox(self):
-        revisions = self.caller.fenv.threedi_results.climate_results.revisions
+        revisions = self.caller.fenv.threedi_results.climate_results.revisions_rev
 
         self.select_revision_box.clear()
         self.select_revision_box.addItem("")
 
-        revisions_sorted = np.take(revisions, np.argsort([rev.lstat().st_mtime for rev in revisions]))[::-1]
-        for rev in revisions_sorted:
+        for rev in revisions:
             self.select_revision_box.addItem(rev.name)
 
 

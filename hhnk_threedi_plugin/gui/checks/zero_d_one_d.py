@@ -98,7 +98,7 @@ class zeroDOneDWidget(QWidget):
         Accumulates a list of valid 3di results (directories) and populates the revision selection
         combobox from this list
         """
-        revisions = self.caller.fenv.threedi_results.zero_d_one_d.revisions
+        revisions = self.caller.fenv.threedi_results.zero_d_one_d.revisions_rev
         print("zero_d_one_d", revisions)
         # if len(revisions) == 0:
         #    self.select_revision_box.setEnabled(False)
@@ -106,8 +106,7 @@ class zeroDOneDWidget(QWidget):
         self.select_revision_box.clear()
         self.select_revision_box.addItem("")
 
-        revisions_sorted = np.take(revisions, np.argsort([rev.lstat().st_mtime for rev in revisions]))[::-1]
-        for rev in revisions_sorted:
+        for rev in revisions:
             self.select_revision_box.addItem(rev.name)
 
 
