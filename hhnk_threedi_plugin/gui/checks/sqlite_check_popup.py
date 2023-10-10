@@ -21,6 +21,7 @@ from qgis.gui import QgsMessageBar
 # from hhnk_threedi_plugin.gui.tests.verify_sqlite_tests_input import verify_input
 from hhnk_threedi_plugin.tasks.task_sqlite_tests_main import task_sqlite_tests_main
 from hhnk_threedi_plugin.qgis_interaction import load_layers_interaction
+from hhnk_threedi_plugin.gui.utility.widget_interaction import update_button_background
 
 
 
@@ -212,10 +213,13 @@ class sqliteCheckDialog(QDialog):
         """
         Checks whether all fields are correctly filled
         """
+        update_button_background(button=self.start_sqlite_tests_btn, color="orange")
         self.selected_tests = self.construct_chosen_tests_list()
 
         self.start_sqlite_tests.emit(self.selected_tests)
         self.accept()
+        update_button_background(button=self.start_sqlite_tests_btn, color="green")
+
 
     def set_current_paths(self):
         """

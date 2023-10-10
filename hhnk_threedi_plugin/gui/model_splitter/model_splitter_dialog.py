@@ -14,6 +14,7 @@ from hhnk_threedi_tools import MigrateSchema
 import hhnk_threedi_tools.core.schematisation.upload as upload
 import hhnk_research_tools as hrt
 from hhnk_threedi_plugin.tasks import generalChecksTask, checkSchematisationTask
+from hhnk_threedi_plugin.gui.utility.widget_interaction import update_button_background
 
 CHECK_PARAMETERS = ["kmax", "grid_space", "output_time_step"]
 #%%
@@ -110,8 +111,8 @@ class modelSplitterDialog(QtWidgets.QDialog):
             self.run_splitter_btn.setEnabled(True)
         else:
             self.run_splitter_btn.setEnabled(False)
-        self.run_splitter_btn.setStyleSheet('QPushButton')
-        self.upload_push_btn.setStyleSheet('QPushButton')
+        update_button_background(self.run_splitter_btn)
+        update_button_background(self.upload_push_btn)
 
 
     def close_widget(self):
@@ -124,8 +125,9 @@ class modelSplitterDialog(QtWidgets.QDialog):
         # enable all buttons for next time
         self.reset_buttons()
         
-        self.check_push_btn.setStyleSheet('QPushButton')
-        self.upload_push_btn.setStyleSheet('QPushButton')
+        #Reset styles
+        update_button_background(self.check_push_btn)
+        update_button_background(self.upload_push_btn)
 
         # close the widget
         self.close()
@@ -201,7 +203,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
     def sqlite_check(self):
         """Check if sqlite is OK according to 3Di:schematisation_checker and HHNK general checks"""
 
-        self.update_button_background(button=self.check_push_btn, color="orange")
+        update_button_background(button=self.check_push_btn, color="orange")
         
         # init checks
         check_schematisation = checkSchematisationTask(folder=self.caller.fenv, add_to_project=True)
@@ -216,9 +218,9 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.info_list.addItem("")
 
         if self.sql_error:
-            self.update_button_background(button=self.check_push_btn, color="red")
+            update_button_background(button=self.check_push_btn, color="red")
         else:
-            self.update_button_background(button=self.check_push_btn, color="green")
+            update_button_background(button=self.check_push_btn, color="green")
         self.verify_upload(verbose=True)
 
 
@@ -233,14 +235,14 @@ class modelSplitterDialog(QtWidgets.QDialog):
         """Loop over the selected models in the list widget on the right
         Create individual schematisations for each"""
         
-        self.update_button_background(button=self.run_splitter_btn, color="orange")
+        update_button_background(button=self.run_splitter_btn, color="orange")
 
         for list_name in self.enabled_lst:
             try:
                 self.modelschematisations.create_schematisation(name=list_name)
             except Exception as e:
                 self.info_list.addItem(f"ERROR: {str(e)}")
-                self.update_button_background(button=self.run_splitter_btn, color="red")
+                update_button_background(button=self.run_splitter_btn, color="red")
 
                 raise e
 
@@ -257,7 +259,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.info_list.addItem("Selected Organisation ID: " + self.dockwidget.org_name_comboBox.currentText())
         self.info_list.addItem("")
         self.model_splitted = True
-        self.update_button_background(button=self.run_splitter_btn, color="green")
+        update_button_background(button=self.run_splitter_btn, color="green")
         self.verify_upload(verbose=True)
 
 
@@ -279,7 +281,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
     def upload_schematisations(self):   
         """Upload selected schematisations to the 3Di servers."""
         try:
-            self.update_button_background(self.upload_push_btn, color="orange")
+            update_button_background(self.upload_push_btn, color="orange")
 
             commit_message = self.get_commit_message()
             polders_dir = self.dockwidget.polders_map_selector.filePath()
@@ -310,14 +312,11 @@ class modelSplitterDialog(QtWidgets.QDialog):
             self.add_list_item(self.info_list, response)
             self.model_splitted = False
             self.upload_push_btn.setEnabled(False)
-            self.update_button_background(self.upload_push_btn, color="green")
+            update_button_background(self.upload_push_btn, color="green")
         except Exception as e:
-            self.update_button_background(self.upload_push_btn, color="red")
+            update_button_background(self.upload_push_btn, color="red")
             raise e
-
-    def update_button_background(self, button, color):
-        button.setStyleSheet(f"QPushButton {'{'}background-color: {color}; color:black{'}'}")
-        QApplication.processEvents()
+        
 
     def add_list_item(self, lst_widget, text, addtime=False):
         """add item to info_list and scroll to botom"""
