@@ -165,10 +165,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         if os.path.exists(self.model_settings_path.filePath()):
             enabled_models = []
             for item_name in self.modelschematisations.settings_df.index:
-                if item_name not in self.enabled_lst and item_name not in self.get_lst_items(listwidget=self.disabled_list):
-                    self.disabled_list.addItem(QListWidgetItem(item_name))
-                else:
-                    enabled_models.append(item_name)
+                self.disabled_list.addItem(QListWidgetItem(item_name))
             self.check_consistency_enabled_models()
                     
 

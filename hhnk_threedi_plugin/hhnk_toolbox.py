@@ -60,7 +60,6 @@ from hhnk_threedi_plugin.qgis_interaction.open_notebook import NotebookWidget
 
 from hhnk_threedi_plugin.gui.modelbuilder import ModelBuilder
 
-from hhnk_threedi_plugin.processing.providers import HHNKProvider
 
 # %%
 # Functions
@@ -259,13 +258,7 @@ class HHNK_toolbox:
             parent=self.iface.mainWindow(),
             add_to_toolbar=True,
         )
-        
-        self.initProcessing()
 
-    def initProcessing(self):
-        """Create the Qgis Processing Toolbox provider and its algorithms"""
-        self.provider = HHNKProvider()
-        QgsApplication.processingRegistry().addProvider(self.provider)
     # --------------------------------------------------------------------------
 
     def onClosePlugin(self):
