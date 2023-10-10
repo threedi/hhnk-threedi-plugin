@@ -51,7 +51,7 @@ def setup_ui(load_layers_popup):
     load_layers_popup.sqlite_selector.setChecked(True)
     
     load_layers_popup.grid_selector = QCheckBox("Grid genereren")
-    load_layers_popup.grid_selector.setChecked(True)
+    load_layers_popup.grid_selector.setChecked(False)
     
     load_layers_popup.sqlite_test_selector = QCheckBox("Sqlite testen")
     load_layers_popup.sqlite_test_selector.setChecked(False)
