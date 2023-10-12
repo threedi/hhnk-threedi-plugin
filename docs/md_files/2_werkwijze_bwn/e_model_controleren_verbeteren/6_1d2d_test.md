@@ -1,4 +1,4 @@
-## **0d1d test**
+## **1d2d test**
 Wanneer de bank levels zijn bijgewerkt en waar nodig manholes zijn toegevoegd kan de 1d2d test worden gedraaid. Dit houdt in dat er opnieuw een test bui wordt gesimuleerd met 3Di.  De test bui begint met een uur droog, dan twee uur regen (17,75 mm/uur), dan 12 uur droog. Het simuleert daarmee een relatief hevige neerslag waarbij enige wateroverlast is te verwachten. In het 1d2d-test model is infiltratie uitgeschakeld.
 
 Het doel van deze test is het controleren van stromingen in het watersyteem en over maaiveld en oplossen waar dit onrealistisch is. De HHNK Toolbox zet de testresultaten om in een aantal kaarten ter controle worden geanalyseerd. 
