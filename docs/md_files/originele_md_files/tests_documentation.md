@@ -15,26 +15,29 @@ Op deze pagina vind je de inhoudelijke uitleg van de HHNK Toolbox checks en de f
   - [Modelstaat aanpassen](#modelstaat-aanpassen)
         - [IK ZIE DEZE TABEL NERGENS?](#ik-zie-deze-tabel-nergens)
         - [IK ZOU ONDERSTAANDE GRAAG EEN KEER UITGELEGD KRIJGEN](#ik-zou-onderstaande-graag-een-keer-uitgelegd-krijgen)
-  - [Sqlite checks  WE: *Nu begint de test documentatie pas? Indeling niet handig.*](#sqlite-checks--we-nu-begint-de-test-documentatie-pas-indeling-niet-handig)
-    - [Data verificatie](#data-verificatie)
-      - [1. Ondoorlatend oppervlak](#1-ondoorlatend-oppervlak)
-      - [2. Gebruikte profielen](#2-gebruikte-profielen)
-      - [3. Gestuurde kunstwerken](#3-gestuurde-kunstwerken)
-      - [4. Bodemhoogte stuw](#4-bodemhoogte-stuw)
-      - [5. Geometrie](#5-geometrie)
-      - [6. Bodemhoogte kunstwerken](#6-bodemhoogte-kunstwerken)
-      - [7. Algemene tests](#7-algemene-tests)
-      - [8. Geïsoleerde watergangen](#8-geïsoleerde-watergangen)
-      - [9. Genereer grid](#9-genereer-grid)
+
+1. [Sqlite checks](#sqlite-checks--we-nu-begint-de-test-documentatie-pas-indeling-niet-handig)
+  <br>1.1 [Data verificatie](#data-verificatie)
+      <br>1.1.1 [Ondoorlatend oppervlak](#1-ondoorlatend-oppervlak)
+      <br>1.1.2 [Gebruikte profielen](#2-gebruikte-profielen)
+      <br>1.1.3 [Gestuurde kunstwerken](#3-gestuurde-kunstwerken)
+      <br>1.1.4 [Bodemhoogte stuw](#4-bodemhoogte-stuw)
+      <br>1.1.5 [Geometrie](#5-geometrie)
+      <br>1.1.6 [Bodemhoogte kunstwerken](#6-bodemhoogte-kunstwerken)
+      <br>1.1.7 [Algemene tests](#7-algemene-tests)
+      <br>1.1.8 [Geïsoleerde watergangen](#8-geïsoleerde-watergangen)
+      <br>1.1.9 [Genereer grid](#9-genereer-grid)
         - [Nog aanvullen](#nog-aanvullen)
-    - [Eenmalige tests](#eenmalige-tests)
-      - [1. Maximale waarde DEM](#1-maximale-waarde-dem)
-      - [2. Ontwateringsdiepte](#2-ontwateringsdiepte)
-      - [3. Oppervlaktewater](#3-oppervlaktewater)
-  - [0d1d tests/hydraulische toets](#0d1d-testshydraulische-toets)
-  - [Bank levels  WE: *@Jelle verouderd, hebben we al aanpassing?*](#bank-levels--we-jelle-verouderd-hebben-we-al-aanpassing)
-  - [1d2d tests](#1d2d-tests)
-  - [Klimaatsommen](#klimaatsommen)
+
+2 [Eenmalige tests](#eenmalige-tests)
+  <br>[2.1 Maximale waarde DEM](#1-maximale-waarde-dem)
+  <br>[2.2 Ontwateringsdiepte](#2-ontwateringsdiepte)
+  <br>[2.3 Oppervlaktewater](#3-oppervlaktewater)
+
+[0d1d tests/hydraulische toets](#0d1d-testshydraulische-toets)
+<br>[Bank levels  WE: *@Jelle verouderd, hebben we al aanpassing?*](#bank-levels--we-jelle-verouderd-hebben-we-al-aanpassing)
+<br>[1d2d tests](#1d2d-tests)
+<br>[Klimaatsommen](#klimaatsommen)
 
 
 <span style="color:yellow"> WE: *Kun je nummering met meerdere niveaus toepassen en de nummers ook terug laten komen in de hoofdstukken hieronder?*</span>
@@ -80,7 +83,7 @@ De modelbuilder geeft naast het gemaakte model feedback over een aantal onderdel
 
 
 ### <span style="color:yellow"> Duikers als orifice</span>
-Vanwege rekensnelheid, maar vooral vanwege aanhoudende instabiliteit in 3Di rondom korte duikers schemateseren we een deel van de duikers als doorlaat. De uitgangspunten hierbij zijn:
+Vanwege rekensnelheid, maar vooral vanwege aanhoudende instabiliteit in 3Di rondom korte duikers schematiseren we een deel van de duikers als doorlaat. De uitgangspunten hierbij zijn:
 1.	Lange overlaat (orifice) met discharge coëfficiënten op 1.0, mits:
 
 	   a.	Duiker breedte of diameter is factor 3 kleiner dan breedte watergang op streefpeil en,

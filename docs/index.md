@@ -14,7 +14,10 @@ Plugin voor het bouwen en analyseren van [3Di](https://3diwatermanagement.com/) 
 
 ## Inhoudsopgave
 
-* [Installatie instructies](md_files/installation_manual.md)
+##### Controleer de docs!
+
+* [Inleiding](md_files/1_inleiding/inleiding.md)
+* [Installatie instructies](md_files/installation/installation_manual.md)
 * [Gebruikershandleiding](md_files/usage.md)
 * [Uitleg tests en functionaliteit](md_files/tests_documentation.md)
 * [Bron data](md_files/needed_data.md)
