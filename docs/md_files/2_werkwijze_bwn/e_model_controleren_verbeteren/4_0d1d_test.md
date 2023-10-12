@@ -1,5 +1,7 @@
+<span style="color:red"> BvL: controleer onderstaande tekst</span>  
+
 ## 0d1d test
-Als de sqlite tests zijn uitgevoerd, eventuele aanpassingen zijn gemaakt en het model is opgebouwd voor rekenen met 3Di wordt de hydraulische toets gedraaid. Deze toets is een test bui ontworpen om het 1d watersysteem in het model te controleren. De test bui begint met een droge dag, vijf dagen neerslag gelijk aan de maalcapaciteit (in de meeste polders is dit 14,4 mm/dag) en dan twee dagen droog. Deze bui is zo ontworpen dat we een aantal eigenschappen van het watersysteem kunnen toetsen:
+Als de sqlite tests zijn uitgevoerd, eventueel aanpassingen zijn gemaakt en het model is opgebouwd voor rekenen met 3Di, is het tijd om de 0d1d test uit te voeren. Deze toets is een test bui ontworpen om het 1d watersysteem in het model te controleren. De test bui begint met een droge dag, vijf dagen neerslag gelijk aan de maalcapaciteit (in de meeste polders is dit 14,4 mm/dag) en dan twee dagen droog. Deze bui is zo ontworpen dat we een aantal eigenschappen van het watersysteem kunnen toetsen:
 
 - **streefpeil handhaving**: blijven waterpeilen constant tijdens de droge dag?
 - **stationaire afvoer**: stabiliseert het peil en de afvoer na de 5 dagen neerslag?
@@ -44,8 +46,6 @@ In deze test worden eveneens de 1d nodes uit het 3Di resultaat gefilterd. Voor k
 * Het verhang (cm/km)
 * De stroomsnelheid in m/s (u)
 * De stroomrichting
-
- <span style="color:red"> BvL: controleer onderstaande alinea</span>  
 
 ### **Beoordeling resultaten**
 De resultaten die de 0d1d tests genereert, moeten beoordeeld worden om te bevestigen dat het model naar behoren werkt. Hieronder wordt per onderdeel beschreven wat realistische waarden/uitkomsten zouden moeten zijn. 
