@@ -182,22 +182,22 @@ class Project:
             yield i
 
 
-    def get_group_lsts_from_df(self, df, filter=None) -> list:
-        """List of group lists in dataframe. df is an input because for generating themes self.df_full is used."""
-        # group_structure_lst = self.df[['parent_group','child_group']].stack().groupby(level=0).apply(list).tolist()
-        # return list(k for k,_ in itertools.groupby(group_structure_lst))
+    # def get_group_lsts_from_df(self, df, filter=None) -> list:
+    #     """List of group lists in dataframe. df is an input because for generating themes self.df_full is used."""
+    #     # group_structure_lst = self.df[['parent_group','child_group']].stack().groupby(level=0).apply(list).tolist()
+    #     # return list(k for k,_ in itertools.groupby(group_structure_lst))
         
-        def local_eval(row):
-            """apply(eval) doesnt work, it doesnt recognise revisions unless specified in same function"""
-            revisions = self.revisions #required for eval
+    #     def local_eval(row):
+    #         """apply(eval) doesnt work, it doesnt recognise revisions unless specified in same function"""
+    #         revisions = self.revisions #required for eval
 
-            return eval(row)
+    #         return eval(row)
 
-        group_lsts = df['group_lst'].apply(local_eval) 
-        if filter is None:
-            return group_lsts.to_list()
-        else:
-            return group_lsts[filter].to_list()
+    #     group_lsts = df['group_lst'].apply(local_eval) 
+    #     if filter is None:
+    #         return group_lsts.to_list()
+    #     else:
+    #         return group_lsts[filter].to_list()
 
 
     @property
@@ -231,11 +231,11 @@ class Project:
     def mapcanvas_extent(self):
         return iface.mapCanvas().extent()
 
-
+    #FIXME in htt
     # @staticmethod
     def get_layer_information_from_row(self, row, folder, HHNK_THREEDI_PLUGIN_DIR):
         """retrieve all information to construct a layer from a row in the dataframe.
-        folder, HHNK_THREEDI_PLUGIN_DIR and revisiosn are needed for the eval functions.
+        folder, HHNK_THREEDI_PLUGIN_DIR and revisions are needed for the eval functions.
         """
 
         filetype = row.filetype
@@ -261,6 +261,7 @@ class Project:
         layer_name = row.qgis_name
 
         if not pd.isna(row.qmldir) and not pd.isna(row.qmlname):
+            eval(row.qmldir)
             qml_path = os.path.join(eval(row.qmldir), row.qmlname)
         else:
             qml_path = None
@@ -503,9 +504,6 @@ class Project:
             layer_names.extend(["Luchtfoto actueel (PDOK)"])
             group_lsts.extend([["Achtergrond"]])
             
-            for i in range(0, len(group_lsts)):
-                group_lsts[i][0] = group_lsts[i][0].replace("Klimaatsommen []", f"Klimaatsommen [{self.revisions['klimaatsommen']}]")
-            
             # and dont for
             print(theme_name, layer_names, group_lsts)
             self.add_theme(theme_name, layer_names, group_lsts=group_lsts)
@@ -552,6 +550,8 @@ class Project:
         canvas.setExtent(extent)
         canvas.setExtent(extent)
 
+
+    #FIXME in htt
     def filedir_with_revision(self, filedir):
         if "one_d_two_d" in filedir:
             return filedir.replace("revision", f"'{self.revisions['1d2d_test']}'")
@@ -559,6 +559,8 @@ class Project:
             return filedir.replace("revision", f"'{self.revisions['0d1d_test']}'")
         else:
             return filedir
+        
+
     # def iter_parent(self, parent_group):
     #     """iter over a single parent in the df. """
     #     df_parent = self.df.query(f"parent_group=='{parent_group}'")

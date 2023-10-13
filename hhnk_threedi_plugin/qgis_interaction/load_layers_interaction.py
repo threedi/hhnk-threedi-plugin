@@ -50,7 +50,14 @@ def load_layers(folder: Folders, df_path, revisions=None, subjects=None, group_i
         #Dont add when layer already present.
         if not project.get_layer(layer_name=layer_name, group_lst=group_lst):
             #Tranlate to qgis layer instance and add to project.
-            layer = Layer(full_path, layer_name, filetype, qml_path, subject)
+            layer = Layer(
+                source_path = full_path,
+                layer_name = layer_name,
+                type = filetype,
+                style_path = qml_path,
+                subject = subject,
+                group_lst = [],
+            )
             # print(layer, group_lst)
             project.add_layer(layer=layer, group_lst=group_lst)
 
