@@ -13,7 +13,10 @@ import hhnk_threedi_tools as htt
 from hhnk_threedi_tools import MigrateSchema
 import hhnk_threedi_tools.core.schematisation.upload as upload
 
+import hhnk_research_tools as hrt
 from hhnk_threedi_plugin.tasks import generalChecksTask, checkSchematisationTask
+from hhnk_threedi_plugin.gui.utility.widget_interaction import update_button_background
+
 
 CHECK_PARAMETERS = ["kmax", "grid_space", "output_time_step"]
 #%%
@@ -35,7 +38,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.dockwidget = parent
         self.setWindowTitle('Modelsplitter')
         self.api_key = self.dockwidget.threedi_api_key_textbox.text()
-        self.sql_error = True
+        self.sql_error = None
         self.model_splitted = False
 
         # init widget
@@ -71,11 +74,10 @@ class modelSplitterDialog(QtWidgets.QDialog):
             # Add logging that file was changed 
             folder_path = self.model_settings_path.filePath()
             self.info_list.addItem("")
-            self.info_list.addItem(f"{datetime.datetime.now()} -----------------------------------------------------------------------------*")
+            self.add_list_item(self.info_list, f"-----------------------------------------------------------------------------*", addtime=True)
             self.info_list.addItem("Current model settings folder:")
-            self.info_list.addItem("- " + folder_path)
-
-        
+            self.add_list_item(self.info_list, f"- {folder_path}")
+  
 
     @property
     def enabled_lst(self):
@@ -111,7 +113,8 @@ class modelSplitterDialog(QtWidgets.QDialog):
             self.run_splitter_btn.setEnabled(True)
         else:
             self.run_splitter_btn.setEnabled(False)
-        self.run_splitter_btn.setStyleSheet('QPushButton')
+        update_button_background(self.run_splitter_btn)
+        update_button_background(self.upload_push_btn)
 
 
     def close_widget(self):
@@ -124,8 +127,9 @@ class modelSplitterDialog(QtWidgets.QDialog):
         # enable all buttons for next time
         self.reset_buttons()
         
-        self.check_push_btn.setStyleSheet('QPushButton')
-        self.upload_push_btn.setStyleSheet('QPushButton')
+        #Reset styles
+        update_button_background(self.check_push_btn)
+        update_button_background(self.upload_push_btn)
 
         # close the widget
         self.close()
@@ -136,6 +140,16 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.upload_push_btn.setEnabled(False)
         cont = True
 
+        #Error in sqlite
+        if cont and self.sql_error is None:
+            message = "Run Check Sqlite to continue"
+            cont = False
+
+        #Error in sqlite
+        if cont and self.sql_error:
+            message = "Model contains errors in sqlite database and cannot be uploaded. Run sqlite checks and fix errors."
+            cont = False
+
         #Model not split
         if not self.model_splitted:
             message = "Split model to upload version(s)"
@@ -143,11 +157,10 @@ class modelSplitterDialog(QtWidgets.QDialog):
 
         #empty list
         if cont and not self.enabled_lst: 
-            message = "Enable a schematisation and use checker+splitter to upload version(s)"
+            message = "Enable a schematisation and use splitter"
             cont = False      
 
-        #No commit message
-        if cont and not self.sql_error and (len(self.get_commit_message()) <= 2):
+        if cont and (len(self.get_commit_message()) <= 2):
             message = "Provide commit message (minimal 3 characters) to upload version(s)"
             cont = False
 
@@ -157,8 +170,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
 
         if verbose:
             self.info_list.addItem(message)
-            self.info_list.addItem("")
-                            
+            self.add_list_item(self.info_list, "")   
 
     def add_models_to_widget(self):
         """Add models to the listwidgets"""
@@ -190,7 +202,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
     def sqlite_check(self):
         """Check if sqlite is OK according to 3Di:schematisation_checker and HHNK general checks"""
 
-        self.update_button_background(button=self.check_push_btn, color="orange")
+        update_button_background(button=self.check_push_btn, color="orange")
         
         # init checks
         check_schematisation = checkSchematisationTask(folder=self.caller.fenv, add_to_project=True)
@@ -203,12 +215,12 @@ class modelSplitterDialog(QtWidgets.QDialog):
         # check errors
         self.sql_error = any((check_schematisation.error, check_general.error))
         self.info_list.addItem("")
+
         if self.sql_error:
-            self.info_list.addItem(f"ERROR: Model contains errors in sqlite database and cannot be uploaded. Run sqlite checks and fix errors.")
-            self.update_button_background(button=self.check_push_btn, color="red")
+            update_button_background(button=self.check_push_btn, color="red")
         else:
-            self.info_list.addItem("Model does not contain errors and can be uploaded.")
-            self.update_button_background(button=self.check_push_btn, color="green")
+            update_button_background(button=self.check_push_btn, color="green")
+        self.verify_upload(verbose=True)
 
 
     def migration_check(self):
@@ -222,14 +234,14 @@ class modelSplitterDialog(QtWidgets.QDialog):
         """Loop over the selected models in the list widget on the right
         Create individual schematisations for each"""
         
-        self.update_button_background(button=self.run_splitter_btn, color="orange")
+        update_button_background(button=self.run_splitter_btn, color="orange")
 
         for list_name in self.enabled_lst:
             try:
                 self.modelschematisations.create_schematisation(name=list_name)
             except Exception as e:
                 self.info_list.addItem(f"ERROR: {str(e)}")
-                self.update_button_background(button=self.run_splitter_btn, color="red")
+                update_button_background(button=self.run_splitter_btn, color="red")
 
                 raise e
 
@@ -246,7 +258,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.info_list.addItem("Selected Organisation ID: " + self.dockwidget.org_name_comboBox.currentText())
         self.info_list.addItem("")
         self.model_splitted = True
-        self.update_button_background(button=self.run_splitter_btn, color="green")
+        update_button_background(button=self.run_splitter_btn, color="green")
         self.verify_upload(verbose=True)
 
 
@@ -254,7 +266,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
         """Log latest revision."""
         
         self.info_list.addItem("")
-        self.info_list.addItem(f"{datetime.datetime.now()} -----------------------------------------------------------------------------*")
+        self.add_list_item(self.info_list, f"-----------------------------------------------------------------------------*", addtime=True)
         self.info_list.addItem(self.modelschematisations.get_latest_local_revision_str())
 
         for list_name in self.enabled_lst:
@@ -268,7 +280,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
     def upload_schematisations(self):   
         """Upload selected schematisations to the 3Di servers."""
         try:
-            self.update_button_background(self.upload_push_btn, color="orange")
+            update_button_background(self.upload_push_btn, color="orange")
 
             commit_message = self.get_commit_message()
             polders_dir = self.dockwidget.polders_map_selector.filePath()
@@ -283,27 +295,34 @@ class modelSplitterDialog(QtWidgets.QDialog):
             # upload the schematisation                                          
             for list_name in self.enabled_lst:
                 self.info_list.addItem("")
-                self.info_list.addItem("Started uploading: " + list_name)
+                self.add_list_item(self.info_list, f"Started uploading: {list_name}", addtime=True)
+
                 self.modelschematisations.upload_schematisation(name=list_name, commit_message=commit_message, api_key=self.api_key, organisation_uuid=uuid_slug)
-                self.info_list.addItem("Finished uploading: " + list_name)
-                self.info_list.addItem("")
+                self.add_list_item(self.info_list, f"Finished uploading: {list_name}", addtime=True)
 
             # Logging
             self.info_list.addItem("")
-            self.info_list.addItem(f"{datetime.datetime.now()} -----------------------------------------------------------------------------*")
+            self.add_list_item(self.info_list, f"-----------------------------------------------------------------------------*", addtime=True)
             self.info_list.addItem(f"Model versions uploaded: {self.enabled_lst}")
             self.info_list.addItem(f"Path: {polder_path}")
             
             # create local upload revision
             response = self.modelschematisations.create_local_sqlite_revision(commit_message = ("upload revision " + commit_message))
-            self.info_list.addItem(response)
+            self.add_list_item(self.info_list, response)
             self.model_splitted = False
             self.upload_push_btn.setEnabled(False)
-            self.update_button_background(self.upload_push_btn, color="green")
+            update_button_background(self.upload_push_btn, color="green")
         except Exception as e:
-            self.update_button_background(self.upload_push_btn, color="red")
+            update_button_background(self.upload_push_btn, color="red")
             raise e
+        
 
-    def update_button_background(self, button, color):
-        button.setStyleSheet(f"QPushButton {'{'}background-color: {color}; color:black{'}'}")
-        QApplication.processEvents()
+    def add_list_item(self, lst_widget, text, addtime=False):
+        """add item to info_list and scroll to botom"""
+        if addtime:
+            lst_widget.addItem(f"{hrt.current_time()} {text}")
+        else:
+            lst_widget.addItem(f"{text}")
+
+        lst_widget.scrollToBottom()
+        lst_widget.repaint() #update widgets

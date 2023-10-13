@@ -16,6 +16,7 @@ from PyQt5.QtCore import Qt, pyqtSignal
 
 from hhnk_threedi_plugin.tasks import task_zero_d_one_d
 from hhnk_threedi_plugin.error_messages.input_error_messages import no_output_folder, no_result_selected
+from hhnk_threedi_plugin.gui.utility.widget_interaction import update_button_background
 
 
 def setupUi(zero_d_one_d_widget):
@@ -65,6 +66,7 @@ class zeroDOneDWidget(QWidget):
         # Geef geselecteerde revisie weer
         self.select_revision_box.aboutToShowPopup.connect(self.populate_revisions_combobox)
         self.start_0d1d_tests_btn.clicked.connect(self.verify_submit)
+        self.select_revision_box.currentTextChanged.connect(self.reset_buttons)
 
 
     def verify_submit(self):
@@ -98,7 +100,7 @@ class zeroDOneDWidget(QWidget):
         Accumulates a list of valid 3di results (directories) and populates the revision selection
         combobox from this list
         """
-        revisions = self.caller.fenv.threedi_results.zero_d_one_d.revisions
+        revisions = self.caller.fenv.threedi_results.zero_d_one_d.revisions_rev
         print("zero_d_one_d", revisions)
         # if len(revisions) == 0:
         #    self.select_revision_box.setEnabled(False)
@@ -106,16 +108,21 @@ class zeroDOneDWidget(QWidget):
         self.select_revision_box.clear()
         self.select_revision_box.addItem("")
 
-        revisions_sorted = np.take(revisions, np.argsort([rev.lstat().st_mtime for rev in revisions]))[::-1]
-        for rev in revisions_sorted:
+        for rev in revisions:
             self.select_revision_box.addItem(rev.name)
 
 
     def zero_d_one_d_test_execution(self):
         try:
+            update_button_background(button=self.start_0d1d_tests_btn, color="orange")
             task_zero_d_one_d.task_zero_d_one_d(folder = self.caller.fenv, 
                                                 revision = self.select_revision_box.currentText())
+            update_button_background(button=self.start_0d1d_tests_btn, color="green")
             
         except Exception as e:
             self.caller.iface.messageBar().pushMessage(str(e), Qgis.Critical)
+            update_button_background(button=self.start_0d1d_tests_btn, color="red")
             pass
+
+    def reset_buttons(self):
+        update_button_background(button=self.start_0d1d_tests_btn)
