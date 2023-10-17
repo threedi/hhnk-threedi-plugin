@@ -11,7 +11,6 @@ Created on Tue Nov 30 09:17:26 2021
     
 """
 import os
-from tokenize import group
 from qgis.utils import iface
 from qgis.core import (
     QgsProject,
@@ -21,13 +20,13 @@ from qgis.core import (
     QgsMapThemeCollection,
     QgsPrintLayout,
     QgsReadWriteContext,
+    QgsMapLayerStyle,
 )
 # %%
 from qgis.PyQt.QtXml import QDomDocument
 import pandas as pd
 import logging
-import itertools
-
+import hhnk_threedi_tools as htt
 
 logger=logging.getLogger(__name__)
 
@@ -41,26 +40,22 @@ TEST_STRUCTURE = {
 }
 GROUP_STRUCTURE = list(TEST_STRUCTURE.keys())
 
-class Layer:
+
+
+class QgisLayer():
     """class used for multiple qgis layer:
     QgsVectorLayer
     QgsRasterLayer
     """
-
     def __init__(
         self,
-        source_path: str,
-        layer_name: str,
-        type: str = None,
-        style_path=None,
-        subject="HTT",
-        group_lst = [],
+        settings:htt.qgis.QgisLayerSettings,
     ):
         """
         Parameters
         ----------
-        source_path : str
-            path to vector
+        settings : htt.qgis.QgisLayerSettings
+            
         layer_name : str
             name of layer
         style_path : str
@@ -69,70 +64,73 @@ class Layer:
             can be 'wms', 'vector' or 'raster'
 
         """
-        if type == None:
-            type = self.get_type(source_path)
 
-        if type == "vector":
-            self.layer = QgsVectorLayer(source_path, layer_name, "ogr")
-        elif type == "raster":
-            self.layer = QgsRasterLayer(source_path, layer_name)
-        elif type == "wms":
-            self.layer = QgsRasterLayer(source_path, layer_name, "wms")
-        elif type == "arcgismapserver":
-            self.layer = QgsRasterLayer(source_path, layer_name, "arcgismapserver")
-        elif type == "arcgisfeatureserver":
-            self.layer = QgsVectorLayer(source_path, layer_name, "arcgisfeatureserver")
+        self.settings = settings
+        
+        self.layer = self.get_qgis_layer()
 
-        self.subject = subject
-        self.group_lst = group_lst
 
-        if style_path is not None:
-            self.style = style_path
-            # check style
-            if not os.path.exists(style_path):
-                self.send_message(f"Styling {style_path} does not exist")
+
+
+    def get_qgis_layer(self):
+        """
+        """
+        if  self.settings.ftype in ["ogr", "arcgisfeatureserver"]:
+            return QgsVectorLayer(self.settings.file.base, self.settings.name, self.settings.ftype)
+        elif self.settings.ftype in ["gdal", "wms", "arcgismapserver"]:
+            return QgsRasterLayer(self.settings.file.base, self.settings.name, self.settings.ftype)
+        else:
+            logger.error(f"Layer {self.settings.name} has unknown ftype: {self.settings.ftype}")
+
+
+
+    # @property
+    # def name(self):
+    #     return self.layer.name()
+    # @name.setter
+    # def name(self, value):
+    #     self.layer.setLayerName(value)
+    # @property
+    # def source(self):
+    #     return self.layer
+
+    # @property
+    # def style(self):
+    #     return self._style
+
+    # @style.setter
+    # def style(self, path):
+    #     self.layer.loadNamedStyle(path)
+    #     self._style = path
+    def add_styles(self):
+        for qml_path in self.settings.qml_lst:
+            style = QgsMapLayerStyle(qml_path)
+            if "__" in qml_path.base:
+                style_name = qml_path.name.split("__")
+            else:
+                style_name = "default"
+
+            self.layer.styleManager().addStyle(style_name, style)
+
+
+
+    def isValid(self):
+        for qml_path in self.settings.qml_lst:
+            if not qml_path.exists():
+                #TODO add logger.warnings
+                print(f"Styling {qml_path} does not exist")
 
         # check layer
-        if not self.valid:
-            self.send_message(f"Layer {layer_name} not valid. Please check data-source: {source_path}")
+        if not self.layer.isValid():
+            print(f"Layer {self.layer.name} not valid. Please check data-source: {self.settings.file}")
 
-    @property
-    def name(self):
-        return self.layer.name()
-
-    @name.setter
-    def name(self, value):
-        self.layer.setLayerName(value)
-
-    @property
-    def style(self):
-        return self._style
-
-    @style.setter
-    def style(self, path):
-        self.layer.loadNamedStyle(path)
-        self._style = path
-
-    @property
-    def valid(self):
-        return self.layer.isValid()
-
-    @property
-    def source(self):
-        return self.layer
 
     def send_message(self, message, level=1, duration=5):
+        """Send message to qgis messagebar."""
         print(self.subject, message)
         iface.messageBar().pushMessage(
             self.subject, message, level=level, duration=duration
         )
-
-    def get_type(self, file_name):
-        for ext in ['.shp', '.gdb', '.gpkg']:
-            if ext in file_name:
-                return "vector"
-        if ".tif" in file_name:
-            return "raster"
 
 
 class Project:
@@ -231,48 +229,6 @@ class Project:
     def mapcanvas_extent(self):
         return iface.mapCanvas().extent()
 
-    #FIXME in htt
-    # @staticmethod
-    def get_layer_information_from_row(self, row, folder, HHNK_THREEDI_PLUGIN_DIR):
-        """retrieve all information to construct a layer from a row in the dataframe.
-        folder, HHNK_THREEDI_PLUGIN_DIR and revisions are needed for the eval functions.
-        """
-
-        filetype = row.filetype
-        revisions = self.revisions #required for eval in row.filedir and row.group_lst, has the keys: 0d1d_test, 1d2d_test and klimaatsommen
-
-        #Voor wms staat de volledige link die nodig is in row.wms_source.
-        if filetype in ['arcgismapserver', 'arcgisfeatureserver', 'wms']:
-            full_path = row.wms_source
-        else:
-            # try:
-            filedir = self.filedir_with_revision(row.filedir)
-            full_path = os.path.join(eval(str(filedir)), row.filename)
-            print(full_path)
-            if not pd.isna(row.filters):
-                full_path = f"{full_path}|{row.filters}"
-
-            # except Exception as e:
-            #     print(f'Could not evaluate {row.filedir}')
-            #     logger.warning(f'Could not evaluate {row.filedir}')
-            #     full_path=None
-
-
-        layer_name = row.qgis_name
-
-        if not pd.isna(row.qmldir) and not pd.isna(row.qmlname):
-            eval(row.qmldir)
-            qml_path = os.path.join(eval(row.qmldir), row.qmlname)
-        else:
-            qml_path = None
-        print("qml_path", qml_path)
-
-        subject = row.subject
-
-        group_lst=eval(row.group_lst)
-
-        return full_path, layer_name, filetype, qml_path, subject, group_lst
-
 
     def get_group(self, group_lst):
         """find group recursively"""
@@ -338,7 +294,7 @@ class Project:
                 return self.root.findLayer(layer[0].id())
 
 
-    def add_layer(self, layer: Layer, group_lst=None, visible=False):
+    def add_layer(self, layer: QgisLayer, group_lst=None, visible=False):
         """Appends a layer to a group, creates a group if not exist"""
 
         self.instance.addMapLayer(layer.source, False)
@@ -491,22 +447,8 @@ class Project:
 
     def generate_themes(self, revision=None):
         """Generate themes based on all columns in the dataframe that start with 'theme_'"""
-        theme_col_names = [i for i in self.df_full.keys() if i.startswith('theme_')]
-
-        for theme_col_name in theme_col_names:
-            layer_names = self.df_full.loc[self.df_full[theme_col_name]==True, 'qgis_name'].tolist()
-            group_lsts = self.get_group_lsts_from_df(df=self.df_full, filter=self.df_full[theme_col_name]==True)
-            theme_name = theme_col_name[6:] #remove str theme_
-
-            #TODO - Super ugly quick fix for adding the background and adding revisions
-            
-            # don't forget the background
-            layer_names.extend(["Luchtfoto actueel (PDOK)"])
-            group_lsts.extend([["Achtergrond"]])
-            
-            # and dont for
-            print(theme_name, layer_names, group_lsts)
-            self.add_theme(theme_name, layer_names, group_lsts=group_lsts)
+        #FIXME aangepast
+        self.add_theme(theme_name, layer_names, group_lsts=group_lsts)
 
 
     def generate_groups(self, group_index=-1):

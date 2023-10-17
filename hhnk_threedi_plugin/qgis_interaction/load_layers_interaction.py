@@ -22,7 +22,7 @@ import pandas as pd
 
 # Local imports
 import hhnk_research_tools as hrt
-from hhnk_threedi_plugin.qgis_interaction.project import Layer, Project
+from hhnk_threedi_plugin.qgis_interaction.project import QgisLayer, Project
 # from hhnk_threedi_plugin.qgis_interaction.styling import path as PATH #TODO deze verwijderen uit init?
 from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
 from hhnk_threedi_tools.core.folders import Folders
@@ -50,7 +50,7 @@ def load_layers(folder: Folders, df_path, revisions=None, subjects=None, group_i
         #Dont add when layer already present.
         if not project.get_layer(layer_name=layer_name, group_lst=group_lst):
             #Tranlate to qgis layer instance and add to project.
-            layer = Layer(
+            layer = QgisLayer(
                 source_path = full_path,
                 layer_name = layer_name,
                 type = filetype,
