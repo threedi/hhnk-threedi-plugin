@@ -64,8 +64,10 @@ def load_layers(folder: Folders, df_path, revisions=None, subjects=None, group_i
     project.generate_themes()
 
 
-def load_sqlite(filepath=r"C:\Users\wvangerwen\Downloads\model_test_v2\02_Model\bwn_test.sqlite"):
-    """use the 3Di NenS plugin to load the sqlite into the project."""
+def load_sqlite(filepath):
+    """use the 3Di NenS plugin to load the sqlite into the project.
+    
+    filepath (str): path to sqlite"""
 
     from ThreeDiToolbox.tool_result_selection.result_selection_view import ThreeDiResultSelectionWidget, add_spatialite_connection
     from ThreeDiToolbox.tool_result_selection.models import TimeseriesDatasourceModel
