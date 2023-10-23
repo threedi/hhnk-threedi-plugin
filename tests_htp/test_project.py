@@ -34,6 +34,7 @@ import sys
 
 
 LAYER_STRUCTURE_PATH = r"E:\github\wvangerwen\hhnk-threedi-tools\tests\data\layer_structure.csv"
+LAYER_STRUCTURE_PATH = r"E:\github\wvangerwen\hhnk-threedi-plugin\hhnk_threedi_plugin\qgis_interaction\layer_structure\testprotocol.csv"
 
 
 folder = htt.Folders(r"E:\github\wvangerwen\hhnk-threedi-tools\tests\data\model_test")
@@ -45,7 +46,7 @@ subjects=["test_0d1d"]
 
 #Generate structure
 
-self = project.Project()
+p=self = project.Project()
 self.run(layer_structure_path=LAYER_STRUCTURE_PATH,
                                     subjects=['test_0d1d'],
                                     revisions=revisions,
@@ -66,18 +67,3 @@ self.run(layer_structure_path=LAYER_STRUCTURE_PATH,
 
 # g = project.QgisAllGroups(settings=self.groups)
 # g.create_groups()
-
-if True:
-    
-    for layer in self.structure.layers:
-        layertreegroup=self.groups.groups[layer.group_id].layertreegroup
-        layer = project.QgisLayer(layer)
-        
-        layertreelayer = layertreegroup.addLayer(layer.layer_base) 
-        #We need the QgsMapLayer for styles so we access that here.
-        layer.layer = layertreelayer.layer()
-
-        layer.add_styles()
-            
-        break
-   # self.add_layers()
