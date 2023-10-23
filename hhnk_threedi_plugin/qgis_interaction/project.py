@@ -64,12 +64,14 @@ class QgisLayer():
 
         self.settings = settings
         self.instance = QgsProject.instance()
-        self.layer_base = self.get_qgis_layer()
 
 
     def get_qgis_layer(self):
         """
         create a qgis layer instance based on settings.
+
+        Do not make this an attribute of QgisLayer! When removing the layer 
+        the id will remain the same and weird errors will occur. 
         """
         if  self.settings.ftype in ["ogr", "arcgisfeatureserver"]:
             return QgsVectorLayer(self.settings.source, self.settings.name, self.settings.ftype)
@@ -81,7 +83,7 @@ class QgisLayer():
 
     @property
     def name(self):
-        return self.layer_base.name()
+        return self.settings.name
     @property
     def id(self):
         return self.settings.id
@@ -130,10 +132,11 @@ class QgisLayer():
         """
         qgis_group (QgisGroup)
         """
-        if self.isValid():
+        qgis_layer = self.get_qgis_layer() #dont set this as attribute. id must change when its removed.
+        if self.isValid(qgis_layer):
             #Find index of layer in avalailable layers in group
-            group_layers =  qgis_group.layer_list
-            layer_keys = [l for l in group_layers if self.name in l.name()]
+            # print(self.id)
+            layer_keys = [l.layerId() for l in qgis_group.layer_list if self.name == l.name()]
             if layer_keys:
                 #Break loop if no reload required
                 if not reload:
@@ -141,24 +144,36 @@ class QgisLayer():
                 #remove all layers with name in group.
                 else:
                     try:
-                        for l in layer_keys:
+                        # for l in layer_keys:
                         # Note that using removeMapLayers does not work because the 
                         # group has ownership of the layer. See addLayer in;
                         # https://qgis.org/pyqgis/3.2/core/Layer/QgsLayerTreeGroup.html
                         # Therefore we need to remove the child from the group itself.
-                        # self.instance.removeMapLayers(layer_keys)
-                            qgis_group.layertreegroup.removeChildNode(l)
+                        # Correction. using group.addLayer will not work properly 
+                        self.instance.removeMapLayers(layer_keys)
+#                        for l in layer_keys:
+#                            qgis_group.layertreegroup.removeChildNode(l)
+#                            print(l)
                     except:
                         print(f"Could not remove {self.id} from project")
+                        raise
                             
-
-            #addlayer returns QgsLayerTreeLayer.
-            layertreelayer = qgis_group.layertreegroup.addLayer(self.layer_base) 
+            #We also need to add the layer to the instance, otherwise the group
+            #gets ownership over the layer, which will break some other things with
+            #styling and removing the layer.
+            self.instance.addMapLayer(qgis_layer, False)
+            self.layertreelayer = qgis_group.layertreegroup.addLayer(qgis_layer) # returns QgsLayerTreeLayer.
             #We need the QgsMapLayer for styles so we access that here.
-            self.layer = layertreelayer.layer()
+            self.layer = self.layertreelayer.layer()
             self.add_styles()
 
-    def isValid(self) -> bool:
+            #Set visibility (defaults to off)
+            self.layertreelayer.setItemVisibilityChecked(True)
+            self.layertreelayer.setExpanded(False)
+
+
+
+    def isValid(self, qgis_layer) -> bool:
         valid = True
         for qml_path in self.settings.qml_lst:
             if not qml_path.exists():
@@ -167,7 +182,9 @@ class QgisLayer():
                 print(f"Styling {qml_path} does not exist")
 
         # check layer
-        if not self.layer_base.isValid():
+        try:
+            valid = qgis_layer.isValid()
+        except:
             valid=False
             print(f"Layer {self.id} not valid. Please check data-source: {self.settings.file}")
         return valid
@@ -579,11 +596,15 @@ class QgisGroup():
 
 
     @property
-    # def layers(self):
-    #     """dict with id:name"""
-    #     return {i.layerId():i.name() for i in self.layertreegroup.children() if isinstance(i, QgsLayerTreeLayer)}
+    def layers(self):
+        """dict with id:name"""
+        return {i.layerId():i.name() for i in self.layertreegroup.children() if isinstance(i, QgsLayerTreeLayer)}
+    @property
     def layer_list(self):
-        return self.layertreegroup.findLayers()
+        #returns the QgsVectorLayer instead of the QgsLayerTreeLayer.
+        # QgsLayerTreeLayer is only usable in 
+        # return [j for j in [i.layer() for i in self.layertreegroup.findLayers()] if j is not None]
+        return [i for i in self.layertreegroup.findLayers()]
 
     # @property
     # def group_list(self):
@@ -730,6 +751,7 @@ class Project:
 
 
     def run(self, **kwargs):
+        # pass
         self.get_structure(**kwargs)
         self.groups = QgisAllGroups(settings=self.structure.groups)
 
@@ -747,7 +769,7 @@ class Project:
 # if self.isValid():
 #             #Find index of layer in avalailable layers in group
 #             group_layers =  qgis_group.layers
-#             layer_keys = [key for key, name in group_layers.items() if self.name in name]
+#             layer_keys = [l for l in group_layers if self.name in l]
 #             if layer_keys:
 #                 #Break loop if no reload required
 #                 if not reload:
@@ -755,14 +777,19 @@ class Project:
 #                 #remove all layers with name in group.
 #                 else:
 #                     try:
+#                         # for l in layer_keys:
+#                         # Note that using removeMapLayers does not work because the 
+#                         # group has ownership of the layer. See addLayer in;
+#                         # https://qgis.org/pyqgis/3.2/core/Layer/QgsLayerTreeGroup.html
+#                         # Therefore we need to remove the child from the group itself.
+#                         # Correction. using group.addLayer will not work properly 
 #                         self.instance.removeMapLayers(layer_keys)
-#                         # qgis_group.layertreegroup.removeChildNode(group_layers[i])
+#                         qgis_group.layertreegroup.removeChildNode(l)
 #                     except:
-#                         raise
-#                         print(f"Could not remove {self.id} from project")
-                            
+#                         print(f"Could not remove {self.id} from project")                     
 
 #             #addlayer returns QgsLayerTreeLayer.
+#             self.instance.addMapLayer(self.layer_base, False)
 #             layertreelayer = qgis_group.layertreegroup.addLayer(self.layer_base) 
 #             #We need the QgsMapLayer for styles so we access that here.
 #             self.layer = layertreelayer.layer()
