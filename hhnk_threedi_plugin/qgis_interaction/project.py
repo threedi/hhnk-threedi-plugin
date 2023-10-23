@@ -585,20 +585,23 @@ class QgisGroup():
 
     def get_or_create(self):
         #Get the group and create if doesnt exist.
-        layertreegroup = self.parent_layertreegroup.findGroup(self.name)
+        layertreegroup = None
+        if self.parent_layertreegroup is not None:
+            layertreegroup = self.parent_layertreegroup.findGroup(self.name)
         
         if layertreegroup is None:
-            layertreegroup = self.parent_layertreegroup.insertGroup(index=-1, 
-                                            name=self.name)
-            layertreegroup.setItemVisibilityChecked(False)
-            layertreegroup.setExpanded(False)
+            if self.settings.load_group:
+                layertreegroup = self.parent_layertreegroup.insertGroup(index=-1, 
+                                                name=self.name)
+                layertreegroup.setItemVisibilityChecked(False)
+                layertreegroup.setExpanded(False)
         return layertreegroup
 
 
-    @property
-    def layers(self):
-        """dict with id:name"""
-        return {i.layerId():i.name() for i in self.layertreegroup.children() if isinstance(i, QgsLayerTreeLayer)}
+    # @property
+    # def layers(self):
+    #     """dict with id:name"""
+    #     return {i.layerId():i.name() for i in self.layertreegroup.children() if isinstance(i, QgsLayerTreeLayer)}
     @property
     def layer_list(self):
         #returns the QgsVectorLayer instead of the QgsLayerTreeLayer.
@@ -746,8 +749,9 @@ class Project:
     def add_layers(self):
         for layer in self.structure.layers:
             layer = QgisLayer(layer)
-            layer.add_to_project(qgis_group=self.groups.groups[layer.settings.group_id])
-            self.layers[layer.id] = layer
+            if layer.settings.load_layer:
+                layer.add_to_project(qgis_group=self.groups.groups[layer.settings.group_id])
+                self.layers[layer.id] = layer
 
 
     def run(self, **kwargs):
