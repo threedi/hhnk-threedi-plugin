@@ -168,7 +168,7 @@ class QgisLayer():
             self.add_styles()
 
             #Set visibility (defaults to off)
-            self.layertreelayer.setItemVisibilityChecked(True)
+            self.layertreelayer.setItemVisibilityChecked(False)
             self.layertreelayer.setExpanded(False)
 
 
@@ -751,7 +751,7 @@ class Project:
             layer = QgisLayer(layer)
             if layer.settings.load_layer:
                 layer.add_to_project(qgis_group=self.groups.groups[layer.settings.group_id])
-                self.layers[layer.id] = layer
+            self.layers[layer.id] = layer
 
 
     def run(self, **kwargs):

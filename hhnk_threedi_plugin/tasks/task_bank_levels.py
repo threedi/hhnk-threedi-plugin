@@ -179,13 +179,9 @@ class calculateBankLevelsManholesTask(QgsTask):
 
                 #Load layers
                 df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'testprotocol.csv')
-                revisions={'0d1d_test':'',
-                            '1d2d_test':'',
-                            'klimaatsommen':''}
 
                 load_layers_interaction.load_layers(folder=self.folder, 
                                             df_path=df_path, 
-                                            revisions=revisions, 
                                             subjects=['test_banklevels'])
             except Exception as e:
                 raise e from None

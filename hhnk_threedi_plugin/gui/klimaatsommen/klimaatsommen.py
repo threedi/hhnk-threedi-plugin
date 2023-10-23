@@ -26,9 +26,7 @@ from qgis.core import (
     QgsPathResolver,
 )
 from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
-
-
-# from ...qgis_interaction.configs.klimaatsommen import load_klimaatsommen_layers
+from hhnk_threedi_tools.qgis import layer_structure
 from hhnk_threedi_plugin.qgis_interaction import load_layers_interaction
 
 from ...qgis_interaction.klimaatsommen_pdfs import create_pdfs, load_print_layout
@@ -113,7 +111,7 @@ class KlimaatSommenWidget(QWidget):
         self.fenv = self.caller.fenv
 
         df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'klimaatsommen.csv')
-        revisions = {'klimaatsommen':self.select_revision_box.currentText()}
+        revisions = layer_structure.SelectedRevisions(klimaatsommen=self.select_revision_box.currentText())
         subjects=['klimaatsommen']
         load_layers_interaction.load_layers(folder=self.caller.fenv, 
                                             df_path=df_path, 

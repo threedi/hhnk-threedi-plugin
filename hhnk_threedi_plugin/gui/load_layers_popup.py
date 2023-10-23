@@ -21,6 +21,7 @@ import hhnk_research_tools as hrt
 from .general_objects import revisionsComboBox
 from hhnk_threedi_plugin.qgis_interaction.project import Project
 from hhnk_threedi_plugin.qgis_interaction import load_layers_interaction
+from hhnk_threedi_tools.qgis import layer_structure
 
 # hhnk-threedi-tests
 from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
@@ -210,9 +211,8 @@ class loadLayersDialog(QDialog):
 
         df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'testprotocol.csv')
         subjects=[]
-        revisions={'0d1d_test':'',
-                    '1d2d_test':'',
-                    'klimaatsommen':''}
+        revisions = layer_structure.SelectedRevisions()
+
 
         if self.sqlite_selector.isChecked() == True:
              
@@ -259,12 +259,12 @@ class loadLayersDialog(QDialog):
         # 0d1d test
         if self.zero_d_one_d_selector.currentText() != "":
             subjects.append('test_0d1d')
-            revisions['0d1d_test'] = self.zero_d_one_d_selector.currentText()
+            revisions.check_0d1d = self.zero_d_one_d_selector.currentText()
 
         # 1d2d test
         if self.one_d_two_d_selector.currentText() != "":
             subjects.append('test_1d2d')
-            revisions['1d2d_test'] = self.one_d_two_d_selector.currentText()
+            revisions.check_1d2d = self.one_d_two_d_selector.currentText()
 
         # Achtergrond
         if self.achtergrond_selector.isChecked() == True: #Todo naam button veranderen en andere achtergrond buttons weg.
@@ -282,7 +282,7 @@ class loadLayersDialog(QDialog):
         # Klimaatsommen #TODO staat nu in aparate csv. Zo houden voor de themes? Of juist samen nemen?
         if self.klimaatsommen_selector.currentText() != "":
             df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'klimaatsommen.csv')
-            revisions = {'klimaatsommen':self.klimaatsommen_selector.currentText()}
+            revisions = layer_structure.SelectedRevisions(klimaatsommen=self.klimaatsommen_selector.currentText())
             subjects=['klimaatsommen']
             load_layers_interaction.load_layers(folder=self.caller.fenv, 
                                                 df_path=df_path, 
@@ -290,7 +290,7 @@ class loadLayersDialog(QDialog):
                                                 subjects=subjects)
 
         #TODO moet dit een keuze worden? 
-        project.zoom_to_layer(layer_name='polder_polygon')
+        # project.zoom_to_layer(layer_name='polder_polygon')
 
 
         self.accept()

@@ -7,6 +7,7 @@ if __name__ == '__main__':
 
 
 from hhnk_threedi_tools.core.checks.one_d_two_d import OneDTwoDTest
+from hhnk_threedi_tools.qgis import layer_structure
 from hhnk_threedi_plugin.qgis_interaction import load_layers_interaction
 from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
 import os
@@ -53,10 +54,9 @@ def task_one_d_two_d(folder, revision, dem_path):
 
     #Add layers to project
     df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'testprotocol.csv')
-    revisions={'0d1d_test':'',
-                '1d2d_test':revision,
-                'klimaatsommen':''}
 
+    revisions = layer_structure.SelectedRevisions(check_1d2d=revision)
+    
     load_layers_interaction.load_layers(folder=folder, 
                                 df_path=df_path, 
                                 revisions=revisions, 

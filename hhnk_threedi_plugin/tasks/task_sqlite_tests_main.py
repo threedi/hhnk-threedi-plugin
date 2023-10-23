@@ -93,7 +93,6 @@ def task_sqlite_tests_main(parent_widget, folder, selected_tests):
 
         load_layers_interaction.load_layers(folder=folder, 
                                     df_path=df_path, 
-                                    revisions=revisions, 
                                     subjects=['test_sqlite'],
                                     remove_layer=True)
         QgsApplication.taskManager().allTasksFinished.disconnect()
