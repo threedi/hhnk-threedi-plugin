@@ -33,7 +33,6 @@ import datetime
 
 # Initialize Qt resources from file resources.py
 from hhnk_threedi_plugin.resources import *
-
 # Import the code for the DockWidget
 # %%
 try: 
@@ -76,6 +75,7 @@ from hhnk_threedi_plugin.tasks.task_sqlite_tests_main import task_sqlite_tests_m
 import os
 
 from hhnk_threedi_plugin.gui.model_splitter.model_splitter_dialog import modelSplitterDialog
+import hhnk_research_tools as hrt
 
 
 # docs
@@ -258,7 +258,7 @@ class HHNK_toolbox:
             parent=self.iface.mainWindow(),
             add_to_toolbar=True,
         )
-
+            
     # --------------------------------------------------------------------------
 
     def onClosePlugin(self):
@@ -614,7 +614,6 @@ class HHNK_toolbox:
 
                 # define modelbuilder. Note, all callbacks and functions you can find in ModelBuilder class
                 self.modelbuilder = ModelBuilder(dockwidget=self.dockwidget)
-
             
                 # note that for 'klimaatsomme
                 # n' functions are run from the widget
@@ -633,12 +632,11 @@ class HHNK_toolbox:
                 self.dockwidget.polders_map_selector.setFilePath(local_settings.project_path)
             except:
                 pass
-            #
-
 
     #TODO centraal ergens zetten?
     def add_message(self, message):
-        timenow = datetime.datetime.now().strftime("%H:%M:%S")
-        message = f"{timenow}: {message}"
+        message = f"{hrt.current_time()}: {message}"
         # QgsMessageLog.logMessage(message, level=level)
         print(message)
+
+            

@@ -52,7 +52,7 @@ def setup_ui(load_layers_popup):
     load_layers_popup.sqlite_selector.setChecked(True)
     
     load_layers_popup.grid_selector = QCheckBox("Grid genereren")
-    load_layers_popup.grid_selector.setChecked(True)
+    load_layers_popup.grid_selector.setChecked(False)
     
     load_layers_popup.sqlite_test_selector = QCheckBox("Sqlite testen")
     load_layers_popup.sqlite_test_selector.setChecked(False)
@@ -160,7 +160,7 @@ class loadLayersDialog(QDialog):
 
     def populate_one_d_two_combobox(self):
         """Add available revisions to dropdown"""
-        revisions = self.caller.fenv.output.one_d_two_d.revisions
+        revisions = self.caller.fenv.output.one_d_two_d.revisions_rev
 
         self.one_d_two_d_selector.clear()
         self.one_d_two_d_selector.addItem("")
@@ -169,7 +169,7 @@ class loadLayersDialog(QDialog):
 
     def populate_zero_d_one_d_combobox(self):
         """Add available revisions to dropdown"""
-        revisions = self.caller.fenv.output.zero_d_one_d.revisions
+        revisions = self.caller.fenv.output.zero_d_one_d.revisions_rev
 
         self.zero_d_one_d_selector.clear()
         self.zero_d_one_d_selector.addItem("")
@@ -178,7 +178,7 @@ class loadLayersDialog(QDialog):
 
     def populate_klimaatsommen_combobox(self):
         """Add available revisions to dropdown"""
-        revisions = self.caller.fenv.threedi_results.climate_results.revisions
+        revisions = self.caller.fenv.threedi_results.climate_results.revisions_rev
 
         self.klimaatsommen_selector.clear()
         self.klimaatsommen_selector.addItem("")

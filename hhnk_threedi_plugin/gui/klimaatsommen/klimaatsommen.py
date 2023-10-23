@@ -26,6 +26,7 @@ from qgis.core import (
     QgsPathResolver,
 )
 from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
+from hhnk_threedi_plugin.gui.utility.widget_interaction import update_button_background
 from hhnk_threedi_tools.qgis import layer_structure
 from hhnk_threedi_plugin.qgis_interaction import load_layers_interaction
 
@@ -73,6 +74,7 @@ class KlimaatSommenWidget(QWidget):
         self.create_pdfs_btn.clicked.connect(self.verify_submit_create_pdfs)
         self.create_clean_btn.clicked.connect(self.verify_submit_create_clean)
         self.select_revision_box.aboutToShowPopup.connect(self.populate_combobox)
+        self.select_revision_box.currentTextChanged.connect(self.reset_buttons)
 
 
     def setupUi(self):
@@ -108,6 +110,7 @@ class KlimaatSommenWidget(QWidget):
         emits start tests signal to controller
         """
 
+        update_button_background(button=self.laad_layout_btn, color="orange")
         self.fenv = self.caller.fenv
 
         df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'klimaatsommen.csv')
@@ -120,6 +123,7 @@ class KlimaatSommenWidget(QWidget):
                                             remove_layer=True)
 
         load_print_layout()
+        update_button_background(button=self.laad_layout_btn, color="green")
 
     def verify_submit_create_pdfs(self):
         """
@@ -143,13 +147,12 @@ class KlimaatSommenWidget(QWidget):
         create_pdfs(self.caller.fenv, self.select_revision_box.currentText())
 
     def populate_combobox(self):
-        revisions = self.caller.fenv.threedi_results.climate_results.revisions
+        revisions = self.caller.fenv.threedi_results.climate_results.revisions_rev
 
         self.select_revision_box.clear()
         self.select_revision_box.addItem("")
 
-        revisions_sorted = np.take(revisions, np.argsort([rev.lstat().st_mtime for rev in revisions]))[::-1]
-        for rev in revisions_sorted:
+        for rev in revisions:
             self.select_revision_box.addItem(rev.name)
 
 
@@ -160,3 +163,6 @@ class KlimaatSommenWidget(QWidget):
             msgBox.setWindowTitle("GOOD MESSAGE")
             msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
             msgBox.buttonClicked.connect(self.verify_submit_create_clean)
+
+    def reset_buttons(self):
+        update_button_background(button=self.laad_layout_btn)

@@ -18,6 +18,7 @@ from qgis.core import QgsTask, Qgis
 from qgis.utils import QgsMessageLog, iface
 from PyQt5.QtCore import Qt, pyqtSignal
 from qgis.gui import QgsMessageBar
+from hhnk_threedi_plugin.gui.utility.widget_interaction import update_button_background
 
 
 
@@ -209,10 +210,13 @@ class sqliteCheckDialog(QDialog):
         """
         Checks whether all fields are correctly filled
         """
+        update_button_background(button=self.start_sqlite_tests_btn, color="orange")
         self.selected_tests = self.construct_chosen_tests_list()
 
         self.start_sqlite_tests.emit(self.selected_tests)
         self.accept()
+        update_button_background(button=self.start_sqlite_tests_btn, color="green")
+
 
     def set_current_paths(self):
         """
