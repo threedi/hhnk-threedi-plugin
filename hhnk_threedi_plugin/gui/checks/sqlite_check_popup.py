@@ -193,7 +193,6 @@ class sqliteCheckDialog(QDialog):
                 "structs_channel_chk",
                 "general_tests_chk",
                 "isolated_channels_chk",
-                "grid_chk",
                 "cross_section_duplicate_chk",
                 "cross_section_no_vertex_chk",
                 ]

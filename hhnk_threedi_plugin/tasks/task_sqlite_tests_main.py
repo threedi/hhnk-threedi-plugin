@@ -85,11 +85,7 @@ def task_sqlite_tests_main(parent_widget, folder, selected_tests):
                 f"All sqlite tasks finished - loading results into project", level=Qgis.Info
             )
 
-
         df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'testprotocol.csv')
-        revisions={'0d1d_test':'',
-                    '1d2d_test':'',
-                    'klimaatsommen':''}
 
         load_layers_interaction.load_layers(folder=folder, 
                                     df_path=df_path, 
