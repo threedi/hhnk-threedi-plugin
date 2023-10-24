@@ -64,7 +64,7 @@ class QgisLayer():
 
         self.settings = settings
         self.instance = QgsProject.instance()
-
+        self.layer = None
 
     def get_qgis_layer(self):
         """
@@ -197,6 +197,42 @@ class QgisLayer():
             self.subject, message, level=level, duration=duration
         )
 
+
+
+    def get_group(self):
+        """find group recursively"""
+        group = self.instance.layerTreeRoot()
+        for group_name in self.settings.group_lst:
+            group = group.findGroup(group_name)
+            if group is None:
+                return None
+        return group
+    
+
+    def get_layer(self, layertreelayer=False):
+        """Return layer in whole project, or only the layer in the given group.
+        When group_lst is empty it will search for the layer in the whole project.
+        It is currently not possible to search for layers only in the root. 
+        When layertreelayer == True, return that object instead of the QgsVectorLayer.
+        This object is needed when toggeling visibility in the layer tree"""
+        group=None
+        if self.settings.group_lst:
+            group = self.get_group()
+            if group:
+                #.layer() returns QgsVectorLayer instead of QgsLayerTreeLayer
+                layer = [child.layer() for child in group.children() if child.name()==self.name] 
+            else: 
+                return None
+        else:
+            layer = self.instance.mapLayersByName(self.name)
+
+
+        if len(layer)==0:
+            return None
+        elif not layertreelayer:
+            return layer[0]
+        else:
+            raise NotImplementedError
 
 # class Project:
 #     """
@@ -424,8 +460,7 @@ class QgisLayer():
 #     #             yield index, row
             
 
-
-class QgisThemes():
+class QgisAllThemes():
 
 # project = Project(df_path=r"C:\Users\chris.kerklaan\AppData\Roaming\QGIS\QGIS3\profiles\default\python\plugins\hhnk_threedi_plugin\qgis_interaction\layer_structure/klimaatsommen.csv")
 # project.generate_themes()
@@ -433,6 +468,7 @@ class QgisThemes():
     def __init__(self) -> None:
         self.instance = QgsProject.instance()
         self.mapthemecollection = self.instance.mapThemeCollection()        
+
 
     @property
     def theme_structure(self):
@@ -461,25 +497,36 @@ class QgisThemes():
         return names
     
 
-    def add_theme(self, theme_name, layer_names, group_lsts):
-        """theme name is the name of the theme and
-        layer names is the name of the layer which is visible
-        if layer does not exists it get skipped
+    def add_theme(self, theme_settings, layers, verbose=False):
         """
-
-        collection = self.instance.mapThemeCollection()
-        theme = collection.mapThemeState(theme_name)
+        theme_settings (htt.qgis.QgisThemeSettings): class with name and layerids
+        layers (pd.Series): series with QgisLayer entries. 
+        """
+        if verbose:
+            print(f"Creating theme: {theme_settings.name}")
+            
+        theme = self.mapthemecollection.mapThemeState(theme_settings.name)
 
         records = []
-        for layer_name, group_lst in zip(layer_names, group_lsts):
-            print(layer_name, group_lst)
-            layer = self.get_layer(layer_name=layer_name, group_lst=group_lst)
-            print(layer)
-            if layer:
-                records.append(QgsMapThemeCollection.MapThemeLayerRecord(layer))
+
+        for layer_id in theme_settings.layer_ids: 
+            layer = layers[layer_id]
+
+            #Layer.layer is filled when its loaded in project. If it is already present
+            #we will look for it in the tree.
+            if layer.layer is None:
+                layer.layer = layer.get_layer()
+
+            if layer.layer is not None:
+                if verbose:
+                    print(f"\t{layer.layer}")
+                records.append(QgsMapThemeCollection.MapThemeLayerRecord(layer.layer))
+            else:
+                if verbose:
+                    print(f"\t--- {layer.name} layer not found")
 
         theme.setLayerRecords(records)
-        collection.insert(theme_name, theme)
+        self.mapthemecollection.insert(theme_settings.name, theme)
 
 
 
@@ -732,6 +779,7 @@ class Project:
         self.structure = None #fill using self.get_structure() or self.run()
         self.groups = None
         self.layers = {}
+        self.themes = QgisAllThemes()
 
 
     def get_structure(self, layer_structure_path, subjects, revisions, folder):
@@ -754,6 +802,12 @@ class Project:
             self.layers[layer.id] = layer
 
 
+    def add_themes(self, verbose=False):
+        """get themes from settings."""
+        for theme_settings in self.structure.themes:
+            self.themes.add_theme(theme_settings=theme_settings, layers=self.layers, verbose=verbose)
+
+
     def run(self, **kwargs):
         # pass
         self.get_structure(**kwargs)
@@ -761,6 +815,7 @@ class Project:
 
         self.groups.create_groups()
         self.add_layers()
+        self.add_themes()
 
 
 # %%
