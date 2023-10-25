@@ -240,7 +240,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
             try:
                 self.modelschematisations.create_schematisation(name=list_name)
             except Exception as e:
-                self.info_list.addItem(f"ERROR: {str(e)}")
+                self.info_list.addItem(f"{type(e).__name__}: {str(e)} (view Python error log for more info)")
                 update_button_background(button=self.run_splitter_btn, color="red")
 
                 raise e
