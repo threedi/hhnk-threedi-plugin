@@ -239,6 +239,20 @@ class QgisLayer():
         else:
             raise NotImplementedError
 
+
+    def zoom_to_layer(self):
+        layer = self.get_layer()
+        if layer is None:
+            print(f"Layer unvalid not setting extent: {self.id}")
+            return
+            
+        canvas = iface.mapCanvas()
+        extent = layer.extent()
+        print("Setting extent to", extent)
+        print("Canvas", canvas)
+        canvas.setExtent(extent)
+        canvas.setExtent(extent)
+
 # class Project:
 #     """
 #     Object used as interface to a qgis project
@@ -645,9 +659,15 @@ class QgisGroup():
             if self.settings.load_group:
                 
                 #TODO betere manier om dit bij te houden..
-                group_index = 0
-                if self.settings.subject in ['achtergrond', "test_protocol"]:
+                if self.settings.lvl!=1:
                     group_index = -1
+                else:
+                    if (self.settings.subject in ['achtergrond', "test_protocol"]):
+                        group_index = -1
+                    else:
+                        group_index = 0
+
+                print(f"group:{self.name}. lvl: {self.settings.lvl}. idx: {group_index}")
 
                 layertreegroup = self.parent_layertreegroup.insertGroup(index=group_index, 
                                                 name=self.name)
