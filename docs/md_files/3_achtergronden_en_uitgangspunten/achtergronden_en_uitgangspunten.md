@@ -1,4 +1,3 @@
-
 ## 3Di
 3Di is een hydrodynamisch model waarmee zowel 1D (watergangen, riolering) als 2D (maaiveld) of 1D-2D gerekend kan worden.
 
