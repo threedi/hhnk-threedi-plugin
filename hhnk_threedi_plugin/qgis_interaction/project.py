@@ -179,7 +179,7 @@ class QgisLayer():
             if not qml_path.exists():
                 valid=False
                 #TODO add logger.warnings
-                print(f"Styling {qml_path} does not exist")
+                print(f"Layer styling does not exist: {qml_path}")
 
         # check layer
         try:
@@ -643,7 +643,13 @@ class QgisGroup():
         
         if layertreegroup is None:
             if self.settings.load_group:
-                layertreegroup = self.parent_layertreegroup.insertGroup(index=-1, 
+                
+                #TODO betere manier om dit bij te houden..
+                group_index = 0
+                if self.settings.subject in ['achtergrond', "test_protocol"]:
+                    group_index = -1
+
+                layertreegroup = self.parent_layertreegroup.insertGroup(index=group_index, 
                                                 name=self.name)
                 layertreegroup.setItemVisibilityChecked(False)
                 layertreegroup.setExpanded(False)
