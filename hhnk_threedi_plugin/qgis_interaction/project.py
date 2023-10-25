@@ -22,6 +22,7 @@ from qgis.core import (
 from qgis.PyQt.QtXml import QDomDocument
 import pandas as pd
 import numpy as np
+from pathlib import Path
 import logging
 import hhnk_threedi_tools as htt
 from hhnk_threedi_tools.qgis import layer_structure
@@ -172,7 +173,6 @@ class QgisLayer():
             self.layertreelayer.setExpanded(False)
 
 
-
     def isValid(self, qgis_layer) -> bool:
         valid = True
         for qml_path in self.settings.qml_lst:
@@ -184,9 +184,15 @@ class QgisLayer():
         # check layer
         try:
             valid = qgis_layer.isValid()
+
+            if not valid:
+                if not Path(qgis_layer.source().exists()):
+                    print(f"Layer source does not exist: {qgis_layer.source()}")
+
         except:
             valid=False
             print(f"Layer {self.id} not valid. Please check data-source: {self.settings.file}")
+
         return valid
 
 
@@ -196,7 +202,6 @@ class QgisLayer():
         iface.messageBar().pushMessage(
             self.subject, message, level=level, duration=duration
         )
-
 
 
     def get_group(self):

@@ -206,9 +206,6 @@ class loadLayersDialog(QDialog):
 
         iface.messageBar().pushMessage(f"Inladen van lagen gestart", level=Qgis.Info)
         
-        # set map canvas
-        project = Project()
-
         df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'testprotocol.csv')
         subjects=[]
         revisions = layer_structure.SelectedRevisions()
@@ -270,25 +267,18 @@ class loadLayersDialog(QDialog):
         if self.achtergrond_selector.isChecked() == True: #Todo naam button veranderen en andere achtergrond buttons weg.
             subjects.append('achtergrond')
 
+        # Klimaatsommen
+        if self.klimaatsommen_selector.currentText() != "":
+            subjects.append('klimaatsommen')
+            revisions.klimaatsommen = self.klimaatsommen_selector.currentText()
+
+
         #Laad geselecteerde lagen.
-        print(revisions)
         if subjects != []:
             load_layers_interaction.load_layers(folder=self.caller.fenv, 
                                                 df_path=df_path, 
                                                 revisions=revisions, 
                                                 subjects=subjects)
-
-
-        # Klimaatsommen #TODO staat nu in aparate csv. Zo houden voor de themes? Of juist samen nemen?
-        if self.klimaatsommen_selector.currentText() != "":
-            df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'klimaatsommen.csv')
-            revisions = layer_structure.SelectedRevisions(klimaatsommen=self.klimaatsommen_selector.currentText())
-            subjects=['klimaatsommen']
-            load_layers_interaction.load_layers(folder=self.caller.fenv, 
-                                                df_path=df_path, 
-                                                revisions=revisions, 
-                                                subjects=subjects)
-
         #TODO moet dit een keuze worden? 
         # project.zoom_to_layer(layer_name='polder_polygon')
 

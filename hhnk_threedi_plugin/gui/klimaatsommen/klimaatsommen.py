@@ -113,7 +113,7 @@ class KlimaatSommenWidget(QWidget):
         update_button_background(button=self.laad_layout_btn, color="orange")
         self.fenv = self.caller.fenv
 
-        df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'klimaatsommen.csv')
+        df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'testprotocol.csv')
         revisions = layer_structure.SelectedRevisions(klimaatsommen=self.select_revision_box.currentText())
         subjects=['klimaatsommen']
         load_layers_interaction.load_layers(folder=self.caller.fenv, 

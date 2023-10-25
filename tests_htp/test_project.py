@@ -34,7 +34,7 @@ import sys
 
 
 LAYER_STRUCTURE_PATH = r"E:\github\wvangerwen\hhnk-threedi-tools\tests\data\layer_structure.csv"
-#LAYER_STRUCTURE_PATH = r"E:\github\wvangerwen\hhnk-threedi-plugin\hhnk_threedi_plugin\qgis_interaction\layer_structure\testprotocol.csv"
+LAYER_STRUCTURE_PATH = r"E:\github\wvangerwen\hhnk-threedi-plugin\hhnk_threedi_plugin\qgis_interaction\layer_structure\testprotocol.csv"
 
 
 folder = htt.Folders(r"E:\github\wvangerwen\hhnk-threedi-tools\tests\data\model_test")
@@ -42,8 +42,12 @@ folder = htt.Folders(r"E:\02.modellen\callantsoog")
 
 
 revisions = layer_structure.SelectedRevisions(check_0d1d="callantsoog #23 0d1d_test")
-subjects=["test_0d1d"]
-subjects=None
+revisions = layer_structure.SelectedRevisions(check_0d1d="callantsoog #23 0d1d_test",
+                        klimaatsommen='callantsoog_referentie_v2')
+
+
+subjects=["test_0d1d", "klimaatsommen"]
+#subjects=None
 
 #Generate structure
 
@@ -53,7 +57,7 @@ self.run(layer_structure_path=LAYER_STRUCTURE_PATH,
             revisions=revisions,
             folder=folder)
 
-
+# self.set_themes(verbose=True)
 # l_s = self.layers[0]
 # l = project.QgisLayer(l_s)
 
