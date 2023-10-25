@@ -19,7 +19,7 @@ import hhnk_research_tools as hrt
 # new
 
 from .general_objects import revisionsComboBox
-from hhnk_threedi_plugin.qgis_interaction.project import Project
+import hhnk_threedi_plugin.qgis_interaction.project as project
 from hhnk_threedi_plugin.qgis_interaction import load_layers_interaction
 from hhnk_threedi_tools.qgis import layer_structure
 
@@ -275,10 +275,12 @@ class loadLayersDialog(QDialog):
 
         #Laad geselecteerde lagen.
         if subjects != []:
-            load_layers_interaction.load_layers(folder=self.caller.fenv, 
-                                                df_path=df_path, 
-                                                revisions=revisions, 
-                                                subjects=subjects)
+            proj = project.Project()
+            proj.run(layer_structure_path=df_path,
+                        subjects=subjects,
+                        revisions=revisions,
+                        folder=self.caller.fenv)
+
         #TODO moet dit een keuze worden? 
         # project.zoom_to_layer(layer_name='polder_polygon')
 

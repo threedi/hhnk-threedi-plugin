@@ -21,7 +21,7 @@ from hhnk_threedi_tools.variables.bank_levels import (
 from hhnk_threedi_plugin.tasks.utility_functions.handle_os_errors import check_os_error
 
 from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
-from hhnk_threedi_plugin.qgis_interaction import load_layers_interaction
+import hhnk_threedi_plugin.qgis_interaction.project as project
 
 
 def get_bank_levels_manholes_task(results_widget, folder, output=True):
@@ -180,8 +180,10 @@ class calculateBankLevelsManholesTask(QgsTask):
                 #Load layers
                 df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'testprotocol.csv')
 
-                load_layers_interaction.load_layers(folder=self.folder, 
-                                            df_path=df_path, 
-                                            subjects=['test_banklevels'])
+                proj = project.Project()
+                proj.run(layer_structure_path=df_path,
+                        subjects=['test_banklevels'],
+                        folder=self.folder)
+            
             except Exception as e:
                 raise e from None

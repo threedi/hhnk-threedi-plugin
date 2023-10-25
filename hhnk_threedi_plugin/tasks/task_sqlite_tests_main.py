@@ -5,7 +5,7 @@ from qgis.utils import QgsMessageLog, iface
 from PyQt5.QtCore import QMutex, QWaitCondition
 
 from hhnk_threedi_plugin.tasks.utility_functions.handle_os_errors import check_os_error
-from hhnk_threedi_plugin.qgis_interaction import load_layers_interaction
+import hhnk_threedi_plugin.qgis_interaction.project as project
 
 from hhnk_threedi_plugin.tasks.sqlite_test_tasks.sqlite_test_tasks import (
     impSurfaceTask, 
@@ -87,10 +87,12 @@ def task_sqlite_tests_main(parent_widget, folder, selected_tests):
 
         df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'testprotocol.csv')
 
-        load_layers_interaction.load_layers(folder=folder, 
-                                    df_path=df_path, 
-                                    subjects=['test_sqlite'],
-                                    remove_layer=True)
+        #Load layers
+        proj = project.Project()
+        proj.run(layer_structure_path=df_path,
+                    subjects=['test_sqlite'],
+                    folder=folder)
+        
         QgsApplication.taskManager().allTasksFinished.disconnect()
 
     task_manager_connect = task_manager.allTasksFinished.connect(print_done)

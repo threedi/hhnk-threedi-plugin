@@ -28,7 +28,7 @@ from qgis.core import (
 from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
 from hhnk_threedi_plugin.gui.utility.widget_interaction import update_button_background
 from hhnk_threedi_tools.qgis import layer_structure
-from hhnk_threedi_plugin.qgis_interaction import load_layers_interaction
+import hhnk_threedi_plugin.qgis_interaction.project as project
 
 from ...qgis_interaction.klimaatsommen_pdfs import create_pdfs, load_print_layout
 
@@ -115,12 +115,13 @@ class KlimaatSommenWidget(QWidget):
 
         df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'testprotocol.csv')
         revisions = layer_structure.SelectedRevisions(klimaatsommen=self.select_revision_box.currentText())
-        subjects=['klimaatsommen']
-        load_layers_interaction.load_layers(folder=self.caller.fenv, 
-                                            df_path=df_path, 
-                                            revisions=revisions, 
-                                            subjects=subjects,
-                                            remove_layer=True)
+
+        #Load layers
+        proj = project.Project()
+        proj.run(layer_structure_path=df_path,
+                    subjects=['klimaatsommen'],
+                    revisions=revisions,
+                    folder=self.caller.fenv)
 
         load_print_layout()
         update_button_background(button=self.laad_layout_btn, color="green")
