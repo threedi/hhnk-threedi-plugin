@@ -1,4 +1,4 @@
-# Modelstaten maken
+# Modelstaat aanpassen/maken
 
 Als er nog geen modelstaten en testberekeningen uitgevoerd zijn, kunnen de volgende stappen doorlopen worden:
 
