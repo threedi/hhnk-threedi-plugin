@@ -14,7 +14,6 @@ from pathlib import Path
 from qgis.core import Qgis
 from hhnk_threedi_plugin.gui.utility.file_widget import fileWidget
 
-from hhnk_threedi_plugin.gui.path_verification_functions import is_valid_model_path
 from hhnk_threedi_plugin.error_messages.input_error_messages import invalid_model_path
 
 from hhnk_threedi_plugin.gui.checks.bank_levels_widgets.proposed_changes_dialog import modelChangesDialog
@@ -69,25 +68,21 @@ class bankLevelsWidget(QWidget):
     def bank_level_test_execution(self):
         update_button_background(button=self.start_bank_levels_btn, color="orange")
         model_path=self.caller.input_data_dialog.model_selector.filePath()
-        if not is_valid_model_path(model_path):
-            message=invalid_model_path.format(model_path)
-            self.caller.iface.messageBar().pushMessage(message, Qgis.Critical)
-            update_button_background(button=self.start_bank_levels_btn, color="red")
-        else:
-            try:
-                if (
-                    self.results_widget is not None
-                    and self.results_widget
-                    and self.results_widget.isVisible()
-                ):
-                    self.results_widget.close()
 
-                self.run_bank_levels_test(model_path=model_path)
-                update_button_background(button=self.start_bank_levels_btn, color="green")
-            except Exception as e:
-                self.caller.iface.messageBar().pushMessage(str(e), Qgis.Critical)
-                update_button_background(button=self.start_bank_levels_btn, color="red")
-                pass
+        try:
+            if (
+                self.results_widget is not None
+                and self.results_widget
+                and self.results_widget.isVisible()
+            ):
+                self.results_widget.close()
+
+            self.run_bank_levels_test(model_path=model_path)
+            update_button_background(button=self.start_bank_levels_btn, color="green")
+        except Exception as e:
+            self.caller.iface.messageBar().pushMessage(str(e), Qgis.Critical)
+            update_button_background(button=self.start_bank_levels_btn, color="red")
+            pass
 
 
     #Functionality controller

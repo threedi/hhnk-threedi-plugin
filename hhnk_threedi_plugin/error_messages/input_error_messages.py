@@ -1,6 +1,5 @@
 # These are messages displayed to users if something is wrong with their input
 
-invalid_model_path = "Pad naar model is ongeldig {}"
 no_bank_levels_calculated = "Geen berekende bank levels in model"
 no_manholes_backup = "Geen manholes backup gevonden"
 invalid_datachecker_path = "Pad naar datachecker is ongeldig {}"
