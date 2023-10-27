@@ -5,28 +5,22 @@
     2. Add printcomposers
     
 """
-import os
-from qgis.utils import iface
-from qgis.core import (
-    QgsProject,
-    QgsVectorLayer,
-    QgsRasterLayer,
-    QgsLayerTreeGroup,
-    QgsLayerTreeLayer,
-    QgsMapThemeCollection,
-    QgsPrintLayout,
-    QgsReadWriteContext,
-    QgsMapLayerStyle,
-)
-
-# %%
-from qgis.PyQt.QtXml import QDomDocument
-import pandas as pd
-import numpy as np
-from pathlib import Path
 import logging
+from pathlib import Path
+
 import hhnk_threedi_tools as htt
 from hhnk_threedi_tools.qgis import layer_structure
+from qgis.core import (
+    QgsMapLayerStyle,
+    QgsMapThemeCollection,
+    QgsPrintLayout,
+    QgsProject,
+    QgsRasterLayer,
+    QgsReadWriteContext,
+    QgsVectorLayer,
+)
+from qgis.PyQt.QtXml import QDomDocument
+from qgis.utils import iface
 
 logger = logging.getLogger(__name__)
 
@@ -55,14 +49,6 @@ class QgisLayer:
         Parameters
         ----------
         settings : htt.qgis.QgisLayerSettings
-
-        layer_name : str
-            name of layer
-        style_path : str
-            poth to style
-        type : str
-            can be 'wms', 'vector' or 'raster'
-
         """
 
         self.settings = settings
@@ -81,7 +67,7 @@ class QgisLayer:
         elif self.settings.ftype in ["gdal", "wms", "arcgismapserver"]:
             return QgsRasterLayer(self.settings.source, self.settings.name, self.settings.ftype)
         else:
-            logger.error(f"Layer {self.settings.name} has unknown ftype: {self.settings.ftype}")
+            logger.error("Layer %s has unknown ftype: %s", self.settings.name, self.settings.ftype)
 
     @property
     def name(self):
@@ -136,7 +122,7 @@ class QgisLayer:
         qgis_group (QgisGroup)
         """
         qgis_layer = self.get_qgis_layer()  # dont set this as attribute. id must change when its removed.
-        if self.isValid(qgis_layer):
+        if self.is_valid(qgis_layer):
             # Find index of layer in avalailable layers in group
             # print(self.id)
             layer_keys = [l.layerId() for l in qgis_group.layer_list if self.name == l.name()]
@@ -174,7 +160,8 @@ class QgisLayer:
             self.layertreelayer.setItemVisibilityChecked(False)
             self.layertreelayer.setExpanded(False)
 
-    def isValid(self, qgis_layer) -> bool:
+    def is_valid(self, qgis_layer) -> bool:
+        """Check if layer is valid, checked before adding to project"""
         valid = True
         for qml_path in self.settings.qml_lst:
             if not qml_path.exists():
@@ -190,16 +177,11 @@ class QgisLayer:
                 if not Path(qgis_layer.source().exists()):
                     print(f"Layer source does not exist: {qgis_layer.source()}")
 
-        except:
+        except Exception:
             valid = False
             print(f"Layer {self.id} not valid. Please check data-source: {self.settings.file}")
 
         return valid
-
-    def send_message(self, message, level=1, duration=5):
-        """Send message to qgis messagebar."""
-        print(self.subject, message)
-        iface.messageBar().pushMessage(self.subject, message, level=level, duration=duration)
 
     def get_group(self):
         """find group recursively"""
@@ -625,7 +607,7 @@ class QgisGroup:
         return self.settings.name
 
     def get_or_create(self):
-        # Get the group and create if doesnt exist.
+        """Get the group and create if doesnt exist."""
         layertreegroup = None
         if self.parent_layertreegroup is not None:
             layertreegroup = self.parent_layertreegroup.findGroup(self.name)
@@ -653,9 +635,11 @@ class QgisGroup:
     #     """dict with id:name"""
     #     return {i.layerId():i.name() for i in self.layertreegroup.children() if isinstance(i, QgsLayerTreeLayer)}
     @property
-    def layer_list(self):
-        # returns the QgsVectorLayer instead of the QgsLayerTreeLayer.
-        # QgsLayerTreeLayer is only usable in
+    def layer_list(self) -> list:
+        """returns QgsLayerTreeLayer, not QgsVectorLayer
+        QgsLayerTreeLayer.layer() returns the QgsVectorLayer which is used for adding
+        layer to project.
+        """
         # return [j for j in [i.layer() for i in self.layertreegroup.findLayers()] if j is not None]
         return [i for i in self.layertreegroup.findLayers()]
 
@@ -753,11 +737,9 @@ class QgisPrintLayout:
 
     def add_print_layout_template(self, template_path, name):
         layout = self.get_layout(name)
-        if layout is not None:
-            self.send_message(f"Layout {name} already exists, replacing!")
 
         layout = QgsPrintLayout(self.instance)
-        with open(template_path) as f:
+        with open(template_path, "r") as f:
             template_content = f.read()
         doc = QDomDocument()
         doc.setContent(template_content)
@@ -770,6 +752,11 @@ class QgisPrintLayout:
 
 
 class Project:
+    """
+    Project instance which loads a layer_structure from file and then
+    creates groups, loads layers, generates themes
+    """
+
     def __init__(self):
         self.structure = None  # fill using self.get_structure() or self.run()
         self.groups = None
@@ -777,6 +764,7 @@ class Project:
         self.themes = QgisAllThemes()
 
     def get_structure(self, layer_structure_path, subjects, revisions, folder):
+        """Load layer structure from file"""
         self.structure = layer_structure.LayerStructure(
             layer_structure_path=layer_structure_path, subjects=subjects, revisions=revisions, folder=folder
         )
@@ -786,6 +774,7 @@ class Project:
         """get layers from settings."""
 
     def add_layers(self):
+        """Add selected layers to project"""
         for layer in self.structure.layers:
             layer = QgisLayer(layer)
             if layer.settings.load_layer:
@@ -798,7 +787,7 @@ class Project:
             self.themes.add_theme(theme_settings=theme_settings, layers=self.layers, verbose=verbose)
 
     def run(self, **kwargs):
-        # pass
+        """Run project, load layer structure and load selected layers."""
         self.get_structure(**kwargs)
         self.groups = QgisAllGroups(settings=self.structure.groups)
 
