@@ -1,6 +1,6 @@
-<span style="color:red"> BvL: controleer onderstaande tekst</span>  
+<span style="color:red"> BvL: @WE/JK controleer onderstaande tekst</span>  
 
-## 0d1d test
+## **0d1d test**
 Als de sqlite tests zijn uitgevoerd, eventueel aanpassingen zijn gemaakt en het model is opgebouwd voor rekenen met 3Di, is het tijd om de 0d1d test uit te voeren. Deze toets is een test bui ontworpen om het 1d watersysteem in het model te controleren. De test bui begint met een droge dag, vijf dagen neerslag gelijk aan de maalcapaciteit (in de meeste polders is dit 14,4 mm/dag) en dan twee dagen droog. Deze bui is zo ontworpen dat we een aantal eigenschappen van het watersysteem kunnen toetsen:
 
 - **streefpeil handhaving**: blijven waterpeilen constant tijdens de droge dag?

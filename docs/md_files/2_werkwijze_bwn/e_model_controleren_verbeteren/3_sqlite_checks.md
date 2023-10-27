@@ -1,4 +1,4 @@
-## Sqlite checks
+## **Sqlite checks**
 <span style="color:yellow"> LN: *Nadat de modelbuilder feedback test is uitgevoerd, kunnen de sqlite testen worden uitgevoerd.*</span>.
 De sqlite testen zijn bedoeld om het model te controleren op (potentiële) fouten in de data en deze te corrigeren waar nodig. Na de sqlite testen is het model klaar om op te bouwen en om de 0d1d test te draaien (zie [0d1d test](4_0d1d_test.md)).
 
@@ -16,7 +16,7 @@ Wanneer in de 'main' van de HHNK toolbox de juiste modellen folder en polder zij
 
 <span style="color:yellow"> LN: *Hier hoort een foto waar alle testen zijn aangevinkt.*</span>.
 
-![Alt text](../../../images/2_werkwijze_bwn/e_model_controleren_verbeteren/6_1d2d_test/3_sqlite_checks/sqlite_checks_venster.PNG)
+![Alt text](../../../images/2_werkwijze_bwn/e_model_controleren_verbeteren/3_sqlite_checks/sqlite_checks_venster.PNG)
 
 
 
