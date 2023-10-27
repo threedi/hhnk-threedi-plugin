@@ -17,12 +17,7 @@ Er zijn twee mogelijkheden om met de toolbox aan de slag te gaan:
 * Voor uitleg over de benodigde data, zie [Bron data](needed_data.md).
 * Voor uitleg over de interpretatie van resultaten, zie !!!</span> 
 
-## Main
-Klik op het tabblad 'Main' om naar dit onderdeel te gaan.
-
-![Alt text](../../images/4_gebruik_plugin/b_overzicht_plugin/plugin_venster.png)
-
-## 1. Data aangeleverd door HHNK
+### **1. Data aangeleverd door HHNK**
 Volg onderstaande werkwijze als HHNK de benodigde data (model) aanlevert (optie 1). Als je zelf een model vanaf de 'grond' gaat bouwen, klik dan [hier](#2-zelf-een-model-maken) (optie 2)
 
 1. [Map aanmaken](#1-map-aanmaken)
@@ -32,31 +27,33 @@ Volg onderstaande werkwijze als HHNK de benodigde data (model) aanlevert (optie 
 5. [Modelstaten maken](#5)
 6. [Berekeningen uitvoeren](#6-berekeningen-uitvoeren)
 
-### 1. Map aanmaken <span style="color:yellow"> WE: *verouderd, kan inmiddels met toolbox*</span>
+### 1. Map aanmaken <span style="color:yellow"> WE: *verouderd, kan inmiddels met toolbox*</span> <span style="color:red"> BvL: het klopt inderdaad dat als je vanaf 'scratch' een project start dat de mappen automatisch worden aangemaakt. Echter had ik het model via Jelle toegestuurd gekregen en moest ik die data wel in onderstaande structuur zetten om het zichtbaar te krijgen in de plugin.</span> 
 Maak een nieuwe map aan in de verkenner (locatie staat vrij, maar raadzaam om lokaal te werken) met de naam van het aangeleverde gebied (bijvoorbeeld polder_X). Dat kan er als volgt uit zien: `C:\Users\{gebruiker}\Documents\3Di\polder_X`. 
 
 `{gebruiker}` is de naam van de Windows-gebruiker.
 
 ### 2. Data kopiëren 
-Kopieer de aangeleverde data naar de map die in stap 1 is gemaakt. Hieronder is een voorbeeld te zien waaruit de aangeleverde data (deze kan qua inhoud verschillen) is opgebouwd. <span style="color:yellow"> WE: *peilgebieden ontbreken*</span>
+Kopieer de aangeleverde data naar de map die in stap 1 is gemaakt. Hieronder is een voorbeeld te zien waaruit de aangeleverde data (deze kan qua inhoud verschillen) is opgebouwd.
 
-![](../images/usage/copy_data.PNG)
+![Alt text](../../images/4_gebruik_plugin/b_overzicht_plugin/kopieer_data.PNG)
 
 ### 3. Model inladen
 Het model kan vervolgens ingeladen worden door bij `modellen folder` (1) door de volgende handeling: als je in stap 1 de map hebt aangemaakt in het pad: `C:\Users\{gebruiker}\Documents\3Di\polder_X`, kies je bij `modellen folder` het volgende pad om het model in te kunnen laden: `C:\Users\{gebruiker}\Documents\3Di`. Vervolgens kan bij `polder` (2) gekozen worden voor `polder_X`. 
 
 `{gebruiker}` is de naam van de Windows-gebruiker.
 
-![](../images/usage/load_polder_legend.png)
+![Alt text](../../images/4_gebruik_plugin/b_overzicht_plugin/inladen_polder.png)
 
 ### 4. Inladen lagen
 Via de knop ``laad lagen`` (3) kun je diverse lagen inladen om inzicht te geven in het model.
 
-![](../images/usage/load_polder_legend.png)
+![Alt text](../../images/4_gebruik_plugin/b_overzicht_plugin/inladen_polder.png)
 
 Vervolgens verschijnt het onderstaande scherm met een aantal keuzes: 
 
-![](../images/usage/load_test_results.png)
+![Alt text](../../images/4_gebruik_plugin/b_overzicht_plugin/inladen_testresultaten.png)
+
+<span style="color:red"> BvL: hieronder verder gaan</span> 
 
 Afhankelijk van de tests die zijn uitgevoerd, kan er gekozen worden tussen het inladen van de van 0d1d, 1d2d of de klimaatsom resultaten. Indien er nog geen testberekeningen of klimaatsommen zijn gemaakt, klik dan hier: [Testberekeningen uitvoeren](#5-testberekeningen-uitvoeren)
 
