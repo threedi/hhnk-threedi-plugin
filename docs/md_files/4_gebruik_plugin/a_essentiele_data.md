@@ -1,4 +1,4 @@
-# Essentiële data
+## **Essentiële data**
 
 Hieronder vind je een beschrijving van alle brondata die wordt gebruikt voor de tests in de HHNK Toolbox. Daarnaast is hier informatie te vinden over modelinstellingen.
 
@@ -63,20 +63,19 @@ Om verschillende modelstaten te kunnen genereren zijn twee Excel documenten van 
 
 1. Model settings
 
-   In de tabel hieronder zijn voor de verschillende modelstaten de benodigde gegevens te zien. 
+In de tabel hieronder zijn voor de verschillende modelstaten de benodigde gegevens te zien. 
    
-   ![](../images/needed_data/model_settings.png)
+![Alt text](../../images/originele_images/needed_data/model_settings.png)
    
-   Deze gegevens dienen in een Excel met de naam ``model_settings`` ingevoerd te worden, zodat ze in 3Di uitgelezen kunnen worden en de juiste invoerwaarden worden gebruikt. Op de plek waar ``Naam polder`` staat, komt de naam van polder, bijvoorbeeld ``callantsoog_0d1d_test``. Als er andere namen voor rasters worden gebruikt, kunnen deze uiteraard ingevoerd worden in de Excel, zolang ze corresponderen met de namen van de rasters die in ``C:\Users\{gebruiker}\Documents\3Di\polder_X\02_schematisation_00_basis_rasters`` (padnaam kan bij  gebruiker anders zijn) zijn opgeslagen. 
+Deze gegevens dienen in een Excel met de naam ``model_settings`` ingevoerd te worden, zodat ze in 3Di uitgelezen kunnen worden en de juiste invoerwaarden worden gebruikt. Op de plek waar ``Naam polder`` staat, komt de naam van polder, bijvoorbeeld ``callantsoog_0d1d_test``. Als er andere namen voor rasters worden gebruikt, kunnen deze uiteraard ingevoerd worden in de Excel, zolang ze corresponderen met de namen van de rasters die in ``C:\Users\{gebruiker}\Documents\3Di\polder_X\02_schematisation_00_basis_rasters`` (padnaam kan bij  gebruiker anders zijn) zijn opgeslagen. 
 
-   `{gebruiker}` is de naam van de Windows-gebruiker.
+`{gebruiker}` is de naam van de Windows-gebruiker.
 
 2. Model settings default
 
-   In de tabel hieronder zijn een aantal default instellingen voor de schematisatie weergegeven.
+In de tabel hieronder zijn een aantal default instellingen voor de schematisatie weergegeven.
 
-   ![](../images/needed_data/model_settings_default.png) 
+![Alt text](../../images/4_gebruik_plugin/a_essentiele_data/model_instellingen_default.png)
 
-   Deze gegevens dienen in een Excel met de naam ``model_settings`` ingevoerd te worden, zodat ze in 3Di uitgelezen kunnen worden en de juiste invoerwaarden worden gebruikt.
-
+Deze gegevens dienen in een Excel met de naam ``model_settings`` ingevoerd te worden, zodat ze in 3Di uitgelezen kunnen worden en de juiste invoerwaarden worden gebruikt.
 

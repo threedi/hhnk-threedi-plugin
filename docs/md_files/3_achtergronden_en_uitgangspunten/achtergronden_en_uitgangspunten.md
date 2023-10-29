@@ -1,10 +1,10 @@
-## 3Di
+## **3Di**
 3Di is een hydrodynamisch model waarmee zowel 1D (watergangen, riolering) als 2D (maaiveld) of 1D-2D gerekend kan worden.
 
 <span style="color:yellow"> WE: *verwijzen naar website en docs 3di*</span>
 
 
-## Uitgangspunten 3Di BWN modellen
+### **Uitgangspunten 3Di BWN modellen**
 
 Uit aangeleverde documenten:
 Uitgangspuntennotitie 3Di-modellen.docx
