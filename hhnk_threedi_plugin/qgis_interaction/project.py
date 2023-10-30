@@ -789,9 +789,14 @@ class Project:
         for theme_settings in self.structure.themes:
             self.themes.add_theme(theme_settings=theme_settings, layers=self.layers, verbose=verbose)
 
-    def run(self, **kwargs):
+    def run(self, 
+            layer_structure_path=None,
+            subjects=None,
+            revisions: htt.SelectedRevisions = htt.SelectedRevisions(),
+            folder=None,
+            **kwargs):
         """Run project, load layer structure and load selected layers."""
-        self.get_structure(**kwargs)
+        self.get_structure(layer_structure_path, subjects, revisions, folder, **kwargs)
         self.groups = QgisAllGroups(settings=self.structure.groups)
 
         self.groups.create_groups()
