@@ -1,3 +1,4 @@
+# %%
 """
 Test qgis_interaction.project functions.
 Run this file in qgis.
@@ -11,6 +12,7 @@ import hhnk_threedi_tools as htt
 import pandas as pd
 import pytest
 from hhnk_threedi_tools.qgis import layer_structure
+from hhnk_threedi_plugin.qgis_interaction.klimaatsommen_pdfs import load_print_layout
 
 plugindir_new = rf"E:\github\{os.getlogin()}\hhnk-threedi-plugin"
 plugindir_old = r"C:\Users\wvangerwen\AppData\Roaming\3Di\QGIS3\profiles\default/python/plugins"
@@ -75,3 +77,8 @@ self.run(layer_structure_path=LAYER_STRUCTURE_PATH, subjects=subjects, revisions
 
 # g = project.QgisAllGroups(settings=self.groups)
 # g.create_groups()
+
+#Add print layout and check if it was added.
+load_print_layout()
+
+assert self.layout.get_layout("wsa_kaarten1") is not None

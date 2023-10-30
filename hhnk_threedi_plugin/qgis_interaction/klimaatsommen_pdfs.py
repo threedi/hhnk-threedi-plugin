@@ -6,23 +6,25 @@ Created on Tue Dec  7 11:08:36 2021
 """
 import os
 import pandas as pd
-from .project import Project
+from hhnk_threedi_plugin.qgis_interaction.project import Project
 from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
 
 from qgis.core import QgsLayoutExporter, QgsRenderContext, QgsLayoutSize, QgsUnitTypes
 
-LAYOUT_PATH = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'styling', 'print_layouts', 'wsa_kaarten_landscape.qpt')
+LAYOUT_PATH = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'styling', 'print_layouts',
+                           'wsa_kaarten_landscape.qpt')
 
 def load_print_layout():
+    """Loads layout in project. """
     project = Project() #subject="Layout klimaatsommen")
-    project.add_print_layout_template(LAYOUT_PATH, "wsa_kaarten1")
+    project.layout.add_from_template(template_path=LAYOUT_PATH, name="wsa_kaarten1")
 
 
 def create_pdfs(folder, revisie):
-
+    #TODO verplaatsen naar csv
     project = Project() #subject="Mapcomposer klimaatsommen")
     polder = folder.name
-    output_path = folder.output.climate[revisie].path
+    output_path = folder.threedi_results.climate_results[revisie].path
 
     subtitle = "Maatregel model {} (rev{})".format(polder, revisie)
 
@@ -132,11 +134,10 @@ def create_pdfs(folder, revisie):
     ]
 
     # Connect to project and al print composers
-    layoutmanager = project.instance.layoutManager()
 
     for index, row in df.iterrows():
-        result = create_pdf_from_composer(
-            project,
+        print(f"creating pdf at {row['pdf_path']}")
+        result = project.layout.create_pdf_from_composer(
             composer_name=row["composer_name"],
             title=row["title"],
             subtitle=subtitle,
@@ -147,57 +148,6 @@ def create_pdfs(folder, revisie):
         )
 
         if result == 0:
-            project.send_message(f"pdf aangemaakt: {row['pdf_name']}", level=0)
+            print(f"pdf aangemaakt: {row['pdf_name']}")
         else:
-            project.send_message(
-                f"pdf niet gelukt: {row['pdf_name']}, {result}", level=1
-            )
-
-
-def create_pdf_from_composer(
-    project,
-    composer_name,
-    title,
-    subtitle,
-    legenda_ids,
-    selected_legenda,
-    theme,
-    output_file,
-):
-    layout_item = project.layoutmanager.layoutByName(composer_name)  # test is the layout name
-
-    # -------------------------------------------------------------------------------------
-    # Change layout settings
-    # -------------------------------------------------------------------------------------
-    label_item = layout_item.itemById("titel")
-    label_item.setText(title)
-
-    label_item = layout_item.itemById("subtitel")
-    label_item.setText(subtitle)
-
-    # Hide all legend items, only show selected legend.
-    for legenda_id in legenda_ids:
-        legenda_item = layout_item.itemById(legenda_id)
-        legenda_item.setVisibility(False)
-        if legenda_id == selected_legenda:
-            legenda_item.setVisibility(True)
-
-    map = layout_item.referenceMap()
-    map.setFollowVisibilityPresetName(theme)
-
-    # Poging om extent goed te zetten, maar handmatig is beter.
-    map.setExtent(project.mapcanvas_extent)
-    
-    # -------------------------------------------------------------------------------------
-    # Export
-    # -------------------------------------------------------------------------------------
-    pdf_settings = QgsLayoutExporter.PdfExportSettings()
-    pdf_settings.textRenderFormat = (
-        QgsRenderContext.TextFormatAlwaysText
-    )  # If not changed the labels will be ugly in the pdf
-
-    # image_settings = QgsLayoutExporter.ImageExportSettings()
-
-    export = QgsLayoutExporter(layout_item)
-    result = export.exportToPdf(output_file, pdf_settings)
-    return result
+            print(f"pdf niet gelukt: {row['pdf_name']}, {result}")

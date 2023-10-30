@@ -18,7 +18,10 @@ from qgis.core import (
     QgsRasterLayer,
     QgsReadWriteContext,
     QgsVectorLayer,
+    QgsLayoutExporter,
+    QgsRenderContext,
 )
+
 from qgis.PyQt.QtXml import QDomDocument
 from qgis.utils import iface
 
@@ -54,6 +57,7 @@ class QgisLayer:
         self.settings = settings
         self.instance = QgsProject.instance()
         self.layer = None
+        self.layertreelayer = None
 
     def get_qgis_layer(self):
         """
@@ -217,9 +221,10 @@ class QgisLayer:
             raise NotImplementedError
 
     def zoom_to_layer(self):
+        """Set canvas extent in qgis to layer extent."""
         layer = self.get_layer()
         if layer is None:
-            print(f"Layer unvalid not setting extent: {self.id}")
+            print(f"Layer invalid, not setting extent: {self.id}")
             return
 
         canvas = iface.mapCanvas()
@@ -731,14 +736,19 @@ class QgisGroup:
 
 
 class QgisPrintLayout:
+    """Layout manager met voorgedefineerde kaarten. 
+    Kan templates toevoegen en laden"""
+
     def __init__(self) -> None:
         self.instance = QgsProject.instance()
         self.layoutmanager = self.instance.layoutManager()
 
-    def get_layout(self, layout_name):
+    def get_layout(self, layout_name:str):
+        """Get layout bij name"""
         return self.layoutmanager.layoutByName(layout_name)
 
-    def add_print_layout_template(self, template_path, name):
+    def add_from_template(self, template_path, name):
+        """Add a layout from template file (.qpt)"""
         layout = self.get_layout(name)
 
         layout = QgsPrintLayout(self.instance)
@@ -753,6 +763,53 @@ class QgisPrintLayout:
         layout.setName(name)
         self.instance.layoutManager().addLayout(layout)
 
+    def create_pdf_from_composer(self,
+        composer_name,
+        title,
+        subtitle,
+        legenda_ids,
+        selected_legenda,
+        theme,
+        output_file,
+    ):
+        """Create pdf from a print compusing using """
+        layout_item = self.get_layout(composer_name)
+
+        # -------------------------------------------------------------------------------------
+        # Change layout settings
+        # -------------------------------------------------------------------------------------
+        label_item = layout_item.itemById("titel")
+        label_item.setText(title)
+
+        label_item = layout_item.itemById("subtitel")
+        label_item.setText(subtitle)
+
+        # Hide all legend items, only show selected legend.
+        for legenda_id in legenda_ids:
+            legenda_item = layout_item.itemById(legenda_id)
+            legenda_item.setVisibility(False)
+            if legenda_id == selected_legenda:
+                legenda_item.setVisibility(True)
+
+        ref_map = layout_item.referenceMap()
+        ref_map.setFollowVisibilityPresetName(theme)
+
+        # Poging om extent goed te zetten, maar handmatig is beter.
+        # ref_map.setExtent(project.mapcanvas_extent)
+        
+        # -------------------------------------------------------------------------------------
+        # Export
+        # -------------------------------------------------------------------------------------
+        pdf_settings = QgsLayoutExporter.PdfExportSettings()
+        pdf_settings.textRenderFormat = (
+            QgsRenderContext.TextFormatAlwaysText
+        )  # If not changed the labels will be ugly in the pdf
+
+        # image_settings = QgsLayoutExporter.ImageExportSettings()
+
+        export = QgsLayoutExporter(layout_item)
+        result = export.exportToPdf(output_file, pdf_settings)
+        return result
 
 class Project:
     """
@@ -765,6 +822,7 @@ class Project:
         self.groups = None
         self.layers = {}
         self.themes = QgisAllThemes()
+        self.layout = QgisPrintLayout()
 
     def get_structure(self, layer_structure_path, subjects, revisions, folder):
         """Load layer structure from file"""

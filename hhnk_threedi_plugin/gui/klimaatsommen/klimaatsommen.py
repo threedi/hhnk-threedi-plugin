@@ -51,7 +51,7 @@ class KlimaatSommenWidget(QWidget):
     klimaatsommen = pyqtSignal(object)
 
     def __init__(self, caller, parent=None):
-        super(KlimaatSommenWidget, self).__init__(parent)
+        super().__init__()
         self.setupUi()
         
         # ----------------------------------------------------------
@@ -136,7 +136,7 @@ class KlimaatSommenWidget(QWidget):
             SUBJECT,
             """
                 Let op:
-                - De pdf's worden aangemaakt met het huidige extent!
+                - De pdf's worden aangemaakt met het huidige extent in de layout!
                 - Laadt de achtergrond laag in.
                 - Laadt de revisie laag in.
                 - Extents verschillen per monitor. Werkt het niet? Pas 
