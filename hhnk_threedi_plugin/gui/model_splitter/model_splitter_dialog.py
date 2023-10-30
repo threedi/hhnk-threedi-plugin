@@ -131,6 +131,8 @@ class modelSplitterDialog(QtWidgets.QDialog):
 
 
     def close_widget(self):
+        self.settings_path = False
+
         # clear all list-widgets
         self.commitMessage.clear()
         self.info_list.clear()
