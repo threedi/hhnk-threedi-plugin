@@ -589,10 +589,15 @@ class QgisAllGroups:
 
 
 class QgisGroup:
+    """
+    QgisGroup instance that can recursively add groups to project
+
+    Parameters:
+    settings (htt.QgisGroupSettings):
+    parent_layertreegroup ():
+    """
+
     def __init__(self, settings, parent_layertreegroup):
-        """
-        settings (htt.QgisGroupSettings)
-        """
         self.settings = settings
         self.parent_layertreegroup = parent_layertreegroup
 
@@ -600,10 +605,12 @@ class QgisGroup:
 
     @property
     def id(self):
+        """id of group"""
         return self.settings.id
 
     @property
     def name(self):
+        """name of group"""
         return self.settings.name
 
     def get_or_create(self):
@@ -630,10 +637,6 @@ class QgisGroup:
                 layertreegroup.setExpanded(False)
         return layertreegroup
 
-    # @property
-    # def layers(self):
-    #     """dict with id:name"""
-    #     return {i.layerId():i.name() for i in self.layertreegroup.children() if isinstance(i, QgsLayerTreeLayer)}
     @property
     def layer_list(self) -> list:
         """returns QgsLayerTreeLayer, not QgsVectorLayer
@@ -739,7 +742,7 @@ class QgisPrintLayout:
         layout = self.get_layout(name)
 
         layout = QgsPrintLayout(self.instance)
-        with open(template_path, "r") as f:
+        with open(template_path, "r", encoding=None) as f:
             template_content = f.read()
         doc = QDomDocument()
         doc.setContent(template_content)
@@ -794,46 +797,3 @@ class Project:
         self.groups.create_groups()
         self.add_layers()
         self.add_themes()
-
-
-# %%
-
-
-# self = layer
-# reload=True
-# qgis_group = p.groups.groups['05. Hydraulische Toets en 0d1d tests[callantsoog #23 0d1d_test]__Kaart 3: Streefpeilhandhaving']
-# import numpy as np
-# if self.isValid():
-#             #Find index of layer in avalailable layers in group
-#             group_layers =  qgis_group.layers
-#             layer_keys = [l for l in group_layers if self.name in l]
-#             if layer_keys:
-#                 #Break loop if no reload required
-#                 if not reload:
-#                     pass
-#                 #remove all layers with name in group.
-#                 else:
-#                     try:
-#                         # for l in layer_keys:
-#                         # Note that using removeMapLayers does not work because the
-#                         # group has ownership of the layer. See addLayer in;
-#                         # https://qgis.org/pyqgis/3.2/core/Layer/QgsLayerTreeGroup.html
-#                         # Therefore we need to remove the child from the group itself.
-#                         # Correction. using group.addLayer will not work properly
-#                         self.instance.removeMapLayers(layer_keys)
-#                         qgis_group.layertreegroup.removeChildNode(l)
-#                     except:
-#                         print(f"Could not remove {self.id} from project")
-
-#             #addlayer returns QgsLayerTreeLayer.
-#             self.instance.addMapLayer(self.layer_base, False)
-#             layertreelayer = qgis_group.layertreegroup.addLayer(self.layer_base)
-#             #We need the QgsMapLayer for styles so we access that here.
-#             self.layer = layertreelayer.layer()
-#             self.add_styles()
-
-
-# for child in qgis_group.layertreegroup.children():
-#     if isinstance(child, QgsLayerTreeLayer):
-#         print(child)
-#         QgsProject.instance().removeMapLayer(child.layerId())
