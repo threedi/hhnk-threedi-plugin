@@ -1,6 +1,4 @@
 import os
-import numpy as np
-from pathlib import Path
 from PyQt5.QtWidgets import (
     QPushButton,
     QFileDialog,
@@ -15,16 +13,9 @@ from PyQt5.QtWidgets import (
     QMessageBox,
     QComboBox,
 )
-from PyQt5.Qt import QApplication, QClipboard
 from ..general_objects import revisionsComboBox
 from PyQt5.QtCore import Qt, pyqtSignal
-from qgis.core import (
-    Qgis,
-    QgsProject,
-    QgsLayoutExporter,
-    QgsRenderContext,
-    QgsPathResolver,
-)
+
 from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
 from hhnk_threedi_plugin.gui.utility.widget_interaction import update_button_background
 from hhnk_threedi_tools.qgis import layer_structure
