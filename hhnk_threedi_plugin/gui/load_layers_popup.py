@@ -15,6 +15,7 @@ from qgis.utils import QgsMessageBar, iface
 
 from hhnk_threedi_tools import SqliteCheck, MigrateSchema
 import hhnk_research_tools as hrt
+import hhnk_threedi_tools as htt
 
 # new
 
@@ -206,7 +207,8 @@ class loadLayersDialog(QDialog):
 
         iface.messageBar().pushMessage(f"Inladen van lagen gestart", level=Qgis.Info)
         
-        df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'testprotocol.csv')
+        df_path = hrt.get_pkg_resource_path(package_resource=htt.resources,
+                                            name="qgis_layer_structure.csv")
         subjects=[]
         revisions = layer_structure.SelectedRevisions()
 

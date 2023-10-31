@@ -109,8 +109,9 @@ class KlimaatSommenWidget(QWidget):
 
         update_button_background(button=self.laad_layout_btn, color="orange")
 
-        df_path = hrt.get_pkg_resource_path(package_resource=htt.resources, 
+        df_path = hrt.get_pkg_resource_path(package_resource=htt.resources,
                                             name="qgis_layer_structure.csv")
+        
         
         
         revisions = layer_structure.SelectedRevisions(klimaatsommen=self.select_revision_box.currentText())

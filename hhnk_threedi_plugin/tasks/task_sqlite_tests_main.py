@@ -6,7 +6,8 @@ from PyQt5.QtCore import QMutex, QWaitCondition
 
 from hhnk_threedi_plugin.tasks.utility_functions.handle_os_errors import check_os_error
 import hhnk_threedi_plugin.qgis_interaction.project as project
-
+import hhnk_threedi_tools as htt
+import hhnk_research_tools as hrt
 from hhnk_threedi_plugin.tasks.sqlite_test_tasks.sqlite_test_tasks import (
     impSurfaceTask, 
     profilesUsedTask, 
@@ -85,8 +86,8 @@ def task_sqlite_tests_main(parent_widget, folder, selected_tests):
                 f"All sqlite tasks finished - loading results into project", level=Qgis.Info
             )
 
-        df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'testprotocol.csv')
-
+        df_path = hrt.get_pkg_resource_path(package_resource=htt.resources,
+                                            name="qgis_layer_structure.csv")
         #Load layers
         proj = project.Project()
         proj.run(layer_structure_path=df_path,

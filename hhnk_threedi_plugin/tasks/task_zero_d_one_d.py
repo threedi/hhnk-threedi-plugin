@@ -53,7 +53,8 @@ def task_zero_d_one_d(folder, revision):
     gdf_node.to_file(output_file_node, driver='GPKG', index=False)
 
     #Add layers to project
-    df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'testprotocol.csv')
+    df_path = hrt.get_pkg_resource_path(package_resource=htt.resources,
+                                                    name="qgis_layer_structure.csv")
     revisions = layer_structure.SelectedRevisions(check_0d1d=revision)
 
     proj = project.Project()
