@@ -25,7 +25,7 @@ from hhnk_threedi_plugin.tasks.sqlite_test_tasks.sqlite_test_tasks import (
     )
 
 
-from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
+from hhnk_threedi_plugin.dependencies import HHNK_THREEDI_PLUGIN_DIR
 import os
 
 def task_sqlite_tests_main(parent_widget, folder, selected_tests):        

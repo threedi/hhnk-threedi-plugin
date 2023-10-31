@@ -25,7 +25,7 @@ import hhnk_research_tools as hrt
 import hhnk_threedi_plugin.qgis_interaction.project as project
 
 # from hhnk_threedi_plugin.qgis_interaction.styling import path as PATH #TODO deze verwijderen uit init?
-from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
+from hhnk_threedi_plugin.dependencies import HHNK_THREEDI_PLUGIN_DIR
 from hhnk_threedi_tools.core.folders import Folders
 from hhnk_threedi_tools.qgis import layer_structure
 

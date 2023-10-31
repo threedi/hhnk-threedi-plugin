@@ -7,17 +7,19 @@ Created on Tue Dec  7 11:08:36 2021
 import os
 import pandas as pd
 from hhnk_threedi_plugin.qgis_interaction.project import Project
-from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
-
-from qgis.core import QgsLayoutExporter, QgsRenderContext, QgsLayoutSize, QgsUnitTypes
-
-LAYOUT_PATH = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'styling', 'print_layouts',
-                           'wsa_kaarten_landscape.qpt')
+import hhnk_research_tools as hrt
+import hhnk_threedi_tools as htt
+        
 
 def load_print_layout():
     """Loads layout in project. """
+
+    template_path = hrt.get_pkg_resource_path(package_resource=htt.resources.qgis_print_layouts,
+                                            name="wsa_kaarten_landscape.qpt")
+    
+
     project = Project() #subject="Layout klimaatsommen")
-    project.layout.add_from_template(template_path=LAYOUT_PATH, name="wsa_kaarten1")
+    project.layout.add_from_template(template_path=template_path, name="wsa_kaarten1")
 
 
 def create_pdfs(folder, revisie):

@@ -24,7 +24,7 @@ from hhnk_threedi_plugin.qgis_interaction import load_layers_interaction
 from hhnk_threedi_tools.qgis import layer_structure
 
 # hhnk-threedi-tests
-from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
+from hhnk_threedi_plugin.dependencies import HHNK_THREEDI_PLUGIN_DIR
 
 # get plugin-tasks
 from hhnk_threedi_plugin.tasks import generateGridTask

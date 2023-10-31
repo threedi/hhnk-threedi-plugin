@@ -8,7 +8,7 @@ if __name__ =='__main__':
     from pathlib import Path
     sys.path.append(str(Path(os.getcwd()).parent.parent))
 from hhnk_threedi_plugin.dependencies import DEPENDENCY_DIR, THREEDI_DEPENDENCY_DIR
-from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
+from hhnk_threedi_plugin.dependencies import HHNK_THREEDI_PLUGIN_DIR
 try: 
     import hhnk_threedi_plugin.local_settings as local_settings
 except ModuleNotFoundError:

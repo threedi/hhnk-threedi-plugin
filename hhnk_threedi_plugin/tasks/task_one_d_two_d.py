@@ -9,7 +9,7 @@ if __name__ == '__main__':
 from hhnk_threedi_tools.core.checks.one_d_two_d import OneDTwoDTest
 from hhnk_threedi_tools.qgis import layer_structure
 import hhnk_threedi_plugin.qgis_interaction.project as project
-from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
+from hhnk_threedi_plugin.dependencies import HHNK_THREEDI_PLUGIN_DIR
 import os
 
 from qgis.core import Qgis

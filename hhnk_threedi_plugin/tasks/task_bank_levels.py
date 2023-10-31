@@ -20,7 +20,7 @@ from hhnk_threedi_tools.variables.bank_levels import (
 
 from hhnk_threedi_plugin.tasks.utility_functions.handle_os_errors import check_os_error
 
-from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
+from hhnk_threedi_plugin.dependencies import HHNK_THREEDI_PLUGIN_DIR
 import hhnk_threedi_plugin.qgis_interaction.project as project
 
 

@@ -11,7 +11,7 @@ import hhnk_threedi_tools.core.checks.zero_d_one_d as htt_0d1d
 import hhnk_threedi_tools.core.checks.grid_result_metadata as grid_result_metadata
 from hhnk_threedi_tools.qgis import layer_structure
 import hhnk_threedi_plugin.qgis_interaction.project as project
-from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
+from hhnk_threedi_plugin.dependencies import HHNK_THREEDI_PLUGIN_DIR
 import os
 
 from qgis.core import Qgis

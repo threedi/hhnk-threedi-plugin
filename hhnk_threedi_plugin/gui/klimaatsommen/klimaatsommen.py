@@ -16,12 +16,14 @@ from PyQt5.QtWidgets import (
 from ..general_objects import revisionsComboBox
 from PyQt5.QtCore import Qt, pyqtSignal
 
-from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
+from hhnk_threedi_plugin.dependencies import HHNK_THREEDI_PLUGIN_DIR
 from hhnk_threedi_plugin.gui.utility.widget_interaction import update_button_background
 from hhnk_threedi_tools.qgis import layer_structure
 import hhnk_threedi_plugin.qgis_interaction.project as project
+import hhnk_research_tools as hrt
+import hhnk_threedi_tools as htt
 
-from ...qgis_interaction.klimaatsommen_pdfs import create_pdfs, load_print_layout
+from hhnk_threedi_plugin.qgis_interaction.klimaatsommen_pdfs import create_pdfs, load_print_layout
 
 SUBJECT = "Klimaatsommen"
 
@@ -67,6 +69,10 @@ class KlimaatSommenWidget(QWidget):
         self.select_revision_box.aboutToShowPopup.connect(self.populate_combobox)
         self.select_revision_box.currentTextChanged.connect(self.reset_buttons)
 
+    @property
+    def fenv(self):
+        return self.caller.fenv
+
 
     def setupUi(self):
         self.select_revision_label = QLabel("Selecteer revisie:")
@@ -102,9 +108,11 @@ class KlimaatSommenWidget(QWidget):
         """
 
         update_button_background(button=self.laad_layout_btn, color="orange")
-        self.fenv = self.caller.fenv
 
-        df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'testprotocol.csv')
+        df_path = hrt.get_pkg_resource_path(package_resource=htt.resources, 
+                                            name="qgis_layer_structure.csv")
+        
+        
         revisions = layer_structure.SelectedRevisions(klimaatsommen=self.select_revision_box.currentText())
 
         #Load layers
