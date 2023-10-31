@@ -166,26 +166,26 @@ class QgisLayer:
 
     def is_valid(self, qgis_layer) -> bool:
         """Check if layer is valid, checked before adding to project"""
-        valid = True
+
         for qml_path in self.settings.qml_lst:
-            if not qml_path.exists():
-                valid = False
-                # TODO add logger.warnings
+            qml_valid = qml_path.exists():
+            # TODO add logger.warnings
+            if not qml_valid:
                 print(f"Layer styling does not exist: {qml_path}")
 
         # check layer
         try:
-            valid = qgis_layer.isValid()
+            layer_valid = qgis_layer.isValid()
 
-            if not valid:
+            if not layer_valid:
                 if not Path(qgis_layer.source().exists()):
                     print(f"Layer source does not exist: {qgis_layer.source()}")
 
         except Exception:
-            valid = False
+            layer_valid = False
             print(f"Layer {self.id} not valid. Please check data-source: {self.settings.file}")
 
-        return valid
+        return all((qml_valid, layer_valid))
 
     def get_group(self):
         """find group recursively"""
