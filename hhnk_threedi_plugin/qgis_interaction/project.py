@@ -150,11 +150,13 @@ class QgisLayer:
     def is_valid(self, qgis_layer) -> bool:
         """Check if layer is valid, checked before adding to project"""
 
+        qml_valid = True
         for qml_path in self.settings.qml_lst:
-            qml_valid = qml_path.exists()
-            # TODO add logger.warnings
-            if not qml_valid:
+            if not qml_path.exists():
                 print(f"Layer styling does not exist: {qml_path}")
+                qml_valid = False
+            else:
+                qml_valid = all((qml_valid, True))
 
         # check layer
         try:
