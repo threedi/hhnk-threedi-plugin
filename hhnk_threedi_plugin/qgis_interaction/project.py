@@ -24,6 +24,7 @@ from qgis.core import (
 
 from qgis.PyQt.QtXml import QDomDocument
 from qgis.utils import iface
+from typing import Union
 
 logger = logging.getLogger(__name__)
 
@@ -196,29 +197,25 @@ class QgisLayer:
                 return None
         return group
 
-    def get_layer(self, layertreelayer=False):
-        """Return layer in whole project, or only the layer in the given group.
-        When group_lst is empty it will search for the layer in the whole project.
-        It is currently not possible to search for layers only in the root.
-        When layertreelayer == True, return that object instead of the QgsVectorLayer.
-        This object is needed when toggeling visibility in the layer tree"""
+    def get_layer(self) -> Union[QgsVectorLayer, QgsRasterLayer]:
+        """Return the QGIS layer the self.name
+
+        Returns
+        -------
+        Union[QgsVectorLayer, QgsRasterLayer]
+            QGIS Layer
+        """
         group = None
         if self.settings.group_lst:
             group = self.get_group()
-            if group:
-                # .layer() returns QgsVectorLayer instead of QgsLayerTreeLayer
-                layer = [child.layer() for child in group.children() if child.name() == self.name]
-            else:
-                return None
-        else:
+            if group: # find layer in group, if None, layer has been removed.
+                layer = next((child.layer() for child in group.children() if child.name() == self.name), None)
+            else: # Group does not exist, so layer has been removed.
+                layer = None
+        else: # No groups in QGIS instance.
             layer = self.instance.mapLayersByName(self.name)
-
-        if len(layer) == 0:
-            return None
-        elif not layertreelayer:
-            return layer[0]
-        else:
-            raise NotImplementedError
+        
+        return layer
 
     def zoom_to_layer(self):
         """Set canvas extent in qgis to layer extent."""
