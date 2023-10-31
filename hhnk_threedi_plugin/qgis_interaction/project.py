@@ -24,18 +24,9 @@ from qgis.core import (
 
 from qgis.PyQt.QtXml import QDomDocument
 from qgis.utils import iface
+from typing import Union
 
 logger = logging.getLogger(__name__)
-
-# # project structure
-TEST_STRUCTURE = {
-    "eerste": [],
-    "test": ["g1", "g2", "g3"],
-    "derde": ["layer1", "layer2"],
-    "vierde": ["layer1", "layer2"],
-    "yolo": [],
-}
-GROUP_STRUCTURE = list(TEST_STRUCTURE.keys())
 
 
 class QgisLayer:
@@ -56,8 +47,8 @@ class QgisLayer:
 
         self.settings = settings
         self.instance = QgsProject.instance()
-        self.layer = None
-        self.layertreelayer = None
+        self._layer = None
+        self._layertreelayer = None
 
     def get_qgis_layer(self):
         """
@@ -80,22 +71,13 @@ class QgisLayer:
     @property
     def id(self):
         return self.settings.id
+    
+    @property
+    def layer(self):
+        if self._layer is None:
+            self._layer = self.get_layer()
+        return self._layer
 
-    # @name.setter
-    # def name(self, value):
-    #     self.layer.setLayerName(value)
-    # @property
-    # def source(self):
-    #     return self.layer
-
-    # @property
-    # def style(self):
-    #     return self._style
-
-    # @style.setter
-    # def style(self, path):
-    #     self.layer.loadNamedStyle(path)
-    #     self._style = path
     def add_styles(self):
         """
         Add styles to layer in project. Can add multiple styles.
@@ -144,6 +126,7 @@ class QgisLayer:
                         # Therefore we need to remove the child from the group itself.
                         # Correction. using group.addLayer will not work properly
                         self.instance.removeMapLayers(layer_keys)
+                        self._layer = None
                     #                        for l in layer_keys:
                     #                            qgis_group.layertreegroup.removeChildNode(l)
                     #                            print(l)
@@ -155,14 +138,14 @@ class QgisLayer:
             # gets ownership over the layer, which will break some other things with
             # styling and removing the layer.
             self.instance.addMapLayer(qgis_layer, False)
-            self.layertreelayer = qgis_group.layertreegroup.addLayer(qgis_layer)  # returns QgsLayerTreeLayer.
+            self._layertreelayer = qgis_group.layertreegroup.addLayer(qgis_layer)  # returns QgsLayerTreeLayer.
             # We need the QgsMapLayer for styles so we access that here.
-            self.layer = self.layertreelayer.layer()
+            self._layer = self._layertreelayer.layer()
             self.add_styles()
 
             # Set visibility (defaults to off)
-            self.layertreelayer.setItemVisibilityChecked(False)
-            self.layertreelayer.setExpanded(False)
+            self._layertreelayer.setItemVisibilityChecked(False)
+            self._layertreelayer.setExpanded(False)
 
     def is_valid(self, qgis_layer) -> bool:
         """Check if layer is valid, checked before adding to project"""
@@ -196,263 +179,41 @@ class QgisLayer:
                 return None
         return group
 
-    def get_layer(self, layertreelayer=False):
-        """Return layer in whole project, or only the layer in the given group.
-        When group_lst is empty it will search for the layer in the whole project.
-        It is currently not possible to search for layers only in the root.
-        When layertreelayer == True, return that object instead of the QgsVectorLayer.
-        This object is needed when toggeling visibility in the layer tree"""
+    def get_layer(self) -> Union[QgsVectorLayer, QgsRasterLayer]:
+        """Return the QGIS layer the self.name
+
+        Returns
+        -------
+        Union[QgsVectorLayer, QgsRasterLayer]
+            QGIS Layer
+        """
         group = None
         if self.settings.group_lst:
             group = self.get_group()
-            if group:
-                # .layer() returns QgsVectorLayer instead of QgsLayerTreeLayer
-                layer = [child.layer() for child in group.children() if child.name() == self.name]
-            else:
-                return None
-        else:
+            if group: # find layer in group, if None, layer has been removed.
+                layer = next((child.layer() for child in group.children() if child.name() == self.name), None)
+            else: # Group does not exist, so layer has been removed.
+                layer = None
+        else: # No groups in QGIS instance.
             layer = self.instance.mapLayersByName(self.name)
-
-        if len(layer) == 0:
-            return None
-        elif not layertreelayer:
-            return layer[0]
-        else:
-            raise NotImplementedError
+        
+        return layer
 
     def zoom_to_layer(self):
         """Set canvas extent in qgis to layer extent."""
-        layer = self.get_layer()
-        if layer is None:
+        if self.layer is None:
             print(f"Layer invalid, not setting extent: {self.id}")
             return
 
         canvas = iface.mapCanvas()
-        extent = layer.extent()
+        extent = self.layer.extent()
         print("Setting extent to", extent)
         print("Canvas", canvas)
         canvas.setExtent(extent)
         canvas.setExtent(extent)
 
 
-# class Project:
-#     """
-#     Object used as interface to a qgis project
-
-#     Recommended code for adding layers:
-
-#     project = Project()
-#     structure = {"test": ["g1", "g2", "g3"]}
-#     for group_name, layer_list in structure.items():
-#         layers = []
-#         for layer_name in layer_list:
-#             layers.append(
-#             Layer(f"{layer_name}.shp",
-#                   layer_name,
-#                   "{layer_name}.qml",
-#                   "vector")
-#         project.add_layers(layers, group_name, reverse=False)
-
-#     Note that all group names should be unique.
-#     It is best to add all groups and subgroups first, before adding the layers.
-
-
-#     """
-
-#     def __init__(self, df_path=None, subjects=None, revisions={'0d1d_test':'','1d2d_test':'','klimaatsommen':''}):
-#         self.instance = QgsProject.instance()
-#         self.root = self.instance.layerTreeRoot()
-#         self.mapthemecollection = self.instance.mapThemeCollection()
-#         self.layoutmanager = self.instance.layoutManager()
-#         self.df_path = df_path
-#         self.subjects = subjects
-#         self.revisions=revisions
-
-
-#         revisions = layer_structure.SelectedRevisions(check_0d1d="callantsoog #23 0d1d_test")
-
-
-#         #Generate structure
-#         layer_struct = layer_structure.LayerStructure(layer_structure_path=LAYER_STRUCTURE_PATH,
-#                                             subjects=['test_0d1d'],
-#                                             revisions=revisions,
-#                                             folder=folder)
-#         layer_struct.run()
-
-
-#     def __iter__(self):
-#         for i in self.root.children():
-#             yield i
-
-
-#     # def get_group_lsts_from_df(self, df, filter=None) -> list:
-#     #     """List of group lists in dataframe. df is an input because for generating themes self.df_full is used."""
-#     #     # group_structure_lst = self.df[['parent_group','child_group']].stack().groupby(level=0).apply(list).tolist()
-#     #     # return list(k for k,_ in itertools.groupby(group_structure_lst))
-
-#     #     def local_eval(row):
-#     #         """apply(eval) doesnt work, it doesnt recognise revisions unless specified in same function"""
-#     #         revisions = self.revisions #required for eval
-
-#     #         return eval(row)
-
-#     #     group_lsts = df['group_lst'].apply(local_eval)
-#     #     if filter is None:
-#     #         return group_lsts.to_list()
-#     #     else:
-#     #         return group_lsts[filter].to_list()
-
-
-#     @property
-#     def layer_list(self):
-#         layer_list = []
-#         for k, layer in self.instance.mapLayers().items():
-#             layer_list.append(layer)
-#         return layer_list
-
-
-#     @property
-#     def mapcanvas_extent(self):
-#         return iface.mapCanvas().extent()
-
-
-#     def add_layers(self, layers, group_lst=None, reverse=False):
-#         if reverse:
-#             layers.reversed()
-
-#         for layer in layers:
-#             self.add_layer(layer, group_lst)
-
-
-#     def get_layer(self, layer_name, group_lst=[], layertreelayer=False):
-#         """Return layer in whole project, or only the layer in the given group.
-#         When group_lst is empty it will search for the layer in the whole project.
-#         It is currently not possible to search for layers only in the root.
-#         When layertreelayer == True, return that object instead of the QgsVectorLayer.
-#         This object is needed when toggeling visibility in the layer tree"""
-#         group=None
-#         if group_lst:
-#             group = self.get_group(group_lst)
-#             if group:
-#                 #.layer returns QgsVectorLayer instead of QgsLayerTreeLayer
-#                 layer = [child.layer() for child in group.children() if child.name()==layer_name]
-#             else:
-#                 logging.error(f'group: {group_lst} does not exist')
-#                 return None
-#         else:
-#             layer = self.instance.mapLayersByName(layer_name)
-
-
-#         if len(layer)==0:
-#             return None
-#         elif not layertreelayer:
-#             return layer[0]
-#         elif layertreelayer:
-#             if group:
-#                 return group.findLayer(layer[0].id())
-#             else:
-#                 return self.root.findLayer(layer[0].id())
-
-
-#     def add_layer(self, layer: QgisLayer, group_lst=None, visible=False):
-#         """Appends a layer to a group, creates a group if not exist"""
-
-#         self.instance.addMapLayer(layer.source, False)
-#         if group_lst:
-#             group = self.add_group(group_lst)
-#             q_layer=group.addLayer(layer.source)
-#         else:
-#             q_layer=self.root.addLayer(layer.source)
-
-#         #Set visibility (defaults to off)
-#         q_layer.setItemVisibilityChecked(visible)
-#         q_layer.setExpanded(False)
-
-
-#     def set_visibility(self, layer_name, group_lst, visible):
-#         """Find layer in layertree and set visibility"""
-#         layer = self.get_layer(layer_name=layer_name, group_lst=group_lst, layertreelayer=True)
-#         if layer:
-#             layer.setItemVisibilityChecked(visible)
-
-
-#     def set_expanded(self, layer_name, group_lst, expanded=False):
-#         """Collapse layers in the layer tree"""
-#         layer = self.get_layer(layer_name=layer_name, group_lst=group_lst, layertreelayer=True)
-#         if layer:
-#             layer.setExpanded(expanded)
-
-
-#     def remove_layer(self, layer_name, group_lst=None):
-#         """Remove layer, from group if defined."""
-#         layer = self.get_layer(layer_name=layer_name, group_lst=group_lst)
-#         if layer:
-#             self.instance.removeMapLayer(layer.id())
-
-
-#     def write_styling(self, path):
-#         for layer in self.layer_list:
-#             name = layer.name()
-#             name = self.standardize_name(name)
-#             layer.saveNamedStyle(f"{path}/{name}.qml")
-#             layer.saveSldStyle(f"{path}/{name}.sld")
-
-
-#     def standardize_name(self, name):
-#         """names are edited spaces become _ and are : removed, lowered"""
-#         return name.replace(" ", "_").replace(":", "").lower()
-
-
-#     def send_message(self, message, level=1, duration=5):
-#         self.subject="" #FIXME self.subject was replaced by self.subjects
-#         # print(self.subject, message)
-#         iface.messageBar().pushMessage(
-#             self.subject, message, level=level, duration=duration
-#         )
-
-
-#     def zoom_to_layer(self, layer_name, group_lst=[]):
-
-#         layer = self.get_layer(layer_name=layer_name, group_lst=group_lst)
-#         if layer is None:
-#             print("Layer unvalid not setting extent")
-#             return
-
-#         canvas = iface.mapCanvas()
-#         extent = layer.extent()
-#         print("Setting extent to", extent)
-#         print("Canvas", canvas)
-#         canvas.setExtent(extent)
-#         canvas.setExtent(extent)
-
-
-#     #FIXME in htt
-#     def filedir_with_revision(self, filedir):
-#         if "one_d_two_d" in filedir:
-#             return filedir.replace("revision", f"'{self.revisions['1d2d_test']}'")
-#         elif "zero_d_one_d" in filedir:
-#             return filedir.replace("revision", f"'{self.revisions['0d1d_test']}'")
-#         else:
-#             return filedir
-
-
-#     # def iter_parent(self, parent_group):
-#     #     """iter over a single parent in the df. """
-#     #     df_parent = self.df.query(f"parent_group=='{parent_group}'")
-#     #     for index, row in df_parent.iterrows():
-#     #         yield index, row
-
-
-#     # def iterrows(self):
-#     #     """Iter over the whole df"""
-#     #     for group_lst in self.get_group_lsts:
-#     #         for index, row in self.iter_parent(group_lst[0]):
-#     #             yield index, row
-
-
 class QgisAllThemes:
-    # project = Project(df_path=r"C:\Users\chris.kerklaan\AppData\Roaming\QGIS\QGIS3\profiles\default\python\plugins\hhnk_threedi_plugin\qgis_interaction\layer_structure/klimaatsommen.csv")
-    # project.generate_themes()
 
     def __init__(self) -> None:
         self.instance = QgsProject.instance()
@@ -496,11 +257,6 @@ class QgisAllThemes:
         for layer_id in theme_settings.layer_ids:
             layer = layers[layer_id]
 
-            # Layer.layer is filled when its loaded in project. If it is already present
-            # we will look for it in the tree.
-            if layer.layer is None:
-                layer.layer = layer.get_layer()
-
             if layer.layer is not None:
                 if verbose:
                     print(f"\t{layer.layer}")
@@ -511,58 +267,6 @@ class QgisAllThemes:
 
         theme.setLayerRecords(records)
         self.mapthemecollection.insert(theme_settings.name, theme)
-
-
-# class QgisAllGroups():
-#     def __init__(self, settings:htt.qgis.QgisAllGroupsSettings):
-#         self.settings=settings
-#         self.instance = QgsProject.instance()
-#         self.root = self.instance.layerTreeRoot()
-#         self.groups = {} #group.id: layertreegroup
-
-
-#     def create_groups(self):
-#         """Create groups recursively. Adds groups to the self.groups dict so we
-#         can access those later."""
-#         for group in self.settings.groups.get_all_children():
-
-#             #Load parent group layertree
-#             if group.parent_id not in self.groups.keys():
-#                 self.groups[group.parent_id] = QgisGroup(settings=group,
-#                         self.get_layertreegroup(group_lst=group.parent_group_lst),
-#                 )
-
-
-#             parent_layertreegroup = self.groups[group.parent_id]
-
-#             if parent_layertreegroup is None:
-#                 raise Exception(f"{group.id} parent group ({group.parent_id}) not found, but it should always exist.")
-
-#             if group.id == "__qgis_main":
-#                 continue
-
-#             #Get the group and create if doesnt exist.
-#             if group.id not in self.groups.keys():
-#                 self.groups[group.id] = parent_layertreegroup.findGroup(group.name)
-#             layertreegroup = self.groups[group.id]
-
-#             if layertreegroup is None:
-#                 layertreegroup = parent_layertreegroup.insertGroup(index=-1,
-#                                                 name=group.name)
-#                 layertreegroup.setItemVisibilityChecked(False)
-#                 layertreegroup.setExpanded(False)
-
-#             self.groups[group.id] = layertreegroup
-
-
-#     def get_layertreegroup(self, group_lst):
-#         """find group recursively. Groups in the root have an empty group_lst"""
-#         layertreegroup = self.root
-#         for group_name in group_lst:
-#             layertreegroup = layertreegroup.findGroup(group_name)
-#             if layertreegroup is None:
-#                 return None
-#         return layertreegroup
 
 
 class QgisAllGroups:
@@ -650,89 +354,6 @@ class QgisGroup:
         """
         # return [j for j in [i.layer() for i in self.layertreegroup.findLayers()] if j is not None]
         return [i for i in self.layertreegroup.findLayers()]
-
-    # @property
-    # def group_list(self):
-    #     return [i for i in self.root.children() if isinstance(i, QgsLayerTreeGroup)]
-
-    # @property
-    # def group_names(self):
-    #     return [i.name() for i in self.group_list]
-
-    # def _group_index(self, group_name) -> int: #TODO deprecated? fix group_structure?
-    #     """locates the nearest index based on the layer above
-    #     if we cannot find this, we place it on top
-    #     """
-    #     # use a while loop to get the nearest adjacent group
-    #     structure_index = self.group_structure.index(group_name)
-    #     group_names = self.group_names
-
-    #     index = None
-    #     while structure_index > 0 and index is None:
-    #         group_name_above = self.group_structure[structure_index - 1]
-    #         if group_name_above in group_names:
-    #             index = group_names.index(group_name_above) + 1
-    #         else:
-    #             structure_index = structure_index - 1
-
-    #     if structure_index == 0:
-    #         index = 0
-
-    #     return index
-
-    # def add_group(self, group_lst: list, index=-1) -> QgsLayerTreeGroup:
-    #     """creates a group and appends the group to the root in the right order
-    #     return an existing group if already exists
-    #     """
-    #     group = self.get_group(group_lst)
-    #     if group is not None:
-    #         return group
-
-    #     # if index is None: #FIXME Disabled this for now until _group_index works again
-    #     #     index = self._group_index(group_lst[0])
-
-    #     parent_found=0 #If no parent the whole group_lst should be created
-    #     for i in range(len(group_lst),0,-1):
-    #         # print(group_lst[:i])
-    #         group = self.get_group(group_lst[:i])
-    #         if group:
-    #             # print(f'group {group.name()} found')
-    #             parent_found=1 #group exists, now lets makee the children that didnt exist.
-    #             break
-
-    #     #Continue loop where broken to start building the groups
-    #     if group is None:
-    #         group = self.root
-
-    #     for j in range(i-1+parent_found, len(group_lst)): #some magic with index required to create the correct group.
-    #         group = group.insertGroup(index, group_lst[j])
-    #         group.setItemVisibilityChecked(False)
-    #         group.setExpanded(False)
-    #         # print(f'create {group_lst[j]}')
-    #     return group
-
-    # def add_subgroup(self, group_name, parent_group_name):
-    #     """adds a group under a group"""
-    #     if pd.isna(group_name):
-    #         logger.error('Tried to create subgroup but value isnan.')
-    #         return None
-
-    #     parent_group = self.get_group(parent_group_name)
-    #     if parent_group is None:
-    #         parent_group = self.add_group(parent_group_name)
-
-    #     group = self.get_group(group_name)
-    #     if group is not None:
-    #         return group
-
-    #     group = parent_group.addGroup(group_name)
-    #     group.setExpanded(False)
-    #     return group
-
-    # def generate_groups(self, group_index=-1):
-    #     """generates all groups and subgroups based on self.structure"""
-    #     for group_lst in self.get_group_lsts_from_df(df=self.df):
-    #         self.add_group(group_lst=group_lst, index=group_index)
 
 
 class QgisPrintLayout:
@@ -831,16 +452,13 @@ class Project:
         )
         self.structure.run()
 
-    def get_layers(self):
-        """get layers from settings."""
-
     def add_layers(self):
         """Add selected layers to project"""
         for layer in self.structure.layers:
-            layer = QgisLayer(layer)
-            if layer.settings.load_layer:
-                layer.add_to_project(qgis_group=self.groups.groups[layer.settings.group_id])
-            self.layers[layer.id] = layer
+            qgis_layer = QgisLayer(layer)
+            if qgis_layer.settings.load_layer:
+                qgis_layer.add_to_project(qgis_group=self.groups.groups[qgis_layer.settings.group_id])
+            self.layers[qgis_layer.id] = qgis_layer
 
     def add_themes(self, verbose=False):
         """get themes from settings."""
