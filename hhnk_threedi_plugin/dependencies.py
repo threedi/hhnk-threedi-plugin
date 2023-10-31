@@ -47,6 +47,7 @@ CREATE_NO_WINDOW = 0x08000000
 DETACHED_PROCESS = 0x00000008
 
 # Globals
+#TODO: rename OUR_DIR to HHNK_THREEDI_PLUGIN_DIR and resolve all dependencies
 OUR_DIR = Path(__file__).parent
 DEPENDENCY_DIR = OUR_DIR / "external-dependencies"
 DEPENDENCY_DIR.mkdir(parents=True, exist_ok=True)
