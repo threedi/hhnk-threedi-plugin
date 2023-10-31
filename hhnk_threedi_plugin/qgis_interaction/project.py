@@ -62,7 +62,7 @@ class QgisLayer:
         elif self.settings.ftype in ["gdal", "wms", "arcgismapserver"]:
             return QgsRasterLayer(self.settings.source, self.settings.name, self.settings.ftype)
         else:
-            logger.error("Layer %s has unknown ftype: %s", self.settings.name, self.settings.ftype)
+            print(f"ERROR: Layer {self.settings.name} has unknown ftype: {self.settings.ftype}")
 
     @property
     def name(self):
