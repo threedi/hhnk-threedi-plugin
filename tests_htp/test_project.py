@@ -10,18 +10,15 @@ import sys
 import hhnk_research_tools as hrt
 import hhnk_threedi_tools as htt
 import pandas as pd
+from pathlib import Path
 import pytest
 from hhnk_threedi_tools.qgis import layer_structure
 from hhnk_threedi_plugin.qgis_interaction.klimaatsommen_pdfs import load_print_layout
-
-plugindir_new = rf"E:\github\{os.getlogin()}\hhnk-threedi-plugin"
-plugindir_old = r"C:\Users\wvangerwen\AppData\Roaming\3Di\QGIS3\profiles\default/python/plugins"
-if plugindir_new not in sys.path:
-    sys.path.insert(0, plugindir_new)
-if plugindir_old in sys.path:
-    sys.path.remove(plugindir_old)
-
 import hhnk_threedi_plugin.qgis_interaction.project as project
+
+REPOS_DIR = os.getenv("REPOS_DIR")
+assert REPOS_DIR is not None
+REPOS_DIR = REPOS_DIR
 
 # Removing the modules from sys.path is a bit slow, set to True on first run in new qgis instance.
 if False:
@@ -35,27 +32,28 @@ if False:
 importlib.reload(project)
 importlib.reload(layer_structure)
 
-if project.__file__ != r"E:\github\wvangerwen\hhnk-threedi-plugin\hhnk_threedi_plugin\qgis_interaction\project.py":
+
+if project.__file__ != rf"{REPOS_DIR}\hhnk_threedi_plugin\hhnk_threedi_plugin\qgis_interaction\project.py":
     print(project.__file__)
 
 
-LAYER_STRUCTURE_PATH = r"E:\github\wvangerwen\hhnk-threedi-tools\tests\data\layer_structure.csv"
+#LAYER_STRUCTURE_PATH = r"d:\repositories\hhnk-threedi-tools\tests\data\layer_structure.csv"
 LAYER_STRUCTURE_PATH = (
-    r"E:\github\wvangerwen\hhnk-threedi-plugin\hhnk_threedi_plugin\qgis_interaction\layer_structure\testprotocol.csv"
+   rf"{REPOS_DIR}\hhnk-threedi-tools\hhnk_threedi_tools\resources\qgis_layer_structure.csv"
 )
 
 
-folder = htt.Folders(r"E:\github\wvangerwen\hhnk-threedi-tools\tests\data\model_test")
-folder = htt.Folders(r"E:\02.modellen\callantsoog")
+folder = htt.Folders(rf"{REPOS_DIR}\hhnk-threedi-tools\tests\data\model_test")
+#folder = htt.Folders(r"E:\02.modellen\callantsoog")
 
 
-revisions = layer_structure.SelectedRevisions(check_0d1d="callantsoog #23 0d1d_test")
+revisions = layer_structure.SelectedRevisions(check_0d1d="BWN bwn_test #7 0d1d_test")
 # revisions = layer_structure.SelectedRevisions(
 #     check_0d1d="callantsoog #23 0d1d_test", klimaatsommen="callantsoog_referentie_v2"
 # )
 
 
-subjects = ["test_0d1d", "klimaatsommen"]
+subjects = None
 # subjects=None
 
 # Generate structure

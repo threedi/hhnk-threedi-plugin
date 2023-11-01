@@ -7,6 +7,7 @@ Created on Tue Dec  7 11:08:36 2021
 import os
 import pandas as pd
 from hhnk_threedi_plugin.qgis_interaction.project import Project
+from pathlib import Path
 import hhnk_research_tools as hrt
 import hhnk_threedi_tools as htt
 
@@ -14,9 +15,11 @@ import hhnk_threedi_tools as htt
 def load_print_layout():
     """Loads layout in project. """
 
-    template_path = hrt.get_pkg_resource_path(package_resource=htt.resources.qgis_print_layouts,
-                                            name="wsa_kaarten_landscape.qpt")
-
+    template_path = Path(htt.__file__).parent.joinpath(
+        "resources",
+        "qgis_print_layouts",
+        "wsa_kaarten_landscape.qpt"
+        )
 
     project = Project() #subject="Layout klimaatsommen")
     project.layout.add_from_template(template_path=template_path, name="wsa_kaarten1")
