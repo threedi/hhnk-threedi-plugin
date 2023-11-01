@@ -11,11 +11,6 @@ Er zijn twee mogelijkheden om met de toolbox aan de slag te gaan:
 1. HHNK levert de benodigde data (model) aan (klik [hier](#1-data-aangeleverd-door-hhnk))
 2. Gebruiker van de plugin bouwt een model vanaf de 'grond' op (klik [hier](#2-zelf-een-model-maken))
 
-<span style="color:red">Nadere informatie over de inhoud van de testen, benodigde data en het interpreteren van resultaten zijn te vinden via onderstaande links:
-* Voor inhoudelijke uitleg van de tests, zie [Documentatie](tests_documentation.md).
-* Voor uitleg over de benodigde data, zie [Bron data](needed_data.md).
-* Voor uitleg over de interpretatie van resultaten, zie !!!</span> 
-
 ### **1. Data aangeleverd door HHNK**
 Volg onderstaande werkwijze als HHNK de benodigde data (model) aanlevert (optie 1). Als je zelf een model vanaf de 'grond' gaat bouwen, klik dan [hier](#2-zelf-een-model-maken) (optie 2)
 
@@ -34,7 +29,7 @@ Kopieer de aangeleverde data naar de map die in stap 1 is gemaakt. Hieronder is 
 
 ![Alt text](../../images/4_gebruik_plugin/b_overzicht_plugin/kopieer_data.PNG)
 
-### 3. Model inladen
+   ### 3. Model inladen
 Het model kan vervolgens ingeladen worden door bij `modellen folder` (1) door de volgende handeling: als je in stap 1 de map hebt aangemaakt in het pad: `C:\Users\{gebruiker}\Documents\3Di\polder_X`, kies je bij `modellen folder` het volgende pad om het model in te kunnen laden: `C:\Users\{gebruiker}\Documents\3Di`. Vervolgens kan bij `polder` (2) gekozen worden voor `polder_X`. 
 
 `{gebruiker}` is de naam van de Windows-gebruiker.
@@ -50,7 +45,7 @@ Vervolgens verschijnt het onderstaande scherm met een aantal keuzes:
 
 ![Alt text](../../images/4_gebruik_plugin/b_overzicht_plugin/inladen_testresultaten.png)
 
-Afhankelijk van de tests die zijn uitgevoerd, kan er gekozen worden tussen het inladen van de van 0d1d, 1d2d of de klimaatsom resultaten. Indien er nog geen testberekeningen of klimaatsommen zijn gemaakt, klik dan hier: [berekeningen uitvoeren](d_berekeningen_uitvoeren.md)
+Afhankelijk van de tests die zijn uitgevoerd, kan er gekozen worden tussen het inladen van de van 0d1d, 1d2d of de klimaatsom resultaten. Indien er nog modelstaten zijn gemaakt, klik [hier](c_modelstaat_aanpassen.md). Wanneer er nog geen testberekeningen of klimaatsommen zijn gemaakt, klik dan [hier](d_berekeningen_uitvoeren.md).
 
 Daarnaast kunnen nog een aantal andere opties aangevinkt worden:
 * [Sqlite (3Di plugin)](#sqlite-3di-plugin)
@@ -64,14 +59,13 @@ Daarnaast kunnen nog een aantal andere opties aangevinkt worden:
 Deze optie geeft de mogelijkheid om de schematisatie (.sqlite) van het model in te laden.
 
 #### Grid genereren
-##### NIEUWE FOUTMELDING > ZIE LOGBOEK. GEEN IDEE HOE OP TE LOSSEN.
+<span style="color:red"> BvL: @WE/JK kunnen jullie dit aanvullen?</span> 
 
 Bij het genereren van het grid kan het voorkomen dat er een foutmelding wordt weergegeven dat de .sqlite te oud is. ![Alt text](../../images/4_gebruik_plugin/b_overzicht_plugin/oude_sqlite_foutmelding.png) 
 Ga naar [bekende problemen](#bekende-problemen) om de oplossing te bekijken.  
 
 #### Sqlite testen
-De sqlite tests zijn bedoeld om het model te controleren op (potentiële) fouten in de data en deze te corrigeren waar nodig. Na de sqlite tests is het model klaar om op te bouwen en om de 0d1d toets te draaien ([0d1d toets/Hydraulische toets](../2_werkwijze_bwn/e_model_controleren_verbeteren/4_0d1d_test.md)). Voor de inhoudelijke uitleg van de tests, zie:
-[Sqlite checks](../2_werkwijze_bwn/e_model_controleren_verbeteren/3_sqlite_checks.md) <span style="color:red"> BvL: @WE/JK wat is trouwens het verschil tussen de 0d1d test en de hydraulische toets?</span>
+De sqlite tests zijn bedoeld om het model te controleren op (potentiële) fouten in de data en deze te corrigeren waar nodig. Na de sqlite tests is het model klaar om op te bouwen en om de 0d1d toets te draaien ([0d1d test](../2_werkwijze_bwn/e_model_controleren_verbeteren/4_0d1d_test.md)).
 
 #### Banklevel test
 Door de ``banklevel test`` in te laden, kun je de resultaten inzien die volgen uit de test die is uitgevoerd. Verdere toelichting over de ``banklevel test`` is te vinden in [Banklevel test](../2_werkwijze_bwn/e_model_controleren_verbeteren/5_banklevel_test.md).
@@ -82,7 +76,9 @@ Met het inladen van de ``basis layout`` krijg je inzicht in de resultaten die vo
 #### Achtergrondkaarten
 Met de optie ``achtergrondkaarten`` kun je verschillende soorten kaarten als achtergrond onder de schematisatie leggen. Dit is bijvoorbeeld handig om te controleren of een breedte van een watergang in het model overeenkomt met de breedte op de luchtfoto. 
 
-## **2. Zelf een model maken**
+Klik [hier](c_modelstaat_aanpassen.md) om de stappen te volgen om modelstaten aan te passen.
+
+## **Zelf een model maken**
 Volg onderstaande werkwijze als je het model vanaf de 'grond' gaat opbouwen (optie 2)
 
 ### 1. Modellen folder selecteren

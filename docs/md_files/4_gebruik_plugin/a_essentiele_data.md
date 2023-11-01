@@ -78,3 +78,4 @@ In de tabel hieronder zijn een aantal default instellingen voor de schematisatie
 
 Deze gegevens dienen in een Excel met de naam ``model_settings`` ingevoerd te worden, zodat ze in 3Di uitgelezen kunnen worden en de juiste invoerwaarden worden gebruikt.
 
+Klik [hier](b_overzicht_plugin.md) om naar het overzicht van de plugin te gaan en te starten met het gebruik van de plugin.
