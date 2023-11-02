@@ -29,6 +29,7 @@ from hhnk_threedi_plugin.dependencies import HHNK_THREEDI_PLUGIN_DIR
 
 # get plugin-tasks
 from hhnk_threedi_plugin.tasks import generateGridTask
+from hhnk_threedi_plugin.gui.utility.widget_interaction import update_button_background
 
 
 def setup_ui(load_layers_popup):
@@ -204,8 +205,9 @@ class loadLayersDialog(QDialog):
             
 
     def load_layers(self):
+        update_button_background(button=self.buttons, color="orange")
 
-        iface.messageBar().pushMessage(f"Inladen van lagen gestart", level=Qgis.Info)
+        iface.messageBar().pushMessage("Inladen van lagen gestart", level=Qgis.Info)
         
         df_path = hrt.get_pkg_resource_path(package_resource=htt.resources,
                                             name="qgis_layer_structure.csv")
@@ -286,6 +288,6 @@ class loadLayersDialog(QDialog):
         #TODO moet dit een keuze worden? 
         # project.zoom_to_layer(layer_name='polder_polygon')
 
-
+        update_button_background(button=self.buttons)
         self.accept()
 

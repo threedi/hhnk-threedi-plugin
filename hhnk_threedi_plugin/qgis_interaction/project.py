@@ -219,7 +219,10 @@ class QgisAllThemes:
 
     def __init__(self) -> None:
         self.instance = QgsProject.instance()
-        self.mapthemecollection = self.instance.mapThemeCollection()
+        
+    @property
+    def mapthemecollection(self):
+        return self.instance.mapThemeCollection()
 
     @property
     def theme_structure(self):
@@ -231,43 +234,80 @@ class QgisAllThemes:
 
     @property
     def theme_names(self):
-        return self.instance.mapThemeCollection().mapThemes()
+        return self.mapthemecollection.mapThemes()
 
     def get_theme(self, theme_name):
         return self.mapthemecollection.mapThemeState(theme_name)
 
-    def get_theme_layers(self, theme_name):
+    def get_theme_layers(self, theme_name:str) -> dict:
+        """
+        
+        Parameters
+        ----------
+        theme_name (str): name of theme
+
+        Returns
+        -------
+        dict {QgisVectorLayer.name(): QgisVectorLayer}
+        """
         theme = self.get_theme(theme_name)
 
-        names = []
+        layers = {}
         for record in theme.layerRecords():
-            names.append(record.layer().name())
-        return names
+            layer_record = record.layer()
+            layers[layer_record.name()] = layer_record
+        return layers
 
     def add_theme(self, theme_settings, layers, verbose=False):
-        """
+        """Add a theme to qgis project. If the theme already exists, 
+        it wil instead add/replace layers.
+
+        Note that themes can be quite tricky if they are edited after they have been edited.
+        Therefore we here retrieve the layers in the theme and then remove it before 
+        creating it again, see issue #143
+
+        Parameters
+        ----------
         theme_settings (htt.qgis.QgisThemeSettings): class with name and layerids
         layers (pd.Series): series with QgisLayer entries.
+        verbose (bool, optional): 
         """
         if verbose:
             print(f"Creating theme: {theme_settings.name}")
 
-        theme = self.mapthemecollection.mapThemeState(theme_settings.name)
+        # Bestaande theme verwijderen, eerst layers ophalen. Omdat niet alle layers
+        # ook in theme_settings.layer_ids staan, bijvoorbeeld als er eerst een 
+        # 0d1d_check resultaat is ingeladen van een bepaalde revisie.
+        current_theme_layers = self.get_theme_layers(theme_settings.name)
+        self.mapthemecollection.removeMapTheme(theme_settings.name)
+        theme = self.get_theme(theme_settings.name)
 
-        records = []
 
+        # if verbose:
+            # print(f"\t\ttheme has layers: {current_theme_layers.keys()}")
+
+        theme_layers = {}
+
+        # Bestaande layers in de visibility preset overnemen. Layername blijft een 
+        # key en dus uniek. Deze wordt later overschreven als die ook in de theme_settings
+        # staat. Als er twee keer een 0d1d_check resultaat wordt ingeladen blijft de meest
+        # recent ingeladen group onder het thema hangen.
+        for layer_name, layer in current_theme_layers.items():
+            theme_layers[layer_name] = QgsMapThemeCollection.MapThemeLayerRecord(layer)
+            
         for layer_id in theme_settings.layer_ids:
             layer = layers[layer_id]
 
             if layer.layer is not None:
                 if verbose:
-                    print(f"\t{layer.layer}")
-                records.append(QgsMapThemeCollection.MapThemeLayerRecord(layer.layer))
+                    print(f"\tadd layer: {layer.layer}")
+
+                theme_layers[layer.name] = QgsMapThemeCollection.MapThemeLayerRecord(layer.layer)
             else:
                 if verbose:
                     print(f"\t--- {layer.name} layer not found")
 
-        theme.setLayerRecords(records)
+        theme.setLayerRecords(list(theme_layers.values()))
         self.mapthemecollection.insert(theme_settings.name, theme)
 
 
@@ -292,7 +332,7 @@ class QgisAllGroups:
                     group_settings.parent_id
                 ].parent_layertreegroup.findGroup(group_settings.parent_name)
 
-            if group_settings.id not in self.groups.keys():
+            if group_settings.id not in self.groups:
                 self.groups[group_settings.id] = QgisGroup(
                     settings=group_settings,
                     parent_layertreegroup=self.layertreegroups[group_settings.id],
@@ -440,12 +480,13 @@ class Project:
     creates groups, loads layers, generates themes
     """
 
-    def __init__(self):
+    def __init__(self, verbose=True):
         self.structure = None  # fill using self.get_structure() or self.run()
         self.groups = None
         self.layers = {}
         self.themes = QgisAllThemes()
         self.layout = QgisPrintLayout()
+        self.verbose = verbose
 
     def get_structure(self, layer_structure_path, subjects, revisions, folder):
         """Load layer structure from file"""
@@ -462,12 +503,12 @@ class Project:
                 qgis_layer.add_to_project(qgis_group=self.groups.groups[qgis_layer.settings.group_id])
             self.layers[qgis_layer.id] = qgis_layer
 
-    def add_themes(self, verbose=False):
+    def add_themes(self):
         """get themes from settings."""
         for theme_settings in self.structure.themes:
-            self.themes.add_theme(theme_settings=theme_settings, layers=self.layers, verbose=verbose)
+            self.themes.add_theme(theme_settings=theme_settings, layers=self.layers, verbose=self.verbose)
 
-    def run(self, 
+    def run(self,
             layer_structure_path=None,
             subjects=None,
             revisions: htt.SelectedRevisions = htt.SelectedRevisions(),

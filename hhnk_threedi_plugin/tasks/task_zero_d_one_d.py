@@ -13,12 +13,12 @@ from hhnk_threedi_tools.qgis import layer_structure
 import hhnk_threedi_plugin.qgis_interaction.project as project
 from hhnk_threedi_plugin.dependencies import HHNK_THREEDI_PLUGIN_DIR
 import os
+import hhnk_threedi_tools as htt
 
 from qgis.core import Qgis
 from qgis.utils import QgsMessageLog
 
 if __name__ == '__main__':
-    import hhnk_threedi_tools as htt
     path = r'C:\Users\wvangerwen\Downloads\model_test_v2'
     folder = htt.folders(path)
     revision='BWN bwn_test #5 0d1d_test'
