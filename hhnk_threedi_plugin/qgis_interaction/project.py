@@ -283,8 +283,8 @@ class QgisAllThemes:
         theme = self.get_theme(theme_settings.name)
 
 
-        # if verbose:
-            # print(f"\t\ttheme has layers: {current_theme_layers.keys()}")
+        if verbose:
+            print(f"\t\ttheme has layers: {current_theme_layers.keys()}")
 
         theme_layers = {}
 
@@ -480,7 +480,7 @@ class Project:
     creates groups, loads layers, generates themes
     """
 
-    def __init__(self, verbose=True):
+    def __init__(self, verbose=False):
         self.structure = None  # fill using self.get_structure() or self.run()
         self.groups = None
         self.layers = {}
