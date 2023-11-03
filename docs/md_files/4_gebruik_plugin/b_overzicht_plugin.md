@@ -108,6 +108,7 @@ Het resultaat in de verkenner ziet er als volgt uit:
 
 Volg hierna de stappen die [hier](#4-inladen-lagen) zijn toegelicht.  
 
+<span style="color:red"> BvL: is het een idee om voor bekende problemen ook een aparte md file te maken?</span>
 ## **Bekende problemen**
 ### Oude sqlite error
 Wanneer in de aangeleverde data nog een .sqlite zit die in een oudere versie van 3Di is gemaakt, kan het voorkomen dat onderstaande foutmelding wordt weergegeven:

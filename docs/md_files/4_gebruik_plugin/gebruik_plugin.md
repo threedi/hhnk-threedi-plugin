@@ -1,5 +1,5 @@
 # **Gebruik plugin**
-Om de plugin te kunnen gebruiken zijn een aantal onderdelen van belang. Onderstaand overzicht is een opsomming van de belangrijkste onderdelen. Klik op een van de onderdelen voor meer informatie.
+Om de plugin te kunnen gebruiken zijn een aantal onderdelen van belang. Onderstaand overzicht is een opsomming van de belangrijkste onderdelen. Klik op een van de onderdelen voor meer informatie:
 
 * [Essentiële data](a_essentiele_data.md)
 * [Overzicht plugin](b_overzicht_plugin.md)
