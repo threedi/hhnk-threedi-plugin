@@ -1,33 +1,32 @@
 ## Sqlite checks
-<span style="color:yellow"> LN: *Nadat de modelbuilder feedback test is uitgevoerd, kunnen de sqlite testen worden uitgevoerd.*</span>.
-De sqlite testen zijn bedoeld om het model te controleren op (potentiële) fouten in de data en deze te corrigeren waar nodig. Na de sqlite testen is het model klaar om op te bouwen en om de 0d1d test te draaien (zie [0d1d test](4_0d1d_test.md)).
+Nadat de modelbuilder feedback test is uitgevoerd, kunnen de sqlite testen worden uitgevoerd. De sqlite testen zijn bedoeld om het model te controleren op (potentiële) fouten in de data en deze te corrigeren waar nodig. Na de sqlite testen is het model klaar om op te bouwen en om de 0d1d test te draaien (zie [0d1d test](4_0d1d_test.md)).
 
 De sqlite testen bestaan uit negen data verificatie testen en drie eenmalige testen. 
 
 ### **Werkwijze HHNK 3Di plugin**
 Wanneer in de 'main' van de HHNK toolbox de juiste modellen folder en polder zijn geselecteerd, kunnen de sqlite testen uitgevoerd worden. Volg onderstaande stappen:
 
-1. Ga naar 'Checks' in de HHNK Toolbox
-2. Kies voor 'Sqlite tests'
-3. Selecteer in het Model sqlite check venster alle testen van ondoorlatend oppervlak tot en met oppervlaktewater. Zorg er ook voor dat data verificatie en eenmalige tests zelf zijn geselecteerd.
-4. Klik op 'Start tests'
-5. QGIS laadt vervolgens de resultaten in onder de sqlite checks in de HHNK toolbox en in 'Lagen'
+1. Ga naar 'Checks' in de HHNK Toolbox.
+2. Kies voor 'Sqlite tests'.
+![Alt text](../../../images/2_werkwijze_bwn/e_model_controleren_verbeteren/3_sqlite_checks/sqlite_checks_venster_HHNK_Toolbox.png)
+3. Selecteer in het Model sqlite check venster alle testen van ondoorlatend oppervlak tot en met oppervlaktewater. Zorg er ook voor dat data verificatie en eenmalige tests zelf zijn geselecteerd. Het 'Model sqlite checks' venster zou er dan zo uit moeten zien als op onderstaande afbeelding.
+![Alt text](../../../images/2_werkwijze_bwn/e_model_controleren_verbeteren/3_sqlite_checks/model_sqlite_venster.png)
 
-
-<span style="color:yellow"> LN past dit nog aan: *Hier hoort een foto waar alle testen zijn aangevinkt.*</span>.
-
-![Alt text](../../../images/2_werkwijze_bwn/e_model_controleren_verbeteren/3_sqlite_checks/sqlite_checks_venster.PNG)
-
-
+4. Klik op 'Start tests'.
+5. QGIS laadt vervolgens de resultaten in onder de sqlite checks in de HHNK toolbox en in 'Lagen'.
 
 
 ### **Uitkomsten van de test**
+De uitkomsten van de testen worden geladen in 'lagen', maar zijn ook zichtbaar aan de rechterzijde van het scherm bij 'sqlite checks' onder 'checks' in de HHNK toolbox. De uitkomsten van de testen kunnen er zo uit zien als op onderstaande afbeelding.
+![Alt text](../../../images/2_werkwijze_bwn/e_model_controleren_verbeteren/3_sqlite_checks/Resultaten_sqlite_checks.png)
 
+<span style="color:yellow"> Notitie voor mezelf: *Hier meer uitleg over welke kaarten geladen worden*</span>
 
 ### **Beoordeling resultaten**
 Voor iedere test moet nagegaan worden of de waarden in het model voldoen. Hieronder wordt uitgelegd waar je bij iedere test op moet letten.
 #### Data verificatie testen
 <span style="color:yellow"> Notitie voor mezelf: *overal tenminste vertellen wat het is, waarom uitvoeren, waar resultaat zichtbaar, wat controleren en wat eraan doen*</span>
+
 * Test 1: Ondoorlatend oppervlak
 
   Deze test berekent het oppervlak van de polder op basis van de ```polder_shapefile``` en het ondoorlatend oppervlak (impervious surface, 0d) in het model. Het verschil tussen de twee zou niet te groot moeten zijn. 
@@ -36,16 +35,16 @@ Voor iedere test moet nagegaan worden of de waarden in het model voldoen. Hieron
 
 * Test 2: Gebruikte profielen
 
-  Deze test koppelt de v2_cross_section_definition laag van het model (discrete weergave van de natuurlijke geometrie van de watergangen) aan de v2_channel laag (informatie over watergangen in het model). Het resultaat van deze toets is een weergave van de breedtes en dieptes van watergangen in het model ter controle. Deze breedtes en dieptes kunnen gevonden worden onder sqlite checks in de HHNK toolbox. Hier kun je klikken op 'Bekijk resultaat' onder het kopje 'Gebruikte profielen watergangen'. Er wordt dan een tabel geopend met de titel 'watergangen_breedte'. In de 12e en 13e kolom kunnen de breedtes en dieptes van ieder gedeelte van een watergang gecontroleerd worden. <span style="color:yellow"> Notitie voor mezelf: Hier uitleg over realistisch resultaten en hoe aan te passen</span>
+  Deze test koppelt de v2_cross_section_definition laag van het model (discrete weergave van de natuurlijke geometrie van de watergangen) aan de v2_channel laag (informatie over watergangen in het model). Het resultaat van deze toets is een weergave van de breedtes en dieptes van watergangen in het model ter controle. Deze breedtes en dieptes kunnen gevonden worden onder sqlite checks in de HHNK toolbox. Hier kun je klikken op 'Bekijk resultaat' onder het kopje 'Gebruikte profielen watergangen'. Er wordt dan een tabel geopend met de naam 'watergangen_breedte'. In de 12e en 13e kolom kunnen de breedtes en dieptes van ieder gedeelte van een watergang gecontroleerd worden. <span style="color:yellow">  Hier uitleg over realistisch resultaten</span>. Indien deze waardes niet voldoen, kunnen de breedtes van de watergangen aangepast worden in v2_cross_section_definition tabel. De dieptes van de watergangen kunnen aangepast worden in de v2_cross_section_location tabel door het reference level aan te passen.
   Onder 'Lagen' zijn de resultaten van deze test ook zichtbaar.
   
-  <span style="color:yellow"> Notitie voor mezelf: *Wat zijn realistische waardes voor dit resultaat? Hoe pas je het resultaat aan?*</span>
+  <span style="color:yellow"> LN: @Wouter @Jelle *Wat zijn realistische waardes voor deze test?*</span>
 
   <span style="color:yellow"> WE: *@Wietse gebruiken we die shape uit de modelbuilder hier niet meer voor?*</span> 
   
 * Test 3: Gestuurde kunstwerken 
 
-  Deze test selecteert alle gestuurde kunstwerken (uit de v2_culvert, v2_orifice en v2_weir tabellen van het model) op basis van de v2_control_table. Per kunstwerk worden actiewaarden opgevraagd. Per gevonden gestuurd kunstwerk wordt ook relevante informatie uit de HDB database toegevoegd, zoals het streefpeil en minimale en maximale kruinhoogtes. De resultaten van deze test kunnen gevonden worden onder sqlite checks in de HHNK toolbox. Hier kun je klikken op 'Bekijk resultaat' onder het kopje 'Gestuurde kunstwerken'. Er wordt dan een tabel geopend met de titel 'gestuurde_kunstwerken'. 
+  Deze test selecteert alle gestuurde kunstwerken (uit de v2_culvert, v2_orifice en v2_weir tabellen van het model) op basis van de v2_control_table. Per kunstwerk worden actiewaarden opgevraagd. Per gevonden gestuurd kunstwerk wordt ook relevante informatie uit de HDB database toegevoegd, zoals het streefpeil en minimale en maximale kruinhoogtes. De resultaten van deze test kunnen gevonden worden onder sqlite checks in de HHNK toolbox. Hier kun je klikken op 'Bekijk resultaat' onder het kopje 'Gestuurde kunstwerken'. Er wordt dan een tabel geopend met de naam 'gestuurde_kunstwerken'. 
   Onder 'Lagen' zijn de resultaten van deze test ook zichtbaar.
   
    <span style="color:yellow"> Notitie voor mezelf: *Wat moet er gecontroleerd worden? Wat zijn realistische waardes voor deze test? Hoe pas je het resultaat aan?*</span>
@@ -53,7 +52,7 @@ Voor iedere test moet nagegaan worden of de waarden in het model voldoen. Hieron
 
 * Test 4: Bodemhoogte stuw
 
-  Deze test vergelijkt de minimale kruinhoogte uit de sturingstabel met de aanliggende watergangen. De resultaten van deze test kunnen gevonden worden onder sqlite checks in de HHNK toolbox. Hier kun je klikken op 'Bekijk resultaat' onder het kopje 'Bodemhoogte stuw'. Als de bodemhoogte van de watergang hoger ligt dan de minimale kruinhoogte moet hier nog iets in worden aangepast door in de v2_cross_section tabel het reference_level aan te passen. Deze aanpassingen worden automatisch gegenereerd en ter goedkeuring aan de gebruiker voorgelegd. Deze voorgelegde aanpassingen kun je vinden onder sqlite checks in de HHNK toolbox als je klikt op 'Bekijk voorgestelde aanpassingen' bij het kopje 'Bodemhoogte stuw'. Deze aanpassingen kunnen goedgekeurd worden door te klikken op 'Aanvaard aanpassingen'.
+  Deze test vergelijkt de minimale kruinhoogte uit de sturingstabel met de aanliggende watergangen. De resultaten van deze test kunnen gevonden worden onder sqlite checks in de HHNK toolbox. Hier kun je klikken op 'Bekijk resultaat' onder het kopje 'Bodemhoogte stuw'. Als de bodemhoogte van de watergang hoger ligt dan de minimale kruinhoogte moet hier nog iets in worden aangepast door in de v2_cross_section_location tabel het reference_level aan te passen. Deze aanpassingen worden automatisch gegenereerd en ter goedkeuring aan de gebruiker voorgelegd. Deze voorgelegde aanpassingen kun je vinden onder sqlite checks in de HHNK toolbox als je klikt op 'Bekijk voorgestelde aanpassingen' bij het kopje 'Bodemhoogte stuw'. Deze aanpassingen kunnen goedgekeurd worden door te klikken op 'Aanvaard aanpassingen'.
 
 * Test 5: Geometrie
 
