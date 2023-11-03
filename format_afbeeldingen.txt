@@ -1,0 +1,12 @@
+Dit document gaat over het maken van figuren voor de 3Di plugin handleiding van HHNK.
+
+1. Download Paint.NET: https://www.getpaint.net/download.html#download
+2. Maak een screenshot (Prt Sc) van het beeld waar je een figuur van wil maken
+3. Plak in Paint.NET het screenshot
+4. Snijd de screenshot indien nodig bij. Hiervoor kun je bijvoorbeeld het 'gereedschap' en 'Afbeelding - Bijsnijden tot selectie' voor gebruiken 
+5. Indien er tekst/cijfers toegevoegd worden aan een afbeelding, dan worden de volgende instellingen gebruikt:
+- Lettertype: Calibri
+- Lettergrootte: 14
+- Opmaak: vetgedrukt
+- Kleur (Hex code): FF0000
+6. Sla de afbeelding op in de juiste map

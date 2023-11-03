@@ -9,9 +9,9 @@ Het doel van deze test is het controleren van stromingen in het watersyteem en o
 ### **Werkwijze HHNK 3Di plugin**
 Deze test werkt alleen wanneer het model in de 1d2d-test-staat is ingesteld (zie [Model staat aanpassen](../../4_gebruik_plugin/c_modelstaat_aanpassen.md)).
 
-In het model zijn nu als het goed is de channels connected en is de infiltratie uitgeschakeld. Na het succesvol uploaden een aanmaken van het 3Di model kan via de [calculation gui](../../4_gebruik_plugin/d_berekeningen_uitvoeren.md) op de Jupyter notebook server de berekening worden gestart. Selecteer het juiste model en start de 1d2d test. <span style="color:yellow"> WE: *Bart, wil jij een link toevoegen naar de calculation gui?*</span> 
+In het model zijn nu als het goed is de channels connected en is de infiltratie uitgeschakeld. Na het succesvol uploaden en aanmaken van het 3Di model kan via de [calculation gui](../../4_gebruik_plugin/d_berekeningen_uitvoeren.md) op de Jupyter notebook server de berekening worden gestart. Selecteer het juiste model en start de 1d2d test.
 
-Download na de berekening de resultaten met de [download gui](../../4_gebruik_plugin/e_downloaden_resultaten.md) <span style="color:yellow"> WE: *Bart, link?*</span>. Kies voor raw output en grid administration en zorg dat de resultaten in de map 1d2d_results terecht komen. 
+Download na de berekening de resultaten met de [download gui](../../4_gebruik_plugin/e_downloaden_resultaten.md). Kies voor raw output en grid administration en zorg dat de resultaten in de map 1d2d_results terecht komen. 
  
 Om het resultaat in de HHNK Toolbox te laden kies je onder checks voor 1d2d tests. Selecteer daaronder de revisie van de gemaakte berekening en klik op Begin tests. Er worden hiermee een aantal kaartlagen aan het project toegevoegd in een groep met de naam: *07. Testprotocol 1d2d tests [polder revisie model]*. De afbeelding hieronder geeft een beeld hoe dat eruit kan zien.
 
