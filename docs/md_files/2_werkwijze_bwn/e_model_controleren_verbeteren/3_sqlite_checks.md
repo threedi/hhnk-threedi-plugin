@@ -1,4 +1,4 @@
-## Sqlite checks
+## **Sqlite checks**
 Nadat de modelbuilder feedback test is uitgevoerd, kunnen de sqlite testen worden uitgevoerd. De sqlite testen zijn bedoeld om het model te controleren op (potentiële) fouten in de data en deze te corrigeren waar nodig. Na de sqlite testen is het model klaar om op te bouwen en om de 0d1d test te draaien (zie [0d1d test](4_0d1d_test.md)).
 
 De sqlite testen bestaan uit negen data verificatie testen en drie eenmalige testen. 
@@ -28,8 +28,11 @@ Onder 'Lagen' zijn verschillende groepen zichtbaar waaronder verschillende kaart
 * De tweede groep is de aereaal waterberging op streefpeil groep. Hierin wordt onder andere het verschil oppervlaktewater weergegeven wat het resultaat is van de derde test van de eenmalige tests.
 * De derde groep is de ontwateringdiepte kaart. Deze kaart geeft het resultaat van de tweede test van de eenmalige tests weer.
 
+<span style="color:red"> BvL: @LN volgens mij missen hier nog: geisoleerde watergangen, gestuurde kunstwerken, bodemhoogte kunstwerken en bodemhoogte stuw.</span> 
+
 ### **Beoordeling resultaten**
 Voor iedere test moet nagegaan worden of de waarden in het model voldoen. Hieronder wordt uitgelegd waar je bij iedere test op moet letten.
+
 #### Data verificatie testen
 
 * Test 1: Ondoorlatend oppervlak
@@ -49,7 +52,7 @@ Voor iedere test moet nagegaan worden of de waarden in het model voldoen. Hieron
   
 * Test 3: Gestuurde kunstwerken 
 
-  Deze test selecteert alle gestuurde kunstwerken (uit de v2_culvert, v2_orifice en v2_weir tabellen van het model) op basis van de v2_control_table. Per kunstwerk worden actiewaarden opgevraagd. Per gevonden gestuurd kunstwerk wordt ook relevante informatie uit de HDB database toegevoegd, zoals het streefpeil en minimale en maximale kruinhoogtes. De resultaten van deze test kunnen gevonden worden onder sqlite checks in de HHNK toolbox. Hier kun je klikken op 'Bekijk resultaat' onder het kopje 'Gestuurde kunstwerken'. Er wordt dan een tabel geopend met de naam 'gestuurde_kunstwerken'. Hier moeten de waarden waarop een kunstwerk start met pompen (kolom 8), de minimale actie waarde van een kunstwerk (kolom 9), de maximale actie waarde van een kunstwerk (kolom 10) en het streefpijl gecontroleerd worden (kolom 11). 
+  Deze test selecteert alle gestuurde kunstwerken (uit de v2_culvert, v2_orifice en v2_weir tabellen van het model) op basis van de v2_control_table. Per kunstwerk worden actiewaarden opgevraagd. Per gevonden gestuurd kunstwerk wordt ook relevante informatie uit de HDB database toegevoegd, zoals het streefpeil en minimale en maximale kruinhoogtes. De resultaten van deze test kunnen gevonden worden onder sqlite checks in de HHNK toolbox. Hier kun je klikken op 'Bekijk resultaat' onder het kopje 'Gestuurde kunstwerken'. Er wordt dan een tabel geopend met de naam 'gestuurde_kunstwerken'. Hier moeten de waarden waarop een kunstwerk start met pompen (kolom 8), de minimale actie waarde van een kunstwerk (kolom 9), de maximale actie waarde van een kunstwerk (kolom 10) en het streefpeil gecontroleerd worden (kolom 11). 
 
 
   Onder 'Lagen' zijn de resultaten van deze test ook zichtbaar.
@@ -69,21 +72,21 @@ Voor iedere test moet nagegaan worden of de waarden in het model voldoen. Hieron
   
 * Test 6: Bodemhoogte kunstwerken 
 
-  Deze test controleert of de kruinhoogte of bodemhoogte van een kunstwerk hoger ligt dan de bodemhoogte van aanliggende watergangen. Als dit niet zo is moet dat worden aangepast om met het model te kunnen rekenen. De resultaten van deze test kunnen gevonden worden onder sqlite checks in de HHNK toolbox. Hier kun je klikken op 'Bekijk resultaat' onder het kopje 'Bodemhoogte kunstwerken'. Er wordt dan een tabel geopend met de naam 'bodemhoogte_kunstwerken' waarin alle gevallen worden laten zien waar de kruinhoogte of bodemhoogte van een kunstwerk lager ligt dan de bodemhoogte van aanliggende watergangen. De kruinhoogte of bodemhoogte wordt weergegeven door de kolom 'struct_reference_level'. De bodemhoogte van de watergangen wordt weergegeven door de kolom 'cross_reference_level'. Aanpassingen kunnen gedaan worden in v2_culvert, v2_orrifice of v2_weir voor het aanpassen van de kruinhoogte of bodemhoogte van een kunstwerk en in v2_cross_section_definition voor een aanpassing in de bodemhoogte van de aanliggende watergang. Als elk van de aanliggende watergangen min of meer dezelfde bodemhoogte hebben is het aannemelijker dat de kruinhoogte van het kunstwerk fout is en dat deze dus moet worden verhoogd. Als één van de aanliggende watergangen een afwijkende bodemhoogte heeft van de andere aanliggende watergangen waardoor de kruinhoogte van het kunstwerk onder de desbetreffende bodemhoogte van de watergang komt te liggen, is het aannemelijker dat deze watergang een foute bodemhoogte heeft en moet deze worden aangepast.
+  Deze test controleert of de kruinhoogte of bodemhoogte van een kunstwerk hoger ligt dan de bodemhoogte van aanliggende watergangen. Als dit niet zo is moet dat worden aangepast om met het model te kunnen rekenen. De resultaten van deze test kunnen gevonden worden onder sqlite checks in de HHNK toolbox. Hier kun je klikken op 'Bekijk resultaat' onder het kopje 'Bodemhoogte kunstwerken'. Er wordt dan een tabel geopend met de naam 'bodemhoogte_kunstwerken' waarin alle gevallen worden getoond waar de kruinhoogte of bodemhoogte van een kunstwerk lager ligt dan de bodemhoogte van aanliggende watergangen. De kruinhoogte of bodemhoogte wordt weergegeven door de kolom 'struct_reference_level'. De bodemhoogte van de watergangen wordt weergegeven door de kolom 'cross_reference_level'. Aanpassingen kunnen gedaan worden in v2_culvert, v2_orrifice of v2_weir voor het aanpassen van de kruinhoogte of bodemhoogte van een kunstwerk en in v2_cross_section_definition voor een aanpassing in de bodemhoogte van de aanliggende watergang. Als elk van de aanliggende watergangen min of meer dezelfde bodemhoogte hebben is het aannemelijker dat de kruinhoogte van het kunstwerk fout is en dat deze dus moet worden verhoogd. Als één van de aanliggende watergangen een afwijkende bodemhoogte heeft van de andere aanliggende watergangen waardoor de kruinhoogte van het kunstwerk onder de desbetreffende bodemhoogte van de watergang komt te liggen, is het aannemelijker dat deze watergang een foute bodemhoogte heeft en moet deze worden aangepast.
 
 * Test 7: Algemene tests
 
-  De algemene tests is een collectie van checks op fouten die ervoor zorgen dat het model niet kan worden opgebouwd of waardoor er niet meer gerekend kan worden. De resultaten van deze test kunnen gevonden worden onder sqlite checks in de HHNK toolbox. Hier kun je klikken op 'Bekijk fouten in model' onder het kopje 'Algemene tests'. In het resultaat wordt onderscheid gemaakt tussen fouten en waarschuwingen. Fouten moeten worden opgelost, waarschuwingen zijn aandachtspunten. In de resultaten wordt omschreven wat het probleem is. Waar nodig kunnen de waardes kunnen worden aangepast door naar de bijbehorende tabel te gaan die wordt aangegeven in de eerste kolom.
+  De algemene tests is een collectie van checks op fouten die ervoor zorgen dat het model niet kan worden opgebouwd of waardoor er niet meer gerekend kan worden. De resultaten van deze test kunnen gevonden worden onder sqlite checks in de HHNK toolbox. Hier kun je klikken op 'Bekijk fouten in model' onder het kopje 'Algemene tests'. In het resultaat wordt onderscheid gemaakt tussen fouten en waarschuwingen. Fouten moeten worden opgelost, waarschuwingen zijn aandachtspunten. In de resultaten wordt omschreven wat het probleem is. Waar nodig kunnen de waardes worden aangepast door naar de bijbehorende tabel te gaan die wordt aangegeven in de eerste kolom.
 
 * Test 8: Geïsoleerde watergangen
 
-  Deze test bepaalt welk aandeel van watergangen geen verbinding heeft met het maaiveld (isolated). Het aandeel mag niet te groot zijn omdat neerslag de watergangen dan onvoldoende kunnen bereiken. De resultaten van deze test kunnen direct bij het kopje 'Geïsoleerde watergangen' onder de sqlite checks in the HHNK toolbox gevonden worden.
+  Deze test bepaalt welk aandeel van watergangen geen verbinding heeft met het maaiveld (isolated). Het aandeel mag niet te groot zijn omdat neerslag de watergangen dan onvoldoende kan bereiken. De resultaten van deze test kunnen direct bij het kopje 'Geïsoleerde watergangen' onder de sqlite checks in the HHNK toolbox gevonden worden.
 
   <span style="color:yellow"> LN: @Wouter @Jelle *Wat is een realistisch Percentage geïsoleerde watergangen? Hoe kan dit worden aangepast*</span>
   
 * Test 9: Genereer grid
   
-  Deze test genereert het rekenraster onder andere op basis van grid refinements en rekencel grootte (bepaald in global settings). Voor deze test hoeft er niks gecontroleerd te worden. Het rekenraster kan terug gevonden worden onder...
+  Deze test genereert het rekengrid onder andere op basis van grid refinements en rekencel grootte (bepaald in global settings). Voor deze test hoeft er niks gecontroleerd te worden. Het rekenraster kan terug gevonden worden onder...
 
   <span style="color:yellow"> LN: @Wouter @Jelle *Waar kan het rekenraster terug gevonden worden?*</span>
 
@@ -99,7 +102,7 @@ De eenmalige tests zijn er om een aantal randvoorwaarden te controleren. Als gev
 
 * Test 2: Ontwateringsdiepte
 
-  Deze test controleert of het initiële water niveau per polder onder de maaiveldhoogte (DEM) ligt. Het initiële water niveau moet onder het oppervlak liggen. Het resultaat van deze test kan gevonden worden onder 'Lagen'. Hier bevindt zich een kaart met de naam 'ontwateringsdiepte'. Deze kaart geeft aan of het peil boven het maaiveld ligt (rood), of het peil net onder het maaiveld ligt (oranje) of dat het peil ruim voldoende onder het maaiveld ligt (groen).
+  Deze test controleert of het initiële waterpeil per polder onder de maaiveldhoogte (DEM) ligt. Het initiële waterpeil moet onder het oppervlak liggen. Het resultaat van deze test kan gevonden worden onder 'Lagen'. Hier bevindt zich een kaart met de naam 'ontwateringsdiepte'. Deze kaart geeft aan of het peil boven het maaiveld ligt (rood), of het peil net onder het maaiveld ligt (oranje) of dat het peil ruim voldoende onder het maaiveld ligt (groen).
 
   <span style="color:yellow"> LN: @Wouter @Jelle *Ik krijg hiervoor de error 'Unavailable layer'. Waar kan dit resultaat aangepast worden indien nodig?*</span>
 
