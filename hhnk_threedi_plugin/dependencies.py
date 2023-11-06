@@ -22,26 +22,22 @@ Functions are heavily inspired by/ copied from:
     https://github.com/nens/ThreeDiToolbox/blob/master/dependencies.py
 """
 
-import os
-import sys
-import pkg_resources
-import logging
-import subprocess
-from pathlib import Path
-import platform
 import importlib
-from collections import namedtuple
-import yaml
-from typing import List
-from platform import python_version
+import logging
+import os
+import platform
 import shutil
+import subprocess
+import sys
+from collections import namedtuple
+from pathlib import Path
+from platform import python_version
+from typing import List
 
+import pkg_resources
+import yaml
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QProgressDialog
-from PyQt5.QtWidgets import QProgressBar
-from PyQt5.QtWidgets import QApplication
-from PyQt5.QtWidgets import QMessageBox
-
+from PyQt5.QtWidgets import QApplication, QMessageBox, QProgressBar, QProgressDialog
 
 CREATE_NO_WINDOW = 0x08000000
 DETACHED_PROCESS = 0x00000008
@@ -61,9 +57,9 @@ LOG_DIR = HHNK_THREEDI_PLUGIN_DIR / "logs"
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 PATCH_DIR = HHNK_THREEDI_PLUGIN_DIR / "patches"
-PATCHES = {"downloader.py":DEPENDENCY_DIR/r"threedi_scenario_downloader/downloader.py"}
+PATCHES = {"downloader.py": DEPENDENCY_DIR / r"threedi_scenario_downloader/downloader.py"}
 
-USERDEPS =  ["jupyterlab", "ipywidgets"] #Dependencies in userfolder %appdata%/python/
+USERDEPS = ["jupyterlab", "ipywidgets"]  # Dependencies in userfolder %appdata%/python/
 
 Dependency = namedtuple("Dependency", ["package", "version"])
 
@@ -83,7 +79,7 @@ De volgende depencendies in deze QGIS python-environment zijn niet compatible me
 Verwijder deze packages, of update de <a href='file:{YML_PATH}'>environment.yml</a> om deze melding te laten verdwijnen.
 <br>
 En test de plugin voor deze omgeving wanneer je de environment.yml update(!)
-""" # noqa: E501
+"""  # noqa: E501
 
 """ Helper functions for QGIS QProgressDialog and  QMessageBox """
 
@@ -130,9 +126,7 @@ def _is_windows():
 
 
 def _is_qgis():
-    return any(
-        (i in _get_python_interpreter().lower() for i in ["qgis", "3di"])
-        )
+    return any((i in _get_python_interpreter().lower() for i in ["qgis", "3di"]))
 
 
 def _create_progress_dialog(missing_dependencies, qgis=_is_qgis()):
@@ -175,18 +169,14 @@ def _update_bar(bar, count, total, qgis=_is_qgis()):
         QApplication.processEvents()
 
 
-def _raise_inconsistency_warning(
-    correct_python_version, inconsistent_dependencies, qgis=_is_qgis()
-):
-    """Raise an inconsistency warning if environment is not compatible with yml.""" # noqa: E501s
+def _raise_inconsistency_warning(correct_python_version, inconsistent_dependencies, qgis=_is_qgis()):
+    """Raise an inconsistency warning if environment is not compatible with yml."""  # noqa: E501s
 
     msg = ""
     if not correct_python_version:
         msg = f"- python=={python_version()}<br>"
 
-    msg += "<br>".join(
-        [f"- {i.package}=={i.version} ({_package_location(i)})" for i in inconsistent_dependencies]
-    )
+    msg += "<br>".join([f"- {i.package}=={i.version} ({_package_location(i)})" for i in inconsistent_dependencies])
 
     if msg:
         msg = inconsist_deps_message.format(msg=msg)
@@ -201,6 +191,7 @@ def _raise_inconsistency_warning(
             msg_box.setFixedWidth(1000)
             msg_box.exec_()
 
+
 def _raise_restart_warning(qgis=_is_qgis()):
     """Raise restart warning after installation."""
     if qgis:
@@ -213,9 +204,7 @@ def _raise_restart_warning(qgis=_is_qgis()):
 def _add_logger_file_handler(log_file=LOG_DIR / "ensure_dependencies.log"):
     """Add a logger file_handler."""
     fh = logging.FileHandler(log_file)
-    fh.setFormatter(
-        logging.Formatter("%(asctime)s %(name)s %(levelname)s - %(message)s")
-    )
+    fh.setFormatter(logging.Formatter("%(asctime)s %(name)s %(levelname)s - %(message)s"))
     fh.setLevel(logging.DEBUG)
     logger.addHandler(fh)
     return fh
@@ -284,10 +273,10 @@ def _update_path(directories):
                 sys.path.append(str(dir_path))
                 logger.info(f"{dir_path} added to sys.path")
         else:
-            logger.warning(
-                f"{dir_path} does not exist and is not added to sys.path"
-                )
-#%%
+            logger.warning(f"{dir_path} does not exist and is not added to sys.path")
+
+
+# %%
 def _package_location(dependency):
     try:
         pkg = pkg_resources.get_distribution(dependency.package)
@@ -295,7 +284,10 @@ def _package_location(dependency):
         return f"<a href='file:{location.as_posix()}'>{location.as_posix()}</a>"
     except pkg_resources.DistributionNotFound:
         pass
-#%%    
+
+
+# %%
+
 
 def _evaluate_environment(yml_path: Path = YML_PATH):
     """
@@ -329,17 +321,11 @@ def _evaluate_environment(yml_path: Path = YML_PATH):
             pkg = pkg_resources.get_distribution(dependency.package)
             if dependency.version is not None:
                 if pkg.version != dependency.version:
-                    inconsistent_dependencies.append(
-                        Dependency(dependency.package, pkg.version)
-                    )
+                    inconsistent_dependencies.append(Dependency(dependency.package, pkg.version))
         except pkg_resources.DistributionNotFound:
             missing_dependencies.append(dependency)
 
-    return (
-        correct_python_version,
-        inconsistent_dependencies,
-        missing_dependencies
-        )
+    return (correct_python_version, inconsistent_dependencies, missing_dependencies)
 
 
 """ Installation of patches. Note (!) try to avoid patches!"""
@@ -407,9 +393,7 @@ def download_wheels(dependencies, directory=WHEEL_DIR, clean_dir=True):
         output, error = process.communicate()
         exit_code = process.wait()
         if exit_code:
-            logger.error(
-                f"Downloading {dependency.package} failed with: {error} {output}" # noqa: E501
-            )
+            logger.error(f"Downloading {dependency.package} failed with: {error} {output}")  # noqa: E501
 
 
 """ Helper functions to install missing dependencies. """
@@ -418,8 +402,8 @@ def download_wheels(dependencies, directory=WHEEL_DIR, clean_dir=True):
 def _refresh_python_import_mechanism():
     """Refresh the import mechanism.
     This is required when deps are dynamically installed/removed. The modules
-    'importlib' and 'pkg_resources' need to update their internal data structures. 
-    """ # noqa: E501
+    'importlib' and 'pkg_resources' need to update their internal data structures.
+    """  # noqa: E501
     # This function should be called if any modules are created/installed while your # noqa: E501
     # program is running to guarantee all finders will notice the new module’s existence. # noqa: E501
     importlib.invalidate_caches()
@@ -429,12 +413,7 @@ def _refresh_python_import_mechanism():
     importlib.reload(pkg_resources)
 
 
-def _install_dependency(
-        dependency: Dependency,
-        dialog=None,
-        startupinfo=None,
-        fh=None
-        ):
+def _install_dependency(dependency: Dependency, dialog=None, startupinfo=None, fh=None):
     """Install a dependency with pip"""
 
     command = [
@@ -499,7 +478,7 @@ def _install_dependency(
 
             Python-exception na import: {e}
 
-            """ # noqa: E501
+            """  # noqa: E501
 
             logger.error(msg)
 
@@ -513,14 +492,7 @@ def _install_dependency(
 
 def _uninstall_dependency(dependency, startupinfo=None):
     """Uninstall a dependency with pip"""
-    command = [
-        _get_python_interpreter(),
-        "-m",
-        "pip",
-        "uninstall",
-        "--yes",
-        (dependency.package)
-        ]
+    command = [_get_python_interpreter(), "-m", "pip", "uninstall", "--yes", (dependency.package)]
     process = subprocess.Popen(
         command,
         universal_newlines=True,
@@ -573,15 +545,13 @@ def ensure_dependencies(
             dir Defaults to DEPENDENCY_DIR.
         yml_path (Path, optional): Path to environment.yml Defaults to YML_PATH.
 
-    """ # noqa: E501
+    """  # noqa: E501
     # add log-file
     fh = _add_logger_file_handler()
 
     logger.info("start: ensuring dependencies")
 
-    logger.info(
-        f"python-interpreter {_get_python_interpreter()} is QGIS: {_is_qgis()}"
-        )
+    logger.info(f"python-interpreter {_get_python_interpreter()} is QGIS: {_is_qgis()}")
 
     # make sure all currently installed modules are patched if necessary
     _install_patches()
@@ -604,37 +574,26 @@ def ensure_dependencies(
 
     # try uninstalling inconsistent dependencies
     inconsistent_dependencies, missing_dependencies = _clean_inconsistent_dependencies(
-        inconsistent_dependencies,
-        missing_dependencies
-        )
+        inconsistent_dependencies, missing_dependencies
+    )
 
     # raise an inconsistency warning if environment is not consistent with tested plugin environment # noqa: E501
     if (not correct_python_version) or (inconsistent_dependencies):
-        _raise_inconsistency_warning(
-            correct_python_version,
-            inconsistent_dependencies
-            )
+        _raise_inconsistency_warning(correct_python_version, inconsistent_dependencies)
 
     if missing_dependencies:
-        logger.info(
-            f"missing dependencies: {' '.join([i.package for i in missing_dependencies])}" # noqa: E501
-        )
+        logger.info(f"missing dependencies: {' '.join([i.package for i in missing_dependencies])}")  # noqa: E501
         # create a QGIS progress dialog (if Windows)
-        dialog, bar, startupinfo = _create_progress_dialog(
-            missing_dependencies
-            )
+        dialog, bar, startupinfo = _create_progress_dialog(missing_dependencies)
 
         # loop trough missing dependencies
         for count, dependency in enumerate(missing_dependencies):
-
             # update dialog label
             _update_dialog(dialog, dependency)
 
             # install dependency
             logger.info(f"installing: {dependency.package}")
-            _install_dependency(
-                dependency, startupinfo=startupinfo, dialog=dialog, fh=fh
-            )
+            _install_dependency(dependency, startupinfo=startupinfo, dialog=dialog, fh=fh)
 
             # update progress bar
             _update_bar(bar, count, len(missing_dependencies))

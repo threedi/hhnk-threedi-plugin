@@ -1,29 +1,30 @@
 import os
-from PyQt5.QtCore import pyqtSignal, QMutex, QWaitCondition
-from qgis.core import QgsTask, Qgis
 
-from qgis.utils import QgsMessageLog, iface
-from hhnk_threedi_plugin.gui.sql_preview.model_changes_preview import modelChangesPreview
+import hhnk_research_tools as hrt
+import hhnk_threedi_tools as htt
 
 # new
 from hhnk_threedi_tools import BankLevelTest
+from hhnk_threedi_tools.variables.bank_levels import (
+    new_bank_level_col,
+    new_storage_area_col,
+)
 from hhnk_threedi_tools.variables.database_aliases import a_cross_loc_id
 from hhnk_threedi_tools.variables.database_variables import (
     bank_level_col,
     conn_node_id_col,
     storage_area_col,
 )
-from hhnk_threedi_tools.variables.bank_levels import (
-    new_bank_level_col,
-    new_storage_area_col,
-)
+from PyQt5.QtCore import QMutex, QWaitCondition, pyqtSignal
+from qgis.core import Qgis, QgsTask
+from qgis.utils import QgsMessageLog, iface
 
-from hhnk_threedi_plugin.tasks.utility_functions.handle_os_errors import check_os_error
-
-from hhnk_threedi_plugin.dependencies import HHNK_THREEDI_PLUGIN_DIR
 import hhnk_threedi_plugin.qgis_interaction.project as project
-import hhnk_research_tools as hrt
-import hhnk_threedi_tools as htt
+from hhnk_threedi_plugin.dependencies import HHNK_THREEDI_PLUGIN_DIR
+from hhnk_threedi_plugin.gui.sql_preview.model_changes_preview import (
+    modelChangesPreview,
+)
+from hhnk_threedi_plugin.tasks.utility_functions.handle_os_errors import check_os_error
 
 
 def get_bank_levels_manholes_task(results_widget, folder, output=True):
@@ -40,18 +41,15 @@ def get_bank_levels_manholes_task(results_widget, folder, output=True):
             folder, create_output=output, mutex=mutex, wait_cond=wait_cond
         )
         calculate_task.os_error.connect(check_os_error)
-        calculate_task.bank_level_widget_created.connect(
-            results_widget.tabs.add_bank_levels_tab
-        )
-        calculate_task.new_manholes_widget_created.connect(
-            results_widget.tabs.add_new_manholes_tab
-        )
+        calculate_task.bank_level_widget_created.connect(results_widget.tabs.add_bank_levels_tab)
+        calculate_task.new_manholes_widget_created.connect(results_widget.tabs.add_new_manholes_tab)
         return calculate_task
     except Exception as e:
         raise e from None
 
 
 description = "berekenen nieuwe bank levels en manholes"
+
 
 class calculateBankLevelsManholesTask(QgsTask):
     bank_level_widget_created = pyqtSignal(object)
@@ -138,9 +136,7 @@ class calculateBankLevelsManholesTask(QgsTask):
                 id_col=conn_node_id_col,
                 old_col=storage_area_col,
                 new_col=new_storage_area_col,
-                add_rows_ids=self.bl_test.results["new_manholes_df"][
-                    conn_node_id_col
-                ].tolist(),
+                add_rows_ids=self.bl_test.results["new_manholes_df"][conn_node_id_col].tolist(),
                 rows_selectable=True,
                 searchable=True,
             )
@@ -154,39 +150,30 @@ class calculateBankLevelsManholesTask(QgsTask):
         """
         if not result:
             if self.exception is None:
-                iface.messageBar().pushMessage(
-                    f"Taak {self.description} onderbroken", level=Qgis.Warning
-                )
+                iface.messageBar().pushMessage(f"Taak {self.description} onderbroken", level=Qgis.Warning)
             else:
                 iface.messageBar().pushMessage(
                     f"Taak {self.description} mislukt: zie Message Log",
                     level=Qgis.Critical,
                 )
                 QgsMessageLog.logMessage(
-                    '"{name}" Exception: {exception}'.format(
-                        name=self.description, exception=self.exception
-                    ),
+                    '"{name}" Exception: {exception}'.format(name=self.description, exception=self.exception),
                     level=Qgis.Critical,
                 )
                 raise self.exception
         else:
-            iface.messageBar().pushMessage(
-                f"Taak {self.description} succesvol uitgevoerd", level=Qgis.Info
-            )
+            iface.messageBar().pushMessage(f"Taak {self.description} succesvol uitgevoerd", level=Qgis.Info)
             try:
-                #if self.create_out:
+                # if self.create_out:
                 bank_levels_widget, new_manholes_widget = self.create_widgets()
                 self.bank_level_widget_created.emit(bank_levels_widget)
                 self.new_manholes_widget_created.emit(new_manholes_widget)
 
-                #Load layers
-                df_path = hrt.get_pkg_resource_path(package_resource=htt.resources,
-                                                    name="qgis_layer_structure.csv")
-                
+                # Load layers
+                df_path = hrt.get_pkg_resource_path(package_resource=htt.resources, name="qgis_layer_structure.csv")
+
                 proj = project.Project()
-                proj.run(layer_structure_path=df_path,
-                        subjects=['test_banklevels'],
-                        folder=self.folder)
-            
+                proj.run(layer_structure_path=df_path, subjects=["test_banklevels"], folder=self.folder)
+
             except Exception as e:
                 raise e from None

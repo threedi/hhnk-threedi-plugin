@@ -17,10 +17,7 @@ class generateGridTask(QgsTask):
 
         # we get the processing-tool parameters from folder
 
-        params = {
-            "INPUT_SPATIALITE": self.input_sqlite.as_posix(),
-            "OUTPUT": self.output_gpkg.as_posix()
-            }
+        params = {"INPUT_SPATIALITE": self.input_sqlite.as_posix(), "OUTPUT": self.output_gpkg.as_posix()}
 
         # we run the tool
         processing.run("threedi:threedi_generate_computational_grid", params)

@@ -1,26 +1,26 @@
 from msilib.schema import CheckBox
-from PyQt5.QtWidgets import (
-    QPushButton,
-    QVBoxLayout,
-    QGroupBox,
-    QGridLayout,
-    QFileDialog,
-    QLabel,
-    QCheckBox,
-    QFrame,
-    QSpacerItem,
-    QDialog,
-    QSizePolicy,
-    QHBoxLayout,
-    QApplication,
-)
-from qgis.core import QgsTask, Qgis
-from qgis.utils import QgsMessageLog, iface
+
 from PyQt5.QtCore import Qt, pyqtSignal
+from PyQt5.QtWidgets import (
+    QApplication,
+    QCheckBox,
+    QDialog,
+    QFileDialog,
+    QFrame,
+    QGridLayout,
+    QGroupBox,
+    QHBoxLayout,
+    QLabel,
+    QPushButton,
+    QSizePolicy,
+    QSpacerItem,
+    QVBoxLayout,
+)
+from qgis.core import Qgis, QgsTask
 from qgis.gui import QgsMessageBar
+from qgis.utils import QgsMessageLog, iface
+
 from hhnk_threedi_plugin.gui.utility.widget_interaction import update_button_background
-
-
 
 
 def setupUi(sqlite_dialog):
@@ -40,7 +40,7 @@ def setupUi(sqlite_dialog):
     sqlite_dialog.data_verification = QCheckBox("Data verificatie")
     sqlite_dialog.data_verification.setCheckable(True)
     sqlite_dialog.data_verification.setChecked(True)
-    
+
     ## versie met check-boxes per test
     # sqlite_dialog.impervious_surface_chk = QCheckBox("Ondoorlatend oppervlak")
     # sqlite_dialog.impervious_surface_chk.setObjectName("impervious_surface_chk")
@@ -65,13 +65,11 @@ def setupUi(sqlite_dialog):
     # sqlite_dialog.cross_section_no_vertex_chk = QCheckBox("Cross-section niet op channel vertex")
     # sqlite_dialog.cross_section_no_vertex_chk.setObjectName("cross_section_no_vertex_chk")
 
-
-
     # Create slow tests checkboxes and group
     sqlite_dialog.one_time_checks = QCheckBox("Eenmalige tests", sqlite_dialog.all_tests)
     sqlite_dialog.one_time_checks.setCheckable(True)
     sqlite_dialog.one_time_checks.setChecked(False)
-    
+
     ## versie met check-boxes per test
     # sqlite_dialog.max_dem_chk = QCheckBox(text="Maximale waarde DEM")
     # sqlite_dialog.max_dem_chk.setObjectName("max_dem_chk")
@@ -81,9 +79,9 @@ def setupUi(sqlite_dialog):
     # sqlite_dialog.watersurface_area_chk.setObjectName("watersurface_area_chk")
 
     # Layouts
-    #separator = QFrame()
-    #separator.setFrameShape(QFrame.HLine)
-    #separator.setFrameShadow(QFrame.Sunken)
+    # separator = QFrame()
+    # separator.setFrameShape(QFrame.HLine)
+    # separator.setFrameShadow(QFrame.Sunken)
 
     # Create checkboxes layout
     # quick checks
@@ -117,18 +115,19 @@ def setupUi(sqlite_dialog):
     sqlite_dialog.all_tests.setLayout(checkboxes_layout)
 
     # Main layout
-    #paths_selection = QLabel("Selecteer benodigde bestanden")
+    # paths_selection = QLabel("Selecteer benodigde bestanden")
     main_layout = QVBoxLayout()
     main_layout.setAlignment(Qt.AlignTop)
     main_layout.setContentsMargins(25, 25, 25, 25)
     main_layout.addWidget(sqlite_dialog.bar)
-    #main_layout.addWidget(paths_selection)
-    #main_layout.addLayout(path_selection_layout)
+    # main_layout.addWidget(paths_selection)
+    # main_layout.addLayout(path_selection_layout)
     main_layout.addSpacerItem(QSpacerItem(10, 5, QSizePolicy.Expanding))
     main_layout.addWidget(sqlite_dialog.all_tests)
     main_layout.addSpacerItem(QSpacerItem(10, 5, QSizePolicy.Expanding))
     main_layout.addWidget(sqlite_dialog.start_sqlite_tests_btn, alignment=Qt.AlignRight)
     sqlite_dialog.setLayout(main_layout)
+
 
 class sqliteCheckDialog(QDialog):
     """
@@ -152,7 +151,7 @@ class sqliteCheckDialog(QDialog):
         self.data_verification.clicked.connect(self.group_clicked)
         self.one_time_checks.clicked.connect(self.group_clicked)
         self.start_sqlite_tests_btn.clicked.connect(self.verify_submit)
-        
+
         for child in self.data_verification.findChildren(QCheckBox):
             child.setChecked(True)
 
@@ -175,7 +174,7 @@ class sqliteCheckDialog(QDialog):
         """Checks every checkbox. If one is enabled and checked, it is added
         to the list of selected tests"""
         lst = []
-        
+
         ## versie met check-boxes per test
         # for child in self.data_verification.findChildren(QCheckBox):
         #     if child.isEnabled() and child.isChecked():
@@ -195,14 +194,10 @@ class sqliteCheckDialog(QDialog):
                 "isolated_channels_chk",
                 "cross_section_duplicate_chk",
                 "cross_section_no_vertex_chk",
-                ]
+            ]
         if self.one_time_checks.isChecked():
-            lst += [
-                "max_dem_chk",
-                "dewatering_depth_chk",
-                "watersurface_area_chk"
-                ]
-        
+            lst += ["max_dem_chk", "dewatering_depth_chk", "watersurface_area_chk"]
+
         return lst
 
     def verify_submit(self):
@@ -215,7 +210,6 @@ class sqliteCheckDialog(QDialog):
         self.start_sqlite_tests.emit(self.selected_tests)
         self.accept()
         update_button_background(button=self.start_sqlite_tests_btn, color="green")
-
 
     def set_current_paths(self):
         """

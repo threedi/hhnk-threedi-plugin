@@ -1,6 +1,6 @@
-from hhnk_threedi_plugin.gui.general_objects import CsvAsTable
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton
-from hhnk_threedi_plugin.gui.general_objects import create_no_errors_label
+from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QWidget
+
+from hhnk_threedi_plugin.gui.general_objects import CsvAsTable, create_no_errors_label
 
 geometry_titel = "Algemene tests"
 
@@ -9,7 +9,7 @@ class generalChecksWidget(QWidget):
     def __init__(self, csv_path):
         super(generalChecksWidget, self).__init__()
         self.table = CsvAsTable(csv_path=csv_path)
-        self.table.setGeometry(100,100,900,900)
+        self.table.setGeometry(100, 100, 900, 900)
         self.btn = QPushButton("Bekijk fouten in model")
         self.btn.clicked.connect(self.table.show)
         layout = QVBoxLayout()

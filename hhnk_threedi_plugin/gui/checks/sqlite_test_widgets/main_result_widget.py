@@ -1,12 +1,12 @@
+from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import (
     QPushButton,
+    QTreeView,
     QTreeWidget,
     QTreeWidgetItem,
     QVBoxLayout,
-    QTreeView,
     QWidget,
 )
-from PyQt5.QtCore import pyqtSignal
 
 
 class SectionExpandButton(QPushButton):
@@ -16,9 +16,7 @@ class SectionExpandButton(QPushButton):
 
     def __init__(self, item, text="", parent=None):
         super().__init__(text, parent)
-        self.setStyleSheet(
-            "background-color: #a6a9ad; text-align: left; padding: 5px 10px 5px 10px"
-        )
+        self.setStyleSheet("background-color: #a6a9ad; text-align: left; padding: 5px 10px 5px 10px")
         self.section = item
         self.section.setExpanded(True)
         self.clicked.connect(self.on_clicked)

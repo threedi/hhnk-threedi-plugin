@@ -1,7 +1,6 @@
-
-from qgis.core import QgsProject
 from pathlib import Path
 
+from qgis.core import QgsProject
 
 
 # Loop through all layers in the project

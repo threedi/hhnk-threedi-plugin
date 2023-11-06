@@ -1,14 +1,16 @@
 from copy import copy
-from PyQt5.QtCore import pyqtSignal
-from qgis.core import QgsTask, Qgis
-from qgis.utils import QgsMessageLog, iface
+
 from hhnk_research_tools.threedi.construct_rain_scenario import construct_scenario
-from ..gui.threedi.construct_rain_scenario_plot import create_results_plot
 from hhnk_research_tools.threedi.construct_rain_scenario_dataframe import (
     create_results_dataframe,
 )
-from ..gui.threedi.confirm_rain_scenario_loaded import ConfirmScenario
 from hhnk_research_tools.threedi.variables.variables_container import ThreediInformation
+from PyQt5.QtCore import pyqtSignal
+from qgis.core import Qgis, QgsTask
+from qgis.utils import QgsMessageLog, iface
+
+from ..gui.threedi.confirm_rain_scenario_loaded import ConfirmScenario
+from ..gui.threedi.construct_rain_scenario_plot import create_results_plot
 
 load_description = "Laden 3di resultaten"
 
@@ -46,9 +48,7 @@ class load3diResultsTask(QgsTask):
                 self.days_dry_start,
                 self.days_dry_end,
             ) = construct_scenario(test_env=self.test_env)
-            self.df = create_results_dataframe(
-                self.timestep, self.days_dry_start, self.days_dry_end
-            )
+            self.df = create_results_dataframe(self.timestep, self.days_dry_start, self.days_dry_end)
             if self.confirm_scenario:
                 self.plotting_args = create_results_plot(
                     rain=self.rain,
@@ -70,27 +70,21 @@ class load3diResultsTask(QgsTask):
         """
         if not result:
             if self.exception is None:
-                iface.messageBar().pushMessage(
-                    f"Taak {self.description} onderbroken", level=Qgis.Warning
-                )
+                iface.messageBar().pushMessage(f"Taak {self.description} onderbroken", level=Qgis.Warning)
             else:
                 iface.messageBar().pushMessage(
                     f"Taak {self.description} mislukt: zie Message Log",
                     level=Qgis.Critical,
                 )
                 QgsMessageLog.logMessage(
-                    '"{name}" Exception: {exception}'.format(
-                        name=self.description, exception=self.exception
-                    ),
+                    '"{name}" Exception: {exception}'.format(name=self.description, exception=self.exception),
                     level=Qgis.Critical,
                 )
                 raise self.exception
         else:
             # On succesful run
             threedi_vars = ThreediInformation(result=self.result, df=self.df)
-            iface.messageBar().pushMessage(
-                f"Taak {self.description} succesvol uitgevoerd", level=Qgis.Info
-            )
+            iface.messageBar().pushMessage(f"Taak {self.description} succesvol uitgevoerd", level=Qgis.Info)
             if self.confirm_scenario:
                 confirm_dialog = ConfirmScenario(**self.plotting_args)
                 res = confirm_dialog.exec()

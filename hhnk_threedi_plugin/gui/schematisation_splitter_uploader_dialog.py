@@ -1,27 +1,26 @@
-from PyQt5.QtWidgets import (
-    QPushButton,
-    QVBoxLayout,
-    QGroupBox,
-    QGridLayout,
-    QFileDialog,
-    QLabel,
-    QCheckBox,
-    QFrame,
-    QSpacerItem,
-    QDialog,
-    QSizePolicy,
-    QHBoxLayout,
-    QApplication,
-)
-from qgis.core import QgsTask, Qgis
-from qgis.utils import QgsMessageLog, iface
-from PyQt5.QtCore import Qt, pyqtSignal
-from qgis.gui import QgsMessageBar
-
 import pandas as pd
+from PyQt5.QtCore import Qt, pyqtSignal
+from PyQt5.QtWidgets import (
+    QApplication,
+    QCheckBox,
+    QDialog,
+    QFileDialog,
+    QFrame,
+    QGridLayout,
+    QGroupBox,
+    QHBoxLayout,
+    QLabel,
+    QPushButton,
+    QSizePolicy,
+    QSpacerItem,
+    QVBoxLayout,
+)
+from qgis.core import Qgis, QgsTask
+from qgis.gui import QgsMessageBar
+from qgis.utils import QgsMessageLog, iface
+
 # from hhnk_threedi_plugin.gui.tests.verify_sqlite_tests_input import verify_input
 from hhnk_threedi_plugin.gui.utility.file_widget import fileWidget
-
 
 
 def setupUi(splitter_dialog):
@@ -40,9 +39,8 @@ def setupUi(splitter_dialog):
     splitter_dialog.schema_chk = {}
     splitter_dialog.upload_chk = {}
 
-
     for index, row in splitter_dialog.settings_df.iterrows():
-        schema_name=row['name']
+        schema_name = row["name"]
 
         # Schematisation name labels
         splitter_dialog.schema_label[schema_name] = QLabel(f"{schema_name}")
@@ -54,7 +52,7 @@ def setupUi(splitter_dialog):
         # Upload checkboxes
         splitter_dialog.upload_chk[schema_name] = QCheckBox("")
         splitter_dialog.upload_chk[schema_name].setObjectName(f"upload_{schema_name}_chk")
-    
+
     selection_label = QLabel("Selecteer schematisaties")
     selection_layout = QGridLayout()
     selection_layout.setAlignment(Qt.AlignTop)
@@ -67,15 +65,12 @@ def setupUi(splitter_dialog):
 
     rows = len(splitter_dialog.schema_chk)
     for index, row in splitter_dialog.settings_df.iterrows():
-        schema_name=row['name']
-        selection_layout.addWidget(splitter_dialog.schema_label[schema_name], index+1, 0)
-        selection_layout.addWidget(splitter_dialog.schema_chk[schema_name], index+1, 1)
-        selection_layout.addWidget(splitter_dialog.upload_chk[schema_name], index+1, 2)
+        schema_name = row["name"]
+        selection_layout.addWidget(splitter_dialog.schema_label[schema_name], index + 1, 0)
+        selection_layout.addWidget(splitter_dialog.schema_chk[schema_name], index + 1, 1)
+        selection_layout.addWidget(splitter_dialog.upload_chk[schema_name], index + 1, 2)
 
-    splitter_dialog.browse_btn = fileWidget(
-            file_dialog_title="Blabla", file_mode=QFileDialog.Directory
-        )
-
+    splitter_dialog.browse_btn = fileWidget(file_dialog_title="Blabla", file_mode=QFileDialog.Directory)
 
     main_layout = QVBoxLayout()
     main_layout.setAlignment(Qt.AlignTop)
@@ -87,8 +82,8 @@ def setupUi(splitter_dialog):
     main_layout.addWidget(splitter_dialog.start_upload_btn)
     main_layout.addWidget(splitter_dialog.browse_btn)
 
-
     splitter_dialog.setLayout(main_layout)
+
 
 class schematisationDialog(QDialog):
     """
@@ -107,19 +102,18 @@ class schematisationDialog(QDialog):
     def __init__(self, caller, parent):
         super(schematisationDialog, self).__init__(parent)
         self.caller = caller
-        self.setStyleSheet("""
+        self.setStyleSheet(
+            """
             QCheckBox::indicator {
             width: 30px;
             height: 30px
             }"""
         )
-        
+
     def set_current_paths(self):
         self.settings_df = pd.read_excel(self.caller.fenv.model.settings.path, engine="openpyxl")
-        
-        setupUi(self)
-        
 
+        setupUi(self)
 
 
 # %%

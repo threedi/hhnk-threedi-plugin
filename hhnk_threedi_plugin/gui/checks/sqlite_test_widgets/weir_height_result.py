@@ -1,19 +1,20 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QPushButton, QTextEdit
-from PyQt5.QtCore import pyqtSignal
-from qgis.utils import QgsMessageBar, Qgis
-from hhnk_threedi_plugin.gui.general_objects import (
-    create_view_layer_attributes_button,
-    create_no_errors_label,
-    create_layer_added_label,
-)
-from hhnk_threedi_plugin.gui.sql_preview.model_changes_preview import modelChangesPreview
 import hhnk_research_tools as hrt
-
-
+from hhnk_threedi_tools.utils.queries import create_update_reference_level_query
 from hhnk_threedi_tools.variables.database_aliases import a_weir_cross_loc_id
 from hhnk_threedi_tools.variables.database_variables import reference_level_col
 from hhnk_threedi_tools.variables.weirs import new_ref_lvl
-from hhnk_threedi_tools.utils.queries import create_update_reference_level_query
+from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtWidgets import QLabel, QPushButton, QTextEdit, QVBoxLayout, QWidget
+from qgis.utils import Qgis, QgsMessageBar
+
+from hhnk_threedi_plugin.gui.general_objects import (
+    create_layer_added_label,
+    create_no_errors_label,
+    create_view_layer_attributes_button,
+)
+from hhnk_threedi_plugin.gui.sql_preview.model_changes_preview import (
+    modelChangesPreview,
+)
 
 controlled_structs_titel = "Bodemhoogte stuw"
 
@@ -64,9 +65,7 @@ class refLevelUpdateDialog(QWidget):
             self.setWindowTitle("Uitgevoerde aanpassingen aan model")
             self.results.setHidden(False)
         except Exception as e:
-            self.message_bar.pushMessage(
-                "Changes could not be completed: " + str(e), Qgis.Critical
-            )
+            self.message_bar.pushMessage("Changes could not be completed: " + str(e), Qgis.Critical)
 
 
 class weirHeightWidget(QWidget):
@@ -79,9 +78,7 @@ class weirHeightWidget(QWidget):
         layer_button = create_view_layer_attributes_button(layer_source)
         self.dialog_button = QPushButton("Bekijk voorgestelde aanpassingen")
         self.dialog_button.clicked.connect(self.dialog.show)
-        self.dialog.query_executed.connect(
-            lambda: self.dialog_button.setText("Bekijk uitgevoerde aanpassingen")
-        )
+        self.dialog.query_executed.connect(lambda: self.dialog_button.setText("Bekijk uitgevoerde aanpassingen"))
         layout.addWidget(layer_label)
         layout.addWidget(layer_button)
         layout.addWidget(self.dialog_button)
@@ -90,9 +87,7 @@ class weirHeightWidget(QWidget):
 
 def create_weir_height_widget(layer_source, gdf, model_path):
     if not gdf.empty:
-        widget = weirHeightWidget(
-            layer_source=layer_source, gdf=gdf, model_path=model_path
-        )
+        widget = weirHeightWidget(layer_source=layer_source, gdf=gdf, model_path=model_path)
     else:
         widget = QWidget()
         layout = QVBoxLayout()

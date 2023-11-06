@@ -23,21 +23,23 @@
  This script initializes the plugin, making it known to QGIS.
 """
 from .dependencies import ensure_dependencies
+
 ensure_dependencies()
 
 # #TODO
 import sys
-#import os
 
-sys.path.append('.')
-# research tools installatie uit osgeo weghalen. Sys path append hier van de github repo. 
+# import os
+
+sys.path.append(".")
+# research tools installatie uit osgeo weghalen. Sys path append hier van de github repo.
 try:
     import hhnk_threedi_plugin.local_settings as local_settings
 except ModuleNotFoundError:
     import hhnk_threedi_plugin.local_settings_default as local_settings
-    
+
 # if local_settings.DEBUG:
-#     try: 
+#     try:
 #         if local_settings.hhnk_research_tools_path not in sys.path:
 #             sys.path.insert(0, local_settings.hhnk_research_tools_path)
 
@@ -60,8 +62,8 @@ except ModuleNotFoundError:
 #         import hhnk_threedi_tools
 
 
+# sys.path.append(local_settings.threeditoolbox_path)
 
-    #sys.path.append(local_settings.threeditoolbox_path)
 
 # noinspection PyPep8Naming
 def classFactory(iface):  # pylint: disable=invalid-name
@@ -73,6 +75,3 @@ def classFactory(iface):  # pylint: disable=invalid-name
     from .hhnk_toolbox import HHNK_toolbox
 
     return HHNK_toolbox(iface)
-
-
-

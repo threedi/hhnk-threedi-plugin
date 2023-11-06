@@ -1,7 +1,8 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout
+from PyQt5.QtWidgets import QVBoxLayout, QWidget
+
 from hhnk_threedi_plugin.gui.general_objects import (
-    create_view_layer_attributes_button,
     create_layer_added_label,
+    create_view_layer_attributes_button,
 )
 
 dewatering_title = "Drooglegging"

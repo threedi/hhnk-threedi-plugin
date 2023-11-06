@@ -1,8 +1,7 @@
-from qgis.core import QgsTask, Qgis
-import processing
-from qgis.utils import QgsMessageLog
 import pandas as pd
-
+import processing
+from qgis.core import Qgis, QgsTask
+from qgis.utils import QgsMessageLog
 
 description = "controleer een 3Di schematisatie op fouten: (threedi:check_schematisation)"
 
@@ -23,8 +22,8 @@ class checkSchematisationTask(QgsTask):
         params = {
             "INPUT": self.input_sqlite.as_posix(),
             "OUTPUT": self.output_csv.as_posix(),
-            "ADD_TO_PROJECT": self.add_to_project
-            }
+            "ADD_TO_PROJECT": self.add_to_project,
+        }
 
         # we run the tool
         result = processing.run("threedi:check_schematisation", params)
@@ -32,4 +31,3 @@ class checkSchematisationTask(QgsTask):
         if self.output_csv.exists():
             self.df = pd.read_csv(self.output_csv)
             self.error = (self.df.level == "ERROR").any()
-
