@@ -5,7 +5,6 @@ Hieronder vind je een beschrijving van alle brondata die wordt gebruikt voor de 
 
    Het model bevat de meeste informatie over de polder, zoals welke watergangen en kunstwerken zich in het gebied bevinden. Als er, bij het aanpassen van de modelstaat, backups worden aangemaakt worden die toegevoegd aan het model.
 
-
 2. DAMO
 
    De ```DAMO``` database is de gestandaardiseerde informatiebron waarvan de Waterschappen gebruik maken. De data uit de ```DAMO``` die gaat over het gebied dat het model beslaat, is opgeslagen in het ```DAMO.gdb``` file. Het model is in de meeste gevallen opgebouwd vanuit deze database.
@@ -19,27 +18,22 @@ Hieronder vind je een beschrijving van alle brondata die wordt gebruikt voor de 
    
    Beide tests maken deel uit van de ```Sqlite tests```
 
-
 3. HDB
    
    De ```HDB``` database (```.gdb```) bevat aanvullende informatie over het gebied dat het model representeert. Het gaat hier om informatie die niet in de ```DAMO``` kan worden opgeslagen, maar die wel relevant is voor hydrologische analyse. De ```HDB``` wordt gebruikt in de ```gestuurde kunstwerken``` test om informatie toe te voegen over de kunstwerken, zoals de object code, het streefpeil en de minimale en maximale kruinhoogtes. De gebruikte laag is 
-   ```Sturing_3Di```.
-   
+   ```Sturing_3Di```. 
    
 4. 3Di resultaten
 
    De 3Di resultaten worden gebruikt in de ```0d1d tests```, ```bank level tests``` en ```1d2d test```. De resultaten bevatten informatie over het gedrag van een model op verschillende tijdstappen tijdens het gesimuleerde scenario.
-   
 
 5. DEM
    
    Het DEM raster (Digital Elevation Model) bevat informatie over de maaiveldhoogte binnen het gebied dat het model beslaat. Deze informatie wordt gebruikt in de ```maximale waarde dem```, om te verifieren dat het raster klopt. Vervolgens wordt de informatie gebruikt in de ```ontwateringsdiepte``` test om het verschil tussen de bodemhoogte en het grondwaterniveau te berekenen. De DEM wordt ook gebruikt in de ```1d2d tests``` om de waterstanden op verschillende tijdstippen te berekenen.
 
-
 6. Polder shapefile
    
    De polder shapefile (```.shp```) bevat informatie over de grootte van het gebied waarvan het model een representatie is. Het wordt gebruikt in de ```ondoorlatend oppervlak``` test (```sqlite tests```) om te bepalen of het ondoorlatend oppervlak in het model redelijk is ten opzichte van de grootte van het gehele gebied.
-
 
 7. Datachecker output
    

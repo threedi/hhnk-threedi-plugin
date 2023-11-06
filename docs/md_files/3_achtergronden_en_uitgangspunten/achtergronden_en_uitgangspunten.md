@@ -5,10 +5,12 @@
 
 
 ### **Uitgangspunten 3Di BWN modellen**
+De uitgangspunten die worden gebruikt bij het maken van de 3Di modellen zijn hieronder toegelicht.
+
+
 
 Uit aangeleverde documenten:
 Uitgangspuntennotitie 3Di-modellen.docx
-
 
 misschien wat losse files maken voor:
 * ruimtekaart filtering plas watersysteem: Uitwerking filtering overlastbeeld en opzet ruimtekaart
