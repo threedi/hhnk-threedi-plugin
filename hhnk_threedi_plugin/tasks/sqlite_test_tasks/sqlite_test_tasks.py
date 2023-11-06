@@ -73,7 +73,7 @@ class controlledStructsTask(BaseSqliteTask):
 
     def run_custom(self):
         if self.os_retry is None:
-            self.sqlite_test.run_controlled_structures(overwrite=False)
+            self.sqlite_test.run_controlled_structures(overwrite=True)
         return True
 
     def finished_custom(self):

@@ -3,11 +3,12 @@
 import hhnk_threedi_plugin.qgis_interaction.load_layers_interaction as lli
 import qgis
 self = qgis.utils.plugins['hhnk_threedi_plugin']
-
+import hhnk_threedi_tools as htt
+import hhnk_research_tools as hrt
 
 folder = self.fenv
-df_path=r"E:\github\wvangerwen\hhnk-threedi-plugin\hhnk_threedi_plugin\qgis_interaction\layer_structure\testprotocol.csv"
-
+df_path = hrt.get_pkg_resource_path(package_resource=htt.resources,
+                                                    name="qgis_layer_structure.csv")
 #lli.load_layers(folder=folder, df_path=df_path, revisions={'0d1d_test':'','1d2d_test':'',"klimaatsommen":"batch_test"})
 
 
@@ -66,7 +67,6 @@ import pandas as pd
 from shapely import wkb
 import geopandas as gpd
 
-import hhnk_research_tools as hrt
 
 sqlite_path = folder.model.sqlite_paths[0]
 dem_path = folder.model.rasters.dem.path

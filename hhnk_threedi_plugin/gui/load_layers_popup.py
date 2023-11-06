@@ -15,18 +15,21 @@ from qgis.utils import QgsMessageBar, iface
 
 from hhnk_threedi_tools import SqliteCheck, MigrateSchema
 import hhnk_research_tools as hrt
+import hhnk_threedi_tools as htt
 
 # new
 
 from .general_objects import revisionsComboBox
-from hhnk_threedi_plugin.qgis_interaction.project import Project
+import hhnk_threedi_plugin.qgis_interaction.project as project
 from hhnk_threedi_plugin.qgis_interaction import load_layers_interaction
+from hhnk_threedi_tools.qgis import layer_structure
 
 # hhnk-threedi-tests
-from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
+from hhnk_threedi_plugin.dependencies import HHNK_THREEDI_PLUGIN_DIR
 
 # get plugin-tasks
 from hhnk_threedi_plugin.tasks import generateGridTask
+from hhnk_threedi_plugin.gui.utility.widget_interaction import update_button_background
 
 
 def setup_ui(load_layers_popup):
@@ -202,17 +205,15 @@ class loadLayersDialog(QDialog):
             
 
     def load_layers(self):
+        update_button_background(button=self.buttons, color="orange")
 
-        iface.messageBar().pushMessage(f"Inladen van lagen gestart", level=Qgis.Info)
+        iface.messageBar().pushMessage("Inladen van lagen gestart", level=Qgis.Info)
         
-        # set map canvas
-        project = Project()
-
-        df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'testprotocol.csv')
+        df_path = hrt.get_pkg_resource_path(package_resource=htt.resources,
+                                            name="qgis_layer_structure.csv")
         subjects=[]
-        revisions={'0d1d_test':'',
-                    '1d2d_test':'',
-                    'klimaatsommen':''}
+        revisions = layer_structure.SelectedRevisions()
+
 
         if self.sqlite_selector.isChecked() == True:
              
@@ -259,39 +260,34 @@ class loadLayersDialog(QDialog):
         # 0d1d test
         if self.zero_d_one_d_selector.currentText() != "":
             subjects.append('test_0d1d')
-            revisions['0d1d_test'] = self.zero_d_one_d_selector.currentText()
+            revisions.check_0d1d = self.zero_d_one_d_selector.currentText()
 
         # 1d2d test
         if self.one_d_two_d_selector.currentText() != "":
             subjects.append('test_1d2d')
-            revisions['1d2d_test'] = self.one_d_two_d_selector.currentText()
+            revisions.check_1d2d = self.one_d_two_d_selector.currentText()
 
         # Achtergrond
         if self.achtergrond_selector.isChecked() == True: #Todo naam button veranderen en andere achtergrond buttons weg.
             subjects.append('achtergrond')
 
-        #Laad geselecteerde lagen.
-        print(revisions)
-        if subjects != []:
-            load_layers_interaction.load_layers(folder=self.caller.fenv, 
-                                                df_path=df_path, 
-                                                revisions=revisions, 
-                                                subjects=subjects)
-
-
-        # Klimaatsommen #TODO staat nu in aparate csv. Zo houden voor de themes? Of juist samen nemen?
+        # Klimaatsommen
         if self.klimaatsommen_selector.currentText() != "":
-            df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'klimaatsommen.csv')
-            revisions = {'klimaatsommen':self.klimaatsommen_selector.currentText()}
-            subjects=['klimaatsommen']
-            load_layers_interaction.load_layers(folder=self.caller.fenv, 
-                                                df_path=df_path, 
-                                                revisions=revisions, 
-                                                subjects=subjects)
+            subjects.append('klimaatsommen')
+            revisions.klimaatsommen = self.klimaatsommen_selector.currentText()
+
+
+        #Laad geselecteerde lagen.
+        if subjects != []:
+            proj = project.Project()
+            proj.run(layer_structure_path=df_path,
+                        subjects=subjects,
+                        revisions=revisions,
+                        folder=self.caller.fenv)
 
         #TODO moet dit een keuze worden? 
-        project.zoom_to_layer(layer_name='polder_polygon')
+        # project.zoom_to_layer(layer_name='polder_polygon')
 
-
+        update_button_background(button=self.buttons)
         self.accept()
 

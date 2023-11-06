@@ -20,5 +20,3 @@ copy %PLUGIN_PATH%\api_key\api_key.txt %PLUGIN_PATH%\hhnk_threedi_plugin\api_key
 :@Catch
   call sendkeys.bat "QGIS" "^r" 
 :@EndCatch
-
-pause

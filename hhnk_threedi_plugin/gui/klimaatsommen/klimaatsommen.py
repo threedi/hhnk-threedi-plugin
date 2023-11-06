@@ -1,6 +1,4 @@
 import os
-import numpy as np
-from pathlib import Path
 from PyQt5.QtWidgets import (
     QPushButton,
     QFileDialog,
@@ -15,24 +13,17 @@ from PyQt5.QtWidgets import (
     QMessageBox,
     QComboBox,
 )
-from PyQt5.Qt import QApplication, QClipboard
 from ..general_objects import revisionsComboBox
 from PyQt5.QtCore import Qt, pyqtSignal
-from qgis.core import (
-    Qgis,
-    QgsProject,
-    QgsLayoutExporter,
-    QgsRenderContext,
-    QgsPathResolver,
-)
-from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
+
+from hhnk_threedi_plugin.dependencies import HHNK_THREEDI_PLUGIN_DIR
 from hhnk_threedi_plugin.gui.utility.widget_interaction import update_button_background
+from hhnk_threedi_tools.qgis import layer_structure
+import hhnk_threedi_plugin.qgis_interaction.project as project
+import hhnk_research_tools as hrt
+import hhnk_threedi_tools as htt
 
-
-# from ...qgis_interaction.configs.klimaatsommen import load_klimaatsommen_layers
-from hhnk_threedi_plugin.qgis_interaction import load_layers_interaction
-
-from ...qgis_interaction.klimaatsommen_pdfs import create_pdfs, load_print_layout
+from hhnk_threedi_plugin.qgis_interaction.klimaatsommen_pdfs import create_pdfs, load_print_layout
 
 SUBJECT = "Klimaatsommen"
 
@@ -53,7 +44,7 @@ class KlimaatSommenWidget(QWidget):
     klimaatsommen = pyqtSignal(object)
 
     def __init__(self, caller, parent=None):
-        super(KlimaatSommenWidget, self).__init__(parent)
+        super().__init__()
         self.setupUi()
         
         # ----------------------------------------------------------
@@ -77,6 +68,10 @@ class KlimaatSommenWidget(QWidget):
         self.create_clean_btn.clicked.connect(self.verify_submit_create_clean)
         self.select_revision_box.aboutToShowPopup.connect(self.populate_combobox)
         self.select_revision_box.currentTextChanged.connect(self.reset_buttons)
+
+    @property
+    def fenv(self):
+        return self.caller.fenv
 
 
     def setupUi(self):
@@ -113,16 +108,20 @@ class KlimaatSommenWidget(QWidget):
         """
 
         update_button_background(button=self.laad_layout_btn, color="orange")
-        self.fenv = self.caller.fenv
 
-        df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'klimaatsommen.csv')
-        revisions = {'klimaatsommen':self.select_revision_box.currentText()}
-        subjects=['klimaatsommen']
-        load_layers_interaction.load_layers(folder=self.caller.fenv, 
-                                            df_path=df_path, 
-                                            revisions=revisions, 
-                                            subjects=subjects,
-                                            remove_layer=True)
+        df_path = hrt.get_pkg_resource_path(package_resource=htt.resources,
+                                            name="qgis_layer_structure.csv")
+        
+        
+        
+        revisions = layer_structure.SelectedRevisions(klimaatsommen=self.select_revision_box.currentText())
+
+        #Load layers
+        proj = project.Project()
+        proj.run(layer_structure_path=df_path,
+                    subjects=['klimaatsommen'],
+                    revisions=revisions,
+                    folder=self.caller.fenv)
 
         load_print_layout()
         update_button_background(button=self.laad_layout_btn, color="green")
@@ -137,7 +136,7 @@ class KlimaatSommenWidget(QWidget):
             SUBJECT,
             """
                 Let op:
-                - De pdf's worden aangemaakt met het huidige extent!
+                - De pdf's worden aangemaakt met het huidige extent in de layout!
                 - Laadt de achtergrond laag in.
                 - Laadt de revisie laag in.
                 - Extents verschillen per monitor. Werkt het niet? Pas 

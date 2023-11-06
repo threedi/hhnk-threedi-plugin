@@ -1,47 +1,35 @@
 # %%
 # # -*- coding: utf-8 -*-
 """
-Created on Tue Nov 30 09:17:26 2021
-
-@author: chris.kerklaan
-
 #TODO:
-    1. Let groups be unique
     2. Add printcomposers
     
 """
-import os
-from tokenize import group
-from qgis.utils import iface
+import logging
+from pathlib import Path
+
+import hhnk_threedi_tools as htt
+from hhnk_threedi_tools.qgis import layer_structure
 from qgis.core import (
-    QgsProject,
-    QgsVectorLayer,
-    QgsRasterLayer,
-    QgsLayerTreeGroup,
+    QgsMapLayerStyle,
     QgsMapThemeCollection,
     QgsPrintLayout,
+    QgsProject,
+    QgsRasterLayer,
     QgsReadWriteContext,
+    QgsVectorLayer,
+    QgsLayoutExporter,
+    QgsRenderContext,
 )
-# %%
+
 from qgis.PyQt.QtXml import QDomDocument
-import pandas as pd
-import logging
-import itertools
+from qgis.utils import iface
+from typing import Union
+
+logger = logging.getLogger(__name__)
 
 
-logger=logging.getLogger(__name__)
-
-# # project structure
-TEST_STRUCTURE = {
-    "eerste": [],
-    "test": ["g1", "g2", "g3"],
-    "derde": ["layer1", "layer2"],
-    "vierde": ["layer1", "layer2"],
-    "yolo": [],
-}
-GROUP_STRUCTURE = list(TEST_STRUCTURE.keys())
-
-class Layer:
+class QgisLayer:
     """class used for multiple qgis layer:
     QgsVectorLayer
     QgsRasterLayer
@@ -49,156 +37,192 @@ class Layer:
 
     def __init__(
         self,
-        source_path: str,
-        layer_name: str,
-        type: str = None,
-        style_path=None,
-        subject="HTT",
-        group_lst = [],
+        settings: htt.qgis.QgisLayerSettings,
     ):
         """
         Parameters
         ----------
-        source_path : str
-            path to vector
-        layer_name : str
-            name of layer
-        style_path : str
-            poth to style
-        type : str
-            can be 'wms', 'vector' or 'raster'
-
+        settings : htt.qgis.QgisLayerSettings
         """
-        if type == None:
-            type = self.get_type(source_path)
 
-        if type == "vector":
-            self.layer = QgsVectorLayer(source_path, layer_name, "ogr")
-        elif type == "raster":
-            self.layer = QgsRasterLayer(source_path, layer_name)
-        elif type == "wms":
-            self.layer = QgsRasterLayer(source_path, layer_name, "wms")
-        elif type == "arcgismapserver":
-            self.layer = QgsRasterLayer(source_path, layer_name, "arcgismapserver")
-        elif type == "arcgisfeatureserver":
-            self.layer = QgsVectorLayer(source_path, layer_name, "arcgisfeatureserver")
+        self.settings = settings
+        self.instance = QgsProject.instance()
+        self._layer = None
+        self._layertreelayer = None
 
-        self.subject = subject
-        self.group_lst = group_lst
+    def get_qgis_layer(self):
+        """
+        create a qgis layer instance based on settings.
 
-        if style_path is not None:
-            self.style = style_path
-            # check style
-            if not os.path.exists(style_path):
-                self.send_message(f"Styling {style_path} does not exist")
-
-        # check layer
-        if not self.valid:
-            self.send_message(f"Layer {layer_name} not valid. Please check data-source: {source_path}")
+        Do not make this an attribute of QgisLayer! When removing the layer
+        the id will remain the same and weird errors will occur.
+        """
+        if self.settings.ftype in ["ogr", "arcgisfeatureserver"]:
+            return QgsVectorLayer(self.settings.source, self.settings.name, self.settings.ftype)
+        elif self.settings.ftype in ["gdal", "wms", "arcgismapserver"]:
+            return QgsRasterLayer(self.settings.source, self.settings.name, self.settings.ftype)
+        else:
+            print(f"ERROR: Layer {self.settings.name} has unknown ftype: {self.settings.ftype}")
 
     @property
     def name(self):
-        return self.layer.name()
-
-    @name.setter
-    def name(self, value):
-        self.layer.setLayerName(value)
+        return self.settings.name
 
     @property
-    def style(self):
-        return self._style
-
-    @style.setter
-    def style(self, path):
-        self.layer.loadNamedStyle(path)
-        self._style = path
-
+    def id(self):
+        return self.settings.id
+    
     @property
-    def valid(self):
-        return self.layer.isValid()
+    def layer(self):
+        if self._layer is None:
+            self._layer = self.get_layer()
+        return self._layer
 
-    @property
-    def source(self):
-        return self.layer
+    def add_styles(self):
+        """
+        Add styles to layer in project. Can add multiple styles.
+        """
+        style = QgsMapLayerStyle()
+        style.readFromLayer(self.layer)  # doesnt seem to work.
+        style_manager = self.layer.styleManager()
 
-    def send_message(self, message, level=1, duration=5):
-        print(self.subject, message)
-        iface.messageBar().pushMessage(
-            self.subject, message, level=level, duration=duration
-        )
+        for qml_path in self.settings.qml_lst:
+            if "__" in qml_path.base:
+                style_name = qml_path.stem.split("__")[-1]
+            else:
+                style_name = "default"
 
-    def get_type(self, file_name):
-        for ext in ['.shp', '.gdb', '.gpkg']:
-            if ext in file_name:
-                return "vector"
-        if ".tif" in file_name:
-            return "raster"
+            style_manager.addStyle(style_name, style)
+            style_manager.setCurrentStyle(style_name)
+
+            # load qml to current style
+            (message, success) = self.layer.loadNamedStyle(qml_path.base)
+            if not success:  # if style not loaded remove it
+                print(message)
+                style_manager.removeStyle(style_name)
+
+        style_manager.setCurrentStyle("default")
+
+    def add_to_project(self, qgis_group, reload=True):
+        """
+        qgis_group (QgisGroup)
+        """
+        qgis_layer = self.get_qgis_layer()  # dont set this as attribute. id must change when its removed.
+        if self.is_valid(qgis_layer):
+            # Find index of layer in avalailable layers in group
+            # print(self.id)
+            layer_keys = [l.layerId() for l in qgis_group.layer_list if self.name == l.name()]
+            if layer_keys:
+                # Break loop if no reload required
+                if not reload:
+                    pass
+                # remove all layers with name in group.
+                else:
+                    try:
+                        # for l in layer_keys:
+                        # Note that using removeMapLayers does not work because the
+                        # group has ownership of the layer. See addLayer in;
+                        # https://qgis.org/pyqgis/3.2/core/Layer/QgsLayerTreeGroup.html
+                        # Therefore we need to remove the child from the group itself.
+                        # Correction. using group.addLayer will not work properly
+                        self.instance.removeMapLayers(layer_keys)
+                        self._layer = None
+                    #                        for l in layer_keys:
+                    #                            qgis_group.layertreegroup.removeChildNode(l)
+                    #                            print(l)
+                    except:
+                        print(f"Could not remove {self.id} from project")
+                        raise
+
+            # We also need to add the layer to the instance, otherwise the group
+            # gets ownership over the layer, which will break some other things with
+            # styling and removing the layer.
+            self.instance.addMapLayer(qgis_layer, False)
+            self._layertreelayer = qgis_group.layertreegroup.addLayer(qgis_layer)  # returns QgsLayerTreeLayer.
+            # We need the QgsMapLayer for styles so we access that here.
+            self._layer = self._layertreelayer.layer()
+            self.add_styles()
+
+            # Set visibility (defaults to off)
+            self._layertreelayer.setItemVisibilityChecked(False)
+            self._layertreelayer.setExpanded(False)
+
+    def is_valid(self, qgis_layer) -> bool:
+        """Check if layer is valid, checked before adding to project"""
+
+        qml_valid = True
+        for qml_path in self.settings.qml_lst:
+            if not qml_path.exists():
+                print(f"Layer styling does not exist: {qml_path}")
+                qml_valid = False
+            else:
+                qml_valid = all((qml_valid, True))
+
+        # check layer
+        try:
+            layer_valid = qgis_layer.isValid()
+
+            if not layer_valid:
+                if not Path(qgis_layer.source().exists()):
+                    print(f"Layer source does not exist: {qgis_layer.source()}")
+
+        except Exception:
+            layer_valid = False
+            print(f"Layer {self.id} not valid. Please check data-source: {self.settings.file}")
+
+        return all((qml_valid, layer_valid))
+
+    def get_group(self):
+        """find group recursively"""
+        group = self.instance.layerTreeRoot()
+        for group_name in self.settings.group_lst:
+            group = group.findGroup(group_name)
+            if group is None:
+                return None
+        return group
+
+    def get_layer(self) -> Union[QgsVectorLayer, QgsRasterLayer]:
+        """Return the QGIS layer the self.name
+
+        Returns
+        -------
+        Union[QgsVectorLayer, QgsRasterLayer]
+            QGIS Layer
+        """
+        group = None
+        if self.settings.group_lst:
+            group = self.get_group()
+            if group: # find layer in group, if None, layer has been removed.
+                layer = next((child.layer() for child in group.children() if child.name() == self.name), None)
+            else: # Group does not exist, so layer has been removed.
+                layer = None
+        else: # No groups in QGIS instance.
+            layer = self.instance.mapLayersByName(self.name)
+        
+        return layer
+
+    def zoom_to_layer(self):
+        """Set canvas extent in qgis to layer extent."""
+        if self.layer is None:
+            print(f"Layer invalid, not setting extent: {self.id}")
+            return
+
+        canvas = iface.mapCanvas()
+        extent = self.layer.extent()
+        print("Setting extent to", extent)
+        print("Canvas", canvas)
+        canvas.setExtent(extent)
+        canvas.setExtent(extent)
 
 
-class Project:
-    """
-    Object used as interface to a qgis project
+class QgisAllThemes:
 
-    Recommended code for adding layers:
-
-    project = Project()
-    structure = {"test": ["g1", "g2", "g3"]}
-    for group_name, layer_list in structure.items():
-        layers = []
-        for layer_name in layer_list:
-            layers.append(
-            Layer(f"{layer_name}.shp",
-                  layer_name,
-                  "{layer_name}.qml",
-                  "vector")
-        project.add_layers(layers, group_name, reverse=False)
-
-    Note that all group names should be unique.
-    It is best to add all groups and subgroups first, before adding the layers.
-
-
-    """
-
-    def __init__(self, df_path=None, subjects=None, revisions={'0d1d_test':'','1d2d_test':'','klimaatsommen':''}):
+    def __init__(self) -> None:
         self.instance = QgsProject.instance()
-        self.root = self.instance.layerTreeRoot()
-        self.mapthemecollection = self.instance.mapThemeCollection()
-        self.layoutmanager = self.instance.layoutManager()
-        self.df_path = df_path
-        self.subjects = subjects
-        self.revisions=revisions
         
-
-        if df_path is not None:
-            self.df_full = pd.read_csv(self.df_path, sep=';') #Read csv from file with configuration for the available layers.
-            if subjects is not None:
-                self.df = self.df_full[self.df_full['subject'].isin(self.subjects)] #Filter on selected subjects.
-            else: 
-                self.df = self.df_full
-        
-
-    def __iter__(self):
-        for i in self.root.children():
-            yield i
-
-
-    def get_group_lsts_from_df(self, df, filter=None) -> list:
-        """List of group lists in dataframe. df is an input because for generating themes self.df_full is used."""
-        # group_structure_lst = self.df[['parent_group','child_group']].stack().groupby(level=0).apply(list).tolist()
-        # return list(k for k,_ in itertools.groupby(group_structure_lst))
-        
-        def local_eval(row):
-            """apply(eval) doesnt work, it doesnt recognise revisions unless specified in same function"""
-            revisions = self.revisions #required for eval
-
-            return eval(row)
-
-        group_lsts = df['group_lst'].apply(local_eval) 
-        if filter is None:
-            return group_lsts.to_list()
-        else:
-            return group_lsts[filter].to_list()
-
+    @property
+    def mapthemecollection(self):
+        return self.instance.mapThemeCollection()
 
     @property
     def theme_structure(self):
@@ -209,274 +233,189 @@ class Project:
         return structure
 
     @property
-    def group_list(self):
-        return [i for i in self if isinstance(i, QgsLayerTreeGroup)]
-
-    @property
-    def group_names(self):
-        return [i.name() for i in self.group_list]
-
-    @property
-    def layer_list(self):
-        layer_list = []
-        for k, layer in self.instance.mapLayers().items():
-            layer_list.append(layer)
-        return layer_list
-
-    @property
     def theme_names(self):
-        return self.instance.mapThemeCollection().mapThemes()
-
-    @property
-    def mapcanvas_extent(self):
-        return iface.mapCanvas().extent()
-
-
-    # @staticmethod
-    def get_layer_information_from_row(self, row, folder, HHNK_THREEDI_PLUGIN_DIR):
-        """retrieve all information to construct a layer from a row in the dataframe.
-        folder, HHNK_THREEDI_PLUGIN_DIR and revisiosn are needed for the eval functions.
-        """
-
-        filetype = row.filetype
-        revisions = self.revisions #required for eval in row.filedir and row.group_lst, has the keys: 0d1d_test, 1d2d_test and klimaatsommen
-
-        #Voor wms staat de volledige link die nodig is in row.wms_source.
-        if filetype in ['arcgismapserver', 'arcgisfeatureserver', 'wms']:
-            full_path = row.wms_source
-        else:
-            # try:
-            filedir = self.filedir_with_revision(row.filedir)
-            full_path = os.path.join(eval(str(filedir)), row.filename)
-            print(full_path)
-            if not pd.isna(row.filters):
-                full_path = f"{full_path}|{row.filters}"
-
-            # except Exception as e:
-            #     print(f'Could not evaluate {row.filedir}')
-            #     logger.warning(f'Could not evaluate {row.filedir}')
-            #     full_path=None
-
-
-        layer_name = row.qgis_name
-
-        if not pd.isna(row.qmldir) and not pd.isna(row.qmlname):
-            qml_path = os.path.join(eval(row.qmldir), row.qmlname)
-        else:
-            qml_path = None
-        print("qml_path", qml_path)
-
-        subject = row.subject
-
-        group_lst=eval(row.group_lst)
-
-        return full_path, layer_name, filetype, qml_path, subject, group_lst
-
-
-    def get_group(self, group_lst):
-        """find group recursively"""
-        group = self.root
-        for group_name in group_lst:
-            group = group.findGroup(group_name)
-            if group is None:
-                logging.warning(f'{group_name} not found')
-                return None
-        return group
-
+        return self.mapthemecollection.mapThemes()
 
     def get_theme(self, theme_name):
         return self.mapthemecollection.mapThemeState(theme_name)
 
-    def get_theme_layers(self, theme_name):
+    def get_theme_layers(self, theme_name:str) -> dict:
+        """
+        
+        Parameters
+        ----------
+        theme_name (str): name of theme
+
+        Returns
+        -------
+        dict {QgisVectorLayer.name(): QgisVectorLayer}
+        """
         theme = self.get_theme(theme_name)
 
-        names = []
+        layers = {}
         for record in theme.layerRecords():
-            names.append(record.layer().name())
-        return names
+            layer_record = record.layer()
+            layers[layer_record.name()] = layer_record
+        return layers
 
-    def get_layout(self, layout_name):
+    def add_theme(self, theme_settings, layers, verbose=False):
+        """Add a theme to qgis project. If the theme already exists, 
+        it wil instead add/replace layers.
+
+        Note that themes can be quite tricky if they are edited after they have been edited.
+        Therefore we here retrieve the layers in the theme and then remove it before 
+        creating it again, see issue #143
+
+        Parameters
+        ----------
+        theme_settings (htt.qgis.QgisThemeSettings): class with name and layerids
+        layers (pd.Series): series with QgisLayer entries.
+        verbose (bool, optional): 
+        """
+        if verbose:
+            print(f"Creating theme: {theme_settings.name}")
+
+        # Bestaande theme verwijderen, eerst layers ophalen. Omdat niet alle layers
+        # ook in theme_settings.layer_ids staan, bijvoorbeeld als er eerst een 
+        # 0d1d_check resultaat is ingeladen van een bepaalde revisie.
+        current_theme_layers = self.get_theme_layers(theme_settings.name)
+        self.mapthemecollection.removeMapTheme(theme_settings.name)
+        theme = self.get_theme(theme_settings.name)
+
+
+        if verbose:
+            print(f"\t\ttheme has layers: {current_theme_layers.keys()}")
+
+        theme_layers = {}
+
+        # Bestaande layers in de visibility preset overnemen. Layername blijft een 
+        # key en dus uniek. Deze wordt later overschreven als die ook in de theme_settings
+        # staat. Als er twee keer een 0d1d_check resultaat wordt ingeladen blijft de meest
+        # recent ingeladen group onder het thema hangen.
+        for layer_name, layer in current_theme_layers.items():
+            theme_layers[layer_name] = QgsMapThemeCollection.MapThemeLayerRecord(layer)
+            
+        for layer_id in theme_settings.layer_ids:
+            layer = layers[layer_id]
+
+            if layer.layer is not None:
+                if verbose:
+                    print(f"\tadd layer: {layer.layer}")
+
+                theme_layers[layer.name] = QgsMapThemeCollection.MapThemeLayerRecord(layer.layer)
+            else:
+                if verbose:
+                    print(f"\t--- {layer.name} layer not found")
+
+        theme.setLayerRecords(list(theme_layers.values()))
+        self.mapthemecollection.insert(theme_settings.name, theme)
+
+
+class QgisAllGroups:
+    def __init__(self, settings: htt.qgis.QgisAllGroupsSettings):
+        self.settings = settings
+        self.instance = QgsProject.instance()
+        self.root = self.instance.layerTreeRoot()
+        self.groups = {}  # group.id: class QgisGroup
+        self.layertreegroups = {}  # group.id: layertreegroup
+
+    def create_groups(self):
+        """Create groups recursively. Adds groups to the self.groups dict so we
+        can access those later."""
+        for group_settings in self.settings.groups.get_all_children():
+            # Load parent group layertree
+
+            if group_settings.parent_id == "":
+                self.layertreegroups[group_settings.id] = self.root
+            else:
+                self.layertreegroups[group_settings.id] = self.groups[
+                    group_settings.parent_id
+                ].parent_layertreegroup.findGroup(group_settings.parent_name)
+
+            if group_settings.id not in self.groups:
+                self.groups[group_settings.id] = QgisGroup(
+                    settings=group_settings,
+                    parent_layertreegroup=self.layertreegroups[group_settings.id],
+                )
+
+
+class QgisGroup:
+    """
+    QgisGroup instance that can recursively add groups to project
+
+    Parameters:
+    settings (htt.QgisGroupSettings):
+    parent_layertreegroup ():
+    """
+
+    def __init__(self, settings, parent_layertreegroup):
+        self.settings = settings
+        self.parent_layertreegroup = parent_layertreegroup
+
+        self.layertreegroup = self.get_or_create()
+
+    @property
+    def id(self):
+        """id of group"""
+        return self.settings.id
+
+    @property
+    def name(self):
+        """name of group"""
+        return self.settings.name
+
+    def get_or_create(self):
+        """Get the group and create if doesnt exist."""
+        layertreegroup = None
+        if self.parent_layertreegroup is not None:
+            layertreegroup = self.parent_layertreegroup.findGroup(self.name)
+
+        if layertreegroup is None:
+            if self.settings.load_group:
+                # TODO betere manier om dit bij te houden..
+                if self.settings.lvl != 1:
+                    group_index = -1
+                else:
+                    if self.settings.subject in ["achtergrond", "test_protocol"]:
+                        group_index = -1
+                    else:
+                        group_index = 0
+
+                print(f"group:{self.name}. lvl: {self.settings.lvl}. idx: {group_index}")
+
+                layertreegroup = self.parent_layertreegroup.insertGroup(index=group_index, name=self.name)
+                layertreegroup.setItemVisibilityChecked(False)
+                layertreegroup.setExpanded(False)
+        return layertreegroup
+
+    @property
+    def layer_list(self) -> list:
+        """returns QgsLayerTreeLayer, not QgsVectorLayer
+        QgsLayerTreeLayer.layer() returns the QgsVectorLayer which is used for adding
+        layer to project.
+        """
+        # return [j for j in [i.layer() for i in self.layertreegroup.findLayers()] if j is not None]
+        return [i for i in self.layertreegroup.findLayers()]
+
+
+class QgisPrintLayout:
+    """Layout manager met voorgedefineerde kaarten. 
+    Kan templates toevoegen en laden"""
+
+    def __init__(self) -> None:
+        self.instance = QgsProject.instance()
+        self.layoutmanager = self.instance.layoutManager()
+
+    def get_layout(self, layout_name:str):
+        """Get layout bij name"""
         return self.layoutmanager.layoutByName(layout_name)
 
-
-    def add_layers(self, layers, group_lst=None, reverse=False):
-        if reverse:
-            layers.reversed()
-
-        for layer in layers:
-            self.add_layer(layer, group_lst)
-
-
-    def get_layer(self, layer_name, group_lst=[], layertreelayer=False):
-        """Return layer in whole project, or only the layer in the given group.
-        When group_lst is empty it will search for the layer in the whole project.
-        It is currently not possible to search for layers only in the root. 
-        When layertreelayer == True, return that object instead of the QgsVectorLayer.
-        This object is needed when toggeling visibility in the layer tree"""
-        group=None
-        if group_lst:
-            group = self.get_group(group_lst)
-            if group:
-                #.layer returns QgsVectorLayer instead of QgsLayerTreeLayer
-                layer = [child.layer() for child in group.children() if child.name()==layer_name] 
-            else: 
-                logging.error(f'group: {group_lst} does not exist')
-                return None
-        else:
-            layer = self.instance.mapLayersByName(layer_name)
-
-
-        if len(layer)==0:
-            return None
-        elif not layertreelayer:
-            return layer[0]
-        elif layertreelayer:
-            if group:
-                return group.findLayer(layer[0].id())
-            else:
-                return self.root.findLayer(layer[0].id())
-
-
-    def add_layer(self, layer: Layer, group_lst=None, visible=False):
-        """Appends a layer to a group, creates a group if not exist"""
-
-        self.instance.addMapLayer(layer.source, False)
-        if group_lst:
-            group = self.add_group(group_lst)
-            q_layer=group.addLayer(layer.source)
-        else:
-            q_layer=self.root.addLayer(layer.source)
-
-        #Set visibility (defaults to off)
-        q_layer.setItemVisibilityChecked(visible)
-        q_layer.setExpanded(False)
-
-
-    def set_visibility(self, layer_name, group_lst, visible):
-        """Find layer in layertree and set visibility"""
-        layer = self.get_layer(layer_name=layer_name, group_lst=group_lst, layertreelayer=True)
-        if layer:
-            layer.setItemVisibilityChecked(visible)
-
-
-    def set_expanded(self, layer_name, group_lst, expanded=False):
-        """Collapse layers in the layer tree"""
-        layer = self.get_layer(layer_name=layer_name, group_lst=group_lst, layertreelayer=True)
-        if layer:
-            layer.setExpanded(expanded)
-
-
-    def remove_layer(self, layer_name, group_lst=None):
-        """Remove layer, from group if defined."""
-        layer = self.get_layer(layer_name=layer_name, group_lst=group_lst)
-        if layer:
-            self.instance.removeMapLayer(layer.id())
-
-
-    def _group_index(self, group_name) -> int: #TODO deprecated? fix group_structure?
-        """locates the nearest index based on the layer above
-        if we cannot find this, we place it on top
-        """
-        # use a while loop to get the nearest adjacent group
-        structure_index = self.group_structure.index(group_name)
-        group_names = self.group_names
-
-        index = None
-        while structure_index > 0 and index is None:
-            group_name_above = self.group_structure[structure_index - 1]
-            if group_name_above in group_names:
-                index = group_names.index(group_name_above) + 1
-            else:
-                structure_index = structure_index - 1
-
-        if structure_index == 0:
-            index = 0
-
-        return index
-
-
-    def add_group(self, group_lst: list, index=-1) -> QgsLayerTreeGroup:
-        """creates a group and appends the group to the root in the right order
-        return an existing group if already exists
-        """
-        group = self.get_group(group_lst)
-        if group is not None:
-            return group
-
-        # if index is None: #FIXME Disabled this for now until _group_index works again
-        #     index = self._group_index(group_lst[0])
-
-        parent_found=0 #If no parent the whole group_lst should be created
-        for i in range(len(group_lst),0,-1):
-            # print(group_lst[:i])
-            group = self.get_group(group_lst[:i])
-            if group:
-                # print(f'group {group.name()} found')
-                parent_found=1 #group exists, now lets makee the children that didnt exist.
-                break
-
-        #Continue loop where broken to start building the groups
-        if group is None:
-            group = self.root
-
-        for j in range(i-1+parent_found, len(group_lst)): #some magic with index required to create the correct group.
-            group = group.insertGroup(index, group_lst[j])
-            group.setItemVisibilityChecked(False)
-            group.setExpanded(False)
-            # print(f'create {group_lst[j]}')
-        return group
-
-
-
-# %%
-
-    # def add_subgroup(self, group_name, parent_group_name):
-    #     """adds a group under a group"""
-    #     if pd.isna(group_name):
-    #         logger.error('Tried to create subgroup but value isnan.')
-    #         return None
-
-    #     parent_group = self.get_group(parent_group_name)
-    #     if parent_group is None:
-    #         parent_group = self.add_group(parent_group_name)
-
-    #     group = self.get_group(group_name)
-    #     if group is not None:
-    #         return group
-
-    #     group = parent_group.addGroup(group_name)
-    #     group.setExpanded(False)
-    #     return group
-
-
-    def add_theme(self, theme_name, layer_names, group_lsts):
-        """theme name is the name of the theme and
-        layer names is the name of the layer which is visible
-        if layer does not exists it get skipped
-        """
-
-        collection = self.instance.mapThemeCollection()
-        theme = collection.mapThemeState(theme_name)
-
-        records = []
-        for layer_name, group_lst in zip(layer_names, group_lsts):
-            print(layer_name, group_lst)
-            layer = self.get_layer(layer_name=layer_name, group_lst=group_lst)
-            print(layer)
-            if layer:
-                records.append(QgsMapThemeCollection.MapThemeLayerRecord(layer))
-
-        theme.setLayerRecords(records)
-        collection.insert(theme_name, theme)
-
-
-    def add_print_layout_template(self, template_path, name):
+    def add_from_template(self, template_path, name):
+        """Add a layout from template file (.qpt)"""
         layout = self.get_layout(name)
-        if layout is not None:
-            self.send_message(f"Layout {name} already exists, replacing!")
 
         layout = QgsPrintLayout(self.instance)
-        with open(template_path) as f:
+        with open(template_path, "r", encoding=None) as f:
             template_content = f.read()
         doc = QDomDocument()
         doc.setContent(template_content)
@@ -487,91 +426,98 @@ class Project:
         layout.setName(name)
         self.instance.layoutManager().addLayout(layout)
 
+    def create_pdf_from_composer(self,
+        composer_name,
+        title,
+        subtitle,
+        legenda_ids,
+        selected_legenda,
+        theme,
+        output_file,
+    ):
+        """Create pdf from a print compusing using """
+        layout_item = self.get_layout(composer_name)
 
-    def generate_themes(self, revision=None):
-        """Generate themes based on all columns in the dataframe that start with 'theme_'"""
-        theme_col_names = [i for i in self.df_full.keys() if i.startswith('theme_')]
+        # -------------------------------------------------------------------------------------
+        # Change layout settings
+        # -------------------------------------------------------------------------------------
+        label_item = layout_item.itemById("titel")
+        label_item.setText(title)
 
-        for theme_col_name in theme_col_names:
-            layer_names = self.df_full.loc[self.df_full[theme_col_name]==True, 'qgis_name'].tolist()
-            group_lsts = self.get_group_lsts_from_df(df=self.df_full, filter=self.df_full[theme_col_name]==True)
-            theme_name = theme_col_name[6:] #remove str theme_
+        label_item = layout_item.itemById("subtitel")
+        label_item.setText(subtitle)
 
-            #TODO - Super ugly quick fix for adding the background and adding revisions
-            
-            # don't forget the background
-            layer_names.extend(["Luchtfoto actueel (PDOK)"])
-            group_lsts.extend([["Achtergrond"]])
-            
-            for i in range(0, len(group_lsts)):
-                group_lsts[i][0] = group_lsts[i][0].replace("Klimaatsommen []", f"Klimaatsommen [{self.revisions['klimaatsommen']}]")
-            
-            # and dont for
-            print(theme_name, layer_names, group_lsts)
-            self.add_theme(theme_name, layer_names, group_lsts=group_lsts)
+        # Hide all legend items, only show selected legend.
+        for legenda_id in legenda_ids:
+            legenda_item = layout_item.itemById(legenda_id)
+            legenda_item.setVisibility(False)
+            if legenda_id == selected_legenda:
+                legenda_item.setVisibility(True)
 
+        ref_map = layout_item.referenceMap()
+        ref_map.setFollowVisibilityPresetName(theme)
 
-    def generate_groups(self, group_index=-1):
-        """generates all groups and subgroups based on self.structure"""
-        for group_lst in self.get_group_lsts_from_df(df=self.df):
-            self.add_group(group_lst=group_lst, index=group_index)
-
-
-    def write_styling(self, path):
-        for layer in self.layer_list:
-            name = layer.name()
-            name = self.standardize_name(name)
-            layer.saveNamedStyle(f"{path}/{name}.qml")
-            layer.saveSldStyle(f"{path}/{name}.sld")
-
-
-    def standardize_name(self, name):
-        """names are edited spaces become _ and are : removed, lowered"""
-        return name.replace(" ", "_").replace(":", "").lower()
-
-
-    def send_message(self, message, level=1, duration=5):
-        self.subject="" #FIXME self.subject was replaced by self.subjects
-        # print(self.subject, message)
-        iface.messageBar().pushMessage(
-            self.subject, message, level=level, duration=duration
-        )
+        # Poging om extent goed te zetten, maar handmatig is beter.
+        # ref_map.setExtent(project.mapcanvas_extent)
         
-    
-    def zoom_to_layer(self, layer_name, group_lst=[]):
+        # -------------------------------------------------------------------------------------
+        # Export
+        # -------------------------------------------------------------------------------------
+        pdf_settings = QgsLayoutExporter.PdfExportSettings()
+        pdf_settings.textRenderFormat = (
+            QgsRenderContext.TextFormatAlwaysText
+        )  # If not changed the labels will be ugly in the pdf
 
-        layer = self.get_layer(layer_name=layer_name, group_lst=group_lst)
-        if layer is None:
-            print("Layer unvalid not setting extent")
-            return
-            
-        canvas = iface.mapCanvas()
-        extent = layer.extent()
-        print("Setting extent to", extent)
-        print("Canvas", canvas)
-        canvas.setExtent(extent)
-        canvas.setExtent(extent)
+        # image_settings = QgsLayoutExporter.ImageExportSettings()
 
-    def filedir_with_revision(self, filedir):
-        if "one_d_two_d" in filedir:
-            return filedir.replace("revision", f"'{self.revisions['1d2d_test']}'")
-        elif "zero_d_one_d" in filedir:
-            return filedir.replace("revision", f"'{self.revisions['0d1d_test']}'")
-        else:
-            return filedir
-    # def iter_parent(self, parent_group):
-    #     """iter over a single parent in the df. """
-    #     df_parent = self.df.query(f"parent_group=='{parent_group}'")
-    #     for index, row in df_parent.iterrows():
-    #         yield index, row
+        export = QgsLayoutExporter(layout_item)
+        result = export.exportToPdf(output_file, pdf_settings)
+        return result
 
+class Project:
+    """
+    Project instance which loads a layer_structure from file and then
+    creates groups, loads layers, generates themes
+    """
 
-    # def iterrows(self):
-    #     """Iter over the whole df"""
-    #     for group_lst in self.get_group_lsts:
-    #         for index, row in self.iter_parent(group_lst[0]):
-    #             yield index, row
-            
+    def __init__(self, verbose=False):
+        self.structure = None  # fill using self.get_structure() or self.run()
+        self.groups = None
+        self.layers = {}
+        self.themes = QgisAllThemes()
+        self.layout = QgisPrintLayout()
+        self.verbose = verbose
 
-# project = Project(df_path=r"C:\Users\chris.kerklaan\AppData\Roaming\QGIS\QGIS3\profiles\default\python\plugins\hhnk_threedi_plugin\qgis_interaction\layer_structure/klimaatsommen.csv")
-# project.generate_themes()
+    def get_structure(self, layer_structure_path, subjects, revisions, folder):
+        """Load layer structure from file"""
+        self.structure = layer_structure.LayerStructure(
+            layer_structure_path=layer_structure_path, subjects=subjects, revisions=revisions, folder=folder
+        )
+        self.structure.run()
+
+    def add_layers(self):
+        """Add selected layers to project"""
+        for layer in self.structure.layers:
+            qgis_layer = QgisLayer(layer)
+            if qgis_layer.settings.load_layer:
+                qgis_layer.add_to_project(qgis_group=self.groups.groups[qgis_layer.settings.group_id])
+            self.layers[qgis_layer.id] = qgis_layer
+
+    def add_themes(self):
+        """get themes from settings."""
+        for theme_settings in self.structure.themes:
+            self.themes.add_theme(theme_settings=theme_settings, layers=self.layers, verbose=self.verbose)
+
+    def run(self,
+            layer_structure_path=None,
+            subjects=None,
+            revisions: htt.SelectedRevisions = htt.SelectedRevisions(),
+            folder=None,
+            **kwargs):
+        """Run project, load layer structure and load selected layers."""
+        self.get_structure(layer_structure_path, subjects, revisions, folder, **kwargs)
+        self.groups = QgisAllGroups(settings=self.structure.groups)
+
+        self.groups.create_groups()
+        self.add_layers()
+        self.add_themes()

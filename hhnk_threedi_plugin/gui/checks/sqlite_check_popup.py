@@ -18,9 +18,6 @@ from qgis.core import QgsTask, Qgis
 from qgis.utils import QgsMessageLog, iface
 from PyQt5.QtCore import Qt, pyqtSignal
 from qgis.gui import QgsMessageBar
-# from hhnk_threedi_plugin.gui.tests.verify_sqlite_tests_input import verify_input
-from hhnk_threedi_plugin.tasks.task_sqlite_tests_main import task_sqlite_tests_main
-from hhnk_threedi_plugin.qgis_interaction import load_layers_interaction
 from hhnk_threedi_plugin.gui.utility.widget_interaction import update_button_background
 
 
@@ -196,7 +193,6 @@ class sqliteCheckDialog(QDialog):
                 "structs_channel_chk",
                 "general_tests_chk",
                 "isolated_channels_chk",
-                "grid_chk",
                 "cross_section_duplicate_chk",
                 "cross_section_no_vertex_chk",
                 ]

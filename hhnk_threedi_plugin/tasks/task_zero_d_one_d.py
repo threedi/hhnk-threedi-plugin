@@ -9,15 +9,16 @@ if __name__ == '__main__':
 import hhnk_research_tools as hrt
 import hhnk_threedi_tools.core.checks.zero_d_one_d as htt_0d1d
 import hhnk_threedi_tools.core.checks.grid_result_metadata as grid_result_metadata
-from hhnk_threedi_plugin.qgis_interaction import load_layers_interaction
-from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
+from hhnk_threedi_tools.qgis import layer_structure
+import hhnk_threedi_plugin.qgis_interaction.project as project
+from hhnk_threedi_plugin.dependencies import HHNK_THREEDI_PLUGIN_DIR
 import os
+import hhnk_threedi_tools as htt
 
 from qgis.core import Qgis
 from qgis.utils import QgsMessageLog
 
 if __name__ == '__main__':
-    import hhnk_threedi_tools as htt
     path = r'C:\Users\wvangerwen\Downloads\model_test_v2'
     folder = htt.folders(path)
     revision='BWN bwn_test #5 0d1d_test'
@@ -52,15 +53,14 @@ def task_zero_d_one_d(folder, revision):
     gdf_node.to_file(output_file_node, driver='GPKG', index=False)
 
     #Add layers to project
-    df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'testprotocol.csv')
-    revisions={'0d1d_test':revision,
-                '1d2d_test':'',
-                'klimaatsommen':''}
+    df_path = hrt.get_pkg_resource_path(package_resource=htt.resources,
+                                                    name="qgis_layer_structure.csv")
+    revisions = layer_structure.SelectedRevisions(check_0d1d=revision)
 
-    load_layers_interaction.load_layers(folder=folder, 
-                                df_path=df_path, 
-                                revisions=revisions, 
-                                subjects=['test_0d1d'])
-
+    proj = project.Project()
+    proj.run(layer_structure_path=df_path,
+                subjects=['test_0d1d'],
+                revisions=revisions,
+                folder=folder)
 
 # %%

@@ -47,20 +47,20 @@ CREATE_NO_WINDOW = 0x08000000
 DETACHED_PROCESS = 0x00000008
 
 # Globals
-OUR_DIR = Path(__file__).parent
-DEPENDENCY_DIR = OUR_DIR / "external-dependencies"
+HHNK_THREEDI_PLUGIN_DIR = Path(__file__).parent
+DEPENDENCY_DIR = HHNK_THREEDI_PLUGIN_DIR / "external-dependencies"
 DEPENDENCY_DIR.mkdir(parents=True, exist_ok=True)
-THREEDI_DEPENDENCY_DIR = OUR_DIR.parent / "ThreeDiToolbox" / "deps"
+THREEDI_DEPENDENCY_DIR = HHNK_THREEDI_PLUGIN_DIR.parent / "ThreeDiToolbox" / "deps"
 
-WHEEL_DIR = OUR_DIR / "wheels"
+WHEEL_DIR = HHNK_THREEDI_PLUGIN_DIR / "wheels"
 WHEEL_DIR.mkdir(parents=True, exist_ok=True)
 
-YML_PATH = OUR_DIR.joinpath("env", "environment.yml")
+YML_PATH = HHNK_THREEDI_PLUGIN_DIR.joinpath("env", "environment.yml")
 
-LOG_DIR = OUR_DIR / "logs"
+LOG_DIR = HHNK_THREEDI_PLUGIN_DIR / "logs"
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 
-PATCH_DIR = OUR_DIR / "patches"
+PATCH_DIR = HHNK_THREEDI_PLUGIN_DIR / "patches"
 PATCHES = {"downloader.py":DEPENDENCY_DIR/r"threedi_scenario_downloader/downloader.py"}
 
 USERDEPS =  ["jupyterlab", "ipywidgets"] #Dependencies in userfolder %appdata%/python/

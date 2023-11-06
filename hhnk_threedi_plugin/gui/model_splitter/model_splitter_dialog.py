@@ -31,7 +31,7 @@ def strip_special_characters(input_string):
 
 class modelSplitterDialog(QtWidgets.QDialog):
     def __init__(self, caller, parent=None):
-        super(modelSplitterDialog, self).__init__(parent)
+        super().__init__(parent)
 
         uic.loadUi(os.path.join(os.path.dirname(__file__), "model_splitter_dialog.ui"),self)
         self.caller=caller
@@ -40,16 +40,17 @@ class modelSplitterDialog(QtWidgets.QDialog):
         self.api_key = self.dockwidget.threedi_api_key_textbox.text()
         self.sql_error = None
         self.model_splitted = False
+        self.settings_path = False #Track so we only update when xlsx was changed.
 
         # init widget
         self.dockwidget.model_splitter_btn.clicked.connect(self.migration_check)
         self.dockwidget.model_splitter_btn.clicked.connect(self.init_widgets)
-        self.model_settings_path.fileChanged.connect(self.init_widgets)
+        self.model_settings_path.fileChanged.connect(self.update_widgets)
 
         # checking model-consistency
         self.enabled_list.itemChanged.connect(self.check_consistency_enabled_models)
 
-        # creating schematisations, revisions and enable the upload process          
+        # creating schematisations, revisions and enable the upload process
         self.run_splitter_btn.clicked.connect(self.revision_check)
         self.run_splitter_btn.clicked.connect(self.create_schematisations)
         self.check_push_btn.clicked.connect(self.sqlite_check)
@@ -60,24 +61,36 @@ class modelSplitterDialog(QtWidgets.QDialog):
 
         # other stuff
         self.rejected.connect(self.close_widget)
-        self.close_btn.clicked.connect(self.close_widget)      
+        self.close_btn.clicked.connect(self.close_widget)
         self.model_settings_path.setFilePath(self.caller.fenv.model.settings.base)
 
     def init_widgets(self):
         """Load model settings and default settings. Thet are added as .settings_df and .settings_default_series"""
-        self.model_settings_path.setFilePath(self.caller.fenv.model.settings.base)
-        modelsettings_path = self.model_settings_path.filePath() 
-        self.modelschematisations = htt.model_splitter.ModelSchematisations(folder=self.caller.fenv, modelsettings_path=modelsettings_path)
+        if self.settings_path == self.model_settings_path.filePath():
+            return
+        
+        self.settings_path = self.model_settings_path.filePath()
+        self.modelschematisations = htt.model_splitter.ModelSchematisations(folder=self.caller.fenv,
+                                                                            modelsettings_path=self.settings_path)
         self.add_models_to_widget()
-
         if self.modelschematisations.settings_loaded:
             # Add logging that file was changed 
             folder_path = self.model_settings_path.filePath()
             self.info_list.addItem("")
-            self.add_list_item(self.info_list, f"-----------------------------------------------------------------------------*", addtime=True)
+            self.add_list_item(self.info_list, "-----------------------------------------------------------------------------*", addtime=True)
             self.info_list.addItem("Current model settings folder:")
             self.add_list_item(self.info_list, f"- {folder_path}")
-  
+
+    def update_widgets(self):
+        """Clear modelwidgets and add the new ones."""
+        if self.settings_path == self.model_settings_path.filePath():
+            return
+        #Clear the widgets of all items
+        self.enabled_list.clear()
+        self.disabled_list.clear()
+
+        #Load the new settings file.
+        self.init_widgets()
 
     @property
     def enabled_lst(self):
@@ -118,6 +131,8 @@ class modelSplitterDialog(QtWidgets.QDialog):
 
 
     def close_widget(self):
+        self.settings_path = False
+
         # clear all list-widgets
         self.commitMessage.clear()
         self.info_list.clear()
@@ -240,7 +255,7 @@ class modelSplitterDialog(QtWidgets.QDialog):
             try:
                 self.modelschematisations.create_schematisation(name=list_name)
             except Exception as e:
-                self.info_list.addItem(f"ERROR: {str(e)}")
+                self.info_list.addItem(f"{type(e).__name__}: {str(e)} (view Python error log for more info)")
                 update_button_background(button=self.run_splitter_btn, color="red")
 
                 raise e

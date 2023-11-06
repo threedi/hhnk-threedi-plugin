@@ -20,8 +20,10 @@ from hhnk_threedi_tools.variables.bank_levels import (
 
 from hhnk_threedi_plugin.tasks.utility_functions.handle_os_errors import check_os_error
 
-from hhnk_threedi_plugin.dependencies import OUR_DIR as HHNK_THREEDI_PLUGIN_DIR
-from hhnk_threedi_plugin.qgis_interaction import load_layers_interaction
+from hhnk_threedi_plugin.dependencies import HHNK_THREEDI_PLUGIN_DIR
+import hhnk_threedi_plugin.qgis_interaction.project as project
+import hhnk_research_tools as hrt
+import hhnk_threedi_tools as htt
 
 
 def get_bank_levels_manholes_task(results_widget, folder, output=True):
@@ -178,14 +180,13 @@ class calculateBankLevelsManholesTask(QgsTask):
                 self.new_manholes_widget_created.emit(new_manholes_widget)
 
                 #Load layers
-                df_path = os.path.join(HHNK_THREEDI_PLUGIN_DIR, 'qgis_interaction', 'layer_structure', 'testprotocol.csv')
-                revisions={'0d1d_test':'',
-                            '1d2d_test':'',
-                            'klimaatsommen':''}
-
-                load_layers_interaction.load_layers(folder=self.folder, 
-                                            df_path=df_path, 
-                                            revisions=revisions, 
-                                            subjects=['test_banklevels'])
+                df_path = hrt.get_pkg_resource_path(package_resource=htt.resources,
+                                                    name="qgis_layer_structure.csv")
+                
+                proj = project.Project()
+                proj.run(layer_structure_path=df_path,
+                        subjects=['test_banklevels'],
+                        folder=self.folder)
+            
             except Exception as e:
                 raise e from None
