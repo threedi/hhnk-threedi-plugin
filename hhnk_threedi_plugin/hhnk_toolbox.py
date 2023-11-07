@@ -275,13 +275,15 @@ class HHNK_toolbox:
         # for reuse if plugin is reopened
         # Commented next statement since it causes QGIS crashe
         # when closing the docked window:
-        # self.dockwidget = None
+        self.dockwidget.close()
+        self.dockwidget = None
 
         self.pluginIsActive = False
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
         # print "** UNLOAD HHNK_toolbox"
+
         for action in self.actions:
             self.iface.removePluginMenu(self.tr("&HHNK threedi toolbox"), action)
             self.iface.removeToolBarIcon(action)
