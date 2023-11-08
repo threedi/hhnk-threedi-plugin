@@ -1,4 +1,10 @@
-# This is an environment for conda environment on ota155 and ota514 
+# """This is an environment for conda environment on ota155 and ota514
+# Can be used as standalone env where the following utils should work:
+# - hhnk-threedi-tools
+# - hhnk-research-tools
+# - datachecker
+# - modelbuilder
+# """
 name: threedipy
 
 channels:
