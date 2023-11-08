@@ -4,6 +4,10 @@
 # - hhnk-research-tools
 # - datachecker
 # - modelbuilder
+#
+# threedi and research-tools should be installed manually to use the
+# latest dev version. Do this by pulling the github branch and running
+# bin/install_local.bat in those branches.
 # """
 name: threedipy
 
