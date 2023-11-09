@@ -275,8 +275,13 @@ class HHNK_toolbox:
         # for reuse if plugin is reopened
         # Commented next statement since it causes QGIS crashe
         # when closing the docked window:
-        self.dockwidget.close()
-        self.dockwidget = None
+        # TODO dit fixed nog steeds niet de window size problemen.
+        try:
+            self.dockwidget.close()
+        except AttributeError:
+            print("closing plugin failed. dockwidget already None?")
+
+        # self.dockwidget = None
 
         self.pluginIsActive = False
 
