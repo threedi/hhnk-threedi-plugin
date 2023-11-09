@@ -1,8 +1,8 @@
 import numpy as np
-from PyQt5.QtWidgets import QTableView, QWidget, QVBoxLayout, QLabel, QLineEdit
-from PyQt5.QtCore import QAbstractTableModel, Qt, QVariant, QSortFilterProxyModel
-from PyQt5.QtGui import QColor
 from hhnk_threedi_tools.variables.definitions import proposed_value_col
+from PyQt5.QtCore import QAbstractTableModel, QSortFilterProxyModel, Qt, QVariant
+from PyQt5.QtGui import QColor
+from PyQt5.QtWidgets import QLabel, QLineEdit, QTableView, QVBoxLayout, QWidget
 
 
 class pandasModel(QAbstractTableModel):
@@ -72,8 +72,7 @@ class pandasModel(QAbstractTableModel):
                 if (
                     role == Qt.BackgroundRole
                     and index.column() == self.old_col_idx
-                    and self._data.iloc[index.row(), self.id_col_ind]
-                    not in self.delete_rows_ids
+                    and self._data.iloc[index.row(), self.id_col_ind] not in self.delete_rows_ids
                 ):
                     return self.red
             if self.new_col_idx is not None:
@@ -81,25 +80,16 @@ class pandasModel(QAbstractTableModel):
                 if (
                     role == Qt.BackgroundRole
                     and index.column() == self.new_col_idx
-                    and self._data.iloc[index.row(), self.id_col_ind]
-                    not in self.delete_rows_ids
+                    and self._data.iloc[index.row(), self.id_col_ind] not in self.delete_rows_ids
                 ):
                     return self.green
             if self.delete_rows_ids is not None:
                 """Rows to be deleted are coloured red"""
-                if (
-                    role == Qt.BackgroundRole
-                    and self._data.iloc[index.row(), self.id_col_ind]
-                    in self.delete_rows_ids
-                ):
+                if role == Qt.BackgroundRole and self._data.iloc[index.row(), self.id_col_ind] in self.delete_rows_ids:
                     return self.red
             if self.add_rows_ids is not None:
                 """Rows to be added are coloured green"""
-                if (
-                    role == Qt.BackgroundRole
-                    and self._data.iloc[index.row(), self.id_col_ind]
-                    in self.add_rows_ids
-                ):
+                if role == Qt.BackgroundRole and self._data.iloc[index.row(), self.id_col_ind] in self.add_rows_ids:
                     return self.green
         return QVariant()
 
@@ -146,9 +136,7 @@ class pandasModel(QAbstractTableModel):
         if role == Qt.EditRole:
             """If the cell is editable, we receive the new data as a string, then try to convert it to the type
             of the column"""
-            self._data.iloc[row, column] = convert_to_type(
-                type(self._data.iloc[row, column]), value
-            )
+            self._data.iloc[row, column] = convert_to_type(type(self._data.iloc[row, column]), value)
             self.dataChanged.emit(index, index)
             return True
         return False
@@ -161,13 +149,11 @@ class pandasModel(QAbstractTableModel):
                 if (
                     (
                         self.delete_rows_ids is not None
-                        and self._data.iloc[index.row(), self.id_col_ind]
-                        in self.delete_rows_ids
+                        and self._data.iloc[index.row(), self.id_col_ind] in self.delete_rows_ids
                     )
                     or (
                         self.add_rows_ids is not None
-                        and self._data.iloc[index.row(), self.id_col_ind]
-                        in self.add_rows_ids
+                        and self._data.iloc[index.row(), self.id_col_ind] in self.add_rows_ids
                     )
                     or self.new_col_editable
                 ):
@@ -175,10 +161,7 @@ class pandasModel(QAbstractTableModel):
         if (
             index.column() == self.new_col_idx
             and self.new_col_editable
-            and (
-                not self.add_rows_ids
-                or self._data.iloc[index.row(), self.id_col_ind] in self.add_rows_ids
-            )
+            and (not self.add_rows_ids or self._data.iloc[index.row(), self.id_col_ind] in self.add_rows_ids)
         ):
             """If cells are in the column containing new values and that column is editable, make te cell
             editable if we are not adding rows. If we are adding rows, we first make sure the id is in the rows
@@ -293,9 +276,7 @@ class modelChangesPreview(QWidget):
         layout.addWidget(description_label)
         if self.searchable:
             """Implements the actual searching functionality"""
-            self.search_bar.textChanged.connect(
-                lambda: self.proxy_model.setFilterRegExp(f"{self.search_bar.text()}")
-            )
+            self.search_bar.textChanged.connect(lambda: self.proxy_model.setFilterRegExp(f"{self.search_bar.text()}"))
             layout.addWidget(self.search_bar_label)
             layout.addWidget(self.search_bar)
         layout.addWidget(self.view)
@@ -307,9 +288,7 @@ class modelChangesPreview(QWidget):
         as well as the rows that were excluded from updating
         """
         if self.rows_selectable or self.new_col_editable:
-            protected_ids = (
-                self.df[~self.df["select"]].iloc[:, self.id_col_idx].tolist()
-            )
+            protected_ids = self.df[~self.df["select"]].iloc[:, self.id_col_idx].tolist()
             self.protected_ids_list = protected_ids
 
         if self.new_col_editable:
@@ -317,7 +296,5 @@ class modelChangesPreview(QWidget):
             combine = self.df
             combine[proposed_value_col] = self.df_before[new_val_col]
             changed_rows = combine[combine[new_val_col] != combine[proposed_value_col]]
-            changed_rows = changed_rows[
-                ~changed_rows[self.id_col].isin(self.protected_ids_list)
-            ]
+            changed_rows = changed_rows[~changed_rows[self.id_col].isin(self.protected_ids_list)]
             self.manual_changes_df = changed_rows

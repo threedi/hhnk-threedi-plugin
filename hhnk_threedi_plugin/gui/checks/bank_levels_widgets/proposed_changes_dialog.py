@@ -1,16 +1,23 @@
-from PyQt5.QtWidgets import QDialog, QVBoxLayout, QPushButton, QLabel, QTextEdit
-from PyQt5.QtCore import pyqtSignal
-from qgis.utils import QgsMessageBar, Qgis
-from hhnk_threedi_plugin.gui.checks.bank_levels_widgets.proposed_changes_tabs import modelChangesTabs
-from hhnk_threedi_plugin.gui.checks.bank_levels_widgets.proposed_changes_exceptions import exceptionsWidget
-from hhnk_threedi_plugin.tasks.execute_model_changes import executeModelChangesTask
+from hhnk_threedi_tools.core.schematisation.model_backup import (
+    update_bank_levels_last_calc,
+)
 
 # hhnk-threedi-tests
 from hhnk_threedi_tools.variables.model_state import (
     one_d_two_d_from_calc,
     one_d_two_d_state,
 )
-from hhnk_threedi_tools.core.schematisation.model_backup import update_bank_levels_last_calc
+from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtWidgets import QDialog, QLabel, QPushButton, QTextEdit, QVBoxLayout
+from qgis.utils import Qgis, QgsMessageBar
+
+from hhnk_threedi_plugin.gui.checks.bank_levels_widgets.proposed_changes_exceptions import (
+    exceptionsWidget,
+)
+from hhnk_threedi_plugin.gui.checks.bank_levels_widgets.proposed_changes_tabs import (
+    modelChangesTabs,
+)
+from hhnk_threedi_plugin.tasks.execute_model_changes import executeModelChangesTask
 
 
 class modelChangesDialog(QDialog):
@@ -40,10 +47,7 @@ class modelChangesDialog(QDialog):
         """
         Updates timestamp when bank levels were last calculated
         """
-        if (
-            self.to_state == one_d_two_d_state
-            and self.one_d_two_d_source == one_d_two_d_from_calc
-        ):
+        if self.to_state == one_d_two_d_state and self.one_d_two_d_source == one_d_two_d_from_calc:
             update_bank_levels_last_calc(db=self.model_path)
 
     def handle_execution_result_success(self):
@@ -87,13 +91,9 @@ class modelChangesDialog(QDialog):
         queries = self.tabs.collect_queries()
         try:
             if self.model_path is None:
-                raise Exception(
-                    "No database has been specified (modelChangesDialog.model_path not set)"
-                )
+                raise Exception("No database has been specified (modelChangesDialog.model_path not set)")
             if queries:
-                model_changes_task = executeModelChangesTask(
-                    model_path=self.model_path, query=queries
-                )
+                model_changes_task = executeModelChangesTask(model_path=self.model_path, query=queries)
                 self.query_execution_task_created.emit(model_changes_task)
             else:
                 self.handle_execution_result_success()

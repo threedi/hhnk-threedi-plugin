@@ -1,11 +1,10 @@
 import copy
-from PyQt5.QtCore import pyqtSignal
-from qgis.core import QgsTask, Qgis
-from qgis.utils import QgsMessageLog, iface
-from PyQt5.QtCore import QMutex, QWaitCondition
 
 # hhnk-threedi-tests
 from hhnk_threedi_tools import SqliteCheck
+from PyQt5.QtCore import QMutex, QWaitCondition, pyqtSignal
+from qgis.core import Qgis, QgsTask
+from qgis.utils import QgsMessageLog, iface
 
 
 class BaseSqliteTask(QgsTask):
@@ -29,11 +28,9 @@ class BaseSqliteTask(QgsTask):
     def set_result(self, res):
         self.os_retry = res
 
-
-    def run_custom(self): 
+    def run_custom(self):
         """This function is unique for every test and actually starts a calculation."""
         pass
-
 
     def run(self):
         QgsMessageLog.logMessage(f"Taak {self.description} gestart", level=Qgis.Info)
@@ -56,14 +53,12 @@ class BaseSqliteTask(QgsTask):
             self.exception = e
             return False
 
-
     def finished_custom(self):
         """Custom additional actions when task is finished. For instance loading layers."""
         # title, widget = self.create_result_widget(self.result_text, self.layer_source) #EXAMPLE
-        title=None
-        widget=None
+        title = None
+        widget = None
         return title, widget
-
 
     def finished(self, result):
         """
@@ -73,10 +68,7 @@ class BaseSqliteTask(QgsTask):
         """
         if not result:
             if self.exception is None:
-                iface.messageBar().pushMessage(
-                    f"Taak {self.description} onderbroken", 
-                    level=Qgis.Warning
-                )
+                iface.messageBar().pushMessage(f"Taak {self.description} onderbroken", level=Qgis.Warning)
             else:
                 iface.messageBar().pushMessage(
                     f"Taak {self.description} mislukt: zie Message Log",
@@ -94,9 +86,9 @@ class BaseSqliteTask(QgsTask):
                 level=Qgis.Info,
             )
             QgsMessageLog.logMessage(
-                     f"Taak {self.description} en opslag resultaten succesvol uitgevoerd",
-                    level=Qgis.Info,
-                )
+                f"Taak {self.description} en opslag resultaten succesvol uitgevoerd",
+                level=Qgis.Info,
+            )
             try:
                 title, widget = self.finished_custom()
                 if widget is not None:

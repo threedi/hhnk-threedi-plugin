@@ -1,33 +1,35 @@
 import os
-import numpy as np
 from pathlib import Path
+
+import numpy as np
+from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtWidgets import (
-    QPushButton,
     QFileDialog,
     QLabel,
-    QSpacerItem,
+    QPushButton,
     QSizePolicy,
+    QSpacerItem,
     QVBoxLayout,
     QWidget,
 )
-from hhnk_threedi_plugin.gui.general_objects import revisionsComboBox
-from PyQt5.QtCore import Qt, pyqtSignal
 from qgis.core import Qgis
-from hhnk_threedi_plugin.gui.utility.widget_interaction import update_button_background
 
+from hhnk_threedi_plugin.gui.general_objects import revisionsComboBox
+from hhnk_threedi_plugin.gui.utility.widget_interaction import update_button_background
 from hhnk_threedi_plugin.tasks import task_one_d_two_d
+
+
 def setupUi(one_d_two_d_widget):
     one_d_two_d_widget.select_revision_label = QLabel("Selecteer revisie:")
     one_d_two_d_widget.select_revision_box = revisionsComboBox()
     one_d_two_d_widget.start_1d2d_tests_btn = QPushButton("Begin tests")
-
 
     # Main layout
     main_layout = QVBoxLayout()
     main_layout.setAlignment(Qt.AlignTop)
     main_layout.setContentsMargins(25, 25, 25, 25)
 
-    #Revision selection
+    # Revision selection
     main_layout.addWidget(one_d_two_d_widget.select_revision_label)
     main_layout.addWidget(one_d_two_d_widget.select_revision_box)
 
@@ -77,22 +79,21 @@ class oneDTwoDWidget(QWidget):
         for rev in revisions:
             self.select_revision_box.addItem(rev.name)
 
-
     def one_d_two_d_tests_execution(self):
         try:
             update_button_background(button=self.start_1d2d_tests_btn, color="orange")
-            
-            task_one_d_two_d.task_one_d_two_d(folder = self.caller.fenv, 
-                                                    revision = self.select_revision_box.currentText(),
-                                                    dem_path = self.caller.input_data_dialog.dem_selector.filePath())
+
+            task_one_d_two_d.task_one_d_two_d(
+                folder=self.caller.fenv,
+                revision=self.select_revision_box.currentText(),
+                dem_path=self.caller.input_data_dialog.dem_selector.filePath(),
+            )
             update_button_background(button=self.start_1d2d_tests_btn, color="green")
-            
+
         except Exception as e:
             self.caller.iface.messageBar().pushMessage(str(e), Qgis.Critical)
             update_button_background(button=self.start_1d2d_tests_btn, color="red")
             pass
 
-    
     def reset_buttons(self):
         update_button_background(button=self.start_1d2d_tests_btn)
-

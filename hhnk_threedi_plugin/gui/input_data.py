@@ -1,31 +1,34 @@
 # %%
-#TODO refactor en doet nu niet wat het zou moeten;
+# TODO refactor en doet nu niet wat het zou moeten;
 import os
 from collections import OrderedDict
-import pandas as pd
-from PyQt5.QtWidgets import (
-    QPushButton,
-    QVBoxLayout,
-    QGroupBox,
-    QGridLayout,
-    QFileDialog,
-    QLabel,
-    QCheckBox,
-    QFrame,
-    QSpacerItem,
-    QDialog,
-    QSizePolicy,
-    QHBoxLayout,
-    QApplication,
-)
-from PyQt5.QtCore import Qt, pyqtSignal
-from qgis.gui import QgsMessageBar
-# from hhnk_threedi_plugin.gui.tests.verify_sqlite_tests_input import verify_input
-from hhnk_threedi_plugin.gui.utility.file_widget import fileWidget
 from pathlib import Path
 
+import pandas as pd
+from PyQt5.QtCore import Qt, pyqtSignal
+from PyQt5.QtWidgets import (
+    QApplication,
+    QCheckBox,
+    QDialog,
+    QFileDialog,
+    QFrame,
+    QGridLayout,
+    QGroupBox,
+    QHBoxLayout,
+    QLabel,
+    QPushButton,
+    QSizePolicy,
+    QSpacerItem,
+    QVBoxLayout,
+)
+from qgis.gui import QgsMessageBar
+
+# from hhnk_threedi_plugin.gui.tests.verify_sqlite_tests_input import verify_input
+from hhnk_threedi_plugin.gui.utility.file_widget import fileWidget
+
+
 def setupUi(input_data):
-    #Color 
+    # Color
     input_data.setWindowTitle("Selecteer benodigde bestanden")
     input_data.setMinimumWidth(500)
 
@@ -37,74 +40,81 @@ def setupUi(input_data):
 
     # Create all file widgets
     input_data.polder_label = QLabel("Project Folder:")
-    input_data.polders_map_selector = fileWidget(
-        file_dialog_title="", file_mode=QFileDialog.Directory    )
+    input_data.polders_map_selector = fileWidget(file_dialog_title="", file_mode=QFileDialog.Directory)
     input_data.polders_map_selector.setEnabled(False)
 
     input_data.output_selector_label = QLabel("Selecteer output map:")
     input_data.output_selector_label.setStyleSheet("background-color: lightgreen;border: 1px solid black;")
     input_data.output_selector = fileWidget(
         file_dialog_title="Selecteer map om output in aan te maken",
-        file_mode=QFileDialog.Directory,    )
+        file_mode=QFileDialog.Directory,
+    )
     input_data.output_selector.setEnabled(False)
 
     input_data.model_selector_label = QLabel("Selecteer model:")
     input_data.model_selector = fileWidget(
         file_dialog_title="Selecteer een model (.sqlite)",
         file_mode=QFileDialog.ExistingFile,
-        name_filter="*.sqlite",    )
+        name_filter="*.sqlite",
+    )
     input_data.model_selector.setEnabled(False)
 
     input_data.dem_label = QLabel("Selecteer DEM raster")
     input_data.dem_selector = fileWidget(
         file_dialog_title="Selecteer DEM raster (.tif)",
         file_mode=QFileDialog.ExistingFile,
-        name_filter="*.tif",    )
+        name_filter="*.tif",
+    )
     input_data.dem_selector.setEnabled(True)
-   
 
     input_data.datachecker_label = QLabel("Selecteer datachecker output:")
     input_data.datachecker_selector = fileWidget(
         file_dialog_title="Selecteer datachecker output (.gdb)",
-        file_mode=QFileDialog.Directory,    )
+        file_mode=QFileDialog.Directory,
+    )
     input_data.datachecker_selector.setEnabled(False)
 
     input_data.channels_from_label = QLabel("Watergangen van profielen:")
     input_data.channel_from_profiles_selector = fileWidget(
         file_dialog_title="Selecteer channels from profile " "shapefile (.shp)",
         file_mode=QFileDialog.ExistingFile,
-        name_filter="*.shp",    )
+        name_filter="*.shp",
+    )
     input_data.channel_from_profiles_selector.setEnabled(False)
 
     input_data.hdb_label = QLabel("HDB:")
     input_data.hdb_selector = fileWidget(
         file_dialog_title="Selecteer hydrologen database (.gdb)",
-        file_mode=QFileDialog.Directory,    )
+        file_mode=QFileDialog.Directory,
+    )
     input_data.hdb_selector.setEnabled(False)
 
     input_data.damo_label = QLabel("DAMO:")
     input_data.damo_selector = fileWidget(
         file_dialog_title="Selecteer DAMO database (.gdb)",
-        file_mode=QFileDialog.Directory,    )
+        file_mode=QFileDialog.Directory,
+    )
     input_data.damo_selector.setEnabled(False)
 
     input_data.polder_shape_label = QLabel("Polder shapefile:")
     input_data.polder_shape_selector = fileWidget(
         file_dialog_title="Selecteer polder shapefile (.shp)",
-        file_mode=QFileDialog.ExistingFile,    )
+        file_mode=QFileDialog.ExistingFile,
+    )
     input_data.polder_shape_selector.setEnabled(False)
-
 
     input_data.output_0d_1d_label = QLabel("Selecteer output voor 0d_1d test:")
     input_data.output_0d_1d__selector = fileWidget(
         file_dialog_title="Selecteer map om output in aan te maken",
-        file_mode=QFileDialog.Directory,    )
+        file_mode=QFileDialog.Directory,
+    )
     input_data.output_0d_1d__selector.setEnabled(False)
-    
+
     input_data.results_dir_selector_label = QLabel("Selecteer 3di resultaat map:")
     input_data.results_dir_selector = fileWidget(
         file_dialog_title="Selecteer 3di revisie map " "(bevat .nc en .h5 files)",
-        file_mode=QFileDialog.Directory,    )
+        file_mode=QFileDialog.Directory,
+    )
     input_data.results_dir_selector.setEnabled(False)
 
     # Layouts
@@ -112,7 +122,7 @@ def setupUi(input_data):
     separator.setFrameShape(QFrame.HLine)
     separator.setFrameShadow(QFrame.Sunken)
 
-# Create layout for file dialogs
+    # Create layout for file dialogs
     path_selection_layout = QGridLayout()
     path_selection_layout.setAlignment(Qt.AlignTop)
     path_selection_layout.setHorizontalSpacing(25)
@@ -146,7 +156,7 @@ def setupUi(input_data):
     main_layout.setAlignment(Qt.AlignTop)
     main_layout.setContentsMargins(25, 25, 25, 25)
     main_layout.addWidget(input_data.polder_label)
-    main_layout.addWidget( input_data.polders_map_selector)
+    main_layout.addWidget(input_data.polders_map_selector)
     main_layout.addWidget(input_data.bar)
     # main_layout.addWidget(paths_selection)
     main_layout.addLayout(path_selection_layout)
@@ -157,16 +167,13 @@ def setupUi(input_data):
     input_data.setLayout(main_layout)
 
 
-
 class inputDataDialog(QDialog):
-
     def __init__(self, caller, parent):
         super(inputDataDialog, self).__init__(parent)
         setupUi(self)
         self.caller = caller
         self.setup_main_paths_signals()
         self.model_selector.fileSelected.connect(self.caller.reset_ui)
-
 
     def setup_main_paths_signals(self):
         """
@@ -176,15 +183,22 @@ class inputDataDialog(QDialog):
         self.datachecker_selector.fileSelected.connect(lambda path: self.caller.update_current_paths(datachecker=path))
         self.damo_selector.fileSelected.connect(lambda path: self.caller.update_current_paths(damo=path))
         self.hdb_selector.fileSelected.connect(lambda path: self.caller.update_current_paths(hdb=path))
-        self.polder_shape_selector.fileSelected.connect(lambda path: self.caller.update_current_paths(polder_shapefile=path))
-        self.channel_from_profiles_selector.fileSelected.connect(lambda path: self.caller.update_current_paths(channels_shapefile=path))
+        self.polder_shape_selector.fileSelected.connect(
+            lambda path: self.caller.update_current_paths(polder_shapefile=path)
+        )
+        self.channel_from_profiles_selector.fileSelected.connect(
+            lambda path: self.caller.update_current_paths(channels_shapefile=path)
+        )
         self.model_selector.fileSelected.connect(lambda path: self.caller.update_current_paths(model=path))
         self.dem_selector.fileSelected.connect(lambda path: self.caller.update_current_paths(dem=path))
         # self.output_selector_sqlite.fileSelected.connect(lambda path: self.caller.update_current_paths(sqlite_output=path))
         # self.result_selector_1d2d.fileSelected.connect(lambda path: self.caller.update_current_paths(one_d_results=path))
-        self.output_0d_1d__selector.fileSelected.connect(lambda path: self.caller.update_current_paths(zero_d_output=path))
-        self.results_dir_selector.fileSelected.connect(lambda path: self.caller.update_current_paths(zero_d_output=path))
-
+        self.output_0d_1d__selector.fileSelected.connect(
+            lambda path: self.caller.update_current_paths(zero_d_output=path)
+        )
+        self.results_dir_selector.fileSelected.connect(
+            lambda path: self.caller.update_current_paths(zero_d_output=path)
+        )
 
     def set_current_paths(self):
         """
@@ -193,31 +207,37 @@ class inputDataDialog(QDialog):
 
         paths = self.caller.current_source_paths
         if paths is not None:
-
-            widgets = OrderedDict({"polders_map_selector":"polder_folder","model_selector":"model",
-            "dem_selector":"dem", "datachecker_selector":"datachecker", "channel_from_profiles_selector":"channels_shapefile",
-            "hdb_selector":"hdb", "damo_selector":"damo", "polder_shape_selector":"polder_shapefile"})
+            widgets = OrderedDict(
+                {
+                    "polders_map_selector": "polder_folder",
+                    "model_selector": "model",
+                    "dem_selector": "dem",
+                    "datachecker_selector": "datachecker",
+                    "channel_from_profiles_selector": "channels_shapefile",
+                    "hdb_selector": "hdb",
+                    "damo_selector": "damo",
+                    "polder_shape_selector": "polder_shapefile",
+                }
+            )
 
             for key, value in widgets.items():
                 widgt = getattr(self, key)
-                
-                filepath = paths[value] #Get filepath from current source paths
 
-                name=filepath
+                filepath = paths[value]  # Get filepath from current source paths
+
+                name = filepath
 
                 widgt.setFilePath(name)
 
                 if filepath is not None:
                     if Path(filepath).exists():
                         widgt.setStyleSheet("background-color: lightgreen;border: 1px solid black")
-                    else: 
+                    else:
                         widgt.setStyleSheet("background-color: orange; border: 1px solid black")
-                else: 
+                else:
                     widgt.setStyleSheet("background-color: blue; border: 1px solid black")
 
-
             # self.polders_map_selector.setFilePath(paths["polder_folder"])
-
 
             # self.polders_map_selector.setFilePath(paths["polder_folder"])
             # self.model_selector.setFilePath(paths["model"].split(self.polders_map_selector.filePath())[-1])
@@ -230,15 +250,14 @@ class inputDataDialog(QDialog):
             # self.output_selector.setFilePath(paths["sqlite_tests_output"].split(self.polders_map_selector.filePath())[-1])
             self.output_0d_1d__selector.setFilePath(paths["0d1d_output"])
             # self.one_d_two_d.dem_selector.setFilePath(paths["dem"])
-            
-        #Loop over widgets, check if name is None, color the box accordingly
-            # if (pd.isnull(widgt.filePath())) or (widgt.filePath()==''):
-            #     widgt.setStyleSheet("background-color: Blue; border: 1px solid black;")
-            # else: 
-            #     widgt.setStyleSheet("background-color: lightgreen;border: 1px solid black;")
 
-            # self.output_selector.setFilePath(paths["sqlite_tests_output"])
+        # Loop over widgets, check if name is None, color the box accordingly
+        # if (pd.isnull(widgt.filePath())) or (widgt.filePath()==''):
+        #     widgt.setStyleSheet("background-color: Blue; border: 1px solid black;")
+        # else:
+        #     widgt.setStyleSheet("background-color: lightgreen;border: 1px solid black;")
 
+        # self.output_selector.setFilePath(paths["sqlite_tests_output"])
 
     # def set_current_paths_1d_2d(self):
     #     """
@@ -251,4 +270,6 @@ class inputDataDialog(QDialog):
     #         self.results_dir_selector.setFilePath(paths["1d2d_results_dir"])
     #         self.output_selector.setFilePath(paths["1d2d_output"])
     #         #         E:\02.modellen\model_test_v2_juan
+
+
 # %%

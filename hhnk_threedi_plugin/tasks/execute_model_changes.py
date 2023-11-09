@@ -1,6 +1,6 @@
-from qgis.core import QgsTask, Qgis
-from qgis.utils import QgsMessageLog, iface
 import hhnk_research_tools as hrt
+from qgis.core import Qgis, QgsTask
+from qgis.utils import QgsMessageLog, iface
 
 description = "aanpassingen aan model uitvoeren"
 
@@ -34,22 +34,16 @@ class executeModelChangesTask(QgsTask):
         """
         if not result:
             if self.exception is None:
-                iface.messageBar().pushMessage(
-                    f"Taak {self.description} onderbroken", level=Qgis.Warning
-                )
+                iface.messageBar().pushMessage(f"Taak {self.description} onderbroken", level=Qgis.Warning)
             else:
                 iface.messageBar().pushMessage(
                     f"Taak {self.description} mislukt: zie Message Log",
                     level=Qgis.Critical,
                 )
                 QgsMessageLog.logMessage(
-                    '"{name}" Exception: {exception}'.format(
-                        name=self.description, exception=self.exception
-                    ),
+                    '"{name}" Exception: {exception}'.format(name=self.description, exception=self.exception),
                     level=Qgis.Critical,
                 )
                 raise self.exception
         else:
-            iface.messageBar().pushMessage(
-                f"Taak {self.description} succesvol uitgevoerd", level=Qgis.Info
-            )
+            iface.messageBar().pushMessage(f"Taak {self.description} succesvol uitgevoerd", level=Qgis.Info)

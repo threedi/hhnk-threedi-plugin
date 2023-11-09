@@ -1,29 +1,32 @@
 import os
-from PyQt5.QtWidgets import (
-    QPushButton,
-    QFileDialog,
-    QLabel,
-    QSpacerItem,
-    QSizePolicy,
-    QVBoxLayout,
-    QWidget,
-    QPlainTextEdit,
-    QLineEdit,
-    QLabel,
-    QMessageBox,
-    QComboBox,
-)
-from ..general_objects import revisionsComboBox
-from PyQt5.QtCore import Qt, pyqtSignal
 
-from hhnk_threedi_plugin.dependencies import HHNK_THREEDI_PLUGIN_DIR
-from hhnk_threedi_plugin.gui.utility.widget_interaction import update_button_background
-from hhnk_threedi_tools.qgis import layer_structure
-import hhnk_threedi_plugin.qgis_interaction.project as project
 import hhnk_research_tools as hrt
 import hhnk_threedi_tools as htt
+from hhnk_threedi_tools.qgis import layer_structure
+from PyQt5.QtCore import Qt, pyqtSignal
+from PyQt5.QtWidgets import (
+    QComboBox,
+    QFileDialog,
+    QLabel,
+    QLineEdit,
+    QMessageBox,
+    QPlainTextEdit,
+    QPushButton,
+    QSizePolicy,
+    QSpacerItem,
+    QVBoxLayout,
+    QWidget,
+)
 
-from hhnk_threedi_plugin.qgis_interaction.klimaatsommen_pdfs import create_pdfs, load_print_layout
+import hhnk_threedi_plugin.qgis_interaction.project as project
+from hhnk_threedi_plugin.dependencies import HHNK_THREEDI_PLUGIN_DIR
+from hhnk_threedi_plugin.gui.utility.widget_interaction import update_button_background
+from hhnk_threedi_plugin.qgis_interaction.klimaatsommen_pdfs import (
+    create_pdfs,
+    load_print_layout,
+)
+
+from ..general_objects import revisionsComboBox
 
 SUBJECT = "Klimaatsommen"
 
@@ -46,7 +49,7 @@ class KlimaatSommenWidget(QWidget):
     def __init__(self, caller, parent=None):
         super().__init__()
         self.setupUi()
-        
+
         # ----------------------------------------------------------
         # Variables
         # ----------------------------------------------------------
@@ -73,7 +76,6 @@ class KlimaatSommenWidget(QWidget):
     def fenv(self):
         return self.caller.fenv
 
-
     def setupUi(self):
         self.select_revision_label = QLabel("Selecteer revisie:")
         self.select_revision_box = revisionsComboBox()
@@ -81,7 +83,6 @@ class KlimaatSommenWidget(QWidget):
         self.laad_layout_btn = QPushButton("Laad layout")
         self.create_pdfs_btn = QPushButton("Maak pdfs")
         self.create_clean_btn = QPushButton("clean")
-
 
         # Main layout
         main_layout = QVBoxLayout()
@@ -100,7 +101,6 @@ class KlimaatSommenWidget(QWidget):
 
         self.setLayout(main_layout)
 
-
     def verify_submit_laad_layout(self):
         """
         Checks if all input is legal, if so, creates test environment (variable container) and
@@ -109,19 +109,15 @@ class KlimaatSommenWidget(QWidget):
 
         update_button_background(button=self.laad_layout_btn, color="orange")
 
-        df_path = hrt.get_pkg_resource_path(package_resource=htt.resources,
-                                            name="qgis_layer_structure.csv")
-        
-        
-        
+        df_path = hrt.get_pkg_resource_path(package_resource=htt.resources, name="qgis_layer_structure.csv")
+
         revisions = layer_structure.SelectedRevisions(klimaatsommen=self.select_revision_box.currentText())
 
-        #Load layers
+        # Load layers
         proj = project.Project()
-        proj.run(layer_structure_path=df_path,
-                    subjects=['klimaatsommen'],
-                    revisions=revisions,
-                    folder=self.caller.fenv)
+        proj.run(
+            layer_structure_path=df_path, subjects=["klimaatsommen"], revisions=revisions, folder=self.caller.fenv
+        )
 
         load_print_layout()
         update_button_background(button=self.laad_layout_btn, color="green")
@@ -141,7 +137,7 @@ class KlimaatSommenWidget(QWidget):
                 - Laadt de revisie laag in.
                 - Extents verschillen per monitor. Werkt het niet? Pas 
                 de extent aan in de layout manager. (project -> layouts -> wsa_kaarten)
-            """
+            """,
         )
 
         # load_print_layout()
@@ -156,14 +152,13 @@ class KlimaatSommenWidget(QWidget):
         for rev in revisions:
             self.select_revision_box.addItem(rev.name)
 
-
     def verify_submit_create_clean(self):
-            msgBox = QMessageBox()
-            msgBox.setIcon(QMessageBox.Information)
-            msgBox.setText("AL GOOD")
-            msgBox.setWindowTitle("GOOD MESSAGE")
-            msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-            msgBox.buttonClicked.connect(self.verify_submit_create_clean)
+        msgBox = QMessageBox()
+        msgBox.setIcon(QMessageBox.Information)
+        msgBox.setText("AL GOOD")
+        msgBox.setWindowTitle("GOOD MESSAGE")
+        msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+        msgBox.buttonClicked.connect(self.verify_submit_create_clean)
 
     def reset_buttons(self):
         update_button_background(button=self.laad_layout_btn)

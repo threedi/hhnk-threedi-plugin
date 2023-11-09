@@ -1,4 +1,5 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout
+from PyQt5.QtWidgets import QVBoxLayout, QWidget
+
 from hhnk_threedi_plugin.gui.general_objects import create_formatted_text_edit
 
 

@@ -1,7 +1,7 @@
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-import matplotlib.pyplot as plt
-from matplotlib.figure import Figure
 import matplotlib as mplt
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
 from PyQt5 import QtWidgets
 
 
@@ -16,9 +16,7 @@ class ConfirmScenario(QtWidgets.QDialog):
         self.setWindowTitle(window_title)
         layout = QtWidgets.QVBoxLayout()
         self.canvas = FigureCanvas(self.figure)
-        self.button_box = QtWidgets.QDialogButtonBox(
-            QtWidgets.QDialogButtonBox.Ok | QtWidgets.QDialogButtonBox.Cancel
-        )
+        self.button_box = QtWidgets.QDialogButtonBox(QtWidgets.QDialogButtonBox.Ok | QtWidgets.QDialogButtonBox.Cancel)
         self.button_box.accepted.connect(self.accept)
         self.button_box.rejected.connect(self.reject)
         layout.addWidget(self.canvas)

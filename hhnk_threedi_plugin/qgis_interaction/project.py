@@ -7,24 +7,23 @@
 """
 import logging
 from pathlib import Path
+from typing import Union
 
 import hhnk_threedi_tools as htt
 from hhnk_threedi_tools.qgis import layer_structure
 from qgis.core import (
+    QgsLayoutExporter,
     QgsMapLayerStyle,
     QgsMapThemeCollection,
     QgsPrintLayout,
     QgsProject,
     QgsRasterLayer,
     QgsReadWriteContext,
-    QgsVectorLayer,
-    QgsLayoutExporter,
     QgsRenderContext,
+    QgsVectorLayer,
 )
-
 from qgis.PyQt.QtXml import QDomDocument
 from qgis.utils import iface
-from typing import Union
 
 logger = logging.getLogger(__name__)
 
@@ -71,7 +70,7 @@ class QgisLayer:
     @property
     def id(self):
         return self.settings.id
-    
+
     @property
     def layer(self):
         if self._layer is None:
@@ -192,13 +191,13 @@ class QgisLayer:
         group = None
         if self.settings.group_lst:
             group = self.get_group()
-            if group: # find layer in group, if None, layer has been removed.
+            if group:  # find layer in group, if None, layer has been removed.
                 layer = next((child.layer() for child in group.children() if child.name() == self.name), None)
-            else: # Group does not exist, so layer has been removed.
+            else:  # Group does not exist, so layer has been removed.
                 layer = None
-        else: # No groups in QGIS instance.
+        else:  # No groups in QGIS instance.
             layer = self.instance.mapLayersByName(self.name)
-        
+
         return layer
 
     def zoom_to_layer(self):
@@ -216,10 +215,9 @@ class QgisLayer:
 
 
 class QgisAllThemes:
-
     def __init__(self) -> None:
         self.instance = QgsProject.instance()
-        
+
     @property
     def mapthemecollection(self):
         return self.instance.mapThemeCollection()
@@ -239,9 +237,9 @@ class QgisAllThemes:
     def get_theme(self, theme_name):
         return self.mapthemecollection.mapThemeState(theme_name)
 
-    def get_theme_layers(self, theme_name:str) -> dict:
+    def get_theme_layers(self, theme_name: str) -> dict:
         """
-        
+
         Parameters
         ----------
         theme_name (str): name of theme
@@ -259,42 +257,41 @@ class QgisAllThemes:
         return layers
 
     def add_theme(self, theme_settings, layers, verbose=False):
-        """Add a theme to qgis project. If the theme already exists, 
+        """Add a theme to qgis project. If the theme already exists,
         it wil instead add/replace layers.
 
         Note that themes can be quite tricky if they are edited after they have been edited.
-        Therefore we here retrieve the layers in the theme and then remove it before 
+        Therefore we here retrieve the layers in the theme and then remove it before
         creating it again, see issue #143
 
         Parameters
         ----------
         theme_settings (htt.qgis.QgisThemeSettings): class with name and layerids
         layers (pd.Series): series with QgisLayer entries.
-        verbose (bool, optional): 
+        verbose (bool, optional):
         """
         if verbose:
             print(f"Creating theme: {theme_settings.name}")
 
         # Bestaande theme verwijderen, eerst layers ophalen. Omdat niet alle layers
-        # ook in theme_settings.layer_ids staan, bijvoorbeeld als er eerst een 
+        # ook in theme_settings.layer_ids staan, bijvoorbeeld als er eerst een
         # 0d1d_check resultaat is ingeladen van een bepaalde revisie.
         current_theme_layers = self.get_theme_layers(theme_settings.name)
         self.mapthemecollection.removeMapTheme(theme_settings.name)
         theme = self.get_theme(theme_settings.name)
-
 
         if verbose:
             print(f"\t\ttheme has layers: {current_theme_layers.keys()}")
 
         theme_layers = {}
 
-        # Bestaande layers in de visibility preset overnemen. Layername blijft een 
+        # Bestaande layers in de visibility preset overnemen. Layername blijft een
         # key en dus uniek. Deze wordt later overschreven als die ook in de theme_settings
         # staat. Als er twee keer een 0d1d_check resultaat wordt ingeladen blijft de meest
         # recent ingeladen group onder het thema hangen.
         for layer_name, layer in current_theme_layers.items():
             theme_layers[layer_name] = QgsMapThemeCollection.MapThemeLayerRecord(layer)
-            
+
         for layer_id in theme_settings.layer_ids:
             layer = layers[layer_id]
 
@@ -399,14 +396,14 @@ class QgisGroup:
 
 
 class QgisPrintLayout:
-    """Layout manager met voorgedefineerde kaarten. 
+    """Layout manager met voorgedefineerde kaarten.
     Kan templates toevoegen en laden"""
 
     def __init__(self) -> None:
         self.instance = QgsProject.instance()
         self.layoutmanager = self.instance.layoutManager()
 
-    def get_layout(self, layout_name:str):
+    def get_layout(self, layout_name: str):
         """Get layout bij name"""
         return self.layoutmanager.layoutByName(layout_name)
 
@@ -426,7 +423,8 @@ class QgisPrintLayout:
         layout.setName(name)
         self.instance.layoutManager().addLayout(layout)
 
-    def create_pdf_from_composer(self,
+    def create_pdf_from_composer(
+        self,
         composer_name,
         title,
         subtitle,
@@ -435,7 +433,7 @@ class QgisPrintLayout:
         theme,
         output_file,
     ):
-        """Create pdf from a print compusing using """
+        """Create pdf from a print compusing using"""
         layout_item = self.get_layout(composer_name)
 
         # -------------------------------------------------------------------------------------
@@ -459,7 +457,7 @@ class QgisPrintLayout:
 
         # Poging om extent goed te zetten, maar handmatig is beter.
         # ref_map.setExtent(project.mapcanvas_extent)
-        
+
         # -------------------------------------------------------------------------------------
         # Export
         # -------------------------------------------------------------------------------------
@@ -473,6 +471,7 @@ class QgisPrintLayout:
         export = QgsLayoutExporter(layout_item)
         result = export.exportToPdf(output_file, pdf_settings)
         return result
+
 
 class Project:
     """
@@ -508,12 +507,14 @@ class Project:
         for theme_settings in self.structure.themes:
             self.themes.add_theme(theme_settings=theme_settings, layers=self.layers, verbose=self.verbose)
 
-    def run(self,
-            layer_structure_path=None,
-            subjects=None,
-            revisions: htt.SelectedRevisions = htt.SelectedRevisions(),
-            folder=None,
-            **kwargs):
+    def run(
+        self,
+        layer_structure_path=None,
+        subjects=None,
+        revisions: htt.SelectedRevisions = htt.SelectedRevisions(),
+        folder=None,
+        **kwargs,
+    ):
         """Run project, load layer structure and load selected layers."""
         self.get_structure(layer_structure_path, subjects, revisions, folder, **kwargs)
         self.groups = QgisAllGroups(settings=self.structure.groups)

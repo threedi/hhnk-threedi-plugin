@@ -1,4 +1,14 @@
-# This is an environment for conda environment on ota155 and ota514 
+# """This is an environment for conda environment on ota155 and ota514
+# Can be used as standalone env where the following utils should work:
+# - hhnk-threedi-tools
+# - hhnk-research-tools
+# - datachecker
+# - modelbuilder
+#
+# threedi and research-tools should be installed manually to use the
+# latest dev version. Do this by pulling the github branch and running
+# bin/install_local.bat in those branches.
+# """
 name: threedipy
 
 channels:

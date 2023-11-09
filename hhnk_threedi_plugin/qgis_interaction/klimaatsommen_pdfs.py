@@ -5,29 +5,27 @@ Created on Tue Dec  7 11:08:36 2021
 @author: chris.kerklaan
 """
 import os
-import pandas as pd
-from hhnk_threedi_plugin.qgis_interaction.project import Project
 from pathlib import Path
+
 import hhnk_research_tools as hrt
 import hhnk_threedi_tools as htt
+import pandas as pd
+
+from hhnk_threedi_plugin.qgis_interaction.project import Project
 
 
 def load_print_layout():
-    """Loads layout in project. """
+    """Loads layout in project."""
 
-    template_path = Path(htt.__file__).parent.joinpath(
-        "resources",
-        "qgis_print_layouts",
-        "wsa_kaarten_landscape.qpt"
-        )
+    template_path = Path(htt.__file__).parent.joinpath("resources", "qgis_print_layouts", "wsa_kaarten_landscape.qpt")
 
-    project = Project() #subject="Layout klimaatsommen")
+    project = Project()  # subject="Layout klimaatsommen")
     project.layout.add_from_template(template_path=template_path, name="wsa_kaarten1")
 
 
 def create_pdfs(folder, revisie):
-    #TODO verplaatsen naar csv
-    project = Project() #subject="Mapcomposer klimaatsommen")
+    # TODO verplaatsen naar csv
+    project = Project()  # subject="Mapcomposer klimaatsommen")
     polder = folder.name
     output_path = folder.threedi_results.climate_results[revisie].path
 
@@ -58,7 +56,7 @@ def create_pdfs(folder, revisie):
         "legenda": "legenda_schade",
     }
 
-    #Gecorrigeerde schadekaarten
+    # Gecorrigeerde schadekaarten
     dic[3] = {
         "composer_name": "wsa_kaarten1",
         "pdf_name": "{}_rev{}_cw_schade_totaal_corr.pdf".format(polder, revisie),
@@ -123,9 +121,7 @@ def create_pdfs(folder, revisie):
     # }
 
     # Set dict in dataframe that will be looped.
-    df = pd.DataFrame(
-        columns=["composer_name", "pdf_name", "theme", "title", "legenda"]
-    )
+    df = pd.DataFrame(columns=["composer_name", "pdf_name", "theme", "title", "legenda"])
     df = df.append([dic[a] for a in dic], ignore_index=True)
 
     df["pdf_path"] = df["pdf_name"].apply(lambda x: os.path.join(output_path, x))
