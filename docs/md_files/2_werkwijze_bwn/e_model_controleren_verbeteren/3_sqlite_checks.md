@@ -37,28 +37,24 @@ Voor iedere test moet nagegaan worden of de waarden in het model voldoen. Hieron
 
 * Test 1: Ondoorlatend oppervlak
 
-  Deze test berekent het oppervlak van de polder op basis van de ```polder_shapefile``` en het ondoorlatend oppervlak (impervious surface, 0d) in het model. Het verschil tussen de twee zou niet te groot moeten zijn. 
-
-  <span style="color:yellow"> LN: @Wouter @Jelle *Waar kun je dit resultaat vinden? Hoe pas je het resultaat aan? Hoe fout op te lossen?*</span>
+  Deze test berekent het oppervlak van de polder op basis van de ```polder_shapefile``` en het ondoorlatend oppervlak (impervious surface, 0d) in het model. Het resultaat is zichtbaar onder sqlight checks (in het rechter menu in het screenshot hierboven) Het verschil tussen de twee zou niet te groot moeten zijn. Bij de modelbuilder feedback zit een laag die ```impervious_surface_simple``` heet. Hierin kun je zien welk deel van de peilgebieden naar welke connection nodes zijn gegaan. Dit zou overeen moeten komen met de peilgebieden. Als dat niet zo is kun je zien waar je oppervlakte moet toevoegen in impervious surface lagen.
+  
 
 * Test 2: Gebruikte profielen
 
-  Deze test koppelt de v2_cross_section_definition laag van het model (discrete weergave van de natuurlijke geometrie van de watergangen) aan de v2_channel laag (informatie over watergangen in het model). Het resultaat van deze toets is een weergave van de breedtes en dieptes van watergangen in het model ter controle. Deze breedtes en dieptes kunnen gevonden worden onder sqlite checks in de HHNK toolbox. Hier kun je klikken op 'Bekijk resultaat' onder het kopje 'Gebruikte profielen watergangen'. Er wordt dan een tabel geopend met de naam 'watergangen_breedte'. In de 12e en 13e kolom kunnen de breedtes en dieptes van ieder gedeelte van een watergang gecontroleerd worden. <span style="color:yellow">  Hier uitleg over realistisch resultaten</span>. Indien deze waardes niet voldoen, kunnen de breedtes van de watergangen aangepast worden in v2_cross_section_definition tabel. De dieptes van de watergangen kunnen aangepast worden in de v2_cross_section_location tabel door het reference level aan te passen.
-  Onder 'Lagen' zijn de resultaten van deze test ook zichtbaar.
+   Het resultaat van deze toets is een weergave van de breedtes en dieptes van watergangen in het model. Deze breedtes en dieptes kunnen gevonden worden onder sqlite checks in de HHNK toolbox. Via de 'visability presets' kies je voor *SQLight test: Verschil Oppervlaktewater*.
   
-  <span style="color:yellow"> LN: @Wouter @Jelle *Wat zijn realistische waardes voor deze test?*</span>
+  De laag helpt bij visuele controle; hebben de watergangen in het model realistische breedte ten opzichte van de luchtfoto of de waterdelen uit de BGT. Wanneer dit niet zo is kunnen profielen aangepast worden. Zie ook hieronder beschreven bij 'Oppervlaktewater berging', een test waarin de berging per peilgebied te vergelijken is.
+  
+  Indien deze waardes niet voldoen, kunnen de breedtes van de watergangen aangepast worden in v2_cross_section_definition tabel. De dieptes van de watergangen kunnen aangepast worden in de v2_cross_section_location tabel door het reference level aan te passen. Let op dat wanneer er te weinig berging (het oppervlakte open water) in een peilgebied aanwezig is in de 1D channels en profielen, dit is aangevuld in de connection nodes. Dus wanneer de watergangen breder gemaakt worden, moet het corresponderende oppervlakte van het berging van de connection nodes afgetrokken worden.
 
-  <span style="color:yellow"> WE: *@Wietse gebruiken we die shape uit de modelbuilder hier niet meer voor?*</span> 
-  
+  Onder 'Lagen' zijn de resultaten van deze test ook zichtbaar.
+    
 * Test 3: Gestuurde kunstwerken 
 
-  Deze test selecteert alle gestuurde kunstwerken (uit de v2_culvert, v2_orifice en v2_weir tabellen van het model) op basis van de v2_control_table. Per kunstwerk worden actiewaarden opgevraagd. Per gevonden gestuurd kunstwerk wordt ook relevante informatie uit de HDB database toegevoegd, zoals het streefpeil en minimale en maximale kruinhoogtes. De resultaten van deze test kunnen gevonden worden onder sqlite checks in de HHNK toolbox. Hier kun je klikken op 'Bekijk resultaat' onder het kopje 'Gestuurde kunstwerken'. Er wordt dan een tabel geopend met de naam 'gestuurde_kunstwerken'. Hier moeten de waarden waarop een kunstwerk start met pompen (kolom 8), de minimale actie waarde van een kunstwerk (kolom 9), de maximale actie waarde van een kunstwerk (kolom 10) en het streefpeil gecontroleerd worden (kolom 11). 
-
+  Deze test selecteert alle gestuurde kunstwerken (uit de v2_culvert, v2_orifice en v2_weir tabellen van het model) op basis van de v2_control_table. Per kunstwerk worden actiewaarden opgevraagd. Per gevonden gestuurd kunstwerk wordt ook relevante informatie uit de HDB database toegevoegd, zoals het streefpeil en minimale en maximale kruinhoogtes. De resultaten van deze test kunnen gevonden worden onder sqlite checks in de HHNK toolbox. Hier kun je klikken op 'Bekijk resultaat' onder het kopje 'Gestuurde kunstwerken'. Er wordt dan een tabel geopend met de naam 'gestuurde_kunstwerken'. Hier moeten de waarden waarop een kunstwerk start met pompen (kolom 8), de minimale actie waarde van een kunstwerk (kolom 9), de maximale actie waarde van een kunstwerk (kolom 10) en het streefpeil gecontroleerd worden (kolom 11). Vergelijk deze met de werking van de kunstwerken volgens de gebiedsregeling.
 
   Onder 'Lagen' zijn de resultaten van deze test ook zichtbaar.
-  
-   <span style="color:yellow"> LN: @Wouter @Jelle *Geeft de tabel van deze test alleen de kunstwerken weer waar wat mee aan de hand is? Wat zijn realistische waardes voor deze test? Waar kunnen deze waardes aangepast worden?*</span>
-
 
 * Test 4: Bodemhoogte stuw
 
@@ -66,9 +62,7 @@ Voor iedere test moet nagegaan worden of de waarden in het model voldoen. Hieron
 
 * Test 5: Geometrie
 
-  Deze test controleert of de geometrie van een object in het model correspondeert met de start- of end node in de v2_connection_nodes tabel. Als de verkeerde id's worden gebruikt geeft dit fouten in het model. De resultaten van deze test kunnen gevonden worden onder sqlite checks in de HHNK toolbox. Hier kun je klikken op 'Bekijk resultaat' onder het kopje 'Geometrie'. 
-
-  <span style="color:yellow"> LN: @Wouter @Jelle *Wat moet er gecontroleerd worden? Wat zijn realistische waardes voor deze test? Hoe pas je het resultaat aan, of worden aanpassingen automatisch gegenereerd en voorgelegd? Bij mij in het model staat er 'Geen fouten gevonden'*</span>
+  Deze test controleert of de geometrie van een object in het model correspondeert met de start- of end node in de v2_connection_nodes tabel. Als de verkeerde id's worden gebruikt geeft dit fouten in het model. De resultaten van deze test kunnen gevonden worden onder sqlite checks in de HHNK toolbox. Hier kun je klikken op 'Bekijk resultaat' onder het kopje 'Geometrie'. Pas de ligging of de connection node id van de betreffende kunstwerken aan. Meestal ligt het kunstwerk omgekeerd, dat wil zeggen dat het beginpunt van de lijn op de connection node ligt die als eindpunt is aangegeven (en andersom). Dan is het makkelijker om de node id's van het kunstwerk aan te passen.
   
 * Test 6: Bodemhoogte kunstwerken 
 
@@ -80,15 +74,13 @@ Voor iedere test moet nagegaan worden of de waarden in het model voldoen. Hieron
 
 * Test 8: Geïsoleerde watergangen
 
-  Deze test bepaalt welk aandeel van watergangen geen verbinding heeft met het maaiveld (isolated). Het aandeel mag niet te groot zijn omdat neerslag de watergangen dan onvoldoende kan bereiken. De resultaten van deze test kunnen direct bij het kopje 'Geïsoleerde watergangen' onder de sqlite checks in the HHNK toolbox gevonden worden.
-
-  <span style="color:yellow"> LN: @Wouter @Jelle *Wat is een realistisch Percentage geïsoleerde watergangen? Hoe kan dit worden aangepast*</span>
+  Deze test bepaalt welk aandeel van watergangen geen verbinding heeft met het maaiveld (isolated). Het aandeel mag niet te groot zijn omdat neerslag de watergangen dan onvoldoende kan bereiken. De resultaten van deze test kunnen direct bij het kopje 'Geïsoleerde watergangen' onder de sqlite checks in the HHNK toolbox gevonden worden. Bekijk ook visueel welke watergangen isolated zijn via de v2_channels laag in het model. klik rechts en selecteer bij stijlen ```calculation type``` voor een voorbeeld opmaak. 
   
 * Test 9: Genereer grid
   
   Deze test genereert het rekengrid onder andere op basis van grid refinements en rekencel grootte (bepaald in global settings). Voor deze test hoeft er niks gecontroleerd te worden. Het rekenraster kan terug gevonden worden onder...
 
-  <span style="color:yellow"> LN: @Wouter @Jelle *Waar kan het rekenraster terug gevonden worden?*</span>
+  <span style="color:yellow"> WE: Dit hoort denk ik bij laad lagen. Het rooster is ter referentie en kan gebruikt worden voor het verklaren van de resultaten. @SAWA willen jullie deze verplaatsen naar laad algen?*</span>
 
 #### Eenmalige testen
 De eenmalige tests zijn er om een aantal randvoorwaarden te controleren. Als geverifieerd is dat hieraan is voldaan, dan hoeven ze niet opnieuw te worden gedraaid.
@@ -96,21 +88,18 @@ De eenmalige tests zijn er om een aantal randvoorwaarden te controleren. Als gev
 
   Als de maximale waarde in de DEM te hoog is, duidt dat meestal op een fout in het bestand (de nodata waarde is waarschijnlijk verkeerd ingevoerd). Deze test berekent deze maximale waarde. Deze maximale waarde kan direct bij het kopje 'Geïsoleerde watergangen' onder de sqlite checks in the HHNK toolbox gevonden worden. Als er bij staat 'voldoen aan de norm' dan hoeft er niks aangepast te worden. Als dat niet zo is...
   
-  <span style="color:yellow"> WE: *foute nodata is toch meestal een heel groot negatief getal? Dan vind je die niet met de max denk ik. Ook toevoegen dat 10 meestal de max is omdat watergangen daarop worden dicht gesmeerd.*</span>
+  <span style="color:yellow"> WE: * @Jelle: foute nodata is toch meestal een heel groot negatief getal? Dan vind je die niet met de max denk ik. Ook toevoegen dat 10 meestal de max is omdat watergangen daarop worden dicht gesmeerd.*</span>
 
-  <span style="color:yellow"> LN: @Wouter @Jelle *Wat staat er als er geen 'voldoet aan de norm staat', en hoe kan het dan aangepast worden?*</span>
+  <span style="color:yellow"> LN: @Wouter @Jelle *Wat staat er als er geen 'voldoet aan de norm staat', en hoe kan het dan aangepast worden?*</span> Er zit misschien een realisctisch bereik in de code. @Jelle weet jij dat?
 
 * Test 2: Ontwateringsdiepte
 
-  Deze test controleert of het initiële waterpeil per polder onder de maaiveldhoogte (DEM) ligt. Het initiële waterpeil moet onder het oppervlak liggen. Het resultaat van deze test kan gevonden worden onder 'Lagen'. Hier bevindt zich een kaart met de naam 'ontwateringsdiepte'. Deze kaart geeft aan of het peil boven het maaiveld ligt (rood), of het peil net onder het maaiveld ligt (oranje) of dat het peil ruim voldoende onder het maaiveld ligt (groen).
-
-  <span style="color:yellow"> LN: @Wouter @Jelle *Ik krijg hiervoor de error 'Unavailable layer'. Waar kan dit resultaat aangepast worden indien nodig?*</span>
+  Deze test controleert of het initiële waterpeil per polder onder de maaiveldhoogte (DEM) ligt. Het initiële waterpeil moet onder het oppervlak liggen. Het resultaat van deze test kan gevonden worden onder 'Lagen'. Hier bevindt zich een kaart met de naam 'ontwateringsdiepte'. Deze kaart geeft aan of het peil boven het maaiveld ligt (rood), of het peil net onder het maaiveld ligt (oranje) of dat het peil ruim voldoende onder het maaiveld ligt (groen). Bij grote rode gebieden is het belangrijk om de peilgebiedenkaart te controleren. Als hier fouten in zitten is het verstandig het model opnieuw op te bouwen aangezien het streefpeil wordt gebruikt voor aannames voor kunstwerken en profielen.
 
   
-* Test 3: Oppervlaktewater 
+* Test 3: Oppervlaktewater berging
 
-  Deze test controleert per peilgebied in het model hoe groot het gebied is dat het oppervlaktewater beslaat in het model. Dit totaal is opgebouwd uit de ```storage_area``` uit de ```v2_connection_nodes``` tabel opgeteld bij het 
-   oppervlak van de watergangen (uitgelezen uit de ```channel_surface_from_profiles```) shapefile. Vervolgens worden de 
-   totalen per peilgebied vergeleken met diezelfde totalen uit de DAMO database. De resultaten geven een indicatie van over- of onderschatting van het oppervlaktewater in het model. De resultaten van deze test kunnen gevonden worden onder 'Lagen'. Hier bevindt zich een kaart met de naam 'Verschil oppervlaktewater' onder 'Areaal waterberging op streefpeil'. Ideaal gezien zouden de afwijkingin tussen het model en de DAMO database zo klein mogelijk moeten zijn.  
+  Deze test controleert per peilgebied het oppervlakte open water in het model ten opzichte van de waterdelen in de BGT.. Dit totaal is opgebouwd uit de ```storage_area``` uit de ```v2_connection_nodes``` tabel opgeteld bij het oppervlak van de watergangen (uitgelezen uit de ```channel_surface_from_profiles```) shapefile. Vervolgens worden de 
+   totalen per peilgebied vergeleken met diezelfde totalen uit de DAMO database waterdelen (bron BGT). De resultaten geven een indicatie van over- of onderschatting van het oppervlakte open water in het model. De resultaten van deze test kunnen gevonden worden onder 'Lagen'. Hier bevindt zich een kaart met de naam 'Verschil oppervlaktewater' onder 'Areaal waterberging op streefpeil'. Ideaal gezien zouden de afwijking in tussen het model en de DAMO database zo klein mogelijk moeten zijn.  
 
-   <span style="color:yellow"> LN: @Wouter @Jelle *Moeten de waarden aangepast worden als het verschil te groot is?*</span>
+   Deze test is goed samen te bekijken met de breedte van watergangen zoals hierboven beschreven onder 'Gebruikte profielen'. Bij grote verschillen kan dit aan incomplete waterdelen liggen of aan verkeerde profielen. Controleer de inputdata goed en bouw eventueel het model opnieuw op. Voor individuele plassen of meren die niet goed in het model zijn gekomen kan de storage area in enkele connection nodes worden opgehoogd.
