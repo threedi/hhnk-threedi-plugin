@@ -8,7 +8,7 @@ Nadat de modelstaten zijn gegenereerd, kunnen de (test)berekeningen uitgevoerd w
 
    ![Alt text](../../images/4_gebruik_plugin/d_berekeningen_uitvoeren/simulatie_starten_1.png)
 
-3. Om een simulatie te starten, kun je het beste gebruik maken van de meest recente versie van ``xx_calculation_gui_vx``. Door te dubbelklikken op de nieuwste versie, word je doorgestuurd naar het volgende scherm:
+3. Om een simulatie te starten kun je gebruik maken van  ``01_calculation_gui``. Door te dubbelklikken op de nieuwste versie, word je doorgestuurd naar het volgende scherm:
 
    ![Alt text](../../images/4_gebruik_plugin/d_berekeningen_uitvoeren/simulatie_starten_2.png)
 
@@ -25,18 +25,20 @@ Nadat de modelstaten zijn gegenereerd, kunnen de (test)berekeningen uitgevoerd w
    4. ``Select rain event``: maak hier een keuze voor de neerslagsituatie die bij de modelstaat hoort
    5. ``Select output folder/name``: kies hier de ``Sub folder`` waar de resultaten weggeschreven moeten worden 
    6. ``Select settings to include``: deze stap geeft de mogelijkheid om een aantal opties aan te vinken voor de naverwerking van de resultaten: <br>
-      * Basic processing: <br>
-      * Damage processing: <br>
-      * Arrival processing: <br>
-      * Structure control: <br>
-      * Laterals: 
-<span style="color:red"> BvL: @JK wil jij deze 5 opties invullen?</span> 
+      * Basic processing(\*): Stuur uw resultaten naar Lizard en maakt een basisresultatenbestand zoals waterdiepte;<br>
+      * Damage processing(\*): Voegt schadeberekening toe aan resultaten in Lizard (met behulp van standaard HHNK-instellingen);<br>
+      * Arrival processing: Voegt aankomsttijd toe aan resultaten in Lizard;<br>
+      * Structure control: Voeg sturing aan de berekening toe, aan te raden wanneer individuele klimaatsommen gedraaid worden; <br>
+      * Laterals: Voeg lateralen toe aan de berekening vanuit de sqlite-database, laat aan staan;<br>
+      * Aggregation netcdf: Voegt aggregatie instellingen uit de sqlite-database toe aan de berekening indien beschikbaar<br>
+      * initial wlvl 2d: Selecteer initial water level raster file om mee te nemen in de berekening
+\* *Lizard abonnement en opslag nodig. Niet nodig voor vervolg BWN methodiek dus kan uitgelaten worden.* 
    7. ``Start simulation``: de simulatienaam wordt automatisch gegenereerd op basis van de schematisatie die gebruikt wordt. Om de berekening te kunnen starten, moet eerst een simulatie aangemaakt worden middels de ``Create simulation`` knop.
 
 Als je meerdere klimaatsommen wil doorrekenen, kun je ervoor kiezen om in plaats van de tab ``single calculation``, de tab ``batch calculation`` te gebruiken en de scenario's te kiezen welke doorgerekend moeten worden. 
 
 ![Alt text](../../images/4_gebruik_plugin/d_berekeningen_uitvoeren/simulatie_batch_starten.png)
 
-<span style="color:red"> BvL: @WE/JK is het idee om hier ook nog veelvoorkomende foutmeldingen te noemen? Ik heb namelijk regelmatig dat ik geen simulaties kan draaien, bijvoorbeeld door ModuleNotFoundError of NameError en ik weet niet hoe ik die kan oplossen</span> 
+Zoek opnieuw het gewenste model via stappen 1, 2 en 3. Onder 4. is het mogelijk het juiste model, revisie en benodigde 2D waterstandsrasters bij de juiste initiële condities (gXg) te selecteren. Standaard worden de resultaten opgeslagen onder ```batch results```. Voeg eventueel een eigen map of kenmerk aan de simulatie toe (onder 7) om meerdere klimaat-batches uit elkaar te houden. Met de knop ```check input``` wordt een overzicht gemaakt van de berekeningen. Controleer deze en klik vervolgens op `` start batch simulation``.
 
 Klik [hier](e_downloaden_resultaten.md) om naar de toelichting van het downloaden van de simulaties te gaan.
