@@ -22,17 +22,12 @@ Om het resultaat in de HHNK Toolbox te laden kies je onder checks voor 0d1d test
 ### **Uitkomsten van de test**
 De 0d1d test genereert een aantal resultaten die inzicht geven in de werking van het systeem tijdens een stationaire bui. 
 
-* Hydraulische test (Kaart 1: Verhang kunstwerken)
-In deze test worden de 1d nodes uit het 3Di resultaat gefilterd. Voor kunstwerken en watergangen corresponderend met deze nodes worden de waterstanden aan het begin en einde van het scenario uitgelezen. Voor deze watergangen en kunstwerken wordt het volgende bepaald:
-  
-    * Het debiet in m3/s (q)
-    * Het verhang (cm/km)
-    * De stroomsnelheid in m/s (u)
-    * De stroomrichting
+**Hydraulische test (Kaart 1: Verhang kunstwerken)**: Deze test filtert de afvoer en waterstanden aan het einde van de neerslag uit de resultaten. Voor de watergangen en kunstwerken wordt het volgende bepaald:
+* Het debiet in m3/s (q)
+* Het verhang (cm/km)
+* De stroomsnelheid in m/s (u)
 
-<span style="color:red"> BvL: @WE/JK klopt het dat alleen het verhang wordt weergegeven in de resultaten en kaart?</span> 
-
-Ook voor onderstaande resultaten worden de 1d nodes uit het 3Di resultaat gefilterd en op vaste tijdstappen wordt de waterstand voor deze nodes uitgelezen. De tijdstappen zijn:
+Voor 1d waterstandpunten worden resultaten gefilterd op vaste tijdstappen. De tijdstappen zijn:
 * Aan het begin van de som
 * Aan het begin van de regen
 * Een dag voor het einde van de regen
@@ -40,34 +35,28 @@ Ook voor onderstaande resultaten worden de 1d nodes uit het 3Di resultaat gefilt
 * Aan het einde van de som
 
 Op basis van deze informatie worden de volgende waarden bepaald (in centimeters):
-* Het verschil in waterstand tussen het begin van de som en het begin van de regen (Kaart 2: Uitzakking initieel peil). Dit wordt gedaan om te controleren of het model 'lek' is.
-* Het verschil in waterstand tussen het begin van de regen en het einde van de regen (Kaart 3: Streefpeilhandhaving). Dit wordt gedaan om te controleren of berekende peilstijgingen acceptabel zijn in relatie tot drooglegging.
+* Het verschil in waterstand tussen het begin van de som en het begin van de regen (Kaart 2: Uitzakking initieel peil). Dit wordt gedaan om te controleren of peilgebieden niet lekken.
+* Het verschil in waterstand tussen het begin van de regen en het einde van de regen (Kaart 3: Streefpeilhandhaving). Dit wordt gedaan om te controleren of berekende peilstijgingen acceptabel zijn in relatie tot de drooglegging.
 * Het verschil in waterstand tussen het einde van de regen en een dag daarvoor (Kaart 5: Stabiele waterstandsverhoging einde regen). Dit wordt gedaan om te controleren of het systeem zich in een stationaire situatie bevindt.
 * Het verschil in waterstand tussen het einde van de regen en het einde van de som (Kaart 6: Herstel streefpeil). Dit wordt gedaan om te controleren of het watersysteem weer terug gaat naar het streefpeil.
 
 ### **Beoordeling resultaten**
-De resultaten die de 0d1d tests genereert, moeten gecontroleerd worden om te bevestigen dat het model naar behoren werkt.
+De resultaten die de 0d1d tests genereert, moeten gecontroleerd worden om te bevestigen dat het model naar behoren werkt. Gebruik de verschillende kaarten vooral om de plausibiliteit van het functioneren van het watersysteem in het model te controleren. Voeren de peilgebieden af zoals je verwacht, bijvoorbeeld via de watergangen die primair zijn. Controleer de stroming over de belangrijkste kunstwerken. Bespreek opvallendheden met de regioadviseurs van HHNK.
 
 Om te beoordelen of het watersysteem hydraulisch functioneert, is hieronder per onderdeel beschreven welke waarden/uitkomsten per onderdeel realistisch zijn (Kaart 1: Verhang kunstwerken)
 * Het debiet in m3/s (q)<br>
-*<span style="color:red"> BvL: Wouter of Jelle toelichting </span>*
+*Controleer of het afvoerverloop overeenkomt met de verwachting. Bespreek dit in ieder geval met de watersysteem adviseurs van HHNK.*
 * Het verhang (cm/km)<br>
-*Het verhang in een correct gedimensioneerde watergang ligt onder de 4 cm/km. Zodra het verhang boven de 4 cm/km ligt, is bijvoorbeeld de watergang (te) krap gedimensioneerd of de gemaalcapaciteit (te) laag.*
+*Het verhang in een correct gedimensioneerde watergang ligt onder de 2-4 cm/km. Zodra het verhang boven de 4 cm/km ligt, is bijvoorbeeld de watergang (te) krap gedimensioneerd of de gemaalcapaciteit (te) laag. Watergangen met een hoog verhang kunnen op een schematisatiefout wijzen*
 * De stroomsnelheid in m/s (u)<br>
-*<span style="color:red"> BvL: Wouter of Jelle toelichting </span>*
-* De stroomrichting<br>
-*<span style="color:red"> BvL: Wouter of Jelle toelichting </span>*
-
-<span style="color:red"> BvL: is het nodig om hier nog een toelichting toe te voegen net zoals bij uitkomsten van de test? Zo ja, zouden jullie (WE/JK) die dan willen schrijven?</span>
+*Watergangen of kunstwerken met een heel hoge stroomsnelheid (>0.5 m/s) kunnen wijzen op een schematisatiefout.*
 * Het verschil in waterstand tussen het begin van de som en het begin van de regen (Kaart 2: Uitzakking initieel peil)<br>
 *De waterstand zou tot aan het begin van de neerslagsituatie niet meer dan 2 cm moeten stijgen of uitzakken. Indien de waterstand stijgt of zakt, zit er mogelijk een lek in het model. Dit zou een gemaal met een verkeerd aanslagpeil kunnen zijn of een stuw op de grens met een ander peilgebied staat te laag, waardoor het naar een ander peilgebied 'lekt'*  
 * Het verschil in waterstand tussen het begin van de regen en het einde van de regen (Kaart 3: Streefpeilhandhaving)<br>
-*Gedurende de neerslagsituatie is het normaal dat de waterstand in de watergangen stijgt. Tot 25 cm stijging is een acceptabele waarde <span style="color:red"> BvL: in het document met datacontroles en modeltests 2018 wordt 15 cm genoemd. Welke waarde aanhouden?</span>. Daarnaast hangt het van de grondslag af of een bepaalde peilstijging acceptabel is. In veengebieden kunnen peilstijgingen groter dan 25 cm al voor problemen zorgen, terwijl in zandgebieden grotere peilstijgingen (>25 cm) zonder directe overlast mogelijk zijn. Bij grotere peilstijgingen moet de gebruikte data of het 1d systeem gecontroleerd worden op fouten*
+*Gedurende de neerslagsituatie is het normaal dat de waterstand in de watergangen stijgt. Afhankelijk van de drooglegging, het type gebied, is 15 tot 25 cm stijging is een normale waarde.  In veengebieden kunnen peilstijgingen groter dan 25 cm al voor problemen zorgen, terwijl in zandgebieden grotere peilstijgingen (>25 cm) zonder directe overlast mogelijk zijn. Bij grotere peilstijgingen moet de gebruikte data of het 1d systeem gecontroleerd worden op fouten.*
 * Het verschil in waterstand tussen het einde van de regen en een dag daarvoor (Kaart 5: Stabiele waterstandsverhoging einde regen)<br>
-*In de laatste dag van de neerslagsituatie zou de waterstand niet meer verder dan 1 cm moeten stijgen, omdat er een stationaire situatie is bereikt. Als de waterstand niet stabiel is <span style="color:red"> BvL: @WE/JK kunnen jullie dit aanvullen?</span>*
-* Het verschil in waterstand tussen het einde van de regen en het einde van de som (Kaart 6: Herstel streefpeil)<br>
-*In de laatste dag van de simulatie, waar geen regen meer valt, zou de waterstand weer moeten zakken naar het streefpeil (of mogelijk nog wat lager door de afslagpeilen van de gemalen). Wanneer de waterstand nog meer dan 2 cm boven het streefpeil ligt, zit er mogelijk een fout in het model. Dit kan dan gaan over verkeerde hoogtes van stuwen, waardoor het water niet meer kan wegstromen of <span style="color:red"> BvL: @WE/JK kunnen jullie dit aanvullen?</span>*
+*In de laatste dag van de neerslagsituatie zou de waterstand niet meer verder dan 1 cm moeten stijgen, omdat er een stationaire situatie is bereikt. Als de waterstand niet stabiel is kan dit opnieuw wijzen op een lekkend peilgebied of een dat een waterloop niet kan afvoeren. In grote polders kan het nodig zijn de neerslagperiode langer te maken (via de calculaiton-gui), de test detecteert het einde van de periode automatisch.*
+* Het verschil in waterstand tussen het begin en het einde van de som (Kaart 6: Herstel streefpeil)<br>
+*In de laatste dag van de simulatie, waar geen regen meer valt, zou de waterstand weer moeten zakken naar het streefpeil (of mogelijk nog wat lager door de afslagpeilen van de gemalen). Wanneer de waterstand nog meer dan 2 cm boven het streefpeil ligt, zit er mogelijk een fout in het model. Mogelijke oorzaak is beperkte afvoermogelijkheden bij kunstwerken.*
 
 Als er voldoende vertrouwen in de uitkomsten van het model is, kun je naar de [Banklevel test](5_banklevel_test.md) gaan.
-
-<span style="color:yellow"> WE: *Wie keurt dit model goed? Beschrijf ook de werkwijze voor de watersysteemanalyse, in dit geval overleg met watersysteemadviseurs en gebiedsbeheerders*</span> <span style="color:red"> BvL: Wouter kun jij dit zelf beantwoorden?</span>
