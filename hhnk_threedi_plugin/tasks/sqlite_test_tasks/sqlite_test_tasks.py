@@ -6,6 +6,15 @@ import hhnk_research_tools as hrt
 from PyQt5.QtCore import pyqtSignal
 from qgis.core import Qgis, QgsTask
 from qgis.utils import QgsMessageLog, iface
+import logging
+
+# disable loggers so we avoid Attributrror 'NoneType' opbjct has no attribute 'write' in logger module
+# see https://stackoverflow.com/questions/35325042/python-logging-disable-logging-from-imported-modules
+import logging.config
+logging.config.dictConfig({
+    'version': 1,
+    'disable_existing_loggers': True,
+})
 
 from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.controlled_structs_result import (
     create_controlled_structs_widget,
