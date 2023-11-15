@@ -6,5 +6,9 @@
         "editor.codeActionsOnSave": {
             "source.fixAll": true
         }
-    }
+    },
+    "editor.rulers": [
+        100,
+        119
+    ],
 }
