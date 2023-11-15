@@ -4,3 +4,5 @@ fixable = ["I"]
 
 [pydocstyle]
 convention = "numpy"
+
+line-length = 119
