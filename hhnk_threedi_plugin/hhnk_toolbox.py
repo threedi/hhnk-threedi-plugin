@@ -44,6 +44,11 @@ except ModuleNotFoundError:
 
 # Import the code for the plugin content
 # GUI
+import logging
+
+# disable loggers so we avoid Attributrror 'NoneType' opbjct has no attribute 'write' in logger module
+# see https://stackoverflow.com/questions/35325042/python-logging-disable-logging-from-imported-modules
+import logging.config
 import os
 
 # docs
@@ -83,6 +88,14 @@ from hhnk_threedi_plugin.hhnk_toolbox_dockwidget import HHNK_toolboxDockWidget
 from hhnk_threedi_plugin.qgis_interaction.open_notebook import NotebookWidget
 from hhnk_threedi_plugin.qgis_interaction.project import Project
 from hhnk_threedi_plugin.tasks.task_sqlite_tests_main import task_sqlite_tests_main
+
+logging.config.dictConfig(
+    {
+        "version": 1,
+        "disable_existing_loggers": True,
+    }
+)
+
 
 DOCS_LINK = "https://threedi.github.io/hhnk-threedi-plugin/"
 
