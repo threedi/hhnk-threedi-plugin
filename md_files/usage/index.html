@@ -1,0 +1,730 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://threedi.github.io/hhnk-threedi-plugin/md_files/usage/">
+      
+      
+        <link rel="prev" href="../installation_manual/">
+      
+      
+        <link rel="next" href="../needed_data/">
+      
+      <link rel="icon" href="../../icons/hhnk_logo.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.6">
+    
+    
+      
+        <title>Gebruikershandleiding - HHNK 3Di toolbox</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.558e4712.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.2505c338.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="hhnk" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#gebruikershandleiding" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="HHNK 3Di toolbox" class="md-header__button md-logo" aria-label="HHNK 3Di toolbox" data-md-component="logo">
+      
+  <img src="../../icons/hhnk_logo_white.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            HHNK 3Di toolbox
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Gebruikershandleiding
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="hhnk" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5Z"/></svg>
+            </label>
+          
+        
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="HHNK 3Di toolbox" class="md-nav__button md-logo" aria-label="HHNK 3Di toolbox" data-md-component="logo">
+      
+  <img src="../../icons/hhnk_logo_white.png" alt="logo">
+
+    </a>
+    HHNK 3Di toolbox
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation_manual/" class="md-nav__link">
+        Installatie Instructies
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Gebruikershandleiding
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Gebruikershandleiding
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#plugin-overzicht" class="md-nav__link">
+    Plugin overzicht
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-polder-selecteren" class="md-nav__link">
+    1. Polder selecteren
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-nieuw-project-aanmaken" class="md-nav__link">
+    2. Nieuw project aanmaken
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-modelstaat-aanpassen" class="md-nav__link">
+    3. Modelstaat aanpassen
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-sqlite-tests" class="md-nav__link">
+    4. Sqlite tests
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-0d1d-tests" class="md-nav__link">
+    5. 0d1d tests
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-bank-levels-test" class="md-nav__link">
+    6. Bank levels test
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-1d2d-tests" class="md-nav__link">
+    7. 1d2d tests
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../needed_data/" class="md-nav__link">
+        Bron data
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../polder_clusters/" class="md-nav__link">
+        Polder clusters
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tests_documentation/" class="md-nav__link">
+        Uitleg tests en functionaliteit
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#plugin-overzicht" class="md-nav__link">
+    Plugin overzicht
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-polder-selecteren" class="md-nav__link">
+    1. Polder selecteren
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-nieuw-project-aanmaken" class="md-nav__link">
+    2. Nieuw project aanmaken
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-modelstaat-aanpassen" class="md-nav__link">
+    3. Modelstaat aanpassen
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-sqlite-tests" class="md-nav__link">
+    4. Sqlite tests
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-0d1d-tests" class="md-nav__link">
+    5. 0d1d tests
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-bank-levels-test" class="md-nav__link">
+    6. Bank levels test
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-1d2d-tests" class="md-nav__link">
+    7. 1d2d tests
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="gebruikershandleiding">Gebruikershandleiding</h1>
+<p>Deze pagina is bedoeld als handleiding om de HHNK Toolbox te gebruiken. </p>
+<p>Voor inhoudelijke uitleg van de tests, zie <a href="../tests_documentation/">Documentatie</a>
+Voor uitleg over de benodigde data, zie <a href="../needed_data/">Bron data</a>
+Voor uitleg over de interpretatie van resultaten, zie !!!</p>
+<h2 id="plugin-overzicht">Plugin overzicht</h2>
+<p><img alt="" src="../../images/usage/plugin_overview_legend.png" /></p>
+<ol>
+<li><a href="#1-polder-selecteren">Polder selecteren</a></li>
+<li><a href="#2-nieuw-project-aanmaken">Nieuw project aanmaken</a></li>
+<li><a href="#3-modelstaat-aanpassen">Modelstaat aanpassen</a></li>
+<li><a href="#4-sqlite-tests">Sqlite tests</a></li>
+<li><a href="#5-0d1d-tests">0d1d tests</a></li>
+<li><a href="#6-bank-levels-test">Bank levels</a></li>
+<li><a href="#7-1d2d-tests">1d2d tests</a></li>
+</ol>
+<h2 id="1-polder-selecteren">1. Polder selecteren</h2>
+<p>Selecteer een project map (zie <a href="../tests_documentation/#indeling-project-map">Standaard project indeling</a> voor uitleg over de 
+standaard indeling voor een project). Het is handig maar niet noodzakelijk om een project volgens de standaard indeling 
+in te richten. De meeste functionaliteit van de plugin is alleen beschikbaar wanneer een project 
+is geselecteerd.</p>
+<h2 id="2-nieuw-project-aanmaken">2. Nieuw project aanmaken</h2>
+<p>Wanneer je op deze knop klikt open zich een nieuw venster:</p>
+<p><img alt="" src="../../images/usage/new_project_setup_legend.PNG" /></p>
+<p>Selecteer een map om het nieuwe project in aan te maken (veld 1). Geef het nieuwe project een naam (de conventie is om 
+het project de naam van het gebied waar het model een weergave van is te geven) in veld 2.</p>
+<p>Wanneer je op 'Project aanmaken' klikt wordt er een lege mappenstructuur aangemaakt volgens de standaard projectindeling 
+(zie <a href="../tests_documentation/#indeling-project-map">project indeling</a>). In de verschillende mappen worden <code>readme</code> files 
+aangemaakt waarin staat welke files in welke map wordt gezocht.</p>
+<p>Het resultaat ziet er als volgt uit:</p>
+<p><img alt="" src="../../images/usage/new_project_created.PNG" /></p>
+<h2 id="3-modelstaat-aanpassen">3. Modelstaat aanpassen</h2>
+<p>Wanneer je op deze knop klikt open zich een nieuw venster:</p>
+<p><img alt="" src="../../images/usage/model_states_conversion_legend.png" /></p>
+<ol>
+<li>
+<p>Selecteer een model</p>
+</li>
+<li>
+<p>Zodra een model is geselecteerd wordt de huidige staat gedetecteerd (zie 
+   <a href="../tests_documentation/#modelstaat-aanpassen">Modelstaat aanpassen</a>). Het is belangrijk dat de gedetecteerde staat 
+   klopt.</p>
+</li>
+<li>Kies de staat om het model naar om te zetten</li>
+<li>Deze sectie wordt beschikbaar als we bij 3 '1d2d toets' als nieuwe staat hebben geselecteerd. Er zijn twee opties 
+   wanneer we het model omzetten naar de 1d2d toets staat: <br>
+   4a. We can calculate the correct configuration from a 3di result </li>
+<li>
+<p>4a.1 <br>
+     Bereken de 1d2d staat op basis van een 3di resultaat:
+     Selecteer een 3d1 resultaat map (bevat een <code>.nc</code> en een <code>.h5</code> file). Dit resultaat wordt alleen gebruikt om 
+     het rekengrid te bepalen. Het maakt dus niet uit of het resultaat een 0d1d of 1d2d som betreft.</p>
+<ul>
+<li>4a.2 <br>
+Selecteer de datachecker geodatabase die bij het model hoort. <br></li>
+</ul>
+<p>4b. Je kunt er ook voor kiezen om een eerdere 1d2d staat te gebruiken voor het omzetten van het model, mits er een 
+backup beschikbaar is. Deze backup is ook beschikbaar als de <code>bank levels</code> al eerder zijn berekend.</p>
+</li>
+</ol>
+<p>Wanneer je op 'OK' klikt worden alle benodigde aanpassingen berekend en voorgelegd aan de gebruiker:</p>
+<p><img alt="" src="../../images/usage/model_states_changes_dialog.PNG" /></p>
+<p>In sommige gevallen kunnen de nieuwe waarden handmatig worden aangepast. In sommige gevallen kunnen bepaalde rijen 
+worden uitgesloten zodat ze niet worden meegenomen in het aanpassen van het model.</p>
+<p>Controleer de voorgestelde aanpassingen en klik op 'Aanpassingen uitvoeren' om ze door te voeren. Als er handmatige 
+aanpassingen zijn gedaan of er rijen zijn uitgesloten dan worden deze wijzigingen weergegeven zodat ze kunnen worden 
+opgeslagen:</p>
+<p><img alt="" src="../../images/usage/model_states_manual_changes.PNG" /></p>
+<h2 id="4-sqlite-tests">4. Sqlite tests</h2>
+<p>De sqlite tests zijn bedoeld om het model te controleren op (potentiële) fouten in de data en deze te corrigeren waar 
+nodig. Na de sqlite tests is het model klaar om op te bouwen en om de 0d1d toets te draaien (zie 
+<a href="../tests_documentation/#1d2d-tests">0d1d toets/Hydraulische toets</a>). Voor de inhoudelijke uitleg van de tests, zie:
+<a href="../tests_documentation/#sqlite-tests">Sqlite tests</a></p>
+<p>Wanneer je op deze knop klikt open zich een nieuw venster:</p>
+<p><img alt="" src="../../images/usage/sqlite_tests_dialog_legend.png" /></p>
+<ol>
+<li>Polder: alleen-lezen veld waarin de huidige project map wordt weergegeven</li>
+<li>Output map: selecteer de map waar de resultaten in worden opgeslagen (hoeft geen bestaande map te zijn)</li>
+<li>Model: selecteer een model (<code>*.sqlite</code>)</li>
+<li>DEM: selecteer het DEM raster (<code>*.tif</code>)</li>
+<li>Datachecker: selecteer datachecker output (<code>*.gdb</code>)</li>
+<li>Channel surface from profiles: selecteer shapefile (<code>*.shp</code>)</li>
+<li>HDB: selecteer HDB database (<code>*.gdb</code>)</li>
+<li>DAMO: selecteer DAMO database (<code>*.gdb</code>)</li>
+<li>Polder shapefile: selecteer polder shapefile (<code>*.shp</code>)</li>
+<li>Data verificatie: selecteer tests</li>
+<li>Eenmalige tests: selecteer tests</li>
+</ol>
+<p>Klik op 'OK' om de tests te starten. De resultaten worden weergegeven als de tests uitgevoerd zijn:</p>
+<p><img alt="" src="../../images/usage/sqlite_tests_results_legend.PNG" /></p>
+<ol>
+<li>
+<p>De resultaten van sommige tests worden gevisualiseerd als <code>QGIS</code> lagen. Deze lagen worden toegevoegd aan het 
+   <code>layers panel</code> in <code>QGIS</code>. De bronnen voor deze lagen zijn <code>geopackages (.gpkg)</code>. Deze files worden 
+   automatisch aangemaakt en opgeslagen in de gekozen <code>Output map</code>, in de <code>Layers</code> submap.</p>
+</li>
+<li>
+<p>Een overzicht van de test resultaten wordt weergegeven in de <code>Sqlite tests</code> tab in de toolbox.</p>
+</li>
+</ol>
+<p>De test resultaten worden ook als <code>.csv</code> files in de gekozen <code>Output map</code> in de <code>Logs</code> submap.</p>
+<h2 id="5-0d1d-tests">5. 0d1d tests</h2>
+<p><img alt="" src="../../images/usage/0d1d_tests_tab_legend.png" /></p>
+<p>De <code>0d1d tests</code> zijn bedoeld om de resultaten van de 
+<a href="../tests_documentation/#0d1d-testshydraulische-toets">0d1d toets/Hydraulische toets</a> te analyseren.</p>
+<ol>
+<li>
+<p>Selecteer 3di resultaten map: map waarin de 0d1d/hydraulic 3di test resultaten per revisie staan opgeslagen</p>
+</li>
+<li>
+<p>Selecteer 3di revisie: format is normaal gesproken {polder name}{revision number}{type of test} (map die 
+   <code>.nc</code> en <code>.h5</code> files bevat).</p>
+</li>
+<li>
+<p>Toont de geselecteerde revisie</p>
+</li>
+<li>Selecteer map om resultaten in op te slaan</li>
+</ol>
+<p>Wanneer je op 'Begin tests' klikt word je gevraagd het 3di scenario te bevestigen. Het scenario moet overeenkomen met 
+het 0d1d toets/hydraulische toets scenario om geldige resultaten te genereren. Als het scenario bevestigd is worden de 
+tests gestart.</p>
+<p><img alt="" src="../../images/usage/0d1d_tests_confirm.PNG" /></p>
+<p>Resultaten van de tests worden als lagen toegevoegd aan <code>QGIS</code>:</p>
+<p><img alt="" src="../../images/usage/0d1d_tests_map_results.PNG" /></p>
+<p>De bronnen voor deze lagen zijn <code>geopackages (.gpkg)</code>. Deze files worden automatisch aangemaakt en opgeslagen in de 
+gekozen <code>Output map</code>, in de map met de naam van de geselecteerde <code>revisie</code>, in de <code>Layers</code> submap. De test 
+resultaten worden ook als <code>.csv</code> files in de gekozen <code>Output map</code>, in de map met de naam van de geselecteerde 
+<code>revisie</code>, in de <code>Logs</code> submap.</p>
+<h2 id="6-bank-levels-test">6. Bank levels test</h2>
+<p><img alt="" src="../../images/usage/bank_levels_tab_legend.png" /></p>
+<p>Voor meer informatie over de inhoud van de test, zie: <a href="../tests_documentation/#bank-levels">Bank levels</a></p>
+<ol>
+<li>
+<p>Selecteer 3di resultaten map: map waarin de 0d1d/hydraulic 3di test resultaten per revisie staan opgeslagen</p>
+</li>
+<li>
+<p>Selecteer 3di revisie: format is normaal gesproken {polder name}{revision number}{type of test} (map die 
+   <code>.nc</code> en <code>.h5</code> files bevat).</p>
+</li>
+<li>
+<p>Toont de geselecteerde revisie</p>
+</li>
+<li>Selecteer model (<code>*.sqlite</code>)</li>
+<li>Selecteer datachecker output geodatabase (<code>.gdb</code>)</li>
+<li>Selecteer map om resultaten in op te slaan</li>
+</ol>
+<p>Klik op 'Begin tests' om de tests te starten. De bank levels test genereert voorgestelde aanpassingen aan het model, die 
+aan de gebruiker worden voorgelegd:</p>
+<p><img alt="" src="../../images/usage/bank_levels_proposed_changes.PNG" /></p>
+<p>Je kunt manholes deselecteren die je niet aan het model wil toevoegen. Waar nodig kun je de voorgestelde bank levels 
+handmatig aanpassen. Klik op 'Aanpassingen uitvoeren' om de voorgestelde wijzigingen door te voeren. Als er handmatige 
+aanpassingen zijn gemaakt of er rijen zijn uitgesloten, dan worden die wijzigingen weergegeven zodat de gebruiker ze 
+kan opslaan.</p>
+<p><img alt="" src="../../images/usage/bank_levels_manual_changes.PNG" /></p>
+<p>Resultaten van de tests worden als lagen toegevoegd aan <code>QGIS</code>:</p>
+<p><img alt="" src="../../images/usage/bank_levels_layer_group.PNG" /></p>
+<p>De bronnen voor deze lagen zijn <code>geopackages (.gpkg)</code>. Deze files worden automatisch aangemaakt en opgeslagen in de 
+gekozen <code>Output map</code>, in de <code>Layers</code> submap. De test resultaten worden ook als <code>.csv</code> files in de gekozen 
+<code>Output map</code> in de <code>Logs</code> submap.</p>
+<h2 id="7-1d2d-tests">7. 1d2d tests</h2>
+<p><img alt="" src="../../images/usage/1d2d_tests_tab_legend.png" /></p>
+<p>De <code>1d2d tests</code> zijn bedoeld om de resultaten van de 
+<a href="../tests_documentation/#1d2d-tests">1d2d toets</a> te analyseren.</p>
+<ol>
+<li>
+<p>Selecteer 3di resultaten map: map waarin de 0d1d/hydraulic 3di test resultaten per revisie staan opgeslagen</p>
+</li>
+<li>
+<p>Selecteer 3di revisie: format is normaal gesproken {polder name}{revision number}{type of test} (map die 
+   <code>.nc</code> en <code>.h5</code> files bevat).</p>
+</li>
+<li>
+<p>Toont de geselecteerde revisie</p>
+</li>
+<li>Selecteer DEM raster (<code>.tif</code>) </li>
+<li>Selecteer model (<code>.sqlite</code>)</li>
+<li>Selecteer map om resultaten in op te slaan</li>
+</ol>
+<p>Wanneer je op 'Begin tests' klikt word je gevraagd het 3di scenario te bevestigen. Het scenario moet overeenkomen met 
+het 1d2d toets scenario om geldige resultaten te genereren. Als het scenario bevestigd is worden de 
+tests gestart.</p>
+<p><img alt="" src="../../images/usage/1d2d_tests_confirm.PNG" /></p>
+<p>Resultaten van de tests worden als lagen toegevoegd aan <code>QGIS</code>:</p>
+<p><img alt="" src="../../images/usage/1d2d_tests_layer_group.PNG" /></p>
+<p>De bronnen voor deze lagen zijn <code>geopackages (.gpkg)</code>. Deze files worden automatisch aangemaakt en opgeslagen in de 
+gekozen <code>Output map</code>, in de map met de naam van de geselecteerde <code>revisie</code>, in de <code>Layers</code> submap. De test 
+resultaten worden ook als <code>.csv</code> files in de gekozen <code>Output map</code>, in de map met de naam van de geselecteerde 
+<code>revisie</code>, in de <code>Logs</code> submap.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+      
+      
+    
+    <a href="https://github.com/threedi/hhnk-threedi-plugin" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.51d95adb.min.js"></script>
+      
+    
+  </body>
+</html>
