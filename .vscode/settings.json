@@ -11,4 +11,5 @@
         100,
         119
     ],
+    "autoDocstring.docstringFormat": "numpy",
 }
