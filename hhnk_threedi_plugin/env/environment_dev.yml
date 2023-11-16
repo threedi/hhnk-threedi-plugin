@@ -24,6 +24,7 @@ dependencies:
   - pluggy=1.0.0 #pytest dependency
   # - exceptiongroup=1.1.1 #pytest dependency
   - iniconfig=2.0.0 #pytest dependency
+  - ruff #for ruff formatting
   - tqdm=4.64.0
 
 

@@ -1,0 +1,15 @@
+{
+    "notebook.formatOnSave.enabled": true,
+    "[python]": {
+        "editor.defaultFormatter": "charliermarsh.ruff",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.fixAll": true
+        }
+    },
+    "editor.rulers": [
+        100,
+        119
+    ],
+    "autoDocstring.docstringFormat": "numpy",
+}
