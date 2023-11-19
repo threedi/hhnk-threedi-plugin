@@ -1,18 +1,18 @@
-## **3Di**
-[3Di](https://3diwatermanagement.com/) is een hydrodynamisch model waarmee zowel 1D (watergangen, riolering) als 2D (maaiveld) of 1D-2D gerekend kan worden. Extra informatie over 3Di kan [hier](https://docs.3di.live/index.html) geraadpleegd worden.
+## **Bruggen**
+### **Breedte**
+Als er geen doorstroombreedte bekend is bij een brug of de breedte valt buiten de range van 0.5 tot 50 meter nemen we de volgende waarden aan: 
 
-<span style="color:yellow"> WE: *verwijzen naar website en docs 3di*</span>
+Primaire bruggen: 20.02 m 
 
+Secundaire bruggen: 10.01 m 
 
-### **Uitgangspunten 3Di BWN modellen**
-De uitgangspunten die worden gebruikt bij het maken van de 3Di modellen zijn hieronder toegelicht.
+### **Diepte**
+De diepte van bruggen leveren we niet mee. Deze wordt aangenomen op de waterdiepte. In de datachecker wordt nu waar beschikbaar de getabelleerde bodemhoogte meegenomen. Na het toepassen van de ingemeten profielen op de watergang wordt bij iedere brug (v2_orifice met code: KBR*) op beide connection nodes gekeken wat de laagste bodemhoogte van de aangesloten kanalen is. Deze bodemhoogte+1cm wordt meegegeven aan de bruggen. Aan het einde van de routine wordt net als voorheen de bodemhoogte van kanalen naar BOB/crest_level-1cm gezet indien deze gelijk of hoger was dan de BOB/crest_level. 
 
+Het verlagen van de watergangen aan de hand van kunstwerken vindt plaats aan het einde van de modelbuilder routine om er voor te zorgen dat het model goed rekent. Dit vindt dus plaats nadat de bruggen zijn verlaagd naar waterganghoogte. Het klopt dus wat je zegt in punt 1, dat als de brug is verlaagd n.a.v. de laagste watergang dit door wordt getrokken naar de hogere watergang. 
 
+### **Doorstroomhoogte**
+Als de diepte van de waterloop ter plaatse van een brug is aangepast naar bodemhoogte van de watergang berekent de modelbuilder de doorstroomhoogte opnieuw met de HOOGTEONDERZIJDE van de brug uit DAMO. Hiervoor geldt een minimale doorstroomhoogte van 1 meter. Bij geen ingevulde waarde in DAMO komt de bovenkant van het profiel op NAP +10,01 meter.
 
-Uit aangeleverde documenten:
-Uitgangspuntennotitie 3Di-modellen.docx
-
-misschien wat losse files maken voor:
-* ruimtekaart filtering plas watersysteem: Uitwerking filtering overlastbeeld en opzet ruimtekaart
-* Brede methodiek wateroverlast: brede methodiek wateroverlast.pdf en 20180607_Rekenmethodiek_definitief.pdf
-* spatialite aanpassen met SQL: H2 uit: Handboek_modelaanpassingen_WSA.docx, wel opmerken dat sqlite verouderd is en N&S nieuwe werkwijze met geopackage ontwikkeld
+### **Coefficienten**
+De discharge coefficient pog/neg = 1
