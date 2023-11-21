@@ -166,6 +166,7 @@ class newProjectDialog(QDialog):
         base_path = Path(dockwidget.polders_map_selector.filePath())
         base_path = str(base_path.parent)
         print(base_path + " copy_files")
+        #TODO why is this here?
         if not base_path == r"E:\02.modellen":
             base_path = r"E:\02.modellen"
 
