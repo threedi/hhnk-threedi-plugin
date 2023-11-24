@@ -1,6 +1,9 @@
 ## **Overzicht plugin**
 De HHNK Toolbox is opgedeeld in drie delen:
 
+<span style="color:yellow"> WE: *Toevoegen map themes*</span> <span style="color:red">
+
+
 ![Alt text](../../images/4_gebruik_plugin/b_overzicht_plugin/plugin_venster.png)
 
 1. Main: hier wordt het model ingeladen, kunnen resultaten worden ingeladen en is het mogelijk om simulaties te starten
