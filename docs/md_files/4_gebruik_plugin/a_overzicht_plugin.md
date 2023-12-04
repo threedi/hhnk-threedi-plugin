@@ -84,6 +84,9 @@ Klik [hier](c_modelstaat_aanpassen.md) om de stappen te volgen om modelstaten aa
 ## **Zelf een model maken**
 Volg onderstaande werkwijze als je het model vanaf de 'grond' gaat opbouwen (optie 2)
 
+#### Visibility presets
+Door op het oogje te klikken onder lagen, kunnen bepaalde kaarten aangevinkt worden om snel een overzicht van de resultaten te krijgen die je wilt bekijken. Op deze manier hoef je niet zelf de juiste lagen aan of uit te vinken voor de resultaten van bepaalde testen, maar wordt dit voor je gedaan.
+
 ### 1. Modellen folder selecteren
 Voordat een nieuw project aangemaakt kan worden, moet een modellen folder gekozen worden. Op deze locatie wordt alle data in het vervolg opgeslagen. Hieronder is te zien op welke plek de modellen folder (1) zich bevindt:
 
