@@ -31,4 +31,4 @@ In het beheergebied van HHNK bevinden zich drie neerslagregio's:
 
 <span style="color:red"> BvL: *Daarnaast is er een klein deel dat in de neerslagregio Mild ligt. Voor dit laatste gebied gaan we uit van een bovengrensbenadering en kiezen we neerslagregio Gemiddeld.* > ik zie geen neerslagregio Gemiddeld? Moet Gemiddeld De Bilt zijn? </span>
 
-Aan de hand van de neerslagregio's is bepaald wat de frequentie van de herhalingstijden van piek- en blokbuien in de zomer en de winter is. Het onderscheid tussen zomer en winter is gemaakt, omdat de GHG, GGG en GLG andere kansen hebben in de zomer en winter en de kans op neerslag in de zomer en winter sterk uiteenloopt.
+Aan de hand van de neerslagregio's is bepaald wat de frequentie van de herhalingstijden van piek- en blokbuien in de zomer en de winter is. Deze frequenties zijn nodig voor het bepalen van de netto contante waarde van de schade. Het onderscheid tussen zomer en winter is gemaakt, omdat de GHG, GGG en GLG andere kansen hebben in de zomer en winter en de kans op neerslag in de zomer en winter sterk uiteenloopt.

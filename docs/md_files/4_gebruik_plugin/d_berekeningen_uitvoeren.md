@@ -12,7 +12,7 @@ Nadat de modelstaten zijn gegenereerd, kunnen de (test)berekeningen uitgevoerd w
 
    ![Alt text](../../images/4_gebruik_plugin/d_berekeningen_uitvoeren/simulatie_starten_2.png)
 
-4. Doorloop nu de eerste stap door ergens te klikken in het veld met ``#imports`` en vervolgens crtl + enter. Dit levert het onderstaande invoerscherm op:
+4. Doorloop nu de eerste stap door ergens te klikken in het veld met ``#Add qgis plugin deps to syspath and load notebook_data`` en vervolgens crtl + enter. Dit levert het onderstaande invoerscherm op:
 
    ![Alt text](../../images/4_gebruik_plugin/d_berekeningen_uitvoeren/simulatie_starten_3.png)
 
@@ -25,15 +25,16 @@ Nadat de modelstaten zijn gegenereerd, kunnen de (test)berekeningen uitgevoerd w
    4. ``Select rain event``: maak hier een keuze voor de neerslagsituatie die bij de modelstaat hoort
    5. ``Select output folder/name``: kies hier de ``Sub folder`` waar de resultaten weggeschreven moeten worden 
    6. ``Select settings to include``: deze stap geeft de mogelijkheid om een aantal opties aan te vinken voor de naverwerking van de resultaten: <br>
-      * Basic processing(\*): Stuur uw resultaten naar Lizard en maakt een basisresultatenbestand zoals waterdiepte;<br>
-      * Damage processing(\*): Voegt schadeberekening toe aan resultaten in Lizard (met behulp van standaard HHNK-instellingen);<br>
-      * Arrival processing: Voegt aankomsttijd toe aan resultaten in Lizard;<br>
-      * Structure control: Voeg sturing aan de berekening toe, aan te raden wanneer individuele klimaatsommen gedraaid worden; <br>
-      * Laterals: Voeg lateralen toe aan de berekening vanuit de sqlite-database, laat aan staan;<br>
-      * Aggregation netcdf: Voegt aggregatie instellingen uit de sqlite-database toe aan de berekening indien beschikbaar<br>
-      * initial wlvl 2d: Selecteer initial water level raster file om mee te nemen in de berekening
-\* *Lizard abonnement en opslag nodig. Niet nodig voor vervolg BWN methodiek dus kan uitgelaten worden.* 
-   7. ``Start simulation``: de simulatienaam wordt automatisch gegenereerd op basis van de schematisatie die gebruikt wordt. Om de berekening te kunnen starten, moet eerst een simulatie aangemaakt worden middels de ``Create simulation`` knop.
+      * Basic processing(\*): stuur je resultaten naar Lizard en maakt een basisresultatenbestand zoals waterdiepte;<br>
+      * Damage processing(\*): voegt schadeberekening toe aan resultaten in Lizard (met behulp van standaard HHNK-instellingen);<br>
+      * Arrival processing: voegt aankomsttijd toe aan resultaten in Lizard;<br>
+      * Structure control: voegt sturing aan de berekening toe, aan te raden wanneer individuele klimaatsommen gedraaid worden; <br>
+      * Laterals: voegt lateralen toe aan de berekening vanuit de sqlite-database, laat aan staan;<br>
+      * Aggregation netcdf: voegt aggregatie instellingen uit de sqlite-database toe aan de berekening indien beschikbaar<br>
+      * initial wlvl 2d: selecteert initial water level raster file om mee te nemen in de berekening<br>
+   7. ``Start simulation``: de simulatienaam wordt automatisch gegenereerd op basis van de schematisatie die gebruikt wordt. Om de berekening te kunnen starten, moet eerst een simulatie aangemaakt worden middels de ``Create simulation`` knop. Als dat is gelukt, kleurt de knop ``Start simulation  `` groen en kan de simulatie aangezet worden.
+
+\* *Lizard abonnement en opslag nodig. Niet nodig voor vervolg BWN methodiek dus kan uitgelaten worden.* <br>
 
 Als je meerdere klimaatsommen wil doorrekenen, kun je ervoor kiezen om in plaats van de tab ``single calculation``, de tab ``batch calculation`` te gebruiken en de scenario's te kiezen welke doorgerekend moeten worden. 
 
