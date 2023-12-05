@@ -8,21 +8,20 @@ De HHNK Toolbox is opgedeeld in drie delen:
 
 1. Main: hier wordt het model ingeladen, kunnen resultaten worden ingeladen en is het mogelijk om simulaties te starten
 2. Checks: dit onderdeel geeft de gebruiker de mogelijkheid om controles uit te voeren voor het model
-3. Modelbouw: werkt alleen op de server van HHNK <span style="color:red"> BvL: @WE/JK wordt later toegevoegd aan handleiding toegevoegd? Of gaan we hier niet op in?</span> 
+3. Modelbouw: werkt alleen op de server van HHNK <span style="color:red"> BvL: @WE/JK wordt later toegevoegd aan handleiding toegevoegd? Of gaan we hier niet op in?</span> <span style="color:yellow"> WE: *verwijzen naar modelbuiled mag 'nieuw model'*</span> <span style="color:red">
 
 Er zijn twee mogelijkheden om met de toolbox aan de slag te gaan:
 1. HHNK levert de benodigde data (model) aan (klik [hier](#1-data-aangeleverd-door-hhnk))
-2. Gebruiker van de plugin bouwt een model vanaf de 'grond' op (klik [hier](#2-zelf-een-model-maken))
+2. Gebruiker van de plugin bouwt een model zelf op (klik [hier](#2-zelf-een-model-maken))
 
 ### **1. Data aangeleverd door HHNK**
-Volg onderstaande werkwijze als HHNK de benodigde data (model) aanlevert (optie 1). Als je zelf een model vanaf de 'grond' gaat bouwen, klik dan [hier](#2-zelf-een-model-maken) (optie 2)
+Volg onderstaande werkwijze als HHNK de benodigde data (model) aanlevert (optie 1). Als je zelf een model gaat bouwen, klik dan [hier](#2-zelf-een-model-maken) (optie 2)
 
 1. [Map aanmaken](#1-map-aanmaken)
 2. [Data kopiëren](#2-data-kopiëren)
 3. [Model inladen](#3-model-inladen)
 
 ### 1. Map aanmaken 
-<span style="color:yellow"> WE: *verouderd, kan inmiddels met toolbox*</span> <span style="color:red"> BvL: het klopt inderdaad dat als je vanaf 'scratch' een project start dat de mappen automatisch worden aangemaakt. Echter had ik het model via Jelle toegestuurd gekregen en moest ik die data wel in onderstaande structuur zetten om het zichtbaar te krijgen in de plugin.</span> 
 Maak een nieuwe map aan in de verkenner (locatie staat vrij, maar raadzaam om lokaal te werken) met de naam van het aangeleverde gebied (bijvoorbeeld polder_X). Dat kan er als volgt uit zien: `C:\Users\{gebruiker}\Documents\3Di\polder_X`. 
 
 `{gebruiker}` is de naam van de Windows-gebruiker.
@@ -62,10 +61,10 @@ Daarnaast kunnen nog een aantal andere opties aangevinkt worden:
 Deze optie geeft de mogelijkheid om de schematisatie (.sqlite) van het model in te laden.
 
 #### Grid genereren
-<span style="color:red"> BvL: @WE/JK kunnen jullie dit aanvullen?</span> 
+HIermee wordt het rekenrooster aangemaakt op basis van het model en ingeladen in het project.
 
 Bij het genereren van het grid kan het voorkomen dat er een foutmelding wordt weergegeven dat de .sqlite te oud is. ![Alt text](../../images/4_gebruik_plugin/b_overzicht_plugin/oude_sqlite_foutmelding.png) 
-Ga naar [bekende problemen](#bekende-problemen) om de oplossing te bekijken.  
+Ga naar [bekende problemen](#bekende-problemen) om de oplossing te bekijken.  <span style="color:yellow"> WE: *@jelle is dit nog zo of wordt er ook automatisch gemigreerd?*</span>
 
 #### Sqlite testen
 De sqlite tests zijn bedoeld om het model te controleren op (potentiële) fouten in de data en deze te corrigeren waar nodig. Na de sqlite tests is het model klaar om op te bouwen en om de 0d1d toets te draaien ([0d1d test](../2_werkwijze_bwn/e_model_controleren_verbeteren/4_0d1d_test.md)).
