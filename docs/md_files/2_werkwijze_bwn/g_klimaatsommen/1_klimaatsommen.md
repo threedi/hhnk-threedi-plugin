@@ -8,6 +8,21 @@ Zodra er een of meerdere modellen met grondwaterconditie gemaakt zijn, kunnen vi
 
 De resultaten zijn vervolgens via de [download gui](../../4_gebruik_plugin/e_downloaden_resultaten.md) te downloaden. 
 
+Na het downloaden van de restultaten moeten nog een aantal nabewerkingen worden gedaan om de kaarten in de plugin te laden. Dit gebeurt ook via het notebook. Kies in het notebook voor ``03_nabewerking_klimaatsommen``. Dit geeft het onderstaande scherm:
+
+![Alt text](../../../images/2_werkwijze_bwn/g_klimaatsommen/1_nabewerking_klimaatsommen.png)
+
+<span style="color:red"> BvL: tekst onder nabewerking klimaatsommen niet meer up to date? Ik kan de map 01. DAMO en HDB niet vinden. 01_source_data wel. </span>
+
+1. Gebruik ctrl + enter om het veld onder ``Nabewerking Klimaatsommen`` te doorlopen. 
+2. De volgende stap bevindt zich onder ``Selectie neerslagzone en dem``. Draai het veld met ctrl + enter. Dit levert het een plaatje op met de ligging van de polder in het beheergebied:
+
+    ![Alt text](../../../images/2_werkwijze_bwn/g_klimaatsommen/2_nabewerking_klimaatsommen.png)
+    Kies bij ``Selecteer een map met batch resultaten`` de map waar de downoalds zijn weggeschreven.
+    Kies bij ``Selecteer een neerslagzone`` de neerslagzone die je wil gebruiken. In bovenstaand afbeelding is de keuze tussen twee zones, omdat het modelgebied in twee zones valt. Kies in dergelijke geval voor de zone waar het grootste deel van de polder in valt.
+3. Stap 3 gaat over het lokaliseren van de polder folder. Run het veld  met ctrl + enter.
+
+
 ### **Uitkomsten van de test**
 
 
