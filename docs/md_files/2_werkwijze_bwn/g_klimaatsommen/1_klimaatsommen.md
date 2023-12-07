@@ -20,8 +20,11 @@ Na het downloaden van de restultaten moeten nog een aantal nabewerkingen worden 
     ![Alt text](../../../images/2_werkwijze_bwn/g_klimaatsommen/2_nabewerking_klimaatsommen.png)
     Kies bij ``Selecteer een map met batch resultaten`` de map waar de downoalds zijn weggeschreven.
     Kies bij ``Selecteer een neerslagzone`` de neerslagzone die je wil gebruiken. In bovenstaand afbeelding is de keuze tussen twee zones, omdat het modelgebied in twee zones valt. Kies in dergelijke geval voor de zone waar het grootste deel van de polder in valt.
-3. Stap 3 gaat over het lokaliseren van de polder folder. Run het veld  met ctrl + enter.
-
+3. Stap 3 gaat over het lokaliseren van de polder folder. Run het veld  met ctrl + enter. <br>
+*Bij deze stap is het belangrijk dat alle folders goed staan. Als de resultaten in een folder in een andere map staat of als het notebook vanuit een ander model wordt geopend dan welke je wil analyseren, zal een foutmelding ontstaan.*
+4. Draai de 4de stap middels ctrl + enter. Deze stap zet input klaar voor volgende stappen. Het duurt een tijd voordat deze stap doorlopen is. <br>
+*Het klaarzetten van de input kan alleen via de server van HHNK plaatsvinden.*
+5. 
 
 ### **Uitkomsten van de test**
 
