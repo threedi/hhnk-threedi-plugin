@@ -17,7 +17,7 @@ Bron: Brede Methodiek Wateroverlast
 
 Daarnaast is de grondwater conditie voorafgaand aan de neerslagsituatie van invloed op het verloop van het scenario. De volgende drie grondwater condities kunnen worden toegepast: 
 1. Gemiddeld laagste grondwaterstand (GLG): de gemiddeld laagste grondwaterstand wordt vastgesteld op basis van metingen van grondwaterstanden op de 14e en 28e van de maand. Per jaar worden de drie laagste grondwaterstanden geselecteerd en gemiddeld over minimaal 8 jaar.
-2. Gemiddelde grondwaterstand (GGG): de gemiddelde grondwaterstand wordt vastgesteld op basis van metingen van grondwaterstanden op de 14e en 28e van de maand. Deze metingen worden over het jaar gemiddeld en vervolgens gemiddeld over minimaal 8 jaar.
+2. Gemiddelde grondwaterstand (GGG): Dit is het gemiddelde tussen de GLG en de GHG.
 3. Gemiddeld hoogste grondwaterstand (GHG): de gemiddeld hoogste grondwaterstand wordt vastgesteld op basis van metingen van grondwaterstanden op de 14e en 28e van de maand. Per jaar worden de drie hoogste grondwaterstanden geselecteerd en gemiddeld over minimaal 8 jaar.
 
 Bij het analyseren van de resultaten die uit de klimaatsommen volgen, is het tevens van belang om te weten hoe vaak een bepaalde combinatie van variabelen (herhalingstijd, neerslagduur en grondwaterconditie) zich voordoet. De neerslagregio's die in Nederland zijn vastgesteld geven daar inzicht in. Onderstaand figuur laat de neerslagregio's in het beheergebied van HHNK zien.<br>
@@ -27,8 +27,6 @@ Bij het analyseren van de resultaten die uit de klimaatsommen volgen, is het tev
 In het beheergebied van HHNK bevinden zich drie neerslagregio's:
 1. Hevig
 2. De Bilt
-3. Mild (wordt niet gebruikt. Bovengrensbenadering Mild is toegepast, waardoor neerslagregio Gemiddeld is gekozen)
-
-<span style="color:red"> BvL: *Daarnaast is er een klein deel dat in de neerslagregio Mild ligt. Voor dit laatste gebied gaan we uit van een bovengrensbenadering en kiezen we neerslagregio Gemiddeld.* > ik zie geen neerslagregio Gemiddeld? Moet Gemiddeld De Bilt zijn? </span>
+3. Mild (wordt niet gebruikt. Bovengrensbenadering Mild is toegepast, waardoor neerslagregio Gemiddeld (De Bilt) is gekozen)
 
 Aan de hand van de neerslagregio's is bepaald wat de frequentie van de herhalingstijden van piek- en blokbuien in de zomer en de winter is. Deze frequenties zijn nodig voor het bepalen van de netto contante waarde van de schade. Het onderscheid tussen zomer en winter is gemaakt, omdat de GHG, GGG en GLG andere kansen hebben in de zomer en winter en de kans op neerslag in de zomer en winter sterk uiteenloopt.
