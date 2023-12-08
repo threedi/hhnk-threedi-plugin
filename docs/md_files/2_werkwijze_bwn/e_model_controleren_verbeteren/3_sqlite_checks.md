@@ -23,12 +23,14 @@ Wanneer in de 'main' van de HHNK toolbox de juiste modellen folder en polder zij
 De uitkomsten van de testen worden geladen in 'lagen', maar zijn ook zichtbaar aan de rechterzijde van het scherm bij 'sqlite checks' onder 'checks' in de HHNK toolbox. De uitkomsten van de testen kunnen er zo uit zien als op onderstaande afbeelding.
 ![Alt text](../../../images/2_werkwijze_bwn/e_model_controleren_verbeteren/3_sqlite_checks/Resultaten_sqlite_checks.png)
 
-Onder 'Lagen' zijn verschillende groepen zichtbaar waaronder verschillende kaarten worden geladen. 
-*   De eerste groep is de gebruikte profielen groep. Hier zijn de breedte en  diepte van de watergangen zichtbaar wat het resultaat is van de tweede test van de data verificatie.
-* De tweede groep is de aereaal waterberging op streefpeil groep. Hierin wordt onder andere het verschil oppervlaktewater weergegeven wat het resultaat is van de derde test van de eenmalige tests.
-* De derde groep is de ontwateringdiepte kaart. Deze kaart geeft het resultaat van de tweede test van de eenmalige tests weer.
-
-<span style="color:red"> BvL: @LN volgens mij missen hier nog: geisoleerde watergangen, gestuurde kunstwerken, bodemhoogte kunstwerken en bodemhoogte stuw.</span> 
+Onder 'Lagen' zijn verschillende groepen zichtbaar die elk één of meerdere kaarten laden als resultaat van een test. 
+*   De eerste groep is de gebruikte profielen groep. Hier zijn de breedte en  diepte van de watergangen zichtbaar. Dit is het resultaat van de gebruikte profielen test.
+* De tweede groep is de aereaal waterberging op streefpeil groep. Hierin wordt onder andere het verschil oppervlaktewater weergegeven wat het resultaat is van de oppervlaktewater test.
+* De derde is een kaart die de resultaten van de geïsoleerde watergangen test weergeeft.
+* De vierde is een kaart die de resultaten van de gestuurde kunstwerken test weergeeft.
+* De vijfde is een kaart die de resultaten van de bodemhoogte kunstwerken test weergeeft.
+* De zesde is een kaart die de resultaten van de bodemhoogte stuw test weergeeft.
+* De zevende groep is de ontwateringdiepte kaart. Deze kaart geeft het resultaat van de ontwateringsdiepte test weer.
 
 ### **Beoordeling resultaten**
 Voor iedere test moet nagegaan worden of de waarden in het model voldoen. Hieronder wordt uitgelegd waar je bij iedere test op moet letten.
@@ -37,7 +39,7 @@ Voor iedere test moet nagegaan worden of de waarden in het model voldoen. Hieron
 
 * Test 1: Ondoorlatend oppervlak
 
-  Deze test berekent het oppervlak van de polder op basis van de ```polder_shapefile``` en het ondoorlatend oppervlak (impervious surface, 0d) in het model. Het resultaat is zichtbaar onder sqlight checks (in het rechter menu in het screenshot hierboven) Het verschil tussen de twee zou niet te groot moeten zijn. Bij de modelbuilder feedback zit een laag die ```impervious_surface_simple``` heet. Hierin kun je zien welk deel van de peilgebieden naar welke connection nodes zijn gegaan. Dit zou overeen moeten komen met de peilgebieden. Als dat niet zo is kun je zien waar je oppervlakte moet toevoegen in impervious surface lagen.
+  Deze test berekent het oppervlak van de polder op basis van de ```polder_shapefile``` en het ondoorlatend oppervlak (impervious surface, 0d) in het model. Het resultaat is zichtbaar onder sqlite checks (in het rechter menu in het screenshot hierboven). Het verschil tussen de twee zou niet te groot moeten zijn. Bij de modelbuilder feedback zit een laag die ```impervious_surface_simple``` heet. Hierin kun je zien welk deel van de peilgebieden naar welke connection nodes zijn gegaan. Dit zou overeen moeten komen met de peilgebieden. Als dat niet zo is kun je zien waar je oppervlakte moet toevoegen in impervious surface lagen.
   
 
 * Test 2: Gebruikte profielen
@@ -52,7 +54,7 @@ Voor iedere test moet nagegaan worden of de waarden in het model voldoen. Hieron
     
 * Test 3: Gestuurde kunstwerken 
 
-  Deze test selecteert alle gestuurde kunstwerken (uit de v2_culvert, v2_orifice en v2_weir tabellen van het model) op basis van de v2_control_table. Per kunstwerk worden actiewaarden opgevraagd. Per gevonden gestuurd kunstwerk wordt ook relevante informatie uit de HDB database toegevoegd, zoals het streefpeil en minimale en maximale kruinhoogtes. De resultaten van deze test kunnen gevonden worden onder sqlite checks in de HHNK toolbox. Hier kun je klikken op 'Bekijk resultaat' onder het kopje 'Gestuurde kunstwerken'. Er wordt dan een tabel geopend met de naam 'gestuurde_kunstwerken'. Hier moeten de waarden waarop een kunstwerk start met pompen (kolom 8), de minimale actie waarde van een kunstwerk (kolom 9), de maximale actie waarde van een kunstwerk (kolom 10) en het streefpeil gecontroleerd worden (kolom 11). Vergelijk deze met de werking van de kunstwerken volgens de gebiedsregeling.
+  Deze test selecteert alle gestuurde kunstwerken (uit de v2_culvert, v2_orifice en v2_weir tabellen van het model) op basis van de v2_control_table. Per kunstwerk worden actiewaarden opgevraagd. Per gevonden gestuurd kunstwerk wordt ook relevante informatie uit de HDB database toegevoegd, zoals het streefpeil en minimale en maximale kruinhoogtes. De resultaten van deze test kunnen gevonden worden onder sqlite checks in de HHNK toolbox. Hier kun je klikken op 'Bekijk resultaat' onder het kopje 'Gestuurde kunstwerken'. Er wordt dan een tabel geopend met de naam 'gestuurde_kunstwerken'. Hier moeten de waarden waarop een kunstwerk start met pompen (start_action_value), de minimale actie waarde van een kunstwerk (min_action_value), de maximale actie waarde van een kunstwerk (max_action_value) en het streefpeil gecontroleerd worden (hdb_streefpeil). Vergelijk deze met de werking van de kunstwerken volgens de gebiedsregeling.
 
   Onder 'Lagen' zijn de resultaten van deze test ook zichtbaar.
 
@@ -70,17 +72,19 @@ Voor iedere test moet nagegaan worden of de waarden in het model voldoen. Hieron
 
 * Test 7: Algemene tests
 
-  De algemene tests is een collectie van checks op fouten die ervoor zorgen dat het model niet kan worden opgebouwd of waardoor er niet meer gerekend kan worden. De resultaten van deze test kunnen gevonden worden onder sqlite checks in de HHNK toolbox. Hier kun je klikken op 'Bekijk fouten in model' onder het kopje 'Algemene tests'. In het resultaat wordt onderscheid gemaakt tussen fouten en waarschuwingen. Fouten moeten worden opgelost, waarschuwingen zijn aandachtspunten. In de resultaten wordt omschreven wat het probleem is. Waar nodig kunnen de waardes worden aangepast door naar de bijbehorende tabel te gaan die wordt aangegeven in de eerste kolom.
+  De algemene tests is een collectie van checks op fouten die ervoor zorgen dat het model niet kan worden opgebouwd of waardoor er niet meer gerekend kan worden. De resultaten van deze test kunnen gevonden worden onder sqlite checks in de HHNK toolbox. Hier kun je klikken op 'Bekijk fouten in model' onder het kopje 'Algemene tests'. In het resultaat wordt onderscheid gemaakt tussen fouten en waarschuwingen. Fouten moeten worden opgelost, waarschuwingen zijn aandachtspunten. In de resultaten wordt omschreven wat het probleem is. Waar nodig kunnen de waardes worden aangepast door naar de bijbehorende tabel te gaan die wordt aangegeven in de table_name kolom.
 
 * Test 8: Geïsoleerde watergangen
 
-  Deze test bepaalt welk aandeel van watergangen geen verbinding heeft met het maaiveld (isolated). Het aandeel mag niet te groot zijn omdat neerslag de watergangen dan onvoldoende kan bereiken. De resultaten van deze test kunnen direct bij het kopje 'Geïsoleerde watergangen' onder de sqlite checks in the HHNK toolbox gevonden worden. Bekijk ook visueel welke watergangen isolated zijn via de v2_channels laag in het model. klik rechts en selecteer bij stijlen ```calculation type``` voor een voorbeeld opmaak. 
+  Deze test bepaalt welk aandeel van watergangen geen verbinding heeft met het maaiveld (isolated). Het aandeel mag niet te groot zijn omdat neerslag de watergangen dan onvoldoende kan bereiken. De resultaten van deze test kunnen direct bij het kopje 'Geïsoleerde watergangen' onder de sqlite checks in the HHNK toolbox gevonden worden. Bekijk ook visueel welke watergangen isolated zijn via de v2_channels laag in het model. Klik rechts en selecteer bij stijlen ```calculation type``` voor een voorbeeld opmaak. 
   
 * Test 9: Genereer grid
   
   Deze test genereert het rekengrid onder andere op basis van grid refinements en rekencel grootte (bepaald in global settings). Voor deze test hoeft er niks gecontroleerd te worden. Het rekenraster kan terug gevonden worden onder...
 
-  <span style="color:yellow"> WE: Dit hoort denk ik bij laad lagen. Het rooster is ter referentie en kan gebruikt worden voor het verklaren van de resultaten. @SAWA willen jullie deze verplaatsen naar laad algen?*</span>
+  <span style="color:yellow"> Notitie voor mezelf: Hier is veel uitleg over te vinden in 18.3442 BWn sectie 3.4*</span>
+
+  <span style="color:yellow"> WE: Dit hoort denk ik bij laad lagen. Het rooster is ter referentie en kan gebruikt worden voor het verklaren van de resultaten. @SAWA willen jullie deze verplaatsen naar laad lagen?*</span>
 
 #### Eenmalige testen
 De eenmalige tests zijn er om een aantal randvoorwaarden te controleren. Als geverifieerd is dat hieraan is voldaan, dan hoeven ze niet opnieuw te worden gedraaid.
