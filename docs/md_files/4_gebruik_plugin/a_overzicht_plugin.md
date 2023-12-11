@@ -14,15 +14,15 @@ Er zijn twee mogelijkheden om met de toolbox aan de slag te gaan:
 1. Gebruiker van de plugin bouwt een model zelf op (klik [hier](#1-zelf-een-model-maken))
 2. HHNK levert de benodigde data (model) aan (klik [hier](#2-data-aangeleverd-door-hhnk))
 
-### **1. Zelf een model maken**
+## **1. Zelf een model maken**
 Volg onderstaande werkwijze als je het model vanaf de 'grond' gaat opbouwen.
 
-<span style="color:red"> BvL: onderstaande map themes moet nog worden verplaatst naar de juiste map.</span>
+<!-- <span style="color:red"> BvL: onderstaande map themes moet nog worden verplaatst naar de juiste map.</span>
 
 #### Map themes
-Door op het oogje te klikken onder lagen, kunnen bepaalde kaarten aangevinkt worden om snel een overzicht van de resultaten te krijgen die je wilt bekijken. Op deze manier hoef je niet zelf de juiste lagen aan of uit te vinken voor de resultaten van bepaalde testen, maar wordt dit voor je gedaan.
+Door op het oogje te klikken onder lagen, kunnen bepaalde kaarten aangevinkt worden om snel een overzicht van de resultaten te krijgen die je wilt bekijken. Op deze manier hoef je niet zelf de juiste lagen aan of uit te vinken voor de resultaten van bepaalde testen, maar wordt dit voor je gedaan. -->
 
-### 1. Modellen folder selecteren
+#### 1. Modellen folder selecteren
 Voordat een nieuw project aangemaakt kan worden, moet een modellen folder gekozen worden. Op deze locatie wordt alle data in het vervolg opgeslagen. Hieronder is te zien op welke plek de modellen folder (1) zich bevindt:
 
 ![Alt text](../../images/4_gebruik_plugin/b_overzicht_plugin/nieuw_project.png)
@@ -33,7 +33,7 @@ Kies een locatie in de verkenner waar alles opgeslagen gaat worden (raadzaam om 
 
 Kies de locatie van de hierboven aangemaakte map om ervoor te zorgen dat ``Nieuw project aanmaken`` (2) geactiveerd wordt. 
 
-### 2. Nieuw project aanmaken
+#### 2. Nieuw project aanmaken
 
 Wanneer je op ``Nieuw project aanmaken`` (2) klikt, opent zich een nieuw venster:
 
@@ -51,31 +51,31 @@ Volg hierna de stappen die [hier](#4-inladen-lagen) zijn toegelicht.
 
 <span style="color:red"> BvL: is het een idee om voor bekende problemen ook een aparte md file te maken?</span>
 
-### **2. Data aangeleverd door HHNK**
+## **2. Data aangeleverd door HHNK**
 Volg onderstaande werkwijze als HHNK de benodigde data (model) aanlevert. 
 
 1. [Map aanmaken](#1-map-aanmaken)
 2. [Data kopiëren](#2-data-kopiëren)
 3. [Model inladen](#3-model-inladen)
 
-### 1. Map aanmaken 
+#### 1. Map aanmaken 
 Maak een nieuwe map aan in de verkenner (locatie staat vrij, maar raadzaam om lokaal te werken) met de naam van het aangeleverde gebied (bijvoorbeeld polder_X). Dat kan er als volgt uit zien: `C:\Users\{gebruiker}\Documents\3Di\polder_X`. 
 
 `{gebruiker}` is de naam van de Windows-gebruiker.
 
-### 2. Data kopiëren 
+#### 2. Data kopiëren 
 Kopieer de aangeleverde data naar de map die in stap 1 is gemaakt. Hieronder is een voorbeeld te zien waaruit de aangeleverde data (deze kan qua inhoud verschillen) is opgebouwd.
 
 ![Alt text](../../images/4_gebruik_plugin/b_overzicht_plugin/kopieer_data.PNG)
 
-### 3. Model inladen
+#### 3. Model inladen
 Het model kan vervolgens ingeladen worden door bij `modellen folder` (1) door de volgende handeling: als je in stap 1 de map hebt aangemaakt in het pad: `C:\Users\{gebruiker}\Documents\3Di\polder_X`, kies je bij `modellen folder` het volgende pad om het model in te kunnen laden: `C:\Users\{gebruiker}\Documents\3Di`. Vervolgens kan bij `polder` (2) gekozen worden voor `polder_X`. 
 
 `{gebruiker}` is de naam van de Windows-gebruiker.
 
 ![Alt text](../../images/4_gebruik_plugin/b_overzicht_plugin/inladen_polder.png)
 
-### 4. Inladen lagen
+#### 4. Inladen lagen
 Via de knop ``laad lagen`` (3) kun je diverse lagen inladen om inzicht te geven in het model.
 
 ![Alt text](../../images/4_gebruik_plugin/b_overzicht_plugin/inladen_polder.png)
