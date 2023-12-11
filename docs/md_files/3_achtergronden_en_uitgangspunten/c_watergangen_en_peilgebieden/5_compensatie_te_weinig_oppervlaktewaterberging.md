@@ -1,18 +1,13 @@
-## **3Di**
-[3Di](https://3diwatermanagement.com/) is een hydrodynamisch model waarmee zowel 1D (watergangen, riolering) als 2D (maaiveld) of 1D-2D gerekend kan worden. Extra informatie over 3Di kan [hier](https://docs.3di.live/index.html) geraadpleegd worden.
+## **Compensatie te weinig oppervlaktewaterberging**
+De berging in 1D (connection nodes + profielen watergangen) wordt per peilgebied vergeleken met het oppervlak van de BGT-waterdelen (vlakken). Een tekort aan berging wordt gelijk verdeeld toegekend als bergingsoppervlak aan secundaire connection nodes.
 
-<span style="color:yellow"> WE: *verwijzen naar website en docs 3di*</span>
+De berging kan berekend worden met de volgende formule.
 
+Berging in profielen = 	profielbreedte 1 x lengte 1 + gemiddelde profielbreedte 1&2 x lengte 2	+ profielbreedte 2 x lengte 3  
 
-### **Uitgangspunten 3Di BWN modellen**
-De uitgangspunten die worden gebruikt bij het maken van de 3Di modellen zijn hieronder toegelicht.
+![Alt text](../../../images/3_achtergronden_en_uitgangspunten/berging_in_profielen.png)
 
+Bij het berekenen van de 1D-berging in het profiel wordt minder dan 2 m2 per connection node niet toegekend (en vervalt dus), om instabiliteit te voorkomen. Het is niet bekend hoe groot dit risico op instabiliteit is. 
+Daarnaast wordt een bergingsoverschot niet gecorrigeerd. Er kan geen negatieve berging worden toegekend. In dit geval moeten profielen worden gecorrigeerd. Als laatste toont de waterbreedtekaart die wordt meegeleverd, opgeloste watervlakken. De bergingscompensatie wordt echter berekend adhv profielbreedte op v2_channel over de gehele lengte. Dit wordt niet opgelost voor de hierboven beschreven compensatie, maar dus wel voor deze knappe kaart.
 
-
-Uit aangeleverde documenten:
-Uitgangspuntennotitie 3Di-modellen.docx
-
-misschien wat losse files maken voor:
-* ruimtekaart filtering plas watersysteem: Uitwerking filtering overlastbeeld en opzet ruimtekaart
-* Brede methodiek wateroverlast: brede methodiek wateroverlast.pdf en 20180607_Rekenmethodiek_definitief.pdf
-* spatialite aanpassen met SQL: H2 uit: Handboek_modelaanpassingen_WSA.docx, wel opmerken dat sqlite verouderd is en N&S nieuwe werkwijze met geopackage ontwikkeld
+<span style="color:yellow"> *LN: @Wouter, @Jelle, wat wordt er bedoeld met knappe kaart (dit komt uit uitganspuntennotitie)? Misschien niet helemaal juiste benaming?*</span> 

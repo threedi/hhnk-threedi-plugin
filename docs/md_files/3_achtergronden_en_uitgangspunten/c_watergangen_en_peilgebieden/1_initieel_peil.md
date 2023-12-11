@@ -1,5 +1,5 @@
 ## **Initieel peil**
-Het initieel peil wordt uitgelezen uit de attribute table van de peilgebieden, kolom peil_wsa. Deze kolom vullen we aan de hand van onderstaande volgorde:
+Het initieel peil wordt uitgelezen uit de attributen tabel van de peilgebieden, kolom peil_wsa. Het initieel peil wordt bepaald door gebruik te maken van onderstaande volgorde. 
 
 1. Peil in HDB Hydrodeelgebied 
     * a. Winterpeil
@@ -25,4 +25,4 @@ Het initieel peil wordt uitgelezen uit de attribute table van de peilgebieden, k
     * a. 914  Flexibel peilbeheer; bovengrenspeil jaarrond
 6. Dataminingpeil obv 20-percentiel per peilgebied. De waterhoogtes hiervoor worden opnieuw afgeleid van de AHN3 en actueel ingetekende hydro-objecten uit de DAMO-database.
 
-Als deze kolom niet is ingevuld, wordt het peil streefpeil uit DAMO volgens bovenstaande lijst of wordt er gebruik gemaakt van de aanname NAP -10m 
+Als de peil_wsa kolom niet is ingevuld, wordt het streefpeil volgens bovenstaande lijst bepaald of wordt er gebruik gemaakt van de aanname NAP -10m. 

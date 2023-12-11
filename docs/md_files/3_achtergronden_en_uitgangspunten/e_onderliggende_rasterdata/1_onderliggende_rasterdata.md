@@ -10,20 +10,21 @@ Alle rasters bevatten waardes op subgridniveau (0,5 m bij 0,5 m) die door 3Di op
 manier worden opgeschaald tot de veel grotere rekencellen.
 
 ### **Maaiveldhoogte DEM**
+In het 3Di model wordt een hoogtekaart ofwel Digital Elevation Model (DEM) gebruikt voor de berging op en stroming over het maaiveld. De DEM wordt eveneens gebruikt om waterdieptes te berekenen die vervolgens worden gebruikt voor het afleiden van schade. De DEM is gebaseerd op de maaiveldhoogtekaart ofwel het Actuele Hoogtekaart Nederland (AHN versie 3). De AHN moet echter bewerkt worden voordat deze geschikt is voor toepassing als DEM in 3Di. 
 
+De AHN kent twee typen. Het DSM (digital surface model) is een ongefilterde vertaling van de ingevlogen hoogtemetingen naar een raster van 0,5 bij 0,5 m. Het DTM (digital terrain model) is een rasterkaart waarbij ingevlogen hoogtemetingen die geen maaiveld representeren (bv, daken, water, bomen, auto's en rietkragen) eerst uit de meetdata zijn gefilterd alvorens de rasterkaart is aangemaakt. Deze laatste kaart wordt gebruikt voor het aanmaken van de DEM. 
 
-DTM AHN3 
+Beide rasters bevatten gaten op plekken waar geen of onvoldoende maaiveld meetdata beschikbaar was. 
 
-Fill nodata 
+Voor het aanmaken van een DEM uit de AHN zijn enkele stappen nodig die in de juiste volgorde dienen te worden doorlopen: 
+1. Alle gebouwen (BGT Pand_v en BGT OverigBouwwerk_v) een hoogte mee te geven die gelijk is aan de mediaan van de omliggende maaiveldhoogtes (binnen een buffer van 1 m); 
+2. Maaiveldcorrecties door te voeren voor bouwputten, inritten, tunnelbakken en maaiveldveranderingen (bv recent aangelegde waterberging); 
+3. Gaten dicht interpoleren; 
+4. Alle gebouwen ophogen met 15 cm (vloerpeil); 
+5. Alle watervlakken (BGT Waterdeel_v en BGT OverigBouwwerk_v [BGTPlusType = 'bassin' OR BGTPlusType = 'opslagtank' OR BGTPlusType = 'bezinkbak']) ophogen tot NAP +10 m (om dubbeltelling van waterberging in de 1D en de 2D module te voorkomen). 
 
-Panden BAG (versie 1-10-2017) opgedrukt, dmv: maaiveldhoogte 75%-percentiel rondom +5cm (update jan 2020, dit was 15cm) 
-
-Watervlakken op 10 m NAP (uit 'actuele' BGT, sturen we mee) 
-
-EPSG:28992 (RD New), afgeronde origin, rastergrootte, FLOAT32, nodata -9999 
-
-### **Bodemwrijving/Weerstand**
-De weerstandkaart heeft betrekking op de stroming over maaiveld en wordt uitgedrukt in Manning waarde die veel wordt toegepast voor het modelleren van ondiep water stroming. Hoe lager de Manningwaarde (s/m1/3) hoe lager de weerstand. In 3Di wordt de inverse Manningswaarde gebruikt en deze wordt ook wel de Stricklerwaarde genoemd (s/m1/3). Deze waarde wordt bepaald op basis van onderstaande voorwaardes.
+### **Rasterkaart Weerstand**
+Het weerstandsraster heeft betrekking op de stroming over maaiveld en wordt uitgedrukt in Manning waarde die veel wordt toegepast voor het modelleren van ondiep water stroming. Hoe lager de Manningwaarde (s/m1/3) hoe lager de weerstand. Er wordt ook wel eens gebruik gemaakt van de inverse Manningswaarde wat de Stricklerwaarde wordt genoemd (s/m1/3). De stricklerwaarde wordt op basis van onderstaande punten toegekend.
 
 Waterlopen
 * 45-30: Zeer schoon;
@@ -41,35 +42,71 @@ Betonnen duikers
 * 60-85: Niet afgewerkt bij gladde houten bekisting;
 * 50-65: Niet afgewerkt bij ruwe houten bekisting;
 
-Er wordt voorgesteld om de weestandskaart op te bouwen uit de BGT kaart en daarbij de volgende uitganspunten aan te houden:
-* Wegdeel_v
-* 
-* 
-* 
-* 
-* 
+Er wordt voorgesteld om de weestandskaart op te bouwen uit de BGT kaart en daarbij de volgende uitganspunten aan te houden <span style="color:yellow"> *LN: @Wouter, @Jelle, Is dit voorgestelde ook doorgevoerd?*</span> :
+* Wegdeel_v: 100 m^1/3/s;
+* Overbruggingsdeel_v: 100 m^1/3/s;
+* Pand_v: 5 m^1/3/s;
+* OverigBouwwerk_v: 15 m^1/3/s;
+* OnbegroeidTerreindeel_v: 15 m^1/3/s;
+* BegroeidTerreindeel_v: 15 m^1/3/s;
 
-De weerstand die wordt gebruikt in de 3Di poldermodellen is in onderstaande figuur weergegeven.
-De Stricklerwaarde voor de onderstaande kaart varieert tussen de 100 m1/3/s en de 17 m1/3/s. De
-minste weerstand (100 m1/3/s) is toegekend aan watervlakken, agrarische percelen hebben een
-weerstand van 33 m1/3/s, wegen 25,6 m1/3/s en de hoogste weerstand (17 m1/3/s) is toegekend aan
-stedelijk gebied (wegen, huizen en erven) en fruitteelt (en natuur).
+Met behulp van bovenbenoemde uitganspunten, die beschreven staan in 'Conversietabel_landgebruik_2018.csv', wordt er vanuit het landgebruikraster per model een weerstandsraster aangemaakt. Deze waardes zijn uitgedrukt als Manningsweerstand in m^1/3/s (Let op: dat is dus niet hetzelfde als hierboven).
 
+<span style="color:yellow"> *LN: @Wouter, @Jelle, Alle bovengenoemde waardes zijn stricklerwaardes terwijl er Manningswaardes in het model zitten (Dit komt uit 'datacontrole en modeltests 2018). Zou het niet meer representatief zijn om dan ook Manningswaardes te geven?*</span> 
 
-Conversie vanuit landgebruiksraster op basis van ' Conversietabel_landgebruik_2018.csv'. Raster wordt per model aangemaakt (voor zover Wouter weet staat deze niet in lizard). Eenheid in Manningsweerstand. 
+### **Rasterkaart Infiltratie**
+Voor het maken van de infiltratiekaart is een combinatie gebruikt van de BGT en de bodemkaart. Verhard oppervlak en water heeft een infiltratiesnelheid van 0 mm/u mee gekregen, overig stedelijk gebied een infiltratie van 2 mm/u en divers onverhard gebied (bv grasland agrarisch, bouwland en fruitteelt) heeft een infiltratiewaarde gekregen van 5 mm/u, 10 mm/u of 20 mm/u.
 
-### **Maximale infiltratiecapaciteit/Infiltratie**
-Opgebouwd door Jeroen en geleverd aan N&S voor gebruik in modelbuilder. Voor methode zie: bijlagen in corsa stuk: 18.0035563 
+#### **Onverharde infiltratiekaart**
+Er wordt voorgesteld om de onverhard infiltratiekaart te maken op basis van de Imax waarde per grondsoort <span style="color:yellow"> *LN: @Wouter, @Jelle, Is dit voorgestelde ook doorgevoerd?*</span>. De Imax waarde is de initiële verticale infiltratiesnelheid die optreedt na plasvorming en een vochtfront direct onder het maaiveld. Dit is de maximale infiltratiesnelheid die kan optreden en die wordt gedreven door een maximale drukhoogte gradiënt in combinatie met capillaire krachten. 
 
-### **Maximale bodemberging/Bodemberging**
-Opgebouwd vanuit:  
+De infiltratiesnelheid zal snel afnemen als het vochtfront verder onder het maaiveld komt te liggen omdat de drukhoogte gradiënt dan afneemt. De snelheid neemt geleidelijk af tot de minimale infiltratiecapaciteit Ks, ook wel de verzadigde doorlatendheid genoemd. Als wordt uitgegaan van de infiltratiecapaciteit Imax dan wordt bij modelberekeningen met extreme neerslag de gemiddelde infiltratiesnelheid tijdens een neerslaggebeurtenis overschat.
 
-PAWN bodemtypering,  
+In onderstaande tabellen zijn Imax en Ks waardes gegeven voor onverharde gebieden.
 
-landgebruik 2018 voor verhard gebied, dit overschrijft PAWN typering met zand.
+![Alt text](../../../images/3_achtergronden_en_uitgangspunten/Tabel_Imax_waardes.png)
 
-Bepalen ontwateringsdiepte met behulp van GLG, GHG, GGG (gemiddelde tussen GLG en GHG) en de AHN3. GXG zijn afkomstig landelijk model Alterra. In stedelijk gebied is de GLG en GHG niet (overal) beschikbaar, hier is daarom streefpeil gebruikt. Streefpeil moet een gebiedsbrede export uit 2017 zijn geweest. 
+![Alt text](../../../images/3_achtergronden_en_uitgangspunten/Tabel_Ks_waardes.png)
 
-CAPSIM tabellen (uit SOBEK) voor vertalen bodemtyperingen en ontwateringsdiepte naar bodemberging. In deze tabellen zit de werking van de onverzadigde zone verwerkt. 
+Op basis van bovenstaande tabellen is aan iedere PAWN grondsoort die in het beheergebied van HHNK voor komt een infiltratiecapaciteit toegekend. De toekenning is los gebaseerd op bovenstaande tabellen en houdt er rekening mee dat de bodemsoorten beter doorlatend zijn naarmate ze meer zandig zijn en slechter doorlatend naar mate ze meer lemig of kleiig zijn.
 
-De drie bergingsrasters zijn opgeslagen als losse Geotifs die de modelbuilder per model uit knipt. 
+De onverharde infiltratiecapaciteit wordt vermenigvuldigd met drie reductiekaarten: 
+1. Verhardings reductiekaart
+
+    Deze kaart reduceert de onverharde infiltratiecapaciteit ter plaatse van verharding en water. 
+
+2. Erf reductiefactor kaart.
+
+    Deze kaart reduceert de onverharde infiltratiecapaciteit op particuliere erven ten gevolge van partiële verharding. 
+
+3. Riolering reductiefactor kaart 
+
+    Deze kaart geeft een additionele infiltratie reductie in stedelijk gebied om een oppervlakkige afvoercomponent te creëren waarmee het weglaten van riolering wordt gecompenseerd. 
+
+Kaarten 2 en 3 worden afgeleid uit een kaart die de dichtheid van bebouwing aangeeft: de bebouwingsfractie kaart.
+
+<span style="color:yellow"> *LN: @Wouter, @Jelle, Willen we hier deze 3 kaarten ook uitgelegd hebben? of wordt dat te gedetailleerd?*</span>
+
+### **Rasterkaart Bodemberging**
+De hoeveelheid bodemberging hangt af van het grondgebruik, het bodemprofiel en de ontwateringsdiepte. In de 3Di poldermodellen worden 3 bodemberging rasters aangemaakt, behorend bij 3 verschillende grondwaterstanden (GLG, GHG en het gemiddelde daarvan GGG). Omdat het GGG raster het gemiddelde is van het GHG en GLG raster zijn alleen de GHG en GLG rasters getoond.
+
+Er wordt voorgesteld om de bodembergingskaart anders op te bouwen.  <span style="color:yellow"> *LN: @Wouter, @Jelle, Is dit voorgestelde ook doorgevoerd?*</span> De bodemberging onder water en rietland wordt 0 verondersteld. De bodemberging voor het overige gebied (onverhard en verhard) wordt berekend als het product van de ontwateringsdiepte en de berging coëfficiënt. De berging coëfficiënt is een term die aangeeft welk aandeel van de onverzadigde bodemkolom beschikbaar is voor waterberging. De berging coëfficiënt varieert per bodemprofiel en hangt af van de ontwateringsdiepte.
+
+Voor gedetailleerde regionale toepassingen bestaan er geen betrouwbare gebiedsdekkende databronnen voor GLG/ GHG. Er bestaan wel gebiedsdekkende GLG/ GHG kaarten maar die zijn dusdanig onnauwkeurig dat ze voor regionale toepassingen lokaal grote fouten kunnen introduceren. Voor het beheergebied van HHNK bestaan er 2 gebiedsdekkende GLG/ GHG producten: 
+1. Alterra GLG/ GHG kaart
+
+    De GLG GHG kaart van Alterra is een rasterkaart van 25 
+    m bij 25 m met de grondwaterstanden in m minus maaiveld. De grondwaterstanden zijn gebaseerd op meetreeksen, de AHN1 en de bodemkaart.
+
+2. De GLG/ GHG uit het grondwatermodel van HHNK. 
+
+    Deze (100m bij 100 m) raster kaarten zijn in 2014 gegenereerd met het (MODFLOW/ SEAWAT) grondwatermodel van HHNK enhebben een grove modelschaal (ca. 100 bij 100 m). Deze modelversie betreft een modelvernieuwing van het oorspronkelijke model uit het project Leven met Zout Water uit 2012.
+
+NB: de grondwatertrappen uit de bodemkaart zijn een oudere en minder geavanceerde aanpak op basis van dezelfde brondata als de Alterra kaart en vormt dus geen additionele bron van informatie. 
+
+Naast dit kaartbeeld bestaan er twee methoden waarmee gebiedsdekkend een inschatting gemaakt kan worden van de GLG/GHG standen: 
+1. GHG kaart op basis van ontwateringsnormen:
+
+2. GLG/GHG op basis van drainagebasis.
+
+ <span style="color:yellow"> *LN: @Wouter, @Jelle, Welke methode is geïmplementeerd in de plugin?*</span>

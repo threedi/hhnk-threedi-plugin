@@ -1,18 +1,12 @@
-## **3Di**
-[3Di](https://3diwatermanagement.com/) is een hydrodynamisch model waarmee zowel 1D (watergangen, riolering) als 2D (maaiveld) of 1D-2D gerekend kan worden. Extra informatie over 3Di kan [hier](https://docs.3di.live/index.html) geraadpleegd worden.
+## **Watergangen**
+Watergangen worden in het model weergegeven als channels en niet als 'channel nowayout'. Iets wordt wel weergegeven als 'channel nowayout'onder de hieronder beschreven omstandigheden. 
 
-<span style="color:yellow"> WE: *verwijzen naar website en docs 3di*</span>
-
-
-### **Uitgangspunten 3Di BWN modellen**
-De uitgangspunten die worden gebruikt bij het maken van de 3Di modellen zijn hieronder toegelicht.
-
-
-
-Uit aangeleverde documenten:
-Uitgangspuntennotitie 3Di-modellen.docx
-
-misschien wat losse files maken voor:
-* ruimtekaart filtering plas watersysteem: Uitwerking filtering overlastbeeld en opzet ruimtekaart
-* Brede methodiek wateroverlast: brede methodiek wateroverlast.pdf en 20180607_Rekenmethodiek_definitief.pdf
-* spatialite aanpassen met SQL: H2 uit: Handboek_modelaanpassingen_WSA.docx, wel opmerken dat sqlite verouderd is en N&S nieuwe werkwijze met geopackage ontwikkeld
+1. Unusable culvert, stuw of gemaal (isusable=0) 
+    * a. Geen watergang
+    * b. Afsluitbare inlaat op peilgrens (type 1 of 2)
+2. Vispassages
+3. Onderbemaling zonder gemaal.
+4. Opmaling zonder stuw of duiker
+5. Laagste peilgebied zonder gemaal
+6. Hoogste peilgebied zonder sutw of duiker
+7. Alle delen liggende achter bovengenoemde zes typen watergangen

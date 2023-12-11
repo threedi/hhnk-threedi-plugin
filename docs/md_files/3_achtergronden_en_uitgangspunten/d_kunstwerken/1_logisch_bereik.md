@@ -1,18 +1,6 @@
-## **3Di**
-[3Di](https://3diwatermanagement.com/) is een hydrodynamisch model waarmee zowel 1D (watergangen, riolering) als 2D (maaiveld) of 1D-2D gerekend kan worden. Extra informatie over 3Di kan [hier](https://docs.3di.live/index.html) geraadpleegd worden.
+## **Logisch bereik**
+<span style="color:yellow"> *LN: @Wouter, @Jelle, Misschien is het logischer om dit kopje helemaal naar het einde of het begin te verschuiven aangezien hier ook profielen en watergangen besproken worden wat niet specifiek bij dit hoofdstuk hoort.*</span> 
 
-<span style="color:yellow"> WE: *verwijzen naar website en docs 3di*</span>
+De aangeleverde gegevens voor de verschillende kunstwerken, watergangen en profielen worden gecontroleerd op logische waarden om te voorkomen dat typefouten in de modellen worden verwerkt. De waardes van verschillende attributen moeten telkens voldoen aan een logisch bereik zoals aangegeven in onderstaande tabel. Waardes buiten het logische bereik worden aangemerkt als onbetrouwbaar en vervangen door een aanname.
 
-
-### **Uitgangspunten 3Di BWN modellen**
-De uitgangspunten die worden gebruikt bij het maken van de 3Di modellen zijn hieronder toegelicht.
-
-
-
-Uit aangeleverde documenten:
-Uitgangspuntennotitie 3Di-modellen.docx
-
-misschien wat losse files maken voor:
-* ruimtekaart filtering plas watersysteem: Uitwerking filtering overlastbeeld en opzet ruimtekaart
-* Brede methodiek wateroverlast: brede methodiek wateroverlast.pdf en 20180607_Rekenmethodiek_definitief.pdf
-* spatialite aanpassen met SQL: H2 uit: Handboek_modelaanpassingen_WSA.docx, wel opmerken dat sqlite verouderd is en N&S nieuwe werkwijze met geopackage ontwikkeld
+![Alt text](../../../images/3_achtergronden_en_uitgangspunten/Tabel_logisch_bereik_.png)

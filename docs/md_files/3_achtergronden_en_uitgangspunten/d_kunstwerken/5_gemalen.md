@@ -1,18 +1,19 @@
-## **3Di**
-[3Di](https://3diwatermanagement.com/) is een hydrodynamisch model waarmee zowel 1D (watergangen, riolering) als 2D (maaiveld) of 1D-2D gerekend kan worden. Extra informatie over 3Di kan [hier](https://docs.3di.live/index.html) geraadpleegd worden.
+## **Gemalen**
+### **Capaciteit**
+De capaciteit wordt bepaald door gebruik te maken van onderstaande volgorde. Dit vormt tevens de rangorde voor prioritering bij het opnemen van de capaciteit in het model. Een capaciteit van 0 betekent dat de capaciteit 0 is. Een capaciteit van null betekent dat de capaciteit niet is ingevuld en dat er een aanname volgt (stap 3). 
 
-<span style="color:yellow"> WE: *verwijzen naar website en docs 3di*</span>
+1. Als de functie '904 doorspoelpomp', '1 aanvoergemaal' of '3 opmaling' is: 0 m3/s. 
+2. Als de functie '2 afvoergemaal', '4 onderbemaling', 'aan- en afvoergemaal' of 'op- en onderbemaling' is:  
+    * a. Zoals in DAMO onder MAXIMALECAPACITEIT 
+    * b. (waarbij 0=0≠null) 
+3. Niet ingevuld (null): Aanname
+    * a. Primair: 25 m3/min 
+    * b. Secundair: 1 m3/min 
 
+Let hierbij op dat de capaciteiten in DAMO weergegeven worden in m3/min en in de model-sqlite in l/s.
 
-### **Uitgangspunten 3Di BWN modellen**
-De uitgangspunten die worden gebruikt bij het maken van de 3Di modellen zijn hieronder toegelicht.
+### **Richting**
+De richting waarin gemalen het water pompen is van laag peil naar hoog peil op basis van het initiële waterlevel van de connection nodes.
 
-
-
-Uit aangeleverde documenten:
-Uitgangspuntennotitie 3Di-modellen.docx
-
-misschien wat losse files maken voor:
-* ruimtekaart filtering plas watersysteem: Uitwerking filtering overlastbeeld en opzet ruimtekaart
-* Brede methodiek wateroverlast: brede methodiek wateroverlast.pdf en 20180607_Rekenmethodiek_definitief.pdf
-* spatialite aanpassen met SQL: H2 uit: Handboek_modelaanpassingen_WSA.docx, wel opmerken dat sqlite verouderd is en N&S nieuwe werkwijze met geopackage ontwikkeld
+### **Aan- en afslagpeilen**
+Het aan- en afslagpeil is gebaseerd op het streefpeil lage zijde (afvoeraanname). Dit gaat goed bij aanvoergemalen, omdat die een capaciteit van 0 meekrijgen. Het aanslagpeil is gelijk aan het streefpeil+0.02m en het afslagpeil is gelijk aan het streefpeil-0.03m.
