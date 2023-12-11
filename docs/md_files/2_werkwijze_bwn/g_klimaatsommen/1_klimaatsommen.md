@@ -24,7 +24,11 @@ Na het downloaden van de restultaten moeten nog een aantal nabewerkingen worden 
 *Bij deze stap is het belangrijk dat alle folders goed staan. Als de resultaten in een folder in een andere map staat of als het notebook vanuit een ander model wordt geopend dan welke je wil analyseren, zal een foutmelding ontstaan.*
 4. Draai de 4de stap middels ctrl + enter. Deze stap zet input klaar voor volgende stappen. Het duurt een tijd voordat deze stap doorlopen is. <br>
 *Het klaarzetten van de input kan alleen via de server van HHNK plaatsvinden.*
-5. 
+5. De stappen die hierna komen tot ``Schade corrigeren``, kunnen allemaal doorlopen worden middels ctrl + enter. De stappen na ``Schade corrigeren`` zijn alleen noodzakelijk als er onrealistische schades zijn berekend op plekken. Deze kunnen dan middels een polygoon verwijderd worden. Zie het notebook voor de precieze stappen.
+
+De stappen die in het notebook zijn doorlopen, hebben resultaten gegenereerd die zijn in te laden in de HHNK plugin. 
+
+Nadat alle stappen in het notebook zijn doorlopen, zijn de resultaten gereed om in de HHNK in te laden.
 
 ### **Uitkomsten van de test**
 

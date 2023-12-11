@@ -17,8 +17,9 @@ Er zijn twee mogelijkheden om met de toolbox aan de slag te gaan:
 ### **1. Zelf een model maken**
 Volg onderstaande werkwijze als je het model vanaf de 'grond' gaat opbouwen.
 
-<span style="color:red"> BvL: onderstaande visibility presets moet nog worden verplaatst naar de juiste map.</span>
-#### Visibility presets
+<span style="color:red"> BvL: onderstaande map themes moet nog worden verplaatst naar de juiste map.</span>
+
+#### Map themes
 Door op het oogje te klikken onder lagen, kunnen bepaalde kaarten aangevinkt worden om snel een overzicht van de resultaten te krijgen die je wilt bekijken. Op deze manier hoef je niet zelf de juiste lagen aan of uit te vinken voor de resultaten van bepaalde testen, maar wordt dit voor je gedaan.
 
 ### 1. Modellen folder selecteren
@@ -67,7 +68,7 @@ Kopieer de aangeleverde data naar de map die in stap 1 is gemaakt. Hieronder is 
 
 ![Alt text](../../images/4_gebruik_plugin/b_overzicht_plugin/kopieer_data.PNG)
 
-   ### 3. Model inladen
+### 3. Model inladen
 Het model kan vervolgens ingeladen worden door bij `modellen folder` (1) door de volgende handeling: als je in stap 1 de map hebt aangemaakt in het pad: `C:\Users\{gebruiker}\Documents\3Di\polder_X`, kies je bij `modellen folder` het volgende pad om het model in te kunnen laden: `C:\Users\{gebruiker}\Documents\3Di`. Vervolgens kan bij `polder` (2) gekozen worden voor `polder_X`. 
 
 `{gebruiker}` is de naam van de Windows-gebruiker.
@@ -83,7 +84,7 @@ Vervolgens verschijnt het onderstaande scherm met een aantal keuzes:
 
 ![Alt text](../../images/4_gebruik_plugin/b_overzicht_plugin/inladen_testresultaten.png)
 
-Afhankelijk van de tests die zijn uitgevoerd, kan er gekozen worden tussen het inladen van de van 0d1d, 1d2d of de klimaatsom resultaten. Indien er nog modelstaten zijn gemaakt, klik [hier](c_modelstaat_aanpassen.md). Wanneer er nog geen testberekeningen of klimaatsommen zijn gemaakt, klik dan [hier](d_berekeningen_uitvoeren.md).
+Afhankelijk van de tests die zijn uitgevoerd, kan er gekozen worden tussen het inladen van de van 0d1d, 1d2d of de klimaatsom resultaten. Indien er nog geen modelstaten zijn gemaakt, klik [hier](c_modelstaat_aanpassen.md). Wanneer er nog geen testberekeningen of klimaatsommen zijn gemaakt, klik dan [hier](d_berekeningen_uitvoeren.md).
 
 Daarnaast kunnen nog een aantal andere opties aangevinkt worden:
 * [Sqlite (3Di plugin)](#sqlite-3di-plugin)
