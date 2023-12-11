@@ -17,11 +17,6 @@ Er zijn twee mogelijkheden om met de toolbox aan de slag te gaan:
 ## **1. Zelf een model maken**
 Volg onderstaande werkwijze als je het model vanaf de 'grond' gaat opbouwen.
 
-<!-- <span style="color:red"> BvL: onderstaande map themes moet nog worden verplaatst naar de juiste map.</span>
-
-#### Map themes
-Door op het oogje te klikken onder lagen, kunnen bepaalde kaarten aangevinkt worden om snel een overzicht van de resultaten te krijgen die je wilt bekijken. Op deze manier hoef je niet zelf de juiste lagen aan of uit te vinken voor de resultaten van bepaalde testen, maar wordt dit voor je gedaan. -->
-
 #### 1. Modellen folder selecteren
 Voordat een nieuw project aangemaakt kan worden, moet een modellen folder gekozen worden. Op deze locatie wordt alle data in het vervolg opgeslagen. Hieronder is te zien op welke plek de modellen folder (1) zich bevindt:
 
@@ -49,7 +44,6 @@ Het resultaat in de verkenner ziet er als volgt uit:
 
 Volg hierna de stappen die [hier](#4-inladen-lagen) zijn toegelicht.  
 
-<span style="color:red"> BvL: is het een idee om voor bekende problemen ook een aparte md file te maken?</span>
 
 ## **2. Data aangeleverd door HHNK**
 Volg onderstaande werkwijze als HHNK de benodigde data (model) aanlevert. 
@@ -93,6 +87,9 @@ Daarnaast kunnen nog een aantal andere opties aangevinkt worden:
 * [Banklevel test](#banklevel-test)
 * [Basis layout](#basis-layout)
 * [Achtergrondkaarten](#achtergrondkaarten)
+
+#### Map themes
+Door op het oogje te klikken onder lagen, kunnen bepaalde kaarten aangevinkt worden om snel een overzicht van de resultaten te krijgen die je wilt bekijken. Op deze manier hoef je niet zelf de juiste lagen aan of uit te vinken voor de resultaten van bepaalde testen, maar wordt dit voor je gedaan.
 
 #### Sqlite (3Di plugin)
 Deze optie geeft de mogelijkheid om de schematisatie (.sqlite) van het model in te laden.
