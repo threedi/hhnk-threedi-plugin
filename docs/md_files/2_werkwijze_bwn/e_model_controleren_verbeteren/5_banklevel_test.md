@@ -19,11 +19,11 @@ Wanneer in de 'main' van de HHNK toolbox de juiste modellen folder en polder zij
 1. Ga naar 'Checks' in de HHNK Toolbox.
 2. Kies voor 'Bank levels' en klik op 'Begin tests'.
 
- <span style="color:yellow"> Notitie voor mezelf: afbeelding invoegen van bank levels, begin tests.</span>
+ ![Alt text](../../../images/2_werkwijze_bwn/e_model_controleren_verbeteren/5_banklevel_test/Banklevel_tests.png)
 
 3. QGIS laadt vervolgens de resultaten in 'Lagen' als 03.Bankleveltest.
 
- <span style="color:yellow"> Notitie voor mezelf: afbeelding invoegen van resultaten.</span>
+![Alt text](../../../images/2_werkwijze_bwn/e_model_controleren_verbeteren/5_banklevel_test/Resultaten_banklevel_test.png)
 
 ### **Uitkomsten van de test**
 Als uitkomst van deze test worden drie groepen ingeladen. 
