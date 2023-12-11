@@ -5,7 +5,6 @@ Wanneer de bank levels zijn bijgewerkt en waar nodig manholes zijn toegevoegd ka
 
 Het doel van deze test is het controleren van stromingen in het watersyteem en over maaiveld en oplossen waar dit onrealistisch is. <span style="color:red"> BvL: volgende zin loopt niet lekker: De HHNK Toolbox zet de testresultaten om in een aantal kaarten ter controle worden geanalyseerd. </span> Als de 1d2d test resultaten goedgekeurd zijn is het model klaar voor gebruik.
 
-
 ### **Werkwijze HHNK 3Di plugin**
 Deze test werkt alleen wanneer het model in de 1d2d-test-staat is ingesteld (zie [Model staat aanpassen](../../4_gebruik_plugin/c_modelstaat_aanpassen.md)).
 

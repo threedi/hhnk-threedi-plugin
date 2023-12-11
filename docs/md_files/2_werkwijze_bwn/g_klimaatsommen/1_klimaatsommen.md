@@ -1,4 +1,4 @@
-## **Werkwijze HHNK 3Di plugin**
+## **Klimaatsommen**
 Als alle testen succesvol zijn afgerond, kunnen de klimaatsommen gesimuleerd worden. Voor meer informatie over de klimaatsommen, klik [hier](../../3_achtergronden_en_uitgangspunten/g_klimaatsommen/1_klimaatsommen.md).
 
 ### **Werkwijze HHNK 3Di plugin**
@@ -26,12 +26,42 @@ Na het downloaden van de restultaten moeten nog een aantal nabewerkingen worden 
 *Het klaarzetten van de input kan alleen via de server van HHNK plaatsvinden.*
 5. De stappen die hierna komen tot ``Schade corrigeren``, kunnen allemaal doorlopen worden middels ctrl + enter. De stappen na ``Schade corrigeren`` zijn alleen noodzakelijk als er onrealistische schades zijn berekend op plekken. Deze kunnen dan middels een polygoon verwijderd worden. Zie het notebook voor de precieze stappen.
 
-De stappen die in het notebook zijn doorlopen, hebben resultaten gegenereerd die zijn in te laden in de HHNK plugin. 
+De stappen die in het notebook zijn doorlopen, hebben resultaten gegenereerd die zijn in te laden in de HHNK plugin. Het inladen van de resultaten gaat als volgt:
+1. Selecteer de revisie van het model waar je de resultaten van wil inladen (zie onderstaande afbeelding).
 
-Nadat alle stappen in het notebook zijn doorlopen, zijn de resultaten gereed om in de HHNK in te laden.
+2. Klik op ``Laad layout`` om resultaten in te laden. De verschillende resultaten verschijnen onder ``Lagen``. De afbeelding hieronder geeft een beeld wat de inundatiediepte kan zijn bij een bui die 1x in de 1000 jaar voorkomt.
+
+3. <span style="color:red"> BvL: ``clean werkt niet`` </span>
+
+4. Met de knop ``Maak pdfs`` kunnen de kaarten uit de lagen naar een pdf geëxporteerd worden. <span style="color:red"> BvL: alle kaarten zijn hetzelfde... Is dit een bekende fout?</span>
 
 ### **Uitkomsten van de test**
+De ingeladen kaarten geven een beeld van wat de gevolgen van de diverse klimaatsommen is in het modelgebied. Om bepaalde resultaten makkelijk in te laden, is het gebruik van [map themes](<span style="color:red"> BvL: link naar map themes invoegen! </span>) handig. De volgende kaarten zijn getoond:
+* Resultaat klimaatsommen: 
+    - Ruimtekaart:<span style="color:red"> BvL: de ruimtekaart... vul aan buiten HHNK omgeving met document uitwerking filtering...  </span> 
+    - Peilgebieden: deze kaart geeft de peilgebieden in het modelgebied weer.
 
+* Inundatievlakken: de inundatievlakken bestaan uit de drie herhalingstijden: T10, T100 en T1000. De kaarten geven weer welk gebied bij welke herhalingstijd inundeert. De kaarten maken geen onderscheid tussen inundatie die vanuit het watersysteem ontstaat of door plasvorming op het maaiveld. 
+
+* Inundatievlakken - plas: <span style="color:red"> BvL: vul aan buiten HHNK omgeving met document uitwerking filtering...  </span>
+
+* Inundatievlakken - overlast: <span style="color:red"> BvL: vul aan buiten HHNK omgeving met document uitwerking filtering...  </span>
+
+* Inundatiediepte: de kaarten met de inundatiediepte zijn net als de inundatievlakken opgesteld op basis van de drie herhalingstijden: T10, T100 en T1000. Op de kaarten is te zien wat de berekende waterdiepte is bij elk van de herhalingstijden. De kaarten maken geen onderscheid tussen inundatie die vanuit het watersysteem ontstaat of door plasvorming op het maaiveld. 
+
+* Inundatiediepte - plas: <span style="color:red"> BvL: vul aan buiten HHNK omgeving met document uitwerking filtering...  </span>
+
+* Inundatiediepte - overlast: <span style="color:red"> BvL: vul aan buiten HHNK omgeving met document uitwerking filtering...  </span>
+
+<span style="color:red"> BvL: *Waterstand genereert geen kaarten. Klopt dit?</span>
+
+* Schadekaarten:
+    - Schade per peilgebied: deze kaart laat zien wat de schade is per peilgebied. Hierbij is de schade die door inundatie vanuit het watersysteem en inundatie door plasvorming op het maaiveld optreedt, bij elkaar opgeteld.
+    - Schade per peilgebied - plas: deze kaart laat zien wat de schade is per peilgebied welke wordt veroorzaakt door plasvorming op het maaiveld. 
+    - Schade per peilgebied - overlast: deze kaart laat zien wat de schade is per peilgebied welke wordt veroorzaakt door inundatie vanuit het watersysteem. 
+    - cw schade - overlast: dit raster toont in het modelgebied de contante waarde van de schade die is veroorzaakt door inundatie vanuit het watersysteem.
+    - cw schade - plas: dit raster toont in het modelgebied de contante waarde van de schade die is veroorzaakt door inundatie door plasvorming op het maaiveld.
+* Schade correctie: in deze laag kunnen polygonen worden toegevoegd om onrealistische schade te verwijderen. Dit kan via het doorlopen van het [notebook](#werkwijze-hhnk-3di-plugin), waar in stap 5 een korte toelichting staat.
 
 <span style="color:red"> BvL: </span>
 
