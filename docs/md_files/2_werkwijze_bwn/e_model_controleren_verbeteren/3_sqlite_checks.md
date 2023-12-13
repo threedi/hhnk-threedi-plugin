@@ -77,14 +77,6 @@ Voor iedere test moet nagegaan worden of de waarden in het model voldoen. Hieron
 * Test 8: Geïsoleerde watergangen
 
   Deze test bepaalt welk aandeel van watergangen geen verbinding heeft met het maaiveld (isolated). Het aandeel mag niet te groot zijn omdat neerslag de watergangen dan onvoldoende kan bereiken. De resultaten van deze test kunnen direct bij het kopje 'Geïsoleerde watergangen' onder de sqlite checks in the HHNK toolbox gevonden worden. Bekijk ook visueel welke watergangen isolated zijn via de v2_channels laag in het model. Klik rechts en selecteer bij stijlen ```calculation type``` voor een voorbeeld opmaak. 
-  
-* Test 9: Genereer grid
-  
-  Deze test genereert het rekengrid onder andere op basis van grid refinements en rekencel grootte (bepaald in global settings). Voor deze test hoeft er niks gecontroleerd te worden. Het rekenraster kan terug gevonden worden onder...
-
-  <span style="color:yellow"> Notitie voor mezelf: Hier is veel uitleg over te vinden in 18.3442 BWn sectie 3.4*</span>
-
-  <span style="color:yellow"> WE: Dit hoort denk ik bij laad lagen. Het rooster is ter referentie en kan gebruikt worden voor het verklaren van de resultaten. @SAWA willen jullie deze verplaatsen naar laad lagen?*</span>
 
 #### Eenmalige testen
 De eenmalige tests zijn er om een aantal randvoorwaarden te controleren. Als geverifieerd is dat hieraan is voldaan, dan hoeven ze niet opnieuw te worden gedraaid.

@@ -3,9 +3,9 @@ In de 3Di poldermodellen zitten de volgende 4 rasterkaarten:
 1. DEM;
 2. Weerstand;
 3. Infiltratie;
-4. Bodemberging.
+4. Bodemberging
 
-Hoe deze kaarten zijn opgebouwd wordt hieronder beschreven..
+Hoe deze kaarten zijn opgebouwd wordt hieronder beschreven.
 Alle rasters bevatten waardes op subgridniveau (0,5 m bij 0,5 m) die door 3Di op een verantwoorde
 manier worden opgeschaald tot de veel grotere rekencellen.
 
@@ -100,7 +100,7 @@ Voor gedetailleerde regionale toepassingen bestaan er geen betrouwbare gebiedsde
 
 2. De GLG/ GHG uit het grondwatermodel van HHNK. 
 
-    Deze (100m bij 100 m) raster kaarten zijn in 2014 gegenereerd met het (MODFLOW/ SEAWAT) grondwatermodel van HHNK enhebben een grove modelschaal (ca. 100 bij 100 m). Deze modelversie betreft een modelvernieuwing van het oorspronkelijke model uit het project Leven met Zout Water uit 2012.
+    Deze (100m bij 100 m) raster kaarten zijn in 2014 gegenereerd met het (MODFLOW/ SEAWAT) grondwatermodel van HHNK en hebben een grove modelschaal (ca. 100 bij 100 m). Deze modelversie betreft een modelvernieuwing van het oorspronkelijke model uit het project Leven met Zout Water uit 2012.
 
 NB: de grondwatertrappen uit de bodemkaart zijn een oudere en minder geavanceerde aanpak op basis van dezelfde brondata als de Alterra kaart en vormt dus geen additionele bron van informatie. 
 

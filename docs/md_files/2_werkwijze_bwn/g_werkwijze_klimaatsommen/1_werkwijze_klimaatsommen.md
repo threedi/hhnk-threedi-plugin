@@ -19,39 +19,45 @@ Na het downloaden van de restultaten moeten nog een aantal nabewerkingen worden 
 
     ![Alt text](../../../images/2_werkwijze_bwn/g_klimaatsommen/2_nabewerking_klimaatsommen.png)
     Kies bij ``Selecteer een map met batch resultaten`` de map waar de downoalds zijn weggeschreven.
-    Kies bij ``Selecteer een neerslagzone`` de neerslagzone die je wil gebruiken. In bovenstaand afbeelding is de keuze tussen twee zones, omdat het modelgebied in twee zones valt. Kies in dergelijke geval voor de zone waar het grootste deel van de polder in valt.
+    Kies bij ``Selecteer een neerslagzone`` de neerslagzone die je wil gebruiken. In bovenstaand afbeelding is de keuze tussen twee zones, omdat het modelgebied in twee zones valt. Kies in dergelijk geval voor de zone waar het grootste deel van de polder in valt.
 3. Stap 3 gaat over het lokaliseren van de polder folder. Run het veld  met ctrl + enter. <br>
-*Bij deze stap is het belangrijk dat alle folders goed staan. Als de resultaten in een folder in een andere map staat of als het notebook vanuit een ander model wordt geopend dan welke je wil analyseren, zal een foutmelding ontstaan.*
+*Bij deze stap is het belangrijk dat alle folders goed staan. Als de resultaten in een folder in een andere map staat (ergens anders dan batch_results) of als het notebook vanuit een ander model wordt geopend dan welke je wil analyseren, zal een foutmelding ontstaan.*
 4. Draai de 4de stap middels ctrl + enter. Deze stap zet input klaar voor volgende stappen. Het duurt een tijd voordat deze stap doorlopen is. <br>
 *Het klaarzetten van de input kan alleen via de server van HHNK plaatsvinden.*
-5. De stappen die hierna komen tot ``Schade corrigeren``, kunnen allemaal doorlopen worden middels ctrl + enter. De stappen na ``Schade corrigeren`` zijn alleen noodzakelijk als er onrealistische schades zijn berekend op plekken. Deze kunnen dan middels een polygoon verwijderd worden. Zie het notebook voor de precieze stappen.
+5. De stappen die hierna komen tot ``Schade corrigeren``, kunnen allemaal doorlopen worden middels ctrl + enter. De stappen vanaf ``Schade corrigeren`` zijn alleen noodzakelijk als er onrealistische schades zijn berekend op plekken. Deze kunnen dan middels een polygoon verwijderd worden. Zie het notebook voor de precieze stappen.
 
 De stappen die in het notebook zijn doorlopen, hebben resultaten gegenereerd die zijn in te laden in de HHNK plugin. Het inladen van de resultaten gaat als volgt:
-1. Selecteer de revisie van het model waar je de resultaten van wil inladen (zie onderstaande afbeelding).
+1. Selecteer de revisie van het model waar je de resultaten van wil inladen (zie onderstaande afbeelding).<br>
+![Alt text](../../../images/3_achtergronden_en_uitgangspunten/g_klimaatsommen/1_inladen_checks_klimaatsommen.png)
+2. Klik op ``Laad layout`` om resultaten in te laden. De verschillende resultaten verschijnen onder ``Lagen``. De afbeelding hieronder geeft een voorbeeld wat de inundatiediepte kan zijn bij een bui die 1x in de 1000 jaar voorkomt.<br>
+![Alt text](../../../images/3_achtergronden_en_uitgangspunten/g_klimaatsommen/2_inladen_checks_klimaatsommen.png)
 
-2. Klik op ``Laad layout`` om resultaten in te laden. De verschillende resultaten verschijnen onder ``Lagen``. De afbeelding hieronder geeft een beeld wat de inundatiediepte kan zijn bij een bui die 1x in de 1000 jaar voorkomt.
+    Stap 3 en 4 zijn optioneel.
 
 3. <span style="color:red"> BvL: ``clean werkt niet`` </span>
 
-4. Met de knop ``Maak pdfs`` kunnen de kaarten uit de lagen naar een pdf geëxporteerd worden. <span style="color:red"> BvL: alle kaarten zijn hetzelfde... Is dit een bekende fout?</span>
+4. Met de knop ``Maak pdfs`` kunnen de kaarten uit de lagen naar een pdf geëxporteerd worden. De pdf's worden in de map ``batch results`` weggeschreven. <span style="color:red"> BvL: alle kaarten zijn hetzelfde... Is dit een bekende fout?</span>
 
 ### **Uitkomsten van de test**
-De ingeladen kaarten geven een beeld van wat de gevolgen van de diverse klimaatsommen is in het modelgebied. Om bepaalde resultaten makkelijk in te laden, is het gebruik van [map themes](<span style="color:red"> BvL: link naar map themes invoegen! </span>) handig. De volgende kaarten zijn getoond:
+De ingeladen kaarten geven een beeld van wat de gevolgen van de diverse klimaatsommen zijn in het modelgebied. Om bepaalde resultaten makkelijk in te laden, is het gebruik van [map themes](../../4_gebruik_plugin/a_overzicht_plugin#map-themes) handig. De volgende kaarten zijn getoond:
 * Resultaat klimaatsommen: 
-    - Ruimtekaart:<span style="color:red"> BvL: de ruimtekaart... vul aan buiten HHNK omgeving met document uitwerking filtering...  </span> 
+    - Ruimtekaart: 
+        - De ruimte index is in een bepaalde kleur per peilgebied weergegeven. De kaart laat zien of de schade per m3 gelijk verdeeld is over de polder en/of er ruimte is voor een betere verdeling van water bij extreme neerslag. <span style="color:red"> Hoe lager de ruimte index, hoe...? @WE/JK kunnen jullie die aanvullen?</span> <br>
+        - De absolute berging in het peilgebied geeft een indicatie van de hoeveelheid berging in het peilgebied.<br>
+        - De relatieve berging geeft een indicatie van de hoeveelheid berging in het peilgebied ten opzichte van de gehele polder.
     - Peilgebieden: deze kaart geeft de peilgebieden in het modelgebied weer.
 
 * Inundatievlakken: de inundatievlakken bestaan uit de drie herhalingstijden: T10, T100 en T1000. De kaarten geven weer welk gebied bij welke herhalingstijd inundeert. De kaarten maken geen onderscheid tussen inundatie die vanuit het watersysteem ontstaat of door plasvorming op het maaiveld. 
 
-* Inundatievlakken - plas: <span style="color:red"> BvL: vul aan buiten HHNK omgeving met document uitwerking filtering...  </span>
+* Inundatievlakken - plas: deze kaart laat zien welke delen inunderen door plasvorming op het maaiveld.
 
-* Inundatievlakken - overlast: <span style="color:red"> BvL: vul aan buiten HHNK omgeving met document uitwerking filtering...  </span>
+* Inundatievlakken - overlast: deze kaart laat zien welke delen op het maaiveld inunderen door water dat vanuit het watersysteem komt.
 
 * Inundatiediepte: de kaarten met de inundatiediepte zijn net als de inundatievlakken opgesteld op basis van de drie herhalingstijden: T10, T100 en T1000. Op de kaarten is te zien wat de berekende waterdiepte is bij elk van de herhalingstijden. De kaarten maken geen onderscheid tussen inundatie die vanuit het watersysteem ontstaat of door plasvorming op het maaiveld. 
 
-* Inundatiediepte - plas: <span style="color:red"> BvL: vul aan buiten HHNK omgeving met document uitwerking filtering...  </span>
+* Inundatiediepte - plas: deze kaart laat zien wat de waterdiepte is van de delen die inunderen door plasvorming op het maaiveld.
 
-* Inundatiediepte - overlast: <span style="color:red"> BvL: vul aan buiten HHNK omgeving met document uitwerking filtering...  </span>
+* Inundatiediepte - overlast: deze kaart laat zien wat de waterdiepte is van delen op het maaiveld die inunderen door water dat vanuit het watersysteem komt.
 
 <span style="color:red"> BvL: *Waterstand genereert geen kaarten. Klopt dit?</span>
 
@@ -60,8 +66,6 @@ De ingeladen kaarten geven een beeld van wat de gevolgen van de diverse klimaats
     - Schade per peilgebied - plas: deze kaart laat zien wat de schade is per peilgebied welke wordt veroorzaakt door plasvorming op het maaiveld. 
     - Schade per peilgebied - overlast: deze kaart laat zien wat de schade is per peilgebied welke wordt veroorzaakt door inundatie vanuit het watersysteem. 
     - cw schade - overlast: dit raster toont in het modelgebied de contante waarde van de schade die is veroorzaakt door inundatie vanuit het watersysteem.
-    - cw schade - plas: dit raster toont in het modelgebied de contante waarde van de schade die is veroorzaakt door inundatie door plasvorming op het maaiveld.
+    - cw schade - plas: dit raster toont in het modelgebied de contante waarde van de schade die is veroorzaakt door plasvorming op het maaiveld.
+    
 * Schade correctie: in deze laag kunnen polygonen worden toegevoegd om onrealistische schade te verwijderen. Dit kan via het doorlopen van het [notebook](#werkwijze-hhnk-3di-plugin), waar in stap 5 een korte toelichting staat.
-
-<span style="color:red"> BvL: </span>
-

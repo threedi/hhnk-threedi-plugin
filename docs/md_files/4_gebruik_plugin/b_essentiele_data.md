@@ -58,7 +58,7 @@ Om verschillende modelstaten te kunnen genereren zijn twee Excel documenten van 
 
 In de tabel hieronder zijn voor de verschillende modelstaten de benodigde gegevens te zien. 
    
-![Alt text](../../images/originele_images/needed_data/model_settings.png)
+![Alt text](../../images/4_gebruik_plugin/b_essentiele_data/model_instellingen.png)
    
 Deze gegevens dienen in een Excel met de naam ``model_settings`` ingevoerd te worden, zodat ze in 3Di uitgelezen kunnen worden en de juiste invoerwaarden worden gebruikt. Op de plek waar ``Naam polder`` staat, komt de naam van polder, bijvoorbeeld ``callantsoog_0d1d_test``. Als er andere namen voor rasters worden gebruikt, kunnen deze uiteraard ingevoerd worden in de Excel, zolang ze corresponderen met de namen van de rasters die in ``C:\Users\{gebruiker}\Documents\3Di\polder_X\02_schematisation_00_basis_rasters`` (padnaam kan bij  gebruiker anders zijn) zijn opgeslagen. 
 
@@ -68,7 +68,7 @@ Deze gegevens dienen in een Excel met de naam ``model_settings`` ingevoerd te wo
 
 In de tabel hieronder zijn een aantal default instellingen voor de schematisatie weergegeven.
 
-![Alt text](../../images/4_gebruik_plugin/a_essentiele_data/model_instellingen_default.png)
+![Alt text](../../images/4_gebruik_plugin/b_essentiele_data/model_instellingen_default.png)
 
 Deze gegevens dienen in een Excel met de naam ``model_settings`` ingevoerd te worden, zodat ze in 3Di uitgelezen kunnen worden en de juiste invoerwaarden worden gebruikt.
 
