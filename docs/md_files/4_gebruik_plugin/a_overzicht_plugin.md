@@ -107,7 +107,8 @@ Met het inladen van de ``basis layout`` krijg je inzicht in de resultaten die vo
 Met de optie ``achtergrondkaarten`` kun je verschillende soorten kaarten als achtergrond onder de schematisatie leggen. Dit is bijvoorbeeld handig om te controleren of een breedte van een watergang in het model overeenkomt met de breedte op de luchtfoto. 
 
 #### Map themes
-Door op het oogje te klikken onder lagen, kunnen bepaalde kaarten aangevinkt worden om snel een overzicht van de resultaten te krijgen die je wilt bekijken. Op deze manier hoef je niet zelf de juiste lagen aan of uit te vinken voor de resultaten van bepaalde testen, maar wordt dit voor je gedaan.
-<span style="color:red"> BvL: @Lieke, wil je hier de afbeelding invoegen van de locatie van het 'oogje'.</span>
+Door op het oogje te klikken onder lagen, kunnen bepaalde kaarten aangevinkt worden om snel een overzicht van de resultaten te krijgen die je wilt bekijken. Op deze manier hoef je niet zelf de juiste lagen aan of uit te vinken voor de resultaten van bepaalde testen, maar wordt dit voor je gedaan. In onderstaande afbeelding staat het oogje met de rode pijl aangegeven.
+
+![Alt text](<../../images/4_gebruik_plugin/a_overzicht_plugin/Afbeelding map themes.png>)
 
 Klik [hier](c_modelstaat_aanpassen.md) om de stappen te volgen om modelstaten aan te passen.
