@@ -53,10 +53,10 @@ Hieronder vind je een beschrijving van alle brongegevens die worden gebruikt. Da
 
    In ``{Modellenmap}\Polder_X\02_schematisation`` staan per model twee Excel documenten waarmee de modelinstellingen en modelstaten geconfigureerd kunnen worden. De instellingen in de sqlite-database van het model worden ten dele overschreven door de waarden in deze excel bestanden. In de tabel hieronder zijn een aantal default instellingen voor de schematisatie weergegeven.
 
-   ![Alt text](../../images/4_gebruik_plugin/a_essentiele_data/model_instellingen_default.png)
+   ![Alt text](../../images/4_gebruik_plugin/b_essentiele_data/model_instellingen_default.png)
 
    Deze gegevens dienen in een Excel met de naam ``model_settings_default`` ingevoerd te worden, zodat ze in 3Di uitgelezen kunnen worden en de juiste invoerwaarden worden gebruikt.
 
-   De instellingen voor modelstaten staan in de een Excel met de naam ``model_settings``. Dit wordt verder toegelicht onder [hier](c_modelstaat_aanpassen.md)
+   De instellingen voor modelstaten staan in de een Excel met de naam ``model_settings``. Dit wordt verder toegelicht onder [Modelstaten](c_modelstaat_aanpassen.md).
 
 Klik [hier](b_overzicht_plugin.md) om naar het overzicht van de plugin te gaan en te starten met het gebruik van de plugin.
