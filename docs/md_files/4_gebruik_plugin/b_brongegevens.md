@@ -1,5 +1,5 @@
-## **Essentiële data**
-Hieronder vind je een beschrijving van alle brondata die wordt gebruikt voor de tests in de HHNK Toolbox. Daarnaast is hier informatie te vinden over modelinstellingen.
+## **Brongegevens**
+Hieronder vind je een beschrijving van alle brongegevens die worden gebruikt. Daarnaast is hier informatie te vinden over modelinstellingen.
 
 1. Model
 
@@ -48,28 +48,15 @@ Hieronder vind je een beschrijving van alle brondata die wordt gebruikt voor de 
 8. Channel surface from profiles
    
    De channel surface from profiles shapefile (```.shp```) bevat informatie over de breedte van de watergangen. Deze informatie wordt gebruikt in de ```oppervlaktewater``` test om het totale oppervlaktewater van de watergangen in het model te berekenen. Dit bestand is een output van de modelbuilder.
-
-### Modelinstellingen
-Om verschillende modelstaten te kunnen genereren zijn twee Excel documenten van belang. Deze Excel documenten moeten in de volgende map staan: ``C:\Users\{gebruiker}\Documents\3Di\Polder_X\02_schematisation``.
-
-`{gebruiker}` is de naam van de Windows-gebruiker.
-
-1. Model settings
-
-In de tabel hieronder zijn voor de verschillende modelstaten de benodigde gegevens te zien. 
    
-![Alt text](../../images/originele_images/needed_data/model_settings.png)
-   
-Deze gegevens dienen in een Excel met de naam ``model_settings`` ingevoerd te worden, zodat ze in 3Di uitgelezen kunnen worden en de juiste invoerwaarden worden gebruikt. Op de plek waar ``Naam polder`` staat, komt de naam van polder, bijvoorbeeld ``callantsoog_0d1d_test``. Als er andere namen voor rasters worden gebruikt, kunnen deze uiteraard ingevoerd worden in de Excel, zolang ze corresponderen met de namen van de rasters die in ``C:\Users\{gebruiker}\Documents\3Di\polder_X\02_schematisation_00_basis_rasters`` (padnaam kan bij  gebruiker anders zijn) zijn opgeslagen. 
+9. Model instellingen
 
-`{gebruiker}` is de naam van de Windows-gebruiker.
+   In ``{Modellenmap}\Polder_X\02_schematisation`` staan per model twee Excel documenten waarmee de modelinstellingen en modelstaten geconfigureerd kunnen worden. De instellingen in de sqlite-database van het model worden ten dele overschreven door de waarden in deze excel bestanden. In de tabel hieronder zijn een aantal default instellingen voor de schematisatie weergegeven.
 
-2. Model settings default
+   ![Alt text](../../images/4_gebruik_plugin/a_essentiele_data/model_instellingen_default.png)
 
-In de tabel hieronder zijn een aantal default instellingen voor de schematisatie weergegeven.
+   Deze gegevens dienen in een Excel met de naam ``model_settings_default`` ingevoerd te worden, zodat ze in 3Di uitgelezen kunnen worden en de juiste invoerwaarden worden gebruikt.
 
-![Alt text](../../images/4_gebruik_plugin/a_essentiele_data/model_instellingen_default.png)
-
-Deze gegevens dienen in een Excel met de naam ``model_settings`` ingevoerd te worden, zodat ze in 3Di uitgelezen kunnen worden en de juiste invoerwaarden worden gebruikt.
+   De instellingen voor modelstaten staan in de een Excel met de naam ``model_settings``. Dit wordt verder toegelicht onder [hier](c_modelstaat_aanpassen.md)
 
 Klik [hier](b_overzicht_plugin.md) om naar het overzicht van de plugin te gaan en te starten met het gebruik van de plugin.

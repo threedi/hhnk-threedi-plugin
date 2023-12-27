@@ -1,10 +1,9 @@
-# **Werkwijze BWN**
-<span style="color:red"> BvL: @WE/JK kunnen jullie hier een tekst voor opstellen?</span> 
+# **Werkwijze BWN2**
+Voor het programma BWN2 zijn modellen en een werkwijze opgesteld. Het doel hiervan is om alle polders binnen HHNK op eenduidige manier te toetsen op mogelijke wateroverlast. Deze toetsing is uitgevoerd tussen 2015 en 2020, maar kan periodiek worden herhaald wanneer (ruimtelijke) ontwikkelingen plaatsvinden. Door deze werkwijze te volgen zijn eveneens eenduidige vergelijkingen te maken tussen referentie en maatregel of ontwikkel scenarios. 
 
-* Werkafspraken:<br>
-    1. [Logboek](a_werkafspraken/1_logboek.md)
-    2. [Referentie en scenariomodellen](a_werkafspraken/2_referentie_en_scenariomodellen.md)
-    3. [Circulair modelleren](a_werkafspraken/3_circulair_modelleren.md)
+De hoofdstukken hieronder beschrijven de werkwijze stap voor stap.
+
+* [Werkafspraken](a_werkafspraken/werkafspraken.md)<br>
 * [Introductie QGIS plugin](b_introductie_qgis_plugin/1_introductie_qgis_plugin.md)
 * [Nieuw model](c_nieuw_model/1_nieuw_model.md)
 * [Bestaand model aanpassen en uploaden](d_bestaand_model_aanpassen_uploaden/1_bestaand_model_aanpassen_uploaden.md)
