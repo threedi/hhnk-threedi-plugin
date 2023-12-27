@@ -10,5 +10,7 @@ Het verlagen van de watergangen aan de hand van kunstwerken vindt plaats aan het
 ### **Doorstroomhoogte**
 Als de diepte van de waterloop ter plaatse van een brug is aangepast naar bodemhoogte van de watergang berekent de modelbuilder de doorstroomhoogte opnieuw met de HOOGTEONDERZIJDE van de brug uit DAMO. Hiervoor geldt een minimale doorstroomhoogte van 1 meter. Bij geen ingevulde waarde in DAMO komt de bovenkant van het profiel op NAP +10,01 meter.
 
-### **Coëfficienten**
-De discharge coefficient voor een brug is 1. Dit betekent dat met brug de discharge even groot is als zonder brug en de waterstroom dus niet gehinderd wordt door de brug.
+### **Coëfficiënten**
+De discharge coefficient voor een brug is 1. Dit betekent dat met brug de discharge even groot is als zonder brug en de waterstroom dus niet gehinderd wordt door de brug. 
+
+In 3Di worden wel energie verliezen meegenomen voor het smaller of breder worden van het stroomprofiel.

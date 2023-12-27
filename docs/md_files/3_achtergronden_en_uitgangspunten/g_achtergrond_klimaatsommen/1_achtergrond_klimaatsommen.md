@@ -3,7 +3,7 @@ De gevolgen van klimaatverandering worden steeds beter merkbaar. Onder andere in
 
 1. T10 (neerslagsituatie die zich statistisch gezien 1x in de 10 jaar voordoet)
 2. T100 (neerslagsituatie die zich statistisch gezien 1x in de 100 jaar voordoet)
-3. T1000 (neerslagsituatie die zich statistisch gezien 1x in de 10 jaar voordoet)
+3. T1000 (neerslagsituatie die zich statistisch gezien 1x in de 1000 jaar voordoet)
 
 Voor deze herhalingstijden zijn twee verschillende neerslagtypen mogelijk:
 
@@ -26,7 +26,7 @@ Bij het analyseren van de resultaten die uit de klimaatsommen volgen, is het tev
 
 In het beheergebied van HHNK bevinden zich drie neerslagregio's:
 1. Hevig
-2. De Bilt
+2. De Bilt (gemiddeld)
 3. Mild (wordt niet gebruikt. Bovengrensbenadering Mild is toegepast, waardoor neerslagregio Gemiddeld (De Bilt) is gekozen)
 
 Aan de hand van de neerslagregio's is bepaald wat de frequentie van de herhalingstijden van piek- en blokbuien in de zomer en de winter is. Deze frequenties zijn nodig voor het bepalen van de netto contante waarde van de schade. In het figuur hieronder is te zien wat de frequentie van een bepaalde herhalingstijd van piek- en blokbuien in de zomer en winter in de neerslagregio gemiddeld.

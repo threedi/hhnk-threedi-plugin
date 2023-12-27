@@ -7,7 +7,7 @@ Stuwen die niet op een peilgrens liggen worden niet opgenomen in het model. Stuw
 ### **Sturing**
 Stuwen die in de HDB-kaartlaag Sturing-3Di staan, worden gemodelleerd met de sturing die in die tabel is opgenomen. Dit op voorwaarde dat de sturingsregels correct zijn, de stuwcode overeenkomt en de meetlocatie binnen een straal van 50 meter van een watergang ligt (5 april 2018). 
 
-<span style="color:yellow"> *LN: @Wouter, @Jelle, Is dit nog steeds 50 meter?*</span> 
+<!--TODO <span style="color:yellow"> *LN: @Wouter, @Jelle, Is dit nog steeds 50 meter?*</span> -->
 
 ### **Kruinhoogte**
 De kruinhoogte van een stuw wordt bepaald door gebruik te maken van onderstaande volgorde. Dit vormt tevens de rangorde voor prioritering bij het opnemen van de kruinhoogte in het model.

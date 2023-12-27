@@ -13,7 +13,7 @@ De capaciteit wordt bepaald door gebruik te maken van onderstaande volgorde. Dit
 Let hierbij op dat de capaciteiten in DAMO weergegeven worden in m3/min en in de model-sqlite in l/s.
 
 ### **Richting**
-De richting waarin gemalen het water pompen is van laag peil naar hoog peil op basis van het initiële waterlevel van de connection nodes.
+De richting waarin gemalen het water pompen is van laag peil naar hoog peil op basis van het initiële water level van de connection nodes.
 
 ### **Aan- en afslagpeilen**
-Het aan- en afslagpeil is gebaseerd op het streefpeil lage zijde (afvoeraanname). Dit gaat goed bij aanvoergemalen, omdat die een capaciteit van 0 meekrijgen. Het aanslagpeil is gelijk aan het streefpeil+0.02m en het afslagpeil is gelijk aan het streefpeil-0.03m.
+Het aan- en afslagpeil is gebaseerd op het streefpeil lage zijde (afvoeraanname). Dit gaat niet goed bij aanvoer-gemalen, maar omdat die een capaciteit van 0 meekrijgen heeft dit geen effect in de modellen. Het aanslagpeil is gelijk aan het streefpeil+0.02m en het afslagpeil is gelijk aan het streefpeil-0.03m.
