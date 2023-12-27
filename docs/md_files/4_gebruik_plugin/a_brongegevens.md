@@ -59,4 +59,4 @@ Hieronder vind je een beschrijving van alle brongegevens die worden gebruikt. Da
 
    De instellingen voor modelstaten staan in de een Excel met de naam ``model_settings``. Dit wordt verder toegelicht onder [Modelstaten](c_modelstaat_aanpassen.md).
 
-Klik [hier](b_overzicht_plugin.md) om naar het overzicht van de plugin te gaan en te starten met het gebruik van de plugin.
+Klik [hier](a_project_starten.md) om van start te gaan met de plug-in.

@@ -18,20 +18,20 @@ Naast het starten van simulaties, is het downloaden van de resultaten van de (te
       ``File results``: <br>
       * raw 3Di output (.nc): bevat de resultaten van de simulatie (noodzakelijk) <br>
       * aggregated 3Di output (.nc): bevat verschillende tijdstappen van de resultaten van de simulatie (noodzakelijk) <br>
-      * grid administration (.h5): <span style="color:red"> BvL: WE of JK, kunnen jullie deze aanvullen?</span> <br>
+      * grid administration (.h5): bevat het rekenrooster waarmee de ruwe 3Di resultaten gekoppeld worden aan de schematisatie <br>
       * calculation core logging (.txt): bevat verschillende bestanden met informatie over simulatie 
 
-      ``Raster results``: <br>
+      ``Raster results``:
       * Max water level: dit raster bevat de maximale waterstand (m NAP) over de gehele simulatieduur <br>
       * Max water depth: dit raster bevat de maximale waterdieptes (m) over de gehele simulatieduur <br>
       * Total damage: dit raster bevat de berekende schade als gevolg van inundatie <br>
       * Water level at selected time: dit raster bevat de waterstand op een gekozen tijdstip <br>
       * Water depth at selected time: dit raster bevat de waterdiepte op een gekozen tijdstip <br>
-      * Depth (damage calc): <span style="color:red"> BvL: WE of JK, kunnen jullie deze aanvullen?</span> 
+      * Depth (damage calc): het waterdiepteraster gebruikt in de schadeberekening (algemeen AHN ipv model DEM). 
    5. ``Select output folder/name``: kies hier de ``Sub folder`` waar de resultaten weggeschreven moeten worden 
    6. ``Download selected``: hier kun je kiezen uit een aantal opties:<br>
       a. Timestep raster: hier kan gekozen worden om voor een bepaald tijdstip een raster te downloaden. Als hier niets wordt gekozen, zal de laatste tijdstap worden gedownload <br>
-      <span style="color:red"> BvL: in het notebook kan ik daar niets invullen. Bekende fout?</span><br>
+      <!--<span style="color:red"> BvL: in het notebook kan ik daar niets invullen. Bekende fout?</span><br>-->
       b. Resolution (m): voer hier de gewenste resolutie van het te downloaden raster in <br>
       
       Klik vervolgens op ``Download`` om de resultaten te downloaden.<br>
@@ -40,4 +40,4 @@ Naast het starten van simulaties, is het downloaden van de resultaten van de (te
       b. Naam van de batch folder (maak aan als niet bestaat!): kies hier de folder waar de resultaten weggeschreven moeten worden. Bijvoorbeeld: als je de resultaten van de ``ggg`` situatie wil downloaden, kies je hier ook voor de batch folder ``ggg`` <br>
       Klik vervolgens op ``Download batch`` om een batch te downloaden
 
-<span style="color:red"> BvL: in het notebook staan Timestep raster, resolution etc... nogal verwarrend. Ik weet niet waar wat bij hoort?</span>
+Na het downloaden van resultaten kunnen deze gebruikt worden voor de [0d1d test](g_0d1d_test.md).

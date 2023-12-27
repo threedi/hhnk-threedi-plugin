@@ -1,5 +1,0 @@
-## **Nieuw model**
-
-<!---
-TODO
--->

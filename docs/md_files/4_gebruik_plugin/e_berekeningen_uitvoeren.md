@@ -1,5 +1,5 @@
 ## **Berekeningen uitvoeren**
-Nadat de modelstaten zijn gegenereerd, kunnen de (test)berekeningen uitgevoerd worden. Hieronder wordt toegelicht hoe een (test)bereking gestart kan worden:
+Nadat de modelstaten zijn gemaakt, kunnen de (test)berekeningen uitgevoerd worden. Hieronder wordt toegelicht hoe een (test)berekening gestart kan worden:
 1. Voer je Lizard API key (5) en 3Di API key (6) in. Indien je nog geen API key(s) hebt, klik <a href="https://demo.lizard.net/management/personal_api_keys" target="_blank">hier</a> voor een Lizard API key en klik <a href="https://management.3di.live/personal_api_keys" target="_blank">hier</a> voor een 3Di API key.
 
    ![Alt text](../../images/4_gebruik_plugin/d_berekeningen_uitvoeren/inladen_polder.png)
@@ -34,12 +34,12 @@ Nadat de modelstaten zijn gegenereerd, kunnen de (test)berekeningen uitgevoerd w
       * initial wlvl 2d: selecteert initial water level raster file om mee te nemen in de berekening<br>
    7. ``Start simulation``: de simulatienaam wordt automatisch gegenereerd op basis van de schematisatie die gebruikt wordt. Om de berekening te kunnen starten, moet eerst een simulatie aangemaakt worden middels de ``Create simulation`` knop. Als dat is gelukt, kleurt de knop ``Start simulation  `` groen en kan de simulatie aangezet worden.
 
-\* *Lizard abonnement en opslag nodig. Niet nodig voor vervolg BWN methodiek dus kan uitgelaten worden.* <br>
+\* *Lizard abonnement en opslag nodig. Niet nodig voor vervolg BWN werkwijze dus kan uitgelaten worden.* <br>
 
 Als je meerdere klimaatsommen wil doorrekenen, kun je ervoor kiezen om in plaats van de tab ``single calculation``, de tab ``batch calculation`` te gebruiken en de scenario's te kiezen welke doorgerekend moeten worden. 
 
 ![Alt text](../../images/4_gebruik_plugin/d_berekeningen_uitvoeren/simulatie_batch_starten.png)
 
-Zoek opnieuw het gewenste model via stappen 1, 2 en 3. Onder 4. is het mogelijk het juiste model, revisie en benodigde 2D waterstandsrasters bij de juiste initiële condities (gXg) te selecteren. Standaard worden de resultaten opgeslagen onder ```batch results```. Voeg eventueel een eigen map of kenmerk aan de simulatie toe (onder 7) om meerdere klimaat-batches uit elkaar te houden. Met de knop ```check input``` wordt een overzicht gemaakt van de berekeningen. Controleer deze en klik vervolgens op `` start batch simulation``.
+Zoek opnieuw het gewenste model via stappen 1, 2 en 3. Onder 4. is het mogelijk het juiste model, revisie en benodigde 2D waterstand-rasters bij de juiste initiële condities (gXg) te selecteren. Standaard worden de resultaten opgeslagen onder ```batch results```. Voeg eventueel een eigen map of kenmerk aan de simulatie toe (onder 7) om meerdere klimaat-batches uit elkaar te houden. Met de knop ```check input``` wordt een overzicht gemaakt van de berekeningen. Controleer deze en klik vervolgens op `` start batch simulation``.
 
-Klik [hier](e_downloaden_resultaten.md) om naar de toelichting van het downloaden van de simulaties te gaan.
+Klik [hier](f_downloaden_resultaten.md) om naar de toelichting van het downloaden van de simulaties te gaan.

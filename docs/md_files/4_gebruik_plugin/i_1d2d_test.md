@@ -1,20 +1,19 @@
 ## **1d2d test**
 Wanneer de bank levels zijn bijgewerkt en waar nodig manholes zijn toegevoegd kan de 1d2d test worden gedraaid. Dit houdt in dat er opnieuw een test bui wordt gesimuleerd met 3Di.  De test bui begint met een uur droog, dan twee uur regen (17,75 mm/uur), dan 12 uur droog (zie figuur hieronder). Het simuleert daarmee een relatief hevige neerslag waarbij enige wateroverlast is te verwachten. In het 1d2d-test model is infiltratie uitgeschakeld.
 
-![Alt text](../../../images/2_werkwijze_bwn/e_model_controleren_verbeteren/6_1d2d_test/1d2d_toets_bui.PNG)
+![Alt text](../../images/2_werkwijze_bwn/e_model_controleren_verbeteren/6_1d2d_test/1d2d_toets_bui.PNG)
 
-Het doel van deze test is het controleren van stromingen in het watersyteem en over maaiveld en oplossen waar dit onrealistisch is. <span style="color:red"> BvL: volgende zin loopt niet lekker: De HHNK Toolbox zet de testresultaten om in een aantal kaarten ter controle worden geanalyseerd. </span> Als de 1d2d test resultaten goedgekeurd zijn is het model klaar voor gebruik.
+Het doel van deze test is het controleren van stromingen in het watersyteem en over maaiveld en oplossen waar dit onrealistisch is. De plug-in zet de testresultaten om in een aantal kaarten die visueel kunnen worden gecontroleerd. Als de 1d2d test resultaten goedgekeurd zijn is het model klaar voor [klimaarsommen](j_werkwijze_klimaatsommen.md).
 
 ### **Werkwijze HHNK 3Di plugin**
-Deze test werkt alleen wanneer het model in de 1d2d-test-staat is ingesteld (zie [Model staat aanpassen](../../4_gebruik_plugin/c_modelstaat_aanpassen.md)).
+Deze test werkt alleen wanneer het model in de 1d2d-test-staat is ingesteld (zie [Model staat aanpassen](d_modelstaat_aanpassen.md)).
 
-In het model zijn nu als het goed is de channels connected en is de infiltratie uitgeschakeld. Na het succesvol uploaden en aanmaken van het 3Di model kan via de [calculation gui](../../4_gebruik_plugin/d_berekeningen_uitvoeren.md) op de Jupyter notebook server de berekening worden gestart. Selecteer het juiste model en start de 1d2d test.
-
-Download na de berekening de resultaten met de [download gui](../../4_gebruik_plugin/e_downloaden_resultaten.md). Kies voor raw output en grid administration en zorg dat de resultaten in de map 1d2d_results terecht komen. 
+In het model zijn nu als het goed is de channels connected en is de infiltratie uitgeschakeld. Na het succesvol uploaden en aanmaken van het 3Di model kan via de [berekening worden gestart](e_berekeningen_uitvoeren.md). Selecteer het juiste model en start de 1d2d test. 
+[Download de resultaten](f_downloaden_resultaten.md). Kies voor raw output en grid administration en zorg dat de resultaten in de map 1d2d_results terecht komen. 
  
-Om het resultaat in de HHNK Toolbox te laden kies je onder checks voor 1d2d tests. Selecteer daaronder de revisie van de gemaakte berekening en klik op Begin tests. Er worden hiermee een aantal kaartlagen aan het project toegevoegd in een groep met de naam: *07. Testprotocol 1d2d tests [polder revisie model]*. De afbeelding hieronder geeft een beeld hoe dat eruit kan zien.
+Om het resultaat in de HHNK Toolbox te laden kies je onder checks voor 1d2d tests. Selecteer daaronder de revisie van de gemaakte berekening en klik op ```Begin tests```. Er worden hiermee een aantal kaartlagen aan het project toegevoegd in een groep met de naam: *07. Testprotocol 1d2d tests [polder revisie model]*. De afbeelding hieronder geeft een beeld hoe dat eruit kan zien.
 
-![Alt text](../../../images/2_werkwijze_bwn/e_model_controleren_verbeteren/6_1d2d_test/1d2d-test-resultaat.PNG)
+![Alt text](../../images/2_werkwijze_bwn/e_model_controleren_verbeteren/6_1d2d_test/1d2d-test-resultaat.PNG)
 
 ### **Uitkomsten van de test**
 De ingeladen kaarten  worden gebruikt om eventuele onrealistische resultaten te vinden die worden veroorzaakt door fouten in het model. Hiervoor worden drie typen kaarten ingeladen. 
@@ -36,7 +35,7 @@ Gebruik de kaarten en eventueel de ruwe 3Di resultaten om de het model te contro
 
 * Stroming vooraf
 
-  De kaarten stroming vooraf en de waterstand- en waterdieptekaarten aan het begin van de berekeningen (T1) zouden geen stroming of ontstaan van inundatie moeten laten zien. Dit zou namelijk betekenen dat er zonder dat er neerslag valt, water uit het watersyteem het maaiveld op stroomt.
+  De kaarten stroming vooraf en de waterstand- en waterdieptekaarten aan het begin van de berekeningen (T1) zouden geen stroming of ontstaan van inundatie moeten laten zien. Dit zou namelijk betekenen dat er zonder dat er neerslag valt, water uit het watersysteem het maaiveld op stroomt.
 
 * Afvoerpatroon bij neerslag
 
@@ -58,7 +57,7 @@ Gebruik de kaarten en eventueel de ruwe 3Di resultaten om de het model te contro
   
   De waterdieptekaart aan het einde van de berekening kan je helpen locaties te vinden waar neerslag niet kan afstromen richting het watersysteem. Pas hier mogelijk de bank levels verder aan of zorg voor roosterverfijning. In stedelijk gebied blijft neerslag vaak in tuinen of op wegen staan als gevolg van het ontbreken van riolering. Wees hier kritisch op bij de interpretatie van het resultaat.
 
-Als je tevreden bent met het model kun je verder met de [klimaatsommen](../g_klimaatsommen/1_klimaatsommen.md).  
+Als je tevreden bent met het model kun je verder met de [klimaatsommen](../g_klimaatsommen/1_klimaatsommen.md). Vergeet niet aanpassingen op te slaan en opnieuw via [modestaat aanpassen](d_modelstaat_aanpassen.md) de modellen te uploaden. 
 
 
 

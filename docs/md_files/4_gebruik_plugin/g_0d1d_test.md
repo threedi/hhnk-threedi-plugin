@@ -59,4 +59,6 @@ Om te beoordelen of het watersysteem hydraulisch functioneert, is hieronder per 
 * Het verschil in waterstand tussen het begin en het einde van de som (Kaart 6: Herstel streefpeil)<br>
 *In de laatste dag van de simulatie, waar geen regen meer valt, zou de waterstand weer moeten zakken naar het streefpeil (of mogelijk nog wat lager door de afslagpeilen van de gemalen). Wanneer de waterstand nog meer dan 2 cm boven het streefpeil ligt, zit er mogelijk een fout in het model. Mogelijke oorzaak is beperkte afvoermogelijkheden bij kunstwerken.*
 
-Als er voldoende vertrouwen in de uitkomsten van het model is, kun je naar de [Banklevel test](5_banklevel_test.md) gaan.
+Als er voldoende vertrouwen in de uitkomsten van het model is, geldt het resultaat van de laatste 0d1d test als hydraulische toets. 
+
+Om klimaatsommen te maken is het nodig de [Banklevel test](h_banklevel_test.md) uit te voeren.

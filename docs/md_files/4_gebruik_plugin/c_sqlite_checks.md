@@ -1,7 +1,7 @@
 ## **Sqlite checks**
-Nadat de modelbuilder feedback test is uitgevoerd, kunnen de sqlite testen worden uitgevoerd. De sqlite testen zijn bedoeld om het model te controleren op (potentiële) fouten in de data en deze te corrigeren waar nodig. Na de sqlite testen is het model klaar om op te bouwen en om de 0d1d test te draaien (zie [0d1d test](4_0d1d_test.md)).
+Als het model beschikbaar is, kunnen de sqlite testen worden uitgevoerd. De sqlite testen zijn bedoeld om het model te controleren op (potentiële) fouten in de data en deze te corrigeren waar nodig. Na de sqlite testen is het model klaar om [modelstaten aan te passen](d_modelstaat_aanpassen.md) en om de 0d1d test te draaien (zie [0d1d test uitvoeren](g_0d1d_test.md), [berekeningen uitvoeren](e_berekeningen_uitvoeren.md) en [resultaten downloaden](f_downloaden_resultaten.md).
 
-De sqlite testen bestaan uit negen data verificatie testen en drie eenmalige testen. 
+De sqlite tests bestaan uit negen data verificatie testen en drie eenmalige testen. 
 
 ### **Werkwijze HHNK 3Di plugin**
 Wanneer in de 'main' van de HHNK toolbox de juiste modellen folder en polder zijn geselecteerd, kunnen de sqlite testen uitgevoerd worden. Volg onderstaande stappen:
@@ -9,11 +9,11 @@ Wanneer in de 'main' van de HHNK toolbox de juiste modellen folder en polder zij
 1. Ga naar 'Checks' in de HHNK Toolbox.
 2. Kies voor 'Sqlite tests'.
 
-![Alt text](../../../images/2_werkwijze_bwn/e_model_controleren_verbeteren/3_sqlite_checks/sqlite_checks_venster_HHNK_Toolbox.png)
+![Alt text](../../images/2_werkwijze_bwn/e_model_controleren_verbeteren/3_sqlite_checks/sqlite_checks_venster_HHNK_Toolbox.png)
 
 3. Selecteer in het Model sqlite check venster alle testen van ondoorlatend oppervlak tot en met oppervlaktewater. Zorg er ook voor dat data verificatie en eenmalige tests zelf zijn geselecteerd. Het 'Model sqlite checks' venster zou er dan zo uit moeten zien als op onderstaande afbeelding.
 
-![Alt text](../../../images/2_werkwijze_bwn/e_model_controleren_verbeteren/3_sqlite_checks/model_sqlite_venster.png)
+![Alt text](../../images/2_werkwijze_bwn/e_model_controleren_verbeteren/3_sqlite_checks/model_sqlite_venster.png)
 
 4. Klik op 'Start tests'.
 5. QGIS laadt vervolgens de resultaten in onder de sqlite checks in de HHNK toolbox en in 'Lagen'.
@@ -21,16 +21,16 @@ Wanneer in de 'main' van de HHNK toolbox de juiste modellen folder en polder zij
 
 ### **Uitkomsten van de test**
 De uitkomsten van de testen worden geladen in 'lagen', maar zijn ook zichtbaar aan de rechterzijde van het scherm bij 'sqlite checks' onder 'checks' in de HHNK toolbox. De uitkomsten van de testen kunnen er zo uit zien als op onderstaande afbeelding.
-![Alt text](../../../images/2_werkwijze_bwn/e_model_controleren_verbeteren/3_sqlite_checks/Resultaten_sqlite_checks.png)
+![Alt text](../../images/2_werkwijze_bwn/e_model_controleren_verbeteren/3_sqlite_checks/Resultaten_sqlite_checks.png)
 
 Onder 'Lagen' zijn verschillende groepen zichtbaar die elk één of meerdere kaarten laden als resultaat van een test. 
 *   De eerste groep is de gebruikte profielen groep. Hier zijn de breedte en  diepte van de watergangen zichtbaar. Dit is het resultaat van de gebruikte profielen test.
-* De tweede groep is de aereaal waterberging op streefpeil groep. Hierin wordt onder andere het verschil oppervlaktewater weergegeven wat het resultaat is van de oppervlaktewater test.
+* De tweede groep is de areaal waterberging op streefpeil groep. Hierin wordt onder andere het verschil oppervlaktewater weergegeven wat het resultaat is van de oppervlaktewater test.
 * De derde is een kaart die de resultaten van de geïsoleerde watergangen test weergeeft.
 * De vierde is een kaart die de resultaten van de gestuurde kunstwerken test weergeeft.
 * De vijfde is een kaart die de resultaten van de bodemhoogte kunstwerken test weergeeft.
 * De zesde is een kaart die de resultaten van de bodemhoogte stuw test weergeeft.
-* De zevende groep is de ontwateringdiepte kaart. Deze kaart geeft het resultaat van de ontwateringsdiepte test weer.
+* De zevende groep is de ontwateringsdiepte kaart. Deze kaart geeft het resultaat van de ontwateringsdiepte test weer.
 
 ### **Beoordeling resultaten**
 Voor iedere test moet nagegaan worden of de waarden in het model voldoen. Hieronder wordt uitgelegd waar je bij iedere test op moet letten.
@@ -83,10 +83,9 @@ De eenmalige tests zijn er om een aantal randvoorwaarden te controleren. Als gev
 * Test 1: Maximale waarde DEM
 
   Als de maximale waarde in de DEM te hoog is, duidt dat meestal op een fout in het bestand (de nodata waarde is waarschijnlijk verkeerd ingevoerd). Deze test berekent deze maximale waarde. Deze maximale waarde kan direct bij het kopje 'Geïsoleerde watergangen' onder de sqlite checks in the HHNK toolbox gevonden worden. Als er bij staat 'voldoen aan de norm' dan hoeft er niks aangepast te worden. Als dat niet zo is...
-  
-  <span style="color:yellow"> WE: * @Jelle: foute nodata is toch meestal een heel groot negatief getal? Dan vind je die niet met de max denk ik. Ook toevoegen dat 10 meestal de max is omdat watergangen daarop worden dicht gesmeerd.*</span>
-
+  <!--- <span style="color:yellow"> WE: * @Jelle: foute nodata is toch meestal een heel groot negatief getal? Dan vind je die niet met de max denk ik. Ook toevoegen dat 10 meestal de max is omdat watergangen daarop worden dicht gesmeerd.*</span>
   <span style="color:yellow"> LN: @Wouter @Jelle *Wat staat er als er geen 'voldoet aan de norm staat', en hoe kan het dan aangepast worden?*</span> Er zit misschien een realisctisch bereik in de code. @Jelle weet jij dat?
+  --->
 
 * Test 2: Ontwateringsdiepte
 
@@ -99,3 +98,5 @@ De eenmalige tests zijn er om een aantal randvoorwaarden te controleren. Als gev
    totalen per peilgebied vergeleken met diezelfde totalen uit de DAMO database waterdelen (bron BGT). De resultaten geven een indicatie van over- of onderschatting van het oppervlakte open water in het model. De resultaten van deze test kunnen gevonden worden onder 'Lagen'. Hier bevindt zich een kaart met de naam 'Verschil oppervlaktewater' onder 'Areaal waterberging op streefpeil'. Ideaal gezien zouden de afwijking in tussen het model en de DAMO database zo klein mogelijk moeten zijn.  
 
    Deze test is goed samen te bekijken met de breedte van watergangen zoals hierboven beschreven onder 'Gebruikte profielen'. Bij grote verschillen kan dit aan incomplete waterdelen liggen of aan verkeerde profielen. Controleer de inputdata goed en bouw eventueel het model opnieuw op. Voor individuele plassen of meren die niet goed in het model zijn gekomen kan de storage area in enkele connection nodes worden opgehoogd.
+
+Als het model is aangepast zodat er geen fouten meer in de sqlite schematisatie zitten, kan de eerste stap richting testberekeningen worden gezet door de [modelstaat aan te passen](d_modelstaat_aanpassen.md).

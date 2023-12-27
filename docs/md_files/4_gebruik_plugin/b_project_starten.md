@@ -1,19 +1,11 @@
-## **Overzicht plugin**
-De HHNK Toolbox is opgedeeld in drie delen:
-
-![Alt text](../../images/4_gebruik_plugin/a_overzicht_plugin/plugin_venster.png)
-
-* Main: hier wordt het model ingeladen, kunnen resultaten worden ingeladen en is het mogelijk om simulaties te starten
-* Checks: dit onderdeel geeft de gebruiker de mogelijkheid om controles uit te voeren voor het model
-* Modelbouw: werkt alleen op de server van HHNK. Zie [nieuw model](../2_werkwijze_bwn/c_nieuw_model/1_nieuw_model.md) voor meer informatie.
-
+# **Project starten**
 Er zijn twee mogelijkheden om met de toolbox aan de slag te gaan:
 1. Gebruiker van de plugin begint een [nieuw project](#1-een-nieuw-project-beginnen) 
 2. HHNK levert de projectmap inclusief data en model aan (klik [hier](#2-data-aangeleverd-door-hhnk))
 
 Na het [inladen van het project](#3-model-inladen) kunnen de [gegevens worden bekeken](#4-gegevens-bekijken). De [map themes](#5-map-themes) bieden vooraf ingestelde combinaties waarmee snel tussen verschillende thema's gewisseld kan worden.
 
-Niet alle lagen zijn direct beschikbaar. Onder het tabblad Checks worden controles uitgevoerd die daar bekeken kunnen worden in tabellen of als lagen ingeladen kunnen worden. De controles zijn gebaseerd op de schematisatie of op basis van modelresultaten. Voor verdere beschrijving van deze controles zie [Sqlite-checks](..\2_werkwijze_bwn\e_model_controleren_verbeteren\3_sqlite_checks.md) en verder.
+Niet alle lagen zijn direct beschikbaar. Onder het tabblad Checks worden controles uitgevoerd die daar bekeken kunnen worden in tabellen of als lagen ingeladen kunnen worden. De controles zijn gebaseerd op de schematisatie of op basis van modelresultaten. Voor verdere beschrijving van deze controles zie [Sqlite-checks](c_sqlite_checks.md) en verder.
 
 ## **1. Een nieuw project beginnen**
 Volg onderstaande werkwijze als je het model vanaf de 'grond' gaat opbouwen.
@@ -42,12 +34,12 @@ Het resultaat in de verkenner ziet er als volgt uit:
 
 ![Alt text](../../images/4_gebruik_plugin/a_overzicht_plugin/nieuw_project_mappenstructuur.PNG)
 
-Nu is het zaak de mappen in de projectstructuur te vullen met bestanden uit de DAMO-export, datachecker en modelbuilder. Zie hiervoor het hoofdstuk [brongegevens](..\4_gebruik_plugin\b_brongegevens.md). 
+Nu is het zaak de mappen in de projectstructuur te vullen met bestanden uit de DAMO-export, datachecker en modelbuilder. Zie hiervoor het hoofdstuk [brongegevens](a_brongegevens.md). 
 
-Volg hierna de stappen om [gegevens te bekijken](#3-gegevens-bekijken) zijn toegelicht.  
+Volg hierna de stappen om [het model in te laden](#3-model-inladen).  
 
 ## **2. Data aangeleverd door HHNK**
-Volg onderstaande werkwijze als HHNK de benodigde dprojectmap aanlevert. 
+Volg onderstaande werkwijze als HHNK de benodigde projectmap aanlevert. 
 
 ### Map aanmaken 
 Maak een nieuwe map aan in de verkenner (locatie staat vrij, maar raadzaam om lokaal te werken) met de naam van het aangeleverde gebied (bijvoorbeeld polder_X). Dat kan er als volgt uit zien: `C:\Users\{gebruiker}\Documents\3Di\polder_X`. 
@@ -95,10 +87,10 @@ Deze optie genereert het rekengrid onder andere op basis van grid refinements en
 Ga naar [bekende problemen](g_bekende_problemen.md) om de oplossing te bekijken.  <span style="color:yellow"> WE: *@jelle is dit nog zo of wordt er ook automatisch gemigreerd?*</span> -->
 
 ### Sqlite testen
-De sqlite tests zijn bedoeld om het model te controleren op (potentiële) fouten in de data en deze te corrigeren waar nodig. Als de sqlite tests nog niet zijn uitgevoerd, kunnen deze via [sqlite tests](../2_werkwijze_bwn/e_model_controleren_verbeteren/3_sqlite_checks.md) worden gestart. Als de sqlite tests goed zijn bevonden, is het model klaar om de 0d1d toets ([0d1d test](../2_werkwijze_bwn/e_model_controleren_verbeteren/4_0d1d_test.md)) te draaien.
+De sqlite tests zijn bedoeld om het model te controleren op (potentiële) fouten in de data en deze te corrigeren waar nodig. Als de sqlite tests nog niet zijn uitgevoerd, kunnen deze via [sqlite tests](c_sqlite_checks.md) worden gestart. Als de sqlite tests goed zijn bevonden, is het model klaar om de [0d1d test](g_0d1d_test.md) te draaien. 
 
 ### Banklevel test
-Door de ``banklevel test`` in te laden, kun je de resultaten inzien die volgen uit de test die is uitgevoerd. Verdere toelichting over de ``banklevel test`` is te vinden in [Banklevel test](../2_werkwijze_bwn/e_model_controleren_verbeteren/5_banklevel_test.md).
+Door de ``banklevel test`` in te laden, kun je de resultaten inzien die volgen uit de test die is uitgevoerd. Verdere toelichting over de ``banklevel test`` is te vinden in [Banklevel test](h_banklevel_test.md).
 
 ### Basis layout
 Met het inladen van de ``basis layout`` krijg je inzicht in de resultaten die volgen uit controles die zijn uitgevoerd om te kijken of het model goed is opgebouwd vanuit de brondata of dat er nog data mist.
@@ -111,4 +103,4 @@ Door op het oogje te klikken onder lagen, kunnen bepaalde kaarten aangevinkt wor
 
 ![Alt text](<../../images/4_gebruik_plugin/a_overzicht_plugin/Afbeelding map themes.png>)
 
-Klik [hier](c_modelstaat_aanpassen.md) om de stappen te volgen om modelstaten aan te passen.
+Klik [hier](c_sqlite_checks.md) om naar SQlight checks te gaan. 
