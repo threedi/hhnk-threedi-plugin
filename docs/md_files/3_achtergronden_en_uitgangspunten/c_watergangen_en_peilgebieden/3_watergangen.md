@@ -1,12 +1,6 @@
 ## **Watergangen**
-Watergangen worden in het model weergegeven als channels en niet als 'channel nowayout'. Iets wordt wel weergegeven als 'channel nowayout'onder de hieronder beschreven omstandigheden. 
+De HydroObjecten uit DAMO vormen de basis voor de watergangen in het model. De Hydroobjecten worden allen samengevoegd en vervolgens opgeknipt op alle kruispunten. Alle watergangen liggende binnen het modelgebied en zonder [fouten](../a_watersysteem/1_watersysteem.md) verbonden met het afvoergemaal of stuw komen in het model. 
 
-1. Unusable culvert, stuw of gemaal (isusable=0) 
-    * a. Geen watergang
-    * b. Afsluitbare inlaat op peilgrens (type 1 of 2)
-2. Vispassages
-3. Onderbemaling zonder gemaal.
-4. Opmaling zonder stuw of duiker
-5. Laagste peilgebied zonder gemaal
-6. Hoogste peilgebied zonder sutw of duiker
-7. Alle delen liggende achter bovengenoemde zes typen watergangen
+Duikers worden vervolgens op basis van hun ligging uit de watergangen geknipt. 
+Andere kunstwerken worden met een lengte van 5m uit de watergangen geknipt, omdat in dit in 3Di verbindingen tussen twee punten moeten zijn. Als hierdoor hele korte segmenten ontstaan worden kunstwerken iets opgeschoven.
+Alle watergangen die overblijven komen als v2_channel in het model en krijgen aan het begin een eindpunt een connection node en ten minste één [dwarsprofiel](4_profiel.md).

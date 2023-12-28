@@ -8,6 +8,6 @@ Berging in profielen = 	profielbreedte 1 x lengte 1 + gemiddelde profielbreedte 
 ![Alt text](../../../images/3_achtergronden_en_uitgangspunten/berging_in_profielen.png)
 
 Bij het berekenen van de 1D-berging in het profiel wordt minder dan 2 m2 per connection node niet toegekend (en vervalt dus), om instabiliteit te voorkomen. Het is niet bekend hoe groot dit risico op instabiliteit is. 
-Daarnaast wordt een bergingsoverschot niet gecorrigeerd. Er kan geen negatieve berging worden toegekend. In dit geval moeten profielen worden gecorrigeerd. Als laatste toont de waterbreedtekaart die wordt meegeleverd, opgeloste watervlakken. De bergingscompensatie wordt echter berekend adhv profielbreedte op v2_channel over de gehele lengte. Dit wordt niet opgelost voor de hierboven beschreven compensatie, maar dus wel voor deze knappe kaart.
+Daarnaast wordt een bergingsoverschot niet gecorrigeerd. Er kan geen negatieve berging worden toegekend. In dit geval moeten profielen worden gecorrigeerd. 
 
-<span style="color:yellow"> *LN: @Wouter, @Jelle, wat wordt er bedoeld met knappe kaart (dit komt uit uitganspuntennotitie)? Misschien niet helemaal juiste benaming?*</span> 
+In de plugin geeft een van de [sqlight tests](../../4_gebruik_plugin/c_sqlite_checks.md#eenmalige-testen) de overschatting van wateroppervlakte op streefpeil weer per peilgebied. Na het uitvoeren van de checks en [inladen van de lagen](../../4_gebruik_plugin/b_project_starten.md#4-gegevens-bekijken) kan deze kaart via [map theme](../../4_gebruik_plugin/b_project_starten.md#5-map-themes) ``SQLight test: Verschil oppervlaktewater`` bekeken worden.
