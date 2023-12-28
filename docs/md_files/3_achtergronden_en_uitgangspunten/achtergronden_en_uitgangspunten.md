@@ -7,9 +7,8 @@ De volgorde waarin de uitgangspunten worden uitgelegd is als volgt:
  * Kunstwerken: [logisch bereik](b_logisch_bereik/1_logisch_bereik.md), [aquaducten](d_kunstwerken/2_aquaducten.md), [bruggen](d_kunstwerken/3_bruggen.md), [duikers](d_kunstwerken/4_duikers.md), [gemalen](d_kunstwerken/5_gemalen.md) en [stuwen](d_kunstwerken/6_stuwen.md).
  * Onderliggende rasterdata: [maailveldhoogte DEM](e_onderliggende_rasterdata/1_onderliggende_rasterdata#maaiveldhoogte-dem), [bodemwrijving/weerstand](e_onderliggende_rasterdata/1_onderliggende_rasterdata#rasterkaart-weerstand), [infiltratiecapaciteit](e_onderliggende_rasterdata/1_onderliggende_rasterdata#rasterkaart-infiltratie), [bodemberging](e_onderliggende_rasterdata/1_onderliggende_rasterdata#rasterkaart-bodemberging).
 
-### **3Di**
-[3Di](https://3diwatermanagement.com/) is een hydrodynamisch model waarmee zowel 1D (watergangen, riolering) als 2D (maaiveld) of 1D-2D gerekend kan worden. Extra informatie over 3Di kan [hier](https://docs.3di.live/index.html) geraadpleegd worden.
 
+Meer informatie over modelleren met 3Di kan [hier](https://docs.3di.live/index.html) geraadpleegd worden.
 
 <!--
 <span style="color:red">
