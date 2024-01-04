@@ -32,7 +32,8 @@ Onder 'Lagen' zijn verschillende groepen zichtbaar die elk één of meerdere kaa
 * De zesde is een kaart die de resultaten van de bodemhoogte stuw test weergeeft.
 * De zevende groep is de ontwateringsdiepte kaart. Deze kaart geeft het resultaat van de ontwateringsdiepte test weer.
 
-### **Beoordeling resultaten**
+
+### **Beoordeling resultaten** 
 Voor iedere test moet nagegaan worden of de waarden in het model voldoen. Hieronder wordt uitgelegd waar je bij iedere test op moet letten.
 
 #### Data verificatie testen
@@ -95,8 +96,8 @@ De eenmalige tests zijn er om een aantal randvoorwaarden te controleren. Als gev
 * Test 3: Oppervlaktewater berging
 
   Deze test controleert per peilgebied het oppervlakte open water in het model ten opzichte van de waterdelen in de BGT.. Dit totaal is opgebouwd uit de ```storage_area``` uit de ```v2_connection_nodes``` tabel opgeteld bij het oppervlak van de watergangen (uitgelezen uit de ```channel_surface_from_profiles```) shapefile. Vervolgens worden de 
-   totalen per peilgebied vergeleken met diezelfde totalen uit de DAMO database waterdelen (bron BGT). De resultaten geven een indicatie van over- of onderschatting van het oppervlakte open water in het model. De resultaten van deze test kunnen gevonden worden onder 'Lagen'. Hier bevindt zich een kaart met de naam 'Verschil oppervlaktewater' onder 'Areaal waterberging op streefpeil'. Ideaal gezien zouden de afwijking in tussen het model en de DAMO database zo klein mogelijk moeten zijn.  
+   totalen per peilgebied vergeleken met diezelfde totalen uit de DAMO database waterdelen (bron BGT). De resultaten geven een indicatie van over- of onderschatting van het oppervlakte open water in het model. Het resultaat van deze test kan eenvoudig weergegeven worden door gebruik te maken van [map themes](../4_gebruik_plugin/b_project_starten#Map-themes). Ideaal gezien zouden de afwijking in tussen het model en de DAMO database zo klein mogelijk moeten zijn.  
 
-   Deze test is goed samen te bekijken met de breedte van watergangen zoals hierboven beschreven onder 'Gebruikte profielen'. Bij grote verschillen kan dit aan incomplete waterdelen liggen of aan verkeerde profielen. Controleer de inputdata goed en bouw eventueel het model opnieuw op. Voor individuele plassen of meren die niet goed in het model zijn gekomen kan de storage area in enkele connection nodes worden opgehoogd.
+   Deze test is goed samen te bekijken met de breedte van watergangen zoals eerder beschreven onder 'Gebruikte profielen'. Bij grote verschillen kan dit aan incomplete waterdelen liggen of aan verkeerde profielen. Controleer de inputdata goed en bouw eventueel het model opnieuw op. Voor individuele plassen of meren die niet goed in het model zijn gekomen kan de storage area in enkele connection nodes worden opgehoogd.
 
 Als het model is aangepast zodat er geen fouten meer in de sqlite schematisatie zitten, kan de eerste stap richting testberekeningen worden gezet door de [modelstaat aan te passen](d_modelstaat_aanpassen.md).
