@@ -32,7 +32,6 @@ Onder 'Lagen' zijn verschillende groepen zichtbaar die elk één of meerdere kaa
 * De zesde is een kaart die de resultaten van de bodemhoogte stuw test weergeeft.
 * De zevende groep is de ontwateringsdiepte kaart. Deze kaart geeft het resultaat van de ontwateringsdiepte test weer.
 
-
 ### **Beoordeling resultaten** 
 Voor iedere test moet nagegaan worden of de waarden in het model voldoen. Hieronder wordt uitgelegd waar je bij iedere test op moet letten.
 
@@ -101,3 +100,5 @@ De eenmalige tests zijn er om een aantal randvoorwaarden te controleren. Als gev
    Deze test is goed samen te bekijken met de breedte van watergangen zoals eerder beschreven onder 'Gebruikte profielen'. Bij grote verschillen kan dit aan incomplete waterdelen liggen of aan verkeerde profielen. Controleer de inputdata goed en bouw eventueel het model opnieuw op. Voor individuele plassen of meren die niet goed in het model zijn gekomen kan de storage area in enkele connection nodes worden opgehoogd.
 
 Als het model is aangepast zodat er geen fouten meer in de sqlite schematisatie zitten, kan de eerste stap richting testberekeningen worden gezet door de [modelstaat aan te passen](d_modelstaat_aanpassen.md).
+
+<!--- <span style="color:yellow"> LN:notitie voor mezelf: link map themes kloppend maken*</span>
