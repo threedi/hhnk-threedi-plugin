@@ -5,8 +5,7 @@ Als de sqlite tests zijn uitgevoerd, eventueel aanpassingen zijn gemaakt en het 
 - **stationaire afvoer**: stabiliseert het peil en de afvoer na de 5 dagen neerslag?
 - **herstel streefpeil**: herstelt het streefpeil na de natte periode?
 
-![Alt text](../../../images/2_werkwijze_bwn/e_model_controleren_verbeteren/4_0d1d_test/0d1d_test_bui.PNG)
-
+![Alt text](../../images/2_werkwijze_bwn/e_model_controleren_verbeteren/4_0d1d_test/0d1d_test_bui.PNG)
 
 ### **Werkwijze HHNK 3Di plugin**
 Om deze test uit te kunnen voeren, is een 0d1d model noodzakelijk. Indien er nog geen 0d1d model is gemaakt, kun je [hier](../../4_gebruik_plugin/c_modelstaat_aanpassen.md) lezen hoe een 0d1d model gemaakt kan worden. 
@@ -17,7 +16,7 @@ Download na de berekening de resultaten met de [download gui](../../4_gebruik_pl
 
 Om het resultaat in de HHNK Toolbox te laden kies je onder checks voor 0d1d tests. Selecteer daaronder de revisie van de gemaakte berekening en klik op Begin tests. Er worden hiermee een aantal kaartlagen aan het project toegevoegd in een groep met de naam: *05. Hydraulische Toets en 0d1d tests [polder revisie model]*. De afbeelding hieronder geeft een beeld hoe dat eruit kan zien.
 
-![Alt text](../../../images/2_werkwijze_bwn/e_model_controleren_verbeteren/4_0d1d_test/0d1d_test_resultaat.PNG)
+![Alt text](../../images/2_werkwijze_bwn/e_model_controleren_verbeteren/4_0d1d_test/0d1d_test_resultaat.PNG)
 
 ### **Uitkomsten van de test**
 De 0d1d test genereert een aantal resultaten die inzicht geven in de werking van het systeem tijdens een stationaire bui. 

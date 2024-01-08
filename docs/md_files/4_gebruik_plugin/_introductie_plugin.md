@@ -44,7 +44,7 @@ TODO aanvullen? Nieuwe methode model governance?
 ## Leeswijzer plug-in
 Onderstaande hoofdstukken vormen samen de BWN2-werkwijze en leggen telkens de benodigde stappen uit in de plugin. Het eerste hoofdstuk [Brongegevens](a_brongegevens.md) dient als naslagwerk voor de benodigde gegevens en een aantal definities. De overige hoofdstukken zijn een handleiding voor het gebruik:
 
-* [Project starten](a_project_starten.md)
+* [Project starten](b_project_starten.md)
 * [Sqlite checksuitvoeren](c_sqlite_checks)
 * [Modelstaten aanpassen](d_modelstaat_aanpassen.md)
 * [Berekeningen uitvoeren](e_berekeningen_uitvoeren.md)
