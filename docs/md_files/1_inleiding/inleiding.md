@@ -7,7 +7,7 @@ De handleiding is opgebouwd uit de volgende onderdelen:
 
 - [Werkwijze BWN2](../2_werkwijze_bwn/werkwijze_bwn.md)
 - [Achtergronden en uitgangspunten](../3_achtergronden_en_uitgangspunten/achtergronden_en_uitgangspunten.md)
-- [Gebruik plugin](../4_gebruik_plugin/gebruik_plugin.md)
+- [Gebruik plugin](../4_gebruik_plugin/_introductie_plugin.md)
 
 ## **Installatie HHNK 3Di plugin**
 Klik [hier](../installatie/installatie_handleiding.md) om het stappenplan van de installatie van de plugin te doorlopen.
