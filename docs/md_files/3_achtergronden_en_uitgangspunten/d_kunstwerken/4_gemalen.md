@@ -7,7 +7,7 @@ De capaciteit wordt bepaald door gebruik te maken van onderstaande volgorde. Dit
 
     a. Zoals in DAMO onder MAXIMALECAPACITEIT 
 
-    b. (waarbij 0=0≠null) 
+    b. Waarbij 0=0 
 3. Niet ingevuld (null): Aanname
 
     a. Primair: 25 m3/min 

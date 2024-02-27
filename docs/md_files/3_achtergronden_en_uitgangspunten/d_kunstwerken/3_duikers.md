@@ -2,7 +2,7 @@
 ### **Algemeen**
 Duikers moeten gekoppeld kunnen worden aan een watergang. De onderliggende watergang wordt alleen verwijderd als het een kruising zonder kunstwerk oplevert. 
 
-In sommige gevallen worden duikers gemodelleerd als orifice. Tijdens het project hebben we meermaals last gehad van instabiliteit rondom korte duikers. Voor lange duikers is het echter van beland de weerstand als gevolg van de wand mee te nemen, dit gebeurt niet bij de orifice in 3Di.
+In sommige gevallen worden duikers gemodelleerd als orifice. Tijdens het project hebben we meermaals last gehad van instabiliteit rondom korte duikers. Voor lange duikers is het echter van belang de weerstand als gevolg van de wand mee te nemen, dit gebeurt niet bij de orifice in 3Di.
 
 Alle duikers zijn gemodelleerd volgens de volgende stappen:
 1.	Lange overlaat (orifice) met discharge coëfficiënten op 1.0, mits:
@@ -14,7 +14,7 @@ Alle duikers zijn gemodelleerd volgens de volgende stappen:
 	c.	Het verschil tussen de bob beneden- en bovenstrooms is kleiner dan 10 cm.
 
 2.	Duikers korter dan 10 m lange overlaten met discharge coëfficiënt op 1.0
-3.	Alle andere duikers (lang, breed of schuin) blijven culvert maar toevoegen 1m2 storage op begin en eind node daar waar dat nog niet tenminste het geval is
+3.	Alle andere duikers (lang, breed of schuin) blijven culvert maar toevoegen 1m2 storage op begin en eind node daar waar dat nog niet het geval is.
 4.	Alle bruggen krijgen discharge coëfficiënt op 1.0 (voorheen vaak 0.8)
 
 Duikers aan een stuw of gemaal worden niet in het model opgenomen. De stuw of het gemaal vormen dan de verbinding die de duiker representeert.
@@ -24,7 +24,7 @@ De afmetingen van een duiker worden overgenomen uit DAMO.
 Indien er geen data beschikbaar is wordt er een waarde aangenomen van rond de 0.5 meter, bob op streefpeil minus duikerhoogte.
 
 ### **Coëfficienten**
-De discharge coefficient van een duiker is 1.0 is het geval dat de duiker open staat. Indien het om een inlaat op een peilgrens gaat, wordt aangenomen dat de duiker is afgesloten en is de discharge coefficient gelijk aan 0. Dit wordt ook weergegeven in de afbeelding onderaan deze pagina.
+De discharge coefficient van een duiker is 1.0 in het geval dat de duiker open staat. Indien het om een inlaat op een peilgrens gaat, wordt aangenomen dat de duiker is afgesloten en is de discharge coefficient gelijk aan 0. Dit wordt ook weergegeven in de afbeelding onderaan deze pagina.
 
 ### **Sifons**
 Sifons worden uitgeknipt uit hydroobjecten en moeten dus exact gesnapt zijn voor een correcte weergave in het model.

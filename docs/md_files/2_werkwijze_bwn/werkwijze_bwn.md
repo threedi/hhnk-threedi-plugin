@@ -7,7 +7,7 @@ BWN2 toetst het watersysteem op twee manieren, ten eerste middels de hydraulisch
 ### Hydraulische toets
 In de HT wordt getoetst of het watersysteem voldoende kan afvoeren onder normale omstandigheden. Dat wil zeggen dat het watersysteem maximaal af moet kunnen voeren zonder dat er knelpunten of wateroverlast ontstaat. De maximale afvoer is voor polders vastgelegd in de afvoernorm (meestal 14,4 mm/dag of 10 m3/min/100ha, in grote polders soms 9 of 8 m3/min/100ha). In deze afvoersituatie mag de opstuwing in peilgebieden (~30cm) of verhang in watergangen (~2-4 cm/km) niet boven bepaalde grenswaarden uitkomen. Ook duikers mogen niet te veel opstuwing geven (~1cm). De genoemde waarden zijn afhankelijk van gebiedseigenschappen. 
 
-De resultaten van opstuwing en verhang worden via kaarten gedeeld met de watersysteem-adviseurs. Ze worden gebruikt voor het identificeren van maatregelen en zijn  input voor de leggertool. Met de leggertool worden minimale profielen van watergangen voor afvoer vastgesteld.
+De resultaten van opstuwing en verhang worden via kaarten gedeeld met de watersysteem-adviseurs. Ze worden gebruikt voor het identificeren van maatregelen en zijn input voor de leggertool. Met de leggertool worden minimale profielen van watergangen voor afvoer vastgesteld.
 
 ### Klimaatsommen
 Met klimaatsommen wordt een set van [18 stochasten](..\3_achtergronden_en_uitgangspunten\g_achtergrond_klimaatsommen\1_achtergrond_klimaatsommen.md) bedoeld waarmee het watersysteem op extreme neerslag wordt getoetst. De modellen zijn zo ingesteld dat neerslag via het maaiveld zijn weg moet zoeken naar het watersysteem. Infiltratie is mogelijk en er zijn drie [modelstaten](..\4_gebruik_plugin\d_modelstaat_aanpassen.md) met verschillende bodemberging (GLG/GGG/GHG). Uiteraard kan water vanuit het watersysteem op het maaiveld stromen. De resultaten van de klimaatsommen worden [opgewerkt](..\4_gebruik_plugin\j_werkwijze_klimaatsommen.md) tot drie inundatiekaarten bij T10/100/1000 en een kaart met de netto contante waarde van de schade.
@@ -18,7 +18,7 @@ In de resultaten wordt onderscheid gemaakt tussen wateroverlast en plasvorming. 
 Dit onderscheid helpt modelleurs en beleidsmakers bij het bepalen van de oorzaak van wateroverlast en daarmee bij het vinden van effectieve maatregelen.
 
 ## **BWN2-Modellen**
-Voor de toetsing gebruikt HHNK 3Di modellen. [3Di](https://3diwatermanagement.com/) is hydrodynamische modelsoftware waarmee zowel 1D (watergangen, riolering) als 2D (maaiveld) of 1D-2D gerekend kan worden. HHNK heeft de modellen of schematisatie specifiek ontworpen voor de hierboven beschreven doelen. De modellen bestaan uit:
+Voor de toetsing gebruikt HHNK 3Di modellen. [3Di](https://3diwatermanagement.com/) is hydrodynamische modelsoftware waarmee zowel 1D (watergangen, riolering) als 2D (maaiveld) of 1D-2D gerekend kan worden. HHNK heeft de modellen specifiek ontworpen voor de hierboven beschreven doelen. De modellen bestaan uit:
 * alle watergangen en kunstwerken in een 1D watersysteem,
 * een maaiveldmodel gebaseerd op o.a. het AHN in het 2D rekendomein,
 * ruimtelijk variabele bodemwrijving in het 2D rekendomein, 
@@ -32,7 +32,7 @@ Riolering in stedelijk gebied is sterk vereenvoudigd meegenomen in de infiltrati
 ### Modelvarianten
 Voor het testen van de schematisatie, de hydraulische toets en de klimaatsommen gebruikt HHNK vijf verschillende varianten van de modellen:
 1. Het 0d1d test model. <br>
-    Dit model wordt ook gebruikt voor de HT en heeft een 0D inloop-component. Alle neerslag (~14,4 mm/dag) gaat hiermee geforceerd het watersysteem in moet zo worden afgevoerd. Zo wordt dus alleen het watersysteem getoetst. De resultaten van de [0d1d_test](../4_gebruik_plugin/g_0d1d_test.md) worden gebruikt voor de hydraulische toets (mits de modelleur tevreden is met het functioneren van het model). 
+    Alleen het 1D watersysteem wordt getoetst, maaiveld en bodemberging staan dus uit. Middels een 0D inloop-component komt alle neerslag (~14,4 mm/dag) in het watersysteem. De resultaten van de [0d1d_test](../4_gebruik_plugin/g_0d1d_test.md) worden gebruikt voor de hydraulische toets (mits de modelleur tevreden is met het functioneren van het model). 
 2. Het 1d2d test model.<br>
     Dit model bevat het 1D watersysteem en het 2D maaiveld, maar geen infiltratie. Het dient  voor de [1d2d test](../4_gebruik_plugin/i_1d2d_test.md).
 3. Drie 1d2d GXG modellen.<br>

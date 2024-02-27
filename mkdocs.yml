@@ -27,8 +27,8 @@ extra:
     - icon: fontawesome/brands/github-alt
       link: https://github.com/threedi/hhnk-threedi-plugin
 nav:
-    - Home: index.md
-    - Installatie Instructies: md_files/installation_manual.md
+    - Home: docs/index.md
+    - Installatie Instructies: docs/md_files/installation_manual.md
     - Gebruikershandleiding: md_files/usage.md
     - Bron data: md_files/needed_data.md
     - Uitleg tests en functionaliteit: md_files/tests_documentation.md

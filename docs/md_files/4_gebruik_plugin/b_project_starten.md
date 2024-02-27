@@ -103,4 +103,4 @@ Door op het oogje te klikken onder lagen, kunnen bepaalde kaarten aangevinkt wor
 
 ![Alt text](<../../images/4_gebruik_plugin/a_overzicht_plugin/Afbeelding map themes.png>)
 
-Klik [hier](c_sqlite_checks.md) om naar SQlight checks te gaan. 
+Klik [hier](c_sqlite_checks.md) om naar sqlite checks te gaan. 

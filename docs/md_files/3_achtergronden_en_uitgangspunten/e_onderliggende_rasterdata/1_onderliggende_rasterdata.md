@@ -1,8 +1,8 @@
 ## **Onderliggende rasterdata**
 In de 3Di poldermodellen zitten de volgende 4 rasterkaarten:
-1. DEM;
-2. Weerstand;
-3. Infiltratie;
+1. DEM
+2. Weerstand
+3. Infiltratie
 4. Bodemberging
 
 Hoe deze kaarten zijn opgebouwd wordt hieronder beschreven.
@@ -24,7 +24,7 @@ Voor het aanmaken van een DEM uit de AHN zijn enkele stappen nodig die in de jui
 5. Alle watervlakken (BGT Waterdeel_v en BGT OverigBouwwerk_v [BGTPlusType = 'bassin' OR BGTPlusType = 'opslagtank' OR BGTPlusType = 'bezinkbak']) ophogen tot NAP +10 m (om dubbeltelling van waterberging in de 1D en de 2D module te voorkomen). 
 
 ### **Rasterkaart Weerstand**
-Het weerstandsraster heeft betrekking op de stroming over maaiveld en wordt uitgedrukt in Manning waarde die veel wordt toegepast voor het modelleren van ondiep water stroming. Hoe lager de Manningwaarde (s/m1/3) hoe lager de weerstand. Er wordt ook wel eens gebruik gemaakt van de inverse Manningswaarde wat de Stricklerwaarde wordt genoemd (s/m1/3). De stricklerwaarde wordt op basis van onderstaande punten toegekend.
+Het weerstandsraster heeft betrekking op de stroming over maaiveld en wordt uitgedrukt in Manning waarde die veel wordt toegepast voor het modelleren van ondiep water stroming. Hoe lager de Manningwaarde (s/m<sup>1/3</sup>) hoe lager de weerstand. Er wordt ook wel eens gebruik gemaakt van de inverse Manningswaarde wat de Stricklerwaarde wordt genoemd (s/m<sup>1/3</sup>). De stricklerwaarde wordt op basis van onderstaande punten toegekend.
 
 Waterlopen
 * 45-30: Zeer schoon;
@@ -43,14 +43,14 @@ Betonnen duikers
 * 50-65: Niet afgewerkt bij ruwe houten bekisting;
 
 Er wordt voorgesteld om de weestandskaart op te bouwen uit de BGT kaart en daarbij de volgende uitgangspunten aan te houden <!--TODO <span style="color:yellow"> *LN: @Wouter, @Jelle, Is dit voorgestelde ook doorgevoerd?*</span>-->:
-* Wegdeel_v: 100 m^1/3/s;
-* Overbruggingsdeel_v: 100 m^1/3/s;
-* Pand_v: 5 m^1/3/s;
-* OverigBouwwerk_v: 15 m^1/3/s;
-* OnbegroeidTerreindeel_v: 15 m^1/3/s;
-* BegroeidTerreindeel_v: 15 m^1/3/s;
+* Wegdeel_v: 100 m<sup>1/3</sup>/s;
+* Overbruggingsdeel_v: 100 m<sup>1/3</sup>/s;
+* Pand_v: 5 m<sup>1/3</sup>/s;
+* OverigBouwwerk_v: 15 m<sup>1/3</sup>/s;
+* OnbegroeidTerreindeel_v: 15 m<sup>1/3</sup>/s;
+* BegroeidTerreindeel_v: 15 m<sup>1/3</sup>/s;
 
-Met behulp van bovenbenoemde uitgangspunten, die beschreven staan in 'Conversietabel_landgebruik_2018.csv', wordt er vanuit het landgebruiksraster per model een weerstandsraster aangemaakt. Deze waardes zijn uitgedrukt als Manningsweerstand in m^1/3/s (Let op: dat is dus niet hetzelfde als hierboven).
+Met behulp van bovenbenoemde uitgangspunten, die beschreven staan in _'Conversietabel_landgebruik_2018.csv'_, wordt er vanuit het landgebruiksraster per model een weerstandsraster aangemaakt. Deze waardes zijn uitgedrukt als Manningsweerstand in m<sup>1/3</sup>/s (Let op: dat is dus niet hetzelfde als hierboven).
 
 ### **Rasterkaart Infiltratie**
 Voor het maken van de infiltratiekaart is een combinatie gebruikt van de BGT en de bodemkaart. Verhard oppervlak en water heeft een infiltratiesnelheid van 0 mm/u mee gekregen, overig stedelijk gebied een infiltratie van 2 mm/u en divers onverhard gebied (bv grasland agrarisch, bouwland en fruitteelt) heeft een infiltratiewaarde gekregen van 5 mm/u, 10 mm/u of 20 mm/u.
@@ -89,8 +89,7 @@ De hoeveelheid bodemberging hangt af van het grondgebruik, het bodemprofiel en d
 Voor gedetailleerde regionale toepassingen bestaan er geen betrouwbare gebiedsdekkende databronnen voor GLG/GHG. Er bestaan wel gebiedsdekkende GLG/GHG kaarten maar die zijn dusdanig onnauwkeurig dat ze voor regionale toepassingen lokaal grote fouten kunnen introduceren. Voor het beheergebied van HHNK bestaan er 2 gebiedsdekkende GLG/GHG producten: 
 1. Alterra GLG/GHG kaart
 
-    De GLG/GHG kaart van Alterra is een rasterkaart van 25 
-    m bij 25 m met de grondwaterstanden in m minus maaiveld. De grondwaterstanden zijn gebaseerd op meetreeksen, de AHN1 en de bodemkaart.
+    De GLG/GHG kaart van Alterra is een rasterkaart van 25 m bij 25 m met de grondwaterstanden in m minus maaiveld. De grondwaterstanden zijn gebaseerd op meetreeksen, de AHN1 en de bodemkaart.
 
 2. De GLG/GHG uit het grondwatermodel van HHNK. 
 

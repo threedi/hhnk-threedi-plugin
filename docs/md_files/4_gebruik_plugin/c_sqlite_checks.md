@@ -44,7 +44,7 @@ Voor iedere test moet nagegaan worden of de waarden in het model voldoen. Hieron
 
 * Test 2: Gebruikte profielen
 
-   Het resultaat van deze toets is een weergave van de breedtes en dieptes van watergangen in het model. Deze breedtes en dieptes kunnen gevonden worden onder sqlite checks in de HHNK toolbox. Via de 'visability presets' kies je voor *SQLight test: Verschil Oppervlaktewater*.
+   Het resultaat van deze toets is een weergave van de breedtes en dieptes van watergangen in het model. Deze breedtes en dieptes kunnen gevonden worden onder sqlite checks in de HHNK toolbox. Via de 'visability presets' kies je voor *sqlite test: Verschil Oppervlaktewater*.
   
   De laag helpt bij visuele controle; hebben de watergangen in het model realistische breedte ten opzichte van de luchtfoto of de waterdelen uit de BGT. Wanneer dit niet zo is kunnen profielen aangepast worden. Zie ook hieronder beschreven bij 'Oppervlaktewater berging', een test waarin de berging per peilgebied te vergelijken is.
   

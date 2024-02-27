@@ -1,5 +1,5 @@
 ## **Klimaatsommen**
-De gevolgen van klimaatverandering worden steeds beter merkbaar. Onder andere in de vorm van hevigere (piek) en/of langdurige (blok) neerslagsituaties. Om de gevolgen van deze neerslagevenementen in beeld te brengen, worden een aantal scenario's met verschillende herhalingstijden doorgerekend. De drie herhalingstijden die gesimuleerd kunnen worden zijn:
+De gevolgen van klimaatverandering worden steeds beter merkbaar. Onder andere in de vorm van hevigere (piek) en/of langdurige (blok) neerslagsituaties. Om de gevolgen van deze neerslagevenementen in beeld te brengen, worden een aantal scenario's met verschillende herhalingstijden doorgerekend. De drie herhalingstijden die gesimuleerd worden zijn:
 
 1. T10 (neerslagsituatie die zich statistisch gezien 1x in de 10 jaar voordoet)
 2. T100 (neerslagsituatie die zich statistisch gezien 1x in de 100 jaar voordoet)
@@ -29,22 +29,22 @@ In het beheergebied van HHNK bevinden zich drie neerslagregio's:
 2. De Bilt (gemiddeld)
 3. Mild (wordt niet gebruikt. Bovengrensbenadering Mild is toegepast, waardoor neerslagregio Gemiddeld (De Bilt) is gekozen)
 
-Aan de hand van de neerslagregio's is bepaald wat de frequentie van de herhalingstijden van piek- en blokbuien in de zomer en de winter is. Deze frequenties zijn nodig voor het bepalen van de netto contante waarde van de schade. In het figuur hieronder is te zien wat de frequentie van een bepaalde herhalingstijd van piek- en blokbuien in de zomer en winter in de neerslagregio gemiddeld.
+Aan de hand van de neerslagregio's is bepaald wat de frequentie van de herhalingstijden van piek- en blokbuien in de zomer en de winter is. Deze frequenties zijn nodig voor het bepalen van de netto contante waarde van de schade. In onderstaande figuren zijn de frequenties van voorkomen opgenomen van een combinatie van buivolume, buivorm en seizoen voor twee neerslagregios.
 
 ![Alt text](../../../images/3_achtergronden_en_uitgangspunten/g_klimaatsommen/frequentie_neerslagvolume_gemiddeld.png)
+*Neerslagregio gemiddeld*
 
-In het figuur hieronder is te zien wat de frequentie van een bepaalde herhalingstijd van piek- en blokbuien in de zomer en winter in de neerslagregio hevig.
+![Alt text](../../../images/3_achtergronden_en_uitgangspunten/g_klimaatsommen/frequentie_neerslagvolume_hevig.png) 
+*Neerslagregio hevig*
 
-![Alt text](../../../images/3_achtergronden_en_uitgangspunten/g_klimaatsommen/frequentie_neerslagvolume_hevig.png)
-
-Het onderscheid tussen zomer en winter is gemaakt, omdat de GHG, GGG en GLG andere kansen hebben in de zomer en winter en de kans op neerslag in de zomer en winter sterk uiteenloopt. In het figuur hieronder is de kans op het optreden van een bepaalde bodemtoestand in de zomer en winter weergegeven.
+Het onderscheid tussen zomer en winter is gemaakt, omdat de beschikbare bodemberging een andere kans heeft in de zomer en winter en de kans op neerslag in de zomer en winter sterk uiteen loopt. In het figuur hieronder is de kans op het optreden van een bepaalde bodemtoestand in de zomer en winter weergegeven.
 
 ![Alt text](../../../images/3_achtergronden_en_uitgangspunten/g_klimaatsommen/kans_bodemtoestand.png)
 
-Al deze kansen leiden tot een overzicht met de frequentie van elk van de 18 scenario's. In de afbeelding hieronder is weergegeven wat de frequenties van de scenario's zijn voor de neerslagregio ``Gemiddeld``.
+Al deze kansen leiden tot een overzicht met de frequentie van elk van de 18 scenario's. In de afbeelding hieronder is weergegeven wat de frequenties van de scenario's zijn voor de neerslagregio `Gemiddeld`.
 
 ![Alt text](../../../images/3_achtergronden_en_uitgangspunten/g_klimaatsommen/frequentie_scenarios_gemiddeld.png)
 
-In de afbeelding hieronder is weergegeven wat de frequenties van de scenario's zijn voor de neerslagregio ``Hevig``.
+In de afbeelding hieronder is weergegeven wat de frequenties van de scenario's zijn voor de neerslagregio `Hevig`.
 
 ![Alt text](../../../images/3_achtergronden_en_uitgangspunten/g_klimaatsommen/frequentie_scenarios_hevig.png)

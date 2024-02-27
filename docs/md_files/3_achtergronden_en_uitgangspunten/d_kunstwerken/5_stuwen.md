@@ -5,7 +5,10 @@ Stuwen moeten gekoppeld kunnen worden aan een watergang. De onderliggende waterg
 Stuwen die niet op een peilgrens liggen worden niet opgenomen in het model. Stuwen die in de HDB-kaartlaag Stuwen staan worden altijd opgenomen in het model.
 
 ### **Sturing**
-Stuwen die in de HDB-kaartlaag Sturing-3Di staan, worden gemodelleerd met de sturing die in die tabel is opgenomen. Dit op voorwaarde dat de sturingsregels correct zijn, de stuwcode overeenkomt en de meetlocatie binnen een straal van 50 meter van een watergang ligt (5 april 2018). 
+Stuwen die in de HDB-kaartlaag Sturing-3Di staan, worden gemodelleerd met de sturing die in die tabel is opgenomen. Dit op voorwaarde dat
+- de sturingsregels correct zijn
+- de stuwcode overeenkomt
+- de meetlocatie binnen een straal van 50 meter van een watergang ligt (5 april 2018). 
 
 <!--TODO <span style="color:yellow"> *LN: @Wouter, @Jelle, Is dit nog steeds 50 meter?*</span> -->
 
