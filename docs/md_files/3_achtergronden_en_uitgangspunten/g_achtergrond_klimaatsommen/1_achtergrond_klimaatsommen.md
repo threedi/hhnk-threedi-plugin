@@ -5,15 +5,15 @@ De gevolgen van klimaatverandering worden steeds beter merkbaar. Onder andere in
 2. T100 (neerslagsituatie die zich statistisch gezien 1x in de 100 jaar voordoet)
 3. T1000 (neerslagsituatie die zich statistisch gezien 1x in de 1000 jaar voordoet)
 
-Voor deze herhalingstijden zijn twee verschillende neerslagtypen mogelijk:
+Voor deze herhalingstijden gebruiken we twee neerslagpatronen:
 
-1. Piek: hevige neerslagsituatie die in 2 uur valt
+1. Piek: hevige neerslagsituatie die in 2 uur de eerste 2 uur valt, vervolgens 46 uur droog
 2. Blok: langdurige neerslagsituatie met een lage neerslagintensiteit die 48 uur duurt 
 
-Hieronder is voor zes scenario's van herhalingstijd en neerslagtype de opbouw weergegeven:
+Hieronder is voor zes scenario's van herhalingstijd en neerslagtype het neerslagvolume weergegeven:
 
 ![Alt text](../../../images/3_achtergronden_en_uitgangspunten/g_klimaatsommen/neerslag_piek_blok.png)<br>
-Bron: Brede Methodiek Wateroverlast
+Bron: Brede Methodiek Wateroverlast, Deltares
 
 Daarnaast is de grondwater conditie voorafgaand aan de neerslagsituatie van invloed op het verloop van het scenario. De volgende drie grondwater condities kunnen worden toegepast: 
 1. Gemiddeld laagste grondwaterstand (GLG): de gemiddeld laagste grondwaterstand wordt vastgesteld op basis van metingen van grondwaterstanden op de 14e en 28e van de maand. Per jaar worden de drie laagste grondwaterstanden geselecteerd en gemiddeld over minimaal 8 jaar.

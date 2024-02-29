@@ -21,3 +21,5 @@ De richting waarin gemalen het water pompen is van laag peil naar hoog peil op b
 
 ### **Aan- en afslagpeilen**
 Het aan- en afslagpeil is gebaseerd op het streefpeil lage zijde (afvoeraanname). Dit gaat niet goed bij aanvoer-gemalen, maar omdat die een capaciteit van 0 meekrijgen heeft dit geen effect in de modellen. Het aanslagpeil is gelijk aan het streefpeil+0.02m en het afslagpeil is gelijk aan het streefpeil-0.03m.
+
+Voor poldergemalen is hier tijdens het modelleren vaak gekozen om het afslagpeil lager te leggen om de opstuwing hoger in het gebied te beperken.

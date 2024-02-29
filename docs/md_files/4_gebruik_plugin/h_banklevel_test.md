@@ -1,19 +1,18 @@
 ## **Banklevel test**
 Als het 0d1d model is goedgekeurd (zie [0d1d test](g_0d1d_test.md)), kan deze test worden gedraaid. De bank levels test is grotendeels bedoeld om het model klaar te maken voor 3Di simulaties waarbij uitwisseling plaatsvindt tussen het watersysteem (1d) en het maaiveld (2d). Als deze test is voltooid kan de [1d2d test](i_1d2d_test.md) worden uitgevoerd.
 
-In de Bankleveltest wordt gecontroleerd of de bank levels hoog genoeg liggen. Dit is noodzakelijk omdat 1d2d verbindingen niet kijken naar de hoogte van de levee maar naar de hoogte van de banklevel. Als de bank levels van de channels lager liggen ontstaat lekkage over de peilgrenzen heen.
+In de modelbuilder worden bank levels ingesteld op 10 cm boven streefpeil, tenzij de watergang binnen 40 meter van een levee ligt. Dan wordt de bank level gelijk aan de levee. Dit is een zeer conservatieve manier om lekken te voorkomen, omdat de modelbuilder nog niet weet waar de 1d2d verbindingen liggen. Het risico bestaat echter dat bank levels onnodig hoog zijn waardoor water niet niet van maaiveld kan afstromen. 
 
-Er kunnen zich drie situaties voor doen;
-*   De eerste situatie die voor kan komen is dat de 1d2d verbinding een levee verbinding kruist. In dit geval krijgt de banklevel de hoogte van de grootste levee hoogte binnen 40 meter. In dit geval wordt er ook voorgesteld hier een manhole aan toe te voegen met een drain level gelijk aan de levee hoogte.
+### Kruising 1d2d verbinding en levee
+In de Banklevel test wordt nogmaals gecontroleerd of de bank levels hoog genoeg liggen, maar ook of ze lager kunnen. Hierbij wordt wel gebruik gemaakt van de 3Di gridbuilder, zodat wel duidelijk is waar de 1d2d verbindingen liggen. De bank levels worden alleen aangepast wanneer een 1d2d verbinding van een watergang de levee kruist. 
 
-* De tweede situatie die zich voor kan doen is dat een 1d2d verbinding kruist met een fixeddrainagelevelarea. In dit geval is de banklevel gelijk aan het streefpeil + 10cm. Het streefpeil wordt bepaald aan de hand van de ```connection_node_start_id``` die correspondeert met de watergang.
+### Peilscheidend kunstwerk binnen peilgebied
+In de schematisatie worden kunstwerken naar het uiteinde van een waterloop verschoven als hierdoor zeer korte segmenten kunnen worden vermeden (max 5 m). Hierdoor kan het gebeuren dat het kunstwerk niet meer op de peilgrens ligt. De banklevel test controleert dit ook en voegd manholes toe waardoor water niet via 2D langs het peilscheidende kunstwerk kan stromen.
 
-* De derde situatie die zich voor kan doen is dat er geen 1d2d verbinding kruist met een levee of fixeddrainagelevelarea. De banklevel is in dit geval ook gelijk aan het streefpeil + 10cm. Het streefpeil wordt hier op dezelfde manier bepaald als in de tweede situatie.
+Nb. In 2023 is een update doorgevoerd in 3Di waarbij de hoogte van de levee (inmiddels obstacles genoemd) de bank level overschrijft wanneer de 1d2d verbinding een obstacle kruist. De methode is echter nog niet waterdicht, dus is deze banklevel test voorlopig nog nodig. Ook omdat deze ook controleert of peilscheidende kunstwerken binnen een peilgebied vallen.
 
 ### **Werkwijze HHNK 3Di plugin**
-Het draaien van de bank levels test kan worden gedaan met elk 3Di resultaat zolang het rekengrid niet is veranderd. De inhoud van het scenario is hierbij niet relevant.
-
-Wanneer in de 'main' van de HHNK toolbox de juiste modellen folder en polder zijn geselecteerd, kunnen de sqlite testen uitgevoerd worden. Volg onderstaande stappen:
+Het draaien van de bank levels test kan worden uitgevoerd met enkel het sqlite-model. Wanneer in de 'main' van de HHNK toolbox de juiste modellen folder en polder zijn geselecteerd, kunnen de sqlite testen uitgevoerd worden. Volg onderstaande stappen:
 
 1. Ga naar 'Checks' in de HHNK Toolbox.
 2. Kies voor 'Bank levels' en klik op 'Begin tests'.

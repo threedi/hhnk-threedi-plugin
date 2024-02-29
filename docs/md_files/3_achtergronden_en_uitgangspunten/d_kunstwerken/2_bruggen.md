@@ -1,7 +1,8 @@
 ## **Bruggen**
 ### **Breedte**
-Als er een doorstroombreedte bekend is en die breedte valt tussen een range van 0.5 meter tot 50 meter, dan is de breedte van de brug gelijk aan de doorstroombreedte. Anders wordt voor primair  20.02 meter aangenomen en voor secundair 10.01 meter.
+De breedte wordt in de FME-export bepaalt aan de hand van de kolom BREEDTEOPENING in de laag DOORSTROOMOPENING uit DAMO. Er kunnen meerdere doorstroomopeningen per brug aanwezig zijn. In FME worden deze opgeteld en weergegeven in de laag BRUG in kolom `Som_doorstroomopeningen`. In de modellen worden meerdere openingen dus samengevoegd.
 
+Als er een doorstroombreedte bekend is en die breedte valt tussen een range van 0.5 meter tot 50 meter, dan is de breedte van de brug gelijk aan de doorstroombreedte. Anders wordt voor primair  20.02 meter aangenomen en voor secundair 10.01 meter.
 
 ### **Diepte**
 De diepte van bruggen staat niet in de basisgegevens. Deze wordt aangenomen op basis van de waterdiepte. In de datachecker wordt nu, waar beschikbaar, de getabelleerde bodemhoogte meegenomen. Na het toepassen van de ingemeten profielen op de watergang wordt bij iedere brug (v2_orifice met code: KBR*) op beide connection nodes gekeken wat de laagste bodemhoogte van de aangesloten kanalen is. Deze bodemhoogte+1cm wordt meegegeven aan de bruggen. Aan het einde van de routine wordt de bodemhoogte van kanalen naar BOB/crest_level-1cm gezet indien deze gelijk of hoger was dan de BOB/crest_level. 

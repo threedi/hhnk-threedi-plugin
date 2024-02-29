@@ -4,3 +4,5 @@ Om de afmetingen van kunstwerken, watergangen en profielen in het model te imple
 De meeste aannames worden al in de datachecker gemaakt en via de kolom opmerking geregistreerd. Onderstaande tabel geeft het overzicht van de bereiken en aannames per object.
 
 ![Logisch bereik en aannames](../../../images/3_achtergronden_en_uitgangspunten/Tabel_logisch_bereik_.png)
+
+Nb. de tabel is in Excel beschikbaar in de repo: `docs\images\Tabel logisch bereik en aannames.xlsx`

@@ -30,7 +30,7 @@ Als geen gemeten dwarsprofiel beschikbaar is worden BGT, leggerprofielen of aann
           
 
 
-*Voordat de gemeten DAMO-profielen aangeleverd zijn, zijn ze gefilterd op:
+*Tijdens de DAMO-export worden profielen gefilterd zodat oude of foutieve profielen niet mee komen. 
 * Datachecker crossprofile hoogte mag niet 0,0 zijn 
 * Datachecker crossprofile diepte mag niet <0,3m 
 * Datachecker crossprofile breedte mag niet <2m 
@@ -39,6 +39,8 @@ Als geen gemeten dwarsprofiel beschikbaar is worden BGT, leggerprofielen of aann
 * Profiel moet wel koppelbaar zijn met watergang (moet hydroobject_id hebben) 
 * Profiel moet in gebied liggen met streefpeil in DAMO 
 * Leeftijd 2009 en jonger.
+
+In de Datachecker worden de profielen nogmaals gecontroleerd.
 
 **De leggerprofielen worden omgerekend volgens:
 ``` 
@@ -71,6 +73,8 @@ Watergangen waar geen gemeten profiel geplaatst kan worden krijgen op 10% en 90%
 
 #### Aanpassingen aan bodemhoogte
 In 3Di moeten de bodemhoogtes van kunstwerken hoger liggen van die van watergangen. Duikers morgen dus niet deels in de baggerlaag liggen. Wanneer dit wel wordt ingesteld in het model, kan de berekening crashen als de waterstand in de duiker zakt tot onder de bodemhoogte van de watergang. Om deze reden zijn profielen in het model in zijn geheel verlaagd naar 1 cm onder de bodemhoogte van het kunstwerk. Dit kan zijn de Binnen Onderkant Buis (BOB) van een duiker of sifon, maar ook een minimale kruinhoogte van een stuw of het afslagpeil van een gemaal (deze laatste is onwaarschijnlijk omdat beide zijn gebaseerd op streefpeil).
+
+In niet peilgestuurd gebied kunnen droge beddingen voorkomen. Omdat de datachekcer en modelbuilder veel controles en aannames baseert op het streefpeil, bestaat de kans op fouten in de schematisaties in deze gebieden. De modelleur moet hier goed op letten.
 
 Bij het maken van nieuwe modellen geeft de modelbuilder middels de laag model_feedback.shp aan waar de bodemhoogte is aangepast.
 

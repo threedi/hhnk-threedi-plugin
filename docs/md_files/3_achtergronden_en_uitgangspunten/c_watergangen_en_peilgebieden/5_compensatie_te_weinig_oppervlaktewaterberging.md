@@ -1,4 +1,6 @@
 ## **Compensatie te weinig oppervlaktewaterberging**
+De BWN-modellen bevatten zowel 2D maaiveld als 1D watergangen. Om te voorkomen dat op watergangen die in 1D gemodelleerd zijn ook op het 2D berging en stroming kan plaatsvinden, wordt in het 2D maaiveld op NAP +10 m gezet. Het kan echter toch nog voorkomen dat de berging in 2D verschilt van het 1D, bijvoorbeeld door aannames in profielen. Op basis van onderstaande controle kan dit worden gecorrigeerd. De controle wordt uitgevoerd op basis van het basismodel (uit de modelbuilder), de modelleur dient bij wijzigingen in het model zelf rekening te houden met de verschillen tussen 1D en 2D.
+
 De berging in 1D (connection nodes + profielen watergangen) wordt per peilgebied vergeleken met het oppervlak van de BGT-waterdelen (vlakken). Een tekort aan berging wordt gelijk verdeeld toegekend als bergingsoppervlak aan secundaire connection nodes.
 
 De berging kan berekend worden met de volgende formule.

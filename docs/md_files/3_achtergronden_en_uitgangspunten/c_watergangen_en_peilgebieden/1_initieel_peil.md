@@ -1,5 +1,5 @@
 ## **Initieel peil**
-Het initieel peil wordt uitgelezen uit de attributen tabel van de peilgebieden, kolom peil_wsa. Het initieel peil wordt bepaald door gebruik te maken van onderstaande volgorde. 
+Het initieel peil in de modellen wordt uitgelezen uit de attributen tabel van de peilgebieden in de DAMO export, kolom peil_wsa. Het initieel peil wordt bepaald door gebruik te maken van onderstaande volgorde. 
 
 1. Peil in HDB Hydrodeelgebied <br>
     a. Winterpeil <br>
