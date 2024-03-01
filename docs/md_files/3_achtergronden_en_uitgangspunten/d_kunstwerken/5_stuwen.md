@@ -13,10 +13,16 @@ Stuwen die in de HDB-kaartlaag Sturing-3Di staan, worden gemodelleerd met de stu
 <!--TODO <span style="color:yellow"> *LN: @Wouter, @Jelle, Is dit nog steeds 50 meter?*</span> -->
 
 ### **Kruinhoogte**
-De kruinhoogte van een stuw wordt bepaald door gebruik te maken van onderstaande volgorde. Dit vormt tevens de rangorde voor prioritering bij het opnemen van de kruinhoogte in het model.
+De kruinhoogte van een stuw wordt bepaald door gebruik te maken van kolom WS_FUNCTIESTUW en onderstaande volgorde. Dit vormt tevens de rangorde voor prioritering bij het opnemen van de kruinhoogte in het model.
 1. Als functie = inlaatstuw (domein: 1), kies hoogste peil + 0,5 m.
 2. Als minimum stuwhoogte boven hoogste peil, kies minimum stuwhoogte.
 2. Als minimum stuwhoogte gelijk aan / onder hoogste peil, kies hoogste peil.
+
+### **Kruinbreedte**
+De breedte van de stuw is gebaseerd op de kolom DOORSTROOMOPENING (en dus niet KRUINBREEDTE, want dit is de breedte van de constructie).
+
+### **Coëfficienten**
+Alle stuwen krijgen een discharge coefficient van 0.8.
 
 ### **Stuw op duiker**
 Bij een stuw op het uiteinde van een duiker, komt alleen de stuw in het model met het profiel van de stuw.
