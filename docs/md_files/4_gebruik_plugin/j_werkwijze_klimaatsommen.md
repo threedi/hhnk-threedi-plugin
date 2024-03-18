@@ -2,7 +2,7 @@
 Als alle testen succesvol zijn afgerond, kunnen de klimaatsommen gesimuleerd worden. Voor meer informatie over de klimaatsommen, klik [hier](..\3_achtergronden_en_uitgangspunten\g_achtergrond_klimaatsommen\1_achtergrond_klimaatsommen.md).
 
 ### **Werkwijze HHNK 3Di plugin**
-Voor het simuleren van de klimaatsommen, is het noodzakelijk om tenminste een GLG, GGG en GHG model te hebben. Indien deze niet aanwezig zijn, kun deze via [modelstaat aanpassen](d_modelstaat_aanpassen.md) aanmaken.
+Voor het simuleren van de klimaatsommen, is het noodzakelijk om tenminste een GLG, GGG en GHG model te hebben. Indien deze niet aanwezig zijn, kun je deze via [modelstaat aanpassen](d_modelstaat_aanpassen.md) aanmaken.
 
 Zodra de modellen met grondwaterconditie gemaakt zijn, kunnen via [berekeningen uitvoeren](e_berekeningen_uitvoeren.md) de klimaatsommen gestart worden. Klimaatsommen zijn alleen via de batch calculation te draaien. [Download de resultaten](f_downloaden_resultaten.md) via de ```Download batch```-knop.
 
@@ -18,7 +18,7 @@ Na het downloaden van de resultaten moeten nog een aantal nabewerkingen worden g
     ![Alt text](../../images/2_werkwijze_bwn/g_klimaatsommen/2_nabewerking_klimaatsommen.png)
     Kies bij ``Selecteer een map met batch resultaten`` de map waar de downloads zijn weggeschreven.
     Kies bij ``Selecteer een neerslagzone`` de neerslagzone die je wil gebruiken. In bovenstaand afbeelding is de keuze tussen twee zones, omdat het modelgebied in twee zones valt. Kies in dergelijk geval voor de zone waar het grootste deel van de polder in valt.
-3. Stap 3 gaat over het lokaliseren van de polder folder. Run het veld  met ctrl + enter. <br>
+3. Stap 3 gaat over het lokaliseren van de polder folder. Run het veld met ctrl + enter. <br>
 *Bij deze stap is het belangrijk dat alle folders goed staan. Als de resultaten in een folder in een andere map staat (ergens anders dan batch_results) of als het notebook vanuit een ander model wordt geopend dan welke je wil analyseren, zal een foutmelding ontstaan.*
 4. Draai de 4de stap middels ctrl + enter. Deze stap zet input klaar voor volgende stappen. Het duurt een tijd voordat deze stap doorlopen is. <br>
 <!--*Het klaarzetten van de input kan alleen via de server van HHNK plaatsvinden.* Opmerking van Bart, is dat zo, nee toch?-->

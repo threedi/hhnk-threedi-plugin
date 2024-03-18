@@ -4,16 +4,16 @@ HHNK heeft de werkwijze voor het controleren van modellen en de toetsing van het
 ## Plug-in-scherm
 Na installatie kan de plugin worden geopend via het HHNK-symbool in de werkbalk van QGIS. Na het aanklikken opent er een 'docked' plug-in-scherm rechts in beeld. De HHNK Toolbox is opgedeeld in drie delen:
 
-![Alt text](../../images/4_gebruik_plugin/a_overzicht_plugin/plugin_venster.png)
+![plugin_venster](../../images/4_gebruik_plugin/a_overzicht_plugin/plugin_venster.png)
 
-* Main: via dit onderdeel wordt het project en andere ingeladen en is het mogelijk om simulaties te starten
-* Checks: dit onderdeel geeft de gebruiker de mogelijkheid om controles uit te voeren voor het model
-* Modelbouw: Voor het draaien van de datachecker en modelbuilder, werkt alleen op de server van HHNK. 
+* Main: via dit onderdeel wordt het project en andere lagen ingeladen en is het mogelijk om simulaties te starten.
+* Checks: dit onderdeel geeft de gebruiker de mogelijkheid om controles uit te voeren voor het model of nabewerking te draain.
+* Modelbouw: Voor het draaien van de datachecker en modelbuilder, werkt alleen op de server van HHNK.
 
 In de hoofdstukken hieronder is de BWN2-werkwijze stap-voor-stap uitgewerkt. Vooraf wijst de auteur de gebruiker nog graag op het gebruik van een logboek.
 
 ## Logboek
-Gedurende het gehele modelleerproces is het van belang een logboek bij te houden van gemaakte stappen en wijzigingen in het model. Neem in het logboek op door wie, wanneer en in welke modelrevisie de wijzigingen zijn gemaakt. Daarnaast heeft het de voorkeur om wijzigingen in in het model via SQL aan te brengen en in het logboek te noteren, zodat deze eenvoudig opnieuw uitgevoerd kunnen worden. Het logboek ziet er bijvoorbeeld zo uit:
+Gedurende het gehele modelleerproces is het van belang een logboek bij te houden van gemaakte stappen en wijzigingen in het model. Neem in het logboek op door wie, wanneer en in welke modelrevisie de wijzigingen zijn gemaakt. Daarnaast heeft het de voorkeur om wijzigingen in het model via SQL aan te brengen en in het logboek te noteren, zodat deze eenvoudig opnieuw uitgevoerd kunnen worden. Het logboek ziet er bijvoorbeeld zo uit:
 
 ``` sql
 -------Revisie 4------------
