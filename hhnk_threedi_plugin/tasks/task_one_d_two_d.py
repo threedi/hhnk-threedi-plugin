@@ -38,15 +38,8 @@ def task_one_d_two_d(folder, revision, dem_path):
     flowlines_df = test_1d2d.run_flowline_stats()
     flowlines_df.to_file(output_file_flowline, driver="GPKG", index=False)
 
-    # Node results
-    description = "uitlezen waterstanden op tijdstappen en locaties uit 3di resultaten"
-    QgsMessageLog.logMessage(f"1d2d test - {description}", level=Qgis.Info)
-
-    nodes_df = test_1d2d.run_node_stats()
-    nodes_df.to_file(output_file_node, driver="GPKG", index=False)
-
     # Raster results
-    description = "waterstandraster per tijdstap genereren"
+    description = "waterstandgpkg en rasters per tijdstap genereren"
     QgsMessageLog.logMessage(f"1d2d test - {description}", level=Qgis.Info)
     test_1d2d.run_wlvl_depth_at_timesteps(overwrite=False)
 
