@@ -29,7 +29,7 @@ In de afbeelding hieronder wordt met behulp van een blokkenschema uitgelegd hoe 
 ![Alt text](../../../images/3_achtergronden_en_uitgangspunten/Duikers_op_peil(afwijking)grens.png)
 
 ### **Sifons**
-Sifons worden opart behandeld (ze doorlopen niet bovenstaande schema) omdat ze (vrijwel) altijd op een peilgrens liggen. Ze worden uit de schematisatie gehaald samen met het hydroobject waar ze op liggen. Bij duikers wordt het deel van een hydroobject dat onder de duiker ligt weg geknipt om ruimte te maken voor de duikers. Bij sifons kan dit niet, omdat die altijd nog een hydroobject kruist. Sifons moeten daarom exact (gesnapt en even lang) op het onderliggende hydroobject liggen voor een correcte weergave in het model.
+Sifons worden apart behandeld (ze doorlopen niet bovenstaande schema) omdat ze (vrijwel) altijd op een peilgrens liggen. Ze worden uit de schematisatie gehaald samen met het hydroobject waar ze op liggen. Bij duikers wordt het deel van een hydroobject dat onder de duiker ligt weg geknipt om ruimte te maken voor de duikers. Bij sifons kan dit niet, omdat die altijd nog een hydroobject kruist. Sifons moeten daarom exact (gesnapt en even lang) op het onderliggende hydroobject liggen voor een correcte weergave in het model.
 
 ### **Coëfficienten**
 De discharge coefficient van een duiker is 1.0 in het geval dat de duiker open staat. Indien het om een inlaat op een peilgrens gaat, wordt aangenomen dat de duiker is afgesloten en is de discharge coefficient gelijk aan 0. Dit wordt ook weergegeven in de afbeelding onderaan deze pagina.

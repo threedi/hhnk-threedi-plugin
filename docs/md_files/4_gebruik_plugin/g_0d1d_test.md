@@ -1,5 +1,5 @@
 ## **0d1d test**
-Als de sqlite tests zijn uitgevoerd, eventueel aanpassingen zijn gemaakt en het model is opgebouwd voor rekenen met 3Di, is het tijd om de 0d1d test uit te voeren. Deze toets is een test bui ontworpen om het 1d watersysteem in het model te controleren. De test bui begint met een droge dag, vijf dagen neerslag gelijk aan de maalcapaciteit (in de meeste polders is dit 14,4 mm/dag) en dan twee dagen droog, zoals in onderstaande afbeelding is weergegeven. Deze bui is zo ontworpen dat we een aantal eigenschappen van het watersysteem kunnen toetsen:
+Als de sqlite tests zijn uitgevoerd, eventueel aanpassingen zijn gemaakt en het model is opgebouwd voor rekenen met 3Di, is het tijd om de 0d1d test uit te voeren. Voor deze toets is een test bui ontworpen om het 1d watersysteem in het model te controleren. De test bui begint met een droge dag, vijf dagen neerslag gelijk aan de afvoernorm (in de meeste polders is dit 14,4 mm/dag) en dan twee dagen droog, zoals in onderstaande afbeelding is weergegeven. Deze bui is zo ontworpen dat we een aantal eigenschappen van het watersysteem kunnen toetsen:
 
 - **streefpeil handhaving**: blijven waterpeilen constant tijdens de droge dag?
 - **stationaire afvoer**: stabiliseert het peil en de afvoer na de 5 dagen neerslag?
@@ -35,7 +35,7 @@ Voor 1d waterstandpunten worden resultaten gefilterd op vaste tijdstappen. De ti
 
 Op basis van deze informatie worden de volgende waarden bepaald (in centimeters):
 * Het verschil in waterstand tussen het begin van de som en het begin van de regen (Kaart 2: Uitzakking initieel peil). Dit wordt gedaan om te controleren of peilgebieden niet lekken.
-* Het verschil in waterstand tussen het begin van de regen en het einde van de regen (Kaart 3: Streefpeilhandhaving). Dit wordt gedaan om te controleren of berekende peilstijgingen acceptabel zijn in relatie tot de drooglegging.
+* Het verschil in waterstand tussen het begin van de regen en het einde van de regen (Kaart 3: Streefpeilhandhaving). Dit wordt gedaan om te controleren of berekende waterstandstijgingen acceptabel zijn in relatie tot de drooglegging.
 * Het verschil in waterstand tussen het einde van de regen en een dag daarvoor (Kaart 5: Stabiele waterstandsverhoging einde regen). Dit wordt gedaan om te controleren of het systeem zich in een stationaire situatie bevindt.
 * Het verschil in waterstand tussen het einde van de regen en het einde van de som (Kaart 6: Herstel streefpeil). Dit wordt gedaan om te controleren of het watersysteem weer terug gaat naar het streefpeil.
 
@@ -52,7 +52,7 @@ Om te beoordelen of het watersysteem hydraulisch functioneert, is hieronder per 
 * Het verschil in waterstand tussen het begin van de som en het begin van de regen (Kaart 2: Uitzakking initieel peil)<br>
 *De waterstand zou tot aan het begin van de neerslagsituatie niet meer dan 2 cm moeten stijgen of uitzakken. Indien de waterstand stijgt of zakt, zit er mogelijk een lek in het model. Dit zou een gemaal met een verkeerd aanslagpeil kunnen zijn of een stuw op de grens met een ander peilgebied staat te laag, waardoor het naar een ander peilgebied 'lekt'*  
 * Het verschil in waterstand tussen het begin van de regen en het einde van de regen (Kaart 3: Streefpeilhandhaving)<br>
-*Gedurende de neerslagsituatie is het normaal dat de waterstand in de watergangen stijgt. Afhankelijk van de drooglegging, het type gebied, is 15 tot 25 cm stijging is een normale waarde.  In veengebieden kunnen peilstijgingen groter dan 25 cm al voor problemen zorgen, terwijl in zandgebieden grotere peilstijgingen (>25 cm) zonder directe overlast mogelijk zijn. Bij grotere peilstijgingen moet de gebruikte data of het 1d systeem gecontroleerd worden op fouten.*
+*Gedurende de neerslagsituatie is het normaal dat de waterstand in de watergangen stijgt. Afhankelijk van de drooglegging, het type gebied, is 15 tot 25 cm stijging een normale waarde. In veengebieden kunnen peilstijgingen groter dan 25 cm al voor problemen zorgen, terwijl in zandgebieden grotere peilstijgingen (>25 cm) zonder directe overlast mogelijk zijn. Bij grotere peilstijgingen moet de gebruikte data of het 1d systeem gecontroleerd worden op fouten.*
 * Het verschil in waterstand tussen het einde van de regen en een dag daarvoor (Kaart 5: Stabiele waterstandsverhoging einde regen)<br>
 *In de laatste dag van de neerslagsituatie zou de waterstand niet meer verder dan 1 cm moeten stijgen, omdat er een stationaire situatie is bereikt. Als de waterstand niet stabiel is kan dit opnieuw wijzen op een lekkend peilgebied of een dat een waterloop niet kan afvoeren. In grote polders kan het nodig zijn de neerslagperiode langer te maken (via de calculaiton-gui), de test detecteert het einde van de periode automatisch.*
 * Het verschil in waterstand tussen het begin en het einde van de som (Kaart 6: Herstel streefpeil)<br>

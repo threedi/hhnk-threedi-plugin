@@ -16,11 +16,16 @@ Om het resultaat in de HHNK Toolbox te laden kies je onder checks voor 1d2d test
 ![Alt text](../../images/2_werkwijze_bwn/e_model_controleren_verbeteren/6_1d2d_test/1d2d-test-resultaat.PNG)
 
 ### **Uitkomsten van de test**
-De ingeladen kaarten  worden gebruikt om eventuele onrealistische resultaten te vinden die worden veroorzaakt door fouten in het model. Hiervoor worden drie typen kaarten ingeladen. 
+De ingeladen kaarten worden gebruikt om eventuele onrealistische resultaten te vinden die worden veroorzaakt door fouten in het model. Hiervoor worden drie typen kaarten ingeladen. 
 
 * Kaart 1: Debiet
 
-  Deze functie leest alle debieten en richting in uit het 3Di resultaat op drie tijdstappen (het begin van de regen het einde van de regen en het einde van de som). Vervolgens wordt gekeken naar het type van de lijn (1D2D of 2D). Aan de hand hiervan worden de lagen opgemaakt.
+  Deze functie leest alle debieten en richting in uit het 3Di resultaat op drie tijdstappen;
+  - T1: het begin van de regen
+  - T3: het einde van de regen
+  - T15: het einde van de som
+  
+  Vervolgens wordt gekeken naar het type van de lijn (1D2D of 2D). Aan de hand hiervan worden de lagen opgemaakt.
 
 * Kaart 2: Waterdiepte
 
