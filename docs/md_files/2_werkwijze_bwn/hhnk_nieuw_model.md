@@ -29,7 +29,19 @@ In de omgeving van HHNK kan actuele data geëxporteerd worden en kunnen de datac
 14. Zodra de Modelbuilder klaar is wordt het model en feedback weggeschreven naar de uitvoermap `data/output`.
 15. Kopieer voor [gebruik in de plugin](../4_gebruik_plugin/b_project_starten.md) de bestanden naar de projectmap. De output van de modelbuilder staat al in de juiste mappenstructuur. Alleen de datachecker_output moet nog naar 01_source_data gekopieerd worden.
 
-*Mocht onverhoopt iets niet werken staan in de mappenstructuur van de modelbuilder verschillende logbestanden.*
+## Debugging
+Mocht onverhoopt iets niet werken staan in de mappenstructuur van de modelbuilder verschillende logbestanden. Eventueel kan in de genoemde python scripts de optie `DEBUG=True` worden ingesteld om nog meer logging te ontvangen.
+
+De tussenstappen in de datachecker en modelbuilder zijn opgeslagen in een postgis database op de server. Om de tussenstappen te bekijken kun je verbinding maken met deze database via qgis (het olifant symbool van postgrs-database), met de volgende instellingen:
+
+* Name: DCMB (vrije keuze)
+* Service: (leeg)
+* Host: localhost
+* Port: 5433
+* Database: datachecker
+* SSL mode: allow
+
+Onder authentication kies je `basic`. De username en pasword zijn `postgres`.
 
 
 ## Overzicht gebieden
@@ -89,3 +101,4 @@ In de omgeving van HHNK kan actuele data geëxporteerd worden en kunnen de datac
     55	NZK-polders					"04340","04580","04590","04610","04410"
     56	Beetskoog					"5010","5020","5030","5040","5050","5080"
     57	Texel-Zuid					"8010","8020","8030","8071"
+
