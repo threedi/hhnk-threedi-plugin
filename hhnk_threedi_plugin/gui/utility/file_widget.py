@@ -23,6 +23,7 @@ class fileWidget(QWidget):
 
     The last directory a user looked in is saved and set as the new default location
     """
+
     fileSelected = pyqtSignal(str)
 
     def __init__(self, file_dialog_title, file_mode, name_filter=None, select_text=None):

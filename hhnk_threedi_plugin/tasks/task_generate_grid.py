@@ -1,7 +1,6 @@
-from qgis.core import QgsTask, Qgis
 import processing
+from qgis.core import Qgis, QgsTask
 from qgis.utils import QgsMessageLog
-
 
 description = "genereer een grid.gpkg vanuit een 3Di schematisatie"
 

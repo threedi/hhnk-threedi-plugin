@@ -17,11 +17,11 @@ channels:
 
 dependencies:
   #QGIS preinstalled
-  - python=3.9.8 # equals MI python version
+  - python=3.9.18 # equals MI python version
   - geopandas=0.14.1
   - pandas=2.0.2
   - scipy=1.10.1
-  - h5py=3.8.0
+  - h5py=3.8.0 # incompatible met rest van env; conda solved naar 3.11.0
 
   #User folder
   - jupyterlab=3.6.3
@@ -33,7 +33,7 @@ dependencies:
   # - exceptiongroup=1.1.1 #pytest dependency
   - iniconfig=2.0.0 #pytest dependency
   - tqdm=4.64.0
-  - xarray=2022.3.0
+  - xarray=2024.3.0
   - openpyxl=3.1.2
   - cached_property=1.5.2
   - rtree=1.0.1
