@@ -17,7 +17,7 @@ channels:
 
 dependencies:
   #QGIS preinstalled
-  - python=3.9.8 # equals MI python version
+  - python=3.9.18 # equals MI python version
   - geopandas=0.14.1
   - pandas=2.0.2
   - scipy=1.10.1
