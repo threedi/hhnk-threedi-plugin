@@ -1,8 +1,10 @@
 from dataclasses import dataclass
+
 import requests
-from requests.exceptions import ConnectionError
-from PyQt5.QtWidgets import QDialog, QTextBrowser, QVBoxLayout
 from PyQt5.QtCore import QTimer
+from PyQt5.QtWidgets import QDialog, QTextBrowser, QVBoxLayout
+from requests.exceptions import ConnectionError
+
 from hhnk_threedi_plugin.hhnk_toolbox_dockwidget import HHNK_toolboxDockWidget
 
 
