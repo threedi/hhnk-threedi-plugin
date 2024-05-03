@@ -1,4 +1,4 @@
-# """This is an environment for conda environment on ota155 and ota514
+# """This is an environment for conda environment on ota155 and srv514
 # Can be used as standalone env where the following utils should work:
 # - hhnk-threedi-tools
 # - hhnk-research-tools
@@ -37,6 +37,7 @@ dependencies:
   - openpyxl=3.1.2
   - cached_property=1.5.2
   - rtree=1.0.1
+  - pyogrio
 
   #Voor DataCheker
   - flask # oude datachecker
