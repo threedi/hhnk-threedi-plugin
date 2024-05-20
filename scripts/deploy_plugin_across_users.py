@@ -102,7 +102,7 @@ def copy_plugin(admin_plugin_dir, user_plugin_dir, files_ignored):
 
 def deploy(
     admin_user: str = None,
-    plugins: list = ["hhnk_threedi_plugin", "ThreeDiToolbox"],
+    plugins: list = ["hhnk_threedi_plugin", "threedi_results_analysis"],
     plugins_dir: str = PLUGINS_DIR,
     users: list = None,
     users_ignored: list = [],

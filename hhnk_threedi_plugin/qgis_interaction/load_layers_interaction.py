@@ -48,6 +48,6 @@ def load_sqlite(filepath):
 
     schema_plugin = qgis.utils.plugins["threedi_schematisation_editor"]
 
-    model_gpkg = Path(str(filepath)).with_suffix("gpkg")
+    model_gpkg = Path(str(filepath)).with_suffix(".gpkg")
     if str(model_gpkg) != str(schema_plugin.model_gpkg):
         schema_plugin.load_from_spatialite(filepath)
