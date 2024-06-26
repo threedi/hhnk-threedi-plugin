@@ -9,7 +9,7 @@ In de omgeving van HHNK kan actuele data geëxporteerd worden en kunnen de datac
 1. Ga hiervoor naar `srv300d1.corp.hhnk.nl` via remote desktop en open FME (v2021), <br>
 2. Open nu het meest recente fme script voor de export: `\\corp.hhnk.nl\data\Hydrologen_data\Data\01.basisgegevens\00.Export\01_DAMOHDBexport_<datum>.fmw`, <br>
 3. Druk linksboven op de play-knop en vul in het scherm in welke [gebieden](#overzicht-gebieden) je wilt exporteren en eventueel een unieke naam voor de export. <br>
-4. Plaats de data (DAMO.gdb en HDB.gdb) in de map input `\\corp.hhnk.nl\data\Hydrologen_data\Data\modelbuilder\data\input`. <br>
+4. Kopieer het resultaat `\\corp.hhnk.nl\data\Hydrologen_data\Data\01.basisgegevens\00.Export\export_output\DAMO_{naam_van_jouw_gebiedje}.gpkg` naar `\\corp.hhnk.nl\data\Hydrologen_data\Data\modelbuilder\data\input` en hernoem het naar `DAMO.gpkg`. <br>
 
 ## Draai de datachecker
 
