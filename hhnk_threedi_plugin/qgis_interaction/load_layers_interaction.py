@@ -25,6 +25,8 @@ from pathlib import Path
 
 # Local imports
 import hhnk_research_tools as hrt
+from qgis.core import Qgis
+from qgis.utils import iface
 
 import hhnk_threedi_plugin.qgis_interaction.project as project
 
@@ -44,10 +46,18 @@ def load_sqlite(filepath):
     ----------
     filepath (str): path to sqlite
     """
-    import qgis
+    # schema_plugin = qgis.utils.plugins["threedi_schematisation_editor"]
+    try:
+        from threedi_models_and_simulations.utils_qgis import get_schematisation_editor_instance
 
-    schema_plugin = qgis.utils.plugins["threedi_schematisation_editor"]
+        schema_plugin = get_schematisation_editor_instance()
 
-    model_gpkg = Path(str(filepath)).with_suffix(".gpkg")
-    if str(model_gpkg) != str(schema_plugin.model_gpkg):
-        schema_plugin.load_from_spatialite(filepath)
+        if schema_plugin:
+            model_gpkg = Path(str(filepath)).with_suffix(".gpkg")
+            if str(model_gpkg) != str(schema_plugin.model_gpkg):
+                schema_plugin.load_from_spatialite(filepath)
+    except:
+        iface.messageBar().pushMessage(
+            f"Failed loading sqlite. Load manually using schematisation editor. Path: {filepath}",
+            level=Qgis.Critical,
+        )
