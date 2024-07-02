@@ -8,6 +8,7 @@ This script combines input from a folder object folder.py with qgis layer
 and essentially forms the configuration for klimaatsommen (qgis3_export_pdfs)
 """
 
+import os
 from pathlib import Path
 
 if __name__ == "__main__":
@@ -17,22 +18,8 @@ if __name__ == "__main__":
 
     sys.path.append(str(Path(os.path.abspath(__file__)).parents[2]))
 
-# First-party imports
-import os
-
-# Third-party imports
-# Local imports
-import hhnk_research_tools as hrt
 from qgis.core import Qgis
 from qgis.utils import iface
-
-import hhnk_threedi_plugin.qgis_interaction.project as project
-
-# from hhnk_threedi_plugin.qgis_interaction.styling import path as PATH #TODO deze verwijderen uit init?
-from hhnk_threedi_plugin.dependencies import HHNK_THREEDI_PLUGIN_DIR
-
-# globals
-STYLING_DIR = Path(__file__).parent / "styling"
 
 
 def load_sqlite(filepath):
