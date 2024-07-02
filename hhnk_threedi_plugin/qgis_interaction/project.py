@@ -37,12 +37,12 @@ class QgisLayer:
 
     def __init__(
         self,
-        settings: htt.qgis.QgisLayerSettings,
+        settings: htt.QgisLayerSettings,
     ):
         """
         Parameters
         ----------
-        settings : htt.qgis.QgisLayerSettings
+        settings : htt.QgisLayerSettings
         """
 
         self.settings = settings

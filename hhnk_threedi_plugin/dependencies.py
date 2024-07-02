@@ -47,7 +47,6 @@ HHNK_THREEDI_PLUGIN_DIR = Path(__file__).parent
 DEPENDENCY_DIR = HHNK_THREEDI_PLUGIN_DIR / "external-dependencies"
 DEPENDENCY_DIR.mkdir(parents=True, exist_ok=True)
 THREEDI_DEPENDENCY_DIR = HHNK_THREEDI_PLUGIN_DIR.parent / "threedi_results_analysis" / "deps"
-SCHEMA_EDITOR_PLUGIN_DIR = HHNK_THREEDI_PLUGIN_DIR.parent / "threedi_schematisation_editor"
 
 WHEEL_DIR = HHNK_THREEDI_PLUGIN_DIR / "wheels"
 WHEEL_DIR.mkdir(parents=True, exist_ok=True)
@@ -60,7 +59,6 @@ LOG_DIR.mkdir(parents=True, exist_ok=True)
 PATCH_DIR = HHNK_THREEDI_PLUGIN_DIR / "patches"
 PATCHES = {
     "downloader.py": DEPENDENCY_DIR / r"threedi_scenario_downloader/downloader.py",
-    "schema_editor_init.py": SCHEMA_EDITOR_PLUGIN_DIR / "__init__.py",
 }
 
 USERDEPS = ["jupyterlab", "ipywidgets"]  # Dependencies in userfolder %appdata%/python/
