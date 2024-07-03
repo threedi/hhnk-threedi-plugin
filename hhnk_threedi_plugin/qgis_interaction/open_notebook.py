@@ -9,22 +9,19 @@ if __name__ == "__main__":
     from pathlib import Path
 
     sys.path.append(str(Path(os.getcwd()).parent.parent))
-from hhnk_threedi_plugin.dependencies import (
-    DEPENDENCY_DIR,
-    HHNK_THREEDI_PLUGIN_DIR,
-    THREEDI_DEPENDENCY_DIR,
-)
 
-try:
-    import hhnk_threedi_plugin.local_settings as local_settings
-except ModuleNotFoundError:
-    import hhnk_threedi_plugin.local_settings_default as local_settings
 from pathlib import Path
 
 import hhnk_research_tools as hrt
 import hhnk_threedi_tools as htt
 from hhnk_threedi_tools.utils.notebooks.run import create_command_bat_file
-from qgis.PyQt.QtWidgets import QAction, QMessageBox
+from qgis.PyQt.QtWidgets import QMessageBox
+
+from hhnk_threedi_plugin.dependencies import (
+    DEPENDENCY_DIR,
+    HHNK_THREEDI_PLUGIN_DIR,
+    THREEDI_DEPENDENCY_DIR,
+)
 
 
 # %%
@@ -38,16 +35,9 @@ class NotebookWidget:
 
         self.load_api_key()
 
+    @property
     def notebook_paths(self):
-        notebook_paths = [str(THREEDI_DEPENDENCY_DIR), str(DEPENDENCY_DIR)]
-        # if local_settings.hhnk_threedi_tools_path not in [None, '']:
-        #     notebook_paths.append(local_settings.hhnk_threedi_tools_path)
-        # try:
-        #     if local_settings.hhnk_research_tools_path not in [None, '']:
-        #         notebook_paths.append(local_settings.hhnk_research_tools_path)
-        # except:
-        #     pass
-        return notebook_paths
+        return [str(THREEDI_DEPENDENCY_DIR), str(DEPENDENCY_DIR)]
 
     def load_api_key(self):
         """Load api_key from file and update textbox"""
@@ -127,11 +117,9 @@ class NotebookWidget:
             {
                 "polder_folder": self.caller.polder_folder,
                 "api_keys_path": self.api_file,
-                "extra_paths": self.notebook_paths(),
+                "extra_paths": self.notebook_paths,
             },
         )
-
-        # htt.add_notebook_paths(self.notebook_paths())
 
     def start_server(self):
         api_key = self.generate_notebook_valid()
@@ -140,5 +128,5 @@ class NotebookWidget:
 
         self.generate_notebook_folder(api_key)
         htt.open_server(
-            directory=self.polder_notebooks, location="user", use="run", notebook_paths=self.notebook_paths()
+            directory=self.polder_notebooks, location="user", use="run", notebook_paths=self.notebook_paths
         )

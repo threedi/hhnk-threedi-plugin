@@ -39,7 +39,7 @@ deploy(
     admin_user="wvangerwen",
     plugins=[
         "hhnk_threedi_plugin",
-        "ThreeDiToolbox",
+        "threedi_results_analysis",
         "threedi_models_and_simulations",
         "threedi_schematisation_editor",
     ],
