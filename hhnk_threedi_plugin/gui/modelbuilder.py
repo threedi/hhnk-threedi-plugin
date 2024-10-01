@@ -1,8 +1,10 @@
 from dataclasses import dataclass
+
 import requests
-from requests.exceptions import ConnectionError
-from PyQt5.QtWidgets import QDialog, QTextBrowser, QVBoxLayout
 from PyQt5.QtCore import QTimer
+from PyQt5.QtWidgets import QDialog, QTextBrowser, QVBoxLayout
+from requests.exceptions import ConnectionError
+
 from hhnk_threedi_plugin.hhnk_toolbox_dockwidget import HHNK_toolboxDockWidget
 
 
@@ -49,30 +51,22 @@ class ModelBuilder:
     status: dict = None
     _online: bool = None
 
-    datachecker_log: LogDialog = LogDialog(
-        path=r"/datachecker/log",
-        title="Datachecker log"
-        )
-    modelbuilder_log: LogDialog = LogDialog(
-        path=r"/modelbuilder/log",
-        title="Modelbuilder log"
-        )
+    datachecker_log: LogDialog = LogDialog(path=r"/datachecker/log", title="Datachecker log")
+    modelbuilder_log: LogDialog = LogDialog(path=r"/modelbuilder/log", title="Modelbuilder log")
 
     def __post_init__(self):
         """Connect all callback-functions to widgets."""
-        
+
         self.dockwidget.input_dir_select.setFilePath(
             r"//corp.hhnk.nl/data/Hydrologen_data/Data/modelbuilder/data/input/"
-            )
+        )
         self.dockwidget.output_dir_select.setFilePath(
             r"//corp.hhnk.nl/data/Hydrologen_data/Data/modelbuilder/data/output/"
-            )
+        )
 
         self.timer.timeout.connect(self.check_available)
         self.dockwidget.tabWidget.currentChanged.connect(self.change_tab)
-        self.dockwidget.select_server_box.currentTextChanged.connect(
-            self.connect_modelbuilder
-            )
+        self.dockwidget.select_server_box.currentTextChanged.connect(self.connect_modelbuilder)
         self.dockwidget.datachecker_log_btn.clicked.connect(self.show_datachecker_log)
         self.dockwidget.modelbuilder_log_btn.clicked.connect(self.show_modelbuilder_log)
         self.dockwidget.start_datachecker_btn.clicked.connect(self.start_datachecker)
@@ -80,7 +74,6 @@ class ModelBuilder:
 
         # we check if we are in Modelbuilder.
         self.change_tab()
-
 
     def _request_status(self):
         try:
@@ -130,15 +123,11 @@ class ModelBuilder:
         """Set the select_server_label text and styling."""
         if self.online:
             self.dockwidget.select_server_label.setText("Server (online):")
-            self.dockwidget.select_server_label.setStyleSheet(
-                "color: green; font: bold"
-                )
+            self.dockwidget.select_server_label.setStyleSheet("color: green; font: bold")
         else:
             self.dockwidget.select_server_label.setText("Server (offline):")
-            self.dockwidget.select_server_label.setStyleSheet(
-                "color: red; font: bold"
-                )
-    
+            self.dockwidget.select_server_label.setStyleSheet("color: red; font: bold")
+
     def set_modules_labels(self):
         self.get_status()
         for module in self.status.keys():
@@ -149,7 +138,6 @@ class ModelBuilder:
             else:
                 label.setText(f"{module} (bezig):")
                 label.setStyleSheet("color: orange; font: bold")
-        
 
     def set_active_buttons(self, available):
         """Enable the correct buttons depending on online or available server."""
@@ -175,9 +163,8 @@ class ModelBuilder:
         polder_name = self.dockwidget.poldernaam_textbox.text()
         if polder_id and polder_name and self.status["modelbuilder"]:
             response = requests.post(
-                url=f"{self.url}/modelbuilder/start",
-                data={"polder_id": polder_id, "polder_name": polder_name}
-                )
+                url=f"{self.url}/modelbuilder/start", data={"polder_id": polder_id, "polder_name": polder_name}
+            )
             if response.ok:
                 self.set_unavailable()
 
@@ -203,7 +190,7 @@ class ModelBuilder:
         """connect to a datachecker server and check availability."""
 
         # check if server is online and set label
-        self._online = None # forces next line to check for status
+        self._online = None  # forces next line to check for status
         self.set_select_server_label()
 
         # check if server is available and set buttons active
@@ -218,7 +205,7 @@ class ModelBuilder:
             if not available:
                 self.set_unavailable()
             else:
-               self.set_modules_labels() 
+                self.set_modules_labels()
         else:
             self.stop_timer()
 

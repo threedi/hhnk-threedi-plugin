@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>574</width>
-    <height>671</height>
+    <width>472</width>
+    <height>750</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+   <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
   <property name="minimumSize">
    <size>
-    <width>345</width>
-    <height>671</height>
+    <width>348</width>
+    <height>750</height>
    </size>
   </property>
   <property name="maximumSize">
@@ -38,6 +38,12 @@
    <string>HHNK Toolbox</string>
   </property>
   <widget class="QWidget" name="dockWidgetContents">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
    <property name="minimumSize">
     <size>
      <width>0</width>
@@ -114,9 +120,6 @@
           </property>
           <property name="storageMode">
            <enum>QgsFileWidget::GetDirectory</enum>
-          </property>
-          <property name="options">
-           <set>QFileDialog::ShowDirsOnly</set>
           </property>
          </widget>
         </item>
@@ -301,6 +304,21 @@
          </widget>
         </item>
         <item>
+         <widget class="QComboBox" name="org_name_comboBox">
+          <property name="editable">
+           <bool>false</bool>
+          </property>
+          <property name="currentText">
+           <string>--Selecteer hier je Organisation UUID!--</string>
+          </property>
+          <item>
+           <property name="text">
+            <string>--Selecteer hier je Organisation UUID!--</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item>
          <widget class="QPushButton" name="server_btn">
           <property name="text">
            <string>Open Jupyter Notebook Server</string>
@@ -308,27 +326,17 @@
          </widget>
         </item>
         <item>
-         <spacer name="verticalSpacer_9">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>10</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
          <spacer name="verticalSpacer_5">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::MinimumExpanding</enum>
+          </property>
           <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
-            <height>100</height>
+            <height>0</height>
            </size>
           </property>
          </spacer>
@@ -340,7 +348,7 @@
         <bool>true</bool>
        </property>
        <attribute name="title">
-        <string>Tests</string>
+        <string>Checks</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
@@ -368,12 +376,12 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>98</width>
-             <height>47</height>
+             <width>115</width>
+             <height>52</height>
             </rect>
            </property>
            <attribute name="label">
-            <string>Sqlite tests</string>
+            <string>Sqlite checks</string>
            </attribute>
            <layout class="QGridLayout" name="gridLayout">
             <item row="0" column="0" alignment="Qt::AlignTop">

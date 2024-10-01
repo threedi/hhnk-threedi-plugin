@@ -31,4 +31,5 @@ nav:
     - Installatie Instructies: docs/md_files/installation_manual.md
     - Gebruikershandleiding: md_files/usage.md
     - Bron data: md_files/needed_data.md
+    - Polder clusters: md_files/polder_clusters.md
     - Uitleg tests en functionaliteit: md_files/tests_documentation.md

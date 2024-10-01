@@ -1,17 +1,18 @@
 import argparse
-from pathlib import Path
+import io
 import logging
 import shutil
-from collections import namedtuple
 import tempfile
-import requests
 import zipfile
-import io
+from collections import namedtuple
+from pathlib import Path
+
+import requests
 
 logger = logging.getLogger(__name__)
 
-PLUGINS_DIR = r"c://Users//{user}//AppData//Roaming//3Di//QGIS3//profiles//default//python//plugins" # noqa
-PLUGIN_URL = r"https://github.com/threedi/hhnk-threedi-plugin/releases/latest/download/hhnk_threedi_plugin.zip" # noqa
+PLUGINS_DIR = r"c://Users//{user}//AppData//Roaming//3Di//QGIS3//profiles//default//python//plugins"  # noqa
+PLUGIN_URL = r"https://github.com/threedi/hhnk-threedi-plugin/releases/latest/download/hhnk_threedi_plugin.zip"  # noqa
 
 StoredFile = namedtuple("StoredFile", ["path", "content"])
 
@@ -46,7 +47,7 @@ def get_users(user_dir="c://Users"):
     Returns:
         list: List of users
 
-    """ # noqa
+    """  # noqa
     return [i.name for i in Path(user_dir).glob("*/")]
 
 
@@ -81,29 +82,19 @@ def copy_directory_content(admin_plugin_dir, user_plugin_dir, files_ignored):
 
 def copy_plugin(admin_plugin_dir, user_plugin_dir, files_ignored):
     # some files we wish to keep
-    stored_files = read_ignored_files(
-        user_plugin_dir,
-        files_ignored
-        )
+    stored_files = read_ignored_files(user_plugin_dir, files_ignored)
 
     if user_plugin_dir.exists():
         try:
             print(f"  removing directory: {user_plugin_dir}")
             shutil.rmtree(user_plugin_dir)
         except PermissionError as e:
-            logger.error(
-                f"  removing {user_plugin_dir} failed with error: {e}"
-            )
+            logger.error(f"  removing {user_plugin_dir} failed with error: {e}")
 
             write_ignored_files(stored_files)
             raise e
-    print(
-        f"  copying '{admin_plugin_dir}' to {user_plugin_dir}"
-    )
-    copy_directory_content(
-        admin_plugin_dir,
-        user_plugin_dir,
-        files_ignored)
+    print(f"  copying '{admin_plugin_dir}' to {user_plugin_dir}")
+    copy_directory_content(admin_plugin_dir, user_plugin_dir, files_ignored)
 
     # write stored files
     write_ignored_files(stored_files)
@@ -111,7 +102,7 @@ def copy_plugin(admin_plugin_dir, user_plugin_dir, files_ignored):
 
 def deploy(
     admin_user: str = None,
-    plugins: list = ["hhnk_threedi_plugin", "ThreeDiToolbox"],
+    plugins: list = ["hhnk_threedi_plugin", "threedi_results_analysis"],
     plugins_dir: str = PLUGINS_DIR,
     users: list = None,
     users_ignored: list = [],
@@ -121,7 +112,7 @@ def deploy(
 
     # get plugin from repository if admin_dir is not specified
     if admin_user is None:
-        print(f"no adin_user specified, we will deploy only the hhnk_threedi_plugin from {PLUGIN_URL}") # noqa
+        print(f"no adin_user specified, we will deploy only the hhnk_threedi_plugin from {PLUGIN_URL}")  # noqa
         temp_dir = tempfile.TemporaryDirectory()
         admin_plugins_dir = Path(temp_dir.name)
         get_plugin_from_url(admin_plugins_dir)
@@ -156,8 +147,8 @@ def deploy(
         if Path(plugins_dir.format(user=user)).parent.is_dir():
             selected_users.append(user)
     cont = input(f"Deploy to these users: {selected_users}? [y/n]")
-    
-    if cont=="y":
+
+    if cont == "y":
         for user in selected_users:
             # print(f"checking user '{user}'")
             user_plugins_dir = Path(plugins_dir.format(user=user))
@@ -179,9 +170,9 @@ def get_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Deploy HHNK QGIS plugins")
     parser.add_argument(
         "--admin_user",
-        help="Admin user to copy plugins from. If ignored, the hhnk_threedi_plugin will be copied from the repository", # noqa
+        help="Admin user to copy plugins from. If ignored, the hhnk_threedi_plugin will be copied from the repository",  # noqa
         type=str,
-        default=None
+        default=None,
     )
     parser.add_argument(
         "--plugin",
@@ -191,21 +182,21 @@ def get_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--plugins_dir",
-        help="plugin directory template. Note, {user} as user-replacement fields (see default by example)", # noqa
+        help="plugin directory template. Note, {user} as user-replacement fields (see default by example)",  # noqa
         type=str,
-        default=r"c://Users//{user}//AppData//Roaming//3Di//QGIS3//profiles//default//python//plugins", # noqa
+        default=r"c://Users//{user}//AppData//Roaming//3Di//QGIS3//profiles//default//python//plugins",  # noqa
     )
 
     parser.add_argument(
         "--user",
-        help="one or more users. If non supplied, the list will be populated from c://users", # noqa
+        help="one or more users. If non supplied, the list will be populated from c://users",  # noqa
         action="append",
         default=None,
     )
 
     parser.add_argument(
         "--ignore_user",
-        help="one or more users to ignore. If non supplied, the list will be empty", # noqa
+        help="one or more users to ignore. If non supplied, the list will be empty",  # noqa
         action="append",
         default=[],
     )

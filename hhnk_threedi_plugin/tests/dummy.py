@@ -4,16 +4,15 @@ Created on Thu Aug 12 16:20:17 2021
 
 @author: chris.kerklaan
 """
-from qgis._core import QgsVectorLayer
-from PyQt5.QtCore import QObject, pyqtSlot, QCoreApplication, QSize
-
-# from PyQt5.QtGui import QWidget
-from qgis.core import QgsProject, QgsApplication, QgsVectorLayer
-from qgis.gui import QgsMapCanvas
-
 import logging
 import sys
 
+from PyQt5.QtCore import QCoreApplication, QObject, QSize, pyqtSlot
+from qgis._core import QgsVectorLayer
+
+# from PyQt5.QtGui import QWidget
+from qgis.core import QgsApplication, QgsProject, QgsVectorLayer
+from qgis.gui import QgsMapCanvas
 
 LOGGER = logging.getLogger("QGIS")
 

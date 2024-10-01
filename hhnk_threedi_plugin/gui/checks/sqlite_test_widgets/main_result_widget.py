@@ -1,32 +1,26 @@
+from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import (
     QPushButton,
+    QTreeView,
     QTreeWidget,
     QTreeWidgetItem,
     QVBoxLayout,
-    QTreeView,
     QWidget,
 )
-from PyQt5.QtCore import pyqtSignal
 
 
 class SectionExpandButton(QPushButton):
-    """
-    a QPushbutton that can expand or collapse its section
-    """
+    """a QPushbutton that can expand or collapse its section"""
 
     def __init__(self, item, text="", parent=None):
         super().__init__(text, parent)
-        self.setStyleSheet(
-            "background-color: #a6a9ad; text-align: left; padding: 5px 10px 5px 10px"
-        )
+        self.setStyleSheet("background-color: #a6a9ad; text-align: left; padding: 5px 10px 5px 10px")
         self.section = item
         self.section.setExpanded(True)
         self.clicked.connect(self.on_clicked)
 
     def on_clicked(self):
-        """
-        toggle expand/collapse of section by clicking
-        """
+        """Toggle expand/collapse of section by clicking"""
         if self.section.isExpanded():
             self.section.setExpanded(False)
         else:
@@ -34,9 +28,7 @@ class SectionExpandButton(QPushButton):
 
 
 class collapsibleTree(QWidget):
-    """
-    Widget to which collapsible sections can be added
-    """
+    """Widget to which collapsible sections can be added"""
 
     sections_changed = pyqtSignal()
 
@@ -62,7 +54,7 @@ class collapsibleTree(QWidget):
 
     def add_section(self, title, widget):
         """
-        adds collapsible section. Checks if section by the specified title
+        Add collapsible section. Checks if section by the specified title
         already exists and removes is first if so
         """
         self.remove_section(title)

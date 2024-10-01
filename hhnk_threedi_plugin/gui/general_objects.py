@@ -1,25 +1,22 @@
 import csv
+
+from PyQt5.Qt import QStandardItem, QStandardItemModel, pyqtSignal
+from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtWidgets import (
-    QFileDialog,
-    QPushButton,
-    QLineEdit,
-    QHBoxLayout,
-    QTextEdit,
-    QDialog,
-    QTableView,
-    QVBoxLayout,
-    QLabel,
-    QWidget,
     QComboBox,
+    QDialog,
+    QFileDialog,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QPushButton,
+    QTableView,
+    QTextEdit,
+    QVBoxLayout,
+    QWidget,
 )
-from PyQt5.Qt import QStandardItemModel, QStandardItem, pyqtSignal
-from qgis.utils import iface
 from qgis.core import QgsProject
-
-
-from PyQt5.QtCore import Qt
-from PyQt5.QtCore import pyqtSignal
-
+from qgis.utils import iface
 
 
 def create_layer_added_label():
@@ -67,8 +64,8 @@ class CsvAsTable(QDialog):
         self.layoutVertical = QVBoxLayout(self)
         self.layoutVertical.addWidget(self.table)
         self.populate_table()
-        
-        self.table.resizeColumnToContents(0) #resize col1 so it shows all
+
+        self.table.resizeColumnToContents(0)  # resize col1 so it shows all
 
     def populate_table(self):
         with open(file=self.csv, mode="r") as fileInput:
@@ -105,11 +102,10 @@ class fileWidget(QWidget):
 
     The last directory a user looked in is saved and set as the new default location
     """
+
     fileSelected = pyqtSignal(str)
 
-    def __init__(
-        self, file_dialog_title, file_mode, name_filter=None, select_text=None
-    ):
+    def __init__(self, file_dialog_title, file_mode, name_filter=None, select_text=None):
         super(fileWidget, self).__init__()
         # ----------------------------------------------------------
         # Widgets
@@ -140,15 +136,11 @@ class fileWidget(QWidget):
         # To prevent the cursor jumping back to the end of the line while the user is typing, we save and
         # reset the cursor every time a character is typed
         self.file_selected_edit.textChanged.connect(self.save_cursor_position)
-        self.file_selected_edit.textChanged.connect(
-            lambda: self.fileSelected.emit(self.file_selected_edit.text())
-        )
+        self.file_selected_edit.textChanged.connect(lambda: self.fileSelected.emit(self.file_selected_edit.text()))
         self.file_selected_edit.textChanged.connect(self.set_cursor_position)
         # If a file is chosen with the file dialog, save the path to that directory and open the file dialog there
         # next time
-        self.file_dialog.fileSelected.connect(
-            lambda: self.file_dialog.setDirectory(self.file_dialog.directory())
-        )
+        self.file_dialog.fileSelected.connect(lambda: self.file_dialog.setDirectory(self.file_dialog.directory()))
 
         # Handle layout
         layout = QHBoxLayout()

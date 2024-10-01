@@ -1,6 +1,6 @@
 
 @REM deploy plugin to appdata
-pb_tool compile
+@REM pb_tool compile
 
 SET PLUGIN_PATH=%appdata%\3Di\QGIS3\profiles\default\python\plugins
 
@@ -20,5 +20,3 @@ copy %PLUGIN_PATH%\api_key\api_key.txt %PLUGIN_PATH%\hhnk_threedi_plugin\api_key
 :@Catch
   call sendkeys.bat "QGIS" "^r" 
 :@EndCatch
-
-

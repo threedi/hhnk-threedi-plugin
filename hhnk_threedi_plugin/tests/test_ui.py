@@ -5,30 +5,27 @@ Overview of QGIS objects
 """
 
 # System imports
-import os.path as path
-import unittest
-import pathlib
 import os
+import os.path as path
+import pathlib
+import unittest
 
 # Add the correct path
-__file__ = (
-    "C:/Users/chris.kerklaan/Documents/Github/hhnk_threedi_plugin/tests/test_ui.py"
-)
+__file__ = "C:/Users/chris.kerklaan/Documents/Github/hhnk_threedi_plugin/tests/test_ui.py"
 import sys
 
 sys.path.append(str(pathlib.Path(__file__).parent.parent.parent))
 
 # qgis imports
-from qgis.core import QgsSettings
 from qgis.core import *
+from qgis.core import QgsSettings
 
 qgs = QgsApplication([], False)
 qgs.initQgis()
 
 
 from qgis.gui import QgisInterface
-
-from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication, Qt
+from qgis.PyQt.QtCore import QCoreApplication, QSettings, Qt, QTranslator
 
 # Local imports
 from hhnk_threedi_plugin.hhnk_toolbox import HHNK_toolbox
@@ -109,11 +106,8 @@ class QgisInterfaceDummy(object):
 #         del(self.app) # do not forget this
 
 if __name__ == "__main__":
-
     iface = QgisInterfaceDummy()
     test = HHNK_toolbox(iface)
     ui = test.dlg.ui
 
-    s = QSettings(
-        os.path.join(os.getenv('APPDATA'), r"3Di/QGIS3/profiles/default/QGIS/QGIS3.ini")
-    )
+    s = QSettings(os.path.join(os.getenv("APPDATA"), r"3Di/QGIS3/profiles/default/QGIS/QGIS3.ini"))

@@ -1,12 +1,10 @@
-from PyQt5.QtWidgets import QTabWidget
-from PyQt5.QtCore import pyqtSignal
-
-
-from hhnk_threedi_tools.core.checks.model_state import get_all_update_queries
 from hhnk_threedi_tools.core.checks.model_state import (
     collect_excluded,
     collect_manual_adjustments,
+    get_all_update_queries,
 )
+from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtWidgets import QTabWidget
 
 
 class modelChangesTabs(QTabWidget):
@@ -31,13 +29,9 @@ class modelChangesTabs(QTabWidget):
         arguments = {}
         if self.global_settings is not None:
             arguments["global_settings_df"] = self.global_settings.df
-            arguments[
-                "global_settings_excluded"
-            ] = self.global_settings.protected_ids_list
+            arguments["global_settings_excluded"] = self.global_settings.protected_ids_list
             arguments["global_settings_to_add"] = self.global_settings.add_rows_ids
-            arguments[
-                "global_settings_to_delete"
-            ] = self.global_settings.delete_rows_ids
+            arguments["global_settings_to_delete"] = self.global_settings.delete_rows_ids
         if self.bank_levels is not None:
             arguments["bank_levels_df"] = self.bank_levels.df
             arguments["bank_levels_excluded"] = self.bank_levels.protected_ids_list
@@ -46,9 +40,7 @@ class modelChangesTabs(QTabWidget):
             arguments["new_manholes_excluded"] = self.new_manholes.protected_ids_list
         if self.update_manholes is not None:
             arguments["update_manholes_df"] = self.update_manholes.df
-            arguments[
-                "update_manholes_excluded"
-            ] = self.update_manholes.protected_ids_list
+            arguments["update_manholes_excluded"] = self.update_manholes.protected_ids_list
         if self.weirs is not None:
             arguments["weir_width_df"] = self.weirs.df
             arguments["weir_width_excluded"] = self.weirs.protected_ids_list
@@ -66,37 +58,21 @@ class modelChangesTabs(QTabWidget):
         skipped_arguments = {}
         manual_arguments = {}
         if self.global_settings is not None:
-            skipped_arguments[
-                "global_settings_excluded"
-            ] = self.global_settings.protected_ids_list
-            manual_arguments[
-                "global_settings_manual_df"
-            ] = self.global_settings.manual_changes_df
+            skipped_arguments["global_settings_excluded"] = self.global_settings.protected_ids_list
+            manual_arguments["global_settings_manual_df"] = self.global_settings.manual_changes_df
         if self.bank_levels is not None:
-            skipped_arguments[
-                "bank_levels_excluded"
-            ] = self.bank_levels.protected_ids_list
-            manual_arguments[
-                "bank_levels_manual_df"
-            ] = self.bank_levels.manual_changes_df
+            skipped_arguments["bank_levels_excluded"] = self.bank_levels.protected_ids_list
+            manual_arguments["bank_levels_manual_df"] = self.bank_levels.manual_changes_df
         if self.new_manholes is not None:
-            skipped_arguments[
-                "new_manholes_excluded"
-            ] = self.new_manholes.protected_ids_list
+            skipped_arguments["new_manholes_excluded"] = self.new_manholes.protected_ids_list
         if self.update_manholes is not None:
-            skipped_arguments[
-                "manhole_updates_excluded"
-            ] = self.update_manholes.protected_ids_list
-            manual_arguments[
-                "manhole_update_manual_df"
-            ] = self.update_manholes.manual_changes_df
+            skipped_arguments["manhole_updates_excluded"] = self.update_manholes.protected_ids_list
+            manual_arguments["manhole_update_manual_df"] = self.update_manholes.manual_changes_df
         if self.weirs is not None:
             skipped_arguments["weirs_heights_excluded"] = self.weirs.protected_ids_list
             manual_arguments["weir_widths_manual_df"] = self.weirs.manual_changes_df
         if self.channels is not None:
-            skipped_arguments[
-                "weirs_heights_excluded"
-            ] = self.channels.protected_ids_list
+            skipped_arguments["weirs_heights_excluded"] = self.channels.protected_ids_list
             manual_arguments["channels_manual_df"] = self.channels.manual_changes_df
         skipped_rows = collect_excluded(**skipped_arguments)
         manual_changes = collect_manual_adjustments(**manual_arguments)

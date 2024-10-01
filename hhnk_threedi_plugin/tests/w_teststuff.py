@@ -3,11 +3,12 @@
 import hhnk_threedi_plugin.qgis_interaction.load_layers_interaction as lli
 import qgis
 self = qgis.utils.plugins['hhnk_threedi_plugin']
-
+import hhnk_threedi_tools as htt
+import hhnk_research_tools as hrt
 
 folder = self.fenv
-df_path=r"E:\github\wvangerwen\hhnk-threedi-plugin\hhnk_threedi_plugin\qgis_interaction\layer_structure\testprotocol.csv"
-
+df_path = hrt.get_pkg_resource_path(package_resource=htt.resources,
+                                                    name="qgis_layer_structure.csv")
 #lli.load_layers(folder=folder, df_path=df_path, revisions={'0d1d_test':'','1d2d_test':'',"klimaatsommen":"batch_test"})
 
 
@@ -66,7 +67,6 @@ import pandas as pd
 from shapely import wkb
 import geopandas as gpd
 
-import hhnk_research_tools as hrt
 
 sqlite_path = folder.model.sqlite_paths[0]
 dem_path = folder.model.rasters.dem.path
@@ -217,34 +217,6 @@ settings.setValue("last_used_spatialite_path", os.path.dirname(filepath))
 
 #threeditoolbox.result_selection_tool.dialog.close()
 
-# %%
-
-import sys
-from pathlib import Path
-import os
-sys.path.append(str(Path(os.getcwd()).parent.parent))
-try: 
-    import hhnk_threedi_plugin.local_settings as local_settings
-except ModuleNotFoundError:
-    import hhnk_threedi_plugin.local_settings_default as local_settings
-if local_settings.DEBUG:
-    sys.path.insert(0, local_settings.hhnk_threedi_tools_path)
-    import importlib, hhnk_threedi_tools
-    hhnk_threedi_tools=importlib.reload(hhnk_threedi_tools)
-    importlib.reload(hhnk_threedi_tools.core.folders)
-
-from hhnk_threedi_tools.core.folders import Folders
-
-from hhnk_threedi_tools.core.checks.bank_levels import BankLevelTest
-import hhnk_threedi_tools.core.checks.bank_levels as bank_levels
-
-
-path = r'E:\02.modellen\model_test_v3'
-folder = Folders(path)
-
-self = BankLevelTest(folder)
-
-# self.import_data()
 
 # %%
 import hhnk_research_tools as hrt
@@ -265,7 +237,7 @@ self.grid = hrt.threedi.grid.Grid(sqlite_path=self.fenv.model.schema_base.sqlite
                 )
 
 
-self.fixeddrainage_layer = self.fenv.source_data.datachecker_fixed_drainage
+self.fixeddrainage_layer = self.fenv.source_data.datachecker.layers.fixeddrainagelevelarea
 
 self.imports = bank_levels.import_information(
     model_path=self.model_path,

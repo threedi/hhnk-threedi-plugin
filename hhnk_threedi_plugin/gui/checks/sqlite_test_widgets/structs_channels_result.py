@@ -1,7 +1,8 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel
+from PyQt5.QtWidgets import QLabel, QVBoxLayout, QWidget
+
 from hhnk_threedi_plugin.gui.general_objects import (
-    create_view_layer_attributes_button,
     create_layer_added_label,
+    create_view_layer_attributes_button,
 )
 
 structs_channels_titel = "Bodemhoogte kunstwerken"
