@@ -66,22 +66,33 @@ class SchematisationBuilder:
         else:
             QMessageBox.warning(None, "Error", f"Base folder not found: {BASE_FOLDER}")
 
+    def update_tab_based_on_status(self):
+        """Switch to the correct tab based on the project status."""
+        if self.project_status in range(self.dockwidget.ProjectTabWidget.count()):
+            self.dockwidget.ProjectTabWidget.setCurrentIndex(self.project_status)
+        else:
+            QMessageBox.warning(None, "Error", f"Invalid project status: {self.project_status}")
+
     def on_project_selected(self):
         """Handle project selection from the combo box."""
         selected_folder = self.dockwidget.SelectProjectComboBox.currentText()
         full_path = os.path.join(BASE_FOLDER, selected_folder)
         self.project = Project(full_path)
+        self.project_status = self.project.retrieve_project_status()
+        self.update_tab_based_on_status()
 
     def create_project(self):
         """Handle creation of a new project."""
         project_name = self.dockwidget.CreateProjectPlainTextEdit.toPlainText()
         if project_name.strip() and project_name != self.prewritten_text:
-            # Also check if project name is unique
-            if project_name not in self.dockwidget.SelectProjectComboBox:
+            if project_name not in os.listdir(BASE_FOLDER):
                 full_path = os.path.join(BASE_FOLDER, project_name)
                 self.project = Project(full_path)
                 self.dockwidget.SelectProjectComboBox.addItem(project_name)
+                QMessageBox.information(None, "Project", f"Project created: {project_name}")
                 self.dockwidget.SelectProjectComboBox.setCurrentText(project_name)
+                self.project_status = self.project.retrieve_project_status()
+                self.update_tab_based_on_status()
             else:
                 QMessageBox.warning(None, "Error", "Project name already exists.")
         else:
@@ -97,7 +108,10 @@ class SchematisationBuilder:
         """Handle export of DAMO and HyDAMO."""
         file_path = self.dockwidget.SelectPolderFileWidget.filePath()
         if file_path:
-            QMessageBox.information(None, "Export", f"DAMO and HyDAMO exported for file: {file_path}")
+            QMessageBox.information(None, "Export", f"FAKE - not implemented yet, DAMO and HyDAMO exported for file: {file_path}")
+            self.project_status += 1
+            self.project.update_project_status(self.project_status)
+            self.update_tab_based_on_status()
         else:
             QMessageBox.warning(None, "Error", "No file selected for export.")
 
