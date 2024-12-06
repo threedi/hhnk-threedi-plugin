@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from hhnk_threedi_plugin.hhnk_toolbox_dockwidget import HHNK_toolboxDockWidget
-from hhnk_threedi_tools.core import Project
+from hhnk_threedi_tools.core.project import Project
 
 import os
 from PyQt5.QtWidgets import QMessageBox, QPlainTextEdit
@@ -56,7 +56,9 @@ class SchematisationBuilder:
 
     def _initialize_ui(self):
         """Initialize UI elements with default states."""
-        self.dockwidget.CreateProjectPlainTextEdit.setPlainText(self.prewritten_text)
+        self.dockwidget.CreateProjectPlainTextEdit.setPlainText(self.prewritten_text_CreateProjectPlainTextEdit)
+        self.dockwidget.ProjectTabWidget.setCurrentIndex(0)
+        self.dockwidget.ExportDAMOandHyDAMOPushButton.setEnabled(True)
 
     def populate_combobox(self):
         """Populate the combobox with folder names from the base folder."""
@@ -84,7 +86,7 @@ class SchematisationBuilder:
     def create_project(self):
         """Handle creation of a new project."""
         project_name = self.dockwidget.CreateProjectPlainTextEdit.toPlainText()
-        if project_name.strip() and project_name != self.prewritten_text:
+        if project_name.strip() and project_name != self.prewritten_text_CreateProjectPlainTextEdit:
             if project_name not in os.listdir(BASE_FOLDER):
                 full_path = os.path.join(BASE_FOLDER, project_name)
                 self.project = Project(full_path)
@@ -108,10 +110,13 @@ class SchematisationBuilder:
         """Handle export of DAMO and HyDAMO."""
         file_path = self.dockwidget.SelectPolderFileWidget.filePath()
         if file_path:
+            #
+            #
             QMessageBox.information(None, "Export", f"FAKE - not implemented yet, DAMO and HyDAMO exported for file: {file_path}")
             self.project_status += 1
             self.project.update_project_status(self.project_status)
             self.update_tab_based_on_status()
+            self.dockwidget.ValidatePushButton.setEnabled(True)
         else:
             QMessageBox.warning(None, "Error", "No file selected for export.")
 
