@@ -452,7 +452,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="SelectProjectQComboBox"/>
+         <widget class="QComboBox" name="SelectProjectComboBox"/>
         </item>
         <item>
          <widget class="QLabel" name="CreateProjectLabel">
@@ -462,7 +462,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPlainTextEdit" name="CreateProjectTextEdit">
+         <widget class="QPlainTextEdit" name="CreateProjectPlainTextEdit">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
             <horstretch>0</horstretch>
