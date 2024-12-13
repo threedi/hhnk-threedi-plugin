@@ -1,12 +1,18 @@
-from dataclasses import dataclass
-from hhnk_threedi_plugin.hhnk_toolbox_dockwidget import HHNK_toolboxDockWidget
-from hhnk_threedi_tools.core.project import Project
-
 import os
+from dataclasses import dataclass
+
+import geopandas as gpd
+import pandas as pd
+from hhnk_research_tools.core.schematisation_builder.DAMO_exporter import DAMO_exporter
+from hhnk_threedi_tools.core.project import Project
 from PyQt5.QtWidgets import QMessageBox, QPlainTextEdit
 from qgis.PyQt.QtCore import QObject
 
+from hhnk_threedi_plugin.hhnk_toolbox_dockwidget import HHNK_toolboxDockWidget
+
 BASE_FOLDER = r"\\corp.hhnk.nl\data\Hydrologen_data\Data\09.modellen_speeltuin"
+TABLE_NAMES = ["HYDROOBJECT"]
+
 
 @dataclass
 class SchematisationBuilder:
@@ -28,6 +34,7 @@ class SchematisationBuilder:
         - tab_status_1 : QWidget
             - ValidatePushButton : QPushButton
     """
+
     dockwidget: HHNK_toolboxDockWidget
     prewritten_text_CreateProjectPlainTextEdit: str = "Enter project name here"
 
@@ -110,9 +117,21 @@ class SchematisationBuilder:
         """Handle export of DAMO and HyDAMO."""
         file_path = self.dockwidget.SelectPolderFileWidget.filePath()
         if file_path:
+            # DAMO export
+            gdf_polder = gpd.read_file(file_path)
+            dict_gdfs_damo = DAMO_exporter(gdf_polder["geometry"], TABLE_NAMES)
+            combined_gdf_damo = gpd.GeoDataFrame(pd.concat(dict_gdfs_damo.values(), ignore_index=True))
+            combined_gdf_damo.to_file(
+                self.project.project_folder + "/01_source_data/DAMO.gpkg"
+            )  # TODO: check of dit goeie path verwijzing is
+
+            # HyDAMO export
             #
             #
-            QMessageBox.information(None, "Export", f"FAKE - not implemented yet, DAMO and HyDAMO exported for file: {file_path}")
+
+            QMessageBox.information(
+                None, "Export", f"FAKE - not implemented yet, DAMO and HyDAMO exported for file: {file_path}"
+            )
             self.project_status += 1
             self.project.update_project_status(self.project_status)
             self.update_tab_based_on_status()
