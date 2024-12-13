@@ -1,5 +1,5 @@
 # **Schematisation builder**
-HHNK heeft de werkwijze voor het opstellen en valideren van modellen geactualiseerd. De datachecker en modelbuilder zijn vervangen door de Schematisation builder. 
+HHNK heeft de werkwijze voor het opstellen en valideren van modellen geactualiseerd. De datachecker en modelbuilder zijn vervangen door de Schematisation builder. De functionaliteiten zijn geimplementeerd in de HHNK threedi QGIS plugin onder het tabblad 'Schematisation Builder'.
 
 ... link naar andere pagina voor meer info (2_werkwijze_bwn)
 
@@ -8,7 +8,7 @@ HHNK heeft de werkwijze voor het opstellen en valideren van modellen geactualise
 * Ondersteund door stroomschema 
 
 ### Stap 0. Een project beginnen of een bestaand project verder oppakken
-
+Het gebruik van de Schematisation Builder begint met het selecteren van het project. De plug-in haalt de projectnamen op uit de modellenmap. Indien een nieuw project aangemaakt dient te worden kan een naam worden ingetypd en hiermee een project aangemaakt worden. Op de achtergrond wordt dan de standaard mappenstructuur aangemaakt.
 
 ... plaatje UI volgt later na evt wijzigingen adhv sprint review
 
