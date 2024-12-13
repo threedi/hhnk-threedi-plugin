@@ -5,7 +5,9 @@ import geopandas as gpd
 import pandas as pd
 from hhnk_threedi_tools.core.project import Project
 from hhnk_threedi_tools.core.schematisation_builder.DAMO_exporter import DAMO_exporter
+from osgeo import ogr
 from PyQt5.QtWidgets import QMessageBox, QPlainTextEdit
+from qgis.core import QgsLayerTreeGroup, QgsProject, QgsVectorLayer
 from qgis.PyQt.QtCore import QObject
 
 from hhnk_threedi_plugin.hhnk_toolbox_dockwidget import HHNK_toolboxDockWidget
@@ -113,26 +115,65 @@ class SchematisationBuilder:
             self.dockwidget.CreateProjectPlainTextEdit.clear()
         QPlainTextEdit.focusInEvent(self.dockwidget.CreateProjectPlainTextEdit, event)
 
+    def load_layers_from_geopackage(self, geopackage_path, group_name):
+        """
+        Load all layers from a GeoPackage into QGIS and group them under a specified group name.
+
+        Args:
+            geopackage_path (str): Path to the GeoPackage file.
+            group_name (str): Name of the group under which to load the layers.
+        """
+        if not os.path.exists(geopackage_path):
+            raise FileNotFoundError(f"GeoPackage not found: {geopackage_path}")
+
+        # Get the QGIS project instance and create/retrieve the specified group
+        project = QgsProject.instance()
+        root = project.layerTreeRoot()
+        group = root.findGroup(group_name) or root.addGroup(group_name)
+
+        # Use OGR to list layers in the GeoPackage
+        data_source = ogr.Open(geopackage_path)
+        if not data_source:
+            raise ValueError(f"Unable to open GeoPackage: {geopackage_path}")
+
+        for i in range(data_source.GetLayerCount()):
+            layer_name = data_source.GetLayerByIndex(i).GetName()
+            layer_path = f"{geopackage_path}|layername={layer_name}"
+            layer = QgsVectorLayer(layer_path, layer_name, "ogr")
+
+            if layer.isValid():
+                project.addMapLayer(layer, addToLegend=False)
+                group.addLayer(layer)
+            else:
+                raise ValueError(f"Failed to load layer: {layer_name}")
+
     def export_damo_and_hydamo(self):
         """Handle export of DAMO and HyDAMO."""
         file_path = self.dockwidget.SelectPolderFileWidget.filePath()
+        damo_gpkg_path = os.path.join(self.project.project_folder, "01_source_data", "DAMO.gpkg")
+
         if file_path:
             # DAMO export
             gdf_polder = gpd.read_file(file_path)
             dict_gdfs_damo = DAMO_exporter(gdf_polder, TABLE_NAMES)
 
             for table_name, damo_gdf in dict_gdfs_damo.items():
-                damo_gdf.to_file(
-                    self.project.project_folder + "/01_source_data/DAMO.gpkg", layer=table_name, driver="GPKG"
-                )
+                damo_gdf.to_file(damo_gpkg_path, layer=table_name, driver="GPKG")
+
+            # Load GeoPackage layers into QGIS
+            try:
+                damo_gpkg_path = os.path.join(self.project.project_folder, "01_source_data", "DAMO.gpkg")
+                self.load_layers_from_geopackage(geopackage_path=damo_gpkg_path, group_name="DAMO")
+            except Exception as e:
+                QMessageBox.warning(None, "Error", f"Failed to load DAMO layers: {e}")
 
             # Conversion to HyDAMO
             #
             #
 
             QMessageBox.information(
-                None, "Export", f"FAKE - not implemented yet, DAMO and HyDAMO exported for file: {file_path}"
-            )
+                None, "Export", f"DAMO exported for file: {file_path}"
+            )  # TODO later rename to HyDAMO
             self.project_status = 1
             self.project.update_project_status(self.project_status)
             self.update_tab_based_on_status()
