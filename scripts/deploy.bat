@@ -6,6 +6,8 @@ SET PLUGIN_PATH=%appdata%\3Di\QGIS3\profiles\default\python\plugins
 
 xcopy ..\hhnk_threedi_plugin %PLUGIN_PATH%\hhnk_threedi_plugin\ /EXCLUDE:exclude_copy.txt/E/q
 
+copy %PLUGIN_PATH%\hrt_databases\local_settings.py %PLUGIN_PATH%\hhnk_threedi_plugin\local_settings.py
+
 copy %PLUGIN_PATH%\api_key\api_key.txt %PLUGIN_PATH%\hhnk_threedi_plugin\api_key.txt
 
 @REM https://stackoverflow.com/questions/35988863/using-command-line-batch-to-switch-to-focus-on-app

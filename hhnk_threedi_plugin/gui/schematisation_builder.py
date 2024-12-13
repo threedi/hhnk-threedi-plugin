@@ -3,8 +3,8 @@ from dataclasses import dataclass
 
 import geopandas as gpd
 import pandas as pd
-from hhnk_research_tools.core.schematisation_builder.DAMO_exporter import DAMO_exporter
 from hhnk_threedi_tools.core.project import Project
+from hhnk_threedi_tools.core.schematisation_builder.DAMO_exporter import DAMO_exporter
 from PyQt5.QtWidgets import QMessageBox, QPlainTextEdit
 from qgis.PyQt.QtCore import QObject
 
@@ -119,21 +119,21 @@ class SchematisationBuilder:
         if file_path:
             # DAMO export
             gdf_polder = gpd.read_file(file_path)
-            dict_gdfs_damo = DAMO_exporter(gdf_polder["geometry"], TABLE_NAMES)
+            dict_gdfs_damo = DAMO_exporter(gdf_polder, TABLE_NAMES)
 
             for table_name, damo_gdf in dict_gdfs_damo.items():
                 damo_gdf.to_file(
                     self.project.project_folder + "/01_source_data/DAMO.gpkg", layer=table_name, driver="GPKG"
-                )  # TODO: check of dit goeie path verwijzing is
+                )
 
-            # HyDAMO export
+            # Conversion to HyDAMO
             #
             #
 
             QMessageBox.information(
                 None, "Export", f"FAKE - not implemented yet, DAMO and HyDAMO exported for file: {file_path}"
             )
-            self.project_status += 1
+            self.project_status = 1
             self.project.update_project_status(self.project_status)
             self.update_tab_based_on_status()
             self.dockwidget.ValidatePushButton.setEnabled(True)
