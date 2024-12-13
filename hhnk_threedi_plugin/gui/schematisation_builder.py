@@ -120,10 +120,11 @@ class SchematisationBuilder:
             # DAMO export
             gdf_polder = gpd.read_file(file_path)
             dict_gdfs_damo = DAMO_exporter(gdf_polder["geometry"], TABLE_NAMES)
-            combined_gdf_damo = gpd.GeoDataFrame(pd.concat(dict_gdfs_damo.values(), ignore_index=True))
-            combined_gdf_damo.to_file(
-                self.project.project_folder + "/01_source_data/DAMO.gpkg"
-            )  # TODO: check of dit goeie path verwijzing is
+
+            for table_name, damo_gdf in dict_gdfs_damo.items():
+                damo_gdf.to_file(
+                    self.project.project_folder + "/01_source_data/DAMO.gpkg", layer=table_name, driver="GPKG"
+                )  # TODO: check of dit goeie path verwijzing is
 
             # HyDAMO export
             #
