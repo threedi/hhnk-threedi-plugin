@@ -5,6 +5,7 @@ import geopandas as gpd
 import pandas as pd
 from hhnk_threedi_tools.core.project import Project
 from hhnk_threedi_tools.core.schematisation_builder.DAMO_exporter import DAMO_exporter
+from hhnk_threedi_tools.core.schematisation_builder.DAMO_HyDAMO_converter import Converter
 from osgeo import ogr
 from PyQt5.QtWidgets import QMessageBox, QPlainTextEdit
 from qgis.core import QgsLayerTreeGroup, QgsProject, QgsVectorLayer
@@ -160,20 +161,19 @@ class SchematisationBuilder:
             for table_name, damo_gdf in dict_gdfs_damo.items():
                 damo_gdf.to_file(damo_gpkg_path, layer=table_name, driver="GPKG")
 
+            # Conversion to HyDAMO
+            hydamo_gpkg_path = os.path.join(self.project.project_folder, "01_source_data", "HyDAMO.gpkg")
+            converter = Converter(DAMO_path=damo_gpkg_path, HyDAMO_path=hydamo_gpkg_path, layers=TABLE_NAMES)
+            converter.run()
+
             # Load GeoPackage layers into QGIS
             try:
-                damo_gpkg_path = os.path.join(self.project.project_folder, "01_source_data", "DAMO.gpkg")
-                self.load_layers_from_geopackage(geopackage_path=damo_gpkg_path, group_name="DAMO")
+                damo_gpkg_path = os.path.join(self.project.project_folder, "01_source_data", "HyDAMO.gpkg")
+                self.load_layers_from_geopackage(geopackage_path=damo_gpkg_path, group_name="HyDAMO")
             except Exception as e:
-                QMessageBox.warning(None, "Error", f"Failed to load DAMO layers: {e}")
+                QMessageBox.warning(None, "Error", f"Failed to load HyDAMO layers: {e}")
 
-            # Conversion to HyDAMO
-            #
-            #
-
-            QMessageBox.information(
-                None, "Export", f"DAMO exported for file: {file_path}"
-            )  # TODO later rename to HyDAMO
+            QMessageBox.information(None, "Export", f"HyDAMO exported for file: {file_path}")
             self.project_status = 1
             self.project.update_project_status(self.project_status)
             self.update_tab_based_on_status()
