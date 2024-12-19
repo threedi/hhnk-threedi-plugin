@@ -156,10 +156,10 @@ class SchematisationBuilder:
         if file_path:
             # DAMO export
             gdf_polder = gpd.read_file(file_path)
-            dict_gdfs_damo = DAMO_exporter(gdf_polder, TABLE_NAMES)
+            logging_DAMO = DAMO_exporter(gdf_polder, TABLE_NAMES, damo_gpkg_path)
 
-            for table_name, damo_gdf in dict_gdfs_damo.items():
-                damo_gdf.to_file(damo_gpkg_path, layer=table_name, driver="GPKG")
+            if logging_DAMO:
+                QMessageBox.warning(None, "Error", "Not all tables have been exported from the DAMO database.")
 
             # Conversion to HyDAMO
             hydamo_gpkg_path = os.path.join(self.project.project_folder, "01_source_data", "HyDAMO.gpkg")
