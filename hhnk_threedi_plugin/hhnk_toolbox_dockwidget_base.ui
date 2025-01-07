@@ -376,8 +376,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>423</width>
-             <height>457</height>
+             <width>424</width>
+             <height>388</height>
             </rect>
            </property>
            <attribute name="label">
@@ -506,7 +506,7 @@
            <enum>QTabWidget::East</enum>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>2</number>
           </property>
           <widget class="QWidget" name="tab_status_0">
            <attribute name="title">
@@ -594,6 +594,24 @@
             </property>
             <property name="text">
              <string>Validate</string>
+            </property>
+           </widget>
+          </widget>
+          <widget class="QWidget" name="tab_status_2">
+           <attribute name="title">
+            <string>CONVERT</string>
+           </attribute>
+           <widget class="QPushButton" name="ConvertPushButton">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>50</y>
+              <width>361</width>
+              <height>23</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Convert</string>
             </property>
            </widget>
           </widget>
