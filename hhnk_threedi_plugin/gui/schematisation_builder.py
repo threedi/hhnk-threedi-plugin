@@ -6,6 +6,7 @@ import pandas as pd
 from hhnk_threedi_tools.core.project import Project
 from hhnk_threedi_tools.core.schematisation_builder.DAMO_exporter import DAMO_exporter
 from hhnk_threedi_tools.core.schematisation_builder.DAMO_HyDAMO_converter import Converter
+from hhnk_threedi_tools.core.schematisation_builder.HyDAMO_conversion_to_3Di import convert_to_3Di
 from osgeo import ogr
 from PyQt5.QtWidgets import QMessageBox, QPlainTextEdit
 from qgis.core import QgsLayerTreeGroup, QgsProject, QgsVectorLayer
@@ -13,8 +14,11 @@ from qgis.PyQt.QtCore import QObject
 
 from hhnk_threedi_plugin.hhnk_toolbox_dockwidget import HHNK_toolboxDockWidget
 
-BASE_FOLDER = r"\\corp.hhnk.nl\data\Hydrologen_data\Data\09.modellen_speeltuin"
-TABLE_NAMES = ["HYDROOBJECT"]
+BASE_FOLDER = r"\\corp.hhnk.nl\data\Hydrologen_data\Data\09.modellen_speeltuin"  # TODO TEMP
+TABLE_NAMES = ["HYDROOBJECT"]  # TODO TEMP
+EMPTY_SCHEMATISATION_FILE = (
+    r"D:\github\overmeen\hhnk-threedi-tools\hhnk_threedi_tools\resources\schematisation\empty.gpkg"  # TODO TEMP
+)
 
 
 @dataclass
@@ -36,6 +40,8 @@ class SchematisationBuilder:
             - ExportDAMOandHyDAMOPushButton : QPushButton
         - tab_status_1 : QWidget
             - ValidatePushButton : QPushButton
+        - tab_status_2 : QWidget
+            - ConvertPushButton : QPushButton
     """
 
     dockwidget: HHNK_toolboxDockWidget
@@ -63,6 +69,9 @@ class SchematisationBuilder:
 
         # Tab 1 actions
         dock.ValidatePushButton.clicked.connect(self.validate_project)
+
+        # Tab 2 actions
+        dock.ConvertPushButton.clicked.connect(self.convert_project)
 
     def _initialize_ui(self):
         """Initialize UI elements with default states."""
@@ -184,3 +193,26 @@ class SchematisationBuilder:
     def validate_project(self):
         """Handle validation of the project."""
         QMessageBox.information(None, "Validation", "Validation not implemented yet.")
+        self.project_status = 2
+        self.project.update_project_status(self.project_status)
+        self.update_tab_based_on_status()
+        self.dockwidget.ConvertPushButton.setEnabled(True)
+
+    def convert_project(self):
+        """Handle conversion of the project to 3Di."""
+        # CONVERSIONS WITHOUT VECTOR DATA IMPORTER
+        convert_to_3Di(
+            hydamo_file_path=os.path.join(
+                self.project.project_folder, "01_source_data", "HyDAMO.gpkg"
+            ),  # TODO should be improved HyDAMO filepath
+            empty_schematisation_file_path=EMPTY_SCHEMATISATION_FILE,  # TODO TEMP
+            output_schematisation_directory=os.path.join(
+                self.project.project_folder, "02_schematisation", "00_basis"
+            ),  # TODO TEMP WAY OF REFERENCING
+        )
+
+        # TODO CONVERSIONS WITH VECTOR DATA IMPORTER (culverts, orifices, weirs, pipes, manholes)
+
+        QMessageBox.information(None, "Conversion", "Conversion done.")
+
+        # TODO LOAD BY USING THE SCHEMATISATION EDITOR
