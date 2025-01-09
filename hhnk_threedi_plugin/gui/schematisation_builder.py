@@ -1,4 +1,5 @@
 import os
+import sys
 from dataclasses import dataclass
 
 import geopandas as gpd
@@ -9,10 +10,21 @@ from hhnk_threedi_tools.core.schematisation_builder.DAMO_HyDAMO_converter import
 from hhnk_threedi_tools.core.schematisation_builder.HyDAMO_conversion_to_3Di import convert_to_3Di
 from osgeo import ogr
 from PyQt5.QtWidgets import QMessageBox, QPlainTextEdit
-from qgis.core import QgsLayerTreeGroup, QgsProject, QgsVectorLayer
+from qgis.core import QgsApplication, QgsLayerTreeGroup, QgsProject, QgsVectorLayer
 from qgis.PyQt.QtCore import QObject
+from qgis.utils import iface
 
 from hhnk_threedi_plugin.hhnk_toolbox_dockwidget import HHNK_toolboxDockWidget
+
+# Add the plugins directory to sys.path if needed
+plugins_path = os.path.join(os.getenv("APPDATA"), "3Di", "QGIS3", "profiles", "default", "python", "plugins")
+if plugins_path not in sys.path:
+    sys.path.append(plugins_path)
+
+# Import the plugin class from the package
+import threedi_schematisation_editor.data_models as dm
+from threedi_schematisation_editor import ThreediSchematisationEditorPlugin
+from threedi_schematisation_editor.custom_widgets import ImportStructuresDialog
 
 BASE_FOLDER = r"\\corp.hhnk.nl\data\Hydrologen_data\Data\09.modellen_speeltuin"  # TODO TEMP
 TABLE_NAMES = ["HYDROOBJECT"]  # TODO TEMP
@@ -192,7 +204,7 @@ class SchematisationBuilder:
 
     def validate_project(self):
         """Handle validation of the project."""
-        QMessageBox.information(None, "Validation", "Validation not implemented yet.")
+        QMessageBox.information(None, "Validation", "Validation not implemented yet.")  # TODO implement
         self.project_status = 2
         self.project.update_project_status(self.project_status)
         self.update_tab_based_on_status()
@@ -211,8 +223,66 @@ class SchematisationBuilder:
             ),  # TODO TEMP WAY OF REFERENCING
         )
 
-        # TODO CONVERSIONS WITH VECTOR DATA IMPORTER (culverts, orifices, weirs, pipes, manholes)
+        # Send message
+        QMessageBox.information(None, "Conversion", "Initial conversion done. Loading into Schematisation Editor.")
 
-        QMessageBox.information(None, "Conversion", "Conversion done.")
+        # LOAD BY USING THE SCHEMATISATION EDITOR
+        geopackage_path = os.path.join(
+            self.project.project_folder, "02_schematisation", "00_basis", "3Di_schematisation.gpkg"
+        )  # TODO filepath definition from project
 
-        # TODO LOAD BY USING THE SCHEMATISATION EDITOR
+        # Instantiate the plugin
+        plugin_instance = ThreediSchematisationEditorPlugin(iface)
+        plugin_instance.initGui()
+
+        # Call the desired method
+        plugin_instance.open_model_from_geopackage(geopackage_path)
+
+        # CONVERSIONS WITH VECTOR DATA IMPORTER (culverts, orifices, weirs, pipes, manholes)
+        # Send message
+        QMessageBox.information(
+            None,
+            "Conversion",
+            "Importing orifices through Vector Data Importer...",
+        )
+
+        # Initialize the dialog for importing orifices
+        import_orifices_dlg = ImportStructuresDialog(
+            structure_model_cls=dm.Orifice,  # Specify the structure type
+            model_gpkg=plugin_instance.model_gpkg,  # GeoPackage file loaded in the plugin
+            layer_manager=plugin_instance.layer_manager,
+            uc=plugin_instance.uc,
+        )
+
+        # Display the dialog
+        # import_orifices_dlg.exec_() # not needed
+
+        import_config_path = (
+            r"\\corp.hhnk.nl\data\Hydrologen_data\Data\09.modellen_speeltuin\orifice.json"  # Path temp TODO
+        )
+
+        # Retrieve the target layer by name
+        layer_name = (
+            "duikers"  # TODO temp, normally from HyDAMO gpkg, ensure HyDAMO is loaded in the project, else load
+        )
+        layers_found = QgsProject.instance().mapLayersByName(layer_name)
+        if len(layers_found) == 0:
+            QMessageBox.information(None, "Error", f"Layer {layer_name} not found in QGIS project.")
+            return
+        elif len(layers_found) == 1:
+            target_layer = QgsProject.instance().mapLayersByName(layer_name)[0]
+        elif len(layers_found) > 1:
+            target_layer = QgsProject.instance().mapLayersByName(layer_name)[0]
+            QMessageBox.information(None, "Warning", f"Multiple layers found win QGIS project with name {layer_name}.")
+
+        import_orifices_dlg.structure_layer_cbo.setLayer(target_layer)  # Set the layer in the combo box
+        import_orifices_dlg.on_layer_changed(target_layer)  # Ensure `on_layer_changed` gets triggered
+
+        # Load template
+        import_orifices_dlg.load_import_settings(
+            template_filepath=import_config_path
+        )  # TODO small change required in schematisation editor to make template_filepath a parameter
+        # TODO also see if display message can be hidden by setting a parameter
+
+        # Run the import
+        import_orifices_dlg.run_import_structures()  # Trigger the "Run Import" action
