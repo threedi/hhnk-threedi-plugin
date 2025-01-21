@@ -189,8 +189,8 @@ class SchematisationBuilder:
 
             # Load GeoPackage layers into QGIS
             try:
-                damo_gpkg_path = os.path.join(self.project.project_folder, "01_source_data", "HyDAMO.gpkg")
-                self.load_layers_from_geopackage(geopackage_path=damo_gpkg_path, group_name="HyDAMO")
+                hydamo_gpkg_path = os.path.join(self.project.project_folder, "01_source_data", "HyDAMO.gpkg")
+                self.load_layers_from_geopackage(geopackage_path=hydamo_gpkg_path, group_name="HyDAMO")
             except Exception as e:
                 QMessageBox.warning(None, "Error", f"Failed to load HyDAMO layers: {e}")
 
@@ -229,60 +229,74 @@ class SchematisationBuilder:
         # LOAD BY USING THE SCHEMATISATION EDITOR
         geopackage_path = os.path.join(
             self.project.project_folder, "02_schematisation", "00_basis", "3Di_schematisation.gpkg"
-        )  # TODO filepath definition from project
+        )  # TODO filepath definition from project, dit is nu toch zo?
 
-        # Instantiate the plugin
-        plugin_instance = ThreediSchematisationEditorPlugin(iface)
-        plugin_instance.initGui()
+        if not geopackage_path:
+            QMessageBox.warning(
+                None,
+                "Error",
+                f"Missing 3Di_schematisation.gpkg in {self.project.project_folder}/02_schematisation/00_basis",
+            )
+        else:
+            # Instantiate the plugin
+            plugin_instance = ThreediSchematisationEditorPlugin(iface)
+            plugin_instance.initGui()
 
-        # Call the desired method
-        plugin_instance.open_model_from_geopackage(geopackage_path)
+            # Call the desired method
+            plugin_instance.open_model_from_geopackage(geopackage_path)
 
-        # CONVERSIONS WITH VECTOR DATA IMPORTER (culverts, orifices, weirs, pipes, manholes)
-        # Send message
-        QMessageBox.information(
-            None,
-            "Conversion",
-            "Importing orifices through Vector Data Importer...",
-        )
+            # CONVERSIONS WITH VECTOR DATA IMPORTER (culverts, orifices, weirs, pipes, manholes)
+            # Send message
+            QMessageBox.information(
+                None,
+                "Conversion",
+                "Importing orifices through Vector Data Importer...",
+            )
 
-        # Initialize the dialog for importing orifices
-        import_orifices_dlg = ImportStructuresDialog(
-            structure_model_cls=dm.Orifice,  # Specify the structure type
-            model_gpkg=plugin_instance.model_gpkg,  # GeoPackage file loaded in the plugin
-            layer_manager=plugin_instance.layer_manager,
-            uc=plugin_instance.uc,
-        )
+            # Initialize the dialog for importing orifices
+            import_orifices_dlg = ImportStructuresDialog(
+                structure_model_cls=dm.Orifice,  # Specify the structure type
+                model_gpkg=plugin_instance.model_gpkg,  # GeoPackage file loaded in the plugin
+                layer_manager=plugin_instance.layer_manager,
+                uc=plugin_instance.uc,
+            )
 
-        # Display the dialog
-        # import_orifices_dlg.exec_() # not needed
+            # Display the dialog
+            # import_orifices_dlg.exec_() # not needed
 
-        import_config_path = (
-            r"\\corp.hhnk.nl\data\Hydrologen_data\Data\09.modellen_speeltuin\orifice.json"  # Path temp TODO
-        )
+            # TODO: check of dit het ook echt doet??
+            hydamo_gpkg_path = os.path.join(self.project.project_folder, "01_source_data", "HyDAMO.gpkg")
+            layer_name = self.load_layers_from_geopackage(geopackage_path=hydamo_gpkg_path, group_name="HyDAMO")
 
-        # Retrieve the target layer by name
-        layer_name = (
-            "duikers"  # TODO temp, normally from HyDAMO gpkg, ensure HyDAMO is loaded in the project, else load
-        )
-        layers_found = QgsProject.instance().mapLayersByName(layer_name)
-        if len(layers_found) == 0:
-            QMessageBox.information(None, "Error", f"Layer {layer_name} not found in QGIS project.")
-            return
-        elif len(layers_found) == 1:
-            target_layer = QgsProject.instance().mapLayersByName(layer_name)[0]
-        elif len(layers_found) > 1:
-            target_layer = QgsProject.instance().mapLayersByName(layer_name)[0]
-            QMessageBox.information(None, "Warning", f"Multiple layers found win QGIS project with name {layer_name}.")
+            # Retrieve the target layer by name
+            # layer_name = (
+            #     "duikers"  # TODO temp, normally from HyDAMO gpkg, ensure HyDAMO is loaded in the project, else load
+            # )
+            layers_found = QgsProject.instance().mapLayersByName(layer_name)
+            if len(layers_found) == 0:
+                QMessageBox.information(None, "Error", f"Layer {layer_name} not found in QGIS project.")
+                return
+            elif len(layers_found) == 1:
+                target_layer = QgsProject.instance().mapLayersByName(layer_name)[0]
+            elif len(layers_found) > 1:
+                target_layer = QgsProject.instance().mapLayersByName(layer_name)[0]
+                QMessageBox.information(
+                    None, "Warning", f"Multiple layers found win QGIS project with name {layer_name}."
+                )
 
-        import_orifices_dlg.structure_layer_cbo.setLayer(target_layer)  # Set the layer in the combo box
-        import_orifices_dlg.on_layer_changed(target_layer)  # Ensure `on_layer_changed` gets triggered
+            import_orifices_dlg.structure_layer_cbo.setLayer(target_layer)  # Set the layer in the combo box
+            import_orifices_dlg.on_layer_changed(target_layer)  # Ensure `on_layer_changed` gets triggered
 
-        # Load template
-        import_orifices_dlg.load_import_settings(
-            template_filepath=import_config_path
-        )  # TODO small change required in schematisation editor to make template_filepath a parameter
-        # TODO also see if display message can be hidden by setting a parameter
+            # Load template
+            import_config_path = os.path.join(self.project.project_folder, "00_config", "orifice.json")
 
-        # Run the import
-        import_orifices_dlg.run_import_structures()  # Trigger the "Run Import" action
+            if not import_config_path:
+                QMessageBox.warning(None, "Error", f"Missing orifice.json in {self.project.project_folder}/00_config")
+            else:
+                import_orifices_dlg.load_import_settings(
+                    template_filepath=import_config_path
+                )  # TODO small change required in schematisation editor to make template_filepath a parameter
+                # TODO also see if display message can be hidden by setting a parameter
+
+                # Run the import
+                import_orifices_dlg.run_import_structures()  # Trigger the "Run Import" action
