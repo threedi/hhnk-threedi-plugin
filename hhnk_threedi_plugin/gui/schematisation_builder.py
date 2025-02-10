@@ -4,6 +4,7 @@ from dataclasses import dataclass
 
 import geopandas as gpd
 import pandas as pd
+import pkg_resources
 from hhnk_threedi_tools.core.project import Project
 from hhnk_threedi_tools.core.schematisation_builder.DAMO_exporter import DAMO_exporter
 from hhnk_threedi_tools.core.schematisation_builder.DAMO_HyDAMO_converter import Converter
@@ -28,9 +29,9 @@ from threedi_schematisation_editor.custom_widgets import ImportStructuresDialog
 
 BASE_FOLDER = r"\\corp.hhnk.nl\data\Hydrologen_data\Data\09.modellen_speeltuin"  # TODO TEMP
 TABLE_NAMES = ["HYDROOBJECT"]  # TODO TEMP
-EMPTY_SCHEMATISATION_FILE = (
-    r"D:\github\overmeen\hhnk-threedi-tools\hhnk_threedi_tools\resources\schematisation\empty.gpkg"  # TODO TEMP
-)
+# EMPTY_SCHEMATISATION_FILE = (
+#     r"D:\github\evanderlaan\hhnk-threedi-tools\hhnk_threedi_tools\resources\schematisation\empty.gpkg"  # TODO TEMP
+# )
 
 
 @dataclass
@@ -158,6 +159,7 @@ class SchematisationBuilder:
         if not data_source:
             raise ValueError(f"Unable to open GeoPackage: {geopackage_path}")
 
+        layer_name_list = []
         for i in range(data_source.GetLayerCount()):
             layer_name = data_source.GetLayerByIndex(i).GetName()
             layer_path = f"{geopackage_path}|layername={layer_name}"
@@ -166,8 +168,10 @@ class SchematisationBuilder:
             if layer.isValid():
                 project.addMapLayer(layer, addToLegend=False)
                 group.addLayer(layer)
+                layer_name_list.append(layer_name)
             else:
                 raise ValueError(f"Failed to load layer: {layer_name}")
+        return layer_name_list
 
     def export_damo_and_hydamo(self):
         """Handle export of DAMO and HyDAMO."""
@@ -210,14 +214,50 @@ class SchematisationBuilder:
         self.update_tab_based_on_status()
         self.dockwidget.ConvertPushButton.setEnabled(True)
 
+    def is_layer_in_list(self, layer_name, layer_list):
+        """Check if a specific layer is within a given group."""
+        # if not group:
+        #     QMessageBox.information(None, "Warning", f"Group not found.")
+
+        for layer in layer_list:
+            if layer == layer_name:
+                return True
+        return False
+
     def convert_project(self):
-        """Handle conversion of the project to 3Di."""
+        """Handle conversion of the project to 3Di schematisation."""
+        # Load the HyDAMO layers into QGIS
+        hydamo_gpkg_path = os.path.join(self.project.project_folder, "01_source_data", "HyDAMO.gpkg")
+        group_name = "HyDAMO"
+
+        project = QgsProject.instance()
+        root = project.layerTreeRoot()
+        group = root.findGroup(group_name)
+        if not group:
+            QMessageBox.information(None, "Warning", f"Group {group_name} will be loaded in project.")
+            # Load layers from the GeoPackage into the group if the group does not exist
+            layer_name_list = self.load_layers_from_geopackage(geopackage_path=hydamo_gpkg_path, group_name=group_name)
+        else:
+            data_source = ogr.Open(hydamo_gpkg_path)
+            if not data_source:
+                raise ValueError(f"Unable to open GeoPackage: {hydamo_gpkg_path}")
+
+            # Get the layer names from the GeoPackage
+            layer_name_list = []
+            for i in range(data_source.GetLayerCount()):
+                layer_name = data_source.GetLayerByIndex(i).GetName()
+                layer_name_list.append(layer_name)
+
+        # Load empty schematisation file from hhnk_threedi_tools.resources
+        empty_schematisation_file_path = pkg_resources.resource_filename(
+            "hhnk_threedi_tools", "resources/schematisation/empty.gpkg"
+        )
+
         # CONVERSIONS WITHOUT VECTOR DATA IMPORTER
         convert_to_3Di(
-            hydamo_file_path=os.path.join(
-                self.project.project_folder, "01_source_data", "HyDAMO.gpkg"
-            ),  # TODO should be improved HyDAMO filepath
-            empty_schematisation_file_path=EMPTY_SCHEMATISATION_FILE,  # TODO TEMP
+            hydamo_file_path=hydamo_gpkg_path,
+            hydamo_layers=layer_name_list,
+            empty_schematisation_file_path=empty_schematisation_file_path,
             output_schematisation_directory=os.path.join(
                 self.project.project_folder, "02_schematisation", "00_basis"
             ),  # TODO TEMP WAY OF REFERENCING
@@ -229,7 +269,7 @@ class SchematisationBuilder:
         # LOAD BY USING THE SCHEMATISATION EDITOR
         geopackage_path = os.path.join(
             self.project.project_folder, "02_schematisation", "00_basis", "3Di_schematisation.gpkg"
-        )  # TODO filepath definition from project, dit is nu toch zo?
+        )  # TODO TEMP WAY OF REFERENCING
 
         if not geopackage_path:
             QMessageBox.warning(
@@ -261,31 +301,20 @@ class SchematisationBuilder:
                 uc=plugin_instance.uc,
             )
 
-            # Display the dialog
-            # import_orifices_dlg.exec_() # not needed
-
-            # TODO: check of dit het ook echt doet??
-            hydamo_gpkg_path = os.path.join(self.project.project_folder, "01_source_data", "HyDAMO.gpkg")
-            layer_name = self.load_layers_from_geopackage(geopackage_path=hydamo_gpkg_path, group_name="HyDAMO")
-
-            # Retrieve the target layer by name
-            # layer_name = (
-            #     "duikers"  # TODO temp, normally from HyDAMO gpkg, ensure HyDAMO is loaded in the project, else load
-            # )
-            layers_found = QgsProject.instance().mapLayersByName(layer_name)
-            if len(layers_found) == 0:
-                QMessageBox.information(None, "Error", f"Layer {layer_name} not found in QGIS project.")
-                return
-            elif len(layers_found) == 1:
-                target_layer = QgsProject.instance().mapLayersByName(layer_name)[0]
-            elif len(layers_found) > 1:
-                target_layer = QgsProject.instance().mapLayersByName(layer_name)[0]
+            # Check if the specific duikers layer is in the group
+            layer_name = "DUIKERSIFONHEVEL"
+            if self.is_layer_in_list(layer_name=layer_name, layer_list=layer_name_list):
                 QMessageBox.information(
-                    None, "Warning", f"Multiple layers found win QGIS project with name {layer_name}."
+                    None,
+                    "Information",
+                    f"Layer {layer_name} is in group {group_name} and will be converted to orfices'.",
                 )
-
-            import_orifices_dlg.structure_layer_cbo.setLayer(target_layer)  # Set the layer in the combo box
-            import_orifices_dlg.on_layer_changed(target_layer)  # Ensure `on_layer_changed` gets triggered
+                target_layer = QgsProject.instance().mapLayersByName(layer_name)[0]
+                import_orifices_dlg.structure_layer_cbo.setLayer(target_layer)  # Set the layer in the combo box
+                import_orifices_dlg.on_layer_changed(target_layer)  # Ensure `on_layer_changed` gets triggered
+            else:
+                QMessageBox.information(None, "Warning", f"Layer '{layer_name}' is not in group '{group_name}'.")
+                return
 
             # Load template
             import_config_path = os.path.join(self.project.project_folder, "00_config", "orifice.json")
@@ -293,9 +322,7 @@ class SchematisationBuilder:
             if not import_config_path:
                 QMessageBox.warning(None, "Error", f"Missing orifice.json in {self.project.project_folder}/00_config")
             else:
-                import_orifices_dlg.load_import_settings(
-                    template_filepath=import_config_path
-                )  # TODO small change required in schematisation editor to make template_filepath a parameter
+                import_orifices_dlg.load_import_settings(template_filepath=import_config_path)
                 # TODO also see if display message can be hidden by setting a parameter
 
                 # Run the import
