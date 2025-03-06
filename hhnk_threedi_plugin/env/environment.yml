@@ -39,6 +39,7 @@ dependencies:
   - folium=0.19.2
   - branca=0.8.1 #folium dep
   - xyzservices=2024.9.0 #folium dep
+  - ruff
   - pip=24.0
 
 

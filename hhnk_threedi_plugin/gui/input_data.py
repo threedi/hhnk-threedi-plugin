@@ -76,7 +76,7 @@ def setupUi(input_data):
 
     input_data.channels_from_label = QLabel("Watergangen van profielen:")
     input_data.channel_from_profiles_selector = fileWidget(
-        file_dialog_title="Selecteer channels from profile " "shapefile (.shp)",
+        file_dialog_title="Selecteer channels from profile shapefile (.shp)",
         file_mode=QFileDialog.ExistingFile,
         name_filter="*.shp",
     )
@@ -112,7 +112,7 @@ def setupUi(input_data):
 
     input_data.results_dir_selector_label = QLabel("Selecteer 3di resultaat map:")
     input_data.results_dir_selector = fileWidget(
-        file_dialog_title="Selecteer 3di revisie map " "(bevat .nc en .h5 files)",
+        file_dialog_title="Selecteer 3di revisie map (bevat .nc en .h5 files)",
         file_mode=QFileDialog.Directory,
     )
     input_data.results_dir_selector.setEnabled(False)
