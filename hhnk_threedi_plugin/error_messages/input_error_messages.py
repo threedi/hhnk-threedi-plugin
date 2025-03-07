@@ -12,11 +12,11 @@ invalid_dem_path = "Ongeldig pad naar DEM gespecificeerd {}"
 # Sqlite tests
 # -------------------------------------------------------------------------------------------
 dem_needed = invalid_dem_path + " (nodig voor {} test)"
-datachecker_needed = "Ongeldig pad naar datachecker geodatabase gespecificeerd " "(nodig voor {} test)"
-invalid_shapefile = "Gegeven shapefile is ongeldig (pad bestaat niet of .shx, .dbf, " ".prj bestanden ontbreken)"
+datachecker_needed = "Ongeldig pad naar datachecker geodatabase gespecificeerd (nodig voor {} test)"
+invalid_shapefile = "Gegeven shapefile is ongeldig (pad bestaat niet of .shx, .dbf, .prj bestanden ontbreken)"
 channel_shape_needed_watersurface = invalid_shapefile + "\n" + "Nodig voor oppervlaktewater test"
-hdb_needed_controlled_structs = "Ongeldig pad gespecificeerd voor HDB {}, " "nodig voor gestuurde kunstwerken test"
-damo_needed = "Ongeldig pad gespecificeerd voor DAMO {}, " "nodig voor {} test"
+hdb_needed_controlled_structs = "Ongeldig pad gespecificeerd voor HDB {}, nodig voor gestuurde kunstwerken test"
+damo_needed = "Ongeldig pad gespecificeerd voor DAMO {}, nodig voor {} test"
 polder_shapefile_needed_imp_surface = invalid_shapefile + "\n" + "Nodig voor ondoorlatend oppervlak test"
 no_tests_selected = "Geen tests geselecteerd om uit te voeren"
 

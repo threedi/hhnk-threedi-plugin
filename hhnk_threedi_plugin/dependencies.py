@@ -61,7 +61,7 @@ PATCHES = {
     "downloader.py": DEPENDENCY_DIR / r"threedi_scenario_downloader/downloader.py",
 }
 
-USERDEPS = ["jupyterlab", "ipywidgets"]  # Dependencies in userfolder %appdata%/python/
+USERDEPS = ["jupyterlab", "ipywidgets", "jupytext"]  # Dependencies in userfolder %appdata%/python/
 
 Dependency = namedtuple("Dependency", ["package", "version"])
 

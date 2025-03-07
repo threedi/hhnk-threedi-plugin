@@ -25,8 +25,8 @@
 import datetime
 import os.path
 from pathlib import Path
-
 from pyexpat import model
+
 from qgis.core import Qgis, QgsApplication, QgsProject, QgsVectorLayer
 from qgis.PyQt.QtCore import QCoreApplication, QSettings, Qt, QTranslator
 from qgis.PyQt.QtGui import QIcon
