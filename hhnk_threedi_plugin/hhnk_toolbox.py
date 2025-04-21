@@ -104,12 +104,13 @@ class HHNK_toolbox:
     """QGIS Plugin Implementation."""
 
     def __init__(self, iface):
-        """Constructor.
-
-        :param iface: An interface instance that will be passed to this class
+        """
+        Parameters
+        ----------
+        iface : QgsInterface
+            An interface instance that will be passed to this class
             which provides the hook by which you can manipulate the QGIS
             application at run time.
-        :type iface: QgsInterface
         """
         # Save reference to the QGIS interface
         self.iface = iface
@@ -299,7 +300,7 @@ class HHNK_toolbox:
         self.pluginIsActive = False
 
     def unload(self):
-        """Removes the plugin menu item and icon from QGIS GUI."""
+        """Remove the plugin menu item and icon from QGIS GUI."""
         # print "** UNLOAD HHNK_toolbox"
 
         for action in self.actions:
@@ -311,9 +312,7 @@ class HHNK_toolbox:
     # --------------------------------------------------------------------------
     # Program specific functions
     def reset_ui(self, polder=None, model=None):
-        """
-        If we select a new polder folder we have to reset all result showing items
-        """
+        """If we select a new polder folder we have to reset all result showing items"""
         if polder is not None or model is not None:
             if (
                 self.model_states_results_widget is not None
@@ -326,9 +325,7 @@ class HHNK_toolbox:
 
     # Select from the dockwidget the path where the polder is located. If the path is not correct or if it is empty I will not enabled the buttons
     def polders_folder_changed(self):
-        """
-        Updates polder_selector from the contents of the path in polders_map_selector
-        """
+        """Update polder_selector from the contents of the path in polders_map_selector"""
         if self.debug:
             self.add_message("polders_folder_changed start")
         items = []
@@ -398,9 +395,7 @@ class HHNK_toolbox:
             self.add_message("polder_changed end")
 
     def initialize_current_paths(self):
-        """
-        When we create the default paths dict, set values to all widgets
-        """
+        """When we create the default paths dict, set values to all widgets"""
         self.load_layers_dialog.set_current_paths()
         # self.model_states_dialog.set_current_paths()
         # self.sqlite_tests_dialog.set_current_paths()
@@ -433,7 +428,7 @@ class HHNK_toolbox:
         one_d_output=None,
     ):
         """
-        Function is called if a path changes within a widget that is needed in other tests.
+        Function starts when a path changes within a widget that is needed in other tests.
         This way we keep track of last specified paths. We immediately update all other paths too.
         """
         if self.current_source_paths is not None:
@@ -531,7 +526,7 @@ class HHNK_toolbox:
         if self.debug:
             self.add_message("org names start")
 
-        api_key = getattr(self.dockwidget, f"threedi_api_key_textbox").text()
+        api_key = getattr(self.dockwidget, "threedi_api_key_textbox").text()
         self.dockwidget.org_name_comboBox.clear()
         try:
             organisation_names = upload.get_organisation_names(api_key)

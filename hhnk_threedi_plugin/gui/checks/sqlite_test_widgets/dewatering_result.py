@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from PyQt5.QtWidgets import QVBoxLayout, QWidget
 
 from hhnk_threedi_plugin.gui.general_objects import (
@@ -8,7 +10,7 @@ from hhnk_threedi_plugin.gui.general_objects import (
 dewatering_title = "Drooglegging"
 
 
-def create_dewatering_result_widget(layer_source):
+def create_dewatering_result_widget(layer_source: Path):
     widget = QWidget()
     layout = QVBoxLayout()
     label = create_layer_added_label()

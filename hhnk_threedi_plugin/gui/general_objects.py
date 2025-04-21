@@ -1,4 +1,5 @@
 import csv
+from pathlib import Path
 
 from PyQt5.Qt import QStandardItem, QStandardItemModel, pyqtSignal
 from PyQt5.QtCore import Qt, pyqtSignal
@@ -36,7 +37,7 @@ def find_layer(path):
     return ly
 
 
-def create_view_layer_attributes_button(path):
+def create_view_layer_attributes_button(path: Path):
     button = QPushButton()
     button.setText("Bekijk resultaat")
 
