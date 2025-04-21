@@ -23,9 +23,7 @@ class modelChangesTabs(QTabWidget):
         self.queries_list = []
 
     def collect_queries(self):
-        """
-        collects arguments to pass to collect_all_queries
-        """
+        """Collect arguments to pass to collect_all_queries"""
         arguments = {}
         if self.global_settings is not None:
             arguments["global_settings_df"] = self.global_settings.df
@@ -78,48 +76,48 @@ class modelChangesTabs(QTabWidget):
         manual_changes = collect_manual_adjustments(**manual_arguments)
         return skipped_rows, manual_changes
 
-    def add_global_settings_tab(self, new_widget, name="global settings"):
+    def add_global_settings_tab(self, new_widget, name: str = "global settings"):
         self.global_settings = new_widget
         if new_widget:
             self.collect_changes.connect(self.global_settings.return_changed_value_rows)
             self.addTab(self.global_settings, name)
 
-    def add_channels_tab(self, new_widget, name="watergangen"):
+    def add_channels_tab(self, new_widget, name: str = "watergangen"):
         self.channels = new_widget
         if new_widget:
             self.collect_changes.connect(self.channels.return_changed_value_rows)
             self.addTab(self.channels, name)
 
-    def add_bank_levels_tab(self, new_widget, name="bank levels"):
+    def add_bank_levels_tab(self, new_widget, name: str = "bank levels"):
         self.bank_levels = new_widget
         if new_widget:
             self.collect_changes.connect(self.bank_levels.return_changed_value_rows)
             self.addTab(self.bank_levels, name)
 
-    def add_new_manholes_tab(self, new_widget, name="putten toevoegen"):
+    def add_new_manholes_tab(self, new_widget, name: str = "putten toevoegen"):
         self.new_manholes = new_widget
         if new_widget:
             self.collect_changes.connect(self.new_manholes.return_changed_value_rows)
             self.addTab(self.new_manholes, name)
 
-    def add_update_manholes_tab(self, new_widget, name="putten aanpassen"):
+    def add_update_manholes_tab(self, new_widget, name: str = "putten aanpassen"):
         self.update_manholes = new_widget
         if new_widget:
             self.collect_changes.connect(self.update_manholes.return_changed_value_rows)
             self.addTab(self.update_manholes, name)
 
-    def add_weir_widths_tab(self, new_widget, name="gestuurde stuwen"):
+    def add_weir_widths_tab(self, new_widget, name: str = "gestuurde stuwen"):
         self.weirs = new_widget
         if new_widget:
             self.collect_changes.connect(self.weirs.return_changed_value_rows)
             self.addTab(self.weirs, name)
 
-    def add_manual_changes_tab(self, new_widget, name="Handmatige aanpassingen"):
+    def add_manual_changes_tab(self, new_widget, name: str = "Handmatige aanpassingen"):
         self.manual_changes = new_widget
         if new_widget:
             self.addTab(self.manual_changes, name)
 
-    def add_excluded_ids_tab(self, new_widget, name="Uitgesloten rijen"):
+    def add_excluded_ids_tab(self, new_widget, name: str = "Uitgesloten rijen"):
         self.excluded_ids = new_widget
         if new_widget:
             self.addTab(self.excluded_ids, name)

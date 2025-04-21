@@ -44,9 +44,7 @@ class modelChangesDialog(QDialog):
         self.setLayout(layout)
 
     def update_bank_levels_calculated(self):
-        """
-        Updates timestamp when bank levels were last calculated
-        """
+        """Update timestamp when bank levels were last calculated"""
         if self.to_state == one_d_two_d_state and self.one_d_two_d_source == one_d_two_d_from_calc:
             update_bank_levels_last_calc(db=self.model_path)
 

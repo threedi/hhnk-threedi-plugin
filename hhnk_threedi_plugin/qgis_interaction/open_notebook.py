@@ -1,6 +1,7 @@
 # %%
 import json
 import os
+from typing import Optional
 
 import numpy as np
 
@@ -48,8 +49,13 @@ class NotebookWidget:
         if api_keys["threedi"]:
             self.parent.threedi_api_key_textbox.setText(api_keys["threedi"])
 
-    def _check_api_key_valid(self, api_keys):
-        """Lizard API keys are 41 characters and have a dot in the name"""
+    def _check_api_key_valid(self, api_keys: dict[str, str]) -> bool:
+        """Lizard API keys are 41 characters and have a dot in the name
+
+        Returns
+        -------
+        bool, True when valid.
+        """
         return_value = []
         for key in api_keys:
             if len(api_keys[key]) == 41 and "." in api_keys[key]:
@@ -62,7 +68,20 @@ class NotebookWidget:
         else:
             return False
 
-    def generate_notebook_valid(self):
+    def generate_notebook_valid(self) -> Optional[dict]:
+        """Check if filled api keys are valid.
+
+        Writes
+        ------
+        self.api_file : Path
+            When valid, write the api keys to self.api_file.
+
+        Returns
+        -------
+        api_keys : Optional[dict]
+            When valid, return dict with api keys for Lizard and Threedi
+            Else return None
+        """
         api_keys = {}
         api_keys["lizard"] = self.parent.lizard_api_key_textbox.text()
         api_keys["threedi"] = self.parent.threedi_api_key_textbox.text()
@@ -106,8 +125,14 @@ class NotebookWidget:
                 )
                 return None
 
-    def generate_notebook_folder(self, api_key):
-        """retrieves the polder folder and loads the"""
+    def generate_notebook_folder(self):
+        """Retrieve the polder folder and loads the
+
+        Writes
+        ------
+        notebook_data.json : Path
+            Write settings for notebook server to json.
+        """
         self.polder_notebooks = os.path.join(self.caller.polder_folder, "Notebooks")
         server_bat_file = os.path.join(self.polder_notebooks, "start_server.bat")
         htt.copy_notebooks(self.polder_notebooks)
@@ -126,7 +151,7 @@ class NotebookWidget:
         if not api_key:
             return
 
-        self.generate_notebook_folder(api_key)
+        self.generate_notebook_folder()
         htt.open_server(
             directory=self.polder_notebooks, location="user", use="run", notebook_paths=self.notebook_paths
         )

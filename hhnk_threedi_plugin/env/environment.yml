@@ -41,6 +41,7 @@ dependencies:
   - xyzservices=2024.9.0 #folium dep
   - ruff
   - pip=24.0
+  - seaborn="*"
 
 
 
