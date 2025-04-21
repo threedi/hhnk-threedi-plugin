@@ -27,9 +27,49 @@ extra:
     - icon: fontawesome/brands/github-alt
       link: https://github.com/threedi/hhnk-threedi-plugin
 nav:
-    - Home: docs/index.md
-    - Installatie Instructies: docs/md_files/installation_manual.md
-    - Gebruikershandleiding: md_files/usage.md
-    - Bron data: md_files/needed_data.md
+    - Home: index.md
+    - Inleiding: md_files/1_inleiding/inleiding.md
+    - Installatie instructies: md_files/installatie/installatie_handleiding.md
+    - Werkwijze BWN:
+      - Overzicht: md_files/2_werkwijze_bwn/werkwijze_bwn.md
+      - Nieuw model: md_files/2_werkwijze_bwn/hhnk_nieuw_model.md
+    - Achtergronden en Uitgangspunten: 
+      - Overzicht: md_files/3_achtergronden_en_uitgangspunten/achtergronden_en_uitgangspunten.md
+      - Functioneren watersysteem: md_files/3_achtergronden_en_uitgangspunten/a_watersysteem/1_watersysteem.md
+      - Logisch bereik: md_files/3_achtergronden_en_uitgangspunten/b_logisch_bereik/1_logisch_bereik.md
+      - Watergangen en peilgebieden: 
+        - Initieel peil: md_files/3_achtergronden_en_uitgangspunten/c_watergangen_en_peilgebieden/1_initieel_peil.md
+        - Obstacles: md_files/3_achtergronden_en_uitgangspunten/c_watergangen_en_peilgebieden/2_levees.md
+        - Watergangen: md_files/3_achtergronden_en_uitgangspunten/c_watergangen_en_peilgebieden/3_watergangen.md
+        - Profiel: md_files/3_achtergronden_en_uitgangspunten/c_watergangen_en_peilgebieden/4_profiel.md
+        - Compensatie te weinig oppervlaktewaterberging: md_files/3_achtergronden_en_uitgangspunten/c_watergangen_en_peilgebieden/5_compensatie_te_weinig_oppervlaktewaterberging.md
+        - Bank level: md_files/3_achtergronden_en_uitgangspunten/c_watergangen_en_peilgebieden/6_bank_level.md
+      - Kunstwerken:
+        - Aquaducten: md_files/3_achtergronden_en_uitgangspunten/d_kunstwerken/1_aquaducten.md
+        - Bruggen: md_files/3_achtergronden_en_uitgangspunten/d_kunstwerken/2_bruggen.md
+        - Duikers: md_files/3_achtergronden_en_uitgangspunten/d_kunstwerken/3_duikers.md
+        - Gemalen: md_files/3_achtergronden_en_uitgangspunten/d_kunstwerken/4_gemalen.md
+        - Stuwen: md_files/3_achtergronden_en_uitgangspunten/d_kunstwerken/5_stuwen.md
+        - Sturing: md_files\3_achtergronden_en_uitgangspunten\d_kunstwerken\6_sturing.md
+      - Onderliggende rasterdata: md_files/3_achtergronden_en_uitgangspunten/e_onderliggende_rasterdata/1_onderliggende_rasterdata.md
+      - HDB: md_files\3_achtergronden_en_uitgangspunten\f_inhoud_HDB\1_inhoud_HDB.md
+      - Klimaatsommen: md_files\3_achtergronden_en_uitgangspunten\g_achtergrond_klimaatsommen\1_achtergrond_klimaatsommen.md
+
+    - Gebruik qgis plugin:
+      - Overzicht: md_files/4_gebruik_plugin/_introductie_plugin.md
+      - Brongegevens: md_files\4_gebruik_plugin\a_brongegevens.md
+      - Project starten: md_files/4_gebruik_plugin/b_project_starten.md
+      - Sqlite checksuitvoeren: md_files/4_gebruik_plugin/c_sqlite_checks.md
+      - Modelstaten aanpassen: md_files/4_gebruik_plugin/d_modelstaat_aanpassen.md
+      - Berekeningen uitvoeren: md_files/4_gebruik_plugin/e_berekeningen_uitvoeren.md
+      - Resultaten downloaden: md_files/4_gebruik_plugin/f_downloaden_resultaten.md
+      - 0d1d test uitvoeren: md_files/4_gebruik_plugin/g_0d1d_test.md
+      - Bank level test uitvoeren: md_files/4_gebruik_plugin/h_banklevel_test.md
+      - 1d2d test uitvoeren: md_files/4_gebruik_plugin/i_1d2d_test.md
+      - Klimaatsommen uitvoeren: md_files/4_gebruik_plugin/j_werkwijze_klimaatsommen.md
+      - Bekende problemen: md_files/4_gebruik_plugin/z_bekende_problemen.md
+      - Overige en externe referenties: md_files\4_gebruik_plugin\zz_overige_en_externe_referenties.md
+
     - Polder clusters: md_files/polder_clusters.md
-    - Uitleg tests en functionaliteit: md_files/tests_documentation.md
+    - Gebruikers testsen: md_files\user_test_manual.md
+    

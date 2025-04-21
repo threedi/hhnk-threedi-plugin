@@ -16,9 +16,9 @@ Plugin voor het bouwen en analyseren van [3Di](https://3diwatermanagement.com/) 
 
 ##### Controleer de docs!
 
-* [Inleiding](md_files/1_inleiding/inleiding.md)
-* [Installatie instructies](md_files/installation/installation_manual.md)
-* [Gebruikershandleiding](md_files/usage.md)
-* [Uitleg tests en functionaliteit](md_files/tests_documentation.md)
-* [Bron data](md_files/needed_data.md)
-* [Polder clusters](md_files/polder_clusters.md)
+- [Inleiding](md_files/1_inleiding/inleiding.md)
+- [Installatie instructies](md_files/installatie/installatie_handleiding.md)
+- [Werkwijze BWN](md_files/2_werkwijze_bwn/werkwijze_bwn.md)
+- [Achtergronden en Uitgangspunten](md_files/3_achtergronden_en_uitgangspunten/achtergronden_en_uitgangspunten.md)
+- [Gebruik plugin](md_files/4_gebruik_plugin/_introductie_plugin.md)
+- [Polder clusters](md_files/polder_clusters.md)
