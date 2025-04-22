@@ -62,7 +62,7 @@ Gebruik de kaarten en eventueel de ruwe 3Di resultaten om de het model te contro
   
   De waterdieptekaart aan het einde van de berekening kan je helpen locaties te vinden waar neerslag niet kan afstromen richting het watersysteem. Pas hier mogelijk de bank levels verder aan of zorg voor roosterverfijning. In stedelijk gebied blijft neerslag vaak in tuinen of op wegen staan als gevolg van het ontbreken van riolering. Wees hier kritisch op bij de interpretatie van het resultaat.
 
-Als je tevreden bent met het model kun je verder met de [klimaatsommen](../g_klimaatsommen/1_klimaatsommen.md). Vergeet niet aanpassingen op te slaan en opnieuw via [modestaat aanpassen](d_modelstaat_aanpassen.md) de modellen te uploaden. 
+Als je tevreden bent met het model kun je verder met de [klimaatsommen](j_werkwijze_klimaatsommen.md). Vergeet niet aanpassingen op te slaan en opnieuw via [modestaat aanpassen](d_modelstaat_aanpassen.md) de modellen te uploaden. 
 
 
 

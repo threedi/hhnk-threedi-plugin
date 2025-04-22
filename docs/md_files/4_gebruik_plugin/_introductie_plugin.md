@@ -1,5 +1,5 @@
 # **Introductie HHNK-3Di-plugin**
-HHNK heeft de werkwijze voor het controleren van modellen en de toetsing van het watersysteem binnen het project BWN2 vastgelegd in een plugin voor QGIS of de 3Di Modeler Interface. De HHNK plugin is beschikbaar via github en kan worden geïnstalleerd aan de hand van deze [installatiehandleiding](..\installatie\installatie_handleiding.md). 
+HHNK heeft de werkwijze voor het controleren van modellen en de toetsing van het watersysteem binnen het project BWN2 vastgelegd in een plugin voor QGIS of de 3Di Modeler Interface. De HHNK plugin is beschikbaar via github en kan worden geïnstalleerd aan de hand van deze [installatiehandleiding](../installatie/installatie_handleiding.md).
 
 ## Plug-in-scherm
 Na installatie kan de plugin worden geopend via het HHNK-symbool in de werkbalk van QGIS. Na het aanklikken opent er een 'docked' plug-in-scherm rechts in beeld. De HHNK Toolbox is opgedeeld in drie delen:
@@ -45,7 +45,7 @@ TODO aanvullen? Nieuwe methode model governance?
 Onderstaande hoofdstukken vormen samen de BWN2-werkwijze en leggen telkens de benodigde stappen uit in de plugin. Het eerste hoofdstuk [Brongegevens](a_brongegevens.md) dient als naslagwerk voor de benodigde gegevens en een aantal definities. De overige hoofdstukken zijn een handleiding voor het gebruik:
 
 * [Project starten](b_project_starten.md)
-* [Sqlite checksuitvoeren](c_sqlite_checks)
+* [Sqlite checksuitvoeren](c_sqlite_checks.md)
 * [Modelstaten aanpassen](d_modelstaat_aanpassen.md)
 * [Berekeningen uitvoeren](e_berekeningen_uitvoeren.md)
 * [Resultaten downloaden](f_downloaden_resultaten.md)

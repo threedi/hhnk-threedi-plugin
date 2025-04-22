@@ -57,6 +57,6 @@ Hieronder vind je een beschrijving van alle brongegevens die worden gebruikt. Da
 
    Deze gegevens dienen in een Excel met de naam ``model_settings_default`` ingevoerd te worden, zodat ze in 3Di uitgelezen kunnen worden en de juiste invoerwaarden worden gebruikt.
 
-   De instellingen voor modelstaten staan in de een Excel met de naam ``model_settings``. Dit wordt verder toegelicht onder [Modelstaten](c_modelstaat_aanpassen.md).
+   De instellingen voor modelstaten staan in de een Excel met de naam ``model_settings``. Dit wordt verder toegelicht onder [Modelstaten](d_modelstaat_aanpassen.md).
 
 Klik [hier](b_project_starten.md) om van start te gaan met de plug-in.

@@ -1,5 +1,5 @@
 ## **Klimaatsommen**
-Als alle testen succesvol zijn afgerond, kunnen de klimaatsommen gesimuleerd worden. Voor meer informatie over de klimaatsommen, klik [hier](..\3_achtergronden_en_uitgangspunten\g_achtergrond_klimaatsommen\1_achtergrond_klimaatsommen.md).
+Als alle testen succesvol zijn afgerond, kunnen de klimaatsommen gesimuleerd worden. Voor meer informatie over de klimaatsommen, klik [hier](../3_achtergronden_en_uitgangspunten/g_achtergrond_klimaatsommen/1_achtergrond_klimaatsommen.md).
 
 ### **Werkwijze HHNK 3Di plugin**
 Voor het simuleren van de klimaatsommen, is het noodzakelijk om tenminste een GLG, GGG en GHG model te hebben. Indien deze niet aanwezig zijn, kun je deze via [modelstaat aanpassen](d_modelstaat_aanpassen.md) aanmaken.
