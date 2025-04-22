@@ -57,7 +57,7 @@ Als alles goed is gegaan, is de plugin nu klaar voor gebruik:
 
 ![Alt text](../../images/installatie/plugin_gereed.PNG)
 
-Ga naar [gebruik plugin](../4_gebruik_plugin/gebruik_plugin.md) om met de plugin aan de slag te gaan.
+Ga naar [gebruik plugin](../4_gebruik_plugin/_introductie_plugin.md) om met de plugin aan de slag te gaan.
 
 ## Bekende problemen
 
