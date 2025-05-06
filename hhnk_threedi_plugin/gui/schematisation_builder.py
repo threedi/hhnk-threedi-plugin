@@ -1,24 +1,30 @@
 import os
 import sys
 from dataclasses import dataclass
-
+import hhnk_research_tools as hrt
+from pathlib import Path
+import logging
 import geopandas as gpd
-import pandas as pd
 import pkg_resources
-from hhnk_threedi_tools.core.project import Project
+from hhnk_threedi_tools.core.folders import Project
 from hhnk_threedi_tools.core.schematisation_builder.DAMO_exporter import DAMO_exporter
-from hhnk_threedi_tools.core.schematisation_builder.DAMO_HyDAMO_converter import Converter
-from hhnk_threedi_tools.core.schematisation_builder.HyDAMO_conversion_to_3Di import convert_to_3Di
+from hhnk_threedi_tools.core.schematisation_builder.DAMO_HyDAMO_converter import (
+    DAMO_to_HyDAMO_Converter as Converter,
+)
+from hhnk_threedi_tools.core.schematisation_builder.HyDAMO_conversion_to_3Di import (
+    convert_to_3Di,
+)
 from osgeo import ogr
 from PyQt5.QtWidgets import QMessageBox, QPlainTextEdit
-from qgis.core import QgsApplication, QgsLayerTreeGroup, QgsProject, QgsVectorLayer
-from qgis.PyQt.QtCore import QObject
+from qgis.core import QgsProject, QgsVectorLayer
 from qgis.utils import iface
 
 from hhnk_threedi_plugin.hhnk_toolbox_dockwidget import HHNK_toolboxDockWidget
 
 # Add the plugins directory to sys.path if needed
-plugins_path = os.path.join(os.getenv("APPDATA"), "3Di", "QGIS3", "profiles", "default", "python", "plugins")
+plugins_path = os.path.join(
+    os.getenv("APPDATA"), "3Di", "QGIS3", "profiles", "default", "python", "plugins"
+)
 if plugins_path not in sys.path:
     sys.path.append(plugins_path)
 
@@ -27,11 +33,28 @@ import threedi_schematisation_editor.data_models as dm
 from threedi_schematisation_editor import ThreediSchematisationEditorPlugin
 from threedi_schematisation_editor.custom_widgets import ImportStructuresDialog
 
-BASE_FOLDER = r"\\corp.hhnk.nl\data\Hydrologen_data\Data\09.modellen_speeltuin"  # TODO TEMP
-TABLE_NAMES = ["HYDROOBJECT"]  # TODO TEMP
-# EMPTY_SCHEMATISATION_FILE = (
-#     r"D:\github\evanderlaan\hhnk-threedi-tools\hhnk_threedi_tools\resources\schematisation\empty.gpkg"  # TODO TEMP
-# )
+BASE_FOLDER = (
+    r"\\corp.hhnk.nl\data\Hydrologen_data\Data\09.modellen_speeltuin"  # TODO TEMP
+)
+
+"""
+try:
+    from local_settings_htt import DB_LAYERS_MAPPING
+except ImportError as e:
+    raise ImportError(
+        "The 'local_settings_htt' module is missing. Get it from D:\github\evanderlaan\local_settings_htt.py and place it in \hhnk_threedi_tools\core\schematisation_builder"
+    ) from e
+"""
+# TEMP
+DB_LAYERS_MAPPING = {
+    "HYDROOBJECT": "aquaprd",
+    "DUIKERSIFONHEVEL": "aquaprd",
+    "GEMAAL": "aquaprd",
+    "PROFIELLIJN": "aquaprd",
+    "PROFIELPUNT": "aquaprd",
+}
+
+TABLE_NAMES = list(DB_LAYERS_MAPPING.keys())
 
 
 @dataclass
@@ -88,14 +111,20 @@ class SchematisationBuilder:
 
     def _initialize_ui(self):
         """Initialize UI elements with default states."""
-        self.dockwidget.CreateProjectPlainTextEdit.setPlainText(self.prewritten_text_CreateProjectPlainTextEdit)
+        self.dockwidget.CreateProjectPlainTextEdit.setPlainText(
+            self.prewritten_text_CreateProjectPlainTextEdit
+        )
         self.dockwidget.ProjectTabWidget.setCurrentIndex(0)
         self.dockwidget.ExportDAMOandHyDAMOPushButton.setEnabled(True)
 
     def populate_combobox(self):
         """Populate the combobox with folder names from the base folder."""
         if os.path.exists(BASE_FOLDER):
-            folder_names = [f for f in os.listdir(BASE_FOLDER) if os.path.isdir(os.path.join(BASE_FOLDER, f))]
+            folder_names = [
+                f
+                for f in os.listdir(BASE_FOLDER)
+                if os.path.isdir(os.path.join(BASE_FOLDER, f))
+            ]
             self.dockwidget.SelectProjectComboBox.addItems(folder_names)
         else:
             QMessageBox.warning(None, "Error", f"Base folder not found: {BASE_FOLDER}")
@@ -105,36 +134,58 @@ class SchematisationBuilder:
         if self.project_status in range(self.dockwidget.ProjectTabWidget.count()):
             self.dockwidget.ProjectTabWidget.setCurrentIndex(self.project_status)
         else:
-            QMessageBox.warning(None, "Error", f"Invalid project status: {self.project_status}")
+            QMessageBox.warning(
+                None, "Error", f"Invalid project status: {self.project_status}"
+            )
 
     def on_project_selected(self):
         """Handle project selection from the combo box."""
         selected_folder = self.dockwidget.SelectProjectComboBox.currentText()
         full_path = os.path.join(BASE_FOLDER, selected_folder)
-        self.project = Project(full_path)
+        self.init_project(full_path)
         self.project_status = self.project.retrieve_project_status()
         self.update_tab_based_on_status()
+
+    def init_project(self, project_folder):
+        # create project if it does not exist yet
+        self.project = Project(str(project_folder))
+        # initialize logger
+        self.logger = hrt.logging.get_logger(
+            __name__, filepath=Path(project_folder) / "log.log"
+        )
+        self.logger.setLevel(logging.INFO)
+        self.logger.info(f"Project folder created at {project_folder}")
 
     def create_project(self):
         """Handle creation of a new project."""
         project_name = self.dockwidget.CreateProjectPlainTextEdit.toPlainText()
-        if project_name.strip() and project_name != self.prewritten_text_CreateProjectPlainTextEdit:
+        if (
+            project_name.strip()
+            and project_name != self.prewritten_text_CreateProjectPlainTextEdit
+        ):
             if project_name not in os.listdir(BASE_FOLDER):
                 full_path = os.path.join(BASE_FOLDER, project_name)
-                self.project = Project(full_path)
+                self.init_project(full_path)
                 self.dockwidget.SelectProjectComboBox.addItem(project_name)
-                QMessageBox.information(None, "Project", f"Project created: {project_name}")
+                QMessageBox.information(
+                    None, "Project", f"Project created: {project_name}"
+                )
                 self.dockwidget.SelectProjectComboBox.setCurrentText(project_name)
                 self.project_status = self.project.retrieve_project_status()
                 self.update_tab_based_on_status()
             else:
                 QMessageBox.warning(None, "Error", "Project name already exists.")
         else:
-            QMessageBox.warning(None, "Error", "Project name cannot be empty or default text.")
+            QMessageBox.warning(
+                None, "Error", "Project name cannot be empty or default text."
+            )
 
     def create_project_text_focus(self, event):
         """Clear the text in the plain text edit when it gains focus."""
-        if self.dockwidget.CreateProjectPlainTextEdit.toPlainText() == self.prewritten_text_CreateProjectPlainTextEdit:
+        if (
+            self.dockwidget.CreateProjectPlainTextEdit.toPlainText()
+            == self.prewritten_text_CreateProjectPlainTextEdit
+        ):
             self.dockwidget.CreateProjectPlainTextEdit.clear()
         QPlainTextEdit.focusInEvent(self.dockwidget.CreateProjectPlainTextEdit, event)
 
@@ -176,29 +227,50 @@ class SchematisationBuilder:
     def export_damo_and_hydamo(self):
         """Handle export of DAMO and HyDAMO."""
         file_path = self.dockwidget.SelectPolderFileWidget.filePath()
-        damo_gpkg_path = os.path.join(self.project.project_folder, "01_source_data", "DAMO.gpkg")
+        damo_gpkg_path = os.path.join(
+            self.project.project_folder, "01_source_data", "DAMO.gpkg"
+        )
 
         if file_path:
             # DAMO export
             gdf_polder = gpd.read_file(file_path)
-            logging_DAMO = DAMO_exporter(gdf_polder, TABLE_NAMES, damo_gpkg_path)
+            logging_DAMO = DAMO_exporter(
+                gdf_polder, TABLE_NAMES, damo_gpkg_path, logger=self.logger
+            )
 
             if logging_DAMO:
-                QMessageBox.warning(None, "Error", "Not all tables have been exported from the DAMO database.")
+                QMessageBox.warning(
+                    None,
+                    "Error",
+                    "Not all tables have been exported from the DAMO database.",
+                )
 
             # Conversion to HyDAMO
-            hydamo_gpkg_path = os.path.join(self.project.project_folder, "01_source_data", "HyDAMO.gpkg")
-            converter = Converter(DAMO_path=damo_gpkg_path, HyDAMO_path=hydamo_gpkg_path, layers=TABLE_NAMES)
+            hydamo_gpkg_path = os.path.join(
+                self.project.project_folder, "01_source_data", "HyDAMO.gpkg"
+            )
+            converter = Converter(
+                damo_file_path=damo_gpkg_path,
+                hydamo_file_path=hydamo_gpkg_path,
+                layers=TABLE_NAMES,
+                logger=self.logger,
+            )
             converter.run()
 
             # Load GeoPackage layers into QGIS
             try:
-                hydamo_gpkg_path = os.path.join(self.project.project_folder, "01_source_data", "HyDAMO.gpkg")
-                self.load_layers_from_geopackage(geopackage_path=hydamo_gpkg_path, group_name="HyDAMO")
+                hydamo_gpkg_path = os.path.join(
+                    self.project.project_folder, "01_source_data", "HyDAMO.gpkg"
+                )
+                self.load_layers_from_geopackage(
+                    geopackage_path=hydamo_gpkg_path, group_name="HyDAMO"
+                )
             except Exception as e:
                 QMessageBox.warning(None, "Error", f"Failed to load HyDAMO layers: {e}")
 
-            QMessageBox.information(None, "Export", f"HyDAMO exported for file: {file_path}")
+            QMessageBox.information(
+                None, "Export", f"HyDAMO exported for file: {file_path}"
+            )
             self.project_status = 1
             self.project.update_project_status(self.project_status)
             self.update_tab_based_on_status()
@@ -208,7 +280,9 @@ class SchematisationBuilder:
 
     def validate_project(self):
         """Handle validation of the project."""
-        QMessageBox.information(None, "Validation", "Validation not implemented yet.")  # TODO implement
+        QMessageBox.information(
+            None, "Validation", "Validation not implemented yet."
+        )  # TODO implement
         self.project_status = 2
         self.project.update_project_status(self.project_status)
         self.update_tab_based_on_status()
@@ -227,16 +301,22 @@ class SchematisationBuilder:
     def convert_project(self):
         """Handle conversion of the project to 3Di schematisation."""
         # Load the HyDAMO layers into QGIS
-        hydamo_gpkg_path = os.path.join(self.project.project_folder, "01_source_data", "HyDAMO.gpkg")
+        hydamo_gpkg_path = os.path.join(
+            self.project.project_folder, "01_source_data", "HyDAMO.gpkg"
+        )
         group_name = "HyDAMO"
 
         project = QgsProject.instance()
         root = project.layerTreeRoot()
         group = root.findGroup(group_name)
         if not group:
-            QMessageBox.information(None, "Warning", f"Group {group_name} will be loaded in project.")
+            QMessageBox.information(
+                None, "Warning", f"Group {group_name} will be loaded in project."
+            )
             # Load layers from the GeoPackage into the group if the group does not exist
-            layer_name_list = self.load_layers_from_geopackage(geopackage_path=hydamo_gpkg_path, group_name=group_name)
+            layer_name_list = self.load_layers_from_geopackage(
+                geopackage_path=hydamo_gpkg_path, group_name=group_name
+            )
         else:
             data_source = ogr.Open(hydamo_gpkg_path)
             if not data_source:
@@ -250,7 +330,7 @@ class SchematisationBuilder:
 
         # Load empty schematisation file from hhnk_threedi_tools.resources
         empty_schematisation_file_path = pkg_resources.resource_filename(
-            "hhnk_threedi_tools", "resources/schematisation/empty.gpkg"
+            "hhnk_threedi_tools", "resources/empty.gpkg"
         )
 
         # CONVERSIONS WITHOUT VECTOR DATA IMPORTER
@@ -264,11 +344,18 @@ class SchematisationBuilder:
         )
 
         # Send message
-        QMessageBox.information(None, "Conversion", "Initial conversion done. Loading into Schematisation Editor.")
+        QMessageBox.information(
+            None,
+            "Conversion",
+            "Initial conversion done. Loading into Schematisation Editor.",
+        )
 
         # LOAD BY USING THE SCHEMATISATION EDITOR
         geopackage_path = os.path.join(
-            self.project.project_folder, "02_schematisation", "00_basis", "3Di_schematisation.gpkg"
+            self.project.project_folder,
+            "02_schematisation",
+            "00_basis",
+            "3Di_schematisation.gpkg",
         )  # TODO TEMP WAY OF REFERENCING
 
         if not geopackage_path:
@@ -283,7 +370,7 @@ class SchematisationBuilder:
             plugin_instance.initGui()
 
             # Call the desired method
-            plugin_instance.open_model_from_geopackage(geopackage_path)
+            plugin_instance.load_schematisation(geopackage_path)
 
             # CONVERSIONS WITH VECTOR DATA IMPORTER (culverts, orifices, weirs, pipes, manholes)
             # Send message
@@ -310,19 +397,35 @@ class SchematisationBuilder:
                     f"Layer {layer_name} is in group {group_name} and will be converted to orfices'.",
                 )
                 target_layer = QgsProject.instance().mapLayersByName(layer_name)[0]
-                import_orifices_dlg.structure_layer_cbo.setLayer(target_layer)  # Set the layer in the combo box
-                import_orifices_dlg.on_layer_changed(target_layer)  # Ensure `on_layer_changed` gets triggered
+                import_orifices_dlg.structure_layer_cbo.setLayer(
+                    target_layer
+                )  # Set the layer in the combo box
+                import_orifices_dlg.on_layer_changed(
+                    target_layer
+                )  # Ensure `on_layer_changed` gets triggered
             else:
-                QMessageBox.information(None, "Warning", f"Layer '{layer_name}' is not in group '{group_name}'.")
+                QMessageBox.information(
+                    None,
+                    "Warning",
+                    f"Layer '{layer_name}' is not in group '{group_name}'.",
+                )
                 return
 
             # Load template
-            import_config_path = os.path.join(self.project.project_folder, "00_config", "orifice.json")
+            import_config_path = pkg_resources.resource_filename(
+                "hhnk_threedi_tools", "resources/orifice.json"
+            )
 
             if not import_config_path:
-                QMessageBox.warning(None, "Error", f"Missing orifice.json in {self.project.project_folder}/00_config")
+                QMessageBox.warning(
+                    None,
+                    "Error",
+                    f"Missing orifice.json in {self.project.project_folder}/00_config",
+                )
             else:
-                import_orifices_dlg.load_import_settings(template_filepath=import_config_path)
+                import_orifices_dlg.load_import_settings(
+                    template_filepath=import_config_path
+                )
                 # TODO also see if display message can be hidden by setting a parameter
 
                 # Run the import
