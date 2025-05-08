@@ -1,8 +1,8 @@
-import os
 import sys
 from dataclasses import dataclass
 import hhnk_research_tools as hrt
 from pathlib import Path
+import platform
 import logging
 import geopandas as gpd
 import pkg_resources
@@ -22,11 +22,36 @@ from qgis.utils import iface
 from hhnk_threedi_plugin.hhnk_toolbox_dockwidget import HHNK_toolboxDockWidget
 
 # Add the plugins directory to sys.path if needed
-plugins_path = os.path.join(
-    os.getenv("APPDATA"), "3Di", "QGIS3", "profiles", "default", "python", "plugins"
-)
+if platform.system() == "Windows":
+    plugins_path = (
+        Path.home()
+        / "AppData"
+        / "Roaming"
+        / "3Di"
+        / "QGIS3"
+        / "profiles"
+        / "default"
+        / "python"
+        / "plugins"
+    )
+else:
+    plugins_path = (
+        Path.home()
+        / ".local"
+        / "share"
+        / "3Di"
+        / "QGIS3"
+        / "profiles"
+        / "default"
+        / "python"
+        / "plugins"
+    )
+
+if not plugins_path.exists():
+    raise FileNotFoundError(f"Plugin path does not exist: {plugins_path}")
+
 if plugins_path not in sys.path:
-    sys.path.append(plugins_path)
+    sys.path.append(str(plugins_path))
 
 # Import the plugin class from the package
 import threedi_schematisation_editor.data_models as dm
@@ -45,13 +70,11 @@ except ImportError as e:
         "The 'local_settings_htt' module is missing. Get it from D:\github\evanderlaan\local_settings_htt.py and place it in \hhnk_threedi_tools\core\schematisation_builder"
     ) from e
 """
-# TEMP
+# TODO TEMP
 DB_LAYERS_MAPPING = {
     "HYDROOBJECT": "aquaprd",
     "DUIKERSIFONHEVEL": "aquaprd",
     "GEMAAL": "aquaprd",
-    "PROFIELLIJN": "aquaprd",
-    "PROFIELPUNT": "aquaprd",
 }
 
 TABLE_NAMES = list(DB_LAYERS_MAPPING.keys())
@@ -119,12 +142,8 @@ class SchematisationBuilder:
 
     def populate_combobox(self):
         """Populate the combobox with folder names from the base folder."""
-        if os.path.exists(BASE_FOLDER):
-            folder_names = [
-                f
-                for f in os.listdir(BASE_FOLDER)
-                if os.path.isdir(os.path.join(BASE_FOLDER, f))
-            ]
+        if Path(BASE_FOLDER).exists():
+            folder_names = [f.name for f in Path(BASE_FOLDER).iterdir() if f.is_dir()]
             self.dockwidget.SelectProjectComboBox.addItems(folder_names)
         else:
             QMessageBox.warning(None, "Error", f"Base folder not found: {BASE_FOLDER}")
@@ -141,7 +160,7 @@ class SchematisationBuilder:
     def on_project_selected(self):
         """Handle project selection from the combo box."""
         selected_folder = self.dockwidget.SelectProjectComboBox.currentText()
-        full_path = os.path.join(BASE_FOLDER, selected_folder)
+        full_path = Path(BASE_FOLDER).joinpath(selected_folder)
         self.init_project(full_path)
         self.project_status = self.project.retrieve_project_status()
         self.update_tab_based_on_status()
@@ -163,8 +182,8 @@ class SchematisationBuilder:
             project_name.strip()
             and project_name != self.prewritten_text_CreateProjectPlainTextEdit
         ):
-            if project_name not in os.listdir(BASE_FOLDER):
-                full_path = os.path.join(BASE_FOLDER, project_name)
+            if not (Path(BASE_FOLDER) / project_name).exists():
+                full_path = Path(BASE_FOLDER).joinpath(project_name)
                 self.init_project(full_path)
                 self.dockwidget.SelectProjectComboBox.addItem(project_name)
                 QMessageBox.information(
@@ -197,7 +216,7 @@ class SchematisationBuilder:
             geopackage_path (str): Path to the GeoPackage file.
             group_name (str): Name of the group under which to load the layers.
         """
-        if not os.path.exists(geopackage_path):
+        if not Path(geopackage_path).exists():
             raise FileNotFoundError(f"GeoPackage not found: {geopackage_path}")
 
         # Get the QGIS project instance and create/retrieve the specified group
@@ -227,15 +246,14 @@ class SchematisationBuilder:
     def export_damo_and_hydamo(self):
         """Handle export of DAMO and HyDAMO."""
         file_path = self.dockwidget.SelectPolderFileWidget.filePath()
-        damo_gpkg_path = os.path.join(
-            self.project.project_folder, "01_source_data", "DAMO.gpkg"
-        )
-
         if file_path:
             # DAMO export
             gdf_polder = gpd.read_file(file_path)
             logging_DAMO = DAMO_exporter(
-                gdf_polder, TABLE_NAMES, damo_gpkg_path, logger=self.logger
+                gdf_polder,
+                TABLE_NAMES,
+                str(self.project.folders.source_data.damo),
+                logger=self.logger,
             )
 
             if logging_DAMO:
@@ -246,12 +264,9 @@ class SchematisationBuilder:
                 )
 
             # Conversion to HyDAMO
-            hydamo_gpkg_path = os.path.join(
-                self.project.project_folder, "01_source_data", "HyDAMO.gpkg"
-            )
             converter = Converter(
-                damo_file_path=damo_gpkg_path,
-                hydamo_file_path=hydamo_gpkg_path,
+                damo_file_path=str(self.project.folders.source_data.damo),
+                hydamo_file_path=str(self.project.folders.source_data.hydamo),
                 layers=TABLE_NAMES,
                 logger=self.logger,
             )
@@ -259,11 +274,9 @@ class SchematisationBuilder:
 
             # Load GeoPackage layers into QGIS
             try:
-                hydamo_gpkg_path = os.path.join(
-                    self.project.project_folder, "01_source_data", "HyDAMO.gpkg"
-                )
                 self.load_layers_from_geopackage(
-                    geopackage_path=hydamo_gpkg_path, group_name="HyDAMO"
+                    geopackage_path=str(self.project.folders.source_data.hydamo),
+                    group_name="HyDAMO",
                 )
             except Exception as e:
                 QMessageBox.warning(None, "Error", f"Failed to load HyDAMO layers: {e}")
@@ -301,9 +314,6 @@ class SchematisationBuilder:
     def convert_project(self):
         """Handle conversion of the project to 3Di schematisation."""
         # Load the HyDAMO layers into QGIS
-        hydamo_gpkg_path = os.path.join(
-            self.project.project_folder, "01_source_data", "HyDAMO.gpkg"
-        )
         group_name = "HyDAMO"
 
         project = QgsProject.instance()
@@ -315,12 +325,15 @@ class SchematisationBuilder:
             )
             # Load layers from the GeoPackage into the group if the group does not exist
             layer_name_list = self.load_layers_from_geopackage(
-                geopackage_path=hydamo_gpkg_path, group_name=group_name
+                geopackage_path=str(self.project.folders.source_data.hydamo),
+                group_name=group_name,
             )
         else:
-            data_source = ogr.Open(hydamo_gpkg_path)
+            data_source = ogr.Open(str(self.project.folders.source_data.hydamo))
             if not data_source:
-                raise ValueError(f"Unable to open GeoPackage: {hydamo_gpkg_path}")
+                raise ValueError(
+                    f"Unable to open GeoPackage: {str(self.project.folders.source_data.hydamo)}"
+                )
 
             # Get the layer names from the GeoPackage
             layer_name_list = []
@@ -335,12 +348,12 @@ class SchematisationBuilder:
 
         # CONVERSIONS WITHOUT VECTOR DATA IMPORTER
         convert_to_3Di(
-            hydamo_file_path=hydamo_gpkg_path,
+            hydamo_file_path=str(self.project.folders.source_data.hydamo),
             hydamo_layers=layer_name_list,
             empty_schematisation_file_path=empty_schematisation_file_path,
-            output_schematisation_directory=os.path.join(
-                self.project.project_folder, "02_schematisation", "00_basis"
-            ),  # TODO TEMP WAY OF REFERENCING
+            output_schematisation_directory=Path(self.project.project_folder)
+            / "02_schematisation"
+            / "00_basis",
         )
 
         # Send message
@@ -351,12 +364,12 @@ class SchematisationBuilder:
         )
 
         # LOAD BY USING THE SCHEMATISATION EDITOR
-        geopackage_path = os.path.join(
-            self.project.project_folder,
-            "02_schematisation",
-            "00_basis",
-            "3Di_schematisation.gpkg",
-        )  # TODO TEMP WAY OF REFERENCING
+        geopackage_path = (
+            Path(self.project.project_folder)
+            / "02_schematisation"
+            / "00_basis"
+            / "3Di_schematisation.gpkg"
+        )
 
         if not geopackage_path:
             QMessageBox.warning(
@@ -370,7 +383,7 @@ class SchematisationBuilder:
             plugin_instance.initGui()
 
             # Call the desired method
-            plugin_instance.load_schematisation(geopackage_path)
+            plugin_instance.load_schematisation(str(geopackage_path))
 
             # CONVERSIONS WITH VECTOR DATA IMPORTER (culverts, orifices, weirs, pipes, manholes)
             # Send message
