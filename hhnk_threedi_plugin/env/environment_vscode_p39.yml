@@ -50,6 +50,7 @@ dependencies:
   - oracledb=2.4.1
   # See also: https://discourse.matplotlib.org/t/latest-versions-via-pip-jupyterlab-import-of-matplotlib-broken/24477/7
   - seaborn
+  - rasterstats
   - ruff
 
 
