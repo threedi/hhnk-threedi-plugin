@@ -75,6 +75,7 @@ dependencies:
   - seaborn
   - rasterstats
   - ruff
+  - gdal
 
   # Voor DataCheker
   - flask # oude datachecker
