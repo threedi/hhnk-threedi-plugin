@@ -49,7 +49,7 @@ dependencies:
   - xyzservices=2024.9.0 #folium dep
   - oracledb=2.4.1
   # See also: https://discourse.matplotlib.org/t/latest-versions-via-pip-jupyterlab-import-of-matplotlib-broken/24477/7
-  - seaborn="*"
+  - seaborn
 
 
   #Voor DataCheker
@@ -72,5 +72,5 @@ dependencies:
 
 
   # Install these with bin/install_local.bat
-  # - hhnk_research_tools==2024.1
-  # - hhnk_threedi_tools==2024.1
+  # - hhnk_research_tools==2025.1
+  # - hhnk_threedi_tools==2025.1

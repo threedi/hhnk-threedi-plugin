@@ -41,7 +41,7 @@ dependencies:
   - xyzservices=2024.9.0 #folium dep
   - ruff
   - pip=24.0
-  - seaborn="*"
+  - seaborn
 
 
 
@@ -54,6 +54,6 @@ dependencies:
     - threedigrid==2.3.3 #threedi_results_analysis 3.12.0
     - threedidepth==0.6.3 #threedi_results_analysis 3.9.0
 
-    #Plugin
-    - hhnk_research_tools==2024.1
-    - hhnk_threedi_tools==2024.1
+    # Install these with bin/install_local.bat
+    # - hhnk_research_tools==2025.1
+    # - hhnk_threedi_tools==2025.1

@@ -40,7 +40,7 @@ dependencies:
   - branca=0.8.1 #folium dep
   - xyzservices=2024.9.0 #folium dep
   - pip=24.0
-  - seaborn="*"
+  - seaborn
 
 
   - pip: # 3Di packages are not conda installable and are therefore installed by PIP
