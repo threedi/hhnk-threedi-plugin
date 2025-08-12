@@ -7,7 +7,7 @@ import logging
 import geopandas as gpd
 import pkg_resources
 from hhnk_threedi_tools.core.folders import Project
-from hhnk_threedi_tools.core.schematisation_builder.DAMO_exporter import DAMO_exporter
+from hhnk_threedi_tools.core.schematisation_builder.DB_exporter import db_exporter
 from hhnk_threedi_tools.core.schematisation_builder.DAMO_HyDAMO_converter import (
     DAMO_to_HyDAMO_Converter as Converter,
 )
@@ -249,7 +249,7 @@ class SchematisationBuilder:
         if file_path:
             # DAMO export
             gdf_polder = gpd.read_file(file_path)
-            logging_DAMO = DAMO_exporter(
+            logging_DAMO = db_exporter(
                 gdf_polder,
                 TABLE_NAMES,
                 str(self.project.folders.source_data.damo),
