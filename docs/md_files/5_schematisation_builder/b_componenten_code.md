@@ -3,10 +3,7 @@
 **Lezerspubliek:** Ontwikkelaars
 
 ## 1. Module-overzicht
-_Lijst van modules/klassen/functies met korte samenvatting._
+_Lijst van modules/klassen met korte samenvatting._
 
-## 2. Gedetailleerde Functie-/Klassedocumentatie
-_Verwijs naar automatisch gegenereerde documentatie vanuit docstrings._
-
-## 3. Bestandsverantwoordelijkheid
-_Korte beschrijving bovenaan elk hoofdbestand._
+## 2. Functie-overzicht
+_Lijst van functies binnen modules/klassen met korte samenvatting._

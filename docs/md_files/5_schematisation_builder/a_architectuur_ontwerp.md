@@ -3,7 +3,7 @@
 **Lezerspubliek:** Ontwikkelaars & architecten
 
 ## 1. Systeemstroomschema
-_Flowio-diagram toe met uitleg._
+_Flowio-diagram met uitleg._
 
 ## 2. Overzicht componenten
 _Lijst van modules en hun verantwoordelijkheden._
