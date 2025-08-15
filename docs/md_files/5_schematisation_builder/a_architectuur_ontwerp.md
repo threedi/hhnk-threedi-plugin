@@ -1,4 +1,4 @@
-# Architectuur & Ontwerp
+# Architectuur & ontwerp
 **Doel:** Uitleggen hoe het systeem op hoofdlijnen werkt en hoe de onderdelen samenhangen.  
 **Lezerspubliek:** Ontwikkelaars & architecten
 

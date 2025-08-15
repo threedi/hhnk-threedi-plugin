@@ -1,4 +1,4 @@
-# Data locaties en bewegingen
+# Data locaties & bewegingen
 **Doel:** Uitleg over waar data wordt geexporteerd, opgeslagen en hoe data vervolgens beweegt.  
 **Lezerspubliek:** Ontwikkelaars & gegevensbeheerders
 
