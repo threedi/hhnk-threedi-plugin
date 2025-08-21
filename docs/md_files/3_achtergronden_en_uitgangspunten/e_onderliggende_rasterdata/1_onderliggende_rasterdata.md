@@ -10,15 +10,50 @@ Alle rasters bevatten waardes op subgridniveau (0,5 m bij 0,5 m) die door 3Di op
 manier worden opgeschaald tot de veel grotere rekencellen.
 
 ### **Maaiveldhoogte DEM**
-In het 3Di model wordt een hoogtekaart ofwel Digital Elevation Model (DEM) gebruikt voor de berging op en stroming over het maaiveld. De DEM wordt eveneens gebruikt om waterdieptes te berekenen die vervolgens worden gebruikt voor het afleiden van schade. De DEM is gebaseerd op de maaiveldhoogtekaart ofwel het Actuele Hoogtekaart Nederland (Ten tijde van het BWN2-project was dit AHN versie 3, inmiddels zijn alle modellen bijgewerkt naar AHN4). De AHN moet echter bewerkt worden voordat deze geschikt is voor toepassing als DEM in 3Di. 
+In het 3Di model wordt een hoogtekaart ofwel Digital Elevation Model (DEM) gebruikt voor de berging op en stroming over het maaiveld. De DEM wordt eveneens gebruikt om waterdieptes te berekenen die vervolgens worden gebruikt voor het afleiden van schade. De DEM is gebaseerd op de maaiveldhoogtekaart ofwel het Actuele Hoogtekaart Nederland. Ten tijde van het BWN2-project was dit AHN versie 3, inmiddels zijn alle modellen bijgewerkt naar AHN4. Modellen die nieuw worden opgebouwd zijn gebaseerd op de AHN5.
 
-De AHN kent twee typen. Het DSM (digital surface model) is een ongefilterde vertaling van de ingevlogen hoogtemetingen naar een raster van 0,5 bij 0,5 m. Het DTM (digital terrain model) is een rasterkaart waarbij ingevlogen hoogtemetingen die geen maaiveld representeren (bv, daken, water, bomen, auto's en rietkragen) eerst uit de meetdata zijn gefilterd alvorens de rasterkaart is aangemaakt. Deze laatste kaart wordt gebruikt voor het aanmaken van de DEM. 
-
-Beide rasters bevatten gaten op plekken waar geen of onvoldoende maaiveld meetdata beschikbaar was. 
+De AHN moet echter bewerkt worden voordat deze geschikt is voor toepassing als DEM in 3Di. De AHN kent twee typen. Het DSM (digital surface model) is een ongefilterde vertaling van de ingevlogen hoogtemetingen naar een raster van 0,5 bij 0,5 m. Het DTM (digital terrain model) is een rasterkaart waarbij ingevlogen hoogtemetingen die geen maaiveld representeren (bv, daken, water, bomen, auto's en rietkragen) eerst uit de meetdata zijn gefilterd alvorens de rasterkaart is aangemaakt. Deze laatste kaart wordt gebruikt voor het aanmaken van de DEM. Beide rasters bevatten gaten op plekken waar geen of onvoldoende maaiveld meetdata beschikbaar was. 
 
 Voor het aanmaken van een DEM uit de AHN zijn de volgende voorbereidingen gedaan in ons basis DEM: 
+
 1. Gaten dicht interpoleren; 
-2. Alle gebouwen (BGT Pand_v en BGT OverigBouwwerk_v) een hoogte mee te geven die gelijk is aan het 75e percentiel van de omliggende maaiveldhoogtes (binnen een buffer van 1 m) + 5 cm (drempel/vloerpeil);  
+2. Alle gebouwen (BGT Pand_v) een hoogte mee te geven die gelijk is aan het 75e percentiel van de omliggende maaiveldhoogtes (binnen een buffer van 1 m) + 5 cm (drempel/vloerpeil);  
+
+#### Selectie van panden voor drempelhoogte
+De panden uit de BAG waarmee de AHN5 is bijgewerkt zijn geexporteerd op 10 januari 2024. De panden bevatten attribuut 'status' waarin de volgende klassen zijn:
+
+* 'Bouw gestart' 
+* 'Bouwvergunning verleend'  
+* 'Pand buiten gebruik'  
+* 'Pand in gebruik'  
+* 'Pand in gebruik (niet ingemeten)'  
+* 'Sloopvergunning verleend'  
+* 'Verbouwing pand' 
+
+*'Bouw gestart'*  bevat scala aan situaties, nieuwbouw waar al is opgehoogd of niet, herbouw bestaande bouw, bouwputten. 
+    Om gaten op te vullen worden deze op basis van 75 percentiel een drempelhoogte te geven. Ik sla deze 
+    los op zodat deze toegevoegd kunnen worden aan de laag met onbetrouwbare schades.
+
+*'Bouwvergunning verleend'* bevat ook vele mogelijkheden. Maar hier is vaker de originele maaiveldhoogte nog in de dtm te vinden.
+    Deze locaties zijn niet bijgewerkt in de DEM, maar los opgeslagen in de hydrologen database zodat ze eventueel toegevoegd kunnen worden aan de laag
+    met onbetrouwbare schades.
+
+    
+
+Er zijn ook gevallen waar ik geen ahn waarde gevonden heb. Dan kan doordat er bijvoorbeeld een nieuwe garagebox komt waar een sporthal stond.
+Dat is zoveel nodata dat het te ver weg ligt pixels met data om een waarde te vinden. Ik sla deze los op zodat deze toegevoegd kunnen worden aan de laag
+met onbetrouwbare schades.
+    Ik kies er hier voor om de percentielen van het dichtstbijzijnde pand over te nemen met maximale afstand van 10 m. Anders zou bijvoorbeeld een groot deel van 
+    Middenwaard niet meekomen. Meer dan 10 m doe ik niet omdat ik liever niet een waarde van de andere kant van de straat neem. Bijvoorbeeld bij chinees rest. 
+    Libelle
+
+Gaten in de AHN5 die overblijven worden dichtgesmeerd. Ik kies voor de dichtstbijzijnde waarde methode. Dat ziet er lelijk uit, maar dan 
+zien we bij grote vlakken tenminste dat het niet klopt.
+
+
+
+
+
 3. Alle watervlakken (BGT Waterdeel_v en BGT OverigBouwwerk_v [BGTPlusType = 'bassin' OR BGTPlusType = 'opslagtank' OR BGTPlusType = 'bezinkbak']) ophogen tot NAP +10 m (om dubbeltelling van waterberging in de 1D en de 2D module te voorkomen). 
 
 Wat niet vooraf gebeurt is:
