@@ -5,19 +5,21 @@
 ## 1. Systeemstroomschema
 _Flowio-diagram met uitleg._
 
+
+
 ## 2. Overzicht componenten
 _Lijst van modules en hun verantwoordelijkheden._
 
 | Type | Volgorde nr. | Module | Rol | Bestand |
 |------|----------------|--------|-----|---------|
-| Kernlogica | 1 | Database exporter | Genereert een ruwe export op basis van een polder polygoon. | hhnk-threedi-tools/hhnk_threedi_tools/core/schematisation_buider/DB_exporter.py |
-| Kernlogica | 2 | Intermediate converter | Zet ruwe export om in DAMO formaat. | hhnk-threedi-tools/hhnk_threedi_tools/core/schematisation_buider/intermediate_converter.py |
-| Kernlogica | 3 | DAMO naar HyDAMO converter | Zet DAMO om in HyDAMO formaat. | hhnk-threedi-tools/hhnk_threedi_tools/core/schematisation_buider/DAMO_HyDAMO_converter.py |
-| Kernlogica | 4 | HyDAMO validator | Trapt validatieregels af op HyDAMO bestand. | hhnk-threedi-tools/hhnk_threedi_tools/core/schematisation_buider/HyDAMO_validator.py |
-| Kernlogica | 5 | HyDAMO fixer | Interpreteert validatieresultaten en biedt mogelijkheden tot automatische fixes. | hhnk-threedi-tools/hhnk_threedi_tools/core/schematisation_buider/... |
-| Kernlogica | 6 | 3Di converter | Zet het (verbeterde) HyDAMO bestand om in een 3Di schematisatie | hhnk-threedi-tools/hhnk_threedi_tools/core/schematisation_buider/HyDAMO_conversion_to_3di.py |
-| Interfaces |   | ... | ... | hhnk-threedi-tools/hhnk_threedi_tools/core/schematisation_buider/schematisation_builder.py |
-| Interfaces |   | ... | ... | hhnk-threedi-plugin/hhnk_threedi_plugin/gui/schematisation_builder.py |
+| Kernlogica | 1 | Database exporter | Genereert een ruwe export op basis van een polder polygoon. | /hhnk_threedi_tools/core/schematisation_buider/DB_exporter.py |
+| Kernlogica | 2 | Intermediate converter | Zet ruwe export om in DAMO formaat. | /hhnk_threedi_tools/core/schematisation_buider/intermediate_converter.py |
+| Kernlogica | 3 | DAMO naar HyDAMO converter | Zet DAMO om in HyDAMO formaat. | /hhnk_threedi_tools/core/schematisation_buider/DAMO_HyDAMO_converter.py |
+| Kernlogica | 4 | HyDAMO validator | Trapt validatieregels af op HyDAMO bestand. | /hhnk_threedi_tools/core/schematisation_buider/HyDAMO_validator.py |
+| Kernlogica | 5 | HyDAMO fixer | Interpreteert validatieresultaten en biedt mogelijkheden tot automatische fixes. | /hhnk_threedi_tools/core/schematisation_buider/... |
+| Kernlogica | 6 | 3Di converter | Zet het (verbeterde) HyDAMO bestand om in een 3Di schematisatie | /hhnk_threedi_tools/core/schematisation_buider/HyDAMO_conversion_to_3di.py |
+| Interfaces |   | ... | ... | /hhnk_threedi_tools/core/schematisation_buider/schematisation_builder.py |
+| Interfaces |   | ... | ... | /hhnk_threedi_plugin/gui/schematisation_builder.py |
 
 ### Database exporter
 _..._
@@ -36,6 +38,8 @@ _..._
 
 ### 3Di converter
 HyDAMO_conversion_to_3di mogelijk straks niet meer relevant door volledige QGIS integratie. Anders is het netjes om HyDAMO_conversion_to_3di.py te vernoemen naar HyDAMO_3Di_converter.py voor uniformiteit.
+
+
 
 ## 3. Testoverzicht
 - **Unittests** – Controleren individuele functies/klassen in isolatie.  
