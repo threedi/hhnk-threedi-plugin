@@ -11,6 +11,9 @@ _Lijst van modules en hun verantwoordelijkheden._
 ## 3. Gegevensstroomschema (conceptueel)
 _Laat zien hoe gegevens tussen componenten bewegen, inclusief opslag._
 
+<hr style="border: 2px solid #000; margin: 2em 0;">
+
+
 # Componenten & code
 **Doel:** Beschrijven van de rol van elke codecomponent en de interne structuur.  
 **Lezerspubliek:** Ontwikkelaars
@@ -20,6 +23,9 @@ _Lijst van modules/klassen met korte samenvatting._
 
 ## 2. Functie-overzicht
 _Lijst van functies binnen modules/klassen met korte samenvatting._
+
+<hr style="border: 2px solid #000; margin: 2em 0;">
+
 
 # Tests
 **Doel:** Uitleg over tests en testdatasets.  
@@ -54,4 +60,4 @@ _Hier linken naar doc threedi-tools_
 - Alle tests draaien automatisch bij pull requests.  
 - Mergen vereist dat alle tests slagen.  
 
----
+<hr style="border: 2px solid #000; margin: 2em 0;">
