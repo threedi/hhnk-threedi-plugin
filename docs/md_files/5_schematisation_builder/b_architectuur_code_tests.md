@@ -31,8 +31,6 @@ _Lijst van functies binnen modules/klassen met korte samenvatting._
 **Doel:** Uitleg over tests en testdatasets.  
 **Lezerspubliek:** Ontwikkelaars
 
----
-
 ## 1. Testoverzicht
 - **Unittests** – Controleren individuele functies/klassen in isolatie.  
 - **Integratietests** – Controleren dat componenten (exporter, (hy)damo converter, validator, fixer, schematisation converter) goed samenwerken.  
@@ -44,17 +42,11 @@ _Lijst van functies binnen modules/klassen met korte samenvatting._
 | test_flow_profiles.py | End-to-end | 🟠 Gedeeltelijk getest | Volledige flow | _.../....gpkg_ | _.../....gpkg_ | Controleert volledige dataverwerking: conversie naar (hy)damo → validatie → verbetering → conversie naar model | _..._ |
 | _test_....py_ | _..._ | 🔴 Niet getest | _..._ | _.../....gpkg_ | _.../....gpkg_ | _..._ | _..._ |
 
----
-
 ## 2. Testomgeving opzetten en tests uitvoeren
 _Hier linken naar doc threedi-tools_  
 
----
-
 ## 3. Testdata
 ...
-
----
 
 ## 4. Integratie
 - Alle tests draaien automatisch bij pull requests.  
