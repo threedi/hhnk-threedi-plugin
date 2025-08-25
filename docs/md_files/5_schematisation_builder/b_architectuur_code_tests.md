@@ -1,3 +1,26 @@
+# Architectuur & ontwerp
+**Doel:** Uitleggen hoe het systeem op hoofdlijnen werkt en hoe de onderdelen samenhangen.  
+**Lezerspubliek:** Ontwikkelaars & architecten
+
+## 1. Systeemstroomschema
+_Flowio-diagram met uitleg._
+
+## 2. Overzicht componenten
+_Lijst van modules en hun verantwoordelijkheden._
+
+## 3. Gegevensstroomschema (conceptueel)
+_Laat zien hoe gegevens tussen componenten bewegen, inclusief opslag._
+
+# Componenten & code
+**Doel:** Beschrijven van de rol van elke codecomponent en de interne structuur.  
+**Lezerspubliek:** Ontwikkelaars
+
+## 1. Module-overzicht
+_Lijst van modules/klassen met korte samenvatting._
+
+## 2. Functie-overzicht
+_Lijst van functies binnen modules/klassen met korte samenvatting._
+
 # Tests
 **Doel:** Uitleg over tests en testdatasets.  
 **Lezerspubliek:** Ontwikkelaars
