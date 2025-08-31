@@ -6,8 +6,7 @@ In de 3Di poldermodellen zitten de volgende 4 rasterkaarten:
 4. Bodemberging
 
 Hoe deze kaarten zijn opgebouwd wordt hieronder beschreven.
-Alle rasters bevatten waardes op subgridniveau (0,5 m bij 0,5 m) die door 3Di op een verantwoorde
-manier worden opgeschaald tot de veel grotere rekencellen.
+Alle rasters bevatten waardes op subgridniveau (0,5 m bij 0,5 m) die door 3Di worden opgeschaald tot de veel grotere rekencellen.
 
 ### **Maaiveldhoogte DEM**
 In het 3Di model wordt een hoogtekaart ofwel Digital Elevation Model (DEM) gebruikt voor de berging op en stroming over het maaiveld. De DEM wordt eveneens gebruikt om waterdieptes te berekenen die vervolgens worden gebruikt voor het afleiden van schade. De DEM is gebaseerd op de maaiveldhoogtekaart ofwel het Actuele Hoogtekaart Nederland. Ten tijde van het BWN2-project was dit AHN versie 3, inmiddels zijn alle modellen bijgewerkt naar AHN4. Modellen die nieuw worden opgebouwd zijn gebaseerd op de AHN5.
@@ -31,8 +30,7 @@ De panden uit de BAG waarmee de AHN5 is bijgewerkt zijn geexporteerd op 10 janua
 * 'Verbouwing pand' 
 
 *'Bouw gestart'*  bevat scala aan situaties, nieuwbouw waar al is opgehoogd of niet, herbouw bestaande bouw, bouwputten. 
-    Om gaten op te vullen worden deze op basis van 75 percentiel een drempelhoogte te geven. Ik sla deze 
-    los op zodat deze toegevoegd kunnen worden aan de laag met onbetrouwbare schades.
+    Om gaten op te vullen worden deze gebruikt om op basis van 75 percentiel een drempelhoogte te geven. Daanaast slaan we deze los op zodat deze toegevoegd kunnen worden aan de laag met onbetrouwbare schades.
 
 *'Bouwvergunning verleend'* bevat ook vele mogelijkheden. Maar hier is vaker de originele maaiveldhoogte nog in de dtm te vinden.
     Deze locaties zijn niet bijgewerkt in de DEM, maar los opgeslagen in de hydrologen database zodat ze eventueel toegevoegd kunnen worden aan de laag
@@ -40,24 +38,17 @@ De panden uit de BAG waarmee de AHN5 is bijgewerkt zijn geexporteerd op 10 janua
 
     
 
-Er zijn ook gevallen waar ik geen ahn waarde gevonden heb. Dan kan doordat er bijvoorbeeld een nieuwe garagebox komt waar een sporthal stond.
-Dat is zoveel nodata dat het te ver weg ligt pixels met data om een waarde te vinden. Ik sla deze los op zodat deze toegevoegd kunnen worden aan de laag
-met onbetrouwbare schades.
-    Ik kies er hier voor om de percentielen van het dichtstbijzijnde pand over te nemen met maximale afstand van 10 m. Anders zou bijvoorbeeld een groot deel van 
-    Middenwaard niet meekomen. Meer dan 10 m doe ik niet omdat ik liever niet een waarde van de andere kant van de straat neem. Bijvoorbeeld bij chinees rest. 
-    Libelle
+Er zijn ook vlakken waar geen opvulhoogte op basis van de rand rondom het vlak gevonden kan worden. Dat komt bijvoorbeeld doordat een garagebox is omsloten door andere panden, en dus in een groot gat in de AHN staat. Ook winkelcenrtum Middenwaard is een voorbeeld, waar losse delen midden in het winkelcentrum zijn gedefinieerd. Deze vlakken worden los opgeslagen zodat deze toegevoegd kunnen worden aan de laag met onbetrouwbare schades. De drempelhoogte van deze vlakken nemen we over van het dichtstbijzijnde pand op een maximale afstand van 10 m.  Meer dan 10 m kan tot fouten leiden, zoals een waarde van de andere kant van de straat, bijvoorbeeld bij chinees rest. Libelle.
 
-Gaten in de AHN5 die overblijven worden dichtgesmeerd. Ik kies voor de dichtstbijzijnde waarde methode. Dat ziet er lelijk uit, maar dan 
-zien we bij grote vlakken tenminste dat het niet klopt.
+Gaten in de AHN5 die overblijven worden dichtgeinterpoleerd volgens de nearest neighbour methode. Dat ziet er lelijk uit, maar dan zien we bij grote vlakken tenminste dat het niet klopt.
 
+De basis AHN wordt opgeslagen zoals hierboven beschreven. De HHNK modlbuilder voegt tenslotte nog de toe dat alle BGT watervlakken worden opgehoogd naar 10 m.
 
-
-
-
-3. Alle watervlakken (BGT Waterdeel_v en BGT OverigBouwwerk_v [BGTPlusType = 'bassin' OR BGTPlusType = 'opslagtank' OR BGTPlusType = 'bezinkbak']) ophogen tot NAP +10 m (om dubbeltelling van waterberging in de 1D en de 2D module te voorkomen). 
+In de eerste versie van de BWN modellen (AHN3) werken ook bassins en andere tanks opgehoogd. Dat doen we nu niet, omdat het slechts een klein aandeel heeft. Mocht dit lokaal toch nodig zijn dan kan de BGT hiervoor gebruikt worden: BGT OverigBouwwerk_v [BGTPlusType = 'bassin' OR BGTPlusType = 'opslagtank' OR BGTPlusType = 'bezinkbak']). 
 
 Wat niet vooraf gebeurt is:
 1. Maaiveldcorrecties door te voeren voor bouwputten, inritten, tunnelbakken en maaiveldveranderingen (bv recent aangelegde waterberging);
+2. Maaiveldcorrecties voor viaducten en tunnels. Hiervoor is wel een bestand 'doorsnijdingen' beschikbaar voor omstromingsberekeningen.
 
 Dit kan in de model DEM aangepast worden en in de HDB worden bijgehouden in de laag `dem_edits` voor nieuwe modellen.
 
