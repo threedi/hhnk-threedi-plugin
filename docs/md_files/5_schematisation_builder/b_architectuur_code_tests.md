@@ -22,19 +22,46 @@ _Lijst van modules en hun verantwoordelijkheden._
 | Interfaces |   | ... | ... | /hhnk_threedi_plugin/gui/ schematisation_builder.py |
 
 ### Database exporter
-_..._
+_functionaliteit / waarom nodig_
+
+_code opbouw_
+
 
 ### Intermediate converter
-_Waarom zijn ze nodig, hoe is de code opgebouwd (parent, child classes), functionaliteiten per converter._
+Intermediate converter vormt een schakel tussen de ruwe exportbestanden (DAMO, CSO & HDB) en de uiteindelijke HyDAMO/3Di-invoer, door de ruwe exportbestanden om te zetten in DAMO-formaat volgens standaard. De intermediate converter zorgt voor:
+* Inlezen en valideren van lagen.
+* Bewerken en verrijken van data (IDs, geometrie, koppelingen).
+* Schrijven van consistente outputs.
+
+De code is opgebouwd rond een basisklasse en meerdere child classes.
+
+| Converter / Klasse | Type | Code-opbouw | Inputlagen | Output / Acties |
+|--------------------|------|-------------|------------|------------------|
+| **IntermediateConverter** | Parent (basisklasse) | - Centrale basisfunctionaliteit<br>- Beheert `data` via `_Data`-klasse<br>- Helpers voor geometrie, validatie, koppelingen, schrijven<br>- Houdt bij welke converters al zijn uitgevoerd (`_executed`) | generiek (verschilt per child class) | - Inlezen en valideren lagen<br>- Schrijven outputs naar GeoPackage<br>- Geometriebewerkingen (bv. z-coördinaten toevoegen/verwijderen)<br>- Koppelen profielen aan hydroobjecten<br>- Berekenen diepste punt |
+| **GemaalIntermediateConverter** | Child class | - Extensie van `IntermediateConverter`<br>- Implementeert `run()` met stappen: `load_layers()`, `update_gemaal_layer()`, `write_outputs()`<br>- Helpers: `_add_column_gemaalid`, `_add_column_globalid`, `_adjust_pomp_maximalecapaciteit`, `_make_pomp_layer` | `gemaal`, `pomp`, `hydroobject` | - Laden gemaal- en pomp-lagen<br>- Pomp koppelen aan gemaal via `gemaalid`<br>- Toevoegen `globalid` aan pomp<br>- Corrigeren `maximalecapaciteit` pomp obv gemaal<br>- Aanmaken dummy pomp-laag indien ontbreekt |
+| **PeilgebiedIntermediateConverter** | Child class | - Extensie van `IntermediateConverter`<br>- Implementeert `run()` met stappen: `load_layers()`, `write_outputs()`<br>- `update_peilgebied_layer()` nog niet geïmplementeerd | `peilgebiedpraktijk` | - Inladen en opschonen peilgebiedpraktijk<br>- Output voorbereiden voor validatie (toekomstige logica volgt) |
+| **ProfileIntermediateConverter** | Child class | - Extensie van `IntermediateConverter`<br>- Implementeert `run()` met stappen: `load_layers()`, `process_linemerge()`, `create_profile_tables()`, `connect_profiles_to_hydroobject_without_profiles()`, `write_outputs()`<br>- Helpers: `_assign_hydroobject_ids`, `_add_z_to_point_geometry_based_on_column`, `_drop_z_from_linestringz_geometry` | `hydroobject`, `gw_pro`, `gw_prw`, `gw_pbp`, `iws_geo_beschr_profielpunten`, `peilgebiedpraktijk` | - Samenvoegen (linemerge) hydroobjecten per peilgebied<br>- Creëren profiel-tabellen: `profielgroep`, `profiellijn`, `profielpunt`<br>- Z-coördinaten toevoegen aan punten<br>- Koppelen profielen aan hydroobjecten<br>- Verbinden hydroobjecten zonder profielen met nabijgelegen profielen |
+| **_Data** | Helper class | - Beheert alle ingelezen lagen als GeoDataFrames<br>- Toegang via property in converters (`self.data`)<br>- Centraliseert opslag en mutatie van tabellen | Afhankelijk van aangeroepen converter | - Houdt consistente dataset bij gedurende conversies<br>- Maakt lagen beschikbaar voor lezen en schrijven<br>- Ondersteunt doorgeven van gewijzigde tabellen tussen converters |
+
+
 
 ### DAMO naar HyDAMO converter
-_..._
+_functionaliteit / waarom nodig_
+
+_code opbouw_
+
 
 ### HyDAMO validator
+_functionaliteit / waarom nodig_
+
+_code opbouw_
 _Fork van, hoe gebruiken we de bestaande functionaliteiten in de validator, waarom hebben we custom func toegevoegd, link naar overzicht validatieregels_
 
 ### HyDAMO fixer
-_..._
+_functionaliteit / waarom nodig_
+
+_code opbouw_
+
 
 ### 3Di converter
 HyDAMO_conversion_to_3di mogelijk straks niet meer relevant door volledige QGIS integratie. Anders is het netjes om HyDAMO_conversion_to_3di.py te vernoemen naar HyDAMO_3Di_converter.py voor uniformiteit.
