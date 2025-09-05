@@ -3,9 +3,7 @@
 **Lezerspubliek:** Ontwikkelaars & hydrologen
 
 ## 1. Validatieregels
-_Link naar excel overzicht in threedi-tools._
-
-
+Een overzicht van de validatieregels staat [hier](https://github.com/threedi/hhnk-threedi-tools/blob/main/hhnk_threedi_tools/resources/schematisation_builder/hhnk_validationrules.csv). Dit is een gegeneerd overzicht met [dit script](https://github.com/threedi/hhnk-threedi-tools/blob/main/hhnk_threedi_tools/core/schematisation_builder/utils/export_validation_rules_overview.py).
 
 ## 2. Verbeteringslogica
 _Automatische en handmatige stappen inclusief aannames._
