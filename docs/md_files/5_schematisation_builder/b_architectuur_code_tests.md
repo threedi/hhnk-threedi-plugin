@@ -128,10 +128,17 @@ In de onderstaande tabel is een overzicht te vinden van de functies, hun beschri
 
 
 ### D. HyDAMO validator
-_functionaliteit / waarom nodig_
+De class `HyDAMO_validator` wordt gebruikt om HyDAMO-bestanden te controleren op consistentie en correctheid volgens de geldende validatieregels. 
 
-_code opbouw_
-_Fork van, hoe gebruiken we de bestaande functionaliteiten in de validator, waarom hebben we custom func toegevoegd, link naar overzicht validatieregels_
+De class leunt volledig op de functionaliteiten van de `HyDAMOValidatieModule`. Dit is een [fork](https://github.com/HHNK/HyDAMOValidatieModule) van de [officiële hydamo_validation-module van Het Waterschapshuis](https://github.com/HetWaterschapshuis/HyDAMOValidatieModule). Voor dit project zijn [custom functies](https://github.com/HHNK/HyDAMOValidatieModule/blob/main/hydamo_validation/functions/custom.py) toegevoegd om specifieke validatieregels af te kunnen dwingen en logging te integreren.
+
+Code-opbouw
+1. Voorbereiding van bestanden: het HyDAMO-bestand en de validatieregels worden naar een werkmap gekopieerd.
+2. Initialisatie validator: een validator-object wordt aangemaakt met de gewenste coverages (key: "AHN", value: padverwijzing naar map met index.shp en rasters) en output types (geopackage, csv, geojson).
+3. Uitvoering validatie: het validator-object voert de validatie uit, schrijft de resultaten weg in de werkmap en retourneert een samenvatting van de resultaten.
+
+**[Validatieregels & aannames](c_validatieregels_aannames.md)** 
+
 
 ---
 
