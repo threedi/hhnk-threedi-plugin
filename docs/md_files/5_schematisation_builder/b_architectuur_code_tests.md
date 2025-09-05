@@ -2,12 +2,24 @@
 **Doel:** Uitleggen hoe het systeem op hoofdlijnen werkt en hoe de onderdelen samenhangen. Beschrijven van de rol van elke codecomponent en de interne structuur. Uitleg over tests en testdatasets.   
 **Lezerspubliek:** Ontwikkelaars & architecten
 
-## 1. Systeemstroomschema
-_Flowio-diagram met uitleg._
+## 1. Uitgangspunten
+_Uitgangspunten met uitleg._
 
 
 
-## 2. Overzicht componenten
+## 2. Systeemstroomschema
+Het stroomschema geeft een overzicht van het volledige conversie- en validatieproces van brondata naar een 3Di schematisatie. Het proces start bij de gebruiker, die via de Folder selector de bronbestanden selecteert en, indien nodig, aannames toevoegt of wijzigt.
+
+De bestanden worden vervolgens verwerkt door de Exporter, die de ruwe data beschikbaar maakt. Daarna doorloopt de data twee opeenvolgende conversiestappen: de ToDAMO converter en de DAMO_to_HyDAMO converter, waarbij de data wordt omgezet naar het HyDAMO-formaat met correcte attributen en schema’s.
+
+Na de conversie volgt de HyDAMO validator, die de gegevens controleert op basis van een reeks vooraf gedefinieerde validatieregels. 
+
+_..._
+
+![Systeemstroomschema](../../../images/5_schematisation_builder/b_architectuur_code_tests/stroomsschema.png)
+
+
+## 3. Overzicht componenten
 _Lijst van modules en hun verantwoordelijkheden._
 
 | Type | Volgorde | Module | Rol | Bestand |
@@ -153,7 +165,7 @@ _code opbouw_
 HyDAMO_conversion_to_3di mogelijk straks niet meer relevant door volledige QGIS integratie. Anders is het netjes om HyDAMO_conversion_to_3di.py te vernoemen naar HyDAMO_3Di_converter.py voor uniformiteit.
 
 
-## 3. Testoverzicht
+## 4. Testoverzicht
 - **Unittests** – Controleren individuele functies/klassen in isolatie.  
 - **Integratietests** – Controleren dat componenten (exporter, (hy)damo converter, validator, fixer, schematisation converter) goed samenwerken.  
 - **End-to-end tests** – Controleren van de volledige datastroom: export → omzetten naar (hy)damo → valideren → verbeteren → her-valideren → omzetten naar schematisatie (op objectniveau, danwel voor de gehele set).  
