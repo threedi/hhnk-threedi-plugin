@@ -3,8 +3,15 @@
 **Lezerspubliek:** Ontwikkelaars & architecten
 
 ## 1. Uitgangspunten
-_Uitgangspunten met uitleg._
-
+Bij ontwikkeling van de Schematisation Builder zijn steeds de volgende uitgangspunten gehanteerd.
+* Transparantie: Het is eenvoudig te achterhalen waar gegevens vandaan komen: de gegevensbron, aannames en keuzes die gemaakt zijn.
+* Interactief: Een proces waarin de modelleur keuzes voorgelegd krijgt, in plaats van dat de software aannames doet waar de modelleur geen weet van heeft. 
+* Eenvoudiger proces: Versimpelen van het dataverwerkings- en modelleerproces, inclusief het documenteren van wat en waarom.
+* Modulaire opzet: Ontwikkeling van goed onderhoudbare, modulaire software, waarbij datavalidatie en conversie worden gescheiden. Van elke component is duidelijk beschreven wat die doet; elke component doet één ding, dit wordt niet door elkaar gemengd.
+* HyDAMO implementatie: Volledige integratie van HyDAMO als standaard voor data-uitwisseling, met ondersteuning voor aanvullende validaties.
+* Cyclisch modelleren: Onjuiste gegevens worden zoveel mogelijk in de brondata aangepast. Hierbij wordt aangesloten op het Mutatie Meldingen Systeem van team GEO.
+* Samenwerking met 3Di: Samenwerking met 3Di om zo min mogelijk zelf te ontwikkelen, maar waar mogelijk gebruik te maken van bestaande tools en expertise.
+* Eén taal/platform: Vereenvoudiging door over te stappen op één programmeertaal en platform (Python), ter vervanging van de huidige combinatie van verschillende systemen.
 
 
 ## 2. Systeemstroomschema
@@ -16,7 +23,7 @@ Na de conversie volgt de HyDAMO validator, die de gegevens controleert op basis 
 
 _..._
 
-![Systeemstroomschema](../../images/5_schematisation_builder/b_architectuur_code_tests/stroomschema.png)
+![Systeemstroomschema](../../images/5_schematisation_builder/b_architectuur_code_tests/systeemstroomschema.png)
 
 
 ## 3. Overzicht componenten
