@@ -33,15 +33,72 @@ Intermediate converter vormt een schakel tussen de ruwe exportbestanden (DAMO, C
 * Bewerken en verrijken van data (IDs, geometrie, koppelingen).
 * Schrijven van consistente outputs.
 
-De code is opgebouwd rond een basisklasse en meerdere child classes.
+De code is opgebouwd rond een parent klasse en meerdere child klassen.
 
-| Converter / Klasse | Type | Code-opbouw | Inputlagen | Output / Acties |
-|--------------------|------|-------------|------------|------------------|
-| **IntermediateConverter** | Parent (basisklasse) | - Centrale basisfunctionaliteit<br>- Beheert `data` via `_Data`-klasse<br>- Helpers voor geometrie, validatie, koppelingen, schrijven<br>- Houdt bij welke converters al zijn uitgevoerd (`_executed`) | generiek (verschilt per child class) | - Inlezen en valideren lagen<br>- Schrijven outputs naar GeoPackage<br>- Geometriebewerkingen (bv. z-coördinaten toevoegen/verwijderen)<br>- Koppelen profielen aan hydroobjecten<br>- Berekenen diepste punt |
-| **GemaalIntermediateConverter** | Child class | - Extensie van `IntermediateConverter`<br>- Implementeert `run()` met stappen: `load_layers()`, `update_gemaal_layer()`, `write_outputs()`<br>- Helpers: `_add_column_gemaalid`, `_add_column_globalid`, `_adjust_pomp_maximalecapaciteit`, `_make_pomp_layer` | `gemaal`, `pomp`, `hydroobject` | - Laden gemaal- en pomp-lagen<br>- Pomp koppelen aan gemaal via `gemaalid`<br>- Toevoegen `globalid` aan pomp<br>- Corrigeren `maximalecapaciteit` pomp obv gemaal<br>- Aanmaken dummy pomp-laag indien ontbreekt |
-| **PeilgebiedIntermediateConverter** | Child class | - Extensie van `IntermediateConverter`<br>- Implementeert `run()` met stappen: `load_layers()`, `write_outputs()`<br>- `update_peilgebied_layer()` nog niet geïmplementeerd | `peilgebiedpraktijk` | - Inladen en opschonen peilgebiedpraktijk<br>- Output voorbereiden voor validatie (toekomstige logica volgt) |
-| **ProfileIntermediateConverter** | Child class | - Extensie van `IntermediateConverter`<br>- Implementeert `run()` met stappen: `load_layers()`, `process_linemerge()`, `create_profile_tables()`, `connect_profiles_to_hydroobject_without_profiles()`, `write_outputs()`<br>- Helpers: `_assign_hydroobject_ids`, `_add_z_to_point_geometry_based_on_column`, `_drop_z_from_linestringz_geometry` | `hydroobject`, `gw_pro`, `gw_prw`, `gw_pbp`, `iws_geo_beschr_profielpunten`, `peilgebiedpraktijk` | - Samenvoegen (linemerge) hydroobjecten per peilgebied<br>- Creëren profiel-tabellen: `profielgroep`, `profiellijn`, `profielpunt`<br>- Z-coördinaten toevoegen aan punten<br>- Koppelen profielen aan hydroobjecten<br>- Verbinden hydroobjecten zonder profielen met nabijgelegen profielen |
-| **_Data** | Helper class | - Beheert alle ingelezen lagen als GeoDataFrames<br>- Toegang via property in converters (`self.data`)<br>- Centraliseert opslag en mutatie van tabellen | Afhankelijk van aangeroepen converter | - Houdt consistente dataset bij gedurende conversies<br>- Maakt lagen beschikbaar voor lezen en schrijven<br>- Ondersteunt doorgeven van gewijzigde tabellen tussen converters |
+### **IntermediateConverter** (parent class)
+| Type | Inputlagen | Output |
+|------|------------|---------|
+| Parent klasse | generiek (verschilt per child) | Consistente dataflow en output naar GeoPackage |
+
+| Functie | Beschrijving | Helper functies |
+|---------|--------------|-----------------|
+| `load_layers()` | Laadt benodigde lagen in het interne `_Data` object | – |
+| `process_data()` | Abstract: wordt overschreven in child class om data te bewerken | – |
+| `write_outputs()` | Schrijft gewijzigde lagen naar GeoPackage | – |
+
+---
+
+### **GemaalIntermediateConverter**
+| Type | Inputlagen | Output |
+|------|------------|---------|
+| Child class | `gemaal`, `pomp`, `hydroobject` | Gemaal- en pomptabellen met koppelingen en correcties |
+
+| Functie | Beschrijving | Helper functies |
+|---------|--------------|-----------------|
+| `load_layers()` | Laadt gemaal-, pomp- en hydroobjectlagen | – |
+| `update_gemaal_layer()` | Verwerkt pomplagen en koppelt deze aan gemaal | `_add_column_gemaalid`, `_add_column_globalid`, `_adjust_pomp_maximalecapaciteit`, `_make_pomp_layer` |
+| `write_outputs()` | Schrijft lagen naar GeoPackage | – |
+
+---
+
+### **PeilgebiedIntermediateConverter**
+| Type | Inputlagen | Output |
+|------|------------|---------|
+| Child class | `peilgebiedpraktijk` | Opschoning en voorbereiding voor validatie (nog beperkt) |
+
+| Functie | Beschrijving | Helper functies |
+|---------|--------------|-----------------|
+| `load_layers()` | Laadt peilgebiedpraktijk | – |
+| `update_peilgebied_layer()` | Placeholder, nog niet geïmplementeerd | – |
+| `write_outputs()` | Schrijft peilgebiedlagen naar GeoPackage | – |
+
+---
+
+### **ProfileIntermediateConverter**
+| Type | Inputlagen | Output |
+|------|------------|---------|
+| Child class | `hydroobject`, `gw_pro`, `gw_prw`, `gw_pbp`, `iws_geo_beschr_profielpunten`, `peilgebiedpraktijk` | Profiel-tabellen en gekoppelde hydroobjecten |
+
+| Functie | Beschrijving | Helper functies |
+|---------|--------------|-----------------|
+| `load_layers()` | Laadt hydroobject- en profielgerelateerde tabellen | – |
+| `process_linemerge()` | Voegt hydroobjecten samen per peilgebied (linemerge) | – |
+| `create_profile_tables()` | Bouwt tabellen: `profielgroep`, `profiellijn`, `profielpunt` | `_assign_hydroobject_ids` |
+| `connect_profiles_to_hydroobject_without_profiles()` | Koppelt profielen aan hydroobjecten zonder profiel | `_add_z_to_point_geometry_based_on_column`, `_drop_z_from_linestringz_geometry` |
+| `write_outputs()` | Schrijft profiel- en hydroobjectlagen naar GeoPackage | – |
+
+---
+
+### **_Data**
+| Type | Inputlagen | Output |
+|------|------------|---------|
+| Helper class | Afhankelijk van aangeroepen converter | Consistente dataset en toegang tot tabellen |
+
+| Functie | Beschrijving | Helper functies |
+|---------|--------------|-----------------|
+| Opslag & beheer | Houdt lagen als GeoDataFrames bij, gedeeld tussen converters | – |
+| Properties | Toegang tot tabellen via `self.data` | – |
+
 
 
 
