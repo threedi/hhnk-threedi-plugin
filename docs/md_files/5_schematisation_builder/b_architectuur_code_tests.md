@@ -16,7 +16,7 @@ Na de conversie volgt de HyDAMO validator, die de gegevens controleert op basis 
 
 _..._
 
-![Systeemstroomschema](../../../images/5_schematisation_builder/b_architectuur_code_tests/stroomsschema.png)
+![Systeemstroomschema](../../../images/5_schematisation_builder/b_architectuur_code_tests/stroomschema.png)
 
 
 ## 3. Overzicht componenten
