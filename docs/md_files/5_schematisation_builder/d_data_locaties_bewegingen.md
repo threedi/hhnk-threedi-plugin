@@ -78,27 +78,31 @@ flowchart TD
     %% Subgraphs voor overzicht
     subgraph 00_config [00_config]
         direction TB
-        DB["00_config/00_Export/databases.json"]:::style_0
-        VR["00_config/03_HyDAMO_Validator/validationrules.json"]:::style_0
-        FIXES["00_config/04_HyDAMO_Fixer/fixes.json"]:::style_0
-        CONVERSION_CONFIGS["00_config/05_3Di_Converter/{}.json"]:::style_0
+        DB["00_Export/databases.json"]:::style_0
+        VR["03_HyDAMO_Validator/validationrules.json"]:::style_0
+        FIXES["04_HyDAMO_Fixer/fixes.json"]:::style_0
+        CONVERSION_CONFIGS["05_3Di_Converter/{}.json"]:::style_0
     end
+
+    DB ~~~ VR
+    VR ~~~ FIXES
+    FIXES ~~~ CONVERSION_CONFIGS
 
     subgraph 01_source_data [01_source_data]
         direction TB
-        POLDER["01_source_data/polder.gpkg"]:::style_0
-        RAW_EXPORT["01_source_data/00_Export/raw_export.gpkg"]:::style_A
-        INTERMEDIATE["01_source_data/01_Intermediate_Converter/DAMO.gpkg"]:::style_B
-        HYDAMO["01_source_data/02_HyDAMO/HyDAMO.gpkg"]:::style_C
-        VALIDATION_SET1["01_source_data/03_HyDAMO_Validator/set_1/results.gpkg"]:::style_D
-        FIX_SET1["01_source_data/04_HyDAMO_Fixer/set_1/HyDAMO.gpkg"]:::style_E
-        VALIDATION_SET2["01_source_data/03_HyDAMO_Validator/set_2/results.gpkg"]:::style_D
-        FIX_SET2["01_source_data/04_HyDAMO_Fixer/set_2/HyDAMO.gpkg"]:::style_E
+        POLDER["polder.gpkg"]:::style_0
+        RAW_EXPORT["00_Export/raw_export.gpkg"]:::style_A
+        INTERMEDIATE["01_Intermediate_Converter/DAMO.gpkg"]:::style_B
+        HYDAMO["02_HyDAMO/HyDAMO.gpkg"]:::style_C
+        VALIDATION_SET1["03_HyDAMO_Validator/set_1/results.gpkg"]:::style_D
+        FIX_SET1["04_HyDAMO_Fixer/set_1/HyDAMO.gpkg"]:::style_E
+        VALIDATION_SET2["03_HyDAMO_Validator/set_2/results.gpkg"]:::style_D
+        FIX_SET2["04_HyDAMO_Fixer/set_2/HyDAMO.gpkg"]:::style_E
     end
 
     subgraph 02_schematisation [02_schematisation]
         direction TB
-        SCHEMA["02_schematisation/00_basis/{project_naam}.gpkg"]:::style_F
+        SCHEMA["00_basis/{project_naam}.gpkg"]:::style_F
     end
 
     %% Datastromen
