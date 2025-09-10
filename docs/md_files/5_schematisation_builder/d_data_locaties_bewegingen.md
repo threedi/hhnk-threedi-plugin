@@ -85,6 +85,7 @@ flowchart TD
     end
 
     subgraph 01_source_data [01_source_data]
+        direction TB
         POLDER["01_source_data/polder.gpkg"]:::style_0
         RAW_EXPORT["01_source_data/00_Export/raw_export.gpkg"]:::style_A
         INTERMEDIATE["01_source_data/01_Intermediate_Converter/DAMO.gpkg"]:::style_B
@@ -94,6 +95,7 @@ flowchart TD
     end
 
     subgraph 02_schematisation [02_schematisation]
+        direction TB
         SCHEMA["02_schematisation/00_basis/{project_naam}.gpkg"]:::style_F
     end
 
