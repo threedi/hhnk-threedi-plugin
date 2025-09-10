@@ -75,8 +75,6 @@ Dit is nu eigenlijk nog meer een ontwerp. Hier moeten we naartoe werken. Is moge
 ## 3. Datastroom (bestand- en opslag)
 _Hoe de uitvoer van elke stap de invoer voor de volgende vormt._
 
-Uitprobeersel:
-
 ```mermaid
 flowchart TD
     subgraph Config [00_config]
@@ -99,8 +97,8 @@ flowchart TD
         Schema["00_basis/{project_naam}.gpkg"]
     end
 
-    subgraph Results [03_3di_results]
-        Results["..."]
+    subgraph ThreeDiResults [03_3di_results]
+        ThreeDi["3Di resultaten"]
     end
 
     Export --> SD_Export
@@ -113,4 +111,5 @@ flowchart TD
     Fixer --> SD_Fixer
     SD_Fixer --> Converter
     Converter --> Schema
-    Schema --> Results
+    Schema --> ThreeDi
+
