@@ -77,14 +77,14 @@ _Hoe de uitvoer van elke stap de invoer voor de volgende vormt._
 flowchart TD
     %% Subgraphs voor overzicht
     subgraph 00_config [00_config]
-        DB["00_config/00_Export/databases.json"]:::style_B
+        DB["00_config/00_Export/databases.json"]:::style_0
         VR["00_config/03_HyDAMO_Validator/validationrules.json"]:::style_D
         FIXES["00_config/04_HyDAMO_Fixer/fixes.json"]:::style_E
         CONVERSION_CONFIGS["00_config/05_3Di_Converter/{}.json"]:::style_F
     end
 
     subgraph 01_source_data [01_source_data]
-        POLDER["01_source_data/polder.gpkg"]:::style_A
+        POLDER["01_source_data/polder.gpkg"]:::style_0
         RAW_EXPORT["01_source_data/00_Export/raw_export.gpkg"]:::style_A
         INTERMEDIATE["01_source_data/01_Intermediate_Converter/DAMO.gpkg"]:::style_B
         HYDAMO["01_source_data/02_HyDAMO/HyDAMO.gpkg"]:::style_C
@@ -101,14 +101,18 @@ flowchart TD
     POLDER -->|DatabaseExporter| RAW_EXPORT
     RAW_EXPORT -->|IntermediateConverter| INTERMEDIATE
     INTERMEDIATE -->|DAMO2HyDAMOConverter| HYDAMO
+    VR -->|HyDAMOValidator| VALIDATION
     HYDAMO -->|HyDAMOValidator| VALIDATION
+    FIXES -->|HyDAMOFixer| FIX
     VALIDATION -->|HyDAMOFixer| FIX
+    CONVERSION_CONFIGS -->|3DiConverter| SCHEMA
     FIX -->|3DiConverter| SCHEMA
 
     %% Gradient styling from A to F
+    classDef style_0 fill:#cccccc,stroke:#333,stroke-width:2px;
     classDef style_A fill:#e0b3ff,stroke:#333,stroke-width:2px;
     classDef style_B fill:#b3c6ff,stroke:#333,stroke-width:2px;
     classDef style_C fill:#b3ffe0,stroke:#333,stroke-width:2px;
     classDef style_D fill:#ffffb3,stroke:#333,stroke-width:2px;
     classDef style_E fill:#ffd6b3,stroke:#333,stroke-width:2px;
-    classDef style_F fill:#b3ffd6,stroke:#333,stroke-width:2px;
+    classDef style_F fill:#ff4d4d,stroke:#333,stroke-width:2px;
