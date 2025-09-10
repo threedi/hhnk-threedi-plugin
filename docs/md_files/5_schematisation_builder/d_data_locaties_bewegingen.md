@@ -51,6 +51,7 @@ Dit is nu eigenlijk nog meer een ontwerp. Hier moeten we naartoe werken. Is moge
 │           ├── fixer_result.json
 │       ├── Set 2...
 │   ├── 06_3Di_Converter
+│       ├── ??? komt hier wel iets terecht -> schematisatie eindigt bij 02_schematisation
 │   └── polder.gpkg
 │   └── README.md
 ├── 02_schematisation
@@ -68,7 +69,48 @@ Dit is nu eigenlijk nog meer een ontwerp. Hier moeten we naartoe werken. Is moge
 │   └── ...
 │   └── ...
 │   └── README.md
+└── log.log
 ```
 
 ## 3. Datastroom (bestand- en opslag)
 _Hoe de uitvoer van elke stap de invoer voor de volgende vormt._
+
+Uitprobeersel:
+
+```mermaid
+flowchart TD
+    subgraph Config [00_config]
+        Export["00_Export"]
+        Validator["04_HyDAMO_Validator"]
+        Fixer["05_HyDAMO_Fixer"]
+        Converter["06_3Di_Converter"]
+    end
+
+    subgraph SourceData [01_source_data]
+        SD_Export["00_Export/raw_export.gpkg"]
+        SD_Intermediate["01_Intermediate_Converter/intermediate_conversion.gpkg"]
+        SD_DAMO["02_DAMO/DAMO.gpkg"]
+        SD_HyDAMO["03_HyDAMO/HyDAMO.gpkg"]
+        SD_Validator["04_HyDAMO_Validator/Set_X/results.gpkg"]
+        SD_Fixer["05_HyDAMO_Fixer/Set_X/HyDAMO.gpkg"]
+    end
+
+    subgraph Schematisation [02_schematisation]
+        Schema["00_basis/{project_naam}.gpkg"]
+    end
+
+    subgraph Results [03_3di_results]
+        Results["..."]
+    end
+
+    Export --> SD_Export
+    SD_Export --> SD_Intermediate
+    SD_Intermediate --> SD_DAMO
+    SD_DAMO --> SD_HyDAMO
+    SD_HyDAMO --> Validator
+    Validator --> SD_Validator
+    SD_Validator --> Fixer
+    Fixer --> SD_Fixer
+    SD_Fixer --> Converter
+    Converter --> Schema
+    Schema --> Results
