@@ -78,47 +78,22 @@ _Hoe de uitvoer van elke stap de invoer voor de volgende vormt._
 ```mermaid
 flowchart TD
     %% Subgraphs voor overzicht
-    subgraph Config [00_config]
-        Export["00_Export"]:::config
-        Validator["04_HyDAMO_Validator"]:::config
-        Fixer["05_HyDAMO_Fixer"]:::config
-        Converter["06_3Di_Converter"]:::config
+    subgraph DatabaseExporter [00_config]
+        SD_Export["01_source_data/polder.gpkg"]:::style_A
     end
 
-    subgraph SourceData [01_source_data]
-        SD_Export["00_Export/raw_export.gpkg"]:::data
-        SD_Intermediate["01_Intermediate_Converter/intermediate_conversion.gpkg"]:::data
-        SD_DAMO["02_DAMO/DAMO.gpkg"]:::data
-        SD_HyDAMO["03_HyDAMO/HyDAMO.gpkg"]:::data
-        SD_Validator["04_HyDAMO_Validator/Set_X/results.gpkg"]:::data
-        SD_Fixer["05_HyDAMO_Fixer/Set_X/HyDAMO.gpkg"]:::data
-    end
-
-    subgraph Schematisation [02_schematisation]
-        Schema["00_basis/{project_naam}.gpkg"]:::schema
-    end
-
-    subgraph ThreeDiResults [03_3di_results]
-        ThreeDi["3Di resultaten"]:::results
+    subgraph IntermediateConverter [03_3di_results]
+        SD_Intermediate["01_source_data/00_export/raw_export.gpkg"]:::style_B
     end
 
     %% Datastromen
-    Export -->|stap 1| SD_Export
-    SD_Export -->|stap 2| SD_Intermediate
-    SD_Intermediate -->|stap 3| SD_DAMO
-    SD_DAMO -->|stap 4| SD_HyDAMO
-    SD_HyDAMO -->|validator| Validator
-    Validator -->|validated| SD_Validator
-    SD_Validator -->|fixer| Fixer
-    Fixer -->|fixed| SD_Fixer
-    SD_Fixer -->|converter| Converter
-    Converter -->|schematisatie| Schema
-    Schema -->|3Di input| ThreeDi
+    SD_Export -->|stap 1| SD_Intermediate
 
-    %% Styling
-    classDef config fill:#f9f,stroke:#333,stroke-width:2px,stroke-dasharray: 5 5
-    classDef data fill:#bbf,stroke:#333,stroke-width:2px
-    classDef schema fill:#bfb,stroke:#333,stroke-width:2px
-    classDef results fill:#ffb,stroke:#333,stroke-width:2px,stroke-dasharray: 2 2
-
+    %% Gradient styling from A to F
+    classDef style_A fill:#f9f,stroke:#333,stroke-width:2px;
+    classDef style_B fill:#e0b3ff,stroke:#333,stroke-width:2px;
+    classDef style_C fill:#b3c6ff,stroke:#333,stroke-width:2px;
+    classDef style_D fill:#b3ffe0,stroke:#333,stroke-width:2px;
+    classDef style_E fill:#ffffb3,stroke:#333,stroke-width:2px;
+    classDef style_F fill:#ffd6b3,stroke:#333,stroke-width:2px;
 
