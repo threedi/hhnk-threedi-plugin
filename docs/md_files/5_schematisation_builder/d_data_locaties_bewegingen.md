@@ -77,6 +77,7 @@ _Hoe de uitvoer van elke stap de invoer voor de volgende vormt._
 flowchart TD
     %% Subgraphs voor overzicht
     subgraph 00_config [00_config]
+        direction TB
         DB["00_config/00_Export/databases.json"]:::style_0
         VR["00_config/03_HyDAMO_Validator/validationrules.json"]:::style_D
         FIXES["00_config/04_HyDAMO_Fixer/fixes.json"]:::style_E
