@@ -79,9 +79,9 @@ flowchart TD
     subgraph 00_config [00_config]
         direction TB
         DB["00_config/00_Export/databases.json"]:::style_0
-        VR["00_config/03_HyDAMO_Validator/validationrules.json"]:::style_D
-        FIXES["00_config/04_HyDAMO_Fixer/fixes.json"]:::style_E
-        CONVERSION_CONFIGS["00_config/05_3Di_Converter/{}.json"]:::style_F
+        VR["00_config/03_HyDAMO_Validator/validationrules.json"]:::style_0
+        FIXES["00_config/04_HyDAMO_Fixer/fixes.json"]:::style_0
+        CONVERSION_CONFIGS["00_config/05_3Di_Converter/{}.json"]:::style_0
     end
 
     subgraph 01_source_data [01_source_data]
@@ -106,8 +106,11 @@ flowchart TD
     INTERMEDIATE -->|DAMO2HyDAMOConverter| HYDAMO
     VR -->|HyDAMOValidator| VALIDATION
     HYDAMO -->|HyDAMOValidator| VALIDATION
+    HYDAMO -->|HyDAMOFixer| FIX
     FIXES -->|HyDAMOFixer| FIX
     VALIDATION -->|HyDAMOFixer| FIX
+    VR -->|HyDAMOValidator| VALIDATION
+    FIX -->|HyDAMOValidator| VALIDATION
     CONVERSION_CONFIGS -->|3DiConverter| SCHEMA
     FIX -->|3DiConverter| SCHEMA
 
