@@ -78,16 +78,18 @@ _Hoe de uitvoer van elke stap de invoer voor de volgende vormt._
 ```mermaid
 flowchart TD
     %% Subgraphs voor overzicht
-    subgraph DatabaseExporter [00_config]
-        SD_Export["01_source_data/polder.gpkg"]:::style_A
+    subgraph 00_config [00_config]
+        INPUT["00_config/Export/databases.json"]:::style_A
+
     end
 
-    subgraph IntermediateConverter [03_3di_results]
-        SD_Intermediate["01_source_data/00_export/raw_export.gpkg"]:::style_B
+    subgraph 01_source_data [01_source_data]
+        INPUT["01_source_data/polder.gpkg"]:::style_A
+        EXPORT["01_source_data/00_Export/raw_export.gpkg"]:::style_B
     end
 
     %% Datastromen
-    SD_Export -->|stap 1| SD_Intermediate
+    INPUT -->|DatabaseExporter| EXPORT
 
     %% Gradient styling from A to F
     classDef style_A fill:#f9f,stroke:#333,stroke-width:2px;
