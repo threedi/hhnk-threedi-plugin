@@ -17,11 +17,11 @@ Dit is nu eigenlijk nog meer een ontwerp. Hier moeten we naartoe werken. Is moge
 ├── 00_config
 │   ├── 00_Export
 │       ├── databases.json
-│   ├── 04_HyDAMO_Validator
+│   ├── 03_HyDAMO_Validator
 │       ├── validationrules.json
-│   ├── 05_HyDAMO_Fixer
+│   ├── 04_HyDAMO_Fixer
 │       ├── fixes.json
-│   ├── 06_3Di_Converter
+│   ├── 05_3Di_Converter
 │       ├── brug.json
 │       ├── duiker.json
 │       ├── gemaal.json
@@ -71,7 +71,7 @@ Dit is nu eigenlijk nog meer een ontwerp. Hier moeten we naartoe werken. Is moge
 ```
 
 ## 3. Datastroom (bestand- en opslag)
-_Hoe de uitvoer van elke stap de invoer voor de volgende vormt._
+Hoe de uitvoer van elke stap de invoer voor de volgende vormt is weergegeven in onderstaande flowchart.
 
 ```mermaid
 flowchart TD
