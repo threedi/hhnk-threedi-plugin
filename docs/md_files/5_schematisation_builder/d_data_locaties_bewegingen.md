@@ -115,10 +115,8 @@ flowchart TD
     HYDAMO -->|HyDAMOFixer| FIX_SET1
     FIXES -->|HyDAMOFixer| FIX_SET1
     VALIDATION_SET1 -->|HyDAMOFixer| FIX_SET1
-    VR -->|HyDAMOValidator| VALIDATION_SET2
     FIX_SET1 -->|HyDAMOValidator| VALIDATION_SET2
     FIX_SET1 -->|HyDAMOFixer| FIX_SET2
-    FIXES -->|HyDAMOFixer| FIX_SET2
     VALIDATION_SET2 -->|HyDAMOFixer| FIX_SET2
     CONVERSION_CONFIGS -->|3DiConverter| SCHEMA
     FIX_SET2 -->|3DiConverter| SCHEMA
