@@ -173,6 +173,7 @@ HyDAMO_conversion_to_3di mogelijk straks niet meer relevant door volledige QGIS 
 
 
 ## 4. Testoverzicht
+### De tests
 - **Unittests** – Controleren individuele functies/klassen in isolatie.  
 - **Integratietests** – Controleren dat componenten (exporter, (hy)damo converter, validator, fixer, schematisation converter) goed samenwerken.  
 - **End-to-end tests** – Controleren van de volledige datastroom: export → omzetten naar (hy)damo → valideren → verbeteren → her-valideren → omzetten naar schematisatie (op objectniveau, danwel voor de gehele set).  
@@ -189,12 +190,13 @@ HyDAMO_conversion_to_3di mogelijk straks niet meer relevant door volledige QGIS 
 | _test_....py_ | _..._ | 🔴 Niet getest | _..._ | _.../....gpkg_ | _.../....gpkg_ | _..._ | _..._ |
 
 ### Testdata en integratie
+De code van de tests staan in de [hhnk-threedi-tools repo](https://github.com/threedi/hhnk-threedi-tools/tree/main/tests/schematisation_builder). 
 
 De tests zijn geïntegreerd in de **GitHub Actions** van de `hhnk-threedi-tools` repository:  
 - Alle tests draaien automatisch bij pull requests.  
 - Mergen is alleen mogelijk wanneer alle tests slagen.  
 
-De tests zijn zoveel mogelijk gebaseerd op de testdataset van polderwatersysteem *’t Hoekje*. Dit is een relatief klein en overzichtelijk gebied.  
+De tests zijn zoveel mogelijk gebaseerd op de testdataset van polderwatersysteem *’t Hoekje*. Dit is een relatief klein en overzichtelijk gebied. De bestanden van de tests staan in de [tests/data/schematisation_builder map](https://github.com/threedi/hhnk-threedi-tools/tree/main/tests/data/schematisation_builder). 
 
 Op dit moment bevat de testdataset nog een groot deel van het watersysteem. Dit komt doordat:  
 - nog niet alle tests zijn geschreven;  
@@ -202,35 +204,27 @@ Op dit moment bevat de testdataset nog een groot deel van het watersysteem. Dit 
 
 Wanneer de tests volledig zijn uitgewerkt, kan de dataset worden verkleind. Dit bespaart opslagruimte in de repository.
 
-### Testomgeving opzetten en tests uitvoeren
-De test-bestanden staan in de [hhnk-threedi-tools repo](https://github.com/threedi/hhnk-threedi-tools/tree/main/tests/schematisation_builder). 
-
-Ontwikkeling gebeurt in **VS Code** met een **Pixi-omgeving**. 
-
-#### Installatie en setup
-Voor het installeren en het draaien van de tests kunnen de volgende stappen worden doorlopen:
+Ontwikkeling gebeurt in **VS Code** met een **Pixi-omgeving**. Voor het installeren en het draaien van de tests kunnen de volgende stappen worden doorlopen:
 1. Kloon de `hhnk-threedi-tools` repository.  
 2. Voer de volgende commando’s uit:
-
+```bash
     pixi install
     pixi run postinstall
-
+```
 Dit zorgt voor:
    - een lokale installatie van `hhnk-research-tools` en `HyDAMOValidatieModule`
    - installatie van githooks die **ruff-checks** uitvoeren vóór het pushen
 
 3. Start de Pixi-shell:
-
+```bash
     pixi shell
+```
+Hiermee wordt de command prompt geopend met de juiste Python-omgeving. Voer de tests lokaal uit met Python 3.9:
+```bash
+    pixi run -e py39 tests
+```
 
-Hiermee wordt de command prompt geopend met de juiste Python-omgeving.
-
-#### Python-versies
+#### Ter kennisgeving
 - **Migratie**: vanaf juni 2025 wordt gewerkt aan de overstap naar **Python 3.12**.  
 - **Beperking**: nog niet alle checks werken op 3.12.  
 - **Workaround**: GitHub-checks draaien daarom nog op **Python 3.9**.
-
-#### Lokale tests draaien
-Voer de tests lokaal uit met Python 3.9:
-
-    pixi run -e py39 tests
