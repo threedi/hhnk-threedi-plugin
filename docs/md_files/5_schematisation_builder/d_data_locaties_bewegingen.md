@@ -77,39 +77,48 @@ _Hoe de uitvoer van elke stap de invoer voor de volgende vormt._
 
 ```mermaid
 flowchart TD
+    %% Subgraphs voor overzicht
     subgraph Config [00_config]
-        Export["00_Export"]
-        Validator["04_HyDAMO_Validator"]
-        Fixer["05_HyDAMO_Fixer"]
-        Converter["06_3Di_Converter"]
+        Export["00_Export"]:::config
+        Validator["04_HyDAMO_Validator"]:::config
+        Fixer["05_HyDAMO_Fixer"]:::config
+        Converter["06_3Di_Converter"]:::config
     end
 
     subgraph SourceData [01_source_data]
-        SD_Export["00_Export/raw_export.gpkg"]
-        SD_Intermediate["01_Intermediate_Converter/intermediate_conversion.gpkg"]
-        SD_DAMO["02_DAMO/DAMO.gpkg"]
-        SD_HyDAMO["03_HyDAMO/HyDAMO.gpkg"]
-        SD_Validator["04_HyDAMO_Validator/Set_X/results.gpkg"]
-        SD_Fixer["05_HyDAMO_Fixer/Set_X/HyDAMO.gpkg"]
+        SD_Export["00_Export/raw_export.gpkg"]:::data
+        SD_Intermediate["01_Intermediate_Converter/intermediate_conversion.gpkg"]:::data
+        SD_DAMO["02_DAMO/DAMO.gpkg"]:::data
+        SD_HyDAMO["03_HyDAMO/HyDAMO.gpkg"]:::data
+        SD_Validator["04_HyDAMO_Validator/Set_X/results.gpkg"]:::data
+        SD_Fixer["05_HyDAMO_Fixer/Set_X/HyDAMO.gpkg"]:::data
     end
 
     subgraph Schematisation [02_schematisation]
-        Schema["00_basis/{project_naam}.gpkg"]
+        Schema["00_basis/{project_naam}.gpkg"]:::schema
     end
 
     subgraph ThreeDiResults [03_3di_results]
-        ThreeDi["3Di resultaten"]
+        ThreeDi["3Di resultaten"]:::results
     end
 
-    Export --> SD_Export
-    SD_Export --> SD_Intermediate
-    SD_Intermediate --> SD_DAMO
-    SD_DAMO --> SD_HyDAMO
-    SD_HyDAMO --> Validator
-    Validator --> SD_Validator
-    SD_Validator --> Fixer
-    Fixer --> SD_Fixer
-    SD_Fixer --> Converter
-    Converter --> Schema
-    Schema --> ThreeDi
+    %% Datastromen
+    Export -->|stap 1| SD_Export
+    SD_Export -->|stap 2| SD_Intermediate
+    SD_Intermediate -->|stap 3| SD_DAMO
+    SD_DAMO -->|stap 4| SD_HyDAMO
+    SD_HyDAMO -->|validator| Validator
+    Validator -->|validated| SD_Validator
+    SD_Validator -->|fixer| Fixer
+    Fixer -->|fixed| SD_Fixer
+    SD_Fixer -->|converter| Converter
+    Converter -->|schematisatie| Schema
+    Schema -->|3Di input| ThreeDi
+
+    %% Styling
+    classDef config fill:#f9f,stroke:#333,stroke-width:2px,stroke-dasharray: 5 5
+    classDef data fill:#bbf,stroke:#333,stroke-width:2px
+    classDef schema fill:#bfb,stroke:#333,stroke-width:2px
+    classDef results fill:#ffb,stroke:#333,stroke-width:2px,stroke-dasharray: 2 2
+
 
