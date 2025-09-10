@@ -90,8 +90,10 @@ flowchart TD
         RAW_EXPORT["01_source_data/00_Export/raw_export.gpkg"]:::style_A
         INTERMEDIATE["01_source_data/01_Intermediate_Converter/DAMO.gpkg"]:::style_B
         HYDAMO["01_source_data/02_HyDAMO/HyDAMO.gpkg"]:::style_C
-        VALIDATION["01_source_data/03_HyDAMO_Validator/results.gpkg"]:::style_D
-        FIX["01_source_data/04_HyDAMO_Fixer/HyDAMO.gpkg"]:::style_E
+        VALIDATION_SET1["01_source_data/03_HyDAMO_Validator/set_1/results.gpkg"]:::style_D
+        FIX_SET1["01_source_data/04_HyDAMO_Fixer/set_1/HyDAMO.gpkg"]:::style_E
+        VALIDATION_SET2["01_source_data/03_HyDAMO_Validator/set_2/results.gpkg"]:::style_D
+        FIX_SET2["01_source_data/04_HyDAMO_Fixer/set_2/HyDAMO.gpkg"]:::style_E
     end
 
     subgraph 02_schematisation [02_schematisation]
@@ -104,15 +106,18 @@ flowchart TD
     POLDER -->|DatabaseExporter| RAW_EXPORT
     RAW_EXPORT -->|IntermediateConverter| INTERMEDIATE
     INTERMEDIATE -->|DAMO2HyDAMOConverter| HYDAMO
-    VR -->|HyDAMOValidator| VALIDATION
-    HYDAMO -->|HyDAMOValidator| VALIDATION
-    HYDAMO -->|HyDAMOFixer| FIX
-    FIXES -->|HyDAMOFixer| FIX
-    VALIDATION -->|HyDAMOFixer| FIX
-    VR -->|HyDAMOValidator| VALIDATION
-    FIX -->|HyDAMOValidator| VALIDATION
+    VR -->|HyDAMOValidator| VALIDATION_SET1
+    HYDAMO -->|HyDAMOValidator| VALIDATION_SET1
+    HYDAMO -->|HyDAMOFixer| FIX_SET1
+    FIXES -->|HyDAMOFixer| FIX_SET1
+    VALIDATION_SET1 -->|HyDAMOFixer| FIX_SET1
+    VR -->|HyDAMOValidator| VALIDATION_SET2
+    FIX_SET1 -->|HyDAMOValidator| VALIDATION_SET2
+    FIX_SET1 -->|HyDAMOFixer| FIX_SET2
+    FIXES -->|HyDAMOFixer| FIX_SET2
+    VALIDATION_SET2 -->|HyDAMOFixer| FIX_SET2
     CONVERSION_CONFIGS -->|3DiConverter| SCHEMA
-    FIX -->|3DiConverter| SCHEMA
+    FIX_SET2 -->|3DiConverter| SCHEMA
 
     %% Gradient styling from A to F
     classDef style_0 fill:#cccccc,stroke:#333,stroke-width:2px;
