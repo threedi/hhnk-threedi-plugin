@@ -79,17 +79,17 @@ _Hoe de uitvoer van elke stap de invoer voor de volgende vormt._
 flowchart TD
     %% Subgraphs voor overzicht
     subgraph 00_config [00_config]
-        INPUT["00_config/Export/databases.json"]:::style_A
-
+        DB["00_config/Export/databases.json"]:::style_A
     end
 
     subgraph 01_source_data [01_source_data]
-        INPUT["01_source_data/polder.gpkg"]:::style_A
-        EXPORT["01_source_data/00_Export/raw_export.gpkg"]:::style_B
+        POLDER["01_source_data/polder.gpkg"]:::style_A
+        RAW_EXPORT["01_source_data/00_Export/raw_export.gpkg"]:::style_B
     end
 
     %% Datastromen
-    INPUT -->|DatabaseExporter| EXPORT
+    DB -->|DatabaseExporter| RAW_EXPORT
+    POLDER -->|DatabaseExporter| RAW_EXPORT
 
     %% Gradient styling from A to F
     classDef style_A fill:#f9f,stroke:#333,stroke-width:2px;
