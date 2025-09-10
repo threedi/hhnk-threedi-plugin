@@ -215,7 +215,7 @@ Voor het installeren en het draaien van de tests kunnen de volgende stappen word
     pixi install
     pixi run postinstall
 
-   Dit zorgt voor:
+Dit zorgt voor:
    - een lokale installatie van `hhnk-research-tools` en `HyDAMOValidatieModule`
    - installatie van githooks die **ruff-checks** uitvoeren vóór het pushen
 
@@ -223,7 +223,7 @@ Voor het installeren en het draaien van de tests kunnen de volgende stappen word
 
     pixi shell
 
-   Hiermee wordt de command prompt geopend met de juiste Python-omgeving.
+Hiermee wordt de command prompt geopend met de juiste Python-omgeving.
 
 #### Python-versies
 - **Migratie**: vanaf juni 2025 wordt gewerkt aan de overstap naar **Python 3.12**.  
