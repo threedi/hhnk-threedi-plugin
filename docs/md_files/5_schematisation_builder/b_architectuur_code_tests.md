@@ -188,11 +188,49 @@ HyDAMO_conversion_to_3di mogelijk straks niet meer relevant door volledige QGIS 
 | test_schematisation_builder.py | End-to-end | 🟠 Gedeeltelijk getest (skip bij Python < 3.12 of zonder DB settings) | Volledige flow: DAMO → HyDAMO → validatie | `test_schematisation_builder/01_source_data/DAMO.gpkg` (gegenereerd in test) | `HyDAMO.gpkg`, `log.log`, validatie-output (`results.gpkg`) | Test controleert of `make_validated_hydamo_package` een compleet pakket aanmaakt en bestanden correct worden weggeschreven | - `DAMO.gpkg` bestaat<br>- `HyDAMO.gpkg` bestaat<br>- `log.log` bestaat<br>- Validatieresultaat `results.gpkg` bestaat |
 | _test_....py_ | _..._ | 🔴 Niet getest | _..._ | _.../....gpkg_ | _.../....gpkg_ | _..._ | _..._ |
 
-### Testomgeving opzetten en tests uitvoeren
-_Hier linken naar doc threedi-tools_  
-
 ### Testdata en integratie
-...
 
+De tests zijn geïntegreerd in de **GitHub Actions** van de `hhnk-threedi-tools` repository:  
 - Alle tests draaien automatisch bij pull requests.  
-- Mergen vereist dat alle tests slagen.  
+- Mergen is alleen mogelijk wanneer alle tests slagen.  
+
+De tests zijn zoveel mogelijk gebaseerd op de testdataset van polderwatersysteem *’t Hoekje*. Dit is een relatief klein en overzichtelijk gebied.  
+
+Op dit moment bevat de testdataset nog een groot deel van het watersysteem. Dit komt doordat:  
+- nog niet alle tests zijn geschreven;  
+- nog niet duidelijk is welke data wel of niet nodig is.  
+
+Wanneer de tests volledig zijn uitgewerkt, kan de dataset worden verkleind. Dit bespaart opslagruimte in de repository.
+
+### Testomgeving opzetten en tests uitvoeren
+De test-bestanden staan in de [hhnk-threedi-tools repo](https://github.com/threedi/hhnk-threedi-tools/tree/main/tests/schematisation_builder). 
+
+Ontwikkeling gebeurt in **VS Code** met een **Pixi-omgeving**. 
+
+#### Installatie en setup
+Voor het installeren en het draaien van de tests kunnen de volgende stappen worden doorlopen:
+1. Kloon de `hhnk-threedi-tools` repository.  
+2. Voer de volgende commando’s uit:
+
+    pixi install
+    pixi run postinstall
+
+   Dit zorgt voor:
+   - een lokale installatie van `hhnk-research-tools` en `HyDAMOValidatieModule`
+   - installatie van githooks die **ruff-checks** uitvoeren vóór het pushen
+
+3. Start de Pixi-shell:
+
+    pixi shell
+
+   Hiermee wordt de command prompt geopend met de juiste Python-omgeving.
+
+#### Python-versies
+- **Migratie**: vanaf juni 2025 wordt gewerkt aan de overstap naar **Python 3.12**.  
+- **Beperking**: nog niet alle checks werken op 3.12.  
+- **Workaround**: GitHub-checks draaien daarom nog op **Python 3.9**.
+
+#### Lokale tests draaien
+Voer de tests lokaal uit met Python 3.9:
+
+    pixi run -e py39 tests
