@@ -43,11 +43,17 @@ _Lijst van modules en hun verantwoordelijkheden._
 ---
 
 ### A. Database exporter
-_functionaliteit / waarom nodig_
+De `db_exporter` exporteert de brongegevens uit de beheersystemen van HHNK (DAMO & CSO). De brongegevens zoals waterlopen en kunstwerken worden direct uit de Oracle databases gehaald en via een beperkt aantal tussenstappen opgeslagen in een Geopackage. De lagen en gegevens die worden geëxporteert zijn gedefiniëert in een Json bestand. Het default configuratiebestand staat opgeslagen in `hhnk_threedi_tools/recourses/schematisation_builder/db_layer_mapping.py`. Dit is de default set gegevens voor het maken van een 3Di model.
 
-_code opbouw_
+De selectie van gegevens gaat via een `intersect` met het opgegeven modelgebied. Datalagen zonder geometrie moeten via een id gerelateerd worden aan een laag met geometrie. In de `db_exporter` zijn dit sub-layers, die worden opgezocht middels de functie `export_sub_layer`. Voor de profielen is het mogelijk om een tweede afhankelijk laag te gebruiken (sub-sub-layer). 
 
----
+De volgende tussenstappen zijn beschikbaar:
+1. `update_model_extent_from_combinatiepeilgebieden`: Modellen bestaan vaak uit clusters van meerdere polders. Deze clusters houden we bij in de Hydrologische database (HDB). Deze worden niet beheerd waardoor afwijkingen ontstaan op de grenzen. Deze functie werkt dit bij zodat altijd een volledig peilgebied wordt geëxporteerd.
+2. `update_table_domains`: De gegevens in de DAMO database maken gebruik van domeinen. In CS-Objecten zijn de domeincodes omgezet naar domeinwaarden. Voor HyDAMO kan hiervoor gebruik worden gemaakt van de `wasmachine`, maar dit maakt alleen gebruik van officiele DAMO domeinen. HHNK gebruikt daarnaast eigen domeinen. Door deze stap direct bij de export te doen kunnen ook deze domeinen worden omgezet. De domeincode blijft behouden in een apart attribuut.
+
+Ad 1. Om een deel van een peilgebied te exporteren is het nodig dit deel op te nemen in de HDB deelgebieden en een fictief kunstwerk op de grens aan te maken.
+
+Ad. 2. Er is nog enige onduidleijkheid over de beste bron voor de domeinen van HHNK en of de DAMO-domeinen in de HHNK database zijn/worden bijgewerkt. Dit kan een bron van fouten of ontbrekenede gegevens zijn. De gegevens voor de modelbouw lijken aanwezig.
 
 ### B. Intermediate converter
 De `IntermediateConverter` class vormt een schakel tussen de ruwe exportbestanden (DAMO, CSO & HDB) en de uiteindelijke HyDAMO/3Di-invoer, door de ruwe exportbestanden om te zetten in DAMO-formaat volgens standaard. De intermediate converter zorgt voor:
