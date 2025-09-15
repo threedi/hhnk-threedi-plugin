@@ -53,7 +53,7 @@ De volgende tussenstappen zijn beschikbaar:
 
 Ad 1. Om een deel van een peilgebied te exporteren is het nodig dit deel op te nemen in de HDB deelgebieden en een fictief kunstwerk op de grens aan te maken.
 
-Ad. 2. Er is nog enige onduidleijkheid over de beste bron voor de domeinen van HHNK en of de DAMO-domeinen in de HHNK database zijn/worden bijgewerkt. Dit kan een bron van fouten of ontbrekenede gegevens zijn. De gegevens voor de modelbouw lijken aanwezig.
+Ad. 2. Er is nog enige onduidelijkheid over de beste bron voor de domeinen van HHNK en of de DAMO-domeinen in de HHNK database zijn/worden bijgewerkt. Dit kan een bron van fouten of ontbrekenede gegevens zijn. De gegevens voor de modelbouw lijken aanwezig.
 
 ### B. Intermediate converter
 De `IntermediateConverter` class vormt een schakel tussen de ruwe exportbestanden (DAMO, CSO & HDB) en de uiteindelijke HyDAMO/3Di-invoer, door de ruwe exportbestanden om te zetten in DAMO-formaat volgens standaard. De intermediate converter zorgt voor:
