@@ -32,7 +32,7 @@ _Lijst van modules en hun verantwoordelijkheden._
 | Type | Volgorde | Module | Rol | Bestand |
 |------|----------------|--------|-----|---------|
 | Kernlogica | A | Database exporter | Genereert een ruwe export op basis van een polder polygoon. | /hhnk_threedi_tools/core/schematisation_buider/ DB_exporter.py |
-| Kernlogica | B | Intermediate converter | Zet ruwe export om in DAMO formaat. | /hhnk_threedi_tools/core/schematisation_buider/ intermediate_converter.py |
+| Kernlogica | B | Raw Export naar DAMO Converter | Zet ruwe export om in DAMO formaat. | /hhnk_threedi_tools/core/schematisation_buider/ raw_export_to_DAMO_converter.py |
 | Kernlogica | C | DAMO naar HyDAMO converter | Zet DAMO om in HyDAMO formaat. | /hhnk_threedi_tools/core/schematisation_buider/ DAMO_HyDAMO_converter.py |
 | Kernlogica | D | HyDAMO validator | Trapt validatieregels af op HyDAMO bestand. | /hhnk_threedi_tools/core/schematisation_buider/ HyDAMO_validator.py |
 | Kernlogica | E | HyDAMO fixer | Interpreteert validatieresultaten en biedt mogelijkheden tot automatische fixes. | /hhnk_threedi_tools/core/schematisation_buider/ ... |
@@ -55,69 +55,54 @@ Ad 1. Om een deel van een peilgebied te exporteren is het nodig dit deel op te n
 
 Ad. 2. Er is nog enige onduidelijkheid over de beste bron voor de domeinen van HHNK en of de DAMO-domeinen in de HHNK database zijn/worden bijgewerkt. Dit kan een bron van fouten of ontbrekenede gegevens zijn. De gegevens voor de modelbouw lijken aanwezig.
 
-### B. Intermediate converter
-De `IntermediateConverter` class vormt een schakel tussen de ruwe exportbestanden (DAMO, CSO & HDB) en de uiteindelijke HyDAMO/3Di-invoer, door de ruwe exportbestanden om te zetten in DAMO-formaat volgens standaard. De intermediate converter zorgt voor:
+### B. Raw Export naar DAMO Converter
+De `RawExportToDAMOConverter` class vormt een schakel tussen de ruwe exportbestanden (DAMO, CSO & HDB) en de uiteindelijke HyDAMO/3Di-invoer, door de ruwe exportbestanden om te zetten in DAMO-formaat volgens standaard. De converter zorgt voor:
 * Inlezen en valideren van lagen.
 * Bewerken en verrijken van data (IDs, geometrie, koppelingen).
 * Schrijven van consistente outputs.
 
-De code is opgebouwd rond een parent klasse en meerdere child klassen.
+De code is opgebouwd uit de `RawExportToDAMOConverter` parent klasse en meerdere child klassen (implementaties).
 
-### **IntermediateConverter** (parent class)
-| Type | Inputlagen | Output |
-|------|------------|---------|
-| Parent klasse | generiek (verschilt per child) | Consistente dataflow en output naar GeoPackage |
+### **GemaalConverter**
+De `GemaalConverter` is een implementatie van de `RawExportToDAMOConverter`. Deze richt zich op het verwerken van gemaal- en pomplagen, inclusief het aanbrengen van koppelingen tussen pompen en gemalen en het corrigeren van capaciteitwaarden. 
 
-| Functie | Beschrijving | Helper functies |
-|---------|--------------|-----------------|
-| `load_layers()` | Laadt benodigde lagen in het interne `_Data` object | – |
-| `process_data()` | Abstract: wordt overschreven in child class om data te bewerken | – |
-| `write_outputs()` | Schrijft gewijzigde lagen naar GeoPackage | – |
+In hoofdlijnen zorgt de converter voor:
+* Het laden van de relevante lagen (`gemaal`, `pomp`, `hydroobject`).
+* Het aanmaken van een pomp-laag als deze ontbreekt of leeg is.
+* Het toevoegen van kolommen zoals `gemaalid` en `globalid` in de pomp-laag.
+* Het corrigeren van de pomp-capaciteit op basis van de gemaalgegevens.
 
-### **GemaalIntermediateConverter**
-| Type | Inputlagen | Output |
-|------|------------|---------|
-| Child class | `gemaal`, `pomp`, `hydroobject` | Gemaal- en pomptabellen met koppelingen en correcties |
+### **PeilgebiedConverter**
+De `PeilgebiedConverter` is een implementatie van de `RawExportToDAMOConverter`. Deze richt zich op het verwerken van peilgebiedlagen (`peilgebiedpraktijk`?). Nog verder te implementeren.
 
-| Functie | Beschrijving | Helper functies |
-|---------|--------------|-----------------|
-| `load_layers()` | Laadt gemaal-, pomp- en hydroobjectlagen | – |
-| `update_gemaal_layer()` | Verwerkt pomplagen en koppelt deze aan gemaal | `_add_column_gemaalid`, `_add_column_globalid`, `_adjust_pomp_maximalecapaciteit`, `_make_pomp_layer` |
-| `write_outputs()` | Schrijft lagen naar GeoPackage | – |
+In hoofdlijnen zorgt de converter voor:
+* Het laden van de `peilgebiedpraktijk`-laag vanuit de ruwe export.
+* Het opschonen van geometrieën door het exploden van multipart-geometrieën naar enkelvoudige features.
+* ... (toekomstige functionaliteiten)
 
-### **PeilgebiedIntermediateConverter**
-| Type | Inputlagen | Output |
-|------|------------|---------|
-| Child class | `peilgebiedpraktijk` | Opschoning en voorbereiding voor validatie (nog beperkt) |
+### **ProfielConverter**
+De `ProfielConverter` is een implementatie van de `RawExportToDAMOConverter`. Deze richt zich op het verwerken van profielgegevens (lijnen en punten) en het koppelen van deze profielen aan de juiste hydroobjecten. Het doel is om DAMO-conforme tabellen voor **profielgroep**, **profiellijn** en **profielpunt** op te bouwen.
 
-| Functie | Beschrijving | Helper functies |
-|---------|--------------|-----------------|
-| `load_layers()` | Laadt peilgebiedpraktijk | – |
-| `update_peilgebied_layer()` | Placeholder, nog niet geïmplementeerd | – |
-| `write_outputs()` | Schrijft peilgebiedlagen naar GeoPackage | – |
+In hoofdlijnen zorgt de converter voor:
+* Het inladen van benodigde lagen (`hydroobject`, `gw_pro`, `gw_prw`, `gw_pbp`, `iws_geo_beschr_profielpunten`, `peilgebiedpraktijk`).
+* Het samenvoegen (linemergen) van hydroobjecten binnen peilgebieden.
+* Het opbouwen van profieltabellen (`profielgroep`, `profiellijn`, `profielpunt`) inclusief ID’s en koppelingen.
+* Het verrijken van profielpunten met hoogtes, afstanden en typeprofielpunt.
+* Het koppelen van profielen aan hydroobjecten, inclusief fallback voor hydroobjecten zonder profiel (met een zoekradius).
+* Het berekenen van diepste punten per profiellijn en per hydroobject.
 
-### **ProfileIntermediateConverter**
-| Type | Inputlagen | Output |
-|------|------------|---------|
-| Child class | `hydroobject`, `gw_pro`, `gw_prw`, `gw_pbp`, `iws_geo_beschr_profielpunten`, `peilgebiedpraktijk` | Profiel-tabellen en gekoppelde hydroobjecten |
-
-| Functie | Beschrijving | Helper functies |
-|---------|--------------|-----------------|
-| `load_layers()` | Laadt hydroobject- en profielgerelateerde tabellen | – |
-| `process_linemerge()` | Voegt hydroobjecten samen per peilgebied (linemerge) | – |
-| `create_profile_tables()` | Bouwt tabellen: `profielgroep`, `profiellijn`, `profielpunt` | `_assign_hydroobject_ids` |
-| `connect_profiles_to_hydroobject_without_profiles()` | Koppelt profielen aan hydroobjecten zonder profiel | `_add_z_to_point_geometry_based_on_column`, `_drop_z_from_linestringz_geometry` |
-| `write_outputs()` | Schrijft profiel- en hydroobjectlagen naar GeoPackage | – |
+#### Toekomstige uitbreidingen
+* Verdere kwaliteitscontroles op profielpunten (bijv. dubbele geometrieën beter afhandelen).
+* Mogelijkheid om meerdere types profielpunten (naast vaste bodem) te ondersteunen.
+* Optimaliseren van de zoeklogica in `connect_profiles_to_hydroobject_without_profiles` (bijv. met ruimtelijke nearest-neighbour methoden).
 
 ### **_Data**
-| Type | Inputlagen | Output |
-|------|------------|---------|
-| Helper class | Afhankelijk van aangeroepen converter | Consistente dataset en toegang tot tabellen |
+De `_Data` class is een interne dataclass die beschikbaar is als `.data` binnen de `RawExportToDAMOConverter` en al zijn child classes. Het dient als centrale container voor alle gebruikte tabellen tijdens het conversieproces. Alle tabellen worden als `GeoDataFrame` opgeslagen, zodat zowel geometrie- als attribuutinformatie beschikbaar is voor verdere verwerking.
 
-| Functie | Beschrijving | Helper functies |
-|---------|--------------|-----------------|
-| Opslag & beheer | Houdt lagen als GeoDataFrames bij, gedeeld tussen converters | – |
-| Properties | Toegang tot tabellen via `self.data` | – |
+In hoofdlijnen zorgt `_Data` voor:
+* Een consistente structuur waarin alle input-, tussen- en outputtabellen zijn opgeslagen.
+* Het eenvoudig aanspreken van tabellen via attributen (bijv. `.data.gemaal`, `.data.peilgebiedpraktijk`).
+* Validatie van geladen lagen via `_ensure_loaded`.
 
 ---
 
