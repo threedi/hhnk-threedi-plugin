@@ -3,8 +3,14 @@
 **Lezerspubliek:** Ontwikkelaars & gegevensbeheerders
 
 ## 1. Export
-_Wat waar vandaan._
+In de de `db_exporter` worden gegevens van drie bronnen gebruikt. 
+* DAMO 
+* CS Objecten
+* BGT (Basisregistratie Grootschalige topografie)
 
+Alle drie de bronnen zijn oracle databases die binnen HHNK draaien (zijn niet van buiten de HHNK omgeving beschikbaar). In DAMO en CS Objecten zitten objectdata die het waterschap beheerd. CS Objecten speelt een centrale rol in het Centraal Data Platform binnen HHNK. Objecten die als 'asset' gezien worden zitten hier in, denk aan stuwen en gemalen. Er is overlap met DAMO, maar in CS Objecten zit meer informatie. O.a. Hydro-object is een laag die (nog) niet in CS Objecten zit, maar alleen in DAMO. Voor de modelbuilder gebruiken we de waterdelen en ondersteunende waterdelen uit de BGT. 
+
+De `db_exporter` haalt de benodigde lagen voor een gegeven gebied op uit de database (via config files in de resources) en slaat deze op in een geopackage. Dit is de bron voor de `IntermediateConverter` en de `HyDAMO-validator`.
 
 
 ## 2. Datapaden
