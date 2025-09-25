@@ -1,21 +1,22 @@
-from qgis.core import QgsApplication
+from hhnk_threedi_plugin.tasks.sqlite_checks_tasks.controlled_structs_task import controlledStructsTask
+from hhnk_threedi_plugin.tasks.sqlite_checks_tasks.dem_max_val_task import demMaxValTask
+from hhnk_threedi_plugin.tasks.sqlite_checks_tasks.dewatering_task import dewateringTask
+from hhnk_threedi_plugin.tasks.sqlite_checks_tasks.general_checks_task import generalChecksTask
+from hhnk_threedi_plugin.tasks.sqlite_checks_tasks.geometries_task import geometriesTask
+from hhnk_threedi_plugin.tasks.sqlite_checks_tasks.impervious_surface_task import impSurfaceTask
+from hhnk_threedi_plugin.tasks.sqlite_checks_tasks.isolated_channels_task import isolatedChannelsTask
+from hhnk_threedi_plugin.tasks.sqlite_checks_tasks.profiles_used_task import profilesUsedTask
+from hhnk_threedi_plugin.tasks.sqlite_checks_tasks.structs_channel_task import structsChannelsTask
+from hhnk_threedi_plugin.tasks.sqlite_checks_tasks.watersurface_area_task import watersurfaceAreaTask
+from hhnk_threedi_plugin.tasks.sqlite_checks_tasks.weir_height_task import weirHeightTask
 from PyQt5.QtCore import QMutex, QWaitCondition
+from qgis.core import QgsApplication
+
 from deprecated.qgis_interaction.layers_management.removing_layers import remove_layers
-from hhnk_threedi_plugin.tasks.sqlite_test_tasks.profiles_used_task import profilesUsedTask
-from hhnk_threedi_plugin.tasks.sqlite_test_tasks.isolated_channels_task import isolatedChannelsTask
-from hhnk_threedi_plugin.tasks.sqlite_test_tasks.controlled_structs_task import controlledStructsTask
-from hhnk_threedi_plugin.tasks.sqlite_test_tasks.impervious_surface_task import impSurfaceTask
-from hhnk_threedi_plugin.tasks.sqlite_test_tasks.weir_height_task import weirHeightTask
-from hhnk_threedi_plugin.tasks.sqlite_test_tasks.geometries_task import geometriesTask
-from hhnk_threedi_plugin.tasks.sqlite_test_tasks.structs_channel_task import structsChannelsTask
-from hhnk_threedi_plugin.tasks.sqlite_test_tasks.general_checks_task import generalChecksTask
-from hhnk_threedi_plugin.tasks.sqlite_test_tasks.dem_max_val_task import demMaxValTask
-from hhnk_threedi_plugin.tasks.sqlite_test_tasks.dewatering_task import dewateringTask
-from hhnk_threedi_plugin.tasks.sqlite_test_tasks.watersurface_area_task import watersurfaceAreaTask
 from hhnk_threedi_plugin.tasks.utility_functions.handle_os_errors import check_os_error
 
 
-def run_sqlite_tests(results_widget, test_env):
+def run_sqlite_checks(results_widget, test_env):
     """
     Fuctions runs all tests that are part of model (sqlite) tests:
     input: tests_env ---> contains information about:
@@ -41,9 +42,7 @@ def run_sqlite_tests(results_widget, test_env):
         if "profiles_used_chk" in test_env.selected_tests:
             profiles_mutex = QMutex()
             profiles_wait_cond = QWaitCondition()
-            task = profilesUsedTask(
-                test_env=test_env, mutex=profiles_mutex, wait_cond=profiles_wait_cond
-            )
+            task = profilesUsedTask(test_env=test_env, mutex=profiles_mutex, wait_cond=profiles_wait_cond)
             task.os_error.connect(check_os_error)
             task.result_widget_created.connect(results_widget.add_section)
             test_env.tasks.append(task)
@@ -63,9 +62,7 @@ def run_sqlite_tests(results_widget, test_env):
         if "weir_height_chk" in test_env.selected_tests:
             weir_mutex = QMutex()
             weir_wait_cond = QWaitCondition()
-            task = weirHeightTask(
-                test_env=test_env, mutex=weir_mutex, wait_cond=weir_wait_cond
-            )
+            task = weirHeightTask(test_env=test_env, mutex=weir_mutex, wait_cond=weir_wait_cond)
             task.os_error.connect(check_os_error)
             task.result_widget_created.connect(results_widget.add_section)
             test_env.tasks.append(task)
@@ -73,9 +70,7 @@ def run_sqlite_tests(results_widget, test_env):
         if "geometry_chk" in test_env.selected_tests:
             geometry_mutex = QMutex()
             geometry_wait_cond = QWaitCondition()
-            task = geometriesTask(
-                test_env=test_env, mutex=geometry_mutex, wait_cond=geometry_wait_cond
-            )
+            task = geometriesTask(test_env=test_env, mutex=geometry_mutex, wait_cond=geometry_wait_cond)
             task.os_error.connect(check_os_error)
             task.result_widget_created.connect(results_widget.add_section)
             test_env.tasks.append(task)
@@ -95,9 +90,7 @@ def run_sqlite_tests(results_widget, test_env):
         if "general_tests_chk" in test_env.selected_tests:
             gen_tests_mutex = QMutex()
             gen_tests_wait_cond = QWaitCondition()
-            task = generalChecksTask(
-                test_env=test_env, mutex=gen_tests_mutex, wait_cond=gen_tests_wait_cond
-            )
+            task = generalChecksTask(test_env=test_env, mutex=gen_tests_mutex, wait_cond=gen_tests_wait_cond)
             task.os_error.connect(check_os_error)
             task.result_widget_created.connect(results_widget.add_section)
             test_env.tasks.append(task)
@@ -105,9 +98,7 @@ def run_sqlite_tests(results_widget, test_env):
         if "isolated_channels_chk" in test_env.selected_tests:
             isolated_mutex = QMutex()
             isolated_wait_cond = QWaitCondition()
-            task = isolatedChannelsTask(
-                test_env=test_env, mutex=isolated_mutex, wait_cond=isolated_wait_cond
-            )
+            task = isolatedChannelsTask(test_env=test_env, mutex=isolated_mutex, wait_cond=isolated_wait_cond)
             task.os_error.connect(check_os_error)
             task.result_widget_created.connect(results_widget.add_section)
             test_env.tasks.append(task)

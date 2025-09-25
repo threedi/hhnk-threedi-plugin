@@ -1,17 +1,18 @@
 import copy
-from PyQt5.QtCore import pyqtSignal
-from qgis.core import QgsTask, Qgis
-from qgis.utils import QgsMessageLog, iface
-from deprecated.qgis_interaction.layers_management.adding_layers import add_layers
-from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.controlled_structs_result import (
-    create_controlled_structs_widget,
-)
 
 # hhnk-research-tools
 import hhnk_research_tools as hrt
 
 # hhnk-threedi-tests
 from hhnk_threedi_tools import SqliteTest
+from PyQt5.QtCore import pyqtSignal
+from qgis.core import Qgis, QgsTask
+from qgis.utils import QgsMessageLog, iface
+
+from deprecated.qgis_interaction.layers_management.adding_layers import add_layers
+from hhnk_threedi_plugin.gui.checks.sqlite_checks_widgets.controlled_structs_result import (
+    create_controlled_structs_widget,
+)
 
 description = "gestuurde kunstwerken overzicht aanmaken"
 
@@ -39,9 +40,7 @@ class controlledStructsTask(QgsTask):
         QgsMessageLog.logMessage(f"Taak gestart {self.description}", level=Qgis.Info)
         try:
             if self.os_retry is None:
-                sqlite_test = SqliteTest.from_path(
-                    self.test_env.polder_folder, **self.test_env.file_dict
-                )
+                sqlite_test = SqliteTest.from_path(self.test_env.polder_folder, **self.test_env.file_dict)
                 self.gdf = sqlite_test.run_controlled_structures()
             QgsMessageLog.logMessage("Taak gestart opslaan resultaten", level=Qgis.Info)
             hrt.gdf_write_to_csv(
@@ -79,18 +78,14 @@ class controlledStructsTask(QgsTask):
         """
         if not result:
             if self.exception is None:
-                iface.messageBar().pushMessage(
-                    f"Taak {self.description} onderbroken", level=Qgis.Warning
-                )
+                iface.messageBar().pushMessage(f"Taak {self.description} onderbroken", level=Qgis.Warning)
             else:
                 iface.messageBar().pushMessage(
                     f"Taak {self.description} mislukt: zie Message Log",
                     level=Qgis.Critical,
                 )
                 QgsMessageLog.logMessage(
-                    '"{name}" Exception: {exception}'.format(
-                        name=self.description, exception=self.exception
-                    ),
+                    '"{name}" Exception: {exception}'.format(name=self.description, exception=self.exception),
                     level=Qgis.Critical,
                 )
                 raise self.exception

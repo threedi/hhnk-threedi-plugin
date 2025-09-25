@@ -215,7 +215,7 @@ class loadLayersDialog(QDialog):
             grid_task = generateGridTask(self.caller.fenv)
             grid_task.run()
             # sqlite_test = SqliteCheck(self.caller.fenv)
-            # sqlite_test.create_grid_from_sqlite(output_folder=self.caller.fenv.output.sqlite_tests.base)
+            # sqlite_test.create_grid_from_sqlite(output_folder=self.caller.fenv.output.sqlite_checks.base)
 
             # subjects.append('grid')
 

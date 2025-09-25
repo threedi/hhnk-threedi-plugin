@@ -1,12 +1,13 @@
 import copy
-from PyQt5.QtCore import pyqtSignal
-from qgis.core import QgsTask, Qgis
-from qgis.utils import QgsMessageLog, iface
+
 import hhnk_research_tools as hrt
-from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.geometries_result import (
+from PyQt5.QtCore import pyqtSignal
+from qgis.core import Qgis, QgsTask
+from qgis.utils import QgsMessageLog, iface
+
+from hhnk_threedi_plugin.gui.checks.sqlite_checks_widgets.geometries_result import (
     create_geometries_result_widget,
 )
-
 
 description = "nakijken geometrie"
 
@@ -36,14 +37,10 @@ class geometriesTask(QgsTask):
         QgsMessageLog.logMessage(f"Taak gestart {self.description}", level=Qgis.Info)
         try:
             if self.os_retry is None:
-                sqlite_test = SqliteTest.from_path(
-                    self.test_env.polder_folder, **self.test_env.file_dict
-                )
+                sqlite_test = SqliteTest.from_path(self.test_env.polder_folder, **self.test_env.file_dict)
                 self.gdf = sqlite_test.run_geometry_checks()
 
-            QgsMessageLog.logMessage(
-                f"Taak gestart opslaan resultaten", level=Qgis.Info
-            )
+            QgsMessageLog.logMessage(f"Taak gestart opslaan resultaten", level=Qgis.Info)
             self.csv_path = hrt.gdf_write_to_csv(
                 self.gdf,
                 path=self.test_env.output_vars["log_path"],
@@ -74,18 +71,14 @@ class geometriesTask(QgsTask):
         """
         if not result:
             if self.exception is None:
-                iface.messageBar().pushMessage(
-                    f"Taak {self.description} onderbroken", level=Qgis.Warning
-                )
+                iface.messageBar().pushMessage(f"Taak {self.description} onderbroken", level=Qgis.Warning)
             else:
                 iface.messageBar().pushMessage(
                     f"Taak {self.description} mislukt: zie Message Log",
                     level=Qgis.Critical,
                 )
                 QgsMessageLog.logMessage(
-                    '"{name}" Exception: {exception}'.format(
-                        name=self.description, exception=self.exception
-                    ),
+                    '"{name}" Exception: {exception}'.format(name=self.description, exception=self.exception),
                     level=Qgis.Critical,
                 )
                 raise self.exception

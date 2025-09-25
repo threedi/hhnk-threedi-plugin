@@ -1,8 +1,10 @@
 import copy
+
 from PyQt5.QtCore import pyqtSignal
-from qgis.core import QgsTask, Qgis
+from qgis.core import Qgis, QgsTask
 from qgis.utils import QgsMessageLog, iface
-from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.dem_max_val_result import (
+
+from hhnk_threedi_plugin.gui.checks.sqlite_checks_widgets.dem_max_val_result import (
     create_dem_max_val_result_widget,
 )
 
@@ -25,9 +27,7 @@ class demMaxValTask(QgsTask):
     def run(self):
         QgsMessageLog.logMessage(f"Taak gestart {self.description}", level=Qgis.Info)
         try:
-            sqlite_test = SqliteTest.from_path(
-                self.test_env.polder_folder, **self.test_env.file_dict
-            )
+            sqlite_test = SqliteTest.from_path(self.test_env.polder_folder, **self.test_env.file_dict)
             self.result_str = sqlite_test.run_dem_max_value()
             return True
         except Exception as e:
@@ -42,30 +42,22 @@ class demMaxValTask(QgsTask):
         """
         if not result:
             if self.exception is None:
-                iface.messageBar().pushMessage(
-                    f"Taak {self.description} onderbroken", level=Qgis.Warning
-                )
+                iface.messageBar().pushMessage(f"Taak {self.description} onderbroken", level=Qgis.Warning)
             else:
                 iface.messageBar().pushMessage(
                     f"Taak {self.description} mislukt: zie Message Log",
                     level=Qgis.Critical,
                 )
                 QgsMessageLog.logMessage(
-                    '"{name}" Exception: {exception}'.format(
-                        name=self.description, exception=self.exception
-                    ),
+                    '"{name}" Exception: {exception}'.format(name=self.description, exception=self.exception),
                     level=Qgis.Critical,
                 )
                 raise self.exception
         else:
             # On succesful run
-            iface.messageBar().pushMessage(
-                f"Taak {self.description} succesvol uitgevoerd", level=Qgis.Info
-            )
+            iface.messageBar().pushMessage(f"Taak {self.description} succesvol uitgevoerd", level=Qgis.Info)
             try:
-                title, widget = create_dem_max_val_result_widget(
-                    result_text=self.result_str
-                )
+                title, widget = create_dem_max_val_result_widget(result_text=self.result_str)
                 self.result_widget_created.emit(title, widget)
             except Exception as e:
                 raise e from None

@@ -1,9 +1,11 @@
 import copy
+
 from PyQt5.QtCore import pyqtSignal
-from qgis.core import QgsTask, Qgis
+from qgis.core import Qgis, QgsTask
 from qgis.utils import QgsMessageLog, iface
+
 from deprecated.qgis_interaction.layers_management.adding_layers import add_layers
-from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.watersurface_area_result import (
+from hhnk_threedi_plugin.gui.checks.sqlite_checks_widgets.watersurface_area_result import (
     create_watersurface_area_result_widget,
 )
 
@@ -37,14 +39,10 @@ class watersurfaceAreaTask(QgsTask):
         QgsMessageLog.logMessage(f"Taak gestart {self.description}", level=Qgis.Info)
         try:
             if self.os_retry is None:
-                sqlite_test = SqliteTest.from_path(
-                    self.test_env.polder_folder, **self.test_env.file_dict
-                )
+                sqlite_test = SqliteTest.from_path(self.test_env.polder_folder, **self.test_env.file_dict)
                 self.gdf, self.result_text = sqlite_test.run_watersurface_area()
 
-            QgsMessageLog.logMessage(
-                f"Taak gestart opslaan resultaten", level=Qgis.Info
-            )
+            QgsMessageLog.logMessage(f"Taak gestart opslaan resultaten", level=Qgis.Info)
             hrt.gdf_write_to_csv(
                 self.gdf,
                 path=self.test_env.output_vars["log_path"],
@@ -80,18 +78,14 @@ class watersurfaceAreaTask(QgsTask):
         """
         if not result:
             if self.exception is None:
-                iface.messageBar().pushMessage(
-                    f"Taak {self.description} onderbroken", level=Qgis.Warning
-                )
+                iface.messageBar().pushMessage(f"Taak {self.description} onderbroken", level=Qgis.Warning)
             else:
                 iface.messageBar().pushMessage(
                     f"Taak {self.description} mislukt: zie Message Log",
                     level=Qgis.Critical,
                 )
                 QgsMessageLog.logMessage(
-                    '"{name}" Exception: {exception}'.format(
-                        name=self.description, exception=self.exception
-                    ),
+                    '"{name}" Exception: {exception}'.format(name=self.description, exception=self.exception),
                     level=Qgis.Critical,
                 )
                 raise self.exception
@@ -103,9 +97,7 @@ class watersurfaceAreaTask(QgsTask):
             )
             try:
                 add_layers(self.layers_list, self.test_env.group_structure)
-                title, widget = create_watersurface_area_result_widget(
-                    self.result_text, self.layer_source
-                )
+                title, widget = create_watersurface_area_result_widget(self.result_text, self.layer_source)
                 self.result_widget_created.emit(title, widget)
             except Exception as e:
                 raise e from None

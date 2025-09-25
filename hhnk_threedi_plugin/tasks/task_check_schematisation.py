@@ -10,7 +10,7 @@ class checkSchematisationTask(QgsTask):
     def __init__(self, folder, add_to_project=False):
         super().__init__(description, QgsTask.CanCancel)
         self.input_sqlite = folder.model.schema_base.sqlite_paths[0]
-        self.output_csv = folder.output.sqlite_tests.path / "threedi_check_schematisation.csv"
+        self.output_csv = folder.output.sqlite_checks.path / "threedi_check_schematisation.csv"
         self.error = True
         self.add_to_project = add_to_project
 

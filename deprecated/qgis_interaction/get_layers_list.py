@@ -1,15 +1,19 @@
-from ...hhnk_threedi_plugin.qgis_interaction.layers_management.groups.layer_groups_structure import QgisLayerStructure
 import os
 import re
-from .layers_management.groups.project_groups_dicts import build_groups_dict
-from .layers_management.layers.build_layer_names_dict import build_layer_dicts
+
+from hhnk_research_tools.variables import GPKG, TIF, file_types_dict
+from hhnk_threedi_tools.variables.sqlite import primary_col
+
+from ...hhnk_threedi_plugin.qgis_interaction.layers_management.groups.layer_groups_structure import QgisLayerStructure
+from ...hhnk_threedi_plugin.qgis_interaction.layers_management.layers.layer_types_definition import (
+    RASTER,
+    VECTOR,
+    VIRTUAL,
+)
 from ...hhnk_threedi_plugin.qgis_interaction.layers_management.layers.layer_variable import layerVariables
 from .build_layer_styles_dict import build_layer_styles_dict
-from ...hhnk_threedi_plugin.qgis_interaction.layers_management.layers.layer_types_definition import VECTOR, VIRTUAL, RASTER
-
-
-from hhnk_research_tools.variables import file_types_dict, GPKG, TIF
-from hhnk_threedi_tools.variables.sqlite import primary_col
+from .layers_management.groups.project_groups_dicts import build_groups_dict
+from .layers_management.layers.build_layer_names_dict import build_layer_dicts
 
 
 def create_source_path(output_dict, file_name_key, extension=GPKG):
@@ -23,7 +27,7 @@ def create_virtual_layer_query(source_layer, condition):
     return f"SELECT * from {source_layer} WHERE {condition}"
 
 
-def get_sqlite_tests_layers_dict(plugin_dir, chosen_tests, output_dict, groups_dict):
+def get_sqlite_checks_layers_dict(plugin_dir, chosen_tests, output_dict, groups_dict):
     layer_names_dict = build_layer_dicts(1)
     styles_dict = build_layer_styles_dict(plugin_path=plugin_dir, type=1)
     layers_dict = {}
@@ -263,9 +267,7 @@ def get_zero_d_one_d_layers_dict(plugin_dir, output_dict, groups_dict):
     # Kaart 5: Stabiele waterstandsverhoging einde regen
     # ----------------------------------------------------------
     layer = layerVariables(
-        layer_name=layer_names_dict[
-            "waterlevel_end_rain_vs_end_rain_min_one_layer_name"
-        ],
+        layer_name=layer_names_dict["waterlevel_end_rain_vs_end_rain_min_one_layer_name"],
         layer_group=groups_dict["stable_lvl_increase"],
         layer_style=styles_dict["waterlevel_end_rain_vs_end_rain_min_one_style"],
         layer_type=VECTOR,
@@ -319,9 +321,7 @@ def get_bank_levels_layers_dict(plugin_dir, output_dict, groups_dict):
         layer_group=groups_dict["bank_levels"],
         layer_style=styles_dict["flow_1d2d_cross_sections_style"],
         layer_type=VECTOR,
-        layer_source=create_source_path(
-            output_dict, "flow_1d2d_cross_sections_filename"
-        ),
+        layer_source=create_source_path(output_dict, "flow_1d2d_cross_sections_filename"),
     )
     layers_dict["flow_1d2d_cross_sections_vars"] = layer
     return layers_dict
@@ -388,9 +388,7 @@ def get_one_d_two_d_layers_dict(plugin_dir, output_dict, groups_dict):
         layer_group=groups_dict["waterdepth"],
         layer_style=styles_dict["water_depth_style"],
         layer_type=RASTER,
-        layer_expression=re.compile(
-            layer_names_dict["water_depth_layer_name_template"].format("[0-9]+")
-        ),
+        layer_expression=re.compile(layer_names_dict["water_depth_layer_name_template"].format("[0-9]+")),
     )  #'waterdiepte_T[0-9]+_hours'))
     layers_dict["waterdept_layer_vars_template"] = layer
     # ----------------------------------------------------------
@@ -401,17 +399,13 @@ def get_one_d_two_d_layers_dict(plugin_dir, output_dict, groups_dict):
         layer_group=groups_dict["waterlevel"],
         layer_style=styles_dict["water_level_style"],
         layer_type=RASTER,
-        layer_expression=re.compile(
-            layer_names_dict["water_level_layer_name_template"].format("[0-9]+")
-        ),
+        layer_expression=re.compile(layer_names_dict["water_level_layer_name_template"].format("[0-9]+")),
     )  #'waterdiepte_T[0-9]+_hours'))
     layers_dict["waterlevel_layer_vars_template"] = layer
     return layers_dict
 
 
-def get_layers_list(
-    test_type, plugin_dir, output_dict, group_structure, chosen_tests=None
-):
+def get_layers_list(test_type, plugin_dir, output_dict, group_structure, chosen_tests=None):
     """
     1 -> sqlite tests
     2 -> 0d1d tests
@@ -429,7 +423,7 @@ def get_layers_list(
     ) = build_groups_dict(groups=group_structure)
 
     if test_type == 1:
-        layers_dict = get_sqlite_tests_layers_dict(
+        layers_dict = get_sqlite_checks_layers_dict(
             plugin_dir=plugin_dir,
             chosen_tests=chosen_tests,
             output_dict=output_dict,

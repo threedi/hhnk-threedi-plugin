@@ -31,7 +31,7 @@ def setupUi(sqlite_dialog):
     sqlite_dialog.bar = QgsMessageBar()
 
     # Create button to start tests
-    sqlite_dialog.start_sqlite_tests_btn = QPushButton("Start tests")
+    sqlite_dialog.start_sqlite_checks_btn = QPushButton("Start tests")
 
     # Create all checkboxes group
     sqlite_dialog.all_tests = QGroupBox("Selecteer tests")
@@ -125,7 +125,7 @@ def setupUi(sqlite_dialog):
     main_layout.addSpacerItem(QSpacerItem(10, 5, QSizePolicy.Expanding))
     main_layout.addWidget(sqlite_dialog.all_tests)
     main_layout.addSpacerItem(QSpacerItem(10, 5, QSizePolicy.Expanding))
-    main_layout.addWidget(sqlite_dialog.start_sqlite_tests_btn, alignment=Qt.AlignRight)
+    main_layout.addWidget(sqlite_dialog.start_sqlite_checks_btn, alignment=Qt.AlignRight)
     sqlite_dialog.setLayout(main_layout)
 
 
@@ -138,10 +138,10 @@ class sqliteCheckDialog(QDialog):
 
     Signals:
 
-    start_sqlite_tests(object (test_env))
+    start_sqlite_checks(object (test_env))
     """
 
-    start_sqlite_tests = pyqtSignal(object)
+    start_sqlite_checks = pyqtSignal(object)
 
     def __init__(self, caller, parent):
         super(sqliteCheckDialog, self).__init__(parent)
@@ -150,7 +150,7 @@ class sqliteCheckDialog(QDialog):
         # self.setup_main_paths_signals()
         self.data_verification.clicked.connect(self.group_clicked)
         self.one_time_checks.clicked.connect(self.group_clicked)
-        self.start_sqlite_tests_btn.clicked.connect(self.verify_submit)
+        self.start_sqlite_checks_btn.clicked.connect(self.verify_submit)
 
         for child in self.data_verification.findChildren(QCheckBox):
             child.setChecked(True)
@@ -204,12 +204,12 @@ class sqliteCheckDialog(QDialog):
         """
         Checks whether all fields are correctly filled
         """
-        update_button_background(button=self.start_sqlite_tests_btn, color="orange")
+        update_button_background(button=self.start_sqlite_checks_btn, color="orange")
         self.selected_tests = self.construct_chosen_tests_list()
 
-        self.start_sqlite_tests.emit(self.selected_tests)
+        self.start_sqlite_checks.emit(self.selected_tests)
         self.accept()
-        update_button_background(button=self.start_sqlite_tests_btn, color="green")
+        update_button_background(button=self.start_sqlite_checks_btn, color="green")
 
     def set_current_paths(self):
         """

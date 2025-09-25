@@ -23,7 +23,7 @@ from PyQt5.QtWidgets import (
 )
 from qgis.gui import QgsMessageBar
 
-# from hhnk_threedi_plugin.gui.tests.verify_sqlite_tests_input import verify_input
+# from hhnk_threedi_plugin.gui.tests.verify_sqlite_checks_input import verify_input
 from hhnk_threedi_plugin.gui.utility.file_widget import fileWidget
 
 
@@ -36,7 +36,7 @@ def setupUi(input_data):
     input_data.bar = QgsMessageBar()
 
     # Create button to start tests
-    # input_data.start_sqlite_tests_btn = QPushButton("Start tests")
+    # input_data.start_sqlite_checks_btn = QPushButton("Start tests")
 
     # Create all file widgets
     input_data.polder_label = QLabel("Project Folder:")
@@ -163,7 +163,7 @@ def setupUi(input_data):
     main_layout.addSpacerItem(QSpacerItem(10, 5, QSizePolicy.Expanding))
     # main_layout.addWidget(input_data.all_tests)
     main_layout.addSpacerItem(QSpacerItem(10, 5, QSizePolicy.Expanding))
-    # main_layout.addWidget(input_data.start_sqlite_tests_btn, alignment=Qt.AlignRight)
+    # main_layout.addWidget(input_data.start_sqlite_checks_btn, alignment=Qt.AlignRight)
     input_data.setLayout(main_layout)
 
 

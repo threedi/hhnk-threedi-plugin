@@ -27,7 +27,7 @@ from deprecated.qgis_interaction.get_layers_list import (
 )
 
 from ...utility.file_widget import fileWidget
-from .verify_sqlite_tests_input import verify_input
+from .verify_sqlite_checks_input import verify_input
 
 
 def setupUi(sqlite_dialog):
@@ -38,7 +38,7 @@ def setupUi(sqlite_dialog):
     sqlite_dialog.bar = QgsMessageBar()
 
     # Create button to start tests
-    sqlite_dialog.start_sqlite_tests_btn = QPushButton("Start tests")
+    sqlite_dialog.start_sqlite_checks_btn = QPushButton("Start tests")
 
     # Create all file widgets
     sqlite_dialog.polder_label = QLabel("Polder:")
@@ -190,7 +190,7 @@ def setupUi(sqlite_dialog):
     main_layout.addSpacerItem(QSpacerItem(10, 5, QSizePolicy.Expanding))
     main_layout.addWidget(sqlite_dialog.all_tests)
     main_layout.addSpacerItem(QSpacerItem(10, 5, QSizePolicy.Expanding))
-    main_layout.addWidget(sqlite_dialog.start_sqlite_tests_btn, alignment=Qt.AlignRight)
+    main_layout.addWidget(sqlite_dialog.start_sqlite_checks_btn, alignment=Qt.AlignRight)
     sqlite_dialog.setLayout(main_layout)
 
 
@@ -203,10 +203,10 @@ class sqliteCheckDialog(QDialog):
 
     Signals:
 
-    start_sqlite_tests(object (test_env))
+    start_sqlite_checks(object (test_env))
     """
 
-    start_sqlite_tests = pyqtSignal(object)
+    start_sqlite_checks = pyqtSignal(object)
 
     def __init__(self, caller, parent):
         super(sqliteCheckDialog, self).__init__(parent)
@@ -215,7 +215,7 @@ class sqliteCheckDialog(QDialog):
         self.setup_main_paths_signals()
         self.data_verification.clicked.connect(self.group_clicked)
         self.one_time_checks.clicked.connect(self.group_clicked)
-        self.start_sqlite_tests_btn.clicked.connect(self.verify_submit)
+        self.start_sqlite_checks_btn.clicked.connect(self.verify_submit)
 
         for child in self.data_verification.findChildren(QCheckBox):
             child.setChecked(True)
@@ -304,7 +304,7 @@ class sqliteCheckDialog(QDialog):
             self.bar.pushMessage(message, Qgis.Critical)
         else:
             test_environment = self.create_test_environment(chosen_tests)
-            self.start_sqlite_tests.emit(test_environment)
+            self.start_sqlite_checks.emit(test_environment)
             self.accept()
 
     def setup_main_paths_signals(self):

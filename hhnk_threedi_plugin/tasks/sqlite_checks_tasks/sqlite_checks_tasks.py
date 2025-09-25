@@ -7,43 +7,43 @@ from PyQt5.QtCore import pyqtSignal
 from qgis.core import Qgis, QgsTask
 from qgis.utils import QgsMessageLog, iface
 
-from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.controlled_structs_result import (
+from hhnk_threedi_plugin.gui.checks.sqlite_checks_widgets.controlled_structs_result import (
     create_controlled_structs_widget,
 )
-from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.cross_section_vertex_result import (
+from hhnk_threedi_plugin.gui.checks.sqlite_checks_widgets.cross_section_vertex_result import (
     cross_section_no_vertex_widget,
 )
-from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.cross_section_warning_result import (
+from hhnk_threedi_plugin.gui.checks.sqlite_checks_widgets.cross_section_warning_result import (
     cross_section_duplicate_widget,
 )
-from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.dem_max_val_result import (
+from hhnk_threedi_plugin.gui.checks.sqlite_checks_widgets.dem_max_val_result import (
     create_dem_max_val_result_widget,
 )
-from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.general_checks_result import (
+from hhnk_threedi_plugin.gui.checks.sqlite_checks_widgets.general_checks_result import (
     create_general_checks_result_widget,
 )
-from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.geometries_result import (
+from hhnk_threedi_plugin.gui.checks.sqlite_checks_widgets.geometries_result import (
     create_geometries_result_widget,
 )
-from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.impervious_surface_result import (
+from hhnk_threedi_plugin.gui.checks.sqlite_checks_widgets.impervious_surface_result import (
     create_impervious_surface_widget,
 )
-from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.isolated_channels_result import (
+from hhnk_threedi_plugin.gui.checks.sqlite_checks_widgets.isolated_channels_result import (
     create_isolated_channels_result_widget,
 )
-from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.profiles_used_result import (
+from hhnk_threedi_plugin.gui.checks.sqlite_checks_widgets.profiles_used_result import (
     create_profiles_used_widget,
 )
-from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.structs_channels_result import (
+from hhnk_threedi_plugin.gui.checks.sqlite_checks_widgets.structs_channels_result import (
     create_structs_channels_result_widget,
 )
-from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.watersurface_area_result import (
+from hhnk_threedi_plugin.gui.checks.sqlite_checks_widgets.watersurface_area_result import (
     create_watersurface_area_result_widget,
 )
-from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.weir_height_result import (
+from hhnk_threedi_plugin.gui.checks.sqlite_checks_widgets.weir_height_result import (
     create_weir_height_widget,
 )
-from hhnk_threedi_plugin.tasks.sqlite_test_tasks.base_sqlite_test_task import (
+from hhnk_threedi_plugin.tasks.sqlite_checks_tasks.base_sqlite_checks_task import (
     BaseSqliteTask,
 )
 
@@ -77,7 +77,7 @@ class profilesUsedTask(BaseSqliteTask):
     def __init__(self, folder):
         super().__init__(folder)
         self.description = "bepalen gebruikte profielen watergangen"
-        self.layer_source = self.folder.output.sqlite_tests.gebruikte_profielen.path
+        self.layer_source = self.folder.output.sqlite_checks.gebruikte_profielen.path
 
     def run_custom(self):
         if self.os_retry is None:
@@ -95,7 +95,7 @@ class controlledStructsTask(BaseSqliteTask):
     def __init__(self, folder):
         super().__init__(folder)
         self.description = "gestuurde kunstwerken overzicht aanmaken"
-        self.layer_source = self.folder.output.sqlite_tests.gestuurde_kunstwerken.path
+        self.layer_source = self.folder.output.sqlite_checks.gestuurde_kunstwerken.path
 
     def run_custom(self):
         if self.os_retry is None:
@@ -113,7 +113,7 @@ class weirHeightTask(BaseSqliteTask):
     def __init__(self, folder):
         super().__init__(folder)
         self.description = "stuw hoogtes en bodemhoogtes vergelijken"
-        self.layer_source = self.folder.output.sqlite_tests.bodemhoogte_stuw.path
+        self.layer_source = self.folder.output.sqlite_checks.bodemhoogte_stuw.path
 
     def run_custom(self):
         if self.os_retry is None:
@@ -138,7 +138,7 @@ class geometriesTask(BaseSqliteTask):
     def __init__(self, folder):
         super().__init__(folder)
         self.description = "nakijken geometrie"
-        self.layer_source = self.folder.output.sqlite_tests.geometry_check.path
+        self.layer_source = self.folder.output.sqlite_checks.geometry_check.path
 
     def run_custom(self):
         if self.os_retry is None:
@@ -159,7 +159,7 @@ class structsChannelsTask(BaseSqliteTask):
     def __init__(self, folder):
         super().__init__(folder)
         self.description = "bepalen kunstwerken met referentie level onder bodem niveau"
-        self.layer_source = self.folder.output.sqlite_tests.bodemhoogte_kunstwerken.path
+        self.layer_source = self.folder.output.sqlite_checks.bodemhoogte_kunstwerken.path
         # print(self.layer_source)
 
     def run_custom(self):
@@ -183,7 +183,7 @@ class generalChecksTask(BaseSqliteTask):
     def __init__(self, folder):
         super().__init__(folder)
         self.description = "algemene model checks"
-        self.layer_source = self.folder.output.sqlite_tests.general_sqlite_checks.path
+        self.layer_source = self.folder.output.sqlite_checks.general_sqlite_checks.path
         self.error = True
 
     def run_custom(self):
@@ -203,7 +203,7 @@ class isolatedChannelsTask(BaseSqliteTask):
     def __init__(self, folder):
         super().__init__(folder)
         self.description = "geïsoleerde watergangen bepalen"
-        self.layer_source = self.folder.output.sqlite_tests.geisoleerde_watergangen.path
+        self.layer_source = self.folder.output.sqlite_checks.geisoleerde_watergangen.path
 
     def run_custom(self):
         if self.os_retry is None:
@@ -261,7 +261,7 @@ class watersurfaceAreaTask(BaseSqliteTask):
     def __init__(self, folder):
         super().__init__(folder)
         self.description = "wateroppervlak damo/model vergelijken"
-        self.layer_source = self.folder.output.sqlite_tests.wateroppervlak.path
+        self.layer_source = self.folder.output.sqlite_checks.wateroppervlak.path
 
     def run_custom(self):
         if self.os_retry is None:
@@ -284,7 +284,7 @@ class gridTask(BaseSqliteTask):
     def run(self):
         QgsMessageLog.logMessage(f"Taak gestart {self.description}", level=Qgis.Info)
         try:
-            self.sqlite_test.create_grid_from_sqlite(output_folder=self.folder.output.sqlite_tests.path)
+            self.sqlite_test.create_grid_from_sqlite(output_folder=self.folder.output.sqlite_checks.path)
             return True
         except Exception as e:
             self.exception = e
@@ -300,7 +300,7 @@ class crossSectionDuplicateTask(BaseSqliteTask):
     def __init__(self, folder):
         super().__init__(folder)
         self.description = "dubbele cross sections"
-        self.layer_source = self.folder.output.sqlite_tests.cross_section_duplicates.path
+        self.layer_source = self.folder.output.sqlite_checks.cross_section_duplicates.path
         self.database = self.folder.model.schema_base.database
 
     def run_custom(self):
@@ -319,7 +319,7 @@ class crossSectionNoVertexTask(BaseSqliteTask):
         super().__init__(folder)
         self.description = "profielen geen snijpunt in vertex "
         self.database = self.folder.model.schema_base.database
-        self.layer_source = self.folder.output.sqlite_tests.cross_section_no_vertex.path
+        self.layer_source = self.folder.output.sqlite_checks.cross_section_no_vertex.path
 
     def run_custom(self):
         if self.os_retry is None:
