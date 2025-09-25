@@ -1,16 +1,15 @@
 import copy
-from PyQt5.QtCore import pyqtSignal
-from qgis.core import QgsTask, Qgis
-from qgis.utils import QgsMessageLog, iface
-from deprecated.qgis_interaction.layers_management.adding_layers import add_layers
-
 
 # old
 # import hhnk_research_tools as hrt
 # from hhnk_threedi_tools.tests.one_d_two_d.get_flowline_results import create_flowlines_results
-
 # new
-from hhnk_threedi_tools import OneDTwoDTest
+from hhnk_threedi_tools import OneDTwoDCheck
+from PyQt5.QtCore import pyqtSignal
+from qgis.core import Qgis, QgsTask
+from qgis.utils import QgsMessageLog, iface
+
+from deprecated.qgis_interaction.layers_management.adding_layers import add_layers
 
 description = "flowlines levels en stroming bepalen"
 
@@ -44,7 +43,7 @@ class flowLinesTask(QgsTask):
         QgsMessageLog.logMessage(f"Taak gestart {self.description}", level=Qgis.Info)
         try:
             if self.os_retry is None:
-                one_d_two_d_test = OneDTwoDTest.from_path(
+                one_d_two_d_test = OneDTwoDCheck.from_path(
                     self.test_env.polder_folder,
                     revision=self.test_env.revision_path,
                     output_path=self.test_env.output_path,
@@ -84,18 +83,14 @@ class flowLinesTask(QgsTask):
         """
         if not result:
             if self.exception is None:
-                iface.messageBar().pushMessage(
-                    f"Taak {self.description} onderbroken", level=Qgis.Warning
-                )
+                iface.messageBar().pushMessage(f"Taak {self.description} onderbroken", level=Qgis.Warning)
             else:
                 iface.messageBar().pushMessage(
                     f"Taak {self.description} mislukt: zie Message Log",
                     level=Qgis.Critical,
                 )
                 QgsMessageLog.logMessage(
-                    '"{name}" Exception: {exception}'.format(
-                        name=self.description, exception=self.exception
-                    ),
+                    '"{name}" Exception: {exception}'.format(name=self.description, exception=self.exception),
                     level=Qgis.Critical,
                 )
                 raise self.exception

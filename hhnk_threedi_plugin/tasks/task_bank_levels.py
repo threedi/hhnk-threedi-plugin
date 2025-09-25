@@ -4,7 +4,7 @@ import hhnk_research_tools as hrt
 import hhnk_threedi_tools as htt
 
 # new
-from hhnk_threedi_tools import BankLevelTest
+from hhnk_threedi_tools import BankLevelCheck
 from hhnk_threedi_tools.variables.bank_levels import (
     new_bank_level_col,
     new_storage_area_col,
@@ -79,7 +79,7 @@ class calculateBankLevelsManholesTask(QgsTask):
         QgsMessageLog.logMessage(f"Taak gestart {self.description}", level=Qgis.Info)
         try:
             if self.os_retry is None:
-                self.bl_test = BankLevelTest(self.folder)
+                self.bl_test = BankLevelCheck(self.folder)
                 self.bl_test.import_data()
                 self.bl_test.run()
             QgsMessageLog.logMessage("Taak gestart opslaan resultaten", level=Qgis.Info)

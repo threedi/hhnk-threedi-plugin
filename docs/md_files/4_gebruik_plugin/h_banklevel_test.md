@@ -21,7 +21,7 @@ Het draaien van de bank levels test kan worden uitgevoerd met enkel het sqlite-m
 
  Na enige tijd verschijnt een scherm met daarin voorgestelde aanpassingen. Voer deze niet meteen uit. Het is mogelijk om op de kaart de resultaten te bekijken om te zien of je dit herkend. Ook kun je een lijst maken met connection nodes waar je bewust geen manholes wilt. Deze kun je invoeren in het scherm en worden overgeslagen.
 
-3. QGIS laadt vervolgens de resultaten in 'Lagen' als 03.Bankleveltest.
+3. QGIS laadt vervolgens de resultaten in 'Lagen' als 03.BanklevelCheck.
 
 ![Alt text](../../images/2_werkwijze_bwn/e_model_controleren_verbeteren/5_banklevel_test/Resultaten_banklevel_test.png)
 

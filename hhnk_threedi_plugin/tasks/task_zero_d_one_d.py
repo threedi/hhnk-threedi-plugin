@@ -42,7 +42,7 @@ def task_zero_d_one_d(folder, revision):
     # Initialize to get information from the netcdf
     # rain, detected_rain, timestep, days_dry_start, days_dry_end, timestep_df = grid_result_metadata.construct_scenario(grid_result)
 
-    zero_d_one_d_test = htt_0d1d.ZeroDOneDTest(folder=folder, revision=revision)
+    zero_d_one_d_test = htt_0d1d.ZeroDOneDCheck(folder=folder, revision=revision)
 
     # Hydraulische toets
     QgsMessageLog.logMessage(f"0d1d test - Hydraulische toets", level=Qgis.Info)

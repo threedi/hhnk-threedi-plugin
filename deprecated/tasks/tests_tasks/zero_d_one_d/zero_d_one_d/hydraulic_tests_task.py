@@ -1,12 +1,14 @@
 import copy
-from PyQt5.QtCore import pyqtSignal
-from qgis.core import QgsTask, Qgis
-from qgis.utils import QgsMessageLog, iface
-from deprecated.qgis_interaction.layers_management.adding_layers import add_layers
+
+import hhnk_research_tools as hrt
 
 # hhnk-threedi-tests
-from hhnk_threedi_tools import ZeroDOneDTest
-import hhnk_research_tools as hrt
+from hhnk_threedi_tools import ZeroDOneDCheck
+from PyQt5.QtCore import pyqtSignal
+from qgis.core import Qgis, QgsTask
+from qgis.utils import QgsMessageLog, iface
+
+from deprecated.qgis_interaction.layers_management.adding_layers import add_layers
 
 description = "hydraulische tests uitvoeren"
 
@@ -47,12 +49,10 @@ class hydraulicTestsTask(QgsTask):
         QgsMessageLog.logMessage(f"Taak gestart {self.description}", level=Qgis.Info)
         try:
             if self.os_retry is None:
-                zero_d_one_d = ZeroDOneDTest.from_path(self.test_env.polder_folder)
+                zero_d_one_d = ZeroDOneDCheck.from_path(self.test_env.polder_folder)
                 self.channels_gdf, self.structs_gdf = zero_d_one_d.run_hydraulic()
 
-            QgsMessageLog.logMessage(
-                f"Taak gestart opslaan resultaten", level=Qgis.Info
-            )
+            QgsMessageLog.logMessage(f"Taak gestart opslaan resultaten", level=Qgis.Info)
             hrt.gdf_write_to_csv(
                 self.channels_gdf,
                 path=self.test_env.output_vars["log_path"],
@@ -98,18 +98,14 @@ class hydraulicTestsTask(QgsTask):
         """
         if not result:
             if self.exception is None:
-                iface.messageBar().pushMessage(
-                    f"Taak {self.description} onderbroken", level=Qgis.Warning
-                )
+                iface.messageBar().pushMessage(f"Taak {self.description} onderbroken", level=Qgis.Warning)
             else:
                 iface.messageBar().pushMessage(
                     f"Taak {self.description} mislukt: zie Message Log",
                     level=Qgis.Critical,
                 )
                 QgsMessageLog.logMessage(
-                    '"{name}" Exception: {exception}'.format(
-                        name=self.description, exception=self.exception
-                    ),
+                    '"{name}" Exception: {exception}'.format(name=self.description, exception=self.exception),
                     level=Qgis.Critical,
                 )
                 raise self.exception
