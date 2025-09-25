@@ -22,7 +22,7 @@ from hhnk_threedi_plugin.dependencies import HHNK_THREEDI_PLUGIN_DIR
 
 def task_one_d_two_d(folder, revision, dem_path):
     # Define file locations
-    output_file_flowline = folder.output.one_d_two_d[revision].stroming_1d2d_test.path
+    output_file_flowline = folder.output.one_d_two_d[revision].stroming_1d2d_check.path
     output_file_node = folder.output.one_d_two_d[revision].grid_nodes_2d.path
 
     # Create folder

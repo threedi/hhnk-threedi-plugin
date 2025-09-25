@@ -1,33 +1,33 @@
-from PyQt5.QtWidgets import (
-    QPushButton,
-    QVBoxLayout,
-    QGroupBox,
-    QGridLayout,
-    QFileDialog,
-    QLabel,
-    QCheckBox,
-    QFrame,
-    QSpacerItem,
-    QDialog,
-    QSizePolicy,
-    QHBoxLayout,
-    QApplication,
-)
-from qgis.core import Qgis
-from PyQt5.QtCore import Qt, pyqtSignal
-from qgis.gui import QgsMessageBar
-from .verify_sqlite_tests_input import verify_input
-from ...utility.file_widget import fileWidget
-from deprecated.qgis_interaction.get_layers_list import (
-    get_layers_list,
-)
 from hhnk_threedi_plugin.qgis_interaction.layers_management.groups.layer_groups_structure import (
     QgisLayerStructure,
 )
-
-
-from hhnk_threedi_tools.qgis.get_working_paths import get_working_paths
 from hhnk_threedi_tools.qgis.environment import testEnvironment
+from hhnk_threedi_tools.qgis.get_working_paths import get_working_paths
+from PyQt5.QtCore import Qt, pyqtSignal
+from PyQt5.QtWidgets import (
+    QApplication,
+    QCheckBox,
+    QDialog,
+    QFileDialog,
+    QFrame,
+    QGridLayout,
+    QGroupBox,
+    QHBoxLayout,
+    QLabel,
+    QPushButton,
+    QSizePolicy,
+    QSpacerItem,
+    QVBoxLayout,
+)
+from qgis.core import Qgis
+from qgis.gui import QgsMessageBar
+
+from deprecated.qgis_interaction.get_layers_list import (
+    get_layers_list,
+)
+
+from ...utility.file_widget import fileWidget
+from .verify_sqlite_tests_input import verify_input
 
 
 def setupUi(sqlite_dialog):
@@ -42,9 +42,7 @@ def setupUi(sqlite_dialog):
 
     # Create all file widgets
     sqlite_dialog.polder_label = QLabel("Polder:")
-    sqlite_dialog.polder_selector = fileWidget(
-        file_dialog_title="", file_mode=QFileDialog.Directory
-    )
+    sqlite_dialog.polder_selector = fileWidget(file_dialog_title="", file_mode=QFileDialog.Directory)
     sqlite_dialog.polder_selector.setEnabled(False)
     sqlite_dialog.output_selector = fileWidget(
         file_dialog_title="Selecteer map om output in aan te maken",
@@ -70,7 +68,7 @@ def setupUi(sqlite_dialog):
     )
     sqlite_dialog.channels_from_label = QLabel("Watergangen van profielen:")
     sqlite_dialog.channel_from_profiles_selector = fileWidget(
-        file_dialog_title="Selecteer channels from profile " "shapefile (.shp)",
+        file_dialog_title="Selecteer channels from profile shapefile (.shp)",
         file_mode=QFileDialog.ExistingFile,
         name_filter="*.shp",
     )
@@ -94,9 +92,7 @@ def setupUi(sqlite_dialog):
     sqlite_dialog.all_tests = QGroupBox("Selecteer tests")
 
     # Create quick tests checkboxes and group
-    sqlite_dialog.data_verification = QGroupBox(
-        "Data verificatie", sqlite_dialog.all_tests
-    )
+    sqlite_dialog.data_verification = QGroupBox("Data verificatie", sqlite_dialog.all_tests)
     sqlite_dialog.data_verification.setCheckable(True)
     sqlite_dialog.data_verification.setChecked(True)
     sqlite_dialog.impervious_surface_chk = QCheckBox("Ondoorlatend oppervlak")
@@ -117,9 +113,7 @@ def setupUi(sqlite_dialog):
     sqlite_dialog.isolated_channels_chk.setObjectName("isolated_channels_chk")
 
     # Create slow tests checkboxes and group
-    sqlite_dialog.one_time_checks = QGroupBox(
-        "Eenmalige tests", sqlite_dialog.all_tests
-    )
+    sqlite_dialog.one_time_checks = QGroupBox("Eenmalige tests", sqlite_dialog.all_tests)
     sqlite_dialog.one_time_checks.setCheckable(True)
     sqlite_dialog.max_dem_chk = QCheckBox(text="Maximale waarde DEM")
     sqlite_dialog.max_dem_chk.setObjectName("max_dem_chk")
@@ -222,7 +216,7 @@ class sqliteCheckDialog(QDialog):
         self.data_verification.clicked.connect(self.group_clicked)
         self.one_time_checks.clicked.connect(self.group_clicked)
         self.start_sqlite_tests_btn.clicked.connect(self.verify_submit)
-        
+
         for child in self.data_verification.findChildren(QCheckBox):
             child.setChecked(True)
 
@@ -282,17 +276,11 @@ class sqliteCheckDialog(QDialog):
         test_environment.file_dict["model_path"] = self.model_selector.filePath()
         test_environment.file_dict["damo_path"] = self.damo_selector.filePath()
         test_environment.file_dict["hdb_path"] = self.hdb_selector.filePath()
-        test_environment.file_dict[
-            "polder_polygon_path"
-        ] = self.polder_shape_selector.filePath()
-        test_environment.file_dict[
-            "channels_from_profiles_path"
-        ] = self.channel_from_profiles_selector.filePath()
+        test_environment.file_dict["polder_polygon_path"] = self.polder_shape_selector.filePath()
+        test_environment.file_dict["channels_from_profiles_path"] = self.channel_from_profiles_selector.filePath()
         test_environment.file_dict["dem_path"] = self.dem_selector.filePath()
         # test_environment.file_dict['output_path'] = self.output_selector.filePath()
-        test_environment.file_dict[
-            "datachecker_path"
-        ] = self.datachecker_selector.filePath()
+        test_environment.file_dict["datachecker_path"] = self.datachecker_selector.filePath()
 
         return test_environment
 
@@ -324,30 +312,18 @@ class sqliteCheckDialog(QDialog):
         Connects changes in fields (for example the selection of a file) to the function
         that updates (and keeps track of) the current fields for the entire plugin
         """
-        self.datachecker_selector.fileSelected.connect(
-            lambda path: self.caller.update_current_paths(datachecker=path)
-        )
-        self.damo_selector.fileSelected.connect(
-            lambda path: self.caller.update_current_paths(damo=path)
-        )
-        self.hdb_selector.fileSelected.connect(
-            lambda path: self.caller.update_current_paths(hdb=path)
-        )
+        self.datachecker_selector.fileSelected.connect(lambda path: self.caller.update_current_paths(datachecker=path))
+        self.damo_selector.fileSelected.connect(lambda path: self.caller.update_current_paths(damo=path))
+        self.hdb_selector.fileSelected.connect(lambda path: self.caller.update_current_paths(hdb=path))
         self.polder_shape_selector.fileSelected.connect(
             lambda path: self.caller.update_current_paths(polder_shapefile=path)
         )
         self.channel_from_profiles_selector.fileSelected.connect(
             lambda path: self.caller.update_current_paths(channels_shapefile=path)
         )
-        self.model_selector.fileSelected.connect(
-            lambda path: self.caller.update_current_paths(model=path)
-        )
-        self.dem_selector.fileSelected.connect(
-            lambda path: self.caller.update_current_paths(dem=path)
-        )
-        self.output_selector.fileSelected.connect(
-            lambda path: self.caller.update_current_paths(sqlite_output=path)
-        )
+        self.model_selector.fileSelected.connect(lambda path: self.caller.update_current_paths(model=path))
+        self.dem_selector.fileSelected.connect(lambda path: self.caller.update_current_paths(dem=path))
+        self.output_selector.fileSelected.connect(lambda path: self.caller.update_current_paths(sqlite_output=path))
 
     def set_current_paths(self):
         """
@@ -363,4 +339,4 @@ class sqliteCheckDialog(QDialog):
             self.hdb_selector.setFilePath(paths["hdb"])
             self.damo_selector.setFilePath(paths["damo"])
             self.polder_shape_selector.setFilePath(paths["polder_shapefile"])
-            self.output_selector.setFilePath(paths["sqlite_tests_output"])
+            self.output_selector.setFilePath(paths["sqlite_checks_output"])

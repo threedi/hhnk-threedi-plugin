@@ -247,7 +247,7 @@ class inputDataDialog(QDialog):
             # self.hdb_selector.setFilePath(paths["hdb"].split(self.polders_map_selector.filePath())[-1])
             # self.damo_selector.setFilePath(paths["damo"].split(self.polders_map_selector.filePath())[-1])
             # self.polder_shape_selector.setFilePath(paths["polder_shapefile"].split(self.polders_map_selector.filePath())[-1])
-            # self.output_selector.setFilePath(paths["sqlite_tests_output"].split(self.polders_map_selector.filePath())[-1])
+            # self.output_selector.setFilePath(paths["sqlite_checks_output"].split(self.polders_map_selector.filePath())[-1])
             self.output_0d_1d__selector.setFilePath(paths["0d1d_output"])
             # self.one_d_two_d.dem_selector.setFilePath(paths["dem"])
 
@@ -257,7 +257,7 @@ class inputDataDialog(QDialog):
         # else:
         #     widgt.setStyleSheet("background-color: lightgreen;border: 1px solid black;")
 
-        # self.output_selector.setFilePath(paths["sqlite_tests_output"])
+        # self.output_selector.setFilePath(paths["sqlite_checks_output"])
 
     # def set_current_paths_1d_2d(self):
     #     """

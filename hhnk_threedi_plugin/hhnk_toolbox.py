@@ -470,7 +470,7 @@ class HHNK_toolbox:
                 # self.one_d_two_d.results_dir_selector.setFilePath(one_d_results)
 
             if sqlite_output is not None:
-                self.current_source_paths["sqlite_tests_output"] = sqlite_output
+                self.current_source_paths["sqlite_checks_output"] = sqlite_output
 
             if zero_d_output is not None:
                 self.current_source_paths["0d1d_output"] = zero_d_output

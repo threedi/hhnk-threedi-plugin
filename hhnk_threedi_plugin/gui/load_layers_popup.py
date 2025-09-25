@@ -184,7 +184,7 @@ class loadLayersDialog(QDialog):
         paths = self.caller.current_source_paths
 
         if paths is not None:
-            self.sqlite_output_path = paths["sqlite_tests_output"]
+            self.sqlite_output_path = paths["sqlite_checks_output"]
             self.zero_d_one_d_output_path = paths["0d1d_output"]
             self.one_d_two_d_output_path = paths["1d2d_output"]
 
