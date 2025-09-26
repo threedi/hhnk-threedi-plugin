@@ -54,10 +54,10 @@ class impSurfaceTask(BaseSqliteTask):
         self.description = "bereken ondoorlatend oppervlak model en polder"
 
     def run(self):
-        if self.sqlite_test.verify_inputs("run_imp_surface_area"):
+        if self.sqlite_checks.verify_inputs("run_imp_surface_area"):
             QgsMessageLog.logMessage(f"Taak gestart {self.description}", level=Qgis.Info)
             try:
-                self.result_text = self.sqlite_test.run_imp_surface_area()
+                self.result_text = self.sqlite_checks.run_imp_surface_area()
                 return True
             except Exception as e:
                 self.exception = e
@@ -81,7 +81,7 @@ class profilesUsedTask(BaseSqliteTask):
 
     def run_custom(self):
         if self.os_retry is None:
-            self.gdf = self.sqlite_test.run_used_profiles()
+            self.gdf = self.sqlite_checks.run_used_profiles()
 
         self.gdf.to_file(self.layer_source, index=False, driver="GPKG")
 
@@ -99,7 +99,7 @@ class controlledStructsTask(BaseSqliteTask):
 
     def run_custom(self):
         if self.os_retry is None:
-            self.sqlite_test.run_controlled_structures(overwrite=True)
+            self.sqlite_checks.run_controlled_structures(overwrite=True)
         return True
 
     def finished_custom(self):
@@ -117,7 +117,7 @@ class weirHeightTask(BaseSqliteTask):
 
     def run_custom(self):
         if self.os_retry is None:
-            self.gdf, self.update_query = self.sqlite_test.run_weir_floor_level()
+            self.gdf, self.update_query = self.sqlite_checks.run_weir_floor_level()
 
         self.gdf.to_file(self.layer_source, index=False, driver="GPKG")
         return True
@@ -142,7 +142,7 @@ class geometriesTask(BaseSqliteTask):
 
     def run_custom(self):
         if self.os_retry is None:
-            self.gdf = self.sqlite_test.run_geometry_checks()
+            self.gdf = self.sqlite_checks.run_geometry_checks()
 
         self.csv_path = hrt.gdf_write_to_csv(self.gdf, filepath=self.layer_source)
         return True
@@ -163,9 +163,9 @@ class structsChannelsTask(BaseSqliteTask):
         # print(self.layer_source)
 
     def run_custom(self):
-        if self.sqlite_test.verify_inputs("run_struct_channel_bed_level"):
+        if self.sqlite_checks.verify_inputs("run_struct_channel_bed_level"):
             if self.os_retry is None:
-                self.gdf = self.sqlite_test.run_struct_channel_bed_level()
+                self.gdf = self.sqlite_checks.run_struct_channel_bed_level()
 
             # print(self.gdf)
             hrt.gdf_write_to_geopackage(self.gdf, filepath=str(self.layer_source))
@@ -188,7 +188,7 @@ class generalChecksTask(BaseSqliteTask):
 
     def run_custom(self):
         if self.os_retry is None:
-            self.df = self.sqlite_test.run_model_checks()
+            self.df = self.sqlite_checks.run_model_checks()
             self.error = self.df.error.str.contains("ERROR").any()
 
         hrt.gdf_write_to_csv(self.df, filepath=self.layer_source)
@@ -207,7 +207,7 @@ class isolatedChannelsTask(BaseSqliteTask):
 
     def run_custom(self):
         if self.os_retry is None:
-            self.gdf, self.result_text = self.sqlite_test.run_isolated_channels()
+            self.gdf, self.result_text = self.sqlite_checks.run_isolated_channels()
 
         hrt.gdf_write_to_geopackage(self.gdf, filepath=self.layer_source)
         return True
@@ -225,7 +225,7 @@ class demMaxValTask(BaseSqliteTask):
     def run(self):
         QgsMessageLog.logMessage(f"Taak gestart {self.description}", level=Qgis.Info)
         try:
-            self.result_text = self.sqlite_test.run_dem_max_value()
+            self.result_text = self.sqlite_checks.run_dem_max_value()
             return True
         except Exception as e:
             self.exception = e
@@ -245,7 +245,7 @@ class dewateringTask(BaseSqliteTask):
     def run(self):
         QgsMessageLog.logMessage(f"Taak gestart {self.description}", level=Qgis.Info)
         try:
-            self.sqlite_test.run_dewatering_depth(overwrite=False)
+            self.sqlite_checks.run_dewatering_depth(overwrite=False)
             return True
         except Exception as e:
             self.exception = e
@@ -265,7 +265,7 @@ class watersurfaceAreaTask(BaseSqliteTask):
 
     def run_custom(self):
         if self.os_retry is None:
-            self.gdf, self.result_text = self.sqlite_test.run_watersurface_area()
+            self.gdf, self.result_text = self.sqlite_checks.run_watersurface_area()
 
         hrt.gdf_write_to_geopackage(self.gdf, filepath=self.layer_source)
         return True
@@ -284,7 +284,7 @@ class gridTask(BaseSqliteTask):
     def run(self):
         QgsMessageLog.logMessage(f"Taak gestart {self.description}", level=Qgis.Info)
         try:
-            self.sqlite_test.create_grid_from_sqlite(output_folder=self.folder.output.sqlite_checks.path)
+            self.sqlite_checks.create_grid_from_sqlite(output_folder=self.folder.output.sqlite_checks.path)
             return True
         except Exception as e:
             self.exception = e
@@ -305,7 +305,7 @@ class crossSectionDuplicateTask(BaseSqliteTask):
 
     def run_custom(self):
         if self.os_retry is None:
-            self.gdf = self.sqlite_test.run_cross_section_duplicates(database=self.database)
+            self.gdf = self.sqlite_checks.run_cross_section_duplicates(database=self.database)
 
         self.gdf.to_file(self.layer_source, index=False, driver="GPKG")
 
@@ -323,7 +323,7 @@ class crossSectionNoVertexTask(BaseSqliteTask):
 
     def run_custom(self):
         if self.os_retry is None:
-            self.gdf = self.sqlite_test.run_cross_section_no_vertex(database=self.database)
+            self.gdf = self.sqlite_checks.run_cross_section_no_vertex(database=self.database)
 
         self.gdf.to_file(self.layer_source, index=False, driver="GPKG")
 

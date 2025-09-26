@@ -23,7 +23,7 @@ class BaseSqliteTask(QgsTask):
         self.mutex = mutex
         self.wait_cond = wait_cond
         self.layer_source = None
-        self.sqlite_test = SqliteCheck(self.folder)
+        self.sqlite_checks = SqliteCheck(self.folder)
 
     def set_result(self, res):
         self.os_retry = res

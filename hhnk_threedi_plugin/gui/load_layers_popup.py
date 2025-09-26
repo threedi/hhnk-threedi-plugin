@@ -35,9 +35,9 @@ def setup_ui(load_layers_popup):
     load_layers_popup.setMinimumWidth(400)
     # Creates items to be in widget
     load_layers_popup.bar = QgsMessageBar()
-    load_layers_popup.zero_d_one_d_selector_label = QLabel("Selecteer 0d1d test revisie:")
+    load_layers_popup.zero_d_one_d_selector_label = QLabel("Selecteer 0d1d check revisie:")
     load_layers_popup.zero_d_one_d_selector = revisionsComboBox()
-    load_layers_popup.one_d_two_d_selector_label = QLabel("Selecteer 1d2d test revisie:")
+    load_layers_popup.one_d_two_d_selector_label = QLabel("Selecteer 1d2d check revisie:")
     load_layers_popup.one_d_two_d_selector = revisionsComboBox()
 
     load_layers_popup.klimaatsommen_selector_label = QLabel("Selecteer klimaatsom revisie:")
@@ -49,10 +49,10 @@ def setup_ui(load_layers_popup):
     load_layers_popup.grid_selector = QCheckBox("Grid genereren")
     load_layers_popup.grid_selector.setChecked(False)
 
-    load_layers_popup.sqlite_test_selector = QCheckBox("Sqlite testen")
-    load_layers_popup.sqlite_test_selector.setChecked(False)
+    load_layers_popup.sqlite_checks_selector = QCheckBox("Sqlite checks")
+    load_layers_popup.sqlite_checks_selector.setChecked(False)
 
-    load_layers_popup.banklevel_test_selector = QCheckBox("Banklevel test")
+    load_layers_popup.banklevel_test_selector = QCheckBox("Banklevel checks")
     load_layers_popup.banklevel_test_selector.setChecked(False)
 
     load_layers_popup.test_protocol_selector = QCheckBox("Basis layout")
@@ -96,7 +96,7 @@ def setup_ui(load_layers_popup):
     main_layout.addWidget(load_layers_popup.grid_selector)
     main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
 
-    main_layout.addWidget(load_layers_popup.sqlite_test_selector)
+    main_layout.addWidget(load_layers_popup.sqlite_checks_selector)
     main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Expanding))
 
     main_layout.addWidget(load_layers_popup.banklevel_test_selector)
@@ -202,7 +202,7 @@ class loadLayersDialog(QDialog):
         subjects = []
         revisions = layer_structure.SelectedRevisions()
 
-        if self.sqlite_selector.isChecked() == True:
+        if self.sqlite_selector.isChecked() is True:
             # Migrate sqlite to newest version
             migrate_schema = MigrateSchema(filename=self.caller.fenv.model.schema_base.sqlite_paths[0].as_posix())
             migrate_schema.run()
@@ -210,24 +210,24 @@ class loadLayersDialog(QDialog):
             # load in project
             load_layers_interaction.load_sqlite(filepath=self.caller.fenv.model.schema_base.sqlite_paths[0].as_posix())
 
-        if self.grid_selector.isChecked() == True:
+        if self.grid_selector.isChecked() is True:
             iface.messageBar().pushMessage("genereer grid")
             grid_task = generateGridTask(self.caller.fenv)
             grid_task.run()
-            # sqlite_test = SqliteCheck(self.caller.fenv)
-            # sqlite_test.create_grid_from_sqlite(output_folder=self.caller.fenv.output.sqlite_checks.base)
+            # sqlite_checks = SqliteCheck(self.caller.fenv)
+            # sqlite_checks.create_grid_from_sqlite(output_folder=self.caller.fenv.output.sqlite_checks.base)
 
             # subjects.append('grid')
 
         # Sqlite test
-        if self.sqlite_test_selector.isChecked() == True:
+        if self.sqlite_checks_selector.isChecked() is True:
             subjects.append("test_sqlite")
 
-        if self.banklevel_test_selector.isChecked() == True:
+        if self.banklevel_test_selector.isChecked() is True:
             subjects.append("test_banklevels")
 
         # Test protocol
-        if self.test_protocol_selector.isChecked() == True:
+        if self.test_protocol_selector.isChecked() is True:
             # FIXME tijdelijke implementatie om gdb in gpkg om te zetten. Als dit in alle projectmappen staat kan het weer weg.
             for source in ["datachecker", "damo", "hdb"]:
                 in_gdb = hrt.SpatialDatabase(getattr(self.caller.fenv.source_data, source).path.with_suffix(".gdb"))
