@@ -4,7 +4,7 @@
     "use_snapping": true,
     "snapping_distance": 0.1,
     "create_connection_nodes": true,
-    "edit_channels": false
+    "edit_channels": true
   },
   "fields": {
     "id": {

@@ -26,9 +26,10 @@ import shutil
 from shapely import Point
 import pandas as pd
 from osgeo import ogr
-from PyQt5.QtWidgets import QMessageBox, QPlainTextEdit
+from PyQt5.QtWidgets import QMessageBox, QPlainTextEdit, QToolBar
 from qgis.core import QgsProject, QgsVectorLayer
 from qgis.utils import iface
+from datetime import datetime
 
 # Add the plugins directory to sys.path if needed
 if platform.system() == "Windows":
@@ -65,44 +66,76 @@ if plugins_path not in sys.path:
 # Import the plugin class from the package
 import threedi_schematisation_editor.data_models as dm
 from threedi_schematisation_editor import ThreediSchematisationEditorPlugin
-from threedi_schematisation_editor.custom_widgets import ImportStructuresDialog
-
+from threedi_schematisation_editor import ImportStructuresDialog, ImportFeaturesDialog, ImportCrossSectionDataDialog, ImportCrossSectionLocationDialog
 
 BASE_FOLDER = Path(__file__).parent.parent.absolute() / "data"
 RESOURCES_FOLDER = BASE_FOLDER / "resources"
-MODEL_FOLDER = BASE_FOLDER / "model_test"
+MODEL_FOLDER = BASE_FOLDER / "model"
+
+def create_and_populate_output_folders():
+    output_folder = MODEL_FOLDER / f"{Path(__file__).stem}_{datetime.now().strftime("%y%m%d_%H%M%S")}"
+    output_folder.mkdir(parents=True, exist_ok=True)
+
+    config_folder = output_folder / "00_config"    
+    config_folder.mkdir(parents=True, exist_ok=True)
+    json_templates = list(RESOURCES_FOLDER.glob("*.json"))
+    for json_template in json_templates:
+        shutil.copy2(json_template, config_folder)
+
+    source_data_folder = output_folder / "01_source_data"
+    source_data_folder.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(RESOURCES_FOLDER / "DAMO.gpkg", source_data_folder)
+    shutil.copy2(RESOURCES_FOLDER / "HyDAMO.gpkg", source_data_folder)
+    
+    schematisation_folder = output_folder / "02_schematisation" / "00_basis"
+    schematisation_folder.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(RESOURCES_FOLDER / "empty_schematisation.gpkg", schematisation_folder / "3Di_schematisation.gpkg")
+
+    threedi_results_folder = output_folder / "03_3di_results"
+    threedi_results_folder.mkdir(parents=True, exist_ok=True)
+    test_results_folder = output_folder / "04_test_results"
+    test_results_folder.mkdir(parents=True, exist_ok=True)
+
+    return output_folder
+
+class ObjectType:
+    FEATURE = "feature"
+    STRUCTURE = "structure"
+    class CrossSection:
+        DATA = "cross_section_data"
+        LOCATION = "cross_section_location"
 
 HYDAMO_THREEDI_SETTINGS = {
-    "hydoobject": {
+    "hydroobject": {
         "object_name": "channel",
-        "object_type": "channel",
+        "object_type": ObjectType.STRUCTURE,
         "model_class": dm.Channel,
     },
     "duikersifonhevel": {
         "object_name": "orifice",
-        "object_type": "structure",
+        "object_type": ObjectType.STRUCTURE,
         "model_class": dm.Orifice,
     },
-    "GEMAAL": {
+    "gemaal": {
         "object_name": "pump",
-        "object_type": "pump",
+        "object_type": ObjectType.STRUCTURE,
         "model_class": dm.Pump,
     },
     "profiellijn": {
-        "object_name": "cross_section",
-        "object_type": "cross_section",
-        "model_class": dm.CrossSectionShape,
-    }, 
-    "profielpunt": {
-        "object_name": "cross_section",
-        "object_type": "cross_section",
+        "object_name": "cross_section_location",
+        "object_type": ObjectType.CrossSection.LOCATION,
         "model_class": dm.CrossSectionLocation,
     }, 
-    "combinatiepeilgebied": {}, 
-    "peilgebiedpraktijk": {}, 
+    "profielpunt": {
+        "object_name": "cross_section_data",
+        "object_type": ObjectType.CrossSection.DATA,
+        "model_class": dm.CrossSectionData,
+    }, 
+    # "combinatiepeilgebied": {}, 
+    # "peilgebiedpraktijk": {}, 
     "STUW": {
         "object_name": "weir",
-        "object_type": "structure",
+        "object_type": ObjectType.STRUCTURE,
         "model_class": dm.Weir,
     },
 }
@@ -416,18 +449,15 @@ class SchematisationBuilder:
     def convert_project(self):
         """Handle conversion of the project to 3Di schematisation."""
         # Load the HyDAMO layers into QGIS
-        group_name = "HyDAMO"
-        hydamo_path = str(MODEL_FOLDER / "01_source_data" / "HyDAMO.gpkg")
-        damo_path = str(MODEL_FOLDER / "01_source_data" / "DAMO.gpkg")
+        group_name = "HyDAMO"       
+        hydamo_path = str(OUTPUT_FOLDER / "01_source_data" / "HyDAMO.gpkg")
+        damo_path = str(OUTPUT_FOLDER / "01_source_data" / "DAMO.gpkg")
         project = QgsProject.instance()
         root = project.layerTreeRoot()
         group = root.findGroup(group_name) ## make sure HyDAMO group is added        
 
         if not group:
-            QMessageBox.information(
-                None, "Warning", f"Group {group_name} will be loaded in project."
-            )
-            logger.info(f"Group {group_name} will be loaded in project.")
+            logger.warning(f"Group {group_name} will be loaded in project.")
             # Load layers from the GeoPackage into the group if the group does not exist
             layer_name_list = self.load_layers_from_geopackage(
                 geopackage_path=hydamo_path,
@@ -449,10 +479,7 @@ class SchematisationBuilder:
         layer_name_list_no_stuw = layer_name_list[:]
         ## STUW not in HyDAMO, so for now STUW is loaded from DAMO.
         if not root.findGroup("DAMO"):
-            QMessageBox.information(
-                None, "Warning", f"Group {"DAMO"} will be loaded in project."
-            )
-            logger.info(f"Group {"DAMO"} will be loaded in project.")
+            logger.warning(f"Group {"DAMO"} will be loaded in project.")
             # Load layers from the GeoPackage into the group if the group does not exist
             layer_name_list.extend(self.load_layers_from_geopackage(
                 geopackage_path=damo_path,
@@ -473,120 +500,99 @@ class SchematisationBuilder:
                 layer_name_list.append(layer_name)
 
         # CONVERSIONS WITHOUT VECTOR DATA IMPORTER
-        convert_to_3Di(
-            hydamo_file_path=hydamo_path,
-            hydamo_layers=layer_name_list_no_stuw,
-            empty_schematisation_file_path=str(RESOURCES_FOLDER / "empty_schematisation.gpkg"),
-            output_schematisation_directory=MODEL_FOLDER
-            / "02_schematisation"
-            / "00_basis",
-        )
+        # convert_to_3Di(
+        #     hydamo_file_path=hydamo_path,
+        #     hydamo_layers=layer_name_list_no_stuw,
+        #     empty_schematisation_file_path=str(RESOURCES_FOLDER / "empty_schematisation.gpkg"),
+        #     output_schematisation_directory=MODEL_FOLDER
+        #     / "02_schematisation"
+        #     / "00_basis",
+        # )
 
-        # Send message
-        QMessageBox.information(
-            None,
-            "Conversion",
-            "Initial conversion done. Loading into Schematisation Editor.",
-        )
         logger.info("Initial conversion done. Loading into Schematisation Editor.")
 
         # LOAD BY USING THE SCHEMATISATION EDITOR
         geopackage_path = (
-            MODEL_FOLDER
+            OUTPUT_FOLDER
             / "02_schematisation"
             / "00_basis"
             / "3Di_schematisation.gpkg"
         )
 
         if not geopackage_path:
-            QMessageBox.warning(
-                None,
-                "Error",
-                f"Missing 3Di_schematisation.gpkg in {str(MODEL_FOLDER)}/02_schematisation/00_basis",
-            )
+            logger.info(f"Missing 3Di_schematisation.gpkg in {str(OUTPUT_FOLDER)}/02_schematisation/00_basis")
         else:
             # Instantiate the plugin
             plugin_instance = ThreediSchematisationEditorPlugin(iface)
             plugin_instance.initGui()
-
-            # Call the desired method
             plugin_instance.load_schematisation(str(geopackage_path))
 
             for layer_name in HYDAMO_THREEDI_SETTINGS.keys():
-                layer_settings = HYDAMO_THREEDI_SETTINGS.get(layer_name)            
-                if not layer_settings or layer_settings.get("object_type") != "structure":
-                    QMessageBox.information(
-                        None,
-                        "Conversion",
-                        f"Importing {layer_name} through Vector Data Importer is not yet implemented, skipping to next layer...",
-                    )
-                    logger.info(f"Importing {layer_name} through Vector Data Importer is not yet implemented, skipping to next layer...")
-                    continue
-
+                layer_settings = HYDAMO_THREEDI_SETTINGS.get(layer_name)
                 layer_object_name = layer_settings.get("object_name")
                 layer_object_type = layer_settings.get("object_type")
                 layer_model_class = layer_settings.get("model_class")
-
+                
+                match layer_object_type:
+                    case ObjectType.FEATURE:
+                        import_dlg = ImportFeaturesDialog(
+                            import_model_cls=layer_model_class,
+                            model_gpkg=plugin_instance.model_gpkg,
+                            layer_manager=plugin_instance.layer_manager,
+                            uc=plugin_instance.uc,
+                        )
+                    case ObjectType.STRUCTURE:
+                        if layer_model_class == dm.Pump:
+                            logger.info(f"Importing {layer_name} through Vector Data Importer is not yet implemented, skipping to next layer...")
+                            continue
+                        import_dlg = ImportStructuresDialog(
+                            import_model_cls=layer_model_class,
+                            model_gpkg=plugin_instance.model_gpkg,
+                            layer_manager=plugin_instance.layer_manager,
+                            uc=plugin_instance.uc,
+                        )
+                    case ObjectType.CrossSection.DATA:
+                        import_dlg = ImportCrossSectionDataDialog(
+                            import_model_cls=layer_model_class,
+                            model_gpkg=plugin_instance.model_gpkg,
+                            layer_manager=plugin_instance.layer_manager,
+                            uc=plugin_instance.uc,
+                        )
+                    case ObjectType.CrossSection.LOCATION:
+                        import_dlg = ImportCrossSectionLocationDialog(
+                            import_model_cls=layer_model_class,
+                            model_gpkg=plugin_instance.model_gpkg,
+                            layer_manager=plugin_instance.layer_manager,
+                            uc=plugin_instance.uc,
+                        )
+                    case _:
+                        logger.info(f"Importing {layer_name} through Vector Data Importer is not yet implemented, skipping to next layer...")
+                        continue
+                    
                 # CONVERSIONS WITH VECTOR DATA IMPORTER (culverts, orifices, weirs, pipes, manholes)
-                # Send message
-                QMessageBox.information(
-                    None,
-                    "Conversion",
-                    f"Importing {layer_object_name} through Vector Data Importer...",
-                )
                 logger.info(f"Importing {layer_object_name} through Vector Data Importer...")
 
-                # Initialize the dialog for importing orifices
-                import_structures_dlg = ImportStructuresDialog(
-                    structure_model_cls=layer_model_class,  # Specify t........................................................he structure type
-                    model_gpkg=plugin_instance.model_gpkg,  # GeoPackage file loaded in the plugin
-                    layer_manager=plugin_instance.layer_manager,
-                    uc=plugin_instance.uc,
-                )
-
-                # layer_name = "DUIKERSIFONHEVEL"
                 if self.is_layer_in_list(layer_name=layer_name, layer_list=layer_name_list):
-                    QMessageBox.information(
-                        None,
-                        "Information",
-                        f"Layer {layer_name} is in group {group_name} and will be converted to {layer_object_name}'.",
-                    )
                     logger.info(f"Layer {layer_name} is in group {group_name} and will be converted to {layer_object_name}'.")
                     target_layer = QgsProject.instance().mapLayersByName(layer_name)[0]
-                    import_structures_dlg.structure_layer_cbo.setLayer(
-                        target_layer
-                    )  # Set the layer in the combo box
-                    import_structures_dlg.on_layer_changed(
-                        target_layer
-                    )  # Ensure `on_layer_changed` gets triggered
-                    logger.info(import_structures_dlg.import_configuration.__str__())
+                    import_dlg.source_layer_cbo.setLayer(target_layer)
+                    import_dlg.on_layer_changed(target_layer)
+                    logger.info(import_dlg.__str__())
                 else:
-                    QMessageBox.information(
-                        None,
-                        "Warning",
-                        f"Layer '{layer_name}' is not in group '{group_name}', skipping to next layer.",
-                    )
                     logger.info(f"Layer '{layer_name}' is not in group '{group_name}', skipping to next layer.")
                     continue
 
                 # Load template
-                import_config_path = RESOURCES_FOLDER / "{layer_object_name}.json"
-
+                import_config_path = OUTPUT_FOLDER / "00_config" / f"{layer_object_name}.json"
                 if not import_config_path:
-                    QMessageBox.warning(
-                        None,
-                        "Error",
-                        f"Missing orifice.json in {str(MODEL_FOLDER)}/00_config",
-                    )
+                    logger.warning(f"Missing {layer_object_name}.json in {str(OUTPUT_FOLDER)}/00_config",)
                 else:
-                    import_structures_dlg.load_import_settings()
-                    ## template_filepath = ...
-                    # TODO also see if display message can be hidden by setting a parameter
-
+                    import_dlg.load_import_settings(template_filepath=import_config_path)
                     # Run the import
-                    import_structures_dlg.run_import_structures()  # Trigger the "Run Import" action
+                    import_dlg.run_import()  # Trigger the "Run Import" action
 
 if __name__ == "__console__":
     ## Load HYDAMO to QGIS:
+    OUTPUT_FOLDER = create_and_populate_output_folders()
     test_schematisation_builder = SchematisationBuilder()
     test_schematisation_builder.convert_project()
