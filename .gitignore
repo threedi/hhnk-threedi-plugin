@@ -18,6 +18,7 @@ hhnk_threedi_plugin/resources_rc.py
 hhnk_threedi_plugin/hhnk_toolbox_dockwidget_base_ui.py
 Thumbs.db
 .ipynb_checkpoints
+debug.log
 
 # documenation
 _build/*
