@@ -2,7 +2,7 @@ import os
 
 import hhnk_research_tools as hrt
 import hhnk_threedi_tools as htt
-from hhnk_threedi_tools import MigrateSchema, SqliteCheck
+from hhnk_threedi_tools import MigrateSchema, HhnkSchematisationCheck
 from hhnk_threedi_tools.qgis import layer_structure
 from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtWidgets import (
@@ -214,7 +214,7 @@ class loadLayersDialog(QDialog):
             iface.messageBar().pushMessage("genereer grid")
             grid_task = generateGridTask(self.caller.fenv)
             grid_task.run()
-            # sqlite_checks = SqliteCheck(self.caller.fenv)
+            # sqlite_checks = HhnkSchematisationCheck(self.caller.fenv)
             # sqlite_checks.create_grid_from_sqlite(output_folder=self.caller.fenv.output.sqlite_checks.base)
 
             # subjects.append('grid')

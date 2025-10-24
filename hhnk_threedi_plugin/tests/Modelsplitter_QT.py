@@ -76,6 +76,7 @@ def modelsplitter(self):
     # --------------------------------------------------------------------------------------------------------------#
 
     ## Iterate trough names in QtlistWidget, dragged and dropped, from source:"setting_default.xlsx"
+    # FIXME wijzigingen en queries moeten naar hhnk-threedi-tools
     selectedLayers = self.listWidget.selectedItems()
     for names in selectedLayers:
         # Add schematisation to folder structure
