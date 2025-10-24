@@ -19,7 +19,7 @@ from qgis.core import Qgis, QgsTask
 from qgis.gui import QgsMessageBar
 from qgis.utils import QgsMessageLog, iface
 
-# from hhnk_threedi_plugin.gui.tests.verify_sqlite_tests_input import verify_input
+# from hhnk_threedi_plugin.gui.tests.verify_sqlite_checks_input import verify_input
 from hhnk_threedi_plugin.gui.utility.file_widget import fileWidget
 
 
@@ -94,7 +94,7 @@ class schematisationDialog(QDialog):
 
     Signals:
 
-    start_sqlite_tests(object (test_env))
+    start_sqlite_checks(object (test_env))
     """
 
     start_splitter = pyqtSignal(object)

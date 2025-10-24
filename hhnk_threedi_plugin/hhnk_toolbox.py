@@ -67,10 +67,10 @@ from hhnk_threedi_plugin.gui.checks.bank_levels import bankLevelsWidget
 from hhnk_threedi_plugin.gui.checks.one_d_two_d import oneDTwoDWidget
 
 # from hhnk_threedi_plugin.gui.schematisation_splitter_uploader_dialog import schematisationDialog
-from hhnk_threedi_plugin.gui.checks.sqlite_check_popup import sqliteCheckDialog
+from hhnk_threedi_plugin.gui.checks.sqlite_checks_popup import sqliteCheckDialog
 
 # from hhnk_threedi_plugin.gui.model_states.model_states import modelStateDialog
-from hhnk_threedi_plugin.gui.checks.sqlite_test_widgets.main_result_widget import (
+from hhnk_threedi_plugin.gui.checks.sqlite_checks_widgets.main_result_widget import (
     collapsibleTree,
 )
 from hhnk_threedi_plugin.gui.checks.zero_d_one_d import zeroDOneDWidget
@@ -85,7 +85,7 @@ from hhnk_threedi_plugin.gui.new_project_dialog import newProjectDialog
 from hhnk_threedi_plugin.hhnk_toolbox_dockwidget import HHNK_toolboxDockWidget
 from hhnk_threedi_plugin.qgis_interaction.open_notebook import NotebookWidget
 from hhnk_threedi_plugin.qgis_interaction.project import Project
-from hhnk_threedi_plugin.tasks.task_sqlite_tests_main import task_sqlite_tests_main
+from hhnk_threedi_plugin.tasks.task_sqlite_checks_main import task_sqlite_checks_main
 
 # disable loggers so we avoid Attributrror 'NoneType' opbjct has no attribute 'write' in logger module
 # see https://stackoverflow.com/questions/35325042/python-logging-disable-logging-from-imported-modules
@@ -142,7 +142,7 @@ class HHNK_toolbox:
         self.dockwidget = None
 
         # Program specific variables
-        self.sqlite_tests_dialog = None
+        self.sqlite_checks_dialog = None
         self.sqlite_results_widget = None
         self.model_states_dialog = None
         self.model_states_results_widget = None
@@ -398,7 +398,7 @@ class HHNK_toolbox:
         """When we create the default paths dict, set values to all widgets"""
         self.load_layers_dialog.set_current_paths()
         # self.model_states_dialog.set_current_paths()
-        # self.sqlite_tests_dialog.set_current_paths()
+        # self.sqlite_checks_dialog.set_current_paths()
         # self.zero_d_one_d.set_current_paths()
         # self.one_d_two_d.set_current_paths()
         # self.schematisation_dialog.set_current_paths()
@@ -435,8 +435,8 @@ class HHNK_toolbox:
             if datachecker is not None:
                 self.current_source_paths["datachecker"] = datachecker
                 # self.input_data_dialog.datachecker_selector.setFilePath(datachecker)
-                # self.sqlite_tests_dialog.datachecker_selector.setFilePath(datachecker)
-                # self.sqlite_tests_dialog.datachecker_selector.setFilePath(datachecker)
+                # self.sqlite_checks_dialog.datachecker_selector.setFilePath(datachecker)
+                # self.sqlite_checks_dialog.datachecker_selector.setFilePath(datachecker)
                 # self.bank_levels.datachecker_selector.setFilePath(datachecker)
             if damo is not None:
                 self.current_source_paths["damo"] = damo
@@ -457,7 +457,7 @@ class HHNK_toolbox:
 
             if dem is not None:
                 self.current_source_paths["dem"] = dem
-                # self.sqlite_tests_dialog.dem_selector.setFilePath(dem)
+                # self.sqlite_checks_dialog.dem_selector.setFilePath(dem)
                 # self.input_data_dialog.dem_selector.setFilePath(dem)
                 # self.one_d_two_d.dem_selector.setFilePath(dem)
 
@@ -470,7 +470,7 @@ class HHNK_toolbox:
                 # self.one_d_two_d.results_dir_selector.setFilePath(one_d_results)
 
             if sqlite_output is not None:
-                self.current_source_paths["sqlite_tests_output"] = sqlite_output
+                self.current_source_paths["sqlite_checks_output"] = sqlite_output
 
             if zero_d_output is not None:
                 self.current_source_paths["0d1d_output"] = zero_d_output
@@ -485,10 +485,10 @@ class HHNK_toolbox:
     # --------------------------------------------------------------------------
     # Start tests and conversions
     # --------------------------------------------------------------------------
-    def sqlite_tests_execution(self, selected_tests):
+    def sqlite_checks_execution(self, selected_tests):
         try:
             # test_env.polder_folder = self.polder_folder
-            task_sqlite_tests_main(
+            task_sqlite_checks_main(
                 parent_widget=self.sqlite_results_widget, folder=self.fenv, selected_tests=selected_tests
             )
 
@@ -568,7 +568,7 @@ class HHNK_toolbox:
                 self.dockwidget.threedi_api_key_textbox.textChanged.connect(self.get_org_names)
 
                 self.load_layers_dialog = loadLayersDialog(caller=self, parent=self.dockwidget)
-                self.sqlite_tests_dialog = sqliteCheckDialog(caller=self, parent=self.dockwidget)
+                self.sqlite_checks_dialog = sqliteCheckDialog(caller=self, parent=self.dockwidget)
 
                 # self.model_states_dialog = modelStateDialog(caller=self, parent=self.dockwidget) #TODO remove
                 # self.schematisation_dialog = schematisationDialog(caller=self, parent=self.dockwidget) #TODO remove
@@ -584,8 +584,8 @@ class HHNK_toolbox:
                 self.dockwidget.polders_map_selector.fileChanged.connect(self.polders_folder_changed)
                 self.dockwidget.polder_selector.currentTextChanged.connect(self.polder_changed)
                 # Controls widgets showing results
-                self.sqlite_results_widget = collapsibleTree(self.dockwidget.sqlite_tests)
-                self.dockwidget.sqlite_tests.layout().addWidget(self.sqlite_results_widget)
+                self.sqlite_results_widget = collapsibleTree(self.dockwidget.sqlite_checks)
+                self.dockwidget.sqlite_checks.layout().addWidget(self.sqlite_results_widget)
                 # Add tabs to the main toolbox
                 self.dockwidget.tests_toolbox.addItem(self.zero_d_one_d, "0d1d tests")
                 self.dockwidget.tests_toolbox.addItem(self.bank_levels, "Bank levels")
@@ -597,8 +597,8 @@ class HHNK_toolbox:
                 self.dockwidget.load_layers_btn.clicked.connect(
                     self.load_layers_dialog.exec
                 )  # exec dwingt af dat je 1 window open kan hebben.
-                self.dockwidget.start_sqlite_check.clicked.connect(self.sqlite_tests_dialog.set_current_paths)
-                self.dockwidget.start_sqlite_check.clicked.connect(self.sqlite_tests_dialog.show)
+                self.dockwidget.start_sqlite_check.clicked.connect(self.sqlite_checks_dialog.set_current_paths)
+                self.dockwidget.start_sqlite_check.clicked.connect(self.sqlite_checks_dialog.show)
 
                 self.dockwidget.input_btn.clicked.connect(self.input_data_dialog.set_current_paths)
                 self.dockwidget.input_btn.clicked.connect(self.input_data_dialog.show)
@@ -610,7 +610,7 @@ class HHNK_toolbox:
 
                 # Connect start buttons to appropriate function calls
 
-                self.sqlite_tests_dialog.start_sqlite_tests.connect(self.sqlite_tests_execution)
+                self.sqlite_checks_dialog.start_sqlite_checks.connect(self.sqlite_checks_execution)
                 # self.zero_d_one_d.start_0d1d_tests.connect(self.zero_d_one_d_tests_execution)
                 # self.bank_levels.start_bank_levels_tests.connect(self.bank_levels_execution)
 

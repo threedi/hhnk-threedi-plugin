@@ -8,7 +8,7 @@ from qgis.utils import QgsMessageLog, iface
 
 import hhnk_threedi_plugin.qgis_interaction.project as project
 from hhnk_threedi_plugin.dependencies import HHNK_THREEDI_PLUGIN_DIR
-from hhnk_threedi_plugin.tasks.sqlite_test_tasks.sqlite_test_tasks import (
+from hhnk_threedi_plugin.tasks.sqlite_checks_tasks.sqlite_checks_tasks import (
     controlledStructsTask,
     crossSectionDuplicateTask,
     crossSectionNoVertexTask,
@@ -27,7 +27,7 @@ from hhnk_threedi_plugin.tasks.sqlite_test_tasks.sqlite_test_tasks import (
 from hhnk_threedi_plugin.tasks.utility_functions.handle_os_errors import check_os_error
 
 
-def task_sqlite_tests_main(parent_widget, folder, selected_tests):
+def task_sqlite_checks_main(parent_widget, folder, selected_tests):
     """
     Fuctions runs all tests that are part of model (sqlite) tests:
     input: tests_env ---> contains information about:

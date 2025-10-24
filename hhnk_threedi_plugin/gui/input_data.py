@@ -23,7 +23,7 @@ from PyQt5.QtWidgets import (
 )
 from qgis.gui import QgsMessageBar
 
-# from hhnk_threedi_plugin.gui.tests.verify_sqlite_tests_input import verify_input
+# from hhnk_threedi_plugin.gui.tests.verify_sqlite_checks_input import verify_input
 from hhnk_threedi_plugin.gui.utility.file_widget import fileWidget
 
 
@@ -36,7 +36,7 @@ def setupUi(input_data):
     input_data.bar = QgsMessageBar()
 
     # Create button to start tests
-    # input_data.start_sqlite_tests_btn = QPushButton("Start tests")
+    # input_data.start_sqlite_checks_btn = QPushButton("Start tests")
 
     # Create all file widgets
     input_data.polder_label = QLabel("Project Folder:")
@@ -163,7 +163,7 @@ def setupUi(input_data):
     main_layout.addSpacerItem(QSpacerItem(10, 5, QSizePolicy.Expanding))
     # main_layout.addWidget(input_data.all_tests)
     main_layout.addSpacerItem(QSpacerItem(10, 5, QSizePolicy.Expanding))
-    # main_layout.addWidget(input_data.start_sqlite_tests_btn, alignment=Qt.AlignRight)
+    # main_layout.addWidget(input_data.start_sqlite_checks_btn, alignment=Qt.AlignRight)
     input_data.setLayout(main_layout)
 
 
@@ -247,7 +247,7 @@ class inputDataDialog(QDialog):
             # self.hdb_selector.setFilePath(paths["hdb"].split(self.polders_map_selector.filePath())[-1])
             # self.damo_selector.setFilePath(paths["damo"].split(self.polders_map_selector.filePath())[-1])
             # self.polder_shape_selector.setFilePath(paths["polder_shapefile"].split(self.polders_map_selector.filePath())[-1])
-            # self.output_selector.setFilePath(paths["sqlite_tests_output"].split(self.polders_map_selector.filePath())[-1])
+            # self.output_selector.setFilePath(paths["sqlite_checks_output"].split(self.polders_map_selector.filePath())[-1])
             self.output_0d_1d__selector.setFilePath(paths["0d1d_output"])
             # self.one_d_two_d.dem_selector.setFilePath(paths["dem"])
 
@@ -257,7 +257,7 @@ class inputDataDialog(QDialog):
         # else:
         #     widgt.setStyleSheet("background-color: lightgreen;border: 1px solid black;")
 
-        # self.output_selector.setFilePath(paths["sqlite_tests_output"])
+        # self.output_selector.setFilePath(paths["sqlite_checks_output"])
 
     # def set_current_paths_1d_2d(self):
     #     """

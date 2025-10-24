@@ -11,7 +11,7 @@ import os
 
 import hhnk_research_tools as hrt
 import hhnk_threedi_tools as htt
-from hhnk_threedi_tools.core.checks.one_d_two_d import OneDTwoDTest
+from hhnk_threedi_tools.core.checks.one_d_two_d import OneDTwoDCheck
 from hhnk_threedi_tools.qgis import layer_structure
 from qgis.core import Qgis
 from qgis.utils import QgsMessageLog
@@ -22,14 +22,14 @@ from hhnk_threedi_plugin.dependencies import HHNK_THREEDI_PLUGIN_DIR
 
 def task_one_d_two_d(folder, revision, dem_path):
     # Define file locations
-    output_file_flowline = folder.output.one_d_two_d[revision].stroming_1d2d_test.path
+    output_file_flowline = folder.output.one_d_two_d[revision].stroming_1d2d_check.path
     output_file_node = folder.output.one_d_two_d[revision].grid_nodes_2d.path
 
     # Create folder
     folder.output.one_d_two_d[revision].create()
 
     # Initialize test instance
-    test_1d2d = OneDTwoDTest(folder=folder, revision=revision, dem_path=dem_path)
+    test_1d2d = OneDTwoDCheck(folder=folder, revision=revision, dem_path=dem_path)
 
     # flowline results
     description = "flowlines levels en stroming bepalen"
