@@ -50,14 +50,14 @@ nav:
         - Duikers: md_files/3_achtergronden_en_uitgangspunten/d_kunstwerken/3_duikers.md
         - Gemalen: md_files/3_achtergronden_en_uitgangspunten/d_kunstwerken/4_gemalen.md
         - Stuwen: md_files/3_achtergronden_en_uitgangspunten/d_kunstwerken/5_stuwen.md
-        - Sturing: md_files\3_achtergronden_en_uitgangspunten\d_kunstwerken\6_sturing.md
+        - Sturing: md_files/3_achtergronden_en_uitgangspunten/d_kunstwerken/6_sturing.md
       - Onderliggende rasterdata: md_files/3_achtergronden_en_uitgangspunten/e_onderliggende_rasterdata/1_onderliggende_rasterdata.md
-      - HDB: md_files\3_achtergronden_en_uitgangspunten\f_inhoud_HDB\1_inhoud_HDB.md
-      - Klimaatsommen: md_files\3_achtergronden_en_uitgangspunten\g_achtergrond_klimaatsommen\1_achtergrond_klimaatsommen.md
+      - HDB: md_files/3_achtergronden_en_uitgangspunten/f_inhoud_HDB/1_inhoud_HDB.md
+      - Klimaatsommen: md_files/3_achtergronden_en_uitgangspunten/g_achtergrond_klimaatsommen/1_achtergrond_klimaatsommen.md
 
     - Gebruik qgis plugin:
       - Overzicht: md_files/4_gebruik_plugin/_introductie_plugin.md
-      - Brongegevens: md_files\4_gebruik_plugin\a_brongegevens.md
+      - Brongegevens: md_files/4_gebruik_plugin/a_brongegevens.md
       - Project starten: md_files/4_gebruik_plugin/b_project_starten.md
       - Sqlite checksuitvoeren: md_files/4_gebruik_plugin/c_sqlite_checks.md
       - Modelstaten aanpassen: md_files/4_gebruik_plugin/d_modelstaat_aanpassen.md
@@ -68,8 +68,9 @@ nav:
       - 1d2d test uitvoeren: md_files/4_gebruik_plugin/i_1d2d_test.md
       - Klimaatsommen uitvoeren: md_files/4_gebruik_plugin/j_werkwijze_klimaatsommen.md
       - Bekende problemen: md_files/4_gebruik_plugin/z_bekende_problemen.md
-      - Overige en externe referenties: md_files\4_gebruik_plugin\zz_overige_en_externe_referenties.md
+      - Overige en externe referenties: md_files/4_gebruik_plugin/zz_overige_en_externe_referenties.md
 
     - Polder clusters: md_files/polder_clusters.md
-    - Gebruikers testen: md_files\user_test_manual.md
+    - Gebruikers testen: md_files/user_test_manual.md
+    - Versiebeheer: md_files/5_Azure versiebeheer/Werken_met_modellen_repo.md
     
