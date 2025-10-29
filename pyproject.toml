@@ -1,15 +1,59 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "hhnk-threedi-plugin"
+version = "1.0.0"
+description = "Plugin voor het bouwen en analyseren van 3Di modellen van HHNK"
+readme = "readme.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [
+    {name = "HHNK", email = "info@hhnk.nl"},
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    # Add your dependencies here
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-cov>=4.1.0",
+    "pytest-mock>=3.12.0",
+    "mypy>=1.9.0",
+    "ruff>=0.3.0",
+    "flake8>=7.0.0",
+    "flake8-docstrings>=1.7.0",
+    "flake8-bugbear>=24.0.0",
+    "bandit[toml]>=1.7.7",
+    "pre-commit>=3.6.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["hhnk_threedi_plugin"]
+
 [tool.ruff]
 # see https://docs.astral.sh/ruff/rules/ for meaning of rules
 line-length = 119
+target-version = "py311"
 
 #Exclude external packages in formatter
 extend-exclude = ["hhnk_threedi_plugin/patches/*.py"]
 
 
 [tool.ruff.lint]
-select = ["D", "E", "F", "NPY", "PD", "C4", "I"]
+select = ["D", "E", "F", "NPY", "PD", "C4", "I", "N", "UP", "S", "B", "A"]
 ignore = ["D1", "D202", "D205", "D400", "D404", "E501", "PD002", "PD901"]
-fixable = ["I"]
+fixable = ["I", "F", "UP"]
 
 
 [tool.ruff.lint.pydocstyle]
@@ -18,6 +62,65 @@ convention = "numpy"
 [tool.ruff.lint.per-file-ignores]
 # Ignore unused imports in init
 "__init__.py" = ["F401",  "I001"]
+# Ignore security checks in tests
+"tests/**/*.py" = ["S101"]
+"tests_htp/**/*.py" = ["S101"]
 
 [tool.pylint]
 disable = ["W1203"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+ignore_errors = true
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests_htp", "hhnk_threedi_plugin/tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--verbose",
+    "--cov=hhnk_threedi_plugin",
+    "--cov-report=html",
+    "--cov-report=term-missing",
+    "--cov-report=xml",
+    "--cov-fail-under=80",
+]
+
+[tool.coverage.run]
+source = ["hhnk_threedi_plugin"]
+omit = [
+    "*/tests/*",
+    "*/patches/*",
+    "*/__init__.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+
+[tool.bandit]
+exclude_dirs = ["tests", "tests_htp"]
+skips = ["B101", "B601"]
+
+[tool.bandit.assert_used]
+skips = ["*/test_*.py", "*/tests/*.py"]

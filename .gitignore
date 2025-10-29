@@ -1,28 +1,106 @@
-test_main.py
-venv_development_tools
-requirements_before_pb_tool_install.txt
-__pycache__
-zip_build
-.idea
-#.vscode
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
 *.pyc
-.spyproject
-hhnk_threedi_plugin\external-dependencies
+
+# Virtual environments
+venv/
+venv_development_tools/
+ENV/
+env/
+.venv
+
+# IDE
+.idea/
+.vscode/
+.spyproject/
+*.swp
+*.swo
+*~
+
+# Testing
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+.hypothesis/
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Ruff
+.ruff_cache/
+
+# Logs
+*.log
+logs/
+hhnk_threedi_plugin/logs/*
+debug.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project specific
+test_main.py
+requirements_before_pb_tool_install.txt
+zip_build/
+hhnk_threedi_plugin/external-dependencies/
 hhnk_threedi_plugin/api_key.txt
 *.bak
 local_settings.py
 hhnk_threedi_plugin/env/environment_dev_spyder.yml
-hhnk_threedi_plugin/external-dependencies/*
-hhnk_threedi_plugin/logs/*
 hhnk_threedi_plugin/resources_rc.py
 hhnk_threedi_plugin/hhnk_toolbox_dockwidget_base_ui.py
-Thumbs.db
-.ipynb_checkpoints
-debug.log
 
-# documenation
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Documentation
 _build/*
 *.cmd
 site/*
-.vscode/launch.json
-docs/images/~$Tabel logisch bereik en aannames.xlsx
+docs/images/~$*.xlsx
+
+# Secrets and credentials
+*.pem
+*.key
+*.env
+.env.*
+secrets.json
+credentials.json
+api_keys.txt
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Compiled files
+*.qm
