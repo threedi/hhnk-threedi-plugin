@@ -1,7 +1,7 @@
-# Documentatie: git_model_repo
 
-# 1. Doel
-Het versiebeheer is een hulpmiddel om 3di wateroverlast modellen te beheren en zo aanpassingen te kunnen detecteren en archiveren. De git_model_repo automatiseert het instellen van git hooks, git LFS, en de benodigde .gitattributes en .gitignore bestanden. Met het toepassen van deze functionaliteiten is versiebeheer + extra inzicht bij de 3Di modellen mogenlijk gemaakt. Hiermee beogen we zowel intern als extern het overzicht te bewaken over de aanpassingen van 3di modellen, bijvoorbeeld bij het uitvoeren van scenariostudies. 
+
+# 1. Versiebeheer modellen
+Het versiebeheer is een hulpmiddel om 3di wateroverlast modellen te beheren en zo aanpassingen te kunnen detecteren en archiveren. Het versiebeheer vindt plaats in Azure en verloopt via github (git_model_repo) en automatiseert het instellen van git hooks, git Large File Storage (LFS), en de benodigde .gitattributes en .gitignore bestanden. Met het toepassen van deze functionaliteiten is versiebeheer + extra inzicht bij de 3Di modellen mogenlijk gemaakt. Hiermee beogen we zowel intern als extern het overzicht te bewaken over de aanpassingen van 3di modellen, bijvoorbeeld bij het uitvoeren van scenariostudies. 
 
 
 ### Hoofdfunctionaliteiten voor versiebeheer
@@ -26,15 +26,15 @@ Het versiebeheer is een hulpmiddel om 3di wateroverlast modellen te beheren en z
 
 ### Locatie model repository & lokaal
 
-- De modellen staan in Azure devops. Inloggen bij Azure Devops kan via `https://dev.azure.com/hhnk/intern` <!--(nog veranderen?). -->
-- Modellen kunnen uitgecheckt worden met Github Desktop. Modellen worden per user uitgecheckt in de map `E:\github\modellen_db\<username>\<model_name>`
+- De modellen staan in Azure devops. Inloggen bij Azure Devops kan via `https://dev.azure.com/hhnk/intern` <!--(# TODO nog veranderen?). -->
+- Modellen kunnen uitgecheckt worden met Github Desktop. Modellen worden per user uitgecheckt in de map `E:\github\modellen_db\<username>\<model_name>` De schijf E kan worden ingesteld in de interne hydrologen omgeving.
 
 
 # 2. Lokaal werken met Azure/Github repo
 
 ## 2.1 Create/Clone Azure devops repo
 
-1. Op `https://dev.azure.com/hhnk/intern` <!---(nog veranderen?)---> ga in de linker werkbalk naar `repos`. Kies vervolgens boven in in de werkbalk met de pulldown het model/repo dat je wilt hebben.
+1. Op `https://dev.azure.com/hhnk/intern` <!---(# TODO nog veranderen?)---> ga in de linker werkbalk naar `repos`. Kies vervolgens boven in in de werkbalk met de pulldown het model/repo dat je wilt hebben.
 
 2. Vervolgens verschijnt een overzicht van de bestanden in het rechter deel van het scherm . Kies in dit deel van het scherm rechtsboven op `Clone`. Kies hier HTTPS en kopieer de link (deze begint met `https://HHNK@dev.azure.com/HHNK/`), dit kan wordt gebruikt in Github Desktop onder `repository URL`.
 
@@ -66,7 +66,7 @@ Start de command prompt en ga naar de root van de model repository. Voer vervolg
 ### Main branch
 
 - De main branch is de branch waar het laatste basismodel in is opgeslagen. 
-- De main branch is klaargezet door een RepoAdmin, dit basismodel dient als brond voor alle scenariobranches.
+- De main branch is klaargezet door een RepoAdmin, dit basismodel dient als bron voor alle scenariobranches.
 - Pushen vanaf een branch naar de main branch is niet mogelijk zonder een pull request.
 
 
@@ -80,7 +80,7 @@ Branches van het basismodel kunnen als deze af zijn via een `pull request` worde
 ### Pull request
 
 Een pull request (PR) is een verzoek om wijzigingen van een branch samen te voegen met een andere branch (meestal main).
-Stappen:
+Volg de volgende stappen:
 
 1. Maak een branch aan en commit je wijzigingen.
 2. Push je branch naar de remote repository.
