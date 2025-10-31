@@ -1,7 +1,7 @@
 import copy
 
 # hhnk-threedi-tests
-from hhnk_threedi_tools import SqliteCheck
+from hhnk_threedi_tools import HhnkSchematisationChecks
 from PyQt5.QtCore import QMutex, QWaitCondition, pyqtSignal
 from qgis.core import Qgis, QgsTask
 from qgis.utils import QgsMessageLog, iface
@@ -23,7 +23,7 @@ class BaseSqliteTask(QgsTask):
         self.mutex = mutex
         self.wait_cond = wait_cond
         self.layer_source = None
-        self.sqlite_checks = SqliteCheck(self.folder)
+        self.sqlite_checks = HhnkSchematisationChecks(self.folder)
 
     def set_result(self, res):
         self.os_retry = res

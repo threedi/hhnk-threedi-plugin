@@ -2,7 +2,6 @@ import hhnk_research_tools as hrt
 from hhnk_threedi_tools.utils.queries import create_update_reference_level_query
 from hhnk_threedi_tools.variables.database_aliases import a_weir_cross_loc_id
 from hhnk_threedi_tools.variables.database_variables import reference_level_col
-from hhnk_threedi_tools.variables.weirs import new_ref_lvl
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QLabel, QPushButton, QTextEdit, QVBoxLayout, QWidget
 from qgis.utils import Qgis, QgsMessageBar
@@ -40,7 +39,7 @@ class refLevelUpdateDialog(QWidget):
             df=gdf,
             id_col=a_weir_cross_loc_id,
             old_col=reference_level_col,
-            new_col=new_ref_lvl,
+            new_col="proposed_reference_level",
             new_col_editable=True,
             searchable=True,
             rows_selectable=True,
