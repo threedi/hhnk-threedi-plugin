@@ -1,3 +1,4 @@
+#%%
 import glob
 import os
 import shutil
@@ -222,3 +223,5 @@ class newProjectDialog(QDialog):
                             copy_rasters.append(os.path.join(paths, file))
                 for files in copy_rasters:
                     shutil.copy(files, os.path.join(dst.model.schema_base.rasters.path))
+
+# %%

@@ -1,3 +1,4 @@
+#%%
 import os
 
 import hhnk_research_tools as hrt
@@ -228,20 +229,20 @@ class loadLayersDialog(QDialog):
 
         # Test protocol
         if self.test_protocol_selector.isChecked() == True:
-            # FIXME tijdelijke implementatie om gdb in gpkg om te zetten. Als dit in alle projectmappen staat kan het weer weg.
-            for source in ["datachecker", "damo", "hdb"]:
-                in_gdb = hrt.SpatialDatabase(getattr(self.caller.fenv.source_data, source).path.with_suffix(".gdb"))
-                out_gpkg = getattr(self.caller.fenv.source_data, source)
+            # # FIXME tijdelijke implementatie om gdb in gpkg om te zetten. Als dit in alle projectmappen staat kan het weer weg.
+            # for source in ["datachecker", "damo", "hdb"]:
+            #     in_gdb = hrt.SpatialDatabase(getattr(self.caller.fenv.source_data, source).path.with_suffix(".gpkg"))
+            #     out_gpkg = getattr(self.caller.fenv.source_data, source)
 
-                hrt.convert_gdb_to_gpkg(gdb=in_gdb, gpkg=out_gpkg, overwrite=False, verbose=False)
+            #     # hrt.convert_gdb_to_gpkg(gdb=in_gdb, gpkg=out_gpkg, overwrite=False, verbose=False)
 
-                if in_gdb.exists():
-                    iface.messageBar().pushMessage(
-                        f"{source}_gdb is omgezet in {source}_gpkg. {source}.gdb kan verwijderd worden.",
-                        level=Qgis.Warning,
-                    )
+            #     if in_gdb.exists():
+            #         iface.messageBar().pushMessage(
+            #             f"{source}_gdb is omgezet in {source}_gpkg. {source}.gdb kan verwijderd worden.",
+            #             level=Qgis.Warning,
+                    # )
 
-            subjects.append("test_protocol")
+            subjects.append("test_protocol")    
 
         # 0d1d test
         if self.zero_d_one_d_selector.currentText() != "":
@@ -274,3 +275,5 @@ class loadLayersDialog(QDialog):
 
         update_button_background(button=self.buttons)
         self.accept()
+
+# %%
