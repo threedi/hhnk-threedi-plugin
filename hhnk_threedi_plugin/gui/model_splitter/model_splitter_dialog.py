@@ -6,7 +6,7 @@ from pathlib import Path
 import hhnk_research_tools as hrt
 import hhnk_threedi_tools as htt
 import hhnk_threedi_tools.core.schematisation.upload as upload
-from hhnk_threedi_tools import MigrateSchema
+# from hhnk_threedi_tools import MigrateSchema
 from PyQt5.QtGui import QTextCursor
 from PyQt5.QtWidgets import QApplication
 from qgis.PyQt import QtWidgets, uic
@@ -242,8 +242,8 @@ class modelSplitterDialog(QtWidgets.QDialog):
     def migration_check(self):
         """Migrate schema to newest version using htt.MigrateSchema"""
         print(self.caller.fenv.model.schema_base.sqlite_paths[0])
-        migrate_schema = MigrateSchema(filename=self.caller.fenv.model.schema_base.sqlite_paths[0])
-        migrate_schema.run()
+        # migrate_schema = MigrateSchema(filename=self.caller.fenv.model.schema_base.sqlite_paths[0])
+        # migrate_schema.run()
 
     def create_schematisations(self):
         """Loop over the selected models in the list widget on the right

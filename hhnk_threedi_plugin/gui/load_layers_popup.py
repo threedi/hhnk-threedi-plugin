@@ -2,7 +2,7 @@ import os
 
 import hhnk_research_tools as hrt
 import hhnk_threedi_tools as htt
-from hhnk_threedi_tools import HhnkSchematisationChecks, MigrateSchema
+# from hhnk_threedi_tools import HhnkSchematisationChecks, MigrateSchema
 from hhnk_threedi_tools.qgis import layer_structure
 from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtWidgets import (
@@ -204,8 +204,8 @@ class loadLayersDialog(QDialog):
 
         if self.sqlite_selector.isChecked() is True:
             # Migrate sqlite to newest version
-            migrate_schema = MigrateSchema(filename=self.caller.fenv.model.schema_base.sqlite_paths[0].as_posix())
-            migrate_schema.run()
+            # migrate_schema = MigrateSchema(filename=self.caller.fenv.model.schema_base.sqlite_paths[0].as_posix())
+            # migrate_schema.run()
 
             # load in project
             load_layers_interaction.load_sqlite(filepath=self.caller.fenv.model.schema_base.sqlite_paths[0].as_posix())
