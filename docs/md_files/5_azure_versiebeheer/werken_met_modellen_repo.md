@@ -26,15 +26,15 @@ Het versiebeheer is een hulpmiddel om 3di wateroverlast modellen te beheren en z
 
 ### Locatie model repository & lokaal
 
-- De modellen staan in Azure devops. Inloggen bij Azure Devops kan via `https://dev.azure.com/hhnk/intern` <!--(# TODO nog veranderen?). -->
-- Modellen kunnen uitgecheckt worden met Github Desktop. Modellen worden per user uitgecheckt in de map `E:\github\modellen_db\<username>\<model_name>` De schijf E kan worden ingesteld in de interne hydrologen omgeving.
+- De modellen staan in Azure devops. Inloggen bij Azure Devops kan via de interne Azure omgeving van HHNK.
+- Modellen kunnen uitgecheckt worden met Github Desktop. Modellen worden per user uitgecheckt in de map `E:\github\modellen_db\<username>\<model_name>` (De schijf E kan worden ingesteld in de interne hydrologen omgeving)
 
 
 # 2. Lokaal werken met Azure/Github repo
 
 ## 2.1 Create/Clone Azure devops repo
 
-1. Op `https://dev.azure.com/hhnk/intern` <!---(# TODO nog veranderen?)---> ga in de linker werkbalk naar `repos`. Kies vervolgens boven in in de werkbalk met de pulldown het model/repo dat je wilt hebben.
+1. Op de interne Azure omgeving van HHNK, ga in de linker werkbalk naar `repos`. Kies vervolgens boven in in de werkbalk met de pulldown het model/repo dat je wilt hebben.
 
 2. Vervolgens verschijnt een overzicht van de bestanden in het rechter deel van het scherm . Kies in dit deel van het scherm rechtsboven op `Clone`. Kies hier HTTPS en kopieer de link (deze begint met `https://HHNK@dev.azure.com/HHNK/`), dit kan wordt gebruikt in Github Desktop onder `repository URL`.
 
@@ -76,7 +76,18 @@ Start de command prompt en ga naar de root van de model repository. Voer vervolg
 Branches van het basismodel kunnen als deze af zijn via een `pull request` worden samengevoegd met de main branch.
 - Elke gebruiker kan zijn scenarios ook eenzelfde bescherming geven als de main branch, om bijvoorbeeld onverhoopte aanpassingen van 3di modellen te voorkomen.
 - Afspraken over naamgeving van branches en scenarios:
-    - De scenario branches beginnen met `scenario_<naam>`
+    - Een persoonlijke werk branch begint met `work_<naam_hydroloog>`
+    - De scenario branches beginnen met `scenario_<project_naam>` 
+
+#### Voorbeeld van branch structuur die op den duur kan ontstaan
+    main - Basismodel 't Hoekje  
+    │
+    ├── work_jan  
+    │
+    ├── scenario_basisvariant
+    │
+    └── scenario_klimaatadaptatie
+
 ### Pull request
 
 Een pull request (PR) is een verzoek om wijzigingen van een branch samen te voegen met een andere branch (meestal main).
@@ -84,7 +95,7 @@ Volg de volgende stappen:
 
 1. Maak een branch aan en commit je wijzigingen.
 2. Push je branch naar de remote repository.
-3. Open een pull request in Azure DevOps of GitHub.
+3. Open een pull request in Azure DevOps.
 4. Laat de wijzigingen reviewen door collega(’s).
 5. Na goedkeuring wordt de branch samengevoegd (gemerged) met de doelbranch.
 
@@ -104,14 +115,7 @@ Mergen betekent het samenvoegen van de inhoud van twee branches.
 - Conflicten moeten eerst opgelost worden voordat het mergen kan plaatsvinden.
 - Na het mergen zijn de wijzigingen van beide branches beschikbaar in de doelbranch (bijvoorbeeld main).
 
-### Voorbeeld van branch structuur die op den duur kan ontstaan
-    main - Basismodel 't Hoekje  
-    │
-    ├── work_jan  
-    │
-    ├── scenario_basisvariant
-    │
-    └── scenario_klimaatadaptatie
+
 ## Git Hooks in git_model_repo
 
 ### Wat zijn git hooks?
