@@ -1,4 +1,6 @@
-
+# TODO
+- hoofdstuknummering gaat automagisch, hieronder weghalen
+- 
 
 # 1. Versiebeheer modellen
 Het versiebeheer is een hulpmiddel om 3di wateroverlast modellen te beheren en zo aanpassingen te kunnen detecteren en archiveren. Het versiebeheer vindt plaats in Azure en verloopt via github (git_model_repo) en automatiseert het instellen van git hooks, git Large File Storage (LFS), en de benodigde .gitattributes en .gitignore bestanden. Met het toepassen van deze functionaliteiten is versiebeheer + extra inzicht bij de 3Di modellen mogenlijk gemaakt. Hiermee beogen we zowel intern als extern het overzicht te bewaken over de aanpassingen van 3di modellen, bijvoorbeeld bij het uitvoeren van scenariostudies. 
@@ -26,17 +28,22 @@ Het versiebeheer is een hulpmiddel om 3di wateroverlast modellen te beheren en z
 
 ### Locatie model repository & lokaal
 
-- De modellen staan in Azure devops. Inloggen bij Azure Devops kan via de interne Azure omgeving van HHNK.
+- De modellen staan in Azure devops. Inloggen bij Azure Devops kan via de interne Azure omgeving van HHNK. Link is intern beschikbaar.
 - Modellen kunnen uitgecheckt worden met Github Desktop. Modellen worden per user uitgecheckt in de map `E:\github\modellen_db\<username>\<model_name>` (De schijf E kan worden ingesteld in de interne hydrologen omgeving)
 
 
-# 2. Lokaal werken met Azure/Github repo
+# Lokaal werken met Azure/Github repo
 
-## 2.1 Create/Clone Azure devops repo
+## Een nieuwe repo opzetten
+1. Op de interne Azure omgeving van HHNK, ga in de linker werkbalk naar `repos`. Klik bovenin achter HHNK / Inern / Repos / Files / op `Intern` en kies `nieuwe repository`.
+
+2. Geef de Repository name op. Laat deze voor BWN modellen altijd beginnnen met `bwn_` gevolgd door het polder-cluster id en de modelnaam. Gebruik alleen kleine letters. Het polder id kun je vinden onder [Polder clusters](../polder_clusters.md). Bijvoorbeeld `bwn_20_wijdewormer`.
+
+## Create/Clone Azure devops repo
 
 1. Op de interne Azure omgeving van HHNK, ga in de linker werkbalk naar `repos`. Kies vervolgens boven in in de werkbalk met de pulldown het model/repo dat je wilt hebben.
 
-2. Vervolgens verschijnt een overzicht van de bestanden in het rechter deel van het scherm . Kies in dit deel van het scherm rechtsboven op `Clone`. Kies hier HTTPS en kopieer de link (deze begint met `https://HHNK@dev.azure.com/HHNK/`), dit kan wordt gebruikt in Github Desktop onder `repository URL`.
+2. Vervolgens verschijnt een overzicht van de bestanden in het rechter deel van het scherm . Kies in dit deel van het scherm rechtsboven op `Clone`. Kies hier HTTPS en kopieer de link (deze begint met `https://HHNK@`), dit kan wordt gebruikt in Github Desktop onder `repository URL`.
 
 3. Klik vervolgens op 'Generate Git credentials' en kopieer de gebruikersnaam en wachtwoord. Deze kunnen in Github Desktop geplakt worden onder `Username` en `Password` in de popup die verschijnt bij het clonen.
 
