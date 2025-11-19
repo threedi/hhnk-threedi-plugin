@@ -72,5 +72,7 @@ nav:
 
     - Polder clusters: md_files/polder_clusters.md
     - Gebruikers testen: md_files/user_test_manual.md
-    - Versiebeheer: md_files/5_azure_versiebeheer/werken_met_modellen_repo.md
+    - Versiebeheer: 
+      - Werkwijze versiebeheer: md_files/5_azure_versiebeheer/a_werken_met_modellen_repo.md
+      - bugs LFS: md_files/5_azure_versiebeheer/b_bug_lfs.md
     
