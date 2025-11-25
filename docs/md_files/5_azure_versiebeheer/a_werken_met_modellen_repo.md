@@ -1,7 +1,3 @@
-# TODO
-- hoofdstuknummering gaat automagisch, hieronder weghalen
-- 
-
 # Versiebeheer modellen
 Het versiebeheer is een hulpmiddel om 3di wateroverlast modellen te beheren en zo aanpassingen te kunnen detecteren en archiveren. Het versiebeheer vindt plaats in Azure en verloopt via github (git_model_repo) en automatiseert het instellen van git hooks, git Large File Storage (LFS), en de benodigde .gitattributes en .gitignore bestanden. Met het toepassen van deze functionaliteiten is versiebeheer + extra inzicht bij de 3Di modellen mogenlijk gemaakt. Hiermee beogen we zowel intern als extern het overzicht te bewaken over de aanpassingen van 3di modellen, bijvoorbeeld bij het uitvoeren van scenariostudies. 
 
@@ -104,9 +100,9 @@ Start de command prompt en ga naar de root van de model repository. Voer vervolg
 
     ```shell
     # vanuit de root van de model repository:
-    <path to hhnk-threedi-tools repo>\hhnk_threedi_tools\git_model_repo\bin\initialize_repo.bat
+    <path to hhnk-threedi-tools repo>hhnk_threedi_tools\git_model_repo\bin\initialize_repo.bat
     # of vanaf een andere locatie:
-    <root of hhnk-treedi-tools repo>\hhnk_threedi_tools\git_model_repo\bin\initialize_repo.bat <path to model repo>
+    <root of hhnk-treedi-tools repo>hhnk_threedi_tools\git_model_repo\bin\initialize_repo.bat <path to model repo>
     ```
 
 
