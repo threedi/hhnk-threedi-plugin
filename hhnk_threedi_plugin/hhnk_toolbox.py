@@ -80,7 +80,8 @@ from hhnk_threedi_plugin.gui.load_layers_popup import loadLayersDialog
 from hhnk_threedi_plugin.gui.model_splitter.model_splitter_dialog import (
     modelSplitterDialog,
 )
-from hhnk_threedi_plugin.gui.modelbuilder import ModelBuilder
+#from hhnk_threedi_plugin.gui.modelbuilder import ModelBuilder
+from hhnk_threedi_plugin.gui.schematisation_builder import SchematisationBuilder
 from hhnk_threedi_plugin.gui.new_project_dialog import newProjectDialog
 from hhnk_threedi_plugin.hhnk_toolbox_dockwidget import HHNK_toolboxDockWidget
 from hhnk_threedi_plugin.qgis_interaction.open_notebook import NotebookWidget
@@ -151,7 +152,8 @@ class HHNK_toolbox:
         self.one_d_two_d = None
         self.polder_folder = None
         self.current_source_paths = None
-        self.modelbuilder = None
+        #self.modelbuilder = None
+        self.schematisation_builder = None
 
         self.debug = local_settings.DEBUG
 
@@ -615,7 +617,10 @@ class HHNK_toolbox:
                 # self.bank_levels.start_bank_levels_tests.connect(self.bank_levels_execution)
 
                 # define modelbuilder. Note, all callbacks and functions you can find in ModelBuilder class
-                self.modelbuilder = ModelBuilder(dockwidget=self.dockwidget)
+                #self.modelbuilder = ModelBuilder(dockwidget=self.dockwidget)
+
+                # define schematision_builder
+                self.schematisation_builder = SchematisationBuilder(dockwidget=self.dockwidget)
 
                 # note that for 'klimaatsomme
                 # n' functions are run from the widget
