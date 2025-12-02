@@ -35,7 +35,7 @@ _Lijst van modules en hun verantwoordelijkheden._
 | Kernlogica | B | Raw Export naar DAMO Converter | Zet ruwe export om in DAMO formaat. | /hhnk_threedi_tools/core/schematisation_buider/ raw_export_to_DAMO_converter.py |
 | Kernlogica | C | DAMO naar HyDAMO converter | Zet DAMO om in HyDAMO formaat. | /hhnk_threedi_tools/core/schematisation_buider/ DAMO_HyDAMO_converter.py |
 | Kernlogica | D | HyDAMO validator | Trapt validatieregels af op HyDAMO bestand. | /hhnk_threedi_tools/core/schematisation_buider/ HyDAMO_validator.py |
-| Kernlogica | E | HyDAMO fixer | Interpreteert validatieresultaten en biedt mogelijkheden tot automatische fixes. | /hhnk_threedi_tools/core/schematisation_buider/ ... |
+| Kernlogica | E | HyDAMO fixer | Interpreteert validatieresultaten en biedt mogelijkheden tot automatische fixes. | /hhnk_threedi_tools/core/schematisation_buider/HyDAMO_Fixer.py |
 | Kernlogica | F | 3Di converter | Zet het (verbeterde) HyDAMO bestand om in een 3Di schematisatie | /hhnk_threedi_tools/core/schematisation_buider/ HyDAMO_conversion_to_3di.py |
 | Interfaces |   | ... | ... | /hhnk_threedi_tools/core/schematisation_buider/ schematisation_builder.py |
 | Interfaces |   | ... | ... | /hhnk_threedi_plugin/gui/ schematisation_builder.py |
@@ -153,9 +153,33 @@ Code-opbouw
 ---
 
 ### E. HyDAMO fixer
-_functionaliteit / waarom nodig_
+De HyDAMO interpreteert validatieresultaten en biedt mogelijkheden tot automatische en handmatige fixes. Op deze manier wordt het HyDAMO klaar gemaakt om als input te dienen van een 3Di model. 
 
-_code opbouw_
+# Algemene werking
+![HyDAMOstroomschema](../../images/5_schematisation_builder/b_architectuur_code_tests/hydamo_fixer_loop.png)
+
+In de validation_rules.json zijn de volgende attributen toegevoegd per validatieregel:
+* Fix_ID
+* Fix_name
+* category
+* assumption_values
+* related_layers
+
+Er zullen verschillende categorieën fixes zijn en op basis daarvan wordt bepaald in welke maten de gebruiker input moet leveren om de fix uit te voeren. De gedefineerde categorieën zijn:
+* Automatic:
+  * Automatisch niet laten meenemen in model validatie (verwijderen)
+  * Aanpassen op basis van aannames
+  * Aanpassen op basis van gerelateerde objecten in andere lagen
+  * Aanpassen op basis van aannames en gerelateerde objecten in andere lagen
+* Manual:
+  * INFO: Ter info! Gebruiker kan iets doen, maar niet perse nodig
+  * Warning: Waarschuwing! Gebruiker moet iets met object doen
+
+# Code opbouw
+De `HyDAMO_fixer` class loopt over de invalid features in een HyDAMO bestand op een bepaald volgorde (NOTE: nog te bepalen) op basis van attributen in de validation_rules.json. Voor automatische fixes is er een functie in de class die functies aan vanuit de class `functions_hydamo_fixer` aanspreekt. Deze functie in de `HyDAMO_fixer` kan per Fix_ID, category en/of laag fixes uitgevoerd worden. Als een feature gefixt is worden de Fix_ID en category weggeschreven in het HyDAMO bestand. 
+
+Na elke loop wordt het gehele HyDAMO bestand opnieuw gevalideert, waarbij gebruikt wordt gemaakt van de `HyDAMO_validator`. Verder moet de `HyDAMO_fixer` kunnen communiceren met de Qgis plugin, om user input op te halen en resultaten te laten zien. 
+
 
 ---
 
