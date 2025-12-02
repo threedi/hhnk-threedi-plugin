@@ -155,7 +155,7 @@ Code-opbouw
 ### E. HyDAMO fixer
 De HyDAMO interpreteert validatieresultaten en biedt mogelijkheden tot automatische en handmatige fixes. Op deze manier wordt het HyDAMO klaar gemaakt om als input te dienen van een 3Di model. 
 
-# Algemene werking
+#### Algemene werking
 ![HyDAMOstroomschema](../../images/5_schematisation_builder/b_architectuur_code_tests/hydamo_fixer_loop.png)
 
 In de validation_rules.json zijn de volgende attributen toegevoegd per validatieregel:
@@ -175,7 +175,7 @@ Er zullen verschillende categorieën fixes zijn en op basis daarvan wordt bepaal
   * INFO: Ter info! Gebruiker kan iets doen, maar niet perse nodig
   * Warning: Waarschuwing! Gebruiker moet iets met object doen
 
-# Code opbouw
+#### Code opbouw
 De `HyDAMO_fixer` class loopt over de invalid features in een HyDAMO bestand op een bepaald volgorde (NOTE: nog te bepalen) op basis van attributen in de validation_rules.json. Voor automatische fixes is er een functie in de class die functies aan vanuit de class `functions_hydamo_fixer` aanspreekt. Deze functie in de `HyDAMO_fixer` kan per Fix_ID, category en/of laag fixes uitgevoerd worden. Als een feature gefixt is worden de Fix_ID en category weggeschreven in het HyDAMO bestand. 
 
 Na elke loop wordt het gehele HyDAMO bestand opnieuw gevalideert, waarbij gebruikt wordt gemaakt van de `HyDAMO_validator`. Verder moet de `HyDAMO_fixer` kunnen communiceren met de Qgis plugin, om user input op te halen en resultaten te laten zien. 
