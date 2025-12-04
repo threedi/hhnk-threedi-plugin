@@ -91,18 +91,23 @@ Mergen betekent het samenvoegen van de inhoud van twee branches.
 2. Geef de Repository naam op. De BWN modellen noteren we op de volgende wijze: `bwn_<cluster id>_<modelnaam>`. Gebruik alleen kleine letters. Het polder id kun je vinden onder [Polder clusters](../polder_clusters.md). Bijvoorbeeld `bwn_20_wijdewormer`.
 
 
-### initializeren 
+### Initializeren 
 Na het aanmaken van een model repository is het nodig om deze te initialiseren. Dit voegt de benodigde git hooks
 (in de folder .git/hooks), initialiseert git LFS (Large File Storage) en maakt of voegt toe aan de .gitattributes en
 .gitignore files.
 
-Start de command prompt en ga naar de root van de model repository. Voer vervolgens het volgende commando uit:
+Volg de volgende stappen:
+1. Clone het net aangemaakte repository op in de [locatie](#locatie-model-repository--lokaal) met (bijvoorbeeld) github desktop, zie `Clone een bestaande Azure devops repo` hieronder.
+2. Open Vs Code en ga naar de speciaal ingerichte locatie met threedi tools `D:\github\00_modellen_db\hhnk-threedi-tools\` op de hydrologenserver.
+3. Start een terminal met command prompt (cmd) en voor het volgende commando uit:
 
     ```shell
-    # vanuit de root van de model repository:
-    <path to hhnk-threedi-tools repo>hhnk_threedi_tools\git_model_repo\bin\initialize_repo.bat
-    # of vanaf een andere locatie:
-    <root of hhnk-treedi-tools repo>hhnk_threedi_tools\git_model_repo\bin\initialize_repo.bat <path to model repo>
+    # ensure the correct python environment in active
+    pixi shell
+    # eventueel de repo vertrouwen als dit nodig is
+    git config --global --add safe.directory D:/github/00_modellen_db/hhnk-threedi-tools
+    # install git hooks etc.
+    hhnk_threedi_tools\git_model_repo\bin\initialize_repo.bat E:\github\modellen_db\<username>\<model_name>
     ```
 
 
@@ -121,16 +126,11 @@ Wanneer de `work_<username>` branch klaar is om als basismodel te dienen, kunnen
 
 1. Op de interne Azure omgeving van HHNK, ga in de linker werkbalk naar `repos`. Kies vervolgens boven in in de werkbalk met de pulldown het model/repo dat je wilt hebben.
 
-2. Vervolgens verschijnt een overzicht van de bestanden in het rechter deel van het scherm . Kies in dit deel van het scherm rechtsboven op `Clone`. Kies hier HTTPS en kopieer de link (deze begint met `https://HHNK@`), dit kan wordt gebruikt in Github Desktop onder `repository URL`.
+2. Vervolgens verschijnt een overzicht van de bestanden in het rechter deel van het scherm . Kies in dit deel van het scherm rechtsboven op `Clone`. Kies hier HTTPS en kopieer de link (deze begint met `https://HHNK@`).
 
-3. Klik vervolgens op 'Generate Git credentials' en kopieer de gebruikersnaam en wachtwoord. Deze kunnen in Github Desktop geplakt worden onder `Username` en `Password` in de popup die verschijnt bij het clonen.
+3. Start Github Desktop en kies `File`,`Clone repository`. Kies de optie/tabblad `URL` en vul onder `repository URL` de gekopieerde URL in. Kies vervolgens de map waar de repo moet komen [locatie](#locatie-model-repository--lokaal) en klik op `Clone`.
 
-## Binnenhalen op Github Desktop
-
-1. Open Github Desktop en kies `File` -> `Clone repository` en kies `URL`. Plak de link in `repository URL` 
-2. Kies de [locatie](#locatie-model-repository--lokaal) waar het model moet komen te staan 
-3. Klik op `Clone` en vul de gebruikersnaam en wachtwoord in die je van Azure Devops hebt gekopieerd.
-
+4. Klik vervolgens in Azure op 'Generate Git credentials' en kopieer de gebruikersnaam en wachtwoord. Deze kunnen in Github Desktop geplakt worden onder `Username` en `Password` in de popup die verschijnt bij het clonen.
 
 ## Git Hooks in git_model_repo
 
