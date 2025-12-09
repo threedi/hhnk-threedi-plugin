@@ -1,0 +1,1993 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://threedi.github.io/hhnk-threedi-plugin/md_files/5_schematisation_builder/b_architectuur_code_tests/">
+      
+      
+      
+      
+      <link rel="icon" href="../../../icons/hhnk_logo.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.17">
+    
+    
+      
+        <title>Architectuur, code & tests - HHNK 3Di toolbox</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.bcfcd587.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="../../../stylesheets/headings.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="hhnk" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#architectuur-code-tests" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="HHNK 3Di toolbox" class="md-header__button md-logo" aria-label="HHNK 3Di toolbox" data-md-component="logo">
+      
+  <img src="../../../icons/hhnk_logo_white.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            HHNK 3Di toolbox
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Architectuur, code & tests
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="hhnk" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="HHNK 3Di toolbox" class="md-nav__button md-logo" aria-label="HHNK 3Di toolbox" data-md-component="logo">
+      
+  <img src="../../../icons/hhnk_logo_white.png" alt="logo">
+
+    </a>
+    HHNK 3Di toolbox
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1_inleiding/inleiding/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Inleiding
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installatie/installatie_handleiding/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installatie instructies
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Werkwijze BWN
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Werkwijze BWN
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2_werkwijze_bwn/werkwijze_bwn/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overzicht
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2_werkwijze_bwn/hhnk_nieuw_model/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Nieuw model
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Achtergronden en Uitgangspunten
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Achtergronden en Uitgangspunten
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_achtergronden_en_uitgangspunten/achtergronden_en_uitgangspunten/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overzicht
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_achtergronden_en_uitgangspunten/a_watersysteem/1_watersysteem/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Functioneren watersysteem
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_achtergronden_en_uitgangspunten/b_logisch_bereik/1_logisch_bereik/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Logisch bereik
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_4" id="__nav_5_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Watergangen en peilgebieden
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            Watergangen en peilgebieden
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_achtergronden_en_uitgangspunten/c_watergangen_en_peilgebieden/1_initieel_peil/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Initieel peil
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_achtergronden_en_uitgangspunten/c_watergangen_en_peilgebieden/2_levees/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Obstacles
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_achtergronden_en_uitgangspunten/c_watergangen_en_peilgebieden/3_watergangen/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Watergangen
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_achtergronden_en_uitgangspunten/c_watergangen_en_peilgebieden/4_profiel/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Profiel
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_achtergronden_en_uitgangspunten/c_watergangen_en_peilgebieden/5_compensatie_te_weinig_oppervlaktewaterberging/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Compensatie te weinig oppervlaktewaterberging
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_achtergronden_en_uitgangspunten/c_watergangen_en_peilgebieden/6_bank_level/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bank level
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_5" id="__nav_5_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Kunstwerken
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_5">
+            <span class="md-nav__icon md-icon"></span>
+            Kunstwerken
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_achtergronden_en_uitgangspunten/d_kunstwerken/1_aquaducten/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Aquaducten
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_achtergronden_en_uitgangspunten/d_kunstwerken/2_bruggen/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bruggen
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_achtergronden_en_uitgangspunten/d_kunstwerken/3_duikers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Duikers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_achtergronden_en_uitgangspunten/d_kunstwerken/4_gemalen/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Gemalen
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_achtergronden_en_uitgangspunten/d_kunstwerken/5_stuwen/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Stuwen
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_achtergronden_en_uitgangspunten/d_kunstwerken/6_sturing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Sturing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_achtergronden_en_uitgangspunten/e_onderliggende_rasterdata/1_onderliggende_rasterdata/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Onderliggende rasterdata
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_achtergronden_en_uitgangspunten/f_inhoud_HDB/1_inhoud_HDB/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    HDB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3_achtergronden_en_uitgangspunten/g_achtergrond_klimaatsommen/1_achtergrond_klimaatsommen/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Klimaatsommen
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Gebruik qgis plugin
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Gebruik qgis plugin
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_gebruik_plugin/_introductie_plugin/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overzicht
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_gebruik_plugin/a_brongegevens/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Brongegevens
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_gebruik_plugin/b_project_starten/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Project starten
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_gebruik_plugin/c_sqlite_checks/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Sqlite checksuitvoeren
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_gebruik_plugin/d_modelstaat_aanpassen/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Modelstaten aanpassen
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_gebruik_plugin/e_berekeningen_uitvoeren/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Berekeningen uitvoeren
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_gebruik_plugin/f_downloaden_resultaten/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Resultaten downloaden
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_gebruik_plugin/g_0d1d_test/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0d1d test uitvoeren
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_gebruik_plugin/h_banklevel_test/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bank level test uitvoeren
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_gebruik_plugin/i_1d2d_test/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1d2d test uitvoeren
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_gebruik_plugin/j_werkwijze_klimaatsommen/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Klimaatsommen uitvoeren
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_gebruik_plugin/z_bekende_problemen/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bekende problemen
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4_gebruik_plugin/zz_overige_en_externe_referenties/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overige en externe referenties
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../polder_clusters/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Polder clusters
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user_test_manual/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Gebruikers testen
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5_azure_versiebeheer/werken_met_modellen_repo/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Versiebeheer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-uitgangspunten" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Uitgangspunten
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-systeemstroomschema" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Systeemstroomschema
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-overzicht-componenten" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Overzicht componenten
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Overzicht componenten">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-database-exporter" class="md-nav__link">
+    <span class="md-ellipsis">
+      A. Database exporter
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-raw-export-naar-damo-converter" class="md-nav__link">
+    <span class="md-ellipsis">
+      B. Raw Export naar DAMO Converter
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gemaalconverter" class="md-nav__link">
+    <span class="md-ellipsis">
+      GemaalConverter
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#peilgebiedconverter" class="md-nav__link">
+    <span class="md-ellipsis">
+      PeilgebiedConverter
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#profielconverter" class="md-nav__link">
+    <span class="md-ellipsis">
+      ProfielConverter
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ProfielConverter">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#toekomstige-uitbreidingen" class="md-nav__link">
+    <span class="md-ellipsis">
+      Toekomstige uitbreidingen
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_data" class="md-nav__link">
+    <span class="md-ellipsis">
+      _Data
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-damo-naar-hydamo-converter" class="md-nav__link">
+    <span class="md-ellipsis">
+      C. DAMO naar HyDAMO converter
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="C. DAMO naar HyDAMO converter">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      Properties
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d-hydamo-validator" class="md-nav__link">
+    <span class="md-ellipsis">
+      D. HyDAMO validator
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#e-hydamo-fixer" class="md-nav__link">
+    <span class="md-ellipsis">
+      E. HyDAMO fixer
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="E. HyDAMO fixer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#algemene-werking" class="md-nav__link">
+    <span class="md-ellipsis">
+      Algemene werking
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#code-opbouw" class="md-nav__link">
+    <span class="md-ellipsis">
+      Code opbouw
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f-3di-converter" class="md-nav__link">
+    <span class="md-ellipsis">
+      F. 3Di converter
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-testoverzicht" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Testoverzicht
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Testoverzicht">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#de-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      De tests
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testdata-en-integratie" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testdata en integratie
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Testdata en integratie">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ter-kennisgeving" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ter kennisgeving
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="architectuur-code-tests">Architectuur, code &amp; tests</h1>
+<p><strong>Doel:</strong> Uitleggen hoe het systeem op hoofdlijnen werkt en hoe de onderdelen samenhangen. Beschrijven van de rol van elke codecomponent en de interne structuur. Uitleg over tests en testdatasets. <br />
+<strong>Lezerspubliek:</strong> Ontwikkelaars &amp; architecten</p>
+<h2 id="1-uitgangspunten">1. Uitgangspunten</h2>
+<p>Bij ontwikkeling van de Schematisation Builder zijn steeds de volgende uitgangspunten gehanteerd.
+* Transparantie: Het is eenvoudig te achterhalen waar gegevens vandaan komen: de gegevensbron, aannames en keuzes die gemaakt zijn.
+* Interactief: Een proces waarin de modelleur keuzes voorgelegd krijgt, in plaats van dat de software aannames doet waar de modelleur geen weet van heeft. 
+* Eenvoudiger proces: Versimpelen van het dataverwerkings- en modelleerproces, inclusief het documenteren van wat en waarom.
+* Modulaire opzet: Ontwikkeling van goed onderhoudbare, modulaire software, waarbij datavalidatie en conversie worden gescheiden. Van elke component is duidelijk beschreven wat die doet; elke component doet één ding, dit wordt niet door elkaar gemengd.
+* HyDAMO implementatie: Volledige integratie van HyDAMO als standaard voor data-uitwisseling, met ondersteuning voor aanvullende validaties.
+* Cyclisch modelleren: Onjuiste gegevens worden zoveel mogelijk in de brondata aangepast. Hierbij wordt aangesloten op het Mutatie Meldingen Systeem van team GEO.
+* Samenwerking met 3Di: Samenwerking met 3Di om zo min mogelijk zelf te ontwikkelen, maar waar mogelijk gebruik te maken van bestaande tools en expertise.
+* Eén taal/platform: Vereenvoudiging door over te stappen op één programmeertaal en platform (Python), ter vervanging van de huidige combinatie van verschillende systemen.</p>
+<h2 id="2-systeemstroomschema">2. Systeemstroomschema</h2>
+<p>Het stroomschema geeft een overzicht van het volledige conversie- en validatieproces van brondata naar een 3Di schematisatie. Het proces start bij de gebruiker, die via de Folder selector de bronbestanden selecteert en, indien nodig, aannames toevoegt of wijzigt.</p>
+<p>De bestanden worden vervolgens verwerkt door de Exporter, die de ruwe data beschikbaar maakt. Daarna doorloopt de data twee opeenvolgende conversiestappen: de ToDAMO converter en de DAMO_to_HyDAMO converter, waarbij de data wordt omgezet naar het HyDAMO-formaat met correcte attributen en schema’s.</p>
+<p>Na de conversie volgt de HyDAMO-validator, die de gegevens controleert op basis van vooraf gedefinieerde validatieregels. De gebruiker deelt de regels als kritisch of niet-kritisch. Als alle kritische validatieregels correct zijn, gaat het proces verder met de 3Di-importer. Met behulp van de Vector Data Importer in de Modeller Interface worden alle lagen in een 3Di schematisatie geladen.</p>
+<p>Bij aanwezige kritische fouten wordt geprobeerd deze te corrigeren met de HyDAMO-fixer, automatisch of met input van de gebruiker. De aangepaste HyDAMO-data wordt opnieuw geverifieerd in de validator, en het proces kan worden herhaald totdat alle fouten zijn opgelost. Uiteindelijk wordt de HyDAMO data omgezet naar een 3Di-schematisatie. Ook de bronrasters worden geclipt en voorbewerkt tot schematisatierasters, die bij de schematisatie worden geplaatst.</p>
+<p><img alt="Systeemstroomschema" src="../../../images/5_schematisation_builder/b_architectuur_code_tests/systeemstroomschema.png" /></p>
+<h2 id="3-overzicht-componenten">3. Overzicht componenten</h2>
+<p><em>Lijst van modules en hun verantwoordelijkheden.</em></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Volgorde</th>
+<th>Module</th>
+<th>Rol</th>
+<th>Bestand</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Kernlogica</td>
+<td>A</td>
+<td>Database exporter</td>
+<td>Genereert een ruwe export op basis van een polder polygoon.</td>
+<td>/hhnk_threedi_tools/core/schematisation_buider/ DB_exporter.py</td>
+</tr>
+<tr>
+<td>Kernlogica</td>
+<td>B</td>
+<td>Raw Export naar DAMO Converter</td>
+<td>Zet ruwe export om in DAMO formaat.</td>
+<td>/hhnk_threedi_tools/core/schematisation_buider/ raw_export_to_DAMO_converter.py</td>
+</tr>
+<tr>
+<td>Kernlogica</td>
+<td>C</td>
+<td>DAMO naar HyDAMO converter</td>
+<td>Zet DAMO om in HyDAMO formaat.</td>
+<td>/hhnk_threedi_tools/core/schematisation_buider/ DAMO_HyDAMO_converter.py</td>
+</tr>
+<tr>
+<td>Kernlogica</td>
+<td>D</td>
+<td>HyDAMO validator</td>
+<td>Trapt validatieregels af op HyDAMO bestand.</td>
+<td>/hhnk_threedi_tools/core/schematisation_buider/ HyDAMO_validator.py</td>
+</tr>
+<tr>
+<td>Kernlogica</td>
+<td>E</td>
+<td>HyDAMO fixer</td>
+<td>Interpreteert validatieresultaten en biedt mogelijkheden tot automatische fixes.</td>
+<td>/hhnk_threedi_tools/core/schematisation_buider/HyDAMO_Fixer.py</td>
+</tr>
+<tr>
+<td>Kernlogica</td>
+<td>F</td>
+<td>3Di converter</td>
+<td>Zet het (verbeterde) HyDAMO bestand om in een 3Di schematisatie</td>
+<td>/hhnk_threedi_tools/core/schematisation_buider/ HyDAMO_conversion_to_3di.py</td>
+</tr>
+<tr>
+<td>Interfaces</td>
+<td></td>
+<td>...</td>
+<td>...</td>
+<td>/hhnk_threedi_tools/core/schematisation_buider/ schematisation_builder.py</td>
+</tr>
+<tr>
+<td>Interfaces</td>
+<td></td>
+<td>...</td>
+<td>...</td>
+<td>/hhnk_threedi_plugin/gui/ schematisation_builder.py</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="a-database-exporter">A. Database exporter</h3>
+<p>De <code>db_exporter</code> exporteert de brongegevens uit de beheersystemen van HHNK (DAMO &amp; CSO). De brongegevens zoals waterlopen en kunstwerken worden direct uit de Oracle databases gehaald en via een beperkt aantal tussenstappen opgeslagen in een Geopackage. De lagen en gegevens die worden geëxporteert zijn gedefiniëert in een Json bestand. Het default configuratiebestand staat opgeslagen in <code>hhnk_threedi_tools/recources/schematisation_builder/db_layer_mapping.py</code>. Dit is de default set gegevens voor het maken van een 3Di model.</p>
+<p>De selectie van gegevens gaat via een <code>intersect</code> met het opgegeven modelgebied. Datalagen zonder geometrie moeten via een id gerelateerd worden aan een laag met geometrie. In de <code>db_exporter</code> zijn dit sub-layers, die worden opgezocht middels de functie <code>export_sub_layer</code>. Voor de profielen is het mogelijk om een tweede afhankelijk laag te gebruiken (sub-sub-layer). </p>
+<p>De volgende tussenstappen zijn beschikbaar:
+1. <code>update_model_extent_from_combinatiepeilgebieden</code>: Modellen bestaan vaak uit clusters van meerdere polders. Deze clusters houden we bij in de Hydrologische database (HDB). Deze worden niet beheerd waardoor afwijkingen ontstaan op de grenzen. Deze functie werkt dit bij zodat altijd een volledig peilgebied wordt geëxporteerd.
+2. <code>update_table_domains</code>: De gegevens in de DAMO database maken gebruik van domeinen. In CS-Objecten zijn de domeincodes omgezet naar domeinwaarden. Voor HyDAMO kan hiervoor gebruik worden gemaakt van de <code>DAMO_to_HyDAMO_Converter</code> (soms wel wasmachine genoemd), maar dit maakt alleen gebruik van officiele DAMO domeinen. HHNK gebruikt daarnaast eigen domeinen. Door deze stap direct bij de export te doen kunnen ook deze domeinen worden omgezet. De domeincode blijft behouden in een apart attribuut.</p>
+<p>Ad 1. Om een deel van een peilgebied te exporteren is het nodig dit deel op te nemen in de HDB deelgebieden en een fictief kunstwerk op de grens aan te maken. Dit geldt bijvoorbeeld voor de polders zoals Koegras, die zonder kunstwerk uitwisselen met de boezem. Om niet de hele boezem in het model op te hoeven nemen, moet een deel van het peilgebied van de schermerboezem worden geselecteerd via een Hydro_deelgebied.</p>
+<p>Ad. 2. Er is nog enige onduidelijkheid over de beste bron voor de domeinen van HHNK en of de DAMO-domeinen in de HHNK database zijn/worden bijgewerkt. Dit kan een bron van fouten of ontbrekenede gegevens zijn. De gegevens voor de modelbouw lijken aanwezig.</p>
+<h3 id="b-raw-export-naar-damo-converter">B. Raw Export naar DAMO Converter</h3>
+<p>De <code>RawExportToDAMOConverter</code> class vormt een schakel tussen de ruwe exportbestanden (DAMO, CSO &amp; HDB) en de uiteindelijke HyDAMO/3Di-invoer, door de ruwe exportbestanden om te zetten in DAMO-formaat volgens standaard. De converter zorgt voor:
+* Inlezen en valideren van lagen.
+* Bewerken en verrijken van data (IDs, geometrie, koppelingen).
+* Schrijven van consistente outputs.</p>
+<p>De code is opgebouwd uit de <code>RawExportToDAMOConverter</code> parent klasse en meerdere child klassen (implementaties).</p>
+<h3 id="gemaalconverter"><strong>GemaalConverter</strong></h3>
+<p>De <code>GemaalConverter</code> is een implementatie van de <code>RawExportToDAMOConverter</code>. Deze richt zich op het verwerken van gemaal- en pomplagen, inclusief het aanbrengen van koppelingen tussen pompen en gemalen en het corrigeren van capaciteitwaarden. </p>
+<p>In hoofdlijnen zorgt de converter voor:
+* Het laden van de relevante lagen (<code>gemaal</code>, <code>pomp</code>, <code>hydroobject</code>).
+* Het aanmaken van een pomp-laag als deze ontbreekt of leeg is.
+* Het toevoegen van kolommen zoals <code>gemaalid</code> en <code>globalid</code> in de pomp-laag.
+* Het corrigeren van de pomp-capaciteit op basis van de gemaalgegevens.</p>
+<h3 id="peilgebiedconverter"><strong>PeilgebiedConverter</strong></h3>
+<p>De <code>PeilgebiedConverter</code> is een implementatie van de <code>RawExportToDAMOConverter</code>. Deze richt zich op het verwerken van peilgebiedlagen (<code>peilgebiedpraktijk</code>?). Nog verder te implementeren.</p>
+<p>In hoofdlijnen zorgt de converter voor:
+* Het laden van de <code>peilgebiedpraktijk</code>-laag vanuit de ruwe export.
+* Het opschonen van geometrieën door het exploden van multipart-geometrieën naar enkelvoudige features.
+* ... (toekomstige functionaliteiten)</p>
+<h3 id="profielconverter"><strong>ProfielConverter</strong></h3>
+<p>De <code>ProfielConverter</code> is een implementatie van de <code>RawExportToDAMOConverter</code>. Deze richt zich op het verwerken van profielgegevens (lijnen en punten) en het koppelen van deze profielen aan de juiste hydroobjecten. Het doel is om DAMO-conforme tabellen voor <strong>profielgroep</strong>, <strong>profiellijn</strong> en <strong>profielpunt</strong> op te bouwen.</p>
+<p>In hoofdlijnen zorgt de converter voor:
+* Het inladen van benodigde lagen (<code>hydroobject</code>, <code>gw_pro</code>, <code>gw_prw</code>, <code>gw_pbp</code>, <code>iws_geo_beschr_profielpunten</code>, <code>peilgebiedpraktijk</code>).
+* Het samenvoegen (linemergen) van hydroobjecten binnen peilgebieden.
+* Het opbouwen van profieltabellen (<code>profielgroep</code>, <code>profiellijn</code>, <code>profielpunt</code>) inclusief ID’s en koppelingen.
+* Het verrijken van profielpunten met hoogtes, afstanden en typeprofielpunt.
+* Het koppelen van profielen aan hydroobjecten, inclusief fallback voor hydroobjecten zonder profiel (met een zoekradius).
+* Het berekenen van diepste punten per profiellijn en per hydroobject.</p>
+<h4 id="toekomstige-uitbreidingen">Toekomstige uitbreidingen</h4>
+<ul>
+<li>Verdere kwaliteitscontroles op profielpunten (bijv. dubbele geometrieën beter afhandelen).</li>
+<li>Mogelijkheid om meerdere types profielpunten (naast vaste bodem) te ondersteunen.</li>
+<li>Optimaliseren van de zoeklogica in <code>connect_profiles_to_hydroobject_without_profiles</code> (bijv. met ruimtelijke nearest-neighbour methoden).</li>
+</ul>
+<h3 id="_data"><strong>_Data</strong></h3>
+<p>De <code>_Data</code> class is een interne dataclass die beschikbaar is als <code>.data</code> binnen de <code>RawExportToDAMOConverter</code> en al zijn child classes. Het dient als centrale container voor alle gebruikte tabellen tijdens het conversieproces. Alle tabellen worden als <code>GeoDataFrame</code> opgeslagen, zodat zowel geometrie- als attribuutinformatie beschikbaar is voor verdere verwerking.</p>
+<p>In hoofdlijnen zorgt <code>_Data</code> voor:
+* Een consistente structuur waarin alle input-, tussen- en outputtabellen zijn opgeslagen.
+* Het eenvoudig aanspreken van tabellen via attributen (bijv. <code>.data.gemaal</code>, <code>.data.peilgebiedpraktijk</code>).
+* Validatie van geladen lagen via <code>_ensure_loaded</code>.</p>
+<hr />
+<h3 id="c-damo-naar-hydamo-converter">C. DAMO naar HyDAMO converter</h3>
+<p>De <code>DAMO_to_HyDAMO_Converter</code> class zet een DAMO GeoPackage om naar een HyDAMO GeoPackage, waarbij domeinwaarden worden vertaald en extra velden zoals NEN3610id en statusobject worden toegevoegd. Het zorgt ervoor dat de attributen voldoen aan het HyDAMO schema en schrijft de geconverteerde lagen naar een nieuwe geopackage.</p>
+<p>Het omzetten van domeinwaarden is voor dit project overbodig geworden, omdat de tekstwaarden van de domeinen inmiddels direct beschikbaar zijn in de DAMO-database van het waterschap. Daarom kan de stap convert_domain_values worden overgeslagen (<code>convert_domain_values: bool = False</code>).</p>
+<p>In de onderstaande tabel is een overzicht te vinden van de functies, hun beschrijvingen en de interne helperfuncties die ze aanroepen.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Inputlagen</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Converter Class</td>
+<td>DAMO GeoPackage (<code>damo_file_path</code>)</td>
+<td>HyDAMO GeoPackage (<code>hydamo_file_path</code>)</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Functie</th>
+<th>Beschrijving</th>
+<th>Helper functies</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>__init__()</code></td>
+<td>Initialisatie van converter met paden, lagen, schema's, logger, opties voor domain conversion en statusobject</td>
+<td><code>_get_schema_path()</code>, <code>_retrieve_damo_domain_mapping()</code></td>
+</tr>
+<tr>
+<td><code>run()</code></td>
+<td>Start het conversieproces, roept <code>convert_layers()</code> aan</td>
+<td><code>convert_layers()</code></td>
+</tr>
+<tr>
+<td><code>convert_layers()</code></td>
+<td>Loopt door de lagen, converteert naar HyDAMO en schrijft naar geopackage</td>
+<td><code>_convert_attributes()</code>, <code>_add_column_NEN3610id()</code>, <code>_add_column_status_object()</code></td>
+</tr>
+<tr>
+<td><code>_convert_attributes(layer_gdf, layer_name)</code></td>
+<td>Zet kolomnamen lowercase en converteert waarden per HyDAMO schema</td>
+<td><code>_convert_column()</code></td>
+</tr>
+<tr>
+<td><code>_convert_column(column, column_name, layer_name)</code></td>
+<td>Converteert individuele kolomwaarden naar juiste type en domein</td>
+<td><code>_get_field_type()</code>, <code>_convert_domain_values()</code></td>
+</tr>
+<tr>
+<td><code>_get_field_type(column_name, layer_name)</code></td>
+<td>Haalt veldtype op uit HyDAMO schema</td>
+<td>–</td>
+</tr>
+<tr>
+<td><code>_convert_domain_values(object_name, column_name, column)</code></td>
+<td>Zet domeinwaarden om naar descriptieve HyDAMO-waarden</td>
+<td>–</td>
+</tr>
+<tr>
+<td><code>_add_column_NEN3610id(layer_gdf, layer_name)</code></td>
+<td>Voegt NEN3610id toe aan laag gebaseerd op code/id/naam</td>
+<td>–</td>
+</tr>
+<tr>
+<td><code>_add_column_status_object(layer_gdf, layer_name)</code></td>
+<td>Voegt statusobject toe en valideert waarden</td>
+<td>–</td>
+</tr>
+<tr>
+<td><code>_get_schema_path(schema_path, schema_basename, schema_version)</code></td>
+<td>Bepaalt pad naar schema als dit niet expliciet is gegeven</td>
+<td>–</td>
+</tr>
+<tr>
+<td><code>_retrieve_damo_domain_mapping()</code></td>
+<td>Parseert DAMO XML schema en maakt dicts van domeinen en objecten</td>
+<td>–</td>
+</tr>
+</tbody>
+</table>
+<h4 id="properties">Properties</h4>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Beschrijving</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>hydamo_definitions</code></td>
+<td>Laadt en retourneert de HyDAMO schema-definities uit JSON bestand</td>
+</tr>
+</tbody>
+</table>
+<h3 id="d-hydamo-validator">D. HyDAMO validator</h3>
+<p>De class <code>HyDAMO_validator</code> wordt gebruikt om HyDAMO-bestanden te controleren op consistentie en correctheid volgens de geldende validatieregels. </p>
+<p>De class leunt volledig op de functionaliteiten van de <code>HyDAMOValidatieModule</code>. Dit is een <a href="https://github.com/HHNK/HyDAMOValidatieModule">fork</a> van de <a href="https://github.com/HetWaterschapshuis/HyDAMOValidatieModule">officiële hydamo_validation-module van Het Waterschapshuis</a>. Voor dit project zijn <a href="https://github.com/HHNK/HyDAMOValidatieModule/blob/main/hydamo_validation/functions/custom.py">custom functies</a> toegevoegd om specifieke validatieregels af te kunnen dwingen en logging te integreren.</p>
+<p>Code-opbouw
+1. Voorbereiding van bestanden: het HyDAMO-bestand en de validatieregels worden naar een werkmap gekopieerd.
+2. Initialisatie validator: een validator-object wordt aangemaakt met de gewenste coverages (key: "AHN", value: padverwijzing naar map met index.shp en rasters) en output types (geopackage, csv, geojson).
+3. Uitvoering validatie: het validator-object voert de validatie uit, schrijft de resultaten weg in de werkmap en retourneert een samenvatting van de resultaten.</p>
+<p><strong><a href="../c_validatieregels_aannames/">Validatieregels &amp; aannames</a></strong> </p>
+<hr />
+<h3 id="e-hydamo-fixer">E. HyDAMO fixer</h3>
+<p>De HyDAMO interpreteert validatieresultaten en biedt mogelijkheden tot automatische en handmatige fixes. Op deze manier wordt het HyDAMO klaar gemaakt om als input te dienen van een 3Di model. </p>
+<h4 id="algemene-werking">Algemene werking</h4>
+<p><img alt="HyDAMOstroomschema" src="../../../images/5_schematisation_builder/b_architectuur_code_tests/hydamo_fixer_loop.png" /></p>
+<p>In de validation_rules.json zijn de volgende attributen toegevoegd per validatieregel:
+* Fix_ID
+* Fix_name
+* category
+* assumption_values
+* related_layers</p>
+<p>Er zullen verschillende categorieën fixes zijn en op basis daarvan wordt bepaald in welke maten de gebruiker input moet leveren om de fix uit te voeren. De gedefineerde categorieën zijn:
+* Automatic:
+  * Automatisch niet laten meenemen in model validatie (verwijderen)
+  * Aanpassen op basis van aannames
+  * Aanpassen op basis van gerelateerde objecten in andere lagen
+  * Aanpassen op basis van aannames en gerelateerde objecten in andere lagen
+* Manual:
+  * INFO: Ter info! Gebruiker kan iets doen, maar niet perse nodig
+  * Warning: Waarschuwing! Gebruiker moet iets met object doen</p>
+<h4 id="code-opbouw">Code opbouw</h4>
+<p>De <code>HyDAMO_fixer</code> class loopt over de invalid features in een HyDAMO bestand op een bepaald volgorde (NOTE: nog te bepalen) op basis van attributen in de validation_rules.json. Voor automatische fixes is er een functie in de class die functies aan vanuit de class <code>functions_hydamo_fixer</code> aanspreekt. Deze functie in de <code>HyDAMO_fixer</code> kan per Fix_ID, category en/of laag fixes uitgevoerd worden. Als een feature gefixt is worden de Fix_ID en category weggeschreven in het HyDAMO bestand. </p>
+<p>Na elke loop wordt het gehele HyDAMO bestand opnieuw gevalideert, waarbij gebruikt wordt gemaakt van de <code>HyDAMO_validator</code>. Verder moet de <code>HyDAMO_fixer</code> kunnen communiceren met de Qgis plugin, om user input op te halen en resultaten te laten zien. </p>
+<hr />
+<h3 id="f-3di-converter">F. 3Di converter</h3>
+<p>HyDAMO_conversion_to_3di mogelijk straks niet meer relevant door volledige QGIS integratie. Anders is het netjes om HyDAMO_conversion_to_3di.py te vernoemen naar HyDAMO_3Di_converter.py voor uniformiteit.</p>
+<h2 id="4-testoverzicht">4. Testoverzicht</h2>
+<h3 id="de-tests">De tests</h3>
+<ul>
+<li><strong>Unittests</strong> – Controleren individuele functies/klassen in isolatie.  </li>
+<li><strong>Integratietests</strong> – Controleren dat componenten (exporter, (hy)damo converter, validator, fixer, schematisation converter) goed samenwerken.  </li>
+<li><strong>End-to-end tests</strong> – Controleren van de volledige datastroom: export → omzetten naar (hy)damo → valideren → verbeteren → her-valideren → omzetten naar schematisatie (op objectniveau, danwel voor de gehele set).  </li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Testbestand</th>
+<th>Type test</th>
+<th>Status</th>
+<th>Scope</th>
+<th>Input dataset</th>
+<th>Output dataset</th>
+<th>Beschrijving</th>
+<th>Testvariabelen</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>test_create_schematisation_rasters.py</td>
+<td>Unit</td>
+<td>🟢 Getest</td>
+<td>Aanmaak van schema-rasters uit bronbestanden</td>
+<td><code>source_data</code> (DEM, GLG/ GGG/ GHG, infiltratie, frictie, landuse, polder, waterdeel)</td>
+<td><code>model/schema_base/rasters</code> (DEM, landuse)</td>
+<td>Test controleert of <code>create_schematisation_rasters</code> correcte rasters genereert op basis van brondata</td>
+<td>- <code>dst.dem.exists()</code> (voor en na)<br>- <code>dst.dem.shape == [6962, 7686]</code><br>- <code>dst.landuse.sum() == 234612304.0</code></td>
+</tr>
+<tr>
+<td>test_DAMO_HyDAMO_converter.py</td>
+<td>Unit</td>
+<td>🟢 Getest</td>
+<td>Conversie van DAMO → HyDAMO (inclusief veldtypes en attributen)</td>
+<td><code>schematisation_builder/DAMO.gpkg</code></td>
+<td><code>HyDAMO_*.gpkg</code> (gegenereerd in temp-dir)</td>
+<td>Test controleert of converter een HyDAMO-bestand genereert met extra kolommen (o.a. <code>NEN3610id</code>), juiste veldtypes en correcte domeinwaarden</td>
+<td>- <code>hydamo_file_path.exists()</code><br>- <code>"NEN3610id" in columns</code><br>- Domeinwaarden (code vs. beschrijving)<br>- Datatypes (<code>float64</code> voor capaciteit)</td>
+</tr>
+<tr>
+<td>test_db_exporter.py</td>
+<td>Unit</td>
+<td>🟢 Getest (mits DB beschikbaar)</td>
+<td>Export van DAMO/CSO-tabellen naar geopackage</td>
+<td><code>schematisation_builder/area_test_sql_helsdeur.gpkg</code>, <code>model_test/01_source_data/polder_polygon.shp</code></td>
+<td><code>test_damo_gemaal_helsdeur.gpkg</code>, <code>test_export.gpkg</code></td>
+<td>Test controleert of <code>db_exporter</code> tabellen en subtabel correct exporteert, inclusief domeinwaarden en foutafhandeling</td>
+<td>- <code>output_file.exists()</code><br>- <code>code == "KGM-Q-29234"</code><br>- <code>len(pomp_gdf) == 4</code><br>- Domeinomzetting (<code>functiegemaal</code>)<br>- <code>logging_DAMO == []</code></td>
+</tr>
+<tr>
+<td>test_flow_profiles.py</td>
+<td>End-to-end</td>
+<td>🟠 Gedeeltelijk getest (skip bij Python &lt; 3.12)</td>
+<td>Volledige flow van profielverwerking: DAMO/CSO → intermediate → HyDAMO → validatie</td>
+<td><code>schematisation_builder/raw_export.gpkg</code>, coverage-data (<code>schematisation_builder/dtm/index.shp</code>)</td>
+<td><code>damo.gpkg</code>, <code>HyDAMO.gpkg</code>, validatie-output (<code>results.gpkg</code>, csv, geojson)</td>
+<td>Test controleert de volledige profielketen: laden, linemerge, profielcreatie en koppeling, berekening diepste punten, export naar HyDAMO en validatie met regels</td>
+<td>- Laagchecks: <code>hydroobject</code>, <code>peilgebiedpraktijk</code><br>- Profielpunt koppeling aan profiellijn<br>- Profiellijn koppeling aan profielgroep<br>- Profielgroep koppeling aan hydroobject<br>- Diepste punten per profiellijn en hydroobject<br>- Connectie hydroobjecten zonder profiel<br>- HyDAMO export aanwezig<br>- Validatieregels:<br>&nbsp;&nbsp;100: <code>isascending</code><br>&nbsp;&nbsp;101: <code>hydroobject_breedte</code><br>&nbsp;&nbsp;102: <code>jaarinwinning</code><br>&nbsp;&nbsp;103: <code>max_cross_product</code><br>&nbsp;&nbsp;104: <code>afstandnatprofiel</code><br>&nbsp;&nbsp;105: <code>dieptenatprofiel</code><br>&nbsp;&nbsp;106: <code>nr_of_profielpunten</code><br>&nbsp;&nbsp;108: <code>maximalehoogteprofiel</code><br>&nbsp;&nbsp;109: <code>breedteprofiel</code></td>
+</tr>
+<tr>
+<td>test_gemaalintermediateconverter.py</td>
+<td>Unit</td>
+<td>🟢 Getest</td>
+<td>Conversie van gemaal- en pomplagen uit DAMO/CSO naar intermediate</td>
+<td><code>schematisation_builder/raw_export.gpkg</code></td>
+<td><code>damo.gpkg</code> (met lagen <code>gemaal</code>, <code>pomp</code>)</td>
+<td>Test controleert of <code>GemaalIntermediateConverter</code> correcte lagen genereert met geldige relaties en unieke IDs</td>
+<td>- Output-bestand bestaat<br>- <code>gemaal</code>-laag niet leeg<br>- <code>pomp</code>-laag niet leeg<br>- Kolom <code>globalid</code> aanwezig, niet null en uniek in beide lagen<br>- Elke <code>pomp.gemaalid</code> verwijst naar bestaand <code>gemaal.globalid</code></td>
+</tr>
+<tr>
+<td>test_HyDAMO_validator.py</td>
+<td>Unit</td>
+<td>🟢 Getest (skip bij Python &lt; 3.12)</td>
+<td>Validatie van HyDAMO-bestand met regels en coverages</td>
+<td><code>schematisation_builder/HyDAMO.gpkg</code>, coverage-data (<code>schematisation_builder/dtm/index.shp</code>)</td>
+<td>Validatie-output (<code>datasets/HyDAMO.gpkg</code>, <code>results.gpkg</code>, csv, geojson)</td>
+<td>Test controleert of <code>validate_hydamo</code> succesvol draait en valideerresultaten wegschrijft</td>
+<td>- <code>result_summary["success"] == True</code><br>- Validatie-outputbestanden bestaan (<code>datasets/HyDAMO.gpkg</code>, <code>results.gpkg</code>)<br>- Coverages worden meegenomen (AHN)<br>- TODO’s voor ontbrekende lagen (<code>brug</code>, <code>stuw</code>, <code>gemaal</code>, <code>pomp</code>)</td>
+</tr>
+<tr>
+<td>test_schematisation_builder.py</td>
+<td>End-to-end</td>
+<td>🟠 Gedeeltelijk getest (skip bij Python &lt; 3.12 of zonder DB settings)</td>
+<td>Volledige flow: DAMO → HyDAMO → validatie</td>
+<td><code>test_schematisation_builder/01_source_data/DAMO.gpkg</code> (gegenereerd in test)</td>
+<td><code>HyDAMO.gpkg</code>, <code>log.log</code>, validatie-output (<code>results.gpkg</code>)</td>
+<td>Test controleert of <code>make_validated_hydamo_package</code> een compleet pakket aanmaakt en bestanden correct worden weggeschreven</td>
+<td>- <code>DAMO.gpkg</code> bestaat<br>- <code>HyDAMO.gpkg</code> bestaat<br>- <code>log.log</code> bestaat<br>- Validatieresultaat <code>results.gpkg</code> bestaat</td>
+</tr>
+<tr>
+<td><em>test</em>....py_</td>
+<td><em>...</em></td>
+<td>🔴 Niet getest</td>
+<td><em>...</em></td>
+<td><em>.../....gpkg</em></td>
+<td><em>.../....gpkg</em></td>
+<td><em>...</em></td>
+<td><em>...</em></td>
+</tr>
+</tbody>
+</table>
+<h3 id="testdata-en-integratie">Testdata en integratie</h3>
+<p>De code van de tests staan in de <a href="https://github.com/threedi/hhnk-threedi-tools/tree/main/tests/schematisation_builder">hhnk-threedi-tools repo</a>. </p>
+<p>De tests zijn geïntegreerd in de <strong>GitHub Actions</strong> van de <code>hhnk-threedi-tools</code> repository:<br />
+- Alle tests draaien automatisch bij pull requests.<br />
+- Mergen is alleen mogelijk wanneer alle tests slagen.  </p>
+<p>De tests zijn zoveel mogelijk gebaseerd op de testdataset van polderwatersysteem <em>’t Hoekje</em>. Dit is een relatief klein en overzichtelijk gebied. De bestanden van de tests staan in de <a href="https://github.com/threedi/hhnk-threedi-tools/tree/main/tests/data/schematisation_builder">tests/data/schematisation_builder map</a>. </p>
+<p>Op dit moment bevat de testdataset nog een groot deel van het watersysteem. Dit komt doordat:<br />
+- nog niet alle tests zijn geschreven;<br />
+- nog niet duidelijk is welke data wel of niet nodig is.  </p>
+<p>Wanneer de tests volledig zijn uitgewerkt, kan de dataset worden verkleind. Dit bespaart opslagruimte in de repository.</p>
+<p>Ontwikkeling gebeurt in <strong>VS Code</strong> met een <strong>Pixi-omgeving</strong>. Voor het installeren en het draaien van de tests kunnen de volgende stappen worden doorlopen:
+1. Kloon de <code>hhnk-threedi-tools</code> repository.<br />
+2. Voer de volgende commando’s uit:</p>
+<pre><code class="language-bash">    pixi install
+    pixi run postinstall
+</code></pre>
+<p>Dit zorgt voor:
+   - een lokale installatie van <code>hhnk-research-tools</code> en <code>HyDAMOValidatieModule</code>
+   - installatie van githooks die <strong>ruff-checks</strong> uitvoeren vóór het pushen</p>
+<ol>
+<li>Start de Pixi-shell:</li>
+</ol>
+<pre><code class="language-bash">    pixi shell
+</code></pre>
+<p>Hiermee wordt de command prompt geopend met de juiste Python-omgeving. Voer de tests lokaal uit met Python 3.9:</p>
+<pre><code class="language-bash">    pixi run -e py39 tests
+</code></pre>
+<h4 id="ter-kennisgeving">Ter kennisgeving</h4>
+<ul>
+<li><strong>Migratie</strong>: vanaf juni 2025 wordt gewerkt aan de overstap naar <strong>Python 3.12</strong>.  </li>
+<li><strong>Beperking</strong>: nog niet alle checks werken op 3.12.  </li>
+<li><strong>Workaround</strong>: GitHub-checks draaien daarom nog op <strong>Python 3.9</strong>.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/threedi/hhnk-threedi-plugin" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": [], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.1e8ae164.min.js"></script>
+      
+    
+  </body>
+</html>
