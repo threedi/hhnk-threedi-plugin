@@ -1,6 +1,6 @@
 ## Clonen van een bestaande Azure devops repo
 
-1. Op de interne Azure omgeving van HHNK, ga in de linker werkbalk naar `repos`. Kies vervolgens boven in in de werkbalk met de pulldown de repo dat je wilt clonen.
+1. Op de interne Azure omgeving van HHNK, ga in de linker werkbalk naar `repos`. Kies vervolgens boven in in de werkbalk met de pulldown naast de naam van de repo dat je wilt clonen.
 
 2. Vervolgens verschijnt een overzicht van de bestanden in het rechter deel van het scherm. Kies in dit deel van het scherm rechtsboven op `Clone`. Kies hier HTTPS en kopieer de link (deze begint met `https://HHNK@`).
 
@@ -28,7 +28,7 @@ Volg de volgende stappen:
     # eventueel de repo vertrouwen als dit nodig is
     git config --global --add safe.directory D:/github/00_modellen_db/hhnk-threedi-tools
     # install git hooks etc.
-    hhnk_threedi_tools\git_model_repo\bin\initialize_repo.bat E:\github\modellen_db\<username>\<model_name>
+    hhnk_threedi_tools\git_model_repo\bin\initialize_repo.bat Y:\02.modelrepos\<username>\<model_name>
     ```
 3. controleer of de bovenstaande actie goed is uitgevoerd (hooks/LFS/etc).
 
@@ -41,6 +41,8 @@ De Main branch is standaard beschermd voor aanpassingen. Dit zorgt er voor dat d
 De gehele folderstructuur vanuit de model opbouw kan hier worden toegevoegd aan de branch. Om vervuiling van de repository tegen te gaan is de `.gitignore` file gevuld met de bestanden die toegestaan zijn binnen de repo. De gehele map vanuit de model opbouw kan dus worden toegevoegd, waarna de `.gitignore` filterd wat gewenst is en wat niet. 
 
 Het kan voorkomen dat er extra data moet worden opgeslagen binnen de repository, dit kan dan worden aangepast in de `.gitigore` file.
+
+Hernoem de readme.md naar logboek.md en houdt hier je aanpassingen en werkstappen in bij.
  
 ### Pull request opzetten voor de main branch
-Wanneer de `work_<username>` branch klaar is om als basismodel te dienen, kunnen we dit doorzetten naar de main. Aangezien de main beschermd is moet dit via hier beschreven [Pull Request](c_werkafspraken.md#pull-request). Als je die stappen hebt doorlopen dan staat het hoofdmodel op de main branch en kunnen andere gebruikers hiervandaan een Clone maken en verder werken.
+Wanneer de `work_<username>` branch klaar is om als basismodel te dienen, kunnen we dit doorzetten naar de main. Aangezien de main beschermd is moet dit via hier beschreven [Pull Request](c_werkafspraken.md#pull-request). Vraag een hydroloog van HHNK om je aanpassingen te reviewen. Dit doe je in de regel als er een nieuw basismodel gereed is. Als je die stappen hebt doorlopen dan staat het hoofdmodel op de main branch en kunnen andere gebruikers hiervandaan een Clone maken en verder werken.
