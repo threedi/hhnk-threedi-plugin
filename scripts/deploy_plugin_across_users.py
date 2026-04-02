@@ -12,6 +12,7 @@ import requests
 logger = logging.getLogger(__name__)
 
 PLUGINS_DIR = r"c://Users//{user}//AppData//Roaming//3Di//QGIS3//profiles//default//python//plugins"  # noqa
+SITEPACKAGE_DIR = r"C:\Users\{user}\AppData\Roaming\Python\Python39\site-packages"  # noqa
 PLUGIN_URL = r"https://github.com/threedi/hhnk-threedi-plugin/releases/latest/download/hhnk_threedi_plugin.zip"  # noqa
 
 StoredFile = namedtuple("StoredFile", ["path", "content"])
@@ -26,6 +27,8 @@ def main():
         users=args.user,
         users_ignored=args.ignore_user,
         files_ignored=args.ignore_file,
+        include_site_packages=args.include_site_packages,
+        include_external_deps=args.include_external_deps,
     )
 
 
@@ -67,20 +70,20 @@ def write_ignored_files(stored_files):
         stored_file.path.write_text(stored_file.content)
 
 
-def copy_directory_content(admin_plugin_dir, user_plugin_dir, files_ignored):
+def copy_directory_content(admin_plugin_dir, user_plugin_dir, files_ignored,include_external_deps):
     """Copy directory content, ingnoring some files."""
     user_plugin_dir.mkdir(parents=True, exist_ok=True)
 
     for path in admin_plugin_dir.glob("*"):
         if path.is_dir():
-            if path.name != "external-dependencies":
+            if path.name != "external-dependencies" or include_external_deps:
                 shutil.copytree(path, user_plugin_dir.joinpath(path.name))
         elif path.is_file():
             if path.name not in files_ignored:
                 shutil.copy(path, user_plugin_dir.joinpath(path.name))
 
 
-def copy_plugin(admin_plugin_dir, user_plugin_dir, files_ignored):
+def copy_plugin(admin_plugin_dir, user_plugin_dir, files_ignored,include_external_deps):
     # some files we wish to keep
     stored_files = read_ignored_files(user_plugin_dir, files_ignored)
 
@@ -94,7 +97,7 @@ def copy_plugin(admin_plugin_dir, user_plugin_dir, files_ignored):
             write_ignored_files(stored_files)
             raise e
     print(f"  copying '{admin_plugin_dir}' to {user_plugin_dir}")
-    copy_directory_content(admin_plugin_dir, user_plugin_dir, files_ignored)
+    copy_directory_content(admin_plugin_dir, user_plugin_dir, files_ignored, include_external_deps)
 
     # write stored files
     write_ignored_files(stored_files)
@@ -107,8 +110,11 @@ def deploy(
     users: list = None,
     users_ignored: list = [],
     files_ignored: list = [],
+    include_site_packages: bool = False,
+    include_external_deps:bool = False,
 ):
     admin_plugins_dir = Path(plugins_dir.format(user=admin_user))
+    admin_sp_dir = Path(SITEPACKAGE_DIR.format(user=admin_user))
 
     # get plugin from repository if admin_dir is not specified
     if admin_user is None:
@@ -153,17 +159,25 @@ def deploy(
             # print(f"checking user '{user}'")
             user_plugins_dir = Path(plugins_dir.format(user=user))
             if user_plugins_dir.parent.is_dir():
-                print(f"  copying plugins to {user_plugins_dir}")
+                print(f"  copying plugins to {user}")
                 user_plugins_dir.mkdir(exist_ok=True)
                 for plugin in plugins:
                     print(f"  copying plugin: {plugin}")
                     user_plugin_dir = user_plugins_dir / plugin
                     admin_plugin_dir = admin_plugins_dir.joinpath(plugin)
                     # copy plugin
-                    copy_plugin(admin_plugin_dir, user_plugin_dir, files_ignored)
+                    copy_plugin(admin_plugin_dir, user_plugin_dir, files_ignored,include_external_deps)
 
             else:
                 print(f"user has no plugins-dir: {user_plugins_dir}")
+
+            if include_site_packages:
+                user_sp_dir = Path(SITEPACKAGE_DIR.format(user=user))
+
+                print(f"  copying site-packages to {user}")
+                user_plugins_dir.mkdir(exist_ok=True)
+                # copy python39 site packages
+                copy_plugin(admin_sp_dir, user_sp_dir, [],False)
 
 
 def get_args() -> argparse.Namespace:
@@ -178,7 +192,13 @@ def get_args() -> argparse.Namespace:
         "--plugin",
         help="one or more plugins copy",
         action="append",
-        default=["hhnk_threedi_plugin"],
+        default=["hhnk_threedi_plugin",
+            "threedi_models_and_simulations",
+            "threedi_results_analysis",
+            "threedi_schematisation_editor",
+            "pdokservicesplugin",
+            "valuetool",
+            ],
     )
     parser.add_argument(
         "--plugins_dir",
@@ -211,6 +231,16 @@ def get_args() -> argparse.Namespace:
         "--log_level",
         help="Log level (default: INFO)",
         default="INFO",
+    )
+    parser.add_argument(
+        "--include_site_packages",
+        help="Include side packages from python 39 folder (bool)",
+        default=False,
+    )
+    parser.add_argument(
+        "--include_external_deps",
+        help="Include external dependencies from plugin folder (bool)",
+        default=False,
     )
 
     args = parser.parse_args()

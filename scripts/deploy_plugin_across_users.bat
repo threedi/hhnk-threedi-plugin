@@ -2,5 +2,7 @@ rem usage: deploy_plugin_across_users.py [-h] [--admin_user ADMIN_USER] [--plugi
 
 
 rem deploy_plugin_across_users.py --admin_user danie --user public --plugin ThreeDiToolbox --plugin hhnk_threedi_plugin --plugin profiletool
-deploy_plugin_across_users.py --admin_user wvangerwen --user dtollenaar --plugin ThreeDiToolbox --plugin hhnk_threedi_plugin
+rem deploy_plugin_across_users.py --admin_user wvangerwen --user dtollenaar --plugin ThreeDiToolbox --plugin hhnk_threedi_plugin
 rem deploy_plugin_across_users.py --admin_user wvangerwen --ignore_user jacostabarragan --plugin ThreeDiToolbox --plugin hhnk_threedi_plugin --plugin value_tool --plugin pdokservicesplugin
+
+python deploy_plugin_across_users.py --admin_user wvanesse --user mrottink --include_site_packages True --include_external_deps True
