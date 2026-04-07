@@ -1,0 +1,1669 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://threedi.github.io/hhnk-threedi-plugin/md_files/3_achtergronden_en_uitgangspunten/e_onderliggende_rasterdata/1_onderliggende_rasterdata/">
+      
+      
+        <link rel="prev" href="../../d_kunstwerken/6_sturing/">
+      
+      
+        <link rel="next" href="../../f_inhoud_HDB/1_inhoud_HDB/">
+      
+      
+      <link rel="icon" href="../../../../icons/hhnk_logo.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.17">
+    
+    
+      
+        <title>Onderliggende rasterdata - HHNK 3Di toolbox</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.bcfcd587.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="../../../../stylesheets/headings.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="hhnk" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#onderliggende-rasterdata" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="HHNK 3Di toolbox" class="md-header__button md-logo" aria-label="HHNK 3Di toolbox" data-md-component="logo">
+      
+  <img src="../../../../icons/hhnk_logo_white.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            HHNK 3Di toolbox
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Onderliggende rasterdata
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="hhnk" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="HHNK 3Di toolbox" class="md-nav__button md-logo" aria-label="HHNK 3Di toolbox" data-md-component="logo">
+      
+  <img src="../../../../icons/hhnk_logo_white.png" alt="logo">
+
+    </a>
+    HHNK 3Di toolbox
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../1_inleiding/inleiding/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Inleiding
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../installatie/installatie_handleiding/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installatie instructies
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Werkwijze BWN
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Werkwijze BWN
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../2_werkwijze_bwn/werkwijze_bwn/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overzicht
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../2_werkwijze_bwn/hhnk_nieuw_model/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Nieuw model
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Achtergronden en Uitgangspunten
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Achtergronden en Uitgangspunten
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../achtergronden_en_uitgangspunten/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overzicht
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../a_watersysteem/1_watersysteem/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Functioneren watersysteem
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../b_logisch_bereik/1_logisch_bereik/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Logisch bereik
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_4" id="__nav_5_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Watergangen en peilgebieden
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            Watergangen en peilgebieden
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../c_watergangen_en_peilgebieden/1_initieel_peil/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Initieel peil
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../c_watergangen_en_peilgebieden/2_levees/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Obstacles
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../c_watergangen_en_peilgebieden/3_watergangen/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Watergangen
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../c_watergangen_en_peilgebieden/4_profiel/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Profiel
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../c_watergangen_en_peilgebieden/5_compensatie_te_weinig_oppervlaktewaterberging/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Compensatie te weinig oppervlaktewaterberging
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../c_watergangen_en_peilgebieden/6_bank_level/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bank level
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_5" id="__nav_5_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Kunstwerken
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_5">
+            <span class="md-nav__icon md-icon"></span>
+            Kunstwerken
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../d_kunstwerken/1_aquaducten/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Aquaducten
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../d_kunstwerken/2_bruggen/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bruggen
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../d_kunstwerken/3_duikers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Duikers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../d_kunstwerken/4_gemalen/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Gemalen
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../d_kunstwerken/5_stuwen/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Stuwen
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../d_kunstwerken/6_sturing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Sturing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Onderliggende rasterdata
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Onderliggende rasterdata
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#onderliggende-rasterdata" class="md-nav__link">
+    <span class="md-ellipsis">
+      Onderliggende rasterdata
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Onderliggende rasterdata">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#maaiveldhoogte-dem" class="md-nav__link">
+    <span class="md-ellipsis">
+      Maaiveldhoogte DEM
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Maaiveldhoogte DEM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#selectie-van-panden-voor-drempelhoogte" class="md-nav__link">
+    <span class="md-ellipsis">
+      Selectie van panden voor drempelhoogte
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rasterkaart-weerstand" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rasterkaart Weerstand
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rasterkaart-infiltratie" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rasterkaart Infiltratie
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Rasterkaart Infiltratie">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#onverharde-infiltratiekaart" class="md-nav__link">
+    <span class="md-ellipsis">
+      Onverharde infiltratiekaart
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rasterkaart-bodemberging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rasterkaart Bodemberging
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../f_inhoud_HDB/1_inhoud_HDB/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    HDB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../g_achtergrond_klimaatsommen/1_achtergrond_klimaatsommen/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Klimaatsommen
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Gebruik qgis plugin
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Gebruik qgis plugin
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../4_gebruik_plugin/_introductie_plugin/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overzicht
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../4_gebruik_plugin/a_brongegevens/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Brongegevens
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../4_gebruik_plugin/b_project_starten/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Project starten
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../4_gebruik_plugin/c_sqlite_checks/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Sqlite checksuitvoeren
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../4_gebruik_plugin/d_modelstaat_aanpassen/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Modelstaten aanpassen
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../4_gebruik_plugin/e_berekeningen_uitvoeren/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Berekeningen uitvoeren
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../4_gebruik_plugin/f_downloaden_resultaten/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Resultaten downloaden
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../4_gebruik_plugin/g_0d1d_test/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0d1d test uitvoeren
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../4_gebruik_plugin/h_banklevel_test/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bank level test uitvoeren
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../4_gebruik_plugin/i_1d2d_test/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1d2d test uitvoeren
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../4_gebruik_plugin/j_werkwijze_klimaatsommen/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Klimaatsommen uitvoeren
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../4_gebruik_plugin/z_bekende_problemen/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bekende problemen
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../4_gebruik_plugin/zz_overige_en_externe_referenties/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overige en externe referenties
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../polder_clusters/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Polder clusters
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user_test_manual/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Gebruikers testen
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../5_azure_versiebeheer/werken_met_modellen_repo/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Versiebeheer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#onderliggende-rasterdata" class="md-nav__link">
+    <span class="md-ellipsis">
+      Onderliggende rasterdata
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Onderliggende rasterdata">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#maaiveldhoogte-dem" class="md-nav__link">
+    <span class="md-ellipsis">
+      Maaiveldhoogte DEM
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Maaiveldhoogte DEM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#selectie-van-panden-voor-drempelhoogte" class="md-nav__link">
+    <span class="md-ellipsis">
+      Selectie van panden voor drempelhoogte
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rasterkaart-weerstand" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rasterkaart Weerstand
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rasterkaart-infiltratie" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rasterkaart Infiltratie
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Rasterkaart Infiltratie">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#onverharde-infiltratiekaart" class="md-nav__link">
+    <span class="md-ellipsis">
+      Onverharde infiltratiekaart
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rasterkaart-bodemberging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rasterkaart Bodemberging
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>Onderliggende rasterdata</h1>
+
+<h2 id="onderliggende-rasterdata"><strong>Onderliggende rasterdata</strong></h2>
+<p>In de 3Di poldermodellen zitten de volgende 4 rasterkaarten:
+1. DEM
+2. Weerstand
+3. Infiltratie
+4. Bodemberging</p>
+<p>Hoe deze kaarten zijn opgebouwd wordt hieronder beschreven.
+Alle rasters bevatten waardes op subgridniveau (0,5 m bij 0,5 m) die door 3Di worden opgeschaald tot de veel grotere rekencellen.</p>
+<h3 id="maaiveldhoogte-dem"><strong>Maaiveldhoogte DEM</strong></h3>
+<p>In het 3Di model wordt een hoogtekaart ofwel Digital Elevation Model (DEM) gebruikt voor de berging op en stroming over het maaiveld. De DEM wordt eveneens gebruikt om waterdieptes te berekenen die vervolgens worden gebruikt voor het afleiden van schade. De DEM is gebaseerd op de maaiveldhoogtekaart ofwel het Actuele Hoogtekaart Nederland. Ten tijde van het BWN2-project was dit AHN versie 3, inmiddels zijn alle modellen bijgewerkt naar AHN4. Modellen die nieuw worden opgebouwd zijn gebaseerd op de AHN5.</p>
+<p>De AHN moet echter bewerkt worden voordat deze geschikt is voor toepassing als DEM in 3Di. De AHN kent twee typen. Het DSM (digital surface model) is een ongefilterde vertaling van de ingevlogen hoogtemetingen naar een raster van 0,5 bij 0,5 m. Het DTM (digital terrain model) is een rasterkaart waarbij ingevlogen hoogtemetingen die geen maaiveld representeren (bv, daken, water, bomen, auto's en rietkragen) eerst uit de meetdata zijn gefilterd alvorens de rasterkaart is aangemaakt. Deze laatste kaart wordt gebruikt voor het aanmaken van de DEM. Beide rasters bevatten gaten op plekken waar geen of onvoldoende maaiveld meetdata beschikbaar was. </p>
+<p>Voor het aanmaken van een DEM uit de AHN zijn de volgende voorbereidingen gedaan in ons basis DEM: </p>
+<ol>
+<li>Gaten dicht interpoleren; </li>
+<li>Alle gebouwen (BGT Pand_v) een hoogte mee te geven die gelijk is aan het 75e percentiel van de omliggende maaiveldhoogtes (binnen een buffer van 1 m) + 5 cm (drempel/vloerpeil);  </li>
+</ol>
+<h4 id="selectie-van-panden-voor-drempelhoogte">Selectie van panden voor drempelhoogte</h4>
+<p>De panden uit de BAG waarmee de AHN5 is bijgewerkt zijn geexporteerd op 10 januari 2024. De panden bevatten attribuut 'status' waarin de volgende klassen zijn:</p>
+<ul>
+<li>'Bouw gestart' </li>
+<li>'Bouwvergunning verleend'  </li>
+<li>'Pand buiten gebruik'  </li>
+<li>'Pand in gebruik'  </li>
+<li>'Pand in gebruik (niet ingemeten)'  </li>
+<li>'Sloopvergunning verleend'  </li>
+<li>'Verbouwing pand' </li>
+</ul>
+<p><em>'Bouw gestart'</em>  bevat scala aan situaties, nieuwbouw waar al is opgehoogd of niet, herbouw bestaande bouw, bouwputten. 
+    Om gaten op te vullen worden deze gebruikt om op basis van 75 percentiel een drempelhoogte te geven. Daanaast slaan we deze los op zodat deze toegevoegd kunnen worden aan de laag met onbetrouwbare schades.</p>
+<p><em>'Bouwvergunning verleend'</em> bevat ook vele mogelijkheden. Maar hier is vaker de originele maaiveldhoogte nog in de dtm te vinden.
+    Deze locaties zijn niet bijgewerkt in de DEM, maar los opgeslagen in de hydrologen database zodat ze eventueel toegevoegd kunnen worden aan de laag
+    met onbetrouwbare schades.</p>
+<p>Er zijn ook vlakken waar geen opvulhoogte op basis van de rand rondom het vlak gevonden kan worden. Dat komt bijvoorbeeld doordat een garagebox is omsloten door andere panden, en dus in een groot gat in de AHN staat. Ook winkelcenrtum Middenwaard is een voorbeeld, waar losse delen midden in het winkelcentrum zijn gedefinieerd. Deze vlakken worden los opgeslagen zodat deze toegevoegd kunnen worden aan de laag met onbetrouwbare schades. De drempelhoogte van deze vlakken nemen we over van het dichtstbijzijnde pand op een maximale afstand van 10 m.  Meer dan 10 m kan tot fouten leiden, zoals een waarde van de andere kant van de straat, bijvoorbeeld bij chinees rest. Libelle.</p>
+<p>Gaten in de AHN5 die overblijven worden dichtgeinterpoleerd volgens de nearest neighbour methode. Dat ziet er lelijk uit, maar dan zien we bij grote vlakken tenminste dat het niet klopt.</p>
+<p>De basis AHN wordt opgeslagen zoals hierboven beschreven. De HHNK modlbuilder voegt tenslotte nog de toe dat alle BGT watervlakken worden opgehoogd naar 10 m.</p>
+<p>In de eerste versie van de BWN modellen (AHN3) werken ook bassins en andere tanks opgehoogd. Dat doen we nu niet, omdat het slechts een klein aandeel heeft. Mocht dit lokaal toch nodig zijn dan kan de BGT hiervoor gebruikt worden: BGT OverigBouwwerk_v [BGTPlusType = 'bassin' OR BGTPlusType = 'opslagtank' OR BGTPlusType = 'bezinkbak']). </p>
+<p>Wat niet vooraf gebeurt is:
+1. Maaiveldcorrecties door te voeren voor bouwputten, inritten, tunnelbakken en maaiveldveranderingen (bv recent aangelegde waterberging);
+2. Maaiveldcorrecties voor viaducten en tunnels. Hiervoor is wel een bestand 'doorsnijdingen' beschikbaar voor omstromingsberekeningen.</p>
+<p>Dit kan in de model DEM aangepast worden en in de HDB worden bijgehouden in de laag <code>dem_edits</code> voor nieuwe modellen.</p>
+<h3 id="rasterkaart-weerstand"><strong>Rasterkaart Weerstand</strong></h3>
+<p>Het weerstandsraster heeft betrekking op de stroming over maaiveld en wordt uitgedrukt in Manning waarde die veel wordt toegepast voor het modelleren van ondiep water stroming. Hoe lager de Manningwaarde (s/m<sup>1/3</sup>) hoe lager de weerstand. Er wordt ook wel eens gebruik gemaakt van de inverse Manningswaarde wat de Stricklerwaarde wordt genoemd (s/m<sup>1/3</sup>). De stricklerwaarde wordt op basis van onderstaande punten toegekend.</p>
+<p>Waterlopen
+* 45-30: Zeer schoon;
+* 35-20: Schoon;
+* 25-15: Licht begroeid;
+* 20-10: Matig begroeid;
+* 16-5: Vrij sterk begroeid;
+* &lt;10: Zeer sterk begroeid;</p>
+<p>Betonnen duikers
+* 75-100: Duiker recht en schoon;
+* 70-90: Duiker met bochten, verbindingen en enige verontreiniging;
+* 55-75: Rioolbuis met mangaten, inlaten e.d. recht;
+* 70-85: Niet afgewerkt bij stalen bekisting;
+* 60-85: Niet afgewerkt bij gladde houten bekisting;
+* 50-65: Niet afgewerkt bij ruwe houten bekisting;</p>
+<p>Er wordt voorgesteld om de weestandskaart op te bouwen uit de BGT kaart en daarbij de volgende uitgangspunten aan te houden <!--TODO <span style="color:yellow"> *LN: @Wouter, @Jelle, Is dit voorgestelde ook doorgevoerd?*</span>-->:
+* Wegdeel_v: 100 m<sup>1/3</sup>/s;
+* Overbruggingsdeel_v: 100 m<sup>1/3</sup>/s;
+* Pand_v: 5 m<sup>1/3</sup>/s;
+* OverigBouwwerk_v: 15 m<sup>1/3</sup>/s;
+* OnbegroeidTerreindeel_v: 15 m<sup>1/3</sup>/s;
+* BegroeidTerreindeel_v: 15 m<sup>1/3</sup>/s;</p>
+<p>Met behulp van bovenbenoemde uitgangspunten, die beschreven staan in <em>'Conversietabel_landgebruik_2018.csv'</em>, wordt er vanuit het landgebruiksraster per model een weerstandsraster aangemaakt. Deze waardes zijn uitgedrukt als Manningsweerstand in m<sup>1/3</sup>/s (Let op: dat is dus niet hetzelfde als hierboven).</p>
+<p>Nb. De conversietabel is beschikbaar op het systeem van HHNK onder: <code>\\corp.hhnk.nl\data\Hydrologen_data\Data\01.basisgegevens\rasters\Conversietabel_landgebruik_2018.csv</code></p>
+<h3 id="rasterkaart-infiltratie"><strong>Rasterkaart Infiltratie</strong></h3>
+<p>Voor het maken van de infiltratiekaart is een combinatie gebruikt van de BGT en de bodemkaart. Verhard oppervlak en water heeft een infiltratiesnelheid van 0 mm/u mee gekregen, overig stedelijk gebied een infiltratie van 2 mm/u en divers onverhard gebied (bv grasland agrarisch, bouwland en fruitteelt) heeft een infiltratiewaarde gekregen van 5 mm/u, 10 mm/u of 20 mm/u.</p>
+<h4 id="onverharde-infiltratiekaart"><strong>Onverharde infiltratiekaart</strong></h4>
+<p>Er wordt voorgesteld om de onverhard infiltratiekaart te maken op basis van de Imax waarde per grondsoort <!--TODO<span style="color:yellow"> *LN: @Wouter, @Jelle, Is dit voorgestelde ook doorgevoerd?*</span>-->. De Imax waarde is de initiële verticale infiltratiesnelheid die optreedt na plasvorming en een vochtfront direct onder het maaiveld. Dit is de maximale infiltratiesnelheid die kan optreden en die wordt gedreven door een maximale drukhoogte gradiënt in combinatie met capillaire krachten. </p>
+<p>De infiltratiesnelheid zal snel afnemen als het vochtfront verder onder het maaiveld komt te liggen omdat de drukhoogte gradiënt dan afneemt. De snelheid neemt geleidelijk af tot de minimale infiltratiecapaciteit Ks, ook wel de verzadigde doorlatendheid genoemd. Als wordt uitgegaan van de infiltratiecapaciteit Imax dan wordt bij modelberekeningen met extreme neerslag de gemiddelde infiltratiesnelheid tijdens een neerslaggebeurtenis overschat.</p>
+<p>In onderstaande tabellen zijn Imax en Ks waardes gegeven voor onverharde gebieden.</p>
+<p><img alt="Alt text" src="../../../../images/3_achtergronden_en_uitgangspunten/Tabel_Imax_waardes.png" /></p>
+<p><img alt="Alt text" src="../../../../images/3_achtergronden_en_uitgangspunten/Tabel_Ks_waardes.png" /></p>
+<p>Op basis van bovenstaande tabellen is aan iedere PAWN grondsoort die in het beheergebied van HHNK voor komt een infiltratiecapaciteit toegekend. De toekenning is los gebaseerd op bovenstaande tabellen en houdt er rekening mee dat de bodemsoorten beter doorlatend zijn naarmate ze meer zandig zijn en slechter doorlatend naar mate ze meer lemig of kleiig zijn.</p>
+<p>De onverharde infiltratiecapaciteit wordt vermenigvuldigd met drie reductiekaarten: 
+1. Verhardings reductiekaart</p>
+<pre><code>Deze kaart reduceert de onverharde infiltratiecapaciteit ter plaatse van verharding en water.
+</code></pre>
+<ol>
+<li>
+<p>Erf reductiefactor kaart.</p>
+<p>Deze kaart reduceert de onverharde infiltratiecapaciteit op particuliere erven ten gevolge van partiële verharding. </p>
+</li>
+<li>
+<p>Riolering reductiefactor kaart </p>
+<p>Deze kaart geeft een additionele infiltratie reductie in stedelijk gebied om een oppervlakkige afvoercomponent te creëren waarmee het weglaten van riolering wordt gecompenseerd. </p>
+</li>
+</ol>
+<p>Kaarten 2 en 3 worden afgeleid uit een kaart die de dichtheid van bebouwing aangeeft: de bebouwingsfractie kaart.</p>
+<h3 id="rasterkaart-bodemberging"><strong>Rasterkaart Bodemberging</strong></h3>
+<p>De hoeveelheid bodemberging hangt af van het grondgebruik, het bodemprofiel en de ontwateringsdiepte. In de 3Di poldermodellen worden 3 bodemberging rasters aangemaakt, behorend bij 3 verschillende grondwaterstanden (GLG, GHG en het gemiddelde daarvan GGG). Omdat het GGG raster het gemiddelde is van het GHG en GLG raster zijn alleen de GHG en GLG rasters getoond.</p>
+<p>Voor gedetailleerde regionale toepassingen bestaan er geen betrouwbare gebiedsdekkende databronnen voor GLG/GHG. Er bestaan wel gebiedsdekkende GLG/GHG kaarten maar die zijn dusdanig onnauwkeurig dat ze voor regionale toepassingen lokaal grote fouten kunnen introduceren. Voor het beheergebied van HHNK bestaan er 2 gebiedsdekkende GLG/GHG producten: 
+1. Alterra GLG/GHG kaart</p>
+<pre><code>De GLG/GHG kaart van Alterra is een rasterkaart van 25 m bij 25 m met de grondwaterstanden in m minus maaiveld. De grondwaterstanden zijn gebaseerd op meetreeksen, de AHN1 en de bodemkaart.
+</code></pre>
+<ol>
+<li>
+<p>De GLG/GHG uit het grondwatermodel van HHNK. </p>
+<p>Deze (100m bij 100 m) raster kaarten zijn in 2014 gegenereerd met het (MODFLOW/ SEAWAT) grondwatermodel van HHNK en hebben een grove modelschaal (ca. 100 bij 100 m). Deze modelversie betreft een modelvernieuwing van het oorspronkelijke model uit het project Leven met Zout Water uit 2012.</p>
+</li>
+</ol>
+<p>Nb: de grondwatertrappen uit de bodemkaart zijn een oudere en minder geavanceerde aanpak op basis van dezelfde brondata als de Alterra kaart en vormt dus geen additionele bron van informatie. </p>
+<p>Naast dit kaartbeeld bestaan er twee methoden waarmee gebiedsdekkend een inschatting gemaakt kan worden van de GLG/GHG standen: 
+1. GHG kaart op basis van ontwateringsnormen:</p>
+<ol>
+<li>GLG/GHG op basis van drainagebasis.</li>
+</ol>
+<p>Tijdens het BWN2-project zijn bergingskaarten gebaseerd op de Alterra grondwaterstanden en bergingscoëfficiënten uit SOBEK. Deze zijn voor het laatst bijgewerkt in 2020. De bestanden zijn te vinden op <code>\\corp.hhnk.nl\data\Hydrologen_data\Data\01.basisgegevens\rasters</code>. HHNK werkt aan het verbeteren van de input voor de bodembergingskaarten voor toekomstige analyses.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/threedi/hhnk-threedi-plugin" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../../..", "features": [], "search": "../../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.1e8ae164.min.js"></script>
+      
+    
+  </body>
+</html>
