@@ -31,14 +31,14 @@ _Lijst van modules en hun verantwoordelijkheden._
 
 | Type | Volgorde | Module | Rol | Bestand |
 |------|----------------|--------|-----|---------|
-| Kernlogica | A | Database exporter | Genereert een ruwe export op basis van een polder polygoon. | /hhnk_threedi_tools/core/schematisation_buider/ DB_exporter.py |
-| Kernlogica | B | Raw Export naar DAMO Converter | Zet ruwe export om in DAMO formaat. | /hhnk_threedi_tools/core/schematisation_buider/ raw_export_to_DAMO_converter.py |
-| Kernlogica | C | DAMO naar HyDAMO converter | Zet DAMO om in HyDAMO formaat. | /hhnk_threedi_tools/core/schematisation_buider/ DAMO_HyDAMO_converter.py |
-| Kernlogica | D | HyDAMO validator | Trapt validatieregels af op HyDAMO bestand. | /hhnk_threedi_tools/core/schematisation_buider/ HyDAMO_validator.py |
-| Kernlogica | E | HyDAMO fixer | Interpreteert validatieresultaten en biedt mogelijkheden tot automatische fixes. | /hhnk_threedi_tools/core/schematisation_buider/HyDAMO_Fixer.py |
-| Kernlogica | F | 3Di converter | Zet het (verbeterde) HyDAMO bestand om in een 3Di schematisatie | /hhnk_threedi_tools/core/schematisation_buider/ HyDAMO_conversion_to_3di.py |
-| Interfaces |   | ... | ... | /hhnk_threedi_tools/core/schematisation_buider/ schematisation_builder.py |
-| Interfaces |   | ... | ... | /hhnk_threedi_plugin/gui/ schematisation_builder.py |
+| Kernlogica | A | Database exporter | Genereert een ruwe export op basis van een polder polygoon. | /hhnk_threedi_tools/core/schematisation_builder/DB_exporter.py |
+| Kernlogica | B | Raw Export naar DAMO Converter | Zet ruwe export om in DAMO formaat. | /hhnk_threedi_tools/core/schematisation_builder/raw_export_to_DAMO_converter.py |
+| Kernlogica | C | DAMO naar HyDAMO converter | Zet DAMO om in HyDAMO formaat. | /hhnk_threedi_tools/core/schematisation_builder/DAMO_HyDAMO_converter.py |
+| Kernlogica | D | HyDAMO validator | Trapt validatieregels af op HyDAMO bestand. | /hhnk_threedi_tools/core/schematisation_builder/HyDAMO_validator.py |
+| Kernlogica | E | HyDAMO fixer | Interpreteert validatieresultaten en biedt mogelijkheden tot automatische fixes. | /hhnk_threedi_tools/core/schematisation_builder/HyDAMO_fixer.py |
+| Kernlogica | F | 3Di converter | Zet het (verbeterde) HyDAMO bestand om in een 3Di schematisatie | /hhnk_threedi_tools/core/schematisation_builder/HyDAMO_conversion_to_3Di.py |
+| Interfaces |   | SchematisationBuilder | Hoofdorchestrator die alle stappen aanroept. | /hhnk_threedi_tools/core/schematisation_builder/main.py |
+| Interfaces |   | ... | ... | /hhnk_threedi_plugin/gui/schematisation_builder.py |
 
 ---
 
@@ -72,13 +72,40 @@ In hoofdlijnen zorgt de converter voor:
 * Het toevoegen van kolommen zoals `gemaalid` en `globalid` in de pomp-laag.
 * Het corrigeren van de pomp-capaciteit op basis van de gemaalgegevens.
 
-### **PeilgebiedConverter**
-De `PeilgebiedConverter` is een implementatie van de `RawExportToDAMOConverter`. Deze richt zich op het verwerken van peilgebiedlagen (`peilgebiedpraktijk`?). Nog verder te implementeren.
+### **StuwConverter**
+De `StuwConverter` is een implementatie van de `RawExportToDAMOConverter`. Deze richt zich op het verwerken van stuw-gerelateerde lagen en het opzetten van koppelingen tussen stuwen, kunstwerkopeningen en regelmiddelen.
 
 In hoofdlijnen zorgt de converter voor:
-* Het laden van de `peilgebiedpraktijk`-laag vanuit de ruwe export.
+* Het laden van de relevante lagen (`stuw`).
+* Het aanmaken van een `kunstwerkopening`-laag per stuw, inclusief `stuwid`-koppeling.
+* Het aanmaken van een `regelmiddel`-laag per kunstwerkopening, inclusief `kunstwerkopeningid`-koppeling.
+* Het toekennen van unieke `globalid`-waarden aan alle nieuwe records.
+
+### **BrugConverter**
+De `BrugConverter` is een implementatie van de `RawExportToDAMOConverter`. Deze richt zich op het verwerken van brug-gerelateerde lagen en het aanmaken van doorstroomopeningen.
+
+In hoofdlijnen zorgt de converter voor:
+* Het laden van de `brug`-laag.
+* Het aanmaken van een `doorstroomopening`-laag per brug, inclusief `brugid`-koppeling.
+* Het toekennen van unieke `globalid`-waarden aan alle nieuwe records.
+
+### **AquaductConverter**
+De `AquaductConverter` is een implementatie van de `RawExportToDAMOConverter`. Aquaducten worden behandeld als een speciaal type `duikersifonhevel` voor validatiedoeleinden.
+
+In hoofdlijnen zorgt de converter voor:
+* Het laden van aquaductgegevens uit de ruwe export.
+* Het mappen van aquaduct-attributen naar het `duikersifonhevel`-schema.
+* Het toevoegen van aquaduct-records aan de bestaande `duikersifonhevel`-laag (of aanmaken als die ontbreekt).
+* Het toekennen van unieke `globalid`-waarden.
+
+### **PeilgebiedConverter**
+De `PeilgebiedConverter` is een implementatie van de `RawExportToDAMOConverter`. Deze richt zich op het verwerken van peilgebieden, waterkeringen en streefpeilen.
+
+In hoofdlijnen zorgt de converter voor:
+* Het aanmaken van de `peilgebiedpraktijk`-laag vanuit de `combinatiepeilgebied`-laag, aangevuld met `Hydro_deelgebieden` uit de HDB.
+* Het aanmaken van de `waterkering`-laag, inclusief kruinhoogte-berekening via DEM-sampling met loodlijnen op segmenten.
+* Het aanmaken van de `streefpeil`-laag uit de ruwe export.
 * Het opschonen van geometrieën door het exploden van multipart-geometrieën naar enkelvoudige features.
-* ... (toekomstige functionaliteiten)
 
 ### **ProfielConverter**
 De `ProfielConverter` is een implementatie van de `RawExportToDAMOConverter`. Deze richt zich op het verwerken van profielgegevens (lijnen en punten) en het koppelen van deze profielen aan de juiste hydroobjecten. Het doel is om DAMO-conforme tabellen voor **profielgroep**, **profiellijn** en **profielpunt** op te bouwen.
@@ -103,6 +130,24 @@ In hoofdlijnen zorgt `_Data` voor:
 * Een consistente structuur waarin alle input-, tussen- en outputtabellen zijn opgeslagen.
 * Het eenvoudig aanspreken van tabellen via attributen (bijv. `.data.gemaal`, `.data.peilgebiedpraktijk`).
 * Validatie van geladen lagen via `_ensure_loaded`.
+
+De volgende output-lagen zijn expliciet gedeclareerd (overige lagen worden dynamisch geladen via `setattr`):
+
+| Attribuut | Aangemaakt door |
+|-----------|------------------|
+| `profielgroep` | ProfielConverter |
+| `profiellijn` | ProfielConverter |
+| `profielpunt` | ProfielConverter |
+| `hydroobject_linemerged` | ProfielConverter |
+| `waterkering` | PeilgebiedConverter |
+| `peilgebiedpraktijk` | PeilgebiedConverter |
+| `streefpeil` | PeilgebiedConverter |
+| `pomp` | GemaalConverter |
+| `kunstwerkopening` | StuwConverter |
+| `regelmiddel` | StuwConverter |
+| `doorstroomopening` | BrugConverter |
+| `dem_path` / `dem_dataset` | Geladen via `load_dem()` |
+| `hdb_file_path` | Optionele HDB invoer |
 
 ---
 
@@ -198,10 +243,14 @@ HyDAMO_conversion_to_3di mogelijk straks niet meer relevant door volledige QGIS 
 | test_create_schematisation_rasters.py | Unit | 🟢 Getest | Aanmaak van schema-rasters uit bronbestanden | `source_data` (DEM, GLG/ GGG/ GHG, infiltratie, frictie, landuse, polder, waterdeel) | `model/schema_base/rasters` (DEM, landuse) | Test controleert of `create_schematisation_rasters` correcte rasters genereert op basis van brondata | - `dst.dem.exists()` (voor en na)<br>- `dst.dem.shape == [6962, 7686]`<br>- `dst.landuse.sum() == 234612304.0` |
 | test_DAMO_HyDAMO_converter.py | Unit | 🟢 Getest | Conversie van DAMO → HyDAMO (inclusief veldtypes en attributen) | `schematisation_builder/DAMO.gpkg` | `HyDAMO_*.gpkg` (gegenereerd in temp-dir) | Test controleert of converter een HyDAMO-bestand genereert met extra kolommen (o.a. `NEN3610id`), juiste veldtypes en correcte domeinwaarden | - `hydamo_file_path.exists()`<br>- `"NEN3610id" in columns`<br>- Domeinwaarden (code vs. beschrijving)<br>- Datatypes (`float64` voor capaciteit) |
 | test_db_exporter.py | Unit | 🟢 Getest (mits DB beschikbaar) | Export van DAMO/CSO-tabellen naar geopackage | `schematisation_builder/area_test_sql_helsdeur.gpkg`, `model_test/01_source_data/polder_polygon.shp` | `test_damo_gemaal_helsdeur.gpkg`, `test_export.gpkg` | Test controleert of `db_exporter` tabellen en subtabel correct exporteert, inclusief domeinwaarden en foutafhandeling | - `output_file.exists()`<br>- `code == "KGM-Q-29234"`<br>- `len(pomp_gdf) == 4`<br>- Domeinomzetting (`functiegemaal`)<br>- `logging_DAMO == []` |
-| test_flow_profiles.py | End-to-end | 🟠 Gedeeltelijk getest (skip bij Python < 3.12) | Volledige flow van profielverwerking: DAMO/CSO → intermediate → HyDAMO → validatie | `schematisation_builder/raw_export.gpkg`, coverage-data (`schematisation_builder/dtm/index.shp`) | `damo.gpkg`, `HyDAMO.gpkg`, validatie-output (`results.gpkg`, csv, geojson) | Test controleert de volledige profielketen: laden, linemerge, profielcreatie en koppeling, berekening diepste punten, export naar HyDAMO en validatie met regels | - Laagchecks: `hydroobject`, `peilgebiedpraktijk`<br>- Profielpunt koppeling aan profiellijn<br>- Profiellijn koppeling aan profielgroep<br>- Profielgroep koppeling aan hydroobject<br>- Diepste punten per profiellijn en hydroobject<br>- Connectie hydroobjecten zonder profiel<br>- HyDAMO export aanwezig<br>- Validatieregels:<br>&nbsp;&nbsp;100: `isascending`<br>&nbsp;&nbsp;101: `hydroobject_breedte`<br>&nbsp;&nbsp;102: `jaarinwinning`<br>&nbsp;&nbsp;103: `max_cross_product`<br>&nbsp;&nbsp;104: `afstandnatprofiel`<br>&nbsp;&nbsp;105: `dieptenatprofiel`<br>&nbsp;&nbsp;106: `nr_of_profielpunten`<br>&nbsp;&nbsp;108: `maximalehoogteprofiel`<br>&nbsp;&nbsp;109: `breedteprofiel` |
-| test_gemaalintermediateconverter.py | Unit | 🟢 Getest | Conversie van gemaal- en pomplagen uit DAMO/CSO naar intermediate | `schematisation_builder/raw_export.gpkg` | `damo.gpkg` (met lagen `gemaal`, `pomp`) | Test controleert of `GemaalIntermediateConverter` correcte lagen genereert met geldige relaties en unieke IDs | - Output-bestand bestaat<br>- `gemaal`-laag niet leeg<br>- `pomp`-laag niet leeg<br>- Kolom `globalid` aanwezig, niet null en uniek in beide lagen<br>- Elke `pomp.gemaalid` verwijst naar bestaand `gemaal.globalid` |
-| test_HyDAMO_validator.py | Unit | 🟢 Getest (skip bij Python < 3.12) | Validatie van HyDAMO-bestand met regels en coverages | `schematisation_builder/HyDAMO.gpkg`, coverage-data (`schematisation_builder/dtm/index.shp`) | Validatie-output (`datasets/HyDAMO.gpkg`, `results.gpkg`, csv, geojson) | Test controleert of `validate_hydamo` succesvol draait en valideerresultaten wegschrijft | - `result_summary["success"] == True`<br>- Validatie-outputbestanden bestaan (`datasets/HyDAMO.gpkg`, `results.gpkg`)<br>- Coverages worden meegenomen (AHN)<br>- TODO’s voor ontbrekende lagen (`brug`, `stuw`, `gemaal`, `pomp`) |
-| test_schematisation_builder.py | End-to-end | 🟠 Gedeeltelijk getest (skip bij Python < 3.12 of zonder DB settings) | Volledige flow: DAMO → HyDAMO → validatie | `test_schematisation_builder/01_source_data/DAMO.gpkg` (gegenereerd in test) | `HyDAMO.gpkg`, `log.log`, validatie-output (`results.gpkg`) | Test controleert of `make_validated_hydamo_package` een compleet pakket aanmaakt en bestanden correct worden weggeschreven | - `DAMO.gpkg` bestaat<br>- `HyDAMO.gpkg` bestaat<br>- `log.log` bestaat<br>- Validatieresultaat `results.gpkg` bestaat |
+| test_flow_profiles.py | End-to-end | 🟢 Getest (skip bij Python < 3.12) | Volledige flow van profielverwerking: DAMO/CSO → intermediate → HyDAMO → validatie | `schematisation_builder/raw_export.gpkg`, coverage-data (`schematisation_builder/dtm/index.shp`) | `damo.gpkg`, `HyDAMO.gpkg`, validatie-output (`results.gpkg`, csv, geojson) | Test controleert de volledige profielketen: laden, linemerge, profielcreatie en koppeling, berekening diepste punten, export naar HyDAMO en validatie met regels | - Laagchecks: `hydroobject`, `peilgebiedpraktijk`<br>- Profielpunt koppeling aan profiellijn<br>- Profiellijn koppeling aan profielgroep<br>- Profielgroep koppeling aan hydroobject<br>- Diepste punten per profiellijn en hydroobject<br>- Connectie hydroobjecten zonder profiel<br>- HyDAMO export aanwezig<br>- Validatieregels:<br>&nbsp;&nbsp;100: `isascending`<br>&nbsp;&nbsp;101: `hydroobject_breedte`<br>&nbsp;&nbsp;102: `jaarinwinning`<br>&nbsp;&nbsp;103: `max_cross_product`<br>&nbsp;&nbsp;104: `afstandnatprofiel`<br>&nbsp;&nbsp;105: `dieptenatprofiel`<br>&nbsp;&nbsp;106: `nr_of_profielpunten`<br>&nbsp;&nbsp;108: `maximalehoogteprofiel`<br>&nbsp;&nbsp;109: `breedteprofiel` |
+| test_gemaal_converter.py | Unit | 🟢 Getest | Conversie van gemaal- en pomplagen uit DAMO/CSO naar DAMO-formaat | `schematisation_builder/raw_export.gpkg` | `damo.gpkg` (met lagen `gemaal`, `pomp`) | Test controleert of `GemaalConverter` correcte lagen genereert met geldige relaties en unieke IDs | - Output-bestand bestaat<br>- `gemaal`-laag niet leeg<br>- `pomp`-laag niet leeg<br>- Kolom `globalid` aanwezig, niet null en uniek in beide lagen<br>- Elke `pomp.gemaalid` verwijst naar bestaand `gemaal.globalid` |
+| test_stuw_converter.py | Unit | 🟢 Getest | Conversie van stuw-gerelateerde lagen naar DAMO-formaat | `schematisation_builder/raw_export.gpkg` | `damo.gpkg` (met lagen `stuw`, `kunstwerkopening`, `regelmiddel`) | Test controleert of `StuwConverter` correcte lagen genereert met geldige koppelingen en unieke IDs | - Output-bestand bestaat<br>- `stuw`, `kunstwerkopening`, `regelmiddel` niet leeg<br>- 1 kunstwerkopening per stuw, 1 regelmiddel per kunstwerkopening<br>- `globalid` aanwezig, niet null en uniek<br>- `kunstwerkopening.stuwid` verwijst naar bestaand `stuw.globalid`<br>- `regelmiddel.kunstwerkopeningid` verwijst naar bestaand `kunstwerkopening.globalid` |
+| test_brug_converter.py | Unit | 🟢 Getest | Conversie van brug-gerelateerde lagen naar DAMO-formaat | `schematisation_builder/raw_export.gpkg` | `damo.gpkg` (met lagen `brug`, `doorstroomopening`) | Test controleert of `BrugConverter` correcte lagen genereert met geldige koppelingen en unieke IDs | - Output-bestand bestaat<br>- `brug` en `doorstroomopening` niet leeg<br>- 1 doorstroomopening per brug<br>- `globalid` aanwezig, niet null en uniek<br>- `doorstroomopening.brugid` verwijst naar bestaand `brug.globalid`<br>- `doorstroomopening` heeft geen geometrie |
+| test_aquaduct_converter.py | Unit | 🟢 Getest | Conversie van aquaductgegevens naar de duikersifonhevel-laag | `schematisation_builder/raw_export.gpkg` (met fallback naar dummy-data) | `damo.gpkg` (met laag `duikersifonhevel`) | Test controleert of `AquaductConverter` aquaduct-records correct omzet en toevoegt aan de duikersifonhevel-laag | - `duikersifonhevel` aanwezig en niet leeg<br>- Attribuutmapping correct (bijv. `hoogteconstructie` → `hoogteopening`)<br>- `globalid` aanwezig, niet null en uniek |
+| test_peilgebied_converter.py | Unit | 🟢 Getest | Conversie van peilgebied-, waterkering- en streefpeillagen naar DAMO-formaat | `schematisation_builder/raw_export.gpkg` | `damo.gpkg` (met lagen `peilgebiedpraktijk`, `waterkering`) | Test controleert of `PeilgebiedConverter` correcte lagen aanmaakt met geldige geometrieën en vereiste kolommen | - Output-bestand bestaat<br>- Minstens één van `peilgebiedpraktijk` of `waterkering` aangemaakt<br>- `peilgebiedpraktijk`: polygoon-geometrieën, kolommen `statuspeilgebied`, `voertafop`, `bevat` aanwezig |
+| test_HyDAMO_validator.py | Unit | 🟢 Getest (skip bij Python < 3.12) | Validatie van HyDAMO-bestand met regels en coverages | `schematisation_builder/HyDAMO.gpkg`, coverage-data (`schematisation_builder/dtm/index.shp`) | Validatie-output (`datasets/HyDAMO.gpkg`, `results.gpkg`, csv, geojson) | Test controleert of `validate_hydamo` succesvol draait en valideerresultaten wegschrijft | - `result_summary["success"] == True`<br>- Validatie-outputbestanden bestaan (`datasets/HyDAMO.gpkg`, `results.gpkg`)<br>- Coverages worden meegenomen (AHN)<br>- TODO’s voor ontbrekende lagen (`brug`, `stuw`, `gemaal`, `pomp`) || test_HyDAMO_fixer_summaryfile.py | Unit | 🟢 Getest (skip bij Python < 3.12) | Aanmaken van validatie- en fix-samenvattingsrapport | `schematisation_builder/HyDAMO.gpkg`, `schematisation_builder/results.gpkg` | `fix_phase/summary_val_fix.gpkg` | Test controleert of `HyDAMOFixer.create_validation_fix_reports()` een geldig rapport aanmaakt met de verwachte lagen | - `summary_val_fix.gpkg` bestaat<br>- Verwachte lagen aanwezig (o.a. `duikersifonhevel`) |
+| test_HyDAMO_conversion_to_3Di.py | Unit | 🟢 Getest | Conversie van HyDAMO naar 3Di schematisatie | `schematisation_builder/HyDAMO.gpkg` | `3Di_schematisation.gpkg` (met lagen `connection_node`, `channel`) | Test controleert of `convert_to_3Di` een geldige 3Di-schematisatie aanmaakt met de juiste features | - `3Di_schematisation.gpkg` bestaat<br>- Laag `channel` aanwezig<br>- Feature met code `OAF-QJ-16532` aanwezig in `channel` || test_schematisation_builder.py | End-to-end | 🟠 Gedeeltelijk getest (skip zonder DB settings) | Volledige flow: export → DAMO → HyDAMO | `databases (DAMO/CSO)`, `polder_polygon.shp` | `raw_export.gpkg`, `DAMO.gpkg`, `HyDAMO.gpkg`, `log.log` | Test controleert of `make_hydamo_package()` een compleet pakket aanmaakt en bestanden correct worden weggeschreven | - `DAMO.gpkg` bestaat<br>- `HyDAMO.gpkg` bestaat<br>- `log.log` bestaat |
 | _test_....py_ | _..._ | 🔴 Niet getest | _..._ | _.../....gpkg_ | _.../....gpkg_ | _..._ | _..._ |
 
 ### Testdata en integratie
