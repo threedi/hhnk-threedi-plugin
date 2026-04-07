@@ -198,29 +198,32 @@ Code-opbouw
 ---
 
 ### E. HyDAMO fixer
-De `HyDAMOFixer` interpreteert validatieresultaten en biedt mogelijkheden tot automatische en handmatige fixes. Op deze manier wordt het HyDAMO klaar gemaakt om als input te dienen van een 3Di model.
+De HyDAMO interpreteert validatieresultaten en biedt mogelijkheden tot automatische en handmatige fixes. Op deze manier wordt het HyDAMO klaar gemaakt om als input te dienen van een 3Di model. 
 
 #### Algemene werking
 ![HyDAMOstroomschema](../../images/5_schematisation_builder/b_architectuur_code_tests/hydamo_fixer_loop.png)
 
-De fixlogica is geconfigureerd in `FixConfig.json` (in de resources-map), los van de `validationrules.json`. Dit bestand koppelt validatieregels aan correctieacties.
+In de validation_rules.json zijn de volgende attributen toegevoegd per validatieregel:
+* Fix_ID
+* Fix_name
+* category
+* assumption_values
+* related_layers
 
-#### Huidige implementatie
-De klasse `HyDAMOFixer` accepteert een `hydamo_file_path` en een `validation_directory_path` (met daarin `results/results.gpkg`). De huidige functionaliteit omvat:
-* Inladen van `validationrules.json` en `FixConfig.json`.
-* Genereren van een samenvattend rapport (`fix_phase/summary_val_fix.gpkg`) per laag via `create_validation_fix_reports()`. Dit rapport bevat per object de huidige attribuutwaarden en kolommen voor handmatige aanpassingen (`manual_overwrite_*`).
-
-#### Toekomstige uitbreidingen (ontwerp)
-De volgende categorieën fixes zijn voorzien:
-* **Automatic:**
-  * Automatisch niet laten meenemen in modelvalidatie (verwijderen)
+Er zullen verschillende categorieën fixes zijn en op basis daarvan wordt bepaald in welke maten de gebruiker input moet leveren om de fix uit te voeren. De gedefineerde categorieën zijn:
+* Automatic:
+  * Automatisch niet laten meenemen in model validatie (verwijderen)
   * Aanpassen op basis van aannames
   * Aanpassen op basis van gerelateerde objecten in andere lagen
-* **Manual:**
-  * INFO: Ter info — gebruiker kan iets doen, maar hoeft niet
-  * Warning: Waarschuwing — gebruiker moet actie ondernemen
+  * Aanpassen op basis van aannames en gerelateerde objecten in andere lagen
+* Manual:
+  * INFO: Ter info! Gebruiker kan iets doen, maar niet perse nodig
+  * Warning: Waarschuwing! Gebruiker moet iets met object doen
 
-Na elke fixronde wordt het HyDAMO-bestand opnieuw gevalideerd via de `HyDAMO_validator`. De fixer moet ook kunnen communiceren met de QGIS-plugin voor gebruikersinput en resultaatweergave.
+#### Code opbouw
+De `HyDAMO_fixer` class loopt over de invalid features in een HyDAMO bestand op een bepaald volgorde (NOTE: nog te bepalen) op basis van attributen in de validation_rules.json. Voor automatische fixes is er een functie in de class die functies aan vanuit de class `functions_hydamo_fixer` aanspreekt. Deze functie in de `HyDAMO_fixer` kan per Fix_ID, category en/of laag fixes uitgevoerd worden. Als een feature gefixt is worden de Fix_ID en category weggeschreven in het HyDAMO bestand. 
+
+Na elke loop wordt het gehele HyDAMO bestand opnieuw gevalideert, waarbij gebruikt wordt gemaakt van de `HyDAMO_validator`. Verder moet de `HyDAMO_fixer` kunnen communiceren met de Qgis plugin, om user input op te halen en resultaten te laten zien. 
 
 
 ---
