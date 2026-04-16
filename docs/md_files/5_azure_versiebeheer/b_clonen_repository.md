@@ -1,6 +1,6 @@
 ## Clonen van een bestaande Azure devops repo
 
-1. Op de interne Azure omgeving van HHNK, ga in de linker werkbalk naar `repos`. Kies vervolgens boven in in de werkbalk met de pulldown de repo dat je wilt clonen.
+1. Op de interne Azure omgeving van HHNK, ga in de linker werkbalk naar `repos`. Kies vervolgens boven in in de werkbalk met de pulldown de repo die je wilt clonen.
 
 2. Vervolgens verschijnt een overzicht van de bestanden in het rechter deel van het scherm. Kies in dit deel van het scherm rechtsboven op `Clone`. Kies hier HTTPS en kopieer de link (deze begint met `https://HHNK@`).
 

@@ -8,4 +8,4 @@ Wanneer het beoogde poldermodel nog geen eigen repository heeft, dan moet dit no
 
 3. De main branch is nu aangemaakt, hier moet nog een basismodel in worden gezet. Aangezien de main branch beschermd is moet dit via een work_branch in combinatie met een pull request worden aangeleverd. 
 
-4. Ga dus verder met het clonen en initializeren van deze main branch [Clonen van een model repository](..\5_azure_versiebeheer\b_clonen_repository.md)
+4. Ga dus verder met het clonen en initializeren van deze work_branch > [Clonen van een model repository](..\5_azure_versiebeheer\b_clonen_repository.md)
