@@ -1,5 +1,5 @@
 # Introductie versiebeheer modellen
-Het versiebeheer is een hulpmiddel om 3di wateroverlast modellen te beheren en zo aanpassingen te kunnen detecteren en archiveren. Het versiebeheer vindt plaats in Azure en verloopt via github (git_model_repo) en automatiseert het instellen van git hooks, git Large File Storage (LFS) en de benodigde .gitattributes en .gitignore bestanden. Met het toepassen van deze functionaliteiten is versiebeheer + extra inzicht bij de 3Di modellen mogenlijk gemaakt. Hiermee beogen we zowel intern als extern het overzicht te bewaken over de aanpassingen van 3di wateroverlast modellen, bijvoorbeeld bij het uitvoeren van scenariostudies. 
+Het versiebeheer is een hulpmiddel om 3di wateroverlast modellen te beheren en zo aanpassingen te kunnen detecteren en archiveren. Het versiebeheer vindt plaats in Azure en verloopt via github (git_model_repo) en automatiseert het instellen van git hooks, git Large File Storage (LFS) en de benodigde .gitattributes en .gitignore bestanden. Met het toepassen van deze functionaliteiten is versiebeheer + extra inzicht bij de 3Di modellen mogelijk gemaakt. Hiermee beogen we zowel intern als extern het overzicht te bewaken over de aanpassingen van 3di wateroverlast modellen, bijvoorbeeld bij het uitvoeren van scenariostudies. 
 
 
 Deze handleiding voor het versiebeheer is opgebouwd uit de volgende onderdelen:
