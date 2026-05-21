@@ -4,7 +4,7 @@ Hier staan een aantal werkafspraken die we volgen om het overzicht te bewaren bi
 ### Locatie lokale model repository
 
 - De modellen worden gehost op Azure devops. Inloggen bij Azure Devops kan via de interne Azure omgeving van HHNK. Link is intern beschikbaar.
-- Modellen kunnen uitgecheckt worden met Github Desktop. Modellen worden per user uitgecheckt in de map `E:\github\modellen_db\<username>\<model_name>` (De schijf E kan worden ingesteld in de interne hydrologen omgeving).
+- Modellen kunnen uitgecheckt worden met Github Desktop. Modellen worden per user uitgecheckt in de map `D:\01.modelrepos\<username>\<model_name>`.
 
 ### Naam van model repository
 - De BWN modellen noteren we op de volgende wijze: `bwn_<cluster id>_<modelnaam>`
