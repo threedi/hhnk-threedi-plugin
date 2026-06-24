@@ -15,7 +15,7 @@ Voordat een nieuw project aangemaakt kan worden, moet een modellen folder gekoze
 
 ![Alt text](../../images/4_gebruik_plugin/a_overzicht_plugin/nieuw_project.png)
 
-Kies een locatie in de verkenner waar alles opgeslagen gaat worden (raadzaam om een lokale map te kiezen). Dit kan bijvoorbeeld in de map `C:\Users\{gebruiker}\Documents\3Di`. Je kunt ook een nieuwe map in de verkenner (locatie staat vrij, maar raadzaam om lokaal te werken) aanmaken. 
+Kies een locatie in de verkenner waar alles opgeslagen gaat worden (raadzaam om een lokale map te kiezen). Dit kan bijvoorbeeld in de map `D:\01.modelrepos\{gebruiker}`. Je kunt ook een nieuwe map in de verkenner (locatie staat vrij, maar raadzaam om lokaal te werken) aanmaken. 
 
 `{gebruiker}` is de naam van de Windows-gebruiker.
 
