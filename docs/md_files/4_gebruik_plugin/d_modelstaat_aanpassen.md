@@ -25,11 +25,11 @@ Volg de volgende stappen voor het aanmaken of splitsen van het basismodel in é�
 
    Afhankelijk van de 'model_settings.xlsx' worden de verschillende modelstaten getoond. De modelstaten die gegenereerd moeten worden, moeten onder `Enabled` staan. Modelstaten die niet gegenereerd hoeven te worden, kunnen naar `Disabled` worden gesleept.
     
-3. Controleer of de gewenste modelstaten onder Enabled staan.
-4. Klik op Check Sqlite om de schematisatie te controleren. Deze stap is verplicht; als deze stap niet wordt uitgevoerd, kan het model niet worden geüpload.
-5. Klik op Run: Model Splitter om de modelsta(a)t(en) onder Enabled te genereren.
-6. Voeg een commit message toe.
-7. Upload de geselecteerde modelstaten door op Upload modelversion(s) te klikken.
+3. Controleer of de gewenste modelstaten onder Enabled staan (8).
+4. Klik op Check Sqlite om de schematisatie te controleren. Deze stap is verplicht; als deze stap niet wordt uitgevoerd, kan het model niet worden geüpload (9).
+5. Klik op Run: Model Splitter om de modelsta(a)t(en) onder Enabled te genereren (10).
+6. Voeg een commit message toe (11).
+7. Upload de geselecteerde modelstaten door op Upload modelversion(s) te klikken (12).
 
 
 Na het genereren van de modelstaten kunnen (test)berekeningen uitgevoerd worden. Klik [hier](e_berekeningen_uitvoeren.md) om naar de beschrijving van het uitvoeren van (test)berekeningen te gaan.
