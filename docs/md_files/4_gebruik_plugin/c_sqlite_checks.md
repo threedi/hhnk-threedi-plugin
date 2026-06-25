@@ -11,7 +11,7 @@ Wanneer in de `main` van de HHNK toolbox de juiste modellen folder en polder zij
 
 ![Alt text](../../images/2_werkwijze_bwn/e_model_controleren_verbeteren/3_sqlite_checks/sqlite_checks_venster_HHNK_Toolbox.png)
 
-3. Selecteer in het Model sqlite check venster alle testen. Zorg er ook voor dat data verificatie en eenmalige tests zelf zijn geselecteerd. Het `Model sqlite checks` venster zou er dan zo uit moeten zien als op onderstaande afbeelding.
+3. Selecteer in het Model sqlite checks venster de gewenste testgroepen. Voor een volledige controle selecteer je zowel Data verificatie als Eenmalige tests. Het Model sqlite checks venster zou er dan ongeveer uit moeten zien zoals op onderstaande afbeelding.
 
 ![Alt text](../../images/2_werkwijze_bwn/e_model_controleren_verbeteren/3_sqlite_checks/model_sqlite_venster.png)
 

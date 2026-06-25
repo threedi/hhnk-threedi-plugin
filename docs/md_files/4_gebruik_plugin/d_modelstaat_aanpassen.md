@@ -11,17 +11,25 @@ Volg de volgende stappen voor het aanmaken of splitsen van het basismodel in é�
 
 1. Controleer de gegevens in de hierboven genoemde Excel-bestanden.
 
-2. Klik op `Model splitten en uploaden` (4). 
-![Alt text](../../images/4_gebruik_plugin/c_modelstaat_aanpassen/inladen_polder.png)
+2. Klik op `Model splitten en uploaden` (4). Daarna wordt het venster Modelsplitter geopend.
+
+<p align="center">
+<img src="../../images/4_gebruik_plugin/c_modelstaat_aanpassen/inladen_polder.png" alt="inladen_polder" width="500">
+</p>
 
 3. Hierna wordt het volgende scherm weergegeven:
-![Alt text](../../images/4_gebruik_plugin/c_modelstaat_aanpassen/modelsplitter_venster.png)
 
-   Afhankelijk van de 'model_settings.xlsx' volgen de verschillende modelstaten (zie vak 1).  De modelsplitter kan vervolgens de modelstaten genereren, zoals in het vak met de `1` is te zien. De beschikbare modelstaten staan bij default onder `Enabled`. De niet gewenste modelstaten sleep je naar `Disabled`.  
-4. Druk op check sqlite om je schematisatie te controleren. (niet in afbeelding). 
-5. Druk op `Run: Model Splitter` (2) om de modelsta(a)t(en) die onder `Enabled` staan te initiëren.
-6. Geef een `Commit message` mee (3).
-7. Upload de geselecteerde modelstaten door op `Upload modelversion(s)` te klikken (4)
+<p align="center">
+  <img src="../../images/4_gebruik_plugin/c_modelstaat_aanpassen/modelsplitter_venster.png" alt="Modelsplitter venster" width="500">
+</p>
+
+   Afhankelijk van de 'model_settings.xlsx' worden de verschillende modelstaten getoond. De modelstaten die gegenereerd moeten worden, moeten onder `Enabled` staan. Modelstaten die niet gegenereerd hoeven te worden, kunnen naar `Disabled` worden gesleept.
+    
+3. Controleer of de gewenste modelstaten onder Enabled staan (8).
+4. Klik op Check Sqlite om de schematisatie te controleren. Deze stap is verplicht; als deze stap niet wordt uitgevoerd, kan het model niet worden geüpload (9).
+5. Klik op Run: Model Splitter om de modelsta(a)t(en) onder Enabled te genereren (10).
+6. Voeg een commit message toe (11).
+7. Upload de geselecteerde modelstaten door op Upload modelversion(s) te klikken (12).
 
 
 Na het genereren van de modelstaten kunnen (test)berekeningen uitgevoerd worden. Klik [hier](e_berekeningen_uitvoeren.md) om naar de beschrijving van het uitvoeren van (test)berekeningen te gaan.
