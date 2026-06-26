@@ -13,15 +13,11 @@ Volg de volgende stappen voor het aanmaken of splitsen van het basismodel in Ã©Ã
 
 2. Klik op `Model splitten en uploaden` (4). Daarna wordt het venster Modelsplitter geopend.
 
-<p align="center">
-<img src="../../images/4_gebruik_plugin/c_modelstaat_aanpassen/inladen_polder.png" alt="inladen_polder" width="500">
-</p>
+![Alt text](../../images/4_gebruik_plugin/c_modelstaat_aanpassen/inladen_polder.png)
 
 3. Hierna wordt het volgende scherm weergegeven:
 
-<p align="center">
-  <img src="../../images/4_gebruik_plugin/c_modelstaat_aanpassen/modelsplitter_venster.png" alt="Modelsplitter venster" width="500">
-</p>
+![Alt text](../../images/4_gebruik_plugin/c_modelstaat_aanpassen/modelsplitter_venster.png)
 
    Afhankelijk van de 'model_settings.xlsx' worden de verschillende modelstaten getoond. De modelstaten die gegenereerd moeten worden, moeten onder `Enabled` staan. Modelstaten die niet gegenereerd hoeven te worden, kunnen naar `Disabled` worden gesleept.
     
