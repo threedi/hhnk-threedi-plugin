@@ -53,3 +53,4 @@ Onderstaande hoofdstukken vormen samen de BWN2-werkwijze en leggen telkens de be
 * [Bank level test uitvoeren](h_banklevel_test.md)
 * [1d2d test uitvoeren](i_1d2d_test.md)
 * [Klimaatsommen uitvoeren](j_werkwijze_klimaatsommen.md)
+* [Vergelijkingstool](k_vergelijkingstool.md)
