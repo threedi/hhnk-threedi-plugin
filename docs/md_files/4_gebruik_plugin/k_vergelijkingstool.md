@@ -10,7 +10,6 @@ Binnen HHNK worden 3Di modellen opgebouwd met brongegevens uit DAMO en de lokale
 
 Het doel is niet om automatisch te bepalen wat “goed” of “fout” is, maar om verschillen zichtbaar te maken, zodat daarna een inhoudelijke beoordeling kan worden uitgevoerd.
 
----
 
 ## Workflow
 
@@ -62,8 +61,8 @@ Daarnaast moeten ook de oude DAMO en HDB bestanden in `01_source_data` aanwezig 
 <code>H:\02.modellen\HUB\02_schematisation\00_basis</code>
 </p>
 
+
 Deze vaste mappenstructuur is noodzakelijk voor de werking van de vergelijkingstool, ongeacht of de vergelijking **`Damo Updated vs 3Di model`** of **`Damo Updated vs Damo Old`** wordt uitgevoerd. Als de bestanden niet volgens deze structuur zijn opgeslagen, kan de vergelijkingstool de benodigde invoer niet correct vinden en zal de tool niet goed werken.
----
 
 ## **Handleiding**
 
@@ -74,7 +73,6 @@ De workflow bestaat uit twee hoofdonderdelen:
 1. JupyterLab openen vanuit de QGIS-plugin.
 2. De `vergelijkingstool` uitvoeren vanuit het notebook.
 
----
 
 ### 1. JupyterLab openen vanuit de QGIS-plugin
 
@@ -97,8 +95,6 @@ Voordat verder wordt gegaan, moet worden gecontroleerd of de benodigde *API keys
 #### **Stap 4. De Jupyter Notebook Server openen**
 
 Klik vervolgens op de knop *“Open Jupyter Notebook Server”*. Deze knop start de Jupyter Notebook Server en opent JupyterLab in de standaardbrowser.
-
----
 
 ### 2. De vergelijkingstool uitvoeren vanuit JupyterLab
 
@@ -132,7 +128,7 @@ In het veld *“Enter the Model folder path”* moet de locatie van het model wa
 
 Selecteer vervolgens de optie **`Damo Updated vs 3Di model`**.
 
-DDeze optie vergelijkt de laatste FME-export van de DAMO- en HDB-bestanden met het bestaande 3Di model. De nieuwe DAMO- en HDB-export wordt gelezen vanuit de map `input_nieuwe_export`. Het bestaande 3Di model wordt gelezen vanuit de map van de basisschematisatie: `02_schematisation/00_basis`.
+Deze optie vergelijkt de laatste FME-export van de DAMO- en HDB-bestanden met het bestaande 3Di model. De nieuwe DAMO- en HDB-export wordt gelezen vanuit de map `input_nieuwe_export`. Het bestaande 3Di model wordt gelezen vanuit de map van de basisschematisatie: `02_schematisation/00_basis`.
 
 De volledige mappenstructuur en de exacte locaties van deze bestanden zijn beschreven in de paragraaf [Benodigde input](#benodigde-input)
 
@@ -141,8 +137,6 @@ Deze structuur is noodzakelijk om de vergelijkingstool correct te laten werken. 
 #### **Stap 5. De vergelijking uitvoeren**
 
 Wanneer alle instellingen klaarstaan, klik je op de knop *“Run Comparison”*. De tool voert de vergelijking tussen de geselecteerde databases uit en genereert het outputbestand. De volledige locatie van het gegenereerde bestand wordt weergegeven in het veld *“Full path”*. Dit `.gpkg` bestand kan daarna in QGIS worden geopend om de gevonden verschillen te beoordelen.
-
----
 
 ## Interpretatie van de resultaten
 
@@ -172,16 +166,13 @@ Ook als er bijvoorbeeld veel verschillen in de attributen zijn kan het efficiën
 
 Ten slotte kan het zijn dat de adviseur van watersystemen reden ziet om het model aan te passen of opnieuw op te bouwen op basis van de bestaande resultaten.
 
----
 ## Vastlegging van de beoordeling
+Na het uitvoeren van de vergelijkingstool moet de beoordeling van de resultaten worden vastgelegd. Hiervoor is een standaard Word-format gemaakt. In dit document wordt de keuze (met onderbouwing) gerapporteerd of het bestaande 3Di model is hergebruikt (evt. na aanpassingen) of opnieuw is opgebouwd uit de basisdata.
 
-Na het uitvoeren van de vergelijkingstool moet de beoordeling van de resultaten worden vastgelegd in een apart Word-document. Dit document wordt gebruikt om de keuze te onderbouwen of een bestaand 3Di model kan worden hergebruikt, moet worden aangepast, of opnieuw moet worden opgebouwd.
+Nadat de vergelijkingstool is gedraaid, wordt het standaard format automatisch gekopieerd naar de map van de vergelijkingstool: `H:\02.modellen\HUB\01_source_data\vergelijkingstool`.
 
-Nadat de vergelijkingstool is gebruikt, wordt het document geplaatst in de map van de vergelijkingstool: `H:\02.modellen\HUB\01_source_data\vergelijkingstool`.
+In dit document legt de modelleur vast welke beslissing is genomen op basis van de resultaten van de vergelijkingstool. Het `.gpkg` outputbestand van de vergelijkingstool blijft de basis voor de inhoudelijke beoordeling in QGIS. Het Word-document is bedoeld als formele vastlegging van de gemaakte keuze en de belangrijkste aandachtspunten voor vervolgacties. Deze kan later als bijlage bij het hydrologische advies worden gevoegd zodat de keuze met onderbouwing goed is terug te vinden.
 
-In dit document legt de modelleur vast welke beslissing is genomen op basis van de resultaten van de vergelijkingstool. Het `.gpkg` outputbestand van de vergelijkingstool blijft de basis voor de inhoudelijke beoordeling in QGIS. Het Word-document is bedoeld als formele vastlegging van de gemaakte keuze en de belangrijkste aandachtspunten voor vervolgacties.
-
----
 ## Aanbevolen werkwijze in het kort
 
 1. Controleer eerst of de gebruikte DAMO en HDB export recent is.
