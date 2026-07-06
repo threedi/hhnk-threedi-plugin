@@ -1,6 +1,6 @@
 ## **Berekeningen uitvoeren**
 Nadat de modelstaten zijn gemaakt, kunnen de (test)berekeningen uitgevoerd worden. Hieronder wordt toegelicht hoe een (test)berekening gestart kan worden:
-1. Voer je Lizard API key (5) en 3Di API key (6) in. Indien je nog geen API key(s) hebt, klik <a href="https://demo.lizard.net/management/personal_api_keys" target="_blank">hier</a> voor een Lizard API key en klik <a href="https://management.3di.live/personal_api_keys" target="_blank">hier</a> voor een 3Di API key.
+1. Voer je Lizard API key (5) en 3Di API key (6) in. Indien je nog geen API key(s) hebt, klik <a href="https://demo.lizard.net/management/personal_api_keys" target="_blank">hier</a> voor een Lizard API key en klik <a href="https://www.ranawaterintelligence.com/hcc-management/personal_api_keys" target="_blank">hier</a> voor een 3Di API key.
 
    ![Alt text](../../images/4_gebruik_plugin/d_berekeningen_uitvoeren/inladen_polder.png)
 

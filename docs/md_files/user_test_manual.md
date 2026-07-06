@@ -5,10 +5,10 @@
 Om (een branch van) de plugin en modules te testen, voer je de volgende de volgende handelingen uit:
 
 0. zorg voor lokale clones van `hhnk-research-tools`, `hhnk-threedi-tools` en `hhnk-threedi-plugin` en zorg dat je de [deze in edit-mode hebt geinstalleerd](#installatie-van-modules-in-edit-mode).
-1. zorg dat je een kopie hebt van `c:\Users\{user}\AppData\Roaming\3Di\QGIS3\profiles\default\python\plugins\hhnk_threedi_plugin\api_keys.txt`
+1. zorg dat je een kopie hebt van `c:\Users\{user}\AppData\Roaming\3Di\QGIS3\profiles\default\python\plugins\hhnk_threedi_plugin\api_key.txt`
 2. verwijder de folder `c:\Users\{user}\AppData\Roaming\3Di\QGIS3\profiles\default\python\plugins\hhnk_threedi_plugin`
 3. kopieer de folder `hhnk_threedi_plugin` naar `c:\Users\{user}\AppData\Roaming\3Di\QGIS3\profiles\default\python\plugins`
-4. kopieer je `api_keys.txt` naar `c:\Users\{user}\AppData\Roaming\3Di\QGIS3\profiles\default\python\plugins\hhnk_threedi_plugin\api_keys.txt`
+4. kopieer je `api_key.txt` naar `c:\Users\{user}\AppData\Roaming\3Di\QGIS3\profiles\default\python\plugins\hhnk_threedi_plugin\api_key.txt`
 5. Herstart de Modeller Interface
 
 Je kunt nu door naar [gebruikerstests](#gebruikerstests)
