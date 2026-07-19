@@ -1,0 +1,157 @@
+{
+  "target_layer": "weir",
+  "conversion_settings": {
+    "use_snapping": true,
+    "snapping_distance": 0.1,
+    "create_connection_nodes": true,
+    "edit_channels": true
+  },
+  "fields": {
+    "id": {
+      "method": "auto",
+      "source_attribute": ""
+    },
+    "code": {
+      "method": "source_attribute",
+      "source_attribute": "code"
+    },
+    "display_name": {
+      "method": "source_attribute",
+      "source_attribute": "code"
+    },
+    "crest_level": {
+      "method": "source_attribute",
+      "source_attribute": "hoogteconstructie"
+    },
+    "crest_type": {
+      "method": "default",
+      "source_attribute": "",
+      "default_value": 4
+    },
+    "discharge_coefficient_positive": {
+      "method": "default",
+      "source_attribute": "",
+      "default_value": 0.8
+    },
+    "discharge_coefficient_negative": {
+      "method": "default",
+      "source_attribute": "",
+      "default_value": 0.03
+    },
+    "material_id": {
+      "method": "default",
+      "source_attribute": "",
+      "default_value": 0
+    },
+    "friction_value": {
+      "method": "default",
+      "source_attribute": "",
+      "default_value": 0.03
+    },
+    "friction_type": {
+      "method": "default",
+      "source_attribute": "",
+      "default_value": 2
+    },
+    "sewerage": {
+      "method": "default",
+      "source_attribute": "",
+      "default_value": false
+    },
+    "external": {
+      "method": "default",
+      "source_attribute": "",
+      "default_value": false
+    },
+    "connection_node_id_start": {
+      "method": "auto",
+      "source_attribute": ""
+    },
+    "connection_node_id_end": {
+      "method": "auto",
+      "source_attribute": ""
+    },
+    "cross_section_shape": {
+      "method": "default",
+      "source_attribute": "",
+      "default_value": 0
+    },
+    "cross_section_width": {
+      "method": "ignore",
+      "source_attribute": ""
+    },
+    "cross_section_height": {
+      "method": "ignore",
+      "source_attribute": ""
+    },
+    "cross_section_table": {
+      "method": "ignore",
+      "source_attribute": ""
+    },
+    "tags": {
+      "method": "ignore",
+      "source_attribute": ""
+    }
+  },
+  "connection_node_fields": {
+    "id": {
+      "method": "auto",
+      "source_attribute": ""
+    },
+    "code": {
+      "method": "source_attribute",
+      "source_attribute": "code"
+    },
+    "display_name": {
+      "method": "source_attribute",
+      "source_attribute": "code"
+    },
+    "storage_area": {
+      "method": "default",
+      "source_attribute": "",
+      "default_value": 1.0
+    },
+    "initial_water_level": {
+      "method": "ignore",
+      "source_attribute": ""
+    },
+    "visualisation": {
+      "method": "ignore",
+      "source_attribute": "",
+      "default_value": "NULL"
+    },
+    "manhole_surface_level": {
+      "method": "ignore",
+      "source_attribute": ""
+    },
+    "bottom_level": {
+      "method": "source_attribute",
+      "source_attribute": "laagstedoorstroomhoogte"
+    },
+    "exchange_level": {
+      "method": "source_attribute",
+      "source_attribute": "hoogstedoorstroomhoogte"
+    },
+    "exchange_type": {
+      "method": "ignore",
+      "source_attribute": "",
+      "default_value": "NULL"
+    },
+    "exchange_thickness": {
+      "method": "ignore",
+      "source_attribute": ""
+    },
+    "hydraulic_conductivity_in": {
+      "method": "ignore",
+      "source_attribute": ""
+    },
+    "hydraulic_conductivity_out": {
+      "method": "ignore",
+      "source_attribute": ""
+    },
+    "tags": {
+      "method": "ignore",
+      "source_attribute": ""
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "fields": {
+    "target_object_type": {
+      "method": "source_attribute",
+      "source_attribute": "typeprofielpunt",
+      "value_map": {
+        "1": "NULL",
+        "2": "NULL",
+        "5": "NULL",
+        "6": "NULL",
+        "7": "NULL",
+        "22": "NULL",
+        "99": "NULL"
+      }
+    },
+    "target_object_id": {
+      "method": "source_attribute",
+      "source_attribute": "profiellijnid"
+    },
+    "target_object_code": {
+      "method": "source_attribute",
+      "source_attribute": "code"
+    },
+    "order_by": {
+      "method": "source_attribute",
+      "source_attribute": "afstand"
+    },
+    "cross_section_shape": {
+      "method": "default",
+      "source_attribute": "",
+      "default_value": 6
+    },
+    "cross_section_width": {
+      "method": "source_attribute",
+      "source_attribute": "afstand"
+    },
+    "cross_section_height": {
+      "method": "source_attribute",
+      "source_attribute": "hoogte"
+    },
+    "cross_section_y": {
+      "method": "source_attribute",
+      "source_attribute": "afstand"
+    },
+    "cross_section_z": {
+      "method": "source_attribute",
+      "source_attribute": "hoogte"
+    }
+  },
+  "conversion_settings": {
+    "set_lowest_point_to_zero": false,
+    "use_lowest_point_as_reference": true
+  }
+}
