@@ -6,7 +6,7 @@ g { color: Green }
 
 
 
-### <o>Update klimaatstatistiek<o>
+## <o>Update klimaatstatistiek<o>
 <o>Om beter aan te sluiten bij landelijke ontwikkelingen op het gebied van klimaatstatistiek worden momenteel extremere buivolumes toegepast dan in de BMW van Deltaris (2017). Er is destijds uitgebreid onderzocht welke frequenties horen bij welke bui- en grondwatercondondities. Dit zal in de toekomst herhaald moeten worden, maar momenteel hanteren we een andere aanpak. Er is gekozen om de frequenties momenteel niet aan te passen, maar de buivolumes daarentegen wel. Hierdoor sluiten we aan bij de landelijke ontwikkelingen voor buivolumes en kunnen we de frequenties in de toekomst nog actualiseren.</o>
 
 ## **Klimaatsommen**
